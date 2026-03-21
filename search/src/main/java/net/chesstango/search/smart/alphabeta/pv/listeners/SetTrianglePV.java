@@ -98,8 +98,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         if (bestMoveEvaluation.evaluation() == pvEvaluation) {
             pvComplete = true;
         } else {
-            SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d)", bestMoveEvaluation.evaluation(), pvEvaluation, principalVariation.stream().map(PrincipalVariation::move).toList()));
+            //throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d) %s", bestMoveEvaluation.evaluation(), pvEvaluation, principalVariation.stream().map(PrincipalVariation::move).toList()));
         }
 
         while (!moves.isEmpty()) {

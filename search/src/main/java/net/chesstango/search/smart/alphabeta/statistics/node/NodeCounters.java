@@ -60,6 +60,7 @@ public class NodeCounters implements SearchByCycleListener, SearchByDepthListene
 
 
     public NodeStatistics getNodeStatistics() {
+        assert rootNodeCounter + interiorNodeCounter + leafCounter + terminalNodeCounter + loopNodeCounter + egtbCounter > 0;
         return new NodeStatistics(
                 rootNodeCounter,
                 interiorNodeCounter,

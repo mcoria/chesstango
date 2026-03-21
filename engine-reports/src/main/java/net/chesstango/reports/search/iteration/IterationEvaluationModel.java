@@ -60,8 +60,8 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
         boardModelModelDetail.id = searchResult.getId();
         boardModelModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
+        boardModelModelDetail.maxIteration = searchResult.getSearchResultByDepths().size();
         boardModelModelDetail.evaluations = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).toArray();
-        boardModelModelDetail.maxIteration = boardModelModelDetail.evaluations.length;
 
         int[] evalArray = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).toArray();
 

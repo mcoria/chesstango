@@ -4,9 +4,11 @@ package net.chesstango.reports.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
+import net.chesstango.reports.engine.SearchManagerReport;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.iteration.IterationEvaluationReport;
+import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.nodes.visited.NodesVisitedReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -30,6 +32,7 @@ public class DetailsReport implements Report {
     private boolean withPrincipalVariationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
+    private boolean withEbf;
 
     @Setter
     @Accessors(chain = true)
@@ -62,6 +65,13 @@ public class DetailsReport implements Report {
 
         if (withNodesTypesStatistics) {
             new NodesTypesReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
+        if (withEbf) {
+            new EbfReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);
@@ -143,4 +153,8 @@ public class DetailsReport implements Report {
         return this;
     }
 
+    public DetailsReport withEbf() {
+        this.withEbf = true;
+        return this;
+    }
 }
