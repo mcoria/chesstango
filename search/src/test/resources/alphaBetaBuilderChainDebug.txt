@@ -144,9 +144,9 @@ SearchByCycleListeners:
 	TranspositionTableListener @ 62
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 63
+	AlphaBetaFlowControl @ 18
 	SetSearchTracker @ 64
 	SetKillerMoveTablesDebug @ 65
-	AlphaBetaFlowControl @ 18
 	PrincipalVariationComparator @ 35
 	PrincipalVariationComparator @ 52
 	StopProcessingCatch @ 3
@@ -182,10 +182,10 @@ Acceptor:
 	SetGameToEndGameTableBase @ 70
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 63
+	AlphaBetaFlowControl @ 18
 	SetSearchTracker @ 64
 	SetKillerMoveTablesDebug @ 65
 	KillerMovesDebug @ 71
-	AlphaBetaFlowControl @ 18
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 19
 	AlphaBetaEvaluation @ 29

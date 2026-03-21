@@ -144,11 +144,11 @@ SearchByCycleListeners:
 	TTableCounters @ 60
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 61
+	AlphaBetaFlowControl @ 16
 	NodeCounters @ 62
 	GameCountersCollector @ 63
 	DepthCollector @ 64
 	SetKillerMoveTables @ 65
-	AlphaBetaFlowControl @ 16
 	PrincipalVariationComparator @ 34
 	PrincipalVariationComparator @ 50
 	StopProcessingCatch @ 3
@@ -183,11 +183,11 @@ Acceptor:
 	SetGameToEndGameTableBase @ 69
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 61
+	AlphaBetaFlowControl @ 16
 	NodeCounters @ 62
 	GameCountersCollector @ 63
 	DepthCollector @ 64
 	SetKillerMoveTables @ 65
-	AlphaBetaFlowControl @ 16
 	AlphaBetaEvaluation @ 18
 	AlphaBetaTerminalNodeStatistics @ 17
 	AlphaBetaEvaluation @ 28

@@ -9,7 +9,6 @@ import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -62,7 +61,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
-    private DepthCollector maxRegularDepth;
+    private DepthCollector depthCollector;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -286,7 +285,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.link();
         }
 
-        if (nodeCounters != null) {
+        if (withStatistics) {
             searchListenerMediator.accept(new SetNodeCountersVisitor(nodeCounters));
         }
     }
@@ -319,8 +318,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             nodeCounters = new NodeCounters();
             gameCounters = new GameCountersCollector();
 
-            maxRegularDepth = new DepthCollector();
-            maxRegularDepth.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
+            depthCollector = new DepthCollector();
+            depthCollector.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         }
 
         if (withZobristTracker) {
@@ -354,6 +353,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.add(setSearchTimers);
 
+        searchListenerMediator.add(alphaBetaFlowControl);
+
         if (setSearchTracker != null) {
             searchListenerMediator.add(setSearchTracker);
         }
@@ -374,24 +375,22 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(gameCounters);
         }
 
-        if (maxRegularDepth != null) {
-            searchListenerMediator.add(maxRegularDepth);
+        if (depthCollector != null) {
+            searchListenerMediator.add(depthCollector);
         }
 
         if (setKillerMoveTables != null) {
             searchListenerMediator.add(setKillerMoveTables);
-        } else if (setKillerMoveTablesDebug != null) {
+        }
+
+        if (setKillerMoveTablesDebug != null) {
             searchListenerMediator.add(setKillerMoveTablesDebug);
             searchListenerMediator.add(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
-
-        searchListenerMediator.add(alphaBetaFlowControl);
     }
 
     private void setupListenerMediatorAfterChain() {
-        if (debugNodeTrap instanceof SearchListener debugNodeTrapSearchListener) {
-            searchListenerMediator.add(debugNodeTrapSearchListener);
-        } else if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
+        if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
             searchListenerMediator.add(debugNodeTrapAcceptor);
         }
         if (setDebugOutput != null) {
