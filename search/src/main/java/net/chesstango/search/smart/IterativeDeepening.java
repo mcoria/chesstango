@@ -83,9 +83,12 @@ public class IterativeDeepening implements Search {
                 searchPredicateParameter.test(searchResultByDepth)
         );
 
+        searchListenerMediator.triggerAfterSearch();
+
         searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
 
-        searchListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
+
 
         return searchResult;
     }

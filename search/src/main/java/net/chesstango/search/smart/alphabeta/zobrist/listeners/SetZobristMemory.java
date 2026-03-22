@@ -31,7 +31,7 @@ public class SetZobristMemory implements SearchByCycleListener, ResetListener {
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
+    public void afterSearch() {
         if (zobristCollisions.isEmpty()) {
             System.out.println("No Zobrist collision");
         } else {

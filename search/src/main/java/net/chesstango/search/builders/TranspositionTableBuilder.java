@@ -7,7 +7,7 @@ import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStat
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableNodeVisitor;
@@ -25,7 +25,7 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
 public class TranspositionTableBuilder {
     private final TTable maxMapImp;
     private final TTable minMapImp;
-    private final TranspositionTableListener transpositionTablesListener;
+    private final TTListener transpositionTablesListener;
 
     private TTableDebug maxMapNodeDebug;
     private TTableDebug minMapNodeDebug;
@@ -53,7 +53,7 @@ public class TranspositionTableBuilder {
     public TranspositionTableBuilder() {
         maxMapImp = new TTableArrayPrimitives();
         minMapImp = new TTableArrayPrimitives();
-        transpositionTablesListener = new TranspositionTableListener();
+        transpositionTablesListener = new TTListener();
     }
 
     public TranspositionTableBuilder withDebugSearchTree() {

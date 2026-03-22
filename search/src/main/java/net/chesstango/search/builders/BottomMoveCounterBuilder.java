@@ -22,7 +22,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMove
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
 
 /**
  * @author Mauricio Corias
@@ -45,7 +45,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
-    private TranspositionTableListener resetTranspositionTables;
+    private TTListener resetTranspositionTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private NodeCounters nodeCounters;
     private SetDebugOutput setDebugOutput;
@@ -222,7 +222,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            resetTranspositionTables = new TranspositionTableListener();
+            resetTranspositionTables = new TTListener();
         }
 
         if (withStatistics) {

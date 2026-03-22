@@ -2,8 +2,6 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 
 import java.util.LinkedList;
@@ -33,11 +31,11 @@ public class SearchListenerMediator implements Acceptor {
     }
 
     public void triggerBeforeSearch() {
-        searchByCycleListeners.forEach(filter -> filter.beforeSearch());
+        searchByCycleListeners.forEach(SearchByCycleListener::beforeSearch);
     }
 
-    public void triggerAfterSearch(SearchResult result) {
-        searchByCycleListeners.forEach(searchByCycleListener -> searchByCycleListener.afterSearch(result));
+    public void triggerAfterSearch() {
+        searchByCycleListeners.forEach(SearchByCycleListener::afterSearch);
     }
 
 
