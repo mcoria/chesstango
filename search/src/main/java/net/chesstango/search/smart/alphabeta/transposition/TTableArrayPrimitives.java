@@ -75,7 +75,6 @@ public class TTableArrayPrimitives implements TTable {
 
     @Override
     public SaveResult save(TranspositionEntry entry) {
-        long sdf = entry.hash % ARRAY_SIZE;
         int idx = (int) Math.abs(entry.hash % ARRAY_SIZE);
 
         long data = dataArray[idx];
