@@ -85,6 +85,8 @@ public class TranspositionTableBuilder {
     public void link() {
         searchListenerMediator.accept(new LinkTTableNodeVisitor(maxNodeMap, minNodeMap));
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxComparatorMap, minComparatorMap));
+
+        // TTPVReader will not be considering for statistics purposes.
         searchListenerMediator.accept(new LinkTTableImpVisitor(maxMapImp, minMapImp));
     }
 

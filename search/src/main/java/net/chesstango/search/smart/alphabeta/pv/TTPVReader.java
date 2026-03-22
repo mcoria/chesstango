@@ -19,6 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * TTPVReader will not be considering for statistics purposes.
+ *
  * @author Mauricio Coria
  */
 public class TTPVReader implements PVReader, Acceptor {

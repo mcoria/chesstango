@@ -66,10 +66,10 @@ public class TangoGame01IntegrationTest {
                 .withBoardStatistics()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                //.withCutoffStatistics()
-                //.withEvaluationStatistics()
+                .withCutoffStatistics()
+                .withEvaluationStatistics()
                 .withTranspositionStatistics()
-                //.withPrincipalVariationStatistics()
+                .withPrincipalVariationStatistics()
                 .printReport(System.out);
 
         detailsReport
@@ -77,11 +77,11 @@ public class TangoGame01IntegrationTest {
                 .withBoardReport()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                //.withCutoffStatistics()
-                //.withEvaluationReport()
+                .withCutoffStatistics()
+                .withEvaluationReport()
                 .withTranspositionReport()
-                //.withIterationEvaluationReport()
-                //.withPrincipalVariationReport()
+                .withIterationEvaluationReport()
+                .withPrincipalVariationReport()
                 //.withEbf()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
