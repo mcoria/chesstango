@@ -5,12 +5,8 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
@@ -38,22 +34,27 @@ import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
-import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTDump;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
@@ -233,7 +234,7 @@ public interface Visitor {
     default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
     }
 
-    default void visit(TranspositionTableListener resetTranspositionTables) {
+    default void visit(TTListener transpositionTableListener) {
     }
 
     default void visit(LeafNodeTrap leafNodeTrap) {
@@ -304,6 +305,10 @@ public interface Visitor {
     }
 
     default void visit(TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
+    }
+
+
+    default void visit(TTableStatisticsListener tTableStatisticsListener) {
     }
 
     default void visit(TTableCounters TTableCounters) {

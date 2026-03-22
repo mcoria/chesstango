@@ -5,23 +5,23 @@ package net.chesstango.search.smart.alphabeta.transposition;
  */
 public class TTableArrayPrimitives implements TTable {
 
-    private final static long EXACT_BOUND = 0b00000001_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-    private final static long LOWER_BOUND = 0b00000010_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-    private final static long UPPER_BOUND = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long EXACT_BOUND = 0b00000001_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long LOWER_BOUND = 0b00000010_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long UPPER_BOUND = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
 
 
-    private final static long AGE_MASK = 0b11111100_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-    private final static long BOUND_MASK = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-    private final static long DRAFT_MASK = 0b00000000_11111111_00000000_00000000_00000000_00000000_00000000_00000000L;
-    private final static long MOVE_MASK = 0b00000000_00000000_11111111_11111111_00000000_00000000_00000000_00000000L;
-    private final static long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
+    static final long AGE_MASK = 0b11111100_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long BOUND_MASK = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long DRAFT_MASK = 0b00000000_11111111_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long MOVE_MASK = 0b00000000_00000000_11111111_11111111_00000000_00000000_00000000_00000000L;
+    static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
 
-    private final static int ARRAY_SIZE = 2 * 1024 * 512;
+    static final int ARRAY_SIZE = 2 * 1024 * 512;
 
-    private static final int STALE_AGE = 3;
+    static final int STALE_AGE = 3;
 
-    public static final int MAX_AGE = 0x3F;
+    static final int MAX_AGE = 0x3F;
 
     /*
         Data layout:
@@ -31,14 +31,14 @@ public class TTableArrayPrimitives implements TTable {
          - byte[4-8] = value
      */
 
-    private final long[] hashArray;
-    private final long[] dataArray;
-    private int currentAge;
+    final long[] hashArray;
+    final long[] dataArray;
+    int currentAge;
 
     public TTableArrayPrimitives() {
         this.hashArray = new long[ARRAY_SIZE];
         this.dataArray = new long[ARRAY_SIZE];
-        this.currentAge = 1;
+        this.currentAge = STALE_AGE;
     }
 
     @Override
@@ -75,6 +75,7 @@ public class TTableArrayPrimitives implements TTable {
 
     @Override
     public SaveResult save(TranspositionEntry entry) {
+        long sdf = entry.hash % ARRAY_SIZE;
         int idx = (int) Math.abs(entry.hash % ARRAY_SIZE);
 
         long data = dataArray[idx];
@@ -110,7 +111,8 @@ public class TTableArrayPrimitives implements TTable {
         if (currentAge < MAX_AGE) {
             currentAge++;
         } else {
-            currentAge = 1;
+            clear();
+            currentAge++;
         }
     }
 
@@ -121,6 +123,18 @@ public class TTableArrayPrimitives implements TTable {
             hashArray[i] = 0;
             dataArray[i] = 0;
         }
-        currentAge = 1;
+        currentAge = STALE_AGE;
+    }
+
+    public int getFillPercentage() {
+        int filled = 0;
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            long data = dataArray[i];
+            int age = (int) ((data & AGE_MASK) >>> 58);
+            if (!(currentAge < age || currentAge - age > STALE_AGE)) {
+                filled++;
+            }
+        }
+        return (filled * 100 / ARRAY_SIZE);
     }
 }

@@ -10,9 +10,9 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
  * @author Mauricio Coria
  */
 @Setter
-public class TranspositionTableListener implements SearchByCycleListener, ResetListener {
-    protected TTable maxMap;
-    protected TTable minMap;
+public class TTListener implements SearchByCycleListener, ResetListener {
+    private TTable maxMap;
+    private TTable minMap;
 
     @Override
     public void accept(Visitor visitor) {

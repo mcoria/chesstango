@@ -3,11 +3,12 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableNodeVisitor;
@@ -25,7 +26,7 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
 public class TranspositionTableBuilder {
     private final TTable maxMapImp;
     private final TTable minMapImp;
-    private final TranspositionTableListener transpositionTablesListener;
+    private final TTListener transpositionTablesListener;
 
     private TTableDebug maxMapNodeDebug;
     private TTableDebug minMapNodeDebug;
@@ -38,6 +39,7 @@ public class TranspositionTableBuilder {
     private TTableStatisticsNodeCollector minMapNodeCollector;
     private TTableStatisticsComparatorCollector maxMapComparatorCollector;
     private TTableStatisticsComparatorCollector minMapComparatorCollector;
+    private TTableStatisticsListener tTableStatisticsListener;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -53,7 +55,7 @@ public class TranspositionTableBuilder {
     public TranspositionTableBuilder() {
         maxMapImp = new TTableArrayPrimitives();
         minMapImp = new TTableArrayPrimitives();
-        transpositionTablesListener = new TranspositionTableListener();
+        transpositionTablesListener = new TTListener();
     }
 
     public TranspositionTableBuilder withDebugSearchTree() {
@@ -105,6 +107,8 @@ public class TranspositionTableBuilder {
 
             maxMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
             minMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+
+            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, maxMapImp, minMapImp);
         }
     }
 
@@ -138,6 +142,9 @@ public class TranspositionTableBuilder {
         if (minMapComparatorCollector != null) {
             searchListenerMediator.add(minMapComparatorCollector);
         }
+        if (tTableStatisticsListener != null) {
+            searchListenerMediator.add(tTableStatisticsListener);
+        }
     }
 
     private void createChains() {
@@ -160,7 +167,8 @@ public class TranspositionTableBuilder {
 
                 case TTableStatisticsNodeCollector tableStatisticsCollector -> tableStatisticsCollector.setTTable(next);
 
-                case TTableStatisticsComparatorCollector tableStatisticsComparatorCollector -> tableStatisticsComparatorCollector.setTTable(next);
+                case TTableStatisticsComparatorCollector tableStatisticsComparatorCollector ->
+                        tableStatisticsComparatorCollector.setTTable(next);
 
                 case null -> throw new RuntimeException(String.format("filter %d is null", i));
 

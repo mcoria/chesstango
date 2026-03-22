@@ -66,10 +66,10 @@ public class TangoGame01IntegrationTest {
                 .withBoardStatistics()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                .withCutoffStatistics()
-                .withEvaluationStatistics()
+                //.withCutoffStatistics()
+                //.withEvaluationStatistics()
                 .withTranspositionStatistics()
-                .withPrincipalVariationStatistics()
+                //.withPrincipalVariationStatistics()
                 .printReport(System.out);
 
         detailsReport
@@ -77,11 +77,11 @@ public class TangoGame01IntegrationTest {
                 .withBoardReport()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                .withCutoffStatistics()
-                .withEvaluationReport()
+                //.withCutoffStatistics()
+                //.withEvaluationReport()
                 .withTranspositionReport()
-                .withIterationEvaluationReport()
-                .withPrincipalVariationReport()
+                //.withIterationEvaluationReport()
+                //.withPrincipalVariationReport()
                 //.withEbf()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
@@ -136,7 +136,7 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            //session.goTime(2000);
+            //session.goTime(5000);
             session.goDepth(5);
 
             for (int i = 0; i < movesArray.length; i += 2) {
@@ -144,7 +144,7 @@ public class TangoGame01IntegrationTest {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                //session.goTime(2000);
+                //session.goTime(5000);
                 session.goDepth(5);
                 //}
             }

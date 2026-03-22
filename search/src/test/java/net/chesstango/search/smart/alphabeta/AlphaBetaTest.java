@@ -16,9 +16,7 @@ import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.visitors.DistributeSearchResultByDepthVisitor;
-import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.visitors.SetDepthVisitor;
+import net.chesstango.search.visitors.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -158,11 +156,17 @@ public class AlphaBetaTest {
 
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
+        searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
+
         searchListenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
+
+        searchListenerMediator.triggerAfterSearch();
 
         SearchResult searchResult = new SearchResult().addSearchResultByDepth(searchResultByDepth);
 
-        searchListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
+
+        searchListenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
 
         return searchResult;
     }

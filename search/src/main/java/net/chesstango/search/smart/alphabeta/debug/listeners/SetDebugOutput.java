@@ -78,7 +78,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
+    public void afterSearch() {
         debugOut.print("Search completed\n");
 
         try {

@@ -16,6 +16,6 @@ public interface SearchByCycleListener extends SearchListener {
     /**
      * Invoked once after searching is done
      */
-    default void afterSearch(SearchResult result) {
+    default void afterSearch() {
     }
 }

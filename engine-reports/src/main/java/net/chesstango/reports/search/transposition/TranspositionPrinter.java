@@ -23,9 +23,9 @@ public class TranspositionPrinter implements Printer {
     public TranspositionPrinter print() {
         out.println("Transposition Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(9).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Reads", "Read NHits", "Read CHits", "Writes", "Updates", "OverWrites");
+        printerTxtTable.setTitles("Move", "Reads", "Read NHits", "Read CHits", "Writes", "Updates", "OverWrites", "MaxFill", "MinFill");
         transpositionModel.transpositionModelDetail.forEach(row -> {
             printerTxtTable.addRow(
                     row.move,
@@ -34,7 +34,10 @@ public class TranspositionPrinter implements Printer {
                     String.format("%d (%2d%%)", row.readComparatorHits, row.readComparatorHitPercentage),
                     Long.toString(row.writes),
                     String.format("%d (%2d%%)", row.updates, row.updatesPercentage),
-                    String.format("%d (%2d%%)", row.overWrites, row.overWritePercentage));
+                    String.format("%d (%2d%%)", row.overWrites, row.overWritePercentage),
+                    String.format("%2d%%", row.maxMapFillPercentage),
+                    String.format("%2d%%", row.minMapFillPercentage)
+            );
         });
 
         printerTxtTable.setBottomRow(
@@ -44,7 +47,10 @@ public class TranspositionPrinter implements Printer {
                 String.format("%d (%2d%%)", transpositionModel.readComparatorHitsTotal, transpositionModel.readComparatorHitPercentageTotal),
                 Long.toString(transpositionModel.writesTotal),
                 String.format("%d (%2d%%)", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal),
-                String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal));
+                String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal),
+                String.format("%2d%%", transpositionModel.maxMapFillPercentageAvg),
+                String.format("%2d%%", transpositionModel.minMapFillPercentageAvg)
+        );
 
         printerTxtTable.print();
 
