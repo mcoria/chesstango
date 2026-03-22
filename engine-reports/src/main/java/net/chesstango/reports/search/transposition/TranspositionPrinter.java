@@ -48,8 +48,8 @@ public class TranspositionPrinter implements Printer {
                 Long.toString(transpositionModel.writesTotal),
                 String.format("%d (%2d%%)", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal),
                 String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal),
-                "",
-                ""
+                String.format("%2d%%", transpositionModel.maxMapFillPercentageAvg),
+                String.format("%2d%%", transpositionModel.minMapFillPercentageAvg)
         );
 
         printerTxtTable.print();

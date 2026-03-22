@@ -111,7 +111,8 @@ public class TTableArrayPrimitives implements TTable {
         if (currentAge < MAX_AGE) {
             currentAge++;
         } else {
-            currentAge = STALE_AGE;
+            clear();
+            currentAge++;
         }
     }
 
