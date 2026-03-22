@@ -282,7 +282,7 @@ public class TTableArrayPrimitivesTest {
         // Arrange
         TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
 
-        for (int i = 0; i < TTableArrayPrimitives.MAX_AGE - 1; i++) {
+        while (tTableArray.currentAge != TTableArrayPrimitives.MAX_AGE) {
             tTableArray.increaseAge();
         }
 
@@ -315,6 +315,21 @@ public class TTableArrayPrimitivesTest {
 
         // Try to load the entry
         loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
+
+        // Assert
+        assertFalse(loaded);
+    }
+
+    @Test
+    public void testLoad() {
+        // Arrange
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
+
+        tTableArray.increaseAge();
+
+        TranspositionEntry entry = new TranspositionEntry();
+
+        boolean loaded = tTableArray.load(0, entry);
 
         // Assert
         assertFalse(loaded);

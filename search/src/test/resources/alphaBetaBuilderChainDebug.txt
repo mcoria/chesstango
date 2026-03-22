@@ -141,7 +141,7 @@ AlphaBetaFlowControl @ 18
 
 SearchByCycleListeners:
 	EvaluatorCacheListener @ 62
-	TranspositionTableListener @ 63
+	TTListener @ 63
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 18
@@ -171,11 +171,11 @@ StopSearchingListener:
 
 ResetListener:
 	EvaluatorCacheListener @ 62
-	TranspositionTableListener @ 63
+	TTListener @ 63
 
 Acceptor:
 	EvaluatorCacheListener @ 62
-	TranspositionTableListener @ 63
+	TTListener @ 63
 	TTableDebug @ 7
 	TTableDebug @ 69
 	TTableDebug @ 37
