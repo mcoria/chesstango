@@ -63,4 +63,5 @@ module net.chesstango.search {
     requires static lombok;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
+    exports net.chesstango.search.builders.sorters;
 }

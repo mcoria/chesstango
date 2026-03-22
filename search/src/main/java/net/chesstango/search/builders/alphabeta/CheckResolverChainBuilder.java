@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.search.builders.MoveSorterBuilder;
+import net.chesstango.search.builders.sorters.MoveSorterBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;

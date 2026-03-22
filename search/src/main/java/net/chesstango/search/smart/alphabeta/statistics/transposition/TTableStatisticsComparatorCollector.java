@@ -12,37 +12,29 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
  */
 @Getter
 @Setter
-public class TTableStatisticsCollector implements TTable, Acceptor {
+public class TTableStatisticsComparatorCollector implements TTable, Acceptor {
 
-    private final TTableCounters TTableCounters;
+    private final TTableCounters tTableCounters;
 
     private TTable tTable;
 
-    public TTableStatisticsCollector(TTableCounters TTableCounters) {
-        this.TTableCounters = TTableCounters;
+    public TTableStatisticsComparatorCollector(TTableCounters tTableCounters) {
+        this.tTableCounters = tTableCounters;
     }
-
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
         if (result) {
-            TTableCounters.increaseReadHits();
+            tTableCounters.increaseReadComparatorHits();
         }
-        TTableCounters.increaseReads();
+        tTableCounters.increaseReads();
         return result;
     }
 
     @Override
     public SaveResult save(TranspositionEntry entry) {
-        SaveResult result = tTable.save(entry);
-        if (result == SaveResult.OVER_WRITTEN) {
-            TTableCounters.increaseOverWrites();
-        } else if (result == SaveResult.UPDATED) {
-            TTableCounters.increaseUpdates();
-        }
-        TTableCounters.increaseWrites();
-        return result;
+        throw new RuntimeException("save() should not be called on a comparator");
     }
 
     @Override

@@ -18,9 +18,10 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
+
     @Getter
     @Setter
-    private NodeMoveSorter nodeMoveSorter;
+    private MoveSorter next;
 
     @Setter
     private Game game;
@@ -52,7 +53,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
         if (lastRootMoveEvaluation == null) {
-            return nodeMoveSorter.getOrderedMoves(currentPly);
+            return next.getOrderedMoves(currentPly);
         } else {
             return getSortedMovesByLastMoveEvaluations();
         }

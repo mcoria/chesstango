@@ -29,14 +29,15 @@ public class SummaryTranspositionPrinter implements Printer {
     public SummaryTranspositionPrinter print() {
         out.println("\n Transposition Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(8).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads", "Read Hits", "Writes", "Updates", "OverWrites");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads", "Read NHits", "Read CHits", "Writes", "Updates", "OverWrites");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
                     Long.toString(row.readsTotal),
-                    String.format("%d (%2d%%)", row.readHitsTotal, row.readHitPercentageTotal),
+                    String.format("%d (%2d%%)", row.readNodeHitsTotal, row.readNodeHitPercentageTotal),
+                    String.format("%d (%2d%%)", row.readComparatorHitsTotal, row.readComparatorHitPercentageTotal),
                     Long.toString(row.writesTotal),
                     String.format("%d (%2d%%)", row.updatesTotal, row.updatesPercentageTotal),
                     String.format("%d (%2d%%)", row.overWritesTotal, row.overWritesPercentageTotal));

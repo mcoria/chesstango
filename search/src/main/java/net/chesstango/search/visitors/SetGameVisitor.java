@@ -50,18 +50,12 @@ public class SetGameVisitor implements Visitor {
 
     @Override
     public void visit(NoIterativeDeepening noIterativeDeepening) {
-        SearchAlgorithm algorithm = noIterativeDeepening.getSearchAlgorithm();
-        algorithm.accept(this);
-
         SearchListenerMediator searchListenerMediator = noIterativeDeepening.getSearchListenerMediator();
         searchListenerMediator.accept(this);
     }
 
     @Override
     public void visit(IterativeDeepening iterativeDeepening) {
-        SearchAlgorithm algorithm = iterativeDeepening.getSearchAlgorithm();
-        algorithm.accept(this);
-
         SearchListenerMediator searchListenerMediator = iterativeDeepening.getSearchListenerMediator();
         searchListenerMediator.accept(this);
     }

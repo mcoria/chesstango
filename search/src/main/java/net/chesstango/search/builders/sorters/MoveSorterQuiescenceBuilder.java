@@ -1,10 +1,9 @@
-package net.chesstango.search.builders;
+package net.chesstango.search.builders.sorters;
 
-import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
-import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
@@ -12,7 +11,10 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
+import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
+import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,93 +22,88 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MoveSorterBuilder{
+public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
-    private final QuietComparator quietComparator;
-    private final DefaultMoveComparator defaultMoveComparator;
     private SearchListenerMediator searchListenerMediator;
+    private DefaultMoveComparator defaultMoveComparator;
+    private RecaptureMoveComparator recaptureMoveComparator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
     private EvaluatorCacheDebug gameEvaluatorCacheDebug;
-    private EvaluatorCacheRead evaluatorCacheRead;
+    private EvaluatorCache gameEvaluatorCache;
     private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
-    private RecaptureMoveComparator recaptureMoveComparator;
-    private KillerMoveComparator killerMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
     private PrincipalVariationComparator principalVariationComparator;
-
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
-    private boolean withKillerMoveSorter;
     private boolean withRecaptureSorter;
     private boolean withMvvLva;
 
-    public MoveSorterBuilder() {
-        this.nodeMoveSorter = new NodeMoveSorter();
-        this.quietComparator = new QuietComparator();
-        this.recaptureMoveComparator = new RecaptureMoveComparator();
-        this.defaultMoveComparator = new DefaultMoveComparator();
+    public MoveSorterQuiescenceBuilder() {
+        this.nodeMoveSorter = new NodeMoveSorter(move -> !move.isQuiet());
     }
 
-
-    public MoveSorterBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+    public MoveSorterQuiescenceBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
-    public MoveSorterBuilder withGameEvaluatorCache(EvaluatorCacheRead evaluatorCacheRead) {
-        this.evaluatorCacheRead = evaluatorCacheRead;
+    public MoveSorterQuiescenceBuilder withGameEvaluatorCache(EvaluatorCache gameEvaluatorCache) {
+        this.gameEvaluatorCache = gameEvaluatorCache;
         return this;
     }
 
-    public MoveSorterBuilder withTranspositionTable() {
+    public MoveSorterQuiescenceBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
         return this;
     }
 
-    public MoveSorterBuilder withDebugSearchTree() {
+    public MoveSorterQuiescenceBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
 
-    public MoveSorterBuilder withKillerMoveSorter() {
-        this.withKillerMoveSorter = true;
-        return this;
-    }
-
-    public MoveSorterBuilder withRecaptureSorter() {
+    public MoveSorterQuiescenceBuilder withRecaptureSorter() {
         this.withRecaptureSorter = true;
         return this;
     }
 
-    public MoveSorterBuilder withMvvLva() {
+
+    public MoveSorterQuiescenceBuilder withMvvLva() {
         this.withMvvLva = true;
         return this;
     }
+
 
     public MoveSorter build() {
         buildObjects();
 
         setupListenerMediator();
 
-        MoveSorter moveSorter = nodeMoveSorter;
-
         nodeMoveSorter.setMoveComparator(createComparatorChain());
 
+        return createChain();
+    }
+
+    private MoveSorter createChain() {
+        List<MoveSorter> chain = new LinkedList<>();
+
         if (moveSorterDebug != null) {
-            moveSorterDebug.setMoveSorterImp(moveSorter);
-            moveSorter = moveSorterDebug;
+            chain.add(moveSorterDebug);
         }
 
-        return moveSorter;
+        chain.add(nodeMoveSorter);
+
+        return buildChain(chain);
     }
 
     private void buildObjects() {
+        defaultMoveComparator = new DefaultMoveComparator();
+
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
-
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
 
             principalVariationComparator = new PrincipalVariationComparator();
@@ -115,20 +112,16 @@ public class MoveSorterBuilder{
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
             gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
-            gameEvaluatorCacheDebug.setEvaluatorCacheRead(evaluatorCacheRead);
+            gameEvaluatorCacheDebug.setEvaluatorCacheRead(gameEvaluatorCache);
         }
 
-        if (evaluatorCacheRead != null) {
+        if (gameEvaluatorCache != null) {
             gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
             if (withDebugSearchTree) {
                 gameEvaluatorCacheComparator.setEvaluatorCacheRead(gameEvaluatorCacheDebug);
             } else {
-                gameEvaluatorCacheComparator.setEvaluatorCacheRead(evaluatorCacheRead);
+                gameEvaluatorCacheComparator.setEvaluatorCacheRead(gameEvaluatorCache);
             }
-        }
-
-        if (withKillerMoveSorter) {
-            killerMoveComparator = new KillerMoveComparator();
         }
 
         if (withRecaptureSorter) {
@@ -140,6 +133,7 @@ public class MoveSorterBuilder{
         }
 
         promotionComparator = new PromotionComparator();
+
     }
 
     private void setupListenerMediator() {
@@ -173,15 +167,6 @@ public class MoveSorterBuilder{
             searchListenerMediator.add(gameEvaluatorCacheDebug);
         }
 
-        if (killerMoveComparator != null) {
-            searchListenerMediator.add(killerMoveComparator);
-        }
-
-        /*
-        if (quietComparator != null) {
-            smartListenerMediator.add(quietComparator);
-        }
-         */
     }
 
 
@@ -194,21 +179,6 @@ public class MoveSorterBuilder{
             chain.add(transpositionTailMoveComparator);
         }
 
-        chain.add(quietComparator);
-
-        MoveComparator chainTail = buildChainTail();
-
-        quietComparator.setNoQuietNext(buildNoQuietNext(chainTail));
-
-        quietComparator.setQuietNext(buildQuietNext(chainTail));
-
-        return linkChain(chain);
-    }
-
-
-    private MoveComparator buildNoQuietNext(MoveComparator chainTail) {
-        List<MoveComparator> chain = new LinkedList<>();
-
         chain.add(promotionComparator);
 
         if (recaptureMoveComparator != null) {
@@ -219,52 +189,12 @@ public class MoveSorterBuilder{
             chain.add(mvvLvaComparator);
         }
 
-        chain.add(chainTail);
-
-        return linkChain(chain);
-    }
-
-    private MoveComparator buildQuietNext(MoveComparator chainTail) {
-        List<MoveComparator> chain = new LinkedList<>();
-
-        if (killerMoveComparator != null) {
-            chain.add(killerMoveComparator);
-        }
-
-        chain.add(chainTail);
-
-        return linkChain(chain);
-    }
-
-    private MoveComparator buildChainTail() {
-        List<MoveComparator> chain = new LinkedList<>();
-
         if (gameEvaluatorCacheComparator != null) {
             chain.add(gameEvaluatorCacheComparator);
         }
 
         chain.add(defaultMoveComparator);
 
-        return linkChain(chain);
-    }
-
-    private MoveComparator linkChain(List<MoveComparator> chain) {
-        for (int i = 0; i < chain.size() - 1; i++) {
-            MoveComparator currentComparator = chain.get(i);
-            MoveComparator next = chain.get(i + 1);
-
-            switch (currentComparator) {
-                case TranspositionHeadMoveComparator headMoveComparator -> headMoveComparator.setNext(next);
-                case TranspositionTailMoveComparator tailMoveComparator -> tailMoveComparator.setNext(next);
-                case RecaptureMoveComparator recaptureMoveComparatorFilter -> recaptureMoveComparatorFilter.setNext(next);
-                case GameEvaluatorCacheComparator gameEvaluatorCacheComparatorFilter -> gameEvaluatorCacheComparatorFilter.setNext(next);
-                case KillerMoveComparator moveComparator -> moveComparator.setNext(next);
-                case MvvLvaComparator lvaComparator -> lvaComparator.setNext(next);
-                case PromotionComparator comparator -> comparator.setNext(next);
-                case PrincipalVariationComparator variationComparator -> variationComparator.setNext(next);
-                case null, default -> throw new RuntimeException("Unknow MoveComparator");
-            }
-        }
-        return chain.getFirst();
+        return linkComparatorChain(chain);
     }
 }

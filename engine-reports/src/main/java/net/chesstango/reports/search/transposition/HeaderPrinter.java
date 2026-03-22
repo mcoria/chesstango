@@ -24,7 +24,8 @@ public class HeaderPrinter implements Printer {
         out.printf("TranspositionReport   : %s\n\n", transpositionModel.searchGroupName);
         out.printf("Searches              : %10d\n", transpositionModel.searches);
         out.printf("Reads                 : %10d\n", transpositionModel.readsTotal);
-        out.printf("Read Hits             : %10d (%2d%%)\n", transpositionModel.readHitsTotal, transpositionModel.readHitPercentageTotal);
+        out.printf("Read Node Hits        : %10d (%2d%%)\n", transpositionModel.readNodeHitsTotal, transpositionModel.readNodeHitPercentageTotal);
+        out.printf("Read Comparator Hits  : %10d (%2d%%)\n", transpositionModel.readComparatorHitsTotal , transpositionModel.readComparatorHitPercentageTotal);
         out.printf("Writes                : %10d\n", transpositionModel.writesTotal);
         out.printf("Updates               : %10d (%2d%%)\n", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal);
         out.printf("OverWrites            : %10d (%2d%%)\n", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal);

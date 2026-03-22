@@ -26,7 +26,7 @@ class TranspositionModelTest {
         // Arrange
         TTableStatistics mockStats = mock(TTableStatistics.class);
         when(mockStats.reads()).thenReturn(100L);
-        when(mockStats.readHits()).thenReturn(60L);
+        when(mockStats.readNodeHits()).thenReturn(60L);
         when(mockStats.writes()).thenReturn(50L);
         when(mockStats.updates()).thenReturn(25L);
         when(mockStats.overWrites()).thenReturn(10L);
@@ -48,8 +48,8 @@ class TranspositionModelTest {
         assertEquals("TestGroup", model.searchGroupName);
         assertEquals(1, model.searches);
         assertEquals(100L, model.readsTotal);
-        assertEquals(60L, model.readHitsTotal);
-        assertEquals(60, model.readHitPercentageTotal);
+        assertEquals(60L, model.readNodeHitsTotal);
+        assertEquals(60, model.readNodeHitPercentageTotal);
         assertEquals(50L, model.writesTotal);
         assertEquals(25L, model.updatesTotal);
         assertEquals(50, model.updatesPercentageTotal);
@@ -59,8 +59,8 @@ class TranspositionModelTest {
         TranspositionModel.TranspositionModelDetail detail = model.transpositionModelDetail.getFirst();
         assertEquals("TestId1", detail.id);
         assertEquals(100L, detail.reads);
-        assertEquals(60L, detail.readHits);
-        assertEquals(60, detail.readHitPercentage);
+        assertEquals(60L, detail.readNodeHits);
+        assertEquals(60, detail.readNodeHitPercentage);
         assertEquals(50L, detail.writes);
         assertEquals(25L, detail.updates);
         assertEquals(50, detail.updatesPercentage);
@@ -81,8 +81,8 @@ class TranspositionModelTest {
         assertEquals("EmptyGroup", model.searchGroupName);
         assertEquals(0, model.searches);
         assertEquals(0L, model.readsTotal);
-        assertEquals(0L, model.readHitsTotal);
-        assertEquals(0, model.readHitPercentageTotal);
+        assertEquals(0L, model.readNodeHitsTotal);
+        assertEquals(0, model.readNodeHitPercentageTotal);
         assertEquals(0L, model.writesTotal);
         assertEquals(0L, model.updatesTotal);
         assertEquals(0, model.updatesPercentageTotal);
@@ -96,14 +96,14 @@ class TranspositionModelTest {
         // Arrange
         TTableStatistics stats1 = mock(TTableStatistics.class);
         when(stats1.reads()).thenReturn(200L);
-        when(stats1.readHits()).thenReturn(100L);
+        when(stats1.readNodeHits()).thenReturn(100L);
         when(stats1.writes()).thenReturn(60L);
         when(stats1.updates()).thenReturn(30L);
         when(stats1.overWrites()).thenReturn(15L);
 
         TTableStatistics stats2 = mock(TTableStatistics.class);
         when(stats2.reads()).thenReturn(300L);
-        when(stats2.readHits()).thenReturn(150L);
+        when(stats2.readNodeHits()).thenReturn(150L);
         when(stats2.writes()).thenReturn(80L);
         when(stats2.updates()).thenReturn(40L);
         when(stats2.overWrites()).thenReturn(20L);
@@ -130,8 +130,8 @@ class TranspositionModelTest {
         assertEquals("MultiGroup", model.searchGroupName);
         assertEquals(2, model.searches);
         assertEquals(500L, model.readsTotal);
-        assertEquals(250L, model.readHitsTotal);
-        assertEquals(50, model.readHitPercentageTotal);
+        assertEquals(250L, model.readNodeHitsTotal);
+        assertEquals(50, model.readNodeHitPercentageTotal);
         assertEquals(140L, model.writesTotal);
         assertEquals(70L, model.updatesTotal);
         assertEquals(50, model.updatesPercentageTotal);
@@ -141,8 +141,8 @@ class TranspositionModelTest {
         TranspositionModel.TranspositionModelDetail detail1 = model.transpositionModelDetail.get(0);
         assertEquals("TestId1", detail1.id);
         assertEquals(200L, detail1.reads);
-        assertEquals(100L, detail1.readHits);
-        assertEquals(50, detail1.readHitPercentage);
+        assertEquals(100L, detail1.readNodeHits);
+        assertEquals(50, detail1.readNodeHitPercentage);
         assertEquals(60L, detail1.writes);
         assertEquals(30L, detail1.updates);
         assertEquals(50, detail1.updatesPercentage);
@@ -152,8 +152,8 @@ class TranspositionModelTest {
         TranspositionModel.TranspositionModelDetail detail2 = model.transpositionModelDetail.get(1);
         assertEquals("TestId2", detail2.id);
         assertEquals(300L, detail2.reads);
-        assertEquals(150L, detail2.readHits);
-        assertEquals(50, detail2.readHitPercentage);
+        assertEquals(150L, detail2.readNodeHits);
+        assertEquals(50, detail2.readNodeHitPercentage);
         assertEquals(80L, detail2.writes);
         assertEquals(40L, detail2.updates);
         assertEquals(50, detail2.updatesPercentage);

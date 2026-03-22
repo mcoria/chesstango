@@ -19,9 +19,13 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
     public long readsTotal;
 
-    public long readHitsTotal;
+    public long readNodeHitsTotal;
 
-    public int readHitPercentageTotal;
+    public long readComparatorHitsTotal;
+
+    public int readNodeHitPercentageTotal;
+
+    public int readComparatorHitPercentageTotal;
 
     public long writesTotal;
 
@@ -42,9 +46,13 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
         public long reads;
 
-        public long readHits;
+        public long readNodeHits;
 
-        public int readHitPercentage;
+        public long readComparatorHits;
+
+        public int readNodeHitPercentage;
+
+        public int readComparatorHitPercentage;
 
         public long writes;
 
@@ -83,8 +91,10 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
             transpositionModelDetail.reads = ttableStatistics.reads();
-            transpositionModelDetail.readHits = ttableStatistics.readHits();
-            transpositionModelDetail.readHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readHits() / ttableStatistics.reads()) : 0;
+            transpositionModelDetail.readNodeHits = ttableStatistics.readNodeHits();
+            transpositionModelDetail.readComparatorHits = ttableStatistics.readComparatorHits();
+            transpositionModelDetail.readNodeHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readNodeHits() / ttableStatistics.reads()) : 0;
+            transpositionModelDetail.readComparatorHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readComparatorHits() / ttableStatistics.reads()) : 0;
             transpositionModelDetail.writes = ttableStatistics.writes();
             transpositionModelDetail.updates = ttableStatistics.updates();
             transpositionModelDetail.updatesPercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.updates() / ttableStatistics.writes()) : 0;
@@ -94,8 +104,10 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
             this.searches++;
             this.readsTotal += transpositionModelDetail.reads;
-            this.readHitsTotal += transpositionModelDetail.readHits;
-            this.readHitPercentageTotal = readsTotal > 0 ? (int) (100 * readHitsTotal / readsTotal) : 0;
+            this.readNodeHitsTotal += transpositionModelDetail.readNodeHits;
+            this.readComparatorHitsTotal += transpositionModelDetail.readComparatorHits;
+            this.readNodeHitPercentageTotal = readsTotal > 0 ? (int) (100 * readNodeHitsTotal / readsTotal) : 0;
+            this.readComparatorHitPercentageTotal = readsTotal > 0 ? (int) (100 * readComparatorHitsTotal / readsTotal) : 0;
             this.writesTotal += transpositionModelDetail.writes;
             this.updatesTotal += transpositionModelDetail.updates;
             this.updatesPercentageTotal = writesTotal > 0 ? (int) (100 * updatesTotal / writesTotal) : 0;
