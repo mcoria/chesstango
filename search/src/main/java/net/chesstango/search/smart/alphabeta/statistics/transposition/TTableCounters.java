@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.statistics.transposition;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -10,16 +11,18 @@ import net.chesstango.search.smart.SearchByCycleListener;
 @Getter
 public class TTableCounters implements SearchByCycleListener {
     private long readNodeHits;
-
     private long readComparatorHits;
-
     private long reads;
 
     private long overWrites;
-
     private long writes;
-
     private long updates;
+
+    @Setter
+    private int maxMapFillPercentage;
+
+    @Setter
+    private int minMapFillPercentage;
 
     public void increaseReads() {
         reads++;
@@ -55,6 +58,9 @@ public class TTableCounters implements SearchByCycleListener {
         writes = 0;
         updates = 0;
         overWrites = 0;
+
+        maxMapFillPercentage = 0;
+        minMapFillPercentage = 0;
     }
 
     @Override
@@ -63,7 +69,7 @@ public class TTableCounters implements SearchByCycleListener {
     }
 
     public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(reads, readNodeHits, readComparatorHits, writes, updates, overWrites);
+        return new TTableStatistics(reads, readNodeHits, readComparatorHits, writes, updates, overWrites, maxMapFillPercentage, minMapFillPercentage);
     }
 
 }

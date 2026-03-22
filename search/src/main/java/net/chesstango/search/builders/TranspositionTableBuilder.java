@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
@@ -38,6 +39,7 @@ public class TranspositionTableBuilder {
     private TTableStatisticsNodeCollector minMapNodeCollector;
     private TTableStatisticsComparatorCollector maxMapComparatorCollector;
     private TTableStatisticsComparatorCollector minMapComparatorCollector;
+    private TTableStatisticsListener tTableStatisticsListener;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -105,6 +107,8 @@ public class TranspositionTableBuilder {
 
             maxMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
             minMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+
+            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, maxMapImp, minMapImp);
         }
     }
 
@@ -138,6 +142,9 @@ public class TranspositionTableBuilder {
         if (minMapComparatorCollector != null) {
             searchListenerMediator.add(minMapComparatorCollector);
         }
+        if (tTableStatisticsListener != null) {
+            searchListenerMediator.add(tTableStatisticsListener);
+        }
     }
 
     private void createChains() {
@@ -160,7 +167,8 @@ public class TranspositionTableBuilder {
 
                 case TTableStatisticsNodeCollector tableStatisticsCollector -> tableStatisticsCollector.setTTable(next);
 
-                case TTableStatisticsComparatorCollector tableStatisticsComparatorCollector -> tableStatisticsComparatorCollector.setTTable(next);
+                case TTableStatisticsComparatorCollector tableStatisticsComparatorCollector ->
+                        tableStatisticsComparatorCollector.setTTable(next);
 
                 case null -> throw new RuntimeException(String.format("filter %d is null", i));
 

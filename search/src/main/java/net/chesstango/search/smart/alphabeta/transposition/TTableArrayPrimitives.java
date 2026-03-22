@@ -123,4 +123,16 @@ public class TTableArrayPrimitives implements TTable {
         }
         currentAge = 1;
     }
+
+    public int getFillPercentage() {
+        int filled = 0;
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            long data = dataArray[i];
+            int age = (int) ((data & AGE_MASK) >>> 58);
+            if (!(currentAge < age || currentAge - age > STALE_AGE)) {
+                filled++;
+            }
+        }
+        return (filled * 100 / ARRAY_SIZE);
+    }
 }
