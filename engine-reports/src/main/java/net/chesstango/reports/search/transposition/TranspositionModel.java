@@ -64,6 +64,9 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
         public int overWritePercentage;
 
+        public int maxMapFillPercentage;
+
+        public int minMapFillPercentage;
     }
 
     @Override
@@ -100,6 +103,8 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.updatesPercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.updates() / ttableStatistics.writes()) : 0;
             transpositionModelDetail.overWrites = ttableStatistics.overWrites();
             transpositionModelDetail.overWritePercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.overWrites() / ttableStatistics.writes()) : 0;
+            transpositionModelDetail.maxMapFillPercentage = ttableStatistics.maxMapFillPercentage();
+            transpositionModelDetail.minMapFillPercentage = ttableStatistics.minMapFillPercentage();
 
 
             this.searches++;
