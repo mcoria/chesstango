@@ -55,8 +55,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
 
-    private Evaluator evaluator;
-
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
     private DepthCollector depthCollector;
@@ -281,7 +279,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private void link() {
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
-        searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
@@ -295,7 +292,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void buildObjects() {
-        evaluator = evaluationBuilder
+        evaluationBuilder
                 .withSmartListenerMediator(searchListenerMediator)
                 .build();
 

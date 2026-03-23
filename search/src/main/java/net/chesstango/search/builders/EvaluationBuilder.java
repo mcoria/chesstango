@@ -2,9 +2,11 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCache;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 
@@ -20,10 +22,9 @@ public class EvaluationBuilder {
 
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorCacheDebug gameEvaluatorCacheDebug;
+    private EvaluatorCacheListener evaluatorCacheListener;
 
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
-
-    private EvaluatorCacheListener evaluatorCacheListener;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -32,6 +33,8 @@ public class EvaluationBuilder {
     private boolean withGameEvaluatorCache;
     private boolean withStatistics;
 
+    private Evaluator evaluator;
+    private EvaluatorCacheRead evaluatorCacheRead;
 
     public EvaluationBuilder withGameEvaluator(Evaluator evaluator) {
         this.evaluatorImp = evaluator;
@@ -39,7 +42,7 @@ public class EvaluationBuilder {
     }
 
     public EvaluationBuilder withGameEvaluatorCache() {
-        withGameEvaluatorCache = true;
+        this.withGameEvaluatorCache = true;
         return this;
     }
 
@@ -47,17 +50,12 @@ public class EvaluationBuilder {
         if (!withStatistics) {
             throw new RuntimeException("You must enable Statistics first");
         }
-        withTrackEvaluations = true;
+        this.withTrackEvaluations = true;
         return this;
     }
 
     public EvaluationBuilder withStatistics() {
-        withStatistics = true;
-        return this;
-    }
-
-    public EvaluationBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+        this.withStatistics = true;
         return this;
     }
 
@@ -66,19 +64,25 @@ public class EvaluationBuilder {
         return this;
     }
 
+    public EvaluationBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
+        return this;
+    }
 
-    public Evaluator build() {
+    public void build() {
         buildObjects();
         setupListenerMediator();
-        return createChain();
+
+        evaluator = createEvaluatorChain();
     }
 
     public void link() {
         if (withGameEvaluatorCache) {
             searchListenerMediator.accept(new LinkEvaluatorCache(gameEvaluatorCacheDebug != null ? gameEvaluatorCacheDebug : gameEvaluatorCache));
         }
-    }
 
+        searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
+    }
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
@@ -112,7 +116,7 @@ public class EvaluationBuilder {
         }
     }
 
-    private Evaluator createChain() {
+    private Evaluator createEvaluatorChain() {
         List<Evaluator> chain = new LinkedList<>();
 
         if (gameEvaluatorStatisticsCollector != null) {
@@ -125,19 +129,19 @@ public class EvaluationBuilder {
 
         chain.add(evaluatorImp);
 
-        return linkChain(chain);
+        return linkEvaluatorChain(chain);
     }
 
-    private Evaluator linkChain(List<Evaluator> chain) {
+    private Evaluator linkEvaluatorChain(List<Evaluator> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
             Evaluator currentFilter = chain.get(i);
             Evaluator next = chain.get(i + 1);
 
             switch (currentFilter) {
-                case EvaluatorCache evaluatorCache -> evaluatorCache.setImp(next);
-
                 case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
                         evaluatorStatisticsCollector.setImp(next);
+
+                case EvaluatorCache evaluatorCache -> evaluatorCache.setImp(next);
 
                 case null -> throw new RuntimeException(String.format("evaluator %d is null", i));
 
