@@ -20,7 +20,7 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
@@ -243,7 +243,7 @@ public interface Visitor {
     default void visit(SetSearchTimers setSearchTimers) {
     }
 
-    default void visit(SetEvaluatorVisitor setEvaluatorVisitor) {
+    default void visit(LinkEvaluatorVisitor setEvaluatorVisitor) {
     }
 
     default void visit(SetGameToEndGameTableBase setGameToEndGameTableBase) {

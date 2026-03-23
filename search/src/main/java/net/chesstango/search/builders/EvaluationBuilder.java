@@ -5,8 +5,8 @@ import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
-import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCache;
-import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 
@@ -78,10 +78,10 @@ public class EvaluationBuilder {
 
     public void link() {
         if (withGameEvaluatorCache) {
-            searchListenerMediator.accept(new LinkEvaluatorCache(gameEvaluatorCacheDebug != null ? gameEvaluatorCacheDebug : gameEvaluatorCache));
+            searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(gameEvaluatorCacheDebug != null ? gameEvaluatorCacheDebug : gameEvaluatorCache));
         }
 
-        searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
+        searchListenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
     }
 
     private void buildObjects() {

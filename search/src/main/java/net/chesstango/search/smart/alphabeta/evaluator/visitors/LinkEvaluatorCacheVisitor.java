@@ -8,11 +8,11 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
  *
  * @author Mauricio Coria
  */
-public class LinkEvaluatorCache implements Visitor {
+public class LinkEvaluatorCacheVisitor implements Visitor {
 
     private final EvaluatorCacheRead evaluatorCache;
 
-    public LinkEvaluatorCache(EvaluatorCacheRead evaluatorCache) {
+    public LinkEvaluatorCacheVisitor(EvaluatorCacheRead evaluatorCache) {
         this.evaluatorCache = evaluatorCache;
     }
 

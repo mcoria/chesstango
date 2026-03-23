@@ -12,11 +12,11 @@ import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 /**
  * @author Mauricio Coria
  */
-public class SetEvaluatorVisitor implements Visitor {
+public class LinkEvaluatorVisitor implements Visitor {
 
     private final Evaluator evaluator;
 
-    public SetEvaluatorVisitor(Evaluator evaluator) {
+    public LinkEvaluatorVisitor(Evaluator evaluator) {
         this.evaluator = evaluator;
     }
 
