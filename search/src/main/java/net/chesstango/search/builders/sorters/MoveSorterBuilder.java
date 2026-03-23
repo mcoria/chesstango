@@ -28,8 +28,6 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
-    private EvaluatorCacheDebug gameEvaluatorCacheDebug;
-    private EvaluatorCacheRead evaluatorCacheRead;
     private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private KillerMoveComparator killerMoveComparator;
@@ -42,6 +40,7 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
     private boolean withKillerMoveSorter;
     private boolean withRecaptureSorter;
     private boolean withMvvLva;
+    private boolean withGameEvaluatorCache;
 
     public MoveSorterBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter();
@@ -56,8 +55,8 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
         return this;
     }
 
-    public MoveSorterBuilder withGameEvaluatorCache(EvaluatorCacheRead evaluatorCacheRead) {
-        this.evaluatorCacheRead = evaluatorCacheRead;
+    public MoveSorterBuilder withGameEvaluatorCache() {
+        this.withGameEvaluatorCache = true;
         return this;
     }
 
@@ -119,17 +118,10 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
-            gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
-            gameEvaluatorCacheDebug.setEvaluatorCacheRead(evaluatorCacheRead);
         }
 
-        if (evaluatorCacheRead != null) {
+        if (withGameEvaluatorCache) {
             gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
-            if (withDebugSearchTree) {
-                gameEvaluatorCacheComparator.setEvaluatorCacheRead(gameEvaluatorCacheDebug);
-            } else {
-                gameEvaluatorCacheComparator.setEvaluatorCacheRead(evaluatorCacheRead);
-            }
         }
 
         if (withKillerMoveSorter) {
@@ -174,9 +166,6 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
             searchListenerMediator.add(moveSorterDebug);
         }
 
-        if (gameEvaluatorCacheDebug != null) {
-            searchListenerMediator.add(gameEvaluatorCacheDebug);
-        }
 
         if (killerMoveComparator != null) {
             searchListenerMediator.add(killerMoveComparator);
@@ -199,13 +188,11 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
             chain.add(transpositionTailMoveComparator);
         }
 
-        chain.add(quietComparator);
-
         MoveComparator chainTail = buildChainTail();
-
         quietComparator.setNoQuietNext(buildNoQuietNext(chainTail));
-
         quietComparator.setQuietNext(buildQuietNext(chainTail));
+
+        chain.add(quietComparator);
 
         return linkComparatorChain(chain);
     }

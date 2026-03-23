@@ -1,9 +1,10 @@
 package net.chesstango.search.builders;
 
-import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 
@@ -17,8 +18,8 @@ public class EvaluationBuilder {
 
     private Evaluator evaluatorImp;
 
-    @Getter
     private EvaluatorCache gameEvaluatorCache;
+    private EvaluatorCacheDebug gameEvaluatorCacheDebug;
 
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
 
@@ -26,6 +27,7 @@ public class EvaluationBuilder {
 
     private SearchListenerMediator searchListenerMediator;
 
+    private boolean withDebugSearchTree;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
     private boolean withStatistics;
@@ -59,6 +61,11 @@ public class EvaluationBuilder {
         return this;
     }
 
+    public EvaluationBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
 
     public Evaluator build() {
         buildObjects();
@@ -66,10 +73,22 @@ public class EvaluationBuilder {
         return createChain();
     }
 
+    public void link() {
+        if (withGameEvaluatorCache) {
+            searchListenerMediator.accept(new LinkEvaluatorCache(gameEvaluatorCacheDebug != null ? gameEvaluatorCacheDebug : gameEvaluatorCache));
+        }
+    }
+
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
             gameEvaluatorCache = new EvaluatorCache();
+
+            if (withDebugSearchTree) {
+                gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
+                gameEvaluatorCacheDebug.setEvaluatorCacheRead(gameEvaluatorCache);
+            }
+
             evaluatorCacheListener = new EvaluatorCacheListener();
             evaluatorCacheListener.setGameEvaluatorCache(gameEvaluatorCache);
         }
@@ -87,6 +106,9 @@ public class EvaluationBuilder {
         }
         if (evaluatorCacheListener != null) {
             searchListenerMediator.add(evaluatorCacheListener);
+        }
+        if (gameEvaluatorCacheDebug != null) {
+            searchListenerMediator.add(gameEvaluatorCacheDebug);
         }
     }
 
@@ -125,5 +147,4 @@ public class EvaluationBuilder {
         }
         return chain.getFirst();
     }
-
 }

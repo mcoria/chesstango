@@ -35,7 +35,8 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
 
         moveSorterBuilder
                 .withTranspositionTable()
-                .withGameEvaluatorCache(loadEvaluationCache());
+                .withGameEvaluatorCache();
+        //loadEvaluationCache()
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 

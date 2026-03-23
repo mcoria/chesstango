@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
@@ -32,12 +33,13 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
         moveSorterBuilder
                 .withTranspositionTable()
-                .withGameEvaluatorCache(loadEvaluationCache());
+                .withGameEvaluatorCache();
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
+        searchListenerMediator.accept(new LinkEvaluatorCache(loadEvaluationCache()));
 
         searchListenerMediator.accept(new SetDepthVisitor(2));
         searchListenerMediator.triggerBeforeSearchByDepth();
@@ -58,13 +60,15 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         moveSorterBuilder
                 .withTranspositionTable()
                 .withKillerMoveSorter()
-                .withGameEvaluatorCache(loadEvaluationCache());
+                .withGameEvaluatorCache();
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
+        searchListenerMediator.accept(new LinkEvaluatorCache(loadEvaluationCache()));
         searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesTable));
+
 
         searchListenerMediator.triggerBeforeSearchByDepth();
 

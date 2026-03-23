@@ -302,7 +302,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         alphaBetaInteriorChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaInteriorChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
+        alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
         loopChainBuilder.withSmartListenerMediator(searchListenerMediator);

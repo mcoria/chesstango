@@ -2,7 +2,6 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
@@ -57,7 +56,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final AlphaBetaFlowControl alphaBetaFlowControl;
 
     private Evaluator evaluator;
-    private EvaluatorCache gameEvaluatorCache;
 
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
@@ -125,6 +123,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withGameEvaluatorCache() {
+        alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
+        quiescenceChainBuilder.withGameEvaluatorCache();
         evaluationBuilder.withGameEvaluatorCache();
         return this;
     }
@@ -246,6 +246,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         quiescenceChainBuilder.withDebugSearchTree();
         checkResolverChainBuilder.withDebugSearchTree();
 
+        evaluationBuilder.withDebugSearchTree();
+
         this.withDebugSearchTree = true;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
@@ -288,15 +290,14 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withStatistics) {
             searchListenerMediator.accept(new SetNodeCountersVisitor(nodeCounters));
         }
+
+        evaluationBuilder.link();
     }
 
     private void buildObjects() {
         evaluator = evaluationBuilder
                 .withSmartListenerMediator(searchListenerMediator)
                 .build();
-
-        gameEvaluatorCache = evaluationBuilder
-                .getGameEvaluatorCache(); // CAMBIAR ESTE DISENO
 
 
         if (withIterativeDeepening) {
@@ -408,7 +409,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         alphaBetaInteriorChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaInteriorChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
         loopChainBuilder.withSmartListenerMediator(searchListenerMediator);
@@ -419,7 +419,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         quiescenceChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         AlphaBetaFilter quiescenceChain = withQuiescence ? quiescenceChainBuilder.build() : null;
 
         alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);

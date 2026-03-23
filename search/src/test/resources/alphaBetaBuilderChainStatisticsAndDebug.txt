@@ -150,80 +150,81 @@ AlphaBetaFlowControl @ 20
 			|
 			MvvLvaComparator @ 70
 			|
-			GameEvaluatorCacheComparator @ 71 [EvaluatorCacheRead: EvaluatorCacheDebug @ 72 -> EvaluatorCache @ 25]
+			GameEvaluatorCacheComparator @ 71 [EvaluatorCacheRead: EvaluatorCacheDebug @ 54 -> EvaluatorCache @ 25]
 			|
-			DefaultMoveComparator @ 73
+			DefaultMoveComparator @ 72
 	|
 	AlphaBetaFlowControl @ 20 -> LOOP
 
 
 SearchByCycleListeners:
 	EvaluatorStatisticsCollector @ 24
-	EvaluatorCacheListener @ 74
-	TTListener @ 75
-	TTableCounters @ 76
-	TTableStatisticsListener @ 77
+	EvaluatorCacheListener @ 73
+	TTListener @ 74
+	TTableCounters @ 75
+	TTableStatisticsListener @ 76
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 78
+	SetSearchTimers @ 77
 	AlphaBetaFlowControl @ 20
-	SetSearchTracker @ 79
-	NodeCounters @ 80
-	GameCountersCollector @ 81
-	DepthCollector @ 82
-	SetKillerMoveTablesDebug @ 83
+	SetSearchTracker @ 78
+	NodeCounters @ 79
+	GameCountersCollector @ 80
+	DepthCollector @ 81
+	SetKillerMoveTablesDebug @ 82
 	PrincipalVariationComparator @ 44
 	PrincipalVariationComparator @ 65
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	RootMoveSorter @ 13
-	SetDebugOutput @ 84
+	SetDebugOutput @ 83
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 78
-	SetSearchTracker @ 79
-	NodeCounters @ 80
-	DepthCollector @ 82
-	RootMoveEvaluationCollection @ 85
-	SetDebugOutput @ 84
+	SetSearchTimers @ 77
+	SetSearchTracker @ 78
+	NodeCounters @ 79
+	DepthCollector @ 81
+	RootMoveEvaluationCollection @ 84
+	SetDebugOutput @ 83
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 79
-	RootMoveEvaluationCollection @ 85
-	SetDebugOutput @ 84
+	SetSearchTracker @ 78
+	RootMoveEvaluationCollection @ 84
+	SetDebugOutput @ 83
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 20
 
 ResetListener:
-	EvaluatorCacheListener @ 74
-	TTListener @ 75
+	EvaluatorCacheListener @ 73
+	TTListener @ 74
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 24
-	EvaluatorCacheListener @ 74
-	TTListener @ 75
+	EvaluatorCacheListener @ 73
+	EvaluatorCacheDebug @ 54
+	TTListener @ 74
 	TTableDebug @ 8
-	TTableDebug @ 86
+	TTableDebug @ 85
 	TTableDebug @ 46
-	TTableDebug @ 87
-	TTableCounters @ 76
+	TTableDebug @ 86
+	TTableCounters @ 75
 	TTableStatisticsNodeCollector @ 9
-	TTableStatisticsNodeCollector @ 88
+	TTableStatisticsNodeCollector @ 87
 	TTableStatisticsComparatorCollector @ 47
-	TTableStatisticsComparatorCollector @ 89
-	TTableStatisticsListener @ 77
-	SetGameToEvaluator @ 90
-	SetGameToEndGameTableBase @ 91
+	TTableStatisticsComparatorCollector @ 88
+	TTableStatisticsListener @ 76
+	SetGameToEvaluator @ 89
+	SetGameToEndGameTableBase @ 90
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 78
+	SetSearchTimers @ 77
 	AlphaBetaFlowControl @ 20
-	SetSearchTracker @ 79
-	NodeCounters @ 80
-	GameCountersCollector @ 81
-	DepthCollector @ 82
-	SetKillerMoveTablesDebug @ 83
-	KillerMovesDebug @ 92
+	SetSearchTracker @ 78
+	NodeCounters @ 79
+	GameCountersCollector @ 80
+	DepthCollector @ 81
+	SetKillerMoveTablesDebug @ 82
+	KillerMovesDebug @ 91
 	AlphaBetaEvaluation @ 23
 	AlphaBetaTerminalNodeStatistics @ 22
 	DebugFilter @ 21
@@ -243,7 +244,6 @@ Acceptor:
 	RecaptureMoveComparator @ 51
 	GameEvaluatorCacheComparator @ 53
 	MoveSorterDebug @ 42
-	EvaluatorCacheDebug @ 54
 	KillerMoveComparator @ 56
 	AlphaBetaLoopNodeStatistics @ 32
 	DebugFilter @ 31
@@ -254,7 +254,7 @@ Acceptor:
 	AlphaBetaQuiescenceNodeExpected @ 61
 	TranspositionTableQ @ 60
 	DebugFilter @ 58
-	EvaluatorDebug @ 93
+	EvaluatorDebug @ 92
 	Quiescence @ 62
 	NodeMoveSorter @ 64
 	TranspositionHeadMoveComparator @ 66
@@ -263,9 +263,8 @@ Acceptor:
 	RecaptureMoveComparator @ 69
 	GameEvaluatorCacheComparator @ 71
 	MoveSorterDebug @ 63
-	EvaluatorCacheDebug @ 72
 	RootMoveEvaluationTracker @ 16
-	RootMoveEvaluationCollection @ 85
+	RootMoveEvaluationCollection @ 84
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
@@ -278,5 +277,5 @@ Acceptor:
 	MoveSorterDebug @ 12
 	NodeMoveSorter @ 14
 	RootMoveSorter @ 13
-	SetDebugOutput @ 84
+	SetDebugOutput @ 83
 

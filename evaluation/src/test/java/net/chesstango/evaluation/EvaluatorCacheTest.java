@@ -18,7 +18,8 @@ class EvaluatorCacheTest {
 
     @BeforeEach
     void setUp() {
-        evaluatorCache = new EvaluatorCache(mockEvaluator);
+        evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
         evaluatorCache.setGame(mockGame);
 
         evaluatorCache.increaseAge();
@@ -48,7 +49,8 @@ class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(0L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache(mockEvaluator);
+        EvaluatorCache evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
         evaluatorCache.setGame(mockGame);
 
         // Act
@@ -71,7 +73,8 @@ class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache(mockEvaluator);
+        EvaluatorCache evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
         evaluatorCache.setGame(mockGame);
 
         // Cache miss
@@ -97,7 +100,8 @@ class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42, 50); // First and second evaluation results
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache(mockEvaluator);
+        EvaluatorCache evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
         evaluatorCache.setGame(mockGame);
 
         // Cache miss
@@ -128,7 +132,8 @@ class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L, 67890L); // Two different hashes
         when(mockEvaluator.evaluate()).thenReturn(42, 50); // Evaluation results
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache(mockEvaluator);
+        EvaluatorCache evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
         evaluatorCache.setGame(mockGame);
 
         // Cache miss for first hash
@@ -154,7 +159,8 @@ class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache(mockEvaluator);
+        EvaluatorCache evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
 
         // Act
         Integer cachedValue = evaluatorCache.readFromCache(12345L);
@@ -173,7 +179,8 @@ class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache(mockEvaluator);
+        EvaluatorCache evaluatorCache = new EvaluatorCache();
+        evaluatorCache.setImp(mockEvaluator);
         evaluatorCache.setGame(mockGame);
 
         // Simulate cache population
