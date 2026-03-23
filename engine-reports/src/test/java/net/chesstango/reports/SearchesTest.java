@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@Disabled
 public class SearchesTest {
     private static final boolean PRINT_REPORT = true;
     private Search search;
@@ -25,6 +26,14 @@ public class SearchesTest {
     public void setup() {
         searchResult = null;
 
+        search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.createInstance())
+                .withDebugSearchTree(false, true, true)
+                .withStatistics()
+                .build();
+
+        /*
         search = new AlphaBetaBuilder()
                 .withGameEvaluator(Evaluator.createInstance())
                 .withGameEvaluatorCache()
@@ -51,31 +60,36 @@ public class SearchesTest {
                 //.withStopProcessingCatch()
 
                 .build();
+
+         */
     }
 
     @AfterEach
     public void printReport(TestInfo testInfo) {
         if (PRINT_REPORT) {
-
-
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
+                    .withBoardStatistics()
                     .withNodesVisitedStatistics()
-                    //.withCutoffStatistics()
-                    //.withEvaluationStatistics()
+                    .withNodesTypesStatistics()
+                    .withCutoffStatistics()
+                    .withEvaluationStatistics()
                     .withTranspositionStatistics()
+                    .withPrincipalVariationStatistics()
                     .printReport(System.out);
-
 
 
             new DetailsReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
+                    .withBoardReport()
                     .withNodesVisitedStatistics()
-                    //.withCutoffStatistics()
-                    //.withPrincipalVariationReport()
-                    //.withEvaluationReport()
-                    //.withTranspositionReport()
+                    .withNodesTypesStatistics()
+                    .withCutoffStatistics()
+                    .withEvaluationReport()
+                    .withTranspositionReport()
+                    .withIterationEvaluationReport()
+                    .withPrincipalVariationReport()
                     .printReport(System.out);
         }
     }
@@ -85,7 +99,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = Game.from(FEN.START_POSITION);
 
-        search.accept(new SetMaxDepthVisitor(5));
+        search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
     }
 

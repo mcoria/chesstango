@@ -175,7 +175,6 @@ public class TranspositionTableBuilder {
                 default -> throw new RuntimeException("filter not found: " + currentFilter.getClass().getSimpleName());
             }
         }
-
         return chain.getFirst();
     }
 }

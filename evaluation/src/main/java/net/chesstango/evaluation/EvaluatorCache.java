@@ -1,6 +1,7 @@
 package net.chesstango.evaluation;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 
 /**
@@ -31,15 +32,15 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
     private final GameEvaluatorCacheEntry[] cache;
 
     @Getter
-    private final Evaluator imp;
+    @Setter
+    private Evaluator imp;
 
     @Getter
     private long cacheHitsCounter = 0;
 
     private Game game;
 
-    public EvaluatorCache(Evaluator imp) {
-        this.imp = imp;
+    public EvaluatorCache() {
         this.cache = new GameEvaluatorCacheEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i] = new GameEvaluatorCacheEntry();

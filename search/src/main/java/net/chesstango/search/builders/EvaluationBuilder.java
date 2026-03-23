@@ -7,6 +7,9 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Mauricio Corias
  */
@@ -66,7 +69,7 @@ public class EvaluationBuilder {
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new EvaluatorCache(evaluatorImp);
+            gameEvaluatorCache = new EvaluatorCache();
             evaluatorCacheListener = new EvaluatorCacheListener();
             evaluatorCacheListener.setGameEvaluatorCache(gameEvaluatorCache);
         }
@@ -88,17 +91,39 @@ public class EvaluationBuilder {
     }
 
     private Evaluator createChain() {
-        Evaluator chain = evaluatorImp;
-        if (gameEvaluatorCache != null) {
-            chain = gameEvaluatorCache;
-        }
+        List<Evaluator> chain = new LinkedList<>();
 
         if (gameEvaluatorStatisticsCollector != null) {
-            gameEvaluatorStatisticsCollector.setImp(chain);
-            chain = gameEvaluatorStatisticsCollector;
+            chain.add(gameEvaluatorStatisticsCollector);
         }
 
-        return chain;
+        if (gameEvaluatorCache != null) {
+            chain.add(gameEvaluatorCache);
+        }
+
+        chain.add(evaluatorImp);
+
+        return linkChain(chain);
+    }
+
+    private Evaluator linkChain(List<Evaluator> chain) {
+        for (int i = 0; i < chain.size() - 1; i++) {
+            Evaluator currentFilter = chain.get(i);
+            Evaluator next = chain.get(i + 1);
+
+            switch (currentFilter) {
+                case EvaluatorCache evaluatorCache -> evaluatorCache.setImp(next);
+
+                case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
+                        evaluatorStatisticsCollector.setImp(next);
+
+                case null -> throw new RuntimeException(String.format("evaluator %d is null", i));
+
+                default ->
+                        throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());
+            }
+        }
+        return chain.getFirst();
     }
 
 }

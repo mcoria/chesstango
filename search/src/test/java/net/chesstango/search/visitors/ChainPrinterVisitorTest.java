@@ -108,6 +108,19 @@ public class ChainPrinterVisitorTest {
         assertSearchTree(search, "alphaBetaBuilderChainDebug.txt");
     }
 
+    @Test
+    public void alphaBetaBuilderChainStatisticsAndDebug() throws IOException {
+        AlphaBetaBuilder builder = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withDebugSearchTree(false, true, true)
+                .withStatistics();
+
+        Search search = builder.build();
+
+        assertSearchTree(search, "alphaBetaBuilderChainStatisticsAndDebug.txt");
+    }
+
     private void assertSearchTree(Search search, String resourceName) throws IOException {
         List<String> expectedPrintChain = readResource(resourceName);
 

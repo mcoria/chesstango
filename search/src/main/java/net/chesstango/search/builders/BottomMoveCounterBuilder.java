@@ -207,7 +207,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new EvaluatorCache(evaluator);
+            gameEvaluatorCache = new EvaluatorCache();
 
             evaluator = gameEvaluatorCache;
         }
