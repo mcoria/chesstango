@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
-import net.chesstango.reports.search.evaluation.EvaluationModel;
+import net.chesstango.reports.search.evaluation.node.EvaluationModel;
 
 import java.io.PrintStream;
 import java.util.List;

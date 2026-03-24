@@ -1,7 +1,7 @@
 module net.chesstango.reports {
     exports net.chesstango.reports;
     exports net.chesstango.reports.engine;
-    exports net.chesstango.reports.search.evaluation;
+    exports net.chesstango.reports.search.evaluation.node;
     exports net.chesstango.reports.search.nodes.visited;
     exports net.chesstango.reports.search.nodes.types;
     exports net.chesstango.reports.search.pv;
@@ -9,6 +9,7 @@ module net.chesstango.reports {
     exports net.chesstango.reports.search;
     exports net.chesstango.reports.search.board;
     exports net.chesstango.reports.search.iteration;
+
 
     requires net.chesstango.search;
     requires net.chesstango.board;

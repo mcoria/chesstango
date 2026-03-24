@@ -2,7 +2,7 @@ package net.chesstango.reports.search;
 
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
-import net.chesstango.reports.search.evaluation.EvaluationModel;
+import net.chesstango.reports.search.evaluation.node.EvaluationModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
 import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;

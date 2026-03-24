@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.evaluation;
+package net.chesstango.reports.search.evaluation.node;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -6,8 +6,6 @@ import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
 
 import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
