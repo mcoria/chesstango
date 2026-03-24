@@ -29,13 +29,13 @@ class EvaluationCachePrinter implements Printer {
 
     EvaluationCachePrinter printSummary() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("EvaluationCacheReport : %s\n", reportModel.searchGroupName);
-        out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
-        out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitsCounterTotal);
-        out.printf("Read Cache            : %8d\n", reportModel.readFromCacheCounterTotal);
-        out.printf("Read Cache Hits       : %8d\n", reportModel.readFromCacheHitsCounterTotal);
-        out.printf("Fill %% Avg           : %8d%%\n", reportModel.fillPercentageAvg);
-        out.print("\n");
+        out.printf("EvaluationCacheReport : %s%n", reportModel.searchGroupName);
+        out.printf("Evaluations           : %8d%n", reportModel.evaluationCounterTotal);
+        out.printf("Cache Hits            : %8d (%2d%%)%n%n", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal);
+        out.printf("Read Cache            : %8d%n", reportModel.readFromCacheCounterTotal);
+        out.printf("Read Cache Hits       : %8d (%2d%%)%n%n", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal);
+        out.printf("Fill %% Avg           : %8d%%%n", reportModel.fillPercentageAvg);
+        out.printf("%n");
         return this;
     }
 
@@ -50,18 +50,18 @@ class EvaluationCachePrinter implements Printer {
 
             printerTxtTable.addRow(moveDetail.move,
                     Long.toString(moveDetail.evaluationCounter),
-                    Long.toString(moveDetail.evaluationsCacheHitsCounter),
+                    String.format("%d (%2d%%)", moveDetail.evaluationsCacheHitsCounter, moveDetail.evaluationsCacheHitsPercentage),
                     Long.toString(moveDetail.readFromCacheCounter),
-                    Long.toString(moveDetail.readFromCacheHitsCounter),
+                    String.format("%d (%2d%%)", moveDetail.readFromCacheHitsCounter, moveDetail.readFromCacheHitsPercentage),
                     String.format("%2d%%", moveDetail.fillPercentage)
-                    );
+            );
         });
 
         printerTxtTable.setBottomRow("SUM",
                 Long.toString(reportModel.evaluationCounterTotal),
-                Long.toString(reportModel.evaluationsCacheHitsCounterTotal),
+                String.format("%d (%2d%%)", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal),
                 Long.toString(reportModel.readFromCacheCounterTotal),
-                Long.toString(reportModel.readFromCacheHitsCounterTotal),
+                String.format("%d (%2d%%)", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal),
                 String.format("%2d%%", reportModel.fillPercentageAvg)
         );
 

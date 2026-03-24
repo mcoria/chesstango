@@ -139,7 +139,7 @@ public class TangoGame01IntegrationTest {
 
             session.setMoves(List.of());
             session.goTime(5000);
-            //session.goDepth(5);
+            //session.goDepth(2);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 //if (i == 36) {
@@ -147,7 +147,7 @@ public class TangoGame01IntegrationTest {
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
                 session.goTime(5000);
-                //session.goDepth(5);
+                //session.goDepth(2);
                 //}
             }
 

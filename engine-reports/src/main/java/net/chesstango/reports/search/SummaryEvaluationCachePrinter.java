@@ -36,9 +36,9 @@ public class SummaryEvaluationCachePrinter implements Printer {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
                     Long.toString(row.evaluationCounterTotal),
-                    Long.toString(row.evaluationsCacheHitsCounterTotal),
+                    String.format("%d (%2d%%)", row.evaluationsCacheHitsCounterTotal, row.evaluationsCacheHitsPercentageTotal),
                     Long.toString(row.readFromCacheCounterTotal),
-                    Long.toString(row.readFromCacheHitsCounterTotal),
+                    String.format("%d (%2d%%)", row.readFromCacheHitsCounterTotal, row.readFromCacheHitsPercentageTotal),
                     String.format("%2d%%", row.fillPercentageAvg));
         });
         printerTxtTable.print();

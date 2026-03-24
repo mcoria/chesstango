@@ -21,12 +21,14 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
      */
     public long evaluationCounterTotal;
     public long evaluationsCacheHitsCounterTotal;
+    public long evaluationsCacheHitsPercentageTotal;
     public long readFromCacheCounterTotal;
     public long readFromCacheHitsCounterTotal;
+    public long readFromCacheHitsPercentageTotal;
 
     public int fillPercentageAvg;
 
-    ///////////////////// END TOTALS
+    /// ////////////////// END TOTALS
 
     public List<EvaluationCacheModelDetail> moveDetails;
 
@@ -40,8 +42,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         public long evaluationCounter;
         public long evaluationsCacheHitsCounter;
+        public long evaluationsCacheHitsPercentage;
         public long readFromCacheCounter;
         public long readFromCacheHitsCounter;
+        public long readFromCacheHitsPercentage;
 
         public int fillPercentage;
     }
@@ -63,8 +67,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         this.evaluationCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationCounter).sum();
         this.evaluationsCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationsCacheHitsCounter).sum();
+        this.evaluationsCacheHitsPercentageTotal = this.evaluationsCacheHitsCounterTotal * 100 / this.evaluationCounterTotal;
         this.readFromCacheCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readFromCacheCounter).sum();
         this.readFromCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readFromCacheHitsCounter).sum();
+        this.readFromCacheHitsPercentageTotal = this.readFromCacheHitsCounterTotal * 100 / this.readFromCacheCounterTotal;
         this.fillPercentageAvg = (int) this.moveDetails.stream().mapToInt(detail -> detail.fillPercentage).average().orElse(0);
     }
 
@@ -88,8 +94,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
     private void collectEvaluationStatistics(EvaluationCacheModelDetail reportModelDetail, EvaluationStatistics evaluationStatistics) {
         reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
         reportModelDetail.evaluationsCacheHitsCounter = evaluationStatistics.evaluationsCacheHitsCounter();
+        reportModelDetail.evaluationsCacheHitsPercentage = reportModelDetail.evaluationCounter > 0 ? reportModelDetail.evaluationsCacheHitsCounter * 100 / reportModelDetail.evaluationCounter : 0;
         reportModelDetail.readFromCacheCounter = evaluationStatistics.readFromCacheCounter();
         reportModelDetail.readFromCacheHitsCounter = evaluationStatistics.readFromCacheHitsCounter();
+        reportModelDetail.readFromCacheHitsPercentage = reportModelDetail.readFromCacheCounter > 0 ? reportModelDetail.readFromCacheHitsCounter * 100 / reportModelDetail.readFromCacheCounter : 0;
         reportModelDetail.fillPercentage = evaluationStatistics.fillPercentage();
     }
 
