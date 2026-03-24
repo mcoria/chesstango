@@ -68,6 +68,7 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationStatistics()
+                .withEvaluationCacheStatistics()
                 .withTranspositionStatistics()
                 .withPrincipalVariationStatistics()
                 .printReport(System.out);
@@ -76,10 +77,11 @@ public class TangoGame01IntegrationTest {
                 .setReportTitle("TangoGame01")
                 .withMoveResults(searchResults)
                 .withBoardReport()
-                .withNodesVisitedStatistics()
+                .withNodesDepthStatistics()
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationReport()
+                .withEvaluationCacheReport()
                 .withTranspositionReport()
                 .withIterationEvaluationReport()
                 .withPrincipalVariationReport()
@@ -136,16 +138,16 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            //session.goTime(5000);
-            session.goDepth(2);
+            session.goTime(5000);
+            //session.goDepth(2);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 //if (i == 36) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                //session.goTime(5000);
-                session.goDepth(2);
+                session.goTime(5000);
+                //session.goDepth(2);
                 //}
             }
 

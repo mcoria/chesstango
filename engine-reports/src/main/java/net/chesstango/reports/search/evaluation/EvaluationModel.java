@@ -22,7 +22,6 @@ public class EvaluationModel implements Model<List<SearchResult>> {
      * Evaluation Statistics
      */
     public long evaluationCounterTotal;
-    public long evaluationsCacheHitCounterTotal;
     public long evaluationPositionCounterTotal;
     public long evaluationValueCounterTotal;
     public long evaluationPositionValueCollisionsCounterTotal;
@@ -30,9 +29,9 @@ public class EvaluationModel implements Model<List<SearchResult>> {
 
     ///////////////////// END TOTALS
 
-    public List<EvaluationReportModelDetail> moveDetails;
+    public List<EvaluationModelDetail> moveDetails;
 
-    public static class EvaluationReportModelDetail {
+    public static class EvaluationModelDetail {
         public String id;
 
         public String move;
@@ -48,11 +47,6 @@ public class EvaluationModel implements Model<List<SearchResult>> {
          * Contador de evaluaciones se hicieron
          */
         public long evaluationCounter;
-
-        /**
-         * Contador de evaluaciones que fueron encontradas en cache
-         */
-        public long evaluationsCacheHitCounter;
 
         /**
          * Contador de evaluacion de posiciones (distintas) se hicieron
@@ -97,7 +91,7 @@ public class EvaluationModel implements Model<List<SearchResult>> {
         Move bestMove = searchResult.getBestMove();
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-        EvaluationReportModelDetail reportModelDetail = new EvaluationReportModelDetail();
+        EvaluationModelDetail reportModelDetail = new EvaluationModelDetail();
         reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = bestMove != null ? simpleMoveEncoder.encode(bestMove) : "";
         reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
@@ -107,7 +101,6 @@ public class EvaluationModel implements Model<List<SearchResult>> {
         }
 
         this.evaluationCounterTotal += reportModelDetail.evaluationCounter;
-        this.evaluationsCacheHitCounterTotal += reportModelDetail.evaluationsCacheHitCounter;
         this.evaluationPositionCounterTotal += reportModelDetail.evaluationPositionCounter;
         this.evaluationValueCounterTotal += reportModelDetail.evaluationValueCounter;
         this.evaluationPositionValueCollisionsCounterTotal += reportModelDetail.evaluationPositionValueCollisionsCounter;
@@ -118,11 +111,10 @@ public class EvaluationModel implements Model<List<SearchResult>> {
     }
 
 
-    private void collectEvaluationStatistics(EvaluationReportModelDetail reportModelDetail, SearchResult searchResult) {
+    private void collectEvaluationStatistics(EvaluationModelDetail reportModelDetail, SearchResult searchResult) {
         EvaluationStatistics evaluationStatistics = searchResult.getEvaluationStatistics();
 
         reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
-        reportModelDetail.evaluationsCacheHitCounter = evaluationStatistics.evaluationsCacheHitsCounter();
 
         Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
         if (evaluations != null) {

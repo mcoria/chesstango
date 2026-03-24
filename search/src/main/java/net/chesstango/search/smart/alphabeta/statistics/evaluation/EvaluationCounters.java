@@ -42,7 +42,8 @@ public class EvaluationCounters implements SearchByCycleListener {
         long evaluationsCacheHitsCounter = evaluatorCache != null ? evaluatorCache.getEvaluationsCacheHitsCounter() : 0;
         long readFromCacheCounter = evaluatorCache != null ? evaluatorCache.getReadFromCacheCounter() : 0;
         long readFromCacheHitsCounter = evaluatorCache != null ? evaluatorCache.getReadFromCacheHitsCounter() : 0;
-        return new EvaluationStatistics(evaluationsCounter, evaluationsCacheHitsCounter, readFromCacheCounter, readFromCacheHitsCounter, evaluations);
+        int fillPercentage = evaluatorCache != null ? evaluatorCache.getFillPercentage() : 0;
+        return new EvaluationStatistics(evaluationsCounter, evaluationsCacheHitsCounter, readFromCacheCounter, readFromCacheHitsCounter, fillPercentage, evaluations);
     }
 
 }

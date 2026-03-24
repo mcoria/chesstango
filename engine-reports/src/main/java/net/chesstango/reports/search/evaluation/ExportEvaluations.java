@@ -21,7 +21,7 @@ public class ExportEvaluations {
     public void exportEvaluations() {
         int fileCounter = 0;
         // Cuerpo
-        for (EvaluationModel.EvaluationReportModelDetail moveDetail : evaluationModel.moveDetails) {
+        for (EvaluationModel.EvaluationModelDetail moveDetail : evaluationModel.moveDetails) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
                 writer.append(String.format("%6s ; Points = %d ", moveDetail.move, moveDetail.evaluation));

@@ -3,8 +3,9 @@ package net.chesstango.reports.search;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
+import net.chesstango.reports.search.evaluation.cache.EvaluationCacheModel;
+import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
-import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -31,6 +32,7 @@ public class SummaryReport implements Report {
     private boolean printTranspositionStatistics;
     private boolean printEvaluationStatistics;
     private boolean principalVariationStatistics;
+    private boolean principalEvaluationCacheReport;
 
     private PrintStream out;
 
@@ -61,11 +63,11 @@ public class SummaryReport implements Report {
         }
 
         if (printNodesVisitedStatistics) {
-            List<NodesVisitedModel> reportRows = summaryModels
+            List<NodesDepthModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
                     .toList();
-            new SummaryNodesVisitedPrinter()
+            new SummaryNodesDepthPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -83,7 +85,7 @@ public class SummaryReport implements Report {
         }
 
         if (printCutoffStatistics) {
-            List<NodesVisitedModel> reportRows = summaryModels
+            List<NodesDepthModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
                     .toList();
@@ -101,6 +103,18 @@ public class SummaryReport implements Report {
                     .toList();
 
             new SummaryEvaluationPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
+        }
+
+        if (principalEvaluationCacheReport) {
+            List<EvaluationCacheModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getEvaluationCacheModel)
+                    .toList();
+
+            new SummaryEvaluationCachePrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -158,6 +172,11 @@ public class SummaryReport implements Report {
 
     public SummaryReport withEvaluationStatistics() {
         this.printEvaluationStatistics = true;
+        return this;
+    }
+
+    public SummaryReport withEvaluationCacheStatistics() {
+        this.principalEvaluationCacheReport = true;
         return this;
     }
 
