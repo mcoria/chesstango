@@ -139,7 +139,6 @@ AlphaBetaFlowControl @ 16
 
 SearchByCycleListeners:
 	EvaluationCounters @ 59
-	EvaluatorStatisticsCollector @ 19
 	EvaluatorCacheListener @ 60
 	TTListener @ 61
 	TTableCounters @ 62
@@ -176,18 +175,17 @@ ResetListener:
 
 Acceptor:
 	SetGameToEvaluator @ 70
-	SetGameToEvaluatorCache @ 71
 	EvaluationCounters @ 59
 	EvaluatorStatisticsCollector @ 19
 	EvaluatorCacheListener @ 60
 	TTListener @ 61
 	TTableCounters @ 62
 	TTableStatisticsNodeCollector @ 7
-	TTableStatisticsNodeCollector @ 72
+	TTableStatisticsNodeCollector @ 71
 	TTableStatisticsComparatorCollector @ 36
-	TTableStatisticsComparatorCollector @ 73
+	TTableStatisticsComparatorCollector @ 72
 	TTableStatisticsListener @ 63
-	SetGameToEndGameTableBase @ 74
+	SetGameToEndGameTableBase @ 73
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 16

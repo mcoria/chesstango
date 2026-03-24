@@ -115,8 +115,7 @@ public class EvaluationBuilder {
                     .setEvaluatorCache(gameEvaluatorCache);
 
             evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setEvaluationsCounters(evaluationCounters)
-                    .setTrackEvaluations(withTrackEvaluations);
+                    .setEvaluationsCounters(evaluationCounters);
 
         }
     }

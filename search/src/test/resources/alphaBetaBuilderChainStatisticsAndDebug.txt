@@ -159,7 +159,6 @@ AlphaBetaFlowControl @ 20
 
 SearchByCycleListeners:
 	EvaluationCounters @ 73
-	EvaluatorStatisticsCollector @ 24
 	EvaluatorCacheListener @ 74
 	TTListener @ 75
 	TTableCounters @ 76
@@ -202,23 +201,22 @@ ResetListener:
 
 Acceptor:
 	SetGameToEvaluator @ 86
-	SetGameToEvaluatorCache @ 87
 	EvaluationCounters @ 73
 	EvaluatorStatisticsCollector @ 24
 	EvaluatorCacheListener @ 74
 	EvaluatorCacheDebug @ 54
 	TTListener @ 75
 	TTableDebug @ 8
-	TTableDebug @ 88
+	TTableDebug @ 87
 	TTableDebug @ 46
-	TTableDebug @ 89
+	TTableDebug @ 88
 	TTableCounters @ 76
 	TTableStatisticsNodeCollector @ 9
-	TTableStatisticsNodeCollector @ 90
+	TTableStatisticsNodeCollector @ 89
 	TTableStatisticsComparatorCollector @ 47
-	TTableStatisticsComparatorCollector @ 91
+	TTableStatisticsComparatorCollector @ 90
 	TTableStatisticsListener @ 77
-	SetGameToEndGameTableBase @ 92
+	SetGameToEndGameTableBase @ 91
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 78
 	AlphaBetaFlowControl @ 20
@@ -227,7 +225,7 @@ Acceptor:
 	GameCountersCollector @ 81
 	DepthCollector @ 82
 	SetKillerMoveTablesDebug @ 83
-	KillerMovesDebug @ 93
+	KillerMovesDebug @ 92
 	AlphaBetaEvaluation @ 23
 	AlphaBetaTerminalNodeStatistics @ 22
 	DebugFilter @ 21
@@ -257,7 +255,7 @@ Acceptor:
 	AlphaBetaQuiescenceNodeExpected @ 61
 	TranspositionTableQ @ 60
 	DebugFilter @ 58
-	EvaluatorDebug @ 94
+	EvaluatorDebug @ 93
 	Quiescence @ 62
 	NodeMoveSorter @ 64
 	TranspositionHeadMoveComparator @ 66
