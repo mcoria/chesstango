@@ -68,6 +68,7 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationStatistics()
+                .withEvaluationCacheStatistics()
                 .withTranspositionStatistics()
                 .withPrincipalVariationStatistics()
                 .printReport(System.out);

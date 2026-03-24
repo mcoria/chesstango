@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.chesstango.reports.Model;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
+import net.chesstango.reports.search.evaluation.cache.EvaluationCacheModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
 import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
@@ -33,6 +34,9 @@ public class SummaryModel implements Model<List<SearchResult>> {
     private EvaluationModel evaluationModel;
 
     @Getter
+    private EvaluationCacheModel evaluationCacheModel;
+
+    @Getter
     private BoardModel boardModel;
 
     @Getter
@@ -57,6 +61,8 @@ public class SummaryModel implements Model<List<SearchResult>> {
         transpositionModel = new TranspositionModel().collectStatistics(searchGroupName, searchResults);
 
         evaluationModel = new EvaluationModel().collectStatistics(searchGroupName, searchResults);
+
+        evaluationCacheModel = new EvaluationCacheModel().collectStatistics(searchGroupName, searchResults);
 
         boardModel = new BoardModel().collectStatistics(searchGroupName, searchResults);
 
