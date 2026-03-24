@@ -29,14 +29,13 @@ public class SummaryEvaluationPrinter implements Printer {
     public SummaryEvaluationPrinter print() {
         out.println("\n Evaluation Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Cache Hits", "Positions", "Values", "Collisions");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Positions", "Values", "Collisions");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
                     Long.toString(row.evaluationCounterTotal),
-                    Long.toString(row.evaluationsCacheHitCounterTotal),
                     Long.toString(row.evaluationPositionCounterTotal),
                     Long.toString(row.evaluationValueCounterTotal),
                     String.format("%d (%2d%%)", row.evaluationPositionValueCollisionsCounterTotal, row.evaluationCollisionPercentageTotal));

@@ -83,7 +83,7 @@ public class SearchesTest {
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .withBoardReport()
-                    .withNodesVisitedStatistics()
+                    .withNodesDepthStatistics()
                     .withNodesTypesStatistics()
                     .withCutoffStatistics()
                     .withEvaluationReport()

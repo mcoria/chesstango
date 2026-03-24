@@ -31,7 +31,6 @@ class EvaluationPrinter implements Printer {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("EvaluationReport      : %s\n", reportModel.searchGroupName);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
-        out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
         out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
         out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
@@ -43,14 +42,13 @@ class EvaluationPrinter implements Printer {
     EvaluationPrinter printDetails() {
         out.printf("Evaluation Statistics%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Evaluations", "Cache Hits", "Positions", "Values", "Collisions");
+        printerTxtTable.setTitles("Move", "Evaluations", "Positions", "Values", "Collisions");
         reportModel.moveDetails.forEach(moveDetail -> {
 
             printerTxtTable.addRow(moveDetail.move,
                     Long.toString(moveDetail.evaluationCounter),
-                    Long.toString(moveDetail.evaluationsCacheHitCounter),
                     Long.toString(moveDetail.evaluationPositionCounter),
                     Long.toString(moveDetail.evaluationValueCounter),
                     String.format("%d (%2d%%)", moveDetail.evaluationPositionValueCollisionsCounter, moveDetail.evaluationPositionValueCollisionsPercentage));
@@ -58,7 +56,6 @@ class EvaluationPrinter implements Printer {
 
         printerTxtTable.setBottomRow("SUM",
                 Long.toString(reportModel.evaluationCounterTotal),
-                Long.toString(reportModel.evaluationsCacheHitCounterTotal),
                 Long.toString(reportModel.evaluationPositionCounterTotal),
                 Long.toString(reportModel.evaluationValueCounterTotal),
                 String.format("%d (%2d%%)", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal));
