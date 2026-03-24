@@ -7,6 +7,8 @@ import java.util.Set;
  * @author Mauricio Coria
  */
 public record EvaluationStatistics(long evaluationsCounter,
-                                   long cacheHitsCounter,
+                                   long evaluationsCacheHitsCounter,
+                                   long readFromCacheCounter,
+                                   long readFromCacheHitsCounter,
                                    Set<EvaluationEntry> evaluations) implements Serializable {
 }

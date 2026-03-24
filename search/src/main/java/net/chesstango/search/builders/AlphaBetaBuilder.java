@@ -2,7 +2,6 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
@@ -20,15 +19,13 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCountersVisitor;
+import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
@@ -51,13 +48,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
-    private final SetGameToEvaluator setGameToEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
-
-    private Evaluator evaluator;
-    private EvaluatorCache gameEvaluatorCache;
 
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
@@ -96,7 +89,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         evaluationBuilder = new EvaluationBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
-        setGameToEvaluator = new SetGameToEvaluator();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
 
@@ -125,6 +117,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withGameEvaluatorCache() {
+        alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
+        quiescenceChainBuilder.withGameEvaluatorCache();
         evaluationBuilder.withGameEvaluatorCache();
         return this;
     }
@@ -246,6 +240,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         quiescenceChainBuilder.withDebugSearchTree();
         checkResolverChainBuilder.withDebugSearchTree();
 
+        evaluationBuilder.withDebugSearchTree();
+
         this.withDebugSearchTree = true;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
@@ -279,24 +275,22 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private void link() {
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
-        searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
         }
 
         if (withStatistics) {
-            searchListenerMediator.accept(new SetNodeCountersVisitor(nodeCounters));
+            searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
         }
+
+        evaluationBuilder.link();
     }
 
     private void buildObjects() {
-        evaluator = evaluationBuilder
+        evaluationBuilder
                 .withSmartListenerMediator(searchListenerMediator)
                 .build();
-
-        gameEvaluatorCache = evaluationBuilder
-                .getGameEvaluatorCache(); // CAMBIAR ESTE DISENO
 
 
         if (withIterativeDeepening) {
@@ -345,8 +339,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.add(setGameToEvaluator);
-
         searchListenerMediator.add(setGameToEndGameTableBase);
 
         searchListenerMediator.add(alphaBetaFacade);
@@ -408,7 +400,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         alphaBetaInteriorChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaInteriorChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
         loopChainBuilder.withSmartListenerMediator(searchListenerMediator);
@@ -419,7 +410,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         quiescenceChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         AlphaBetaFilter quiescenceChain = withQuiescence ? quiescenceChainBuilder.build() : null;
 
         alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);

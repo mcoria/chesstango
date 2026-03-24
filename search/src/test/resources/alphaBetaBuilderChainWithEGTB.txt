@@ -148,9 +148,9 @@ ResetListener:
 	TTListener @ 48
 
 Acceptor:
+	SetGameToEvaluator @ 52
 	EvaluatorCacheListener @ 47
 	TTListener @ 48
-	SetGameToEvaluator @ 52
 	SetGameToEndGameTableBase @ 53
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 49

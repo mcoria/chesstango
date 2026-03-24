@@ -132,62 +132,63 @@ AlphaBetaFlowControl @ 18
 			|
 			MvvLvaComparator @ 58
 			|
-			GameEvaluatorCacheComparator @ 59 [EvaluatorCacheRead: EvaluatorCacheDebug @ 60 -> EvaluatorCache @ 21]
+			GameEvaluatorCacheComparator @ 59 [EvaluatorCacheRead: EvaluatorCacheDebug @ 44 -> EvaluatorCache @ 21]
 			|
-			DefaultMoveComparator @ 61
+			DefaultMoveComparator @ 60
 	|
 	AlphaBetaFlowControl @ 18 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 62
-	TTListener @ 63
+	EvaluatorCacheListener @ 61
+	TTListener @ 62
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 64
+	SetSearchTimers @ 63
 	AlphaBetaFlowControl @ 18
-	SetSearchTracker @ 65
-	SetKillerMoveTablesDebug @ 66
+	SetSearchTracker @ 64
+	SetKillerMoveTablesDebug @ 65
 	PrincipalVariationComparator @ 35
 	PrincipalVariationComparator @ 53
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	RootMoveSorter @ 11
-	SetDebugOutput @ 67
+	SetDebugOutput @ 66
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 64
-	SetSearchTracker @ 65
-	RootMoveEvaluationCollection @ 68
-	SetDebugOutput @ 67
+	SetSearchTimers @ 63
+	SetSearchTracker @ 64
+	RootMoveEvaluationCollection @ 67
+	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 65
-	RootMoveEvaluationCollection @ 68
-	SetDebugOutput @ 67
+	SetSearchTracker @ 64
+	RootMoveEvaluationCollection @ 67
+	SetDebugOutput @ 66
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 18
 
 ResetListener:
-	EvaluatorCacheListener @ 62
-	TTListener @ 63
+	EvaluatorCacheListener @ 61
+	TTListener @ 62
 
 Acceptor:
-	EvaluatorCacheListener @ 62
-	TTListener @ 63
+	SetGameToEvaluator @ 68
+	EvaluatorCacheListener @ 61
+	EvaluatorCacheDebug @ 44
+	TTListener @ 62
 	TTableDebug @ 7
 	TTableDebug @ 69
 	TTableDebug @ 37
 	TTableDebug @ 70
-	SetGameToEvaluator @ 71
-	SetGameToEndGameTableBase @ 72
+	SetGameToEndGameTableBase @ 71
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 64
+	SetSearchTimers @ 63
 	AlphaBetaFlowControl @ 18
-	SetSearchTracker @ 65
-	SetKillerMoveTablesDebug @ 66
-	KillerMovesDebug @ 73
+	SetSearchTracker @ 64
+	SetKillerMoveTablesDebug @ 65
+	KillerMovesDebug @ 72
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 19
 	AlphaBetaEvaluation @ 29
@@ -203,14 +204,13 @@ Acceptor:
 	RecaptureMoveComparator @ 41
 	GameEvaluatorCacheComparator @ 43
 	MoveSorterDebug @ 33
-	EvaluatorCacheDebug @ 44
 	KillerMoveComparator @ 46
 	DebugFilter @ 26
 	DebugFilter @ 23
 	EgtbEvaluation @ 24
 	TranspositionTableQ @ 49
 	DebugFilter @ 48
-	EvaluatorDebug @ 74
+	EvaluatorDebug @ 73
 	Quiescence @ 50
 	NodeMoveSorter @ 52
 	TranspositionHeadMoveComparator @ 54
@@ -219,9 +219,8 @@ Acceptor:
 	RecaptureMoveComparator @ 57
 	GameEvaluatorCacheComparator @ 59
 	MoveSorterDebug @ 51
-	EvaluatorCacheDebug @ 60
 	RootMoveEvaluationTracker @ 14
-	RootMoveEvaluationCollection @ 68
+	RootMoveEvaluationCollection @ 67
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
@@ -233,5 +232,5 @@ Acceptor:
 	MoveSorterDebug @ 10
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 67
+	SetDebugOutput @ 66
 

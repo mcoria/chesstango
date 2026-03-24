@@ -20,7 +20,7 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
+import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
@@ -38,6 +38,7 @@ import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -227,6 +228,9 @@ public interface Visitor {
     default void visit(EvaluatorCacheListener evaluatorCacheListener) {
     }
 
+    default void visit(EvaluationCounters evaluationCounters) {
+    }
+
 
     default void visit(SetKillerMoveTables setKillerMoveTables) {
     }
@@ -243,7 +247,7 @@ public interface Visitor {
     default void visit(SetSearchTimers setSearchTimers) {
     }
 
-    default void visit(SetEvaluatorVisitor setEvaluatorVisitor) {
+    default void visit(LinkEvaluatorVisitor setEvaluatorVisitor) {
     }
 
     default void visit(SetGameToEndGameTableBase setGameToEndGameTableBase) {

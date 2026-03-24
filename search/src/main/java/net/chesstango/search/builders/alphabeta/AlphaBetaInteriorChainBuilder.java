@@ -91,8 +91,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache(EvaluatorCache gameEvaluatorCache) {
-        moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCache);
+    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache() {
+        moveSorterBuilder.withGameEvaluatorCache();
         return this;
     }
 

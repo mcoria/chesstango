@@ -207,16 +207,14 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new EvaluatorCache(evaluator);
+            gameEvaluatorCache = new EvaluatorCache();
 
             evaluator = gameEvaluatorCache;
         }
 
         if (withStatistics) {
             gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setImp(evaluator)
-                    .setGameEvaluatorCache(gameEvaluatorCache)
-                    .setTrackEvaluations(withTrackEvaluations);
+                    .setImp(evaluator);
 
             evaluator = gameEvaluatorStatisticsCollector;
         }
@@ -302,7 +300,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         alphaBetaInteriorChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaInteriorChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
+        alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
         loopChainBuilder.withSmartListenerMediator(searchListenerMediator);

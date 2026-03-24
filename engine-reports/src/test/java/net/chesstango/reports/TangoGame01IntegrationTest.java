@@ -66,24 +66,24 @@ public class TangoGame01IntegrationTest {
                 .withBoardStatistics()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                //.withCutoffStatistics()
-                //.withEvaluationStatistics()
+                .withCutoffStatistics()
+                .withEvaluationStatistics()
                 .withTranspositionStatistics()
-                //.withPrincipalVariationStatistics()
+                .withPrincipalVariationStatistics()
                 .printReport(System.out);
 
         detailsReport
                 .setReportTitle("TangoGame01")
+                .withMoveResults(searchResults)
                 .withBoardReport()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                //.withCutoffStatistics()
-                //.withEvaluationReport()
+                .withCutoffStatistics()
+                .withEvaluationReport()
                 .withTranspositionReport()
-                //.withIterationEvaluationReport()
-                //.withPrincipalVariationReport()
+                .withIterationEvaluationReport()
+                .withPrincipalVariationReport()
                 //.withEbf()
-                .withMoveResults(searchResults)
                 .printReport(System.out);
     }
 
@@ -136,16 +136,16 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            session.goTime(5000);
-            //session.goDepth(5);
+            //session.goTime(5000);
+            session.goDepth(2);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 //if (i == 36) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                session.goTime(5000);
-                //session.goDepth(5);
+                //session.goTime(5000);
+                session.goDepth(2);
                 //}
             }
 
