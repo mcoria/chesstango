@@ -42,8 +42,8 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
 
     @Override
     public int evaluate() {
-        evaluationsCounters.increaseEvaluationsCounter();
         int evaluation = imp.evaluate();
+        evaluationsCounters.increaseEvaluationsCounter();
         if (trackEvaluations) {
             long hash = game.getPosition().getZobristHash();
             evaluations.add(new EvaluationEntry(hash, evaluation));

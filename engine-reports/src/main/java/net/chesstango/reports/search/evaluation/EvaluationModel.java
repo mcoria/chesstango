@@ -122,7 +122,7 @@ public class EvaluationModel implements Model<List<SearchResult>> {
         EvaluationStatistics evaluationStatistics = searchResult.getEvaluationStatistics();
 
         reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
-        reportModelDetail.evaluationsCacheHitCounter = evaluationStatistics.cacheHitsCounter();
+        reportModelDetail.evaluationsCacheHitCounter = evaluationStatistics.evaluationsCacheHitsCounter();
 
         Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
         if (evaluations != null) {

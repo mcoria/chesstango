@@ -14,9 +14,6 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
@@ -32,6 +29,9 @@ import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationCo
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
@@ -561,7 +561,7 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(tTableStatisticsNodeCollector), printTTable(tTableStatisticsNodeCollector.getTTable()));
         } else if (ttable instanceof TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
             return String.format("%s -> %s", objectText(tTableStatisticsComparatorCollector), printTTable(tTableStatisticsComparatorCollector.getTTable()));
-        }else if (ttable instanceof TTableArrayPrimitives tTableArray) {
+        } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);
         }
 

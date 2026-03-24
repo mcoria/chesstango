@@ -58,7 +58,7 @@ class EvaluatorCacheTest {
 
         // Assert
         assertEquals(42, result);
-        assertEquals(0, evaluatorCache.getCacheHitsCounter());
+        assertEquals(0, evaluatorCache.getEvaluationsCacheHitsCounter());
         verify(mockEvaluator, times(1)).evaluate(); // Should not re-evaluate
         verify(mockGame, times(1)).getPosition();
         verify(mockPosition, times(1)).getZobristHash();
@@ -85,7 +85,7 @@ class EvaluatorCacheTest {
 
         // Assert
         assertEquals(42, result);
-        assertEquals(1, evaluatorCache.getCacheHitsCounter());
+        assertEquals(1, evaluatorCache.getEvaluationsCacheHitsCounter());
         verify(mockEvaluator, times(1)).evaluate(); // Should not re-evaluate
         verify(mockGame, times(2)).getPosition();
         verify(mockPosition, times(2)).getZobristHash();
@@ -117,7 +117,7 @@ class EvaluatorCacheTest {
 
         // Assert
         assertEquals(50, result); // New evaluation value
-        assertEquals(0, evaluatorCache.getCacheHitsCounter());
+        assertEquals(0, evaluatorCache.getEvaluationsCacheHitsCounter());
         verify(mockEvaluator, times(2)).evaluate();
         verify(mockGame, times(2)).getPosition();
         verify(mockPosition, times(2)).getZobristHash();

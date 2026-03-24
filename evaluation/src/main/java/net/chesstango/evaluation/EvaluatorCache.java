@@ -17,6 +17,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private int currentAge;
 
+
     private static class GameEvaluatorCacheEntry {
         long hash;
         int evaluation;
@@ -36,7 +37,13 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
     private Evaluator imp;
 
     @Getter
-    private long cacheHitsCounter = 0;
+    private long evaluationsCacheHitsCounter;
+
+    @Getter
+    private long readFromCacheCounter;
+
+    @Getter
+    private long readFromCacheHitsCounter;
 
     private Game game;
 
@@ -46,7 +53,9 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
             this.cache[i] = new GameEvaluatorCacheEntry();
         }
         this.currentAge = Integer.MIN_VALUE + STALE_AGE;
-        this.cacheHitsCounter = 0;
+        this.evaluationsCacheHitsCounter = 0;
+        this.readFromCacheCounter = 0;
+        this.readFromCacheHitsCounter = 0;
     }
 
     @Override
@@ -68,7 +77,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
             entry.evaluation = imp.evaluate();
             entry.age = currentAge;
         } else {
-            cacheHitsCounter++;
+            evaluationsCacheHitsCounter++;
         }
 
         return entry.evaluation;
@@ -80,7 +89,14 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
         GameEvaluatorCacheEntry entry = cache[idx];
 
-        return entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry.evaluation : null;
+        Integer result = entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry.evaluation : null;
+
+        readFromCacheCounter++;
+        if (result != null) {
+            readFromCacheHitsCounter++;
+        }
+
+        return result;
     }
 
     public void increaseAge() {
@@ -90,7 +106,9 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
             clear();
             this.currentAge++;
         }
-        this.cacheHitsCounter = 0;
+        this.evaluationsCacheHitsCounter = 0;
+        this.readFromCacheCounter = 0;
+        this.readFromCacheHitsCounter = 0;
     }
 
     public void clear() {
@@ -98,6 +116,5 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
             this.cache[i].age = Integer.MIN_VALUE;
         }
         this.currentAge = Integer.MIN_VALUE + STALE_AGE;
-        this.cacheHitsCounter = 0;
     }
 }

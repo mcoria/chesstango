@@ -28,7 +28,7 @@ public class EvaluationBuilder {
     private EvaluatorCacheListener evaluatorCacheListener;
 
     private EvaluationCounters evaluationCounters;
-    private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
+    private EvaluatorStatisticsCollector evaluatorStatisticsCollector;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -111,11 +111,13 @@ public class EvaluationBuilder {
         }
 
         if (withStatistics) {
-            evaluationCounters = new EvaluationCounters();
+            evaluationCounters = new EvaluationCounters()
+                    .setEvaluatorCache(gameEvaluatorCache);
 
-            gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
+            evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setEvaluationsCounters(evaluationCounters)
                     .setTrackEvaluations(withTrackEvaluations);
+
         }
     }
 
@@ -126,8 +128,8 @@ public class EvaluationBuilder {
         if (evaluationCounters != null) {
             searchListenerMediator.add(evaluationCounters);
         }
-        if (gameEvaluatorStatisticsCollector != null) {
-            searchListenerMediator.add(gameEvaluatorStatisticsCollector);
+        if (evaluatorStatisticsCollector != null) {
+            searchListenerMediator.add(evaluatorStatisticsCollector);
         }
         if (evaluatorCacheListener != null) {
             searchListenerMediator.add(evaluatorCacheListener);
@@ -140,8 +142,8 @@ public class EvaluationBuilder {
     private Evaluator createEvaluatorChain() {
         List<Evaluator> chain = new LinkedList<>();
 
-        if (gameEvaluatorStatisticsCollector != null) {
-            chain.add(gameEvaluatorStatisticsCollector);
+        if (evaluatorStatisticsCollector != null) {
+            chain.add(evaluatorStatisticsCollector);
         }
 
         if (gameEvaluatorCache != null) {
