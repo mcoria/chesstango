@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
-import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
+import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -15,8 +15,8 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryNodesVisitedPrinter implements Printer {
-    private List<NodesVisitedModel> reportRows;
+class SummaryNodesDepthPrinter implements Printer {
+    private List<NodesDepthModel> reportRows;
 
     @Setter
     @Accessors(chain = true)
@@ -24,11 +24,11 @@ class SummaryNodesVisitedPrinter implements Printer {
 
     private int maxSearchDepth;
 
-    public SummaryNodesVisitedPrinter setReportRows(List<NodesVisitedModel> reportRows) {
+    public SummaryNodesDepthPrinter setReportRows(List<NodesDepthModel> reportRows) {
         this.reportRows = reportRows;
         this.maxSearchDepth = 0;
 
-        for (NodesVisitedModel nodesModel : reportRows) {
+        for (NodesDepthModel nodesModel : reportRows) {
             if (maxSearchDepth < nodesModel.maxSelDepth) {
                 maxSearchDepth = nodesModel.maxSelDepth;
             }
@@ -38,8 +38,8 @@ class SummaryNodesVisitedPrinter implements Printer {
     }
 
     @Override
-    public SummaryNodesVisitedPrinter print() {
-        out.printf("%n Nodes visited per search level %n");
+    public SummaryNodesDepthPrinter print() {
+        out.printf("%n Nodes visited per depth%n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxSearchDepth + 1).setOut(out);
 

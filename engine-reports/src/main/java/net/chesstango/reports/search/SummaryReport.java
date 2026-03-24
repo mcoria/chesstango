@@ -4,7 +4,7 @@ import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
-import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
+import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -61,11 +61,11 @@ public class SummaryReport implements Report {
         }
 
         if (printNodesVisitedStatistics) {
-            List<NodesVisitedModel> reportRows = summaryModels
+            List<NodesDepthModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
                     .toList();
-            new SummaryNodesVisitedPrinter()
+            new SummaryNodesDepthPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -83,7 +83,7 @@ public class SummaryReport implements Report {
         }
 
         if (printCutoffStatistics) {
-            List<NodesVisitedModel> reportRows = summaryModels
+            List<NodesDepthModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
                     .toList();

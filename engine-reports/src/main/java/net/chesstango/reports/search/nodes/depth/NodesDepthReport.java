@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes.visited;
+package net.chesstango.reports.search.nodes.depth;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesVisitedReport implements Report {
+public class NodesDepthReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
     @Setter
     @Accessors(chain = true)
-    private NodesVisitedModel reportModel;
+    private NodesDepthModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -27,25 +27,25 @@ public class NodesVisitedReport implements Report {
 
 
     @Override
-    public NodesVisitedReport printReport(PrintStream output) {
+    public NodesDepthReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
     }
 
 
-    public NodesVisitedReport withCutoffStatistics() {
+    public NodesDepthReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public NodesVisitedReport withNodesVisitedStatistics() {
+    public NodesDepthReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public NodesVisitedReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = new NodesVisitedModel().collectStatistics(this.reportTitle, searchResults);
+    public NodesDepthReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = new NodesDepthModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class NodesVisitedReport implements Report {
                 .print();
 
         if (printNodesVisitedStatistics) {
-            new NodesVisitedPrinter()
+            new NodesDepthPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
                     .print();

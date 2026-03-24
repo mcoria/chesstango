@@ -9,7 +9,7 @@ import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.iteration.IterationEvaluationReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
-import net.chesstango.reports.search.nodes.visited.NodesVisitedReport;
+import net.chesstango.reports.search.nodes.depth.NodesDepthReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
 import net.chesstango.reports.search.transposition.TranspositionReport;
 import net.chesstango.search.SearchResult;
@@ -49,7 +49,7 @@ public class DetailsReport implements Report {
         }
 
         if (withCutoffStatistics || withNodesVisitedStatistics) {
-            NodesVisitedReport nodesReport = new NodesVisitedReport()
+            NodesDepthReport nodesReport = new NodesDepthReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList);
 
