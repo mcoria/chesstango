@@ -5,8 +5,11 @@ import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
+import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 
@@ -19,11 +22,14 @@ import java.util.List;
 public class EvaluationBuilder {
 
     private Evaluator evaluatorImp;
+    private SetGameToEvaluator setGameToEvaluator;
 
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorCacheDebug gameEvaluatorCacheDebug;
     private EvaluatorCacheListener evaluatorCacheListener;
+    private SetGameToEvaluatorCache setGameToEvaluatorCache;
 
+    private EvaluationCounters evaluationCounters;
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
 
     private SearchListenerMediator searchListenerMediator;
@@ -71,40 +77,62 @@ public class EvaluationBuilder {
 
     public void build() {
         buildObjects();
+
         setupListenerMediator();
 
         evaluator = createEvaluatorChain();
+
+        if (withGameEvaluatorCache) {
+            evaluatorCacheRead = createEvaluatorCacheChain();
+        }
     }
 
     public void link() {
-        if (withGameEvaluatorCache) {
-            searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(gameEvaluatorCacheDebug != null ? gameEvaluatorCacheDebug : gameEvaluatorCache));
-        }
-
         searchListenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
+
+        if (withGameEvaluatorCache) {
+            searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCacheRead));
+        }
     }
 
     private void buildObjects() {
+        setGameToEvaluator = new SetGameToEvaluator();
+        setGameToEvaluator.setEvaluator(evaluatorImp);
+
+        if (withDebugSearchTree) {
+            gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
+            gameEvaluatorCacheDebug.setEvaluatorCacheRead(gameEvaluatorCache);
+        }
+
         if (withGameEvaluatorCache) {
             gameEvaluatorCache = new EvaluatorCache();
 
-            if (withDebugSearchTree) {
-                gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
-                gameEvaluatorCacheDebug.setEvaluatorCacheRead(gameEvaluatorCache);
-            }
+            setGameToEvaluatorCache = new SetGameToEvaluatorCache();
+            setGameToEvaluatorCache.setEvaluator(gameEvaluatorCache);
 
             evaluatorCacheListener = new EvaluatorCacheListener();
             evaluatorCacheListener.setGameEvaluatorCache(gameEvaluatorCache);
         }
 
         if (withStatistics) {
+            evaluationCounters = new EvaluationCounters();
+
             gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setGameEvaluatorCache(gameEvaluatorCache)
+                    .setEvaluationsCounters(evaluationCounters)
                     .setTrackEvaluations(withTrackEvaluations);
         }
     }
 
     private void setupListenerMediator() {
+        if (setGameToEvaluator != null) {
+            searchListenerMediator.add(setGameToEvaluator);
+        }
+        if (setGameToEvaluatorCache != null) {
+            searchListenerMediator.add(setGameToEvaluatorCache);
+        }
+        if (evaluationCounters != null) {
+            searchListenerMediator.add(evaluationCounters);
+        }
         if (gameEvaluatorStatisticsCollector != null) {
             searchListenerMediator.add(gameEvaluatorStatisticsCollector);
         }
@@ -151,4 +179,33 @@ public class EvaluationBuilder {
         }
         return chain.getFirst();
     }
+
+
+    private EvaluatorCacheRead createEvaluatorCacheChain() {
+        List<EvaluatorCacheRead> chain = new LinkedList<>();
+
+        if (gameEvaluatorCacheDebug != null) {
+            chain.add(gameEvaluatorCacheDebug);
+        }
+
+        chain.add(gameEvaluatorCache);
+
+        return linkEvaluatorCacheChain(chain);
+    }
+
+    private EvaluatorCacheRead linkEvaluatorCacheChain(List<EvaluatorCacheRead> chain) {
+        for (int i = 0; i < chain.size() - 1; i++) {
+            EvaluatorCacheRead currentFilter = chain.get(i);
+            EvaluatorCacheRead next = chain.get(i + 1);
+
+            switch (currentFilter) {
+                case EvaluatorCacheDebug evaluatorCacheDebug -> evaluatorCacheDebug.setEvaluatorCacheRead(next);
+
+                default ->
+                        throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());
+            }
+        }
+        return chain.getFirst();
+    }
+
 }

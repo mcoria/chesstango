@@ -7,12 +7,15 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * @author Mauricio Coria
@@ -83,9 +86,9 @@ public class TranspositionEntryTableTest {
 
         //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult02.getBestMove()).toString() , searchResult02.getEvaluation(), depth - 1, searchWithTT, searchWithoutTT);
 
-        Assertions.assertEquals(searchResultWithoutTT.getBestEvaluation(), searchResultWithTT.getBestEvaluation());
+        assertEquals(searchResultWithoutTT.getBestEvaluation(), searchResultWithTT.getBestEvaluation());
 
-        Assertions.assertEquals(searchResultWithoutTT.getBestMove(), searchResultWithTT.getBestMove());
+        assertEquals(searchResultWithoutTT.getBestMove(), searchResultWithTT.getBestMove());
     }
 
     private void debugTT(String fen, int evaluation, int depth, Search searchMethod1, Search searchMethod2) {
@@ -97,34 +100,28 @@ public class TranspositionEntryTableTest {
 
             SearchResult searchResult02 = searchMethod2.startSearch(game02);
 
-            Assertions.assertEquals(evaluation, searchResult01.getBestEvaluation());
+            assertEquals(evaluation, searchResult01.getBestEvaluation());
 
             Move bestMove = searchResult01.getBestMove();
 
             debugTT(Game.from(FEN.of(fen)).executeMove(bestMove.getFrom().square(), bestMove.getTo().square()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
 
-            Assertions.assertEquals(searchResult01.getBestEvaluation(), searchResult02.getBestEvaluation());
+            assertEquals(searchResult01.getBestEvaluation(), searchResult02.getBestEvaluation());
 
-            Assertions.assertEquals(searchResult01.getBestMove(), searchResult02.getBestMove());
+            assertEquals(searchResult01.getBestMove(), searchResult02.getBestMove());
         }
     }
 
 
     private Search createSearchWithoutTT() {
-        EvaluatorStatisticsCollector gameEvaluator = new EvaluatorStatisticsCollector()
-                .setImp(new EvaluatorImp04());
-
         return new AlphaBetaBuilder()
-                .withGameEvaluator(gameEvaluator)
+                .withGameEvaluator(new EvaluatorImp04())
                 .build();
     }
 
     private Search createSearchWithTT() {
-        EvaluatorStatisticsCollector gameEvaluator = new EvaluatorStatisticsCollector()
-                .setImp(new EvaluatorImp04());
-
         return new AlphaBetaBuilder()
-                .withGameEvaluator(gameEvaluator)
+                .withGameEvaluator(new EvaluatorImp04())
                 .withTranspositionTable()
                 .withTranspositionMoveSorter()
                 .build();

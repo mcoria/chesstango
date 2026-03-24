@@ -19,14 +19,13 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCountersVisitor;
+import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
@@ -49,7 +48,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
-    private final SetGameToEvaluator setGameToEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
@@ -91,7 +89,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         evaluationBuilder = new EvaluationBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
-        setGameToEvaluator = new SetGameToEvaluator();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
 
@@ -284,7 +281,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         if (withStatistics) {
-            searchListenerMediator.accept(new SetNodeCountersVisitor(nodeCounters));
+            searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
         }
 
         evaluationBuilder.link();
@@ -342,8 +339,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.add(setGameToEvaluator);
-
         searchListenerMediator.add(setGameToEndGameTableBase);
 
         searchListenerMediator.add(alphaBetaFacade);

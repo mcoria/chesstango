@@ -138,18 +138,19 @@ AlphaBetaFlowControl @ 16
 
 
 SearchByCycleListeners:
+	EvaluationCounters @ 59
 	EvaluatorStatisticsCollector @ 19
-	EvaluatorCacheListener @ 59
-	TTListener @ 60
-	TTableCounters @ 61
-	TTableStatisticsListener @ 62
+	EvaluatorCacheListener @ 60
+	TTListener @ 61
+	TTableCounters @ 62
+	TTableStatisticsListener @ 63
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 63
+	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 16
-	NodeCounters @ 64
-	GameCountersCollector @ 65
-	DepthCollector @ 66
-	SetKillerMoveTables @ 67
+	NodeCounters @ 65
+	GameCountersCollector @ 66
+	DepthCollector @ 67
+	SetKillerMoveTables @ 68
 	PrincipalVariationComparator @ 34
 	PrincipalVariationComparator @ 51
 	StopProcessingCatch @ 3
@@ -158,40 +159,42 @@ SearchByCycleListeners:
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 63
-	NodeCounters @ 64
-	DepthCollector @ 66
-	RootMoveEvaluationCollection @ 68
+	SetSearchTimers @ 64
+	NodeCounters @ 65
+	DepthCollector @ 67
+	RootMoveEvaluationCollection @ 69
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 68
+	RootMoveEvaluationCollection @ 69
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 16
 
 ResetListener:
-	EvaluatorCacheListener @ 59
-	TTListener @ 60
+	EvaluatorCacheListener @ 60
+	TTListener @ 61
 
 Acceptor:
+	SetGameToEvaluator @ 70
+	SetGameToEvaluatorCache @ 71
+	EvaluationCounters @ 59
 	EvaluatorStatisticsCollector @ 19
-	EvaluatorCacheListener @ 59
-	TTListener @ 60
-	TTableCounters @ 61
+	EvaluatorCacheListener @ 60
+	TTListener @ 61
+	TTableCounters @ 62
 	TTableStatisticsNodeCollector @ 7
-	TTableStatisticsNodeCollector @ 69
+	TTableStatisticsNodeCollector @ 72
 	TTableStatisticsComparatorCollector @ 36
-	TTableStatisticsComparatorCollector @ 70
-	TTableStatisticsListener @ 62
-	SetGameToEvaluator @ 71
-	SetGameToEndGameTableBase @ 72
+	TTableStatisticsComparatorCollector @ 73
+	TTableStatisticsListener @ 63
+	SetGameToEndGameTableBase @ 74
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 63
+	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 16
-	NodeCounters @ 64
-	GameCountersCollector @ 65
-	DepthCollector @ 66
-	SetKillerMoveTables @ 67
+	NodeCounters @ 65
+	GameCountersCollector @ 66
+	DepthCollector @ 67
+	SetKillerMoveTables @ 68
 	AlphaBetaEvaluation @ 18
 	AlphaBetaTerminalNodeStatistics @ 17
 	AlphaBetaEvaluation @ 28
@@ -222,7 +225,7 @@ Acceptor:
 	RecaptureMoveComparator @ 55
 	GameEvaluatorCacheComparator @ 57
 	RootMoveEvaluationTracker @ 13
-	RootMoveEvaluationCollection @ 68
+	RootMoveEvaluationCollection @ 69
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	AlphaBetaRootNodeStatistics @ 5

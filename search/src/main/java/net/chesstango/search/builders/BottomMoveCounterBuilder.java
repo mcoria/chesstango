@@ -215,7 +215,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         if (withStatistics) {
             gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setImp(evaluator)
-                    .setGameEvaluatorCache(gameEvaluatorCache)
                     .setTrackEvaluations(withTrackEvaluations);
 
             evaluator = gameEvaluatorStatisticsCollector;

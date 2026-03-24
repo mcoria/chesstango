@@ -8,11 +8,11 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
  *
  * @author Mauricio Coria
  */
-public class SetNodeCountersVisitor implements Visitor {
+public class LinkNodeCountersVisitor implements Visitor {
 
     private final NodeCounters nodeCounters;
 
-    public SetNodeCountersVisitor(NodeCounters nodeCounters) {
+    public LinkNodeCountersVisitor(NodeCounters nodeCounters) {
         this.nodeCounters = nodeCounters;
     }
 

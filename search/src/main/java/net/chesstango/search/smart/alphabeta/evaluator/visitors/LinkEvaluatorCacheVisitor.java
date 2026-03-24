@@ -10,15 +10,15 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
  */
 public class LinkEvaluatorCacheVisitor implements Visitor {
 
-    private final EvaluatorCacheRead evaluatorCache;
+    private final EvaluatorCacheRead evaluatorCacheRead;
 
-    public LinkEvaluatorCacheVisitor(EvaluatorCacheRead evaluatorCache) {
-        this.evaluatorCache = evaluatorCache;
+    public LinkEvaluatorCacheVisitor(EvaluatorCacheRead evaluatorCacheRead) {
+        this.evaluatorCacheRead = evaluatorCacheRead;
     }
 
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
-        gameEvaluatorCacheComparator.setEvaluatorCacheRead(evaluatorCache);
+        gameEvaluatorCacheComparator.setEvaluatorCacheRead(evaluatorCacheRead);
     }
 
 }

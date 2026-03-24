@@ -23,17 +23,17 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
     private Evaluator imp;
 
     @Setter
-    @Getter
     @Accessors(chain = true)
-    private EvaluatorCache gameEvaluatorCache;
+    private EvaluationCounters evaluationsCounters;
 
     @Setter
     @Accessors(chain = true)
     private boolean trackEvaluations;
 
-    private long evaluationsCounter;
-    private Set<EvaluationEntry> evaluations;
+    @Setter
     private Game game;
+
+    private Set<EvaluationEntry> evaluations;
 
 
     @Override
@@ -43,7 +43,7 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
 
     @Override
     public int evaluate() {
-        evaluationsCounter++;
+        evaluationsCounters.increaseEvaluationsCounter();
         int evaluation = imp.evaluate();
         if (trackEvaluations) {
             long hash = game.getPosition().getZobristHash();
@@ -53,22 +53,15 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
     }
 
     @Override
-    public void setGame(Game game) {
-        this.game = game;
-        this.imp.setGame(game);
-    }
-
-    @Override
     public void beforeSearch() {
-        evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();
         }
     }
 
-    public EvaluationStatistics getEvaluationStatistics() {
-        long cacheHitsCounter = gameEvaluatorCache != null ? gameEvaluatorCache.getCacheHitsCounter() : 0;
-        return new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations);
+    @Override
+    public void afterSearch() {
+        evaluationsCounters.setEvaluations(evaluations);
     }
 
 }

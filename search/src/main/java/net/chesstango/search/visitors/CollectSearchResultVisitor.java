@@ -4,6 +4,7 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -23,8 +24,8 @@ public class CollectSearchResultVisitor implements Visitor {
     }
 
     @Override
-    public void visit(EvaluatorStatisticsCollector evaluatorStatisticsCollector) {
-        searchResult.setEvaluationStatistics(evaluatorStatisticsCollector.getEvaluationStatistics());
+    public void visit(EvaluationCounters evaluationCounters) {
+        searchResult.setEvaluationStatistics(evaluationCounters.getEvaluationStatistics());
     }
 
     @Override

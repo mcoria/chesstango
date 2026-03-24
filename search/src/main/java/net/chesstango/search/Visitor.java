@@ -20,6 +20,7 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
+import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
@@ -38,6 +39,7 @@ import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -193,6 +195,9 @@ public interface Visitor {
     default void visit(SetGameToEvaluator setGameToEvaluator) {
     }
 
+    default void visit(SetGameToEvaluatorCache setGameToEvaluatorCache) {
+    }
+
     default void visit(SetTrianglePV setTrianglePV) {
     }
 
@@ -225,6 +230,9 @@ public interface Visitor {
     }
 
     default void visit(EvaluatorCacheListener evaluatorCacheListener) {
+    }
+
+    default void visit(EvaluationCounters evaluationCounters) {
     }
 
 
