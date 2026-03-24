@@ -24,6 +24,8 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
     public long readFromCacheCounterTotal;
     public long readFromCacheHitsCounterTotal;
 
+    public int fillPercentageAvg;
+
     ///////////////////// END TOTALS
 
     public List<EvaluationCacheModelDetail> moveDetails;
@@ -40,6 +42,8 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
         public long evaluationsCacheHitsCounter;
         public long readFromCacheCounter;
         public long readFromCacheHitsCounter;
+
+        public int fillPercentage;
     }
 
     @Override
@@ -61,6 +65,7 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
         this.evaluationsCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationsCacheHitsCounter).sum();
         this.readFromCacheCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readFromCacheCounter).sum();
         this.readFromCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readFromCacheHitsCounter).sum();
+        this.fillPercentageAvg = (int) this.moveDetails.stream().mapToInt(detail -> detail.fillPercentage).average().orElse(0);
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -85,6 +90,7 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
         reportModelDetail.evaluationsCacheHitsCounter = evaluationStatistics.evaluationsCacheHitsCounter();
         reportModelDetail.readFromCacheCounter = evaluationStatistics.readFromCacheCounter();
         reportModelDetail.readFromCacheHitsCounter = evaluationStatistics.readFromCacheHitsCounter();
+        reportModelDetail.fillPercentage = evaluationStatistics.fillPercentage();
     }
 
 }

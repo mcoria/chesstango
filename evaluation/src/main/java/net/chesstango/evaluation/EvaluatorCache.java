@@ -117,4 +117,15 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
         }
         this.currentAge = Integer.MIN_VALUE + STALE_AGE;
     }
+
+    public int getFillPercentage() {
+        int filled = 0;
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            GameEvaluatorCacheEntry entry = cache[i];
+            if (!(entry.age > currentAge || currentAge - entry.age >= STALE_AGE)) {
+                filled++;
+            }
+        }
+        return (filled * 100 / ARRAY_SIZE);
+    }
 }

@@ -29,16 +29,17 @@ public class SummaryEvaluationCachePrinter implements Printer {
     public SummaryEvaluationCachePrinter print() {
         out.println("\n Evaluation Cache Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill % Avg");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
                     Long.toString(row.evaluationCounterTotal),
                     Long.toString(row.evaluationsCacheHitsCounterTotal),
                     Long.toString(row.readFromCacheCounterTotal),
-                    Long.toString(row.readFromCacheHitsCounterTotal));
+                    Long.toString(row.readFromCacheHitsCounterTotal),
+                    String.format("%2d%%", row.fillPercentageAvg));
         });
         printerTxtTable.print();
 

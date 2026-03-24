@@ -10,5 +10,6 @@ public record EvaluationStatistics(long evaluationsCounter,
                                    long evaluationsCacheHitsCounter,
                                    long readFromCacheCounter,
                                    long readFromCacheHitsCounter,
+                                   int fillPercentage,
                                    Set<EvaluationEntry> evaluations) implements Serializable {
 }

@@ -34,6 +34,7 @@ class EvaluationCachePrinter implements Printer {
         out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitsCounterTotal);
         out.printf("Read Cache            : %8d\n", reportModel.readFromCacheCounterTotal);
         out.printf("Read Cache Hits       : %8d\n", reportModel.readFromCacheHitsCounterTotal);
+        out.printf("Fill %% Avg           : %8d%%\n", reportModel.fillPercentageAvg);
         out.print("\n");
         return this;
     }
@@ -42,23 +43,27 @@ class EvaluationCachePrinter implements Printer {
     EvaluationCachePrinter printDetails() {
         out.printf("Evaluation Cache Statistics%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits");
+        printerTxtTable.setTitles("Move", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill %");
         reportModel.moveDetails.forEach(moveDetail -> {
 
             printerTxtTable.addRow(moveDetail.move,
                     Long.toString(moveDetail.evaluationCounter),
                     Long.toString(moveDetail.evaluationsCacheHitsCounter),
                     Long.toString(moveDetail.readFromCacheCounter),
-                    Long.toString(moveDetail.readFromCacheHitsCounter));
+                    Long.toString(moveDetail.readFromCacheHitsCounter),
+                    String.format("%2d%%", moveDetail.fillPercentage)
+                    );
         });
 
         printerTxtTable.setBottomRow("SUM",
                 Long.toString(reportModel.evaluationCounterTotal),
                 Long.toString(reportModel.evaluationsCacheHitsCounterTotal),
                 Long.toString(reportModel.readFromCacheCounterTotal),
-                Long.toString(reportModel.readFromCacheHitsCounterTotal));
+                Long.toString(reportModel.readFromCacheHitsCounterTotal),
+                String.format("%2d%%", reportModel.fillPercentageAvg)
+        );
 
         printerTxtTable.print();
 
