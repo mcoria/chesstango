@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.evaluation.node;
+package net.chesstango.reports.search.evaluation;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationEntry;

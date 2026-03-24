@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
-import net.chesstango.reports.search.evaluation.node.EvaluationReport;
+import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.iteration.IterationEvaluationReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
