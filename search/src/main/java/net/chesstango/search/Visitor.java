@@ -20,7 +20,6 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
@@ -193,9 +192,6 @@ public interface Visitor {
      * Setter elements
      */
     default void visit(SetGameToEvaluator setGameToEvaluator) {
-    }
-
-    default void visit(SetGameToEvaluatorCache setGameToEvaluatorCache) {
     }
 
     default void visit(SetTrianglePV setTrianglePV) {

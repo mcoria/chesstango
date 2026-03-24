@@ -42,6 +42,6 @@ public class EvaluatorDebug implements Evaluator, Acceptor {
 
     @Override
     public void setGame(Game game) {
-        throw new RuntimeException("Do not invoke this method");
+        this.evaluator.setGame(game);
     }
 }

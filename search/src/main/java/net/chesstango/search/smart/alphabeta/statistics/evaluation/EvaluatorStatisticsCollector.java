@@ -30,15 +30,14 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
     @Accessors(chain = true)
     private boolean trackEvaluations;
 
-    @Setter
     private Game game;
 
     private Set<EvaluationEntry> evaluations;
 
-
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public void setGame(Game game) {
+        this.game = game;
+        this.imp.setGame(game);
     }
 
     @Override
@@ -50,6 +49,11 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
             evaluations.add(new EvaluationEntry(hash, evaluation));
         }
         return evaluation;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

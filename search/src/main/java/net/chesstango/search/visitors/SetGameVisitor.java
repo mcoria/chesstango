@@ -11,7 +11,6 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
@@ -150,11 +149,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(SetGameToEvaluator setGameToEvaluator) {
         setGameToEvaluator.setGame(game);
-    }
-
-    @Override
-    public void visit(SetGameToEvaluatorCache setGameToEvaluatorCache) {
-        setGameToEvaluatorCache.setGame(game);
     }
 
     @Override

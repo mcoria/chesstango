@@ -6,7 +6,6 @@ import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluatorCache;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
@@ -27,7 +26,6 @@ public class EvaluationBuilder {
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorCacheDebug gameEvaluatorCacheDebug;
     private EvaluatorCacheListener evaluatorCacheListener;
-    private SetGameToEvaluatorCache setGameToEvaluatorCache;
 
     private EvaluationCounters evaluationCounters;
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
@@ -82,6 +80,8 @@ public class EvaluationBuilder {
 
         evaluator = createEvaluatorChain();
 
+        setGameToEvaluator.setEvaluator(evaluator);
+
         if (withGameEvaluatorCache) {
             evaluatorCacheRead = createEvaluatorCacheChain();
         }
@@ -97,7 +97,6 @@ public class EvaluationBuilder {
 
     private void buildObjects() {
         setGameToEvaluator = new SetGameToEvaluator();
-        setGameToEvaluator.setEvaluator(evaluatorImp);
 
         if (withDebugSearchTree) {
             gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
@@ -106,9 +105,6 @@ public class EvaluationBuilder {
 
         if (withGameEvaluatorCache) {
             gameEvaluatorCache = new EvaluatorCache();
-
-            setGameToEvaluatorCache = new SetGameToEvaluatorCache();
-            setGameToEvaluatorCache.setEvaluator(gameEvaluatorCache);
 
             evaluatorCacheListener = new EvaluatorCacheListener();
             evaluatorCacheListener.setGameEvaluatorCache(gameEvaluatorCache);
@@ -126,9 +122,6 @@ public class EvaluationBuilder {
     private void setupListenerMediator() {
         if (setGameToEvaluator != null) {
             searchListenerMediator.add(setGameToEvaluator);
-        }
-        if (setGameToEvaluatorCache != null) {
-            searchListenerMediator.add(setGameToEvaluatorCache);
         }
         if (evaluationCounters != null) {
             searchListenerMediator.add(evaluationCounters);
