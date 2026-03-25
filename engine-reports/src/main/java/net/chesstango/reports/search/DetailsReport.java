@@ -12,6 +12,7 @@ import net.chesstango.reports.search.nodes.depth.NodesDepthReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
+import net.chesstango.reports.search.pv.iteration.PrincipalVariationIterationReport;
 import net.chesstango.reports.search.transposition.TranspositionReport;
 import net.chesstango.search.SearchResult;
 
@@ -30,6 +31,7 @@ public class DetailsReport implements Report {
     private boolean withCutoffStatistics;
     private boolean withIterationEvaluationReport;
     private boolean withPrincipalVariationReport;
+    private boolean withPrincipalVariationIterationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
     private boolean withEvaluationCacheReport;
@@ -92,6 +94,13 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
+        if (withPrincipalVariationIterationReport) {
+            new PrincipalVariationIterationReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
         if (withTranspositionReport) {
             new TranspositionReport()
                     .setReportTitle(reportTitle)
@@ -148,6 +157,11 @@ public class DetailsReport implements Report {
 
     public DetailsReport withPrincipalVariationReport() {
         this.withPrincipalVariationReport = true;
+        return this;
+    }
+
+    public DetailsReport withPrincipalVariationIterationReport() {
+        this.withPrincipalVariationIterationReport = true;
         return this;
     }
 
