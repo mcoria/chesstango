@@ -1,7 +1,5 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.search.SearchResult;
-
 /**
  * @author Mauricio Coria
  */

@@ -175,6 +175,7 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 65
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
+	TTPVReader @ 19
 	RootMoveSorter @ 13
 	SetDebugOutput @ 84
 
@@ -185,6 +186,7 @@ SearchByDepthListener:
 	NodeCounters @ 80
 	DepthCollector @ 82
 	RootMoveEvaluationCollection @ 85
+	TTPVReader @ 19
 	SetDebugOutput @ 84
 
 SearchByWindowsListeners:

@@ -6,9 +6,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
@@ -23,7 +24,7 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class TTPVReader implements PVReader, Acceptor {
+public class TTPVReader implements PVReader, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private Evaluator evaluator;
@@ -37,11 +38,14 @@ public class TTPVReader implements PVReader, Acceptor {
     @Setter
     private Game game;
 
-    @Getter
-    private boolean pvComplete;
+    @Setter
+    private int depth;
 
     @Getter
-    private List<PrincipalVariation> principalVariation;
+    boolean pvComplete;
+
+    @Getter
+    List<PrincipalVariation> principalVariation;
 
     private final TranspositionEntry entryWorkspace;
 
@@ -55,8 +59,21 @@ public class TTPVReader implements PVReader, Acceptor {
     }
 
     @Override
-    public void readPrincipalVariation(short bestMove, int bestValue) {
+    public void beforeSearch() {
+        // Solo al comienzo de la busqueda para limpiar la lista de PVs
         principalVariation = new ArrayList<>();
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        // Cada vez que profundizamos comenzamos la lista de movimientos no se encuentra completa
+        pvComplete = false;
+    }
+
+    @Override
+    public void readPrincipalVariation(short bestMove, int bestValue) {
+        // Cada vez que recalculamos Principal Variation
+        principalVariation.clear();
         pvComplete = false;
 
         // First PV move
@@ -90,7 +107,7 @@ public class TTPVReader implements PVReader, Acceptor {
             pvEvaluation = 0;
         }
 
-        if (bestValue == pvEvaluation) {
+        if (bestValue == pvEvaluation && principalVariation.size() >= depth) {
             pvComplete = true;
         }
 
@@ -100,7 +117,7 @@ public class TTPVReader implements PVReader, Acceptor {
         }
     }
 
-    Move readMoveFromTT() {
+    final Move readMoveFromTT() {
         Move result = null;
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
@@ -113,7 +130,7 @@ public class TTPVReader implements PVReader, Acceptor {
         return result;
     }
 
-    Move getMove(short moveEncoded) {
+    final Move getMove(short moveEncoded) {
         Move result = null;
         for (Move posibleMove : game.getPossibleMoves()) {
             if (posibleMove.binaryEncoding() == moveEncoded) {

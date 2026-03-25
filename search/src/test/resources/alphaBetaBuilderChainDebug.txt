@@ -151,6 +151,7 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 53
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
+	TTPVReader @ 17
 	RootMoveSorter @ 11
 	SetDebugOutput @ 66
 
@@ -159,6 +160,7 @@ SearchByDepthListener:
 	SetSearchTimers @ 63
 	SetSearchTracker @ 64
 	RootMoveEvaluationCollection @ 67
+	TTPVReader @ 17
 	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
