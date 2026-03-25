@@ -79,7 +79,7 @@ public class IterativeDeepening implements Search {
 
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
-                searchResultByDepth.isContinueDeepening() &&
+                searchResultByDepth.isContinueDeepening() &&            // Ojo que aca puede que este cometiendo suicidio
                 searchPredicateParameter.test(searchResultByDepth)
         );
 

@@ -41,6 +41,9 @@ public class TranspositionPV implements AlphaBetaFilter {
     }
 
 
+    /**
+     * Decodes move/value; reads principal variation if within alpha-beta window
+     */
     protected long process(int alpha, int beta, long moveAndValue) {
         final short currentMove = AlphaBetaHelper.decodeMove(moveAndValue);
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);

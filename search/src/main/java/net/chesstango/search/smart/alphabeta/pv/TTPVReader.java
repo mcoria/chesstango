@@ -37,6 +37,9 @@ public class TTPVReader implements PVReader, Acceptor {
     @Setter
     private Game game;
 
+    @Setter
+    private int depth;
+
     @Getter
     private boolean pvComplete;
 
@@ -90,7 +93,7 @@ public class TTPVReader implements PVReader, Acceptor {
             pvEvaluation = 0;
         }
 
-        if (bestValue == pvEvaluation) {
+        if (bestValue == pvEvaluation && principalVariation.size() >= depth) {
             pvComplete = true;
         }
 
@@ -100,7 +103,7 @@ public class TTPVReader implements PVReader, Acceptor {
         }
     }
 
-    Move readMoveFromTT() {
+    final Move readMoveFromTT() {
         Move result = null;
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
@@ -113,7 +116,7 @@ public class TTPVReader implements PVReader, Acceptor {
         return result;
     }
 
-    Move getMove(short moveEncoded) {
+    final Move getMove(short moveEncoded) {
         Move result = null;
         for (Move posibleMove : game.getPossibleMoves()) {
             if (posibleMove.binaryEncoding() == moveEncoded) {
