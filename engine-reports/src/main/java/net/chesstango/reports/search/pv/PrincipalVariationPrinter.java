@@ -25,19 +25,30 @@ class PrincipalVariationPrinter implements Printer {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("PrincipalVariationReport    : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches                    : %10d%n", reportModel.searches);
-        out.printf("PV Accuracy Avg             : %10d%%%n%n", reportModel.pvAccuracyAvgPercentageTotal);
+        out.printf("PV Complete                 : %10d%%%n%n", reportModel.pvCompletePercentage);
 
         out.printf("Principal Variations%n");
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
-        printerTxtTable.setTextAlignment(PrinterTxtTable.TextAlignment.LEFT, PrinterTxtTable.TextAlignment.RIGHT, PrinterTxtTable.TextAlignment.RIGHT, PrinterTxtTable.TextAlignment.LEFT, PrinterTxtTable.TextAlignment.LEFT);
-        printerTxtTable.setTitles("Move", "Evaluation", "pvAccuracy", "PV", "ID");
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
+        printerTxtTable.setTextAlignment(
+                PrinterTxtTable.TextAlignment.LEFT,
+                PrinterTxtTable.TextAlignment.RIGHT,
+                PrinterTxtTable.TextAlignment.RIGHT,
+                PrinterTxtTable.TextAlignment.RIGHT,
+                PrinterTxtTable.TextAlignment.RIGHT,
+                PrinterTxtTable.TextAlignment.LEFT,
+                PrinterTxtTable.TextAlignment.LEFT
+        );
+        printerTxtTable.setTitles("Move", "Eval", "PV Complete", "MaxDepth", "SelDepth", "PV", "ID");
         reportModel.moveDetails.forEach(row -> {
             printerTxtTable.addRow(
                     row.move,
                     Integer.toString(row.evaluation),
-                    String.format("%d%%", row.pvAccuracyPercentage),
+                    Boolean.toString(row.pvComplete),
+                    Integer.toString(row.maxDepth),
+                    Integer.toString(row.selDepth),
                     row.principalVariation,
-                    row.id != null ? row.id : "");
+                    row.id != null ? row.id : ""
+            );
         });
         printerTxtTable.print();
 

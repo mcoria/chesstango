@@ -21,7 +21,7 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
     /**
      * Promedio de promedio
      */
-    public int pvAccuracyAvgPercentageTotal;
+    public int pvCompletePercentage;
 
     public List<PrincipalVariationReportModelDetail> moveDetails;
 
@@ -29,14 +29,16 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
         public String id;
 
         public String move;
-        public String principalVariation;
-
-        /**
-         * Que porcentaje de PVs estan completos del total de busquedas por depth
-         */
-        public int pvAccuracyPercentage;
 
         public int evaluation;
+
+        public String principalVariation;
+
+        public boolean pvComplete;
+
+        public int maxDepth;
+
+        public int selDepth;
     }
 
     @Override
@@ -45,8 +47,6 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
 
         this.load(searchResults);
 
-        this.pvAccuracyAvgPercentageTotal = this.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / this.moveDetails.size();
-
         return this;
     }
 
@@ -54,28 +54,35 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
         moveDetails = new LinkedList<>();
 
         searchResults.forEach(this::loadModelDetail);
+
+        long pvCompletes = this.moveDetails.stream().filter(reportModelDetail -> reportModelDetail.pvComplete).count();
+
+        this.pvCompletePercentage = !searchResults.isEmpty() ? (int) (pvCompletes * 100 / searchResults.size()) : 0;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
         PrincipalVariationReportModelDetail reportModelDetail = new PrincipalVariationReportModelDetail();
 
-        //SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
         List<SearchResultByDepth> searchResultByDepths = searchResult.getSearchResultByDepths();
-        int searchByDepthPvCompleteCounter = (int) searchResultByDepths.stream().filter(SearchResultByDepth::isPvComplete).count();
 
+        SearchResultByDepth lastSearchResultByDepth = searchResultByDepths.getLast();
 
         Move bestMove = searchResult.getBestMove();
         reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = SimpleMoveEncoder.INSTANCE.encode(bestMove);
         reportModelDetail.evaluation = searchResult.getBestEvaluation();
-        reportModelDetail.principalVariation = String.format("%s %s", SimpleMoveEncoder.INSTANCE.encode(searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResult.isPvComplete() ? "" : "truncated");
-        reportModelDetail.pvAccuracyPercentage = (100 * searchByDepthPvCompleteCounter / searchResultByDepths.size());
+
+        List<Move> pvMoves = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList();
+        reportModelDetail.principalVariation = String.format("%s%s", SimpleMoveEncoder.INSTANCE.encode(pvMoves), searchResult.isPvComplete() ? "" : " truncated");
+
+        reportModelDetail.pvComplete = searchResult.isPvComplete();
+
+        reportModelDetail.maxDepth = lastSearchResultByDepth.getDepth();
+
+        reportModelDetail.selDepth = pvMoves.size() >= reportModelDetail.maxDepth ? pvMoves.size() - reportModelDetail.maxDepth : 0;
 
         moveDetails.add(reportModelDetail);
 
         this.searches++;
     }
-
-
 }

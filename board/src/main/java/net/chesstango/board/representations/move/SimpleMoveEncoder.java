@@ -31,9 +31,11 @@ public class SimpleMoveEncoder {
             return "-";
         } else {
             StringBuilder sb = new StringBuilder();
-            for (Move move : moves) {
-                sb.append(encode(move));
-                sb.append(" ");
+            for (int i = 0; i < moves.size(); i++) {
+                sb.append(encode(moves.get(i)));
+                if (i < moves.size() - 1) {
+                    sb.append(" ");
+                }
             }
             return sb.toString();
         }

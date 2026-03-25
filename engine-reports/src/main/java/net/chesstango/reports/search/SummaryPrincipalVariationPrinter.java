@@ -25,11 +25,11 @@ class SummaryPrincipalVariationPrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "PV Accuracy");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "PV Complete");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
-                    String.format("%d%%", row.pvAccuracyAvgPercentageTotal));
+                    String.format("%d%%", row.pvCompletePercentage));
         });
         printerTxtTable.print();
 
