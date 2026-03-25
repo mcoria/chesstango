@@ -57,6 +57,10 @@ public class SearchResult implements Serializable {
         return !searchResultByDepths.isEmpty() && searchResultByDepths.getLast().isPvComplete();
     }
 
+    public int getMaxSearchDepth() {
+        return searchResultByDepths.isEmpty() ? 0 : searchResultByDepths.getLast().getDepth();
+    }
+
     public SearchResult addSearchResultByDepth(SearchResultByDepth searchResultByDepth) {
         searchResultByDepths.add(searchResultByDepth);
         return this;

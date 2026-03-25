@@ -6,8 +6,6 @@ import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
 
 import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.List;
 
 public class BoardPrinter implements Printer {
 
@@ -25,42 +23,25 @@ public class BoardPrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(4).setOut(out);
 
-        List<String> tmp = new LinkedList<>();
-        tmp.add("Move");
-        tmp.add("Moves");
-        tmp.add("Depth");
-        tmp.add("Time(ms)");
-
-        printerTxtTable.setTitles(tmp.toArray(new String[0]));
-
+        printerTxtTable.setTitles("Move", "Moves", "Depth", "Time(ms)");
         reportModel.boardModelModelDetails.forEach(moveDetail -> {
-            List<String> tmpRow = new LinkedList<>();
-
-            tmpRow.add(String.format("%s", moveDetail.move));
-
-            tmpRow.add(Long.toString(moveDetail.executedMoves));
-
-            tmpRow.add(String.format("%.1f", moveDetail.exploredDepth));
-
-            tmpRow.add(Long.toString(moveDetail.searchTime));
-
-            printerTxtTable.addRow(tmpRow.toArray(new String[0]));
+            printerTxtTable.addRow(
+                    moveDetail.move,
+                    Long.toString(moveDetail.executedMoves),
+                    String.format("%.1f", moveDetail.exploredDepth),
+                    Long.toString(moveDetail.searchTime)
+            );
         });
 
-        tmp = new LinkedList<>();
 
-        tmp.add("SUM");
-
-        tmp.add(Long.toString(reportModel.executedMovesTotal));
-
-        tmp.add(String.format("%.1f", reportModel.exploredDepthAvg));
-
-        tmp.add(Long.toString(reportModel.searchTimeTotal));
-
-        printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
+        printerTxtTable.setBottomRow(
+                "SUM",
+                Long.toString(reportModel.executedMovesTotal),
+                String.format("%.1f", reportModel.exploredDepthAvg),
+                Long.toString(reportModel.searchTimeTotal)
+        );
 
         printerTxtTable.print();
-
 
         return this;
     }

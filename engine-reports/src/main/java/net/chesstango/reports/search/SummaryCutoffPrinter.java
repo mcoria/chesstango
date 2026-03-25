@@ -29,8 +29,8 @@ class SummaryCutoffPrinter implements Printer {
         this.maxDepth = 0;
 
         for (NodesDepthModel nodesModel : reportRows) {
-            if (maxDepth < nodesModel.maxSelDepth) {
-                maxDepth = nodesModel.maxSelDepth;
+            if (maxDepth < nodesModel.maxDepth) {
+                maxDepth = nodesModel.maxDepth;
             }
         }
 

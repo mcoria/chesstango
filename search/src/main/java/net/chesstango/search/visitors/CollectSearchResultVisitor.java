@@ -54,8 +54,8 @@ public class CollectSearchResultVisitor implements Visitor {
     }
 
     @Override
-    public void visit(DepthCollector maxRegularDepth) {
-        searchResult.setExploredDepth(maxRegularDepth.getExploredDepth());
+    public void visit(DepthCollector depthCollector) {
+        searchResult.setExploredDepth(depthCollector.getExploredDepth());
     }
 
 }
