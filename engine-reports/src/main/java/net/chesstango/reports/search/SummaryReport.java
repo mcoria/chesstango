@@ -25,14 +25,14 @@ public class SummaryReport implements Report {
      */
     private final List<SummaryModel> summaryModels = new LinkedList<>();
 
-    private boolean printBoardStatistics;
-    private boolean printNodesVisitedStatistics;
-    private boolean printNodesTypesStatistics;
-    private boolean printCutoffStatistics;
-    private boolean printTranspositionStatistics;
-    private boolean printEvaluationStatistics;
-    private boolean principalVariationStatistics;
-    private boolean principalEvaluationCacheReport;
+    private boolean withBoardStatistics;
+    private boolean withNodesVisitedStatistics;
+    private boolean withNodesTypesStatistics;
+    private boolean withCutoffStatistics;
+    private boolean withTranspositionStatistics;
+    private boolean withEvaluationStatistics;
+    private boolean withPrincipalVariationStatistics;
+    private boolean withEvaluationCacheStatistics;
 
     private PrintStream out;
 
@@ -51,7 +51,7 @@ public class SummaryReport implements Report {
     private void print() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        if (printBoardStatistics) {
+        if (withBoardStatistics) {
             List<BoardModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getBoardModel)
@@ -62,7 +62,7 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if (printNodesVisitedStatistics) {
+        if (withNodesVisitedStatistics) {
             List<NodesDepthModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
@@ -73,7 +73,7 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if (printNodesTypesStatistics) {
+        if (withNodesTypesStatistics) {
             List<NodesTypesModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesTypesModel)
@@ -84,7 +84,7 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if (printCutoffStatistics) {
+        if (withCutoffStatistics) {
             List<NodesDepthModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
@@ -96,31 +96,19 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if (printEvaluationStatistics) {
-            List<EvaluationModel> reportRows = summaryModels
+        if (withPrincipalVariationStatistics) {
+            List<PrincipalVariationModel> reportRows = summaryModels
                     .stream()
-                    .map(SummaryModel::getEvaluationModel)
+                    .map(SummaryModel::getPrincipalVariationModel)
                     .toList();
 
-            new SummaryEvaluationPrinter()
+            new SummaryPrincipalVariationPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
         }
 
-        if (principalEvaluationCacheReport) {
-            List<EvaluationCacheModel> reportRows = summaryModels
-                    .stream()
-                    .map(SummaryModel::getEvaluationCacheModel)
-                    .toList();
-
-            new SummaryEvaluationCachePrinter()
-                    .setReportRows(reportRows)
-                    .setOut(out)
-                    .print();
-        }
-
-        if (printTranspositionStatistics) {
+        if (withTranspositionStatistics) {
             List<TranspositionModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getTranspositionModel)
@@ -132,13 +120,25 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if (principalVariationStatistics) {
-            List<PrincipalVariationModel> reportRows = summaryModels
+        if (withEvaluationStatistics) {
+            List<EvaluationModel> reportRows = summaryModels
                     .stream()
-                    .map(SummaryModel::getPrincipalVariationModel)
+                    .map(SummaryModel::getEvaluationModel)
                     .toList();
 
-            new SummaryPrincipalVariationPrinter()
+            new SummaryEvaluationPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
+        }
+
+        if (withEvaluationCacheStatistics) {
+            List<EvaluationCacheModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getEvaluationCacheModel)
+                    .toList();
+
+            new SummaryEvaluationCachePrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -146,42 +146,42 @@ public class SummaryReport implements Report {
     }
 
     public SummaryReport withBoardStatistics() {
-        this.printBoardStatistics = true;
+        this.withBoardStatistics = true;
         return this;
     }
 
     public SummaryReport withNodesVisitedStatistics() {
-        this.printNodesVisitedStatistics = true;
+        this.withNodesVisitedStatistics = true;
         return this;
     }
 
     public SummaryReport withNodesTypesStatistics() {
-        this.printNodesTypesStatistics = true;
+        this.withNodesTypesStatistics = true;
         return this;
     }
 
     public SummaryReport withCutoffStatistics() {
-        this.printCutoffStatistics = true;
+        this.withCutoffStatistics = true;
         return this;
     }
 
     public SummaryReport withTranspositionStatistics() {
-        this.printTranspositionStatistics = true;
+        this.withTranspositionStatistics = true;
         return this;
     }
 
     public SummaryReport withEvaluationStatistics() {
-        this.printEvaluationStatistics = true;
+        this.withEvaluationStatistics = true;
         return this;
     }
 
     public SummaryReport withEvaluationCacheStatistics() {
-        this.principalEvaluationCacheReport = true;
+        this.withEvaluationCacheStatistics = true;
         return this;
     }
 
     public SummaryReport withPrincipalVariationStatistics() {
-        this.principalVariationStatistics = true;
+        this.withPrincipalVariationStatistics = true;
         return this;
     }
 }
