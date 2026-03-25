@@ -156,9 +156,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
                 ttpvReaderDebug = new TTPVReaderDebug();
                 ttpvReaderDebug.setImp(ttPvReader);
 
-                transpositionPV.setTtPvReader(ttpvReaderDebug);
+                transpositionPV.setPvReader(ttpvReaderDebug);
             } else {
-                transpositionPV.setTtPvReader(ttPvReader);
+                transpositionPV.setPvReader(ttPvReader);
             }
         }
 

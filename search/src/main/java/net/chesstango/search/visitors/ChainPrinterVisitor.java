@@ -222,7 +222,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionPV transpositionPV) {
         printChainDownLine();
-        printChainText(String.format("%s [PVReader: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getTtPvReader())));
+        printChainText(String.format("%s [PVReader: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getPvReader())));
 
         transpositionPV.getNext().accept(this);
     }

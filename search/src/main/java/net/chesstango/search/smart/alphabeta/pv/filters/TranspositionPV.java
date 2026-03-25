@@ -9,7 +9,7 @@ import net.chesstango.search.smart.alphabeta.pv.PVReader;
 
 /**
  * Este filtro se ejecuta luego de AlphaBeta para capturar tempranamente el PV.
- * Busquedas sucesivas a PV ocacionan que TT se ensucie y su precision disminuya considerablemente
+ * Busquedas sucesivas ocacionan que TT se ensucie y no se logre reconstruir PV
  *
  * @author Mauricio Coria
  */
@@ -19,7 +19,7 @@ public class TranspositionPV implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
-    private PVReader ttPvReader;
+    private PVReader pvReader;
 
     @Override
     public void accept(Visitor visitor) {
@@ -49,7 +49,7 @@ public class TranspositionPV implements AlphaBetaFilter {
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
-            ttPvReader.readPrincipalVariation(currentMove, currentValue);
+            pvReader.readPrincipalVariation(currentMove, currentValue);
         }
 
         return moveAndValue;
