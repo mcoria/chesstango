@@ -45,7 +45,6 @@ public class TangoGame01IntegrationTest {
 
     @AfterEach
     public void tearDown() {
-        /*
         searchManagerSummaryReport
                 .addSearchResponses("TangoGame01", searchResponseList)
                 .printReport(System.out);
@@ -53,7 +52,6 @@ public class TangoGame01IntegrationTest {
         searchManagerReport
                 .withMoveResults(searchResponseList)
                 .printReport(System.out);
-         */
 
         List<SearchResult> searchResults = searchResponseList.stream()
                 .filter(SearchByTreeResult.class::isInstance)
