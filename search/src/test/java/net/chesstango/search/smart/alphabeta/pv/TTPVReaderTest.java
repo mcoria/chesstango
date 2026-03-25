@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.core.filters;
+package net.chesstango.search.smart.alphabeta.pv;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
@@ -6,8 +6,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -26,9 +23,6 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 public class TTPVReaderTest {
-
-    @Mock
-    private AlphaBetaFilter nextFilter;
 
     @Mock
     private Evaluator evaluator;
@@ -53,6 +47,8 @@ public class TTPVReaderTest {
     public void setup() {
         ttPvReader = new TTPVReader();
 
+        ttPvReader.beforeSearch();
+        ttPvReader.beforeSearchByDepth();
         ttPvReader.setEvaluator(evaluator);
         ttPvReader.setMaxMap(maxMap);
         ttPvReader.setMinMap(minMap);
@@ -60,13 +56,14 @@ public class TTPVReaderTest {
 
     /**
      * Este es el test mas simple de todos.
-     * Se buscó con depth = 1
+     * Se busca con depth = 1
      * PV = {a2a4}
      */
     @Test
     void test_calculatePrincipalVariation_depth01() {
         game = Game.from(FEN.START_POSITION);
         ttPvReader.setGame(game);
+        ttPvReader.setDepth(1);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
@@ -99,13 +96,14 @@ public class TTPVReaderTest {
 
     /**
      * Este es el test mas simple de todos.
-     * Se buscó con depth = 2
+     * Se busca con depth = 2
      * PV = {a2a4, g7g5}
      */
     @Test
     void test_calculatePrincipalVariation_depth02() {
         game = Game.from(FEN.START_POSITION);
         ttPvReader.setGame(game);
+        ttPvReader.setDepth(2);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
@@ -138,6 +136,30 @@ public class TTPVReaderTest {
 
         // Verifica que el undo fué correcto
         assertEquals(nextZobrist, game.getPosition().getZobristHash());
+    }
+
+    /**
+     * Este es el test mas simple de todos.
+     * Se busca con depth = 1
+     * PV = {a2a4}
+     */
+    @Test
+    void test_beforeSearchByDepth() {
+        game = Game.from(FEN.START_POSITION);
+
+        final long startZobrist = game.getPosition().getZobristHash();
+        final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
+
+        // Supongamos que se ejecutó readPrincipalVariation
+        ttPvReader.principalVariation = List.of(new PrincipalVariation(startZobrist, startExecutedMove));
+        ttPvReader.pvComplete = true;
+
+        // Y continuamos con la siguiente profundidad
+        ttPvReader.beforeSearchByDepth();
+
+        // Entonces pvComplete debe ser false y el principal variation debe conservar la ultima PV calcualda
+        assertFalse(ttPvReader.isPvComplete());
+        assertEquals(List.of(new PrincipalVariation(startZobrist, startExecutedMove)), ttPvReader.getPrincipalVariation());
     }
 
 }

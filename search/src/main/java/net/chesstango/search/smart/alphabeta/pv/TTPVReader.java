@@ -42,10 +42,10 @@ public class TTPVReader implements PVReader, SearchByCycleListener, SearchByDept
     private int depth;
 
     @Getter
-    private boolean pvComplete;
+    boolean pvComplete;
 
     @Getter
-    private List<PrincipalVariation> principalVariation;
+    List<PrincipalVariation> principalVariation;
 
     private final TranspositionEntry entryWorkspace;
 
