@@ -2,11 +2,10 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.search.Search;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.Visitor;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.*;
 import net.chesstango.search.visitors.*;
 
 import java.util.function.Consumer;
@@ -54,6 +53,11 @@ public class IterativeDeepening implements Search {
         int currentSearchDepth = 1;
         SearchResult searchResult = new SearchResult();
         SearchResultByDepth searchResultByDepth = null;
+        boolean continueDeepening;
+
+        Color currentTurn = game.getPosition().getCurrentTurn();
+
+        // Performs iterative deepening loop until stop conditions met
         do {
             searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
 
@@ -77,9 +81,18 @@ public class IterativeDeepening implements Search {
 
             currentSearchDepth++;
 
+            /**
+             * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
+             * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
+             */
+            RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
+
+            continueDeepening = (Color.WHITE.equals(currentTurn) && bestRootMoveEvaluation.evaluation() < Evaluator.WHITE_WON) ||
+                            (Color.BLACK.equals(currentTurn) && bestRootMoveEvaluation.evaluation() > Evaluator.BLACK_WON);
+
         } while (keepProcessing &&
+                continueDeepening &&
                 currentSearchDepth <= maxDepth &&
-                searchResultByDepth.isContinueDeepening() &&            // Ojo que aca puede que este cometiendo suicidio
                 searchPredicateParameter.test(searchResultByDepth)
         );
 
@@ -88,7 +101,6 @@ public class IterativeDeepening implements Search {
         searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
 
         searchListenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
-
 
         return searchResult;
     }
