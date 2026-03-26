@@ -25,7 +25,7 @@ class PrincipalVariationPrinter implements Printer {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("PrincipalVariationReport    : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches                    : %10d%n", reportModel.searches);
-        out.printf("PV Complete                 : %10d%%%n", reportModel.pvCompletePercentage);
+        out.printf("PV Complete Avg             : %10d%%%n", reportModel.pvCompletePercentageAvg);
         out.printf("%n");
 
         out.printf("Principal Variations%n");

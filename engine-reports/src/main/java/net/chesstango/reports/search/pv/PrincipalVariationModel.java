@@ -21,7 +21,7 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
     /**
      * Promedio de promedio
      */
-    public int pvCompletePercentage;
+    public int pvCompletePercentageAvg;
 
     public List<PrincipalVariationReportModelDetail> moveDetails;
 
@@ -57,7 +57,7 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
 
         long pvCompletes = this.moveDetails.stream().filter(reportModelDetail -> reportModelDetail.pvComplete).count();
 
-        this.pvCompletePercentage = !searchResults.isEmpty() ? (int) (pvCompletes * 100 / searchResults.size()) : 0;
+        this.pvCompletePercentageAvg = !searchResults.isEmpty() ? (int) (pvCompletes * 100 / searchResults.size()) : 0;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
