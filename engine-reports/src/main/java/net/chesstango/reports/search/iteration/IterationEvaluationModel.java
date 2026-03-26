@@ -46,8 +46,6 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
     }
 
     private void load(List<SearchResult> searchResults) {
-        this.searches = searchResults.size();
-
         this.iterationModelDetails = new LinkedList<>();
 
         searchResults.forEach(this::loadModelDetail);
@@ -60,8 +58,11 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
         boardModelModelDetail.id = searchResult.getId();
         boardModelModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
-        boardModelModelDetail.maxIteration = searchResult.getSearchResultByDepths().size();
-        boardModelModelDetail.evaluations = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).toArray();
+        boardModelModelDetail.maxIteration = searchResult.getMaxSearchDepth();
+        boardModelModelDetail.evaluations = searchResult.getSearchResultByDepths()
+                .stream().map(SearchResultByDepth::getBestEvaluation)
+                .mapToInt(Integer::intValue)
+                .toArray();
 
         int[] evalArray = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).toArray();
 
@@ -84,10 +85,11 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
         double standardDeviation = Math.sqrt(variance);
         boardModelModelDetail.evaluationStdDev = (int) standardDeviation;
 
+        this.iterationModelDetails.add(boardModelModelDetail);
+
         if (this.maxIteration < boardModelModelDetail.maxIteration) {
             this.maxIteration = boardModelModelDetail.maxIteration;
         }
-
-        this.iterationModelDetails.add(boardModelModelDetail);
+        this.searches++;
     }
 }
