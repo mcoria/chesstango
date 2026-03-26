@@ -30,7 +30,7 @@ class EvaluationCachePrinter implements Printer {
     EvaluationCachePrinter printSummary() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("EvaluationCacheReport : %s%n", reportModel.searchGroupName);
-        out.printf("Evaluations           : %8d%n", reportModel.evaluationCounterTotal);
+        out.printf("Evaluations           : %8d%n", reportModel.evaluationsCounterTotal);
         out.printf("Cache Hits            : %8d (%2d%%)%n%n", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal);
         out.printf("Read Cache            : %8d%n", reportModel.readFromCacheCounterTotal);
         out.printf("Read Cache Hits       : %8d (%2d%%)%n%n", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal);
@@ -49,16 +49,16 @@ class EvaluationCachePrinter implements Printer {
         reportModel.moveDetails.forEach(moveDetail -> {
 
             printerTxtTable.addRow(moveDetail.move,
-                    Long.toString(moveDetail.evaluationCounter),
+                    Long.toString(moveDetail.evaluationsCounter),
                     String.format("%d (%2d%%)", moveDetail.evaluationsCacheHitsCounter, moveDetail.evaluationsCacheHitsPercentage),
-                    Long.toString(moveDetail.readFromCacheCounter),
-                    String.format("%d (%2d%%)", moveDetail.readFromCacheHitsCounter, moveDetail.readFromCacheHitsPercentage),
+                    Long.toString(moveDetail.readsFromCacheCounter),
+                    String.format("%d (%2d%%)", moveDetail.readsFromCacheHitsCounter, moveDetail.readsFromCacheHitsPercentage),
                     String.format("%2d%%", moveDetail.fillPercentage)
             );
         });
 
         printerTxtTable.setBottomRow("SUM",
-                Long.toString(reportModel.evaluationCounterTotal),
+                Long.toString(reportModel.evaluationsCounterTotal),
                 String.format("%d (%2d%%)", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal),
                 Long.toString(reportModel.readFromCacheCounterTotal),
                 String.format("%d (%2d%%)", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal),

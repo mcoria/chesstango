@@ -35,7 +35,7 @@ public class SummaryEvaluationCachePrinter implements Printer {
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
-                    Long.toString(row.evaluationCounterTotal),
+                    Long.toString(row.evaluationsCounterTotal),
                     String.format("%d (%2d%%)", row.evaluationsCacheHitsCounterTotal, row.evaluationsCacheHitsPercentageTotal),
                     Long.toString(row.readFromCacheCounterTotal),
                     String.format("%d (%2d%%)", row.readFromCacheHitsCounterTotal, row.readFromCacheHitsPercentageTotal),

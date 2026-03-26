@@ -19,7 +19,7 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
     /**
      * Evaluation Statistics
      */
-    public long evaluationCounterTotal;
+    public long evaluationsCounterTotal;
     public long evaluationsCacheHitsCounterTotal;
     public long evaluationsCacheHitsPercentageTotal;
     public long readFromCacheCounterTotal;
@@ -39,13 +39,12 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         public int evaluation;
 
-
-        public long evaluationCounter;
+        public long evaluationsCounter;
         public long evaluationsCacheHitsCounter;
         public long evaluationsCacheHitsPercentage;
-        public long readFromCacheCounter;
-        public long readFromCacheHitsCounter;
-        public long readFromCacheHitsPercentage;
+        public long readsFromCacheCounter;
+        public long readsFromCacheHitsCounter;
+        public long readsFromCacheHitsPercentage;
 
         public int fillPercentage;
     }
@@ -65,11 +64,11 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         searchResults.forEach(this::loadModelDetail);
 
-        this.evaluationCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationCounter).sum();
+        this.evaluationsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationsCounter).sum();
         this.evaluationsCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationsCacheHitsCounter).sum();
-        this.evaluationsCacheHitsPercentageTotal = this.evaluationsCacheHitsCounterTotal * 100 / this.evaluationCounterTotal;
-        this.readFromCacheCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readFromCacheCounter).sum();
-        this.readFromCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readFromCacheHitsCounter).sum();
+        this.evaluationsCacheHitsPercentageTotal = this.evaluationsCacheHitsCounterTotal * 100 / this.evaluationsCounterTotal;
+        this.readFromCacheCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readsFromCacheCounter).sum();
+        this.readFromCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readsFromCacheHitsCounter).sum();
         this.readFromCacheHitsPercentageTotal = this.readFromCacheHitsCounterTotal * 100 / this.readFromCacheCounterTotal;
         this.fillPercentageAvg = (int) this.moveDetails.stream().mapToInt(detail -> detail.fillPercentage).average().orElse(0);
     }
@@ -92,12 +91,12 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
 
     private void collectEvaluationStatistics(EvaluationCacheModelDetail reportModelDetail, EvaluationStatistics evaluationStatistics) {
-        reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
+        reportModelDetail.evaluationsCounter = evaluationStatistics.evaluationsCounter();
         reportModelDetail.evaluationsCacheHitsCounter = evaluationStatistics.evaluationsCacheHitsCounter();
-        reportModelDetail.evaluationsCacheHitsPercentage = reportModelDetail.evaluationCounter > 0 ? reportModelDetail.evaluationsCacheHitsCounter * 100 / reportModelDetail.evaluationCounter : 0;
-        reportModelDetail.readFromCacheCounter = evaluationStatistics.readFromCacheCounter();
-        reportModelDetail.readFromCacheHitsCounter = evaluationStatistics.readFromCacheHitsCounter();
-        reportModelDetail.readFromCacheHitsPercentage = reportModelDetail.readFromCacheCounter > 0 ? reportModelDetail.readFromCacheHitsCounter * 100 / reportModelDetail.readFromCacheCounter : 0;
+        reportModelDetail.evaluationsCacheHitsPercentage = reportModelDetail.evaluationsCounter > 0 ? reportModelDetail.evaluationsCacheHitsCounter * 100 / reportModelDetail.evaluationsCounter : 0;
+        reportModelDetail.readsFromCacheCounter = evaluationStatistics.readsFromCacheCounter();
+        reportModelDetail.readsFromCacheHitsCounter = evaluationStatistics.readsFromCacheHitsCounter();
+        reportModelDetail.readsFromCacheHitsPercentage = reportModelDetail.readsFromCacheCounter > 0 ? reportModelDetail.readsFromCacheHitsCounter * 100 / reportModelDetail.readsFromCacheCounter : 0;
         reportModelDetail.fillPercentage = evaluationStatistics.fillPercentage();
     }
 
