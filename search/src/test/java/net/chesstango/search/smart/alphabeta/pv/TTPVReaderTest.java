@@ -1,11 +1,13 @@
 package net.chesstango.search.smart.alphabeta.pv;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,9 @@ public class TTPVReaderTest {
 
     @Mock
     private Evaluator evaluator;
+
+    @Mock
+    private EndGameTableBase endGameTableBase;
 
     @Mock
     private TTable maxMap;
@@ -50,6 +55,7 @@ public class TTPVReaderTest {
         ttPvReader.beforeSearch();
         ttPvReader.beforeSearchByDepth();
         ttPvReader.setEvaluator(evaluator);
+        ttPvReader.setEndGameTableBase(endGameTableBase);
         ttPvReader.setMaxMap(maxMap);
         ttPvReader.setMinMap(minMap);
     }
@@ -160,6 +166,48 @@ public class TTPVReaderTest {
         // Entonces pvComplete debe ser false y el principal variation debe conservar la ultima PV calcualda
         assertFalse(ttPvReader.isPvComplete());
         assertEquals(List.of(new PrincipalVariation(startZobrist, startExecutedMove)), ttPvReader.getPrincipalVariation());
+    }
+
+    /**
+     * Este es el test mas simple de todos.
+     * Se busca con depth = 1
+     * PV = {a2a4}
+     */
+    @Test
+    void test_calculatePrincipalVariation_depth01EGTB() {
+        game = Game.from(FEN.of("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
+        ttPvReader.setGame(game);
+        ttPvReader.setDepth(1);
+
+        final long startZobrist = game.getPosition().getZobristHash();
+        final Move startExecutedMove = game.getMove(Square.g4, Square.f5);
+
+        startExecutedMove.executeMove();
+
+        final long nextZobrist = game.getPosition().getZobristHash();
+
+        final short bestMove = 0;
+        final int bestValue = Evaluator.WHITE_WON;
+
+        when(evaluator.evaluate()).thenReturn(0);
+        when(endGameTableBase.isProbeAvailable()).thenReturn(true);
+        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WHITE_WON);
+
+        // Llegamos a este punto antes de llamar a TranspositionPV.calculatePrincipalVariation()
+        ttPvReader.readPrincipalVariation(bestMove, bestValue);
+
+        List<PrincipalVariation> pv = ttPvReader.getPrincipalVariation();
+
+        assertEquals(1, pv.size());
+
+        PrincipalVariation firstPV = pv.getFirst();
+        assertEquals(startZobrist, firstPV.hash());
+        assertEquals(startExecutedMove, firstPV.move());
+
+        assertTrue(ttPvReader.isPvComplete());
+
+        // Verifica que el undo fué correcto
+        assertEquals(nextZobrist, game.getPosition().getZobristHash());
     }
 
 }

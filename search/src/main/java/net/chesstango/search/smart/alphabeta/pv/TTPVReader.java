@@ -10,6 +10,7 @@ import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
@@ -28,6 +29,9 @@ public class TTPVReader implements PVReader, SearchByCycleListener, SearchByDept
 
     @Setter
     private Evaluator evaluator;
+
+    @Setter
+    private EndGameTableBase endGameTableBase;
 
     @Setter
     private TTable maxMap;
@@ -105,6 +109,8 @@ public class TTPVReader implements PVReader, SearchByCycleListener, SearchByDept
         // En caso que se llegó a loop
         if (game.getState().getRepetitionCounter() > 1) {
             pvEvaluation = 0;
+        } else if (endGameTableBase.isProbeAvailable()) {
+            pvEvaluation = endGameTableBase.evaluate();
         }
 
         if (bestValue == pvEvaluation && principalVariation.size() >= depth) {
