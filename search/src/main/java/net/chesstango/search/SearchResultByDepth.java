@@ -22,12 +22,6 @@ public class SearchResultByDepth implements Serializable {
     private final int depth;
 
     /**
-     * Indicates whether the search should continue to deeper levels.
-     * Used to control the iterative deepening process.
-     */
-    private boolean continueDeepening;
-
-    /**
      * Stores the evaluation of the best move found during the search.
      * Contains both the move and its corresponding evaluation score.
      */

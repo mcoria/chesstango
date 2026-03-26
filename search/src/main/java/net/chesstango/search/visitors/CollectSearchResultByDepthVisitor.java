@@ -24,18 +24,7 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(AlphaBetaFacade alphaBetaFacade) {
-        RootMoveEvaluation bestMoveEvaluation = alphaBetaFacade.getBestMoveEvaluation();
-
-        searchResultByDepth.setBestRootMoveEvaluation(bestMoveEvaluation);
-
-        /**
-         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-         * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
-         */
-        searchResultByDepth.setContinueDeepening(
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
-        );
+        searchResultByDepth.setBestRootMoveEvaluation(alphaBetaFacade.getBestMoveEvaluation());
     }
 
 
