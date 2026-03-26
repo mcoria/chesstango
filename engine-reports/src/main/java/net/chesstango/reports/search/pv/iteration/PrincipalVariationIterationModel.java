@@ -17,6 +17,7 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
 
     public int searches;
     public int maxIteration;
+    public int pvCompletePercentage;
 
     public List<PrincipalVariationIterationModelDetail> modelDetails;
 
@@ -28,6 +29,8 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
         int maxIteration;
 
         boolean[] pvComplete;
+
+        int pvCompletePercentage;
     }
 
     @Override
@@ -43,14 +46,14 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
         modelDetails = new LinkedList<>();
 
         searchResults.forEach(this::loadModelDetail);
+
+        this.searches = modelDetails.size();
+        this.maxIteration = modelDetails.stream().mapToInt(detail -> detail.maxIteration).max().orElse(0);
+        this.pvCompletePercentage = (int) modelDetails.stream().mapToInt(detail -> detail.pvCompletePercentage).average().orElse(0);
     }
 
     private void loadModelDetail(SearchResult searchResult) {
         PrincipalVariationIterationModelDetail modelDetail = new PrincipalVariationIterationModelDetail();
-
-        List<SearchResultByDepth> searchResultByDepths = searchResult.getSearchResultByDepths();
-
-        SearchResultByDepth lastSearchResultByDepth = searchResultByDepths.getLast();
 
         Move bestMove = searchResult.getBestMove();
         modelDetail.id = searchResult.getId();
@@ -66,11 +69,8 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
             modelDetail.pvComplete[i] = completeList.get(i);
         }
 
-        modelDetails.add(modelDetail);
+        modelDetail.pvCompletePercentage = (int) completeList.stream().mapToInt(b -> b ? 100 : 0).average().orElse(0);
 
-        this.searches++;
-        if (this.maxIteration < modelDetail.maxIteration) {
-            this.maxIteration = modelDetail.maxIteration;
-        }
+        modelDetails.add(modelDetail);
     }
 }

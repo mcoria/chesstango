@@ -28,12 +28,15 @@ class PrincipalVariationIterationPrinter implements Printer {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("PrincipalVariationIterationReport   : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches                            : %10d%n", reportModel.searches);
+        out.printf("PV Complete by Iteration            : %10d%%%n", reportModel.pvCompletePercentage);
+        out.printf("%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(reportModel.maxIteration + 1).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(reportModel.maxIteration + 2).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
         IntStream.range(0, reportModel.maxIteration).mapToObj(it -> String.format("Iteration %2d", it + 1)).forEach(tmp::add);
+        tmp.add("Complete %");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
@@ -41,7 +44,7 @@ class PrincipalVariationIterationPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(String.format("%s", detail.move));
             IntStream.range(0, reportModel.maxIteration).mapToObj(it -> it < detail.maxIteration ? Boolean.toString(detail.pvComplete[it]) : "-").forEach(tmpRow::add);
-
+            tmpRow.add(String.format("%d %%", detail.pvCompletePercentage));
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
