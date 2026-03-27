@@ -20,11 +20,11 @@ import java.util.logging.Logger;
 @Slf4j
 public class UciMain implements Runnable, AutoCloseable {
 
-    private final UciTango uciTango;
-
     private final InputStream in;
 
     private final PrintStream out;
+
+    private final UciTango uciTango;
 
     private final UCIActiveStreamReader pipe;
 
