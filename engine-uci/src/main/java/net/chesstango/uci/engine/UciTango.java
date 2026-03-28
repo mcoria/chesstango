@@ -50,12 +50,11 @@ public class UciTango extends AbstractUCIEngine {
     @Getter
     private volatile Session session;
 
-    public UciTango(UCIOutputStream outputStream) {
-        this(outputStream, new Config().setSyncSearch(false), Tango::open);
+    public UciTango() {
+        this(new Config().setSyncSearch(false), Tango::open);
     }
 
-    UciTango(UCIOutputStream outputStream, Config tangoConfig, Function<Config, Tango> tangoFactory) {
-        super(outputStream);
+    UciTango(Config tangoConfig, Function<Config, Tango> tangoFactory) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(ReqUci cmdUci) {
