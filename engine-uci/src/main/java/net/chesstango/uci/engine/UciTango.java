@@ -52,7 +52,11 @@ public class UciTango extends AbstractUCIEngine {
         this(new Config().setSyncSearch(false), Tango::open);
     }
 
-    UciTango(Config tangoConfig, Function<Config, Tango> tangoFactory) {
+    public UciTango(Config config) {
+        this(config, Tango::open);
+    }
+
+    UciTango(Config config, Function<Config, Tango> tangoFactory) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(ReqUci cmdUci) {
@@ -97,14 +101,14 @@ public class UciTango extends AbstractUCIEngine {
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
 
-        this.tangoConfig = tangoConfig;
+        this.tangoConfig = config;
 
         this.tangoFactory = tangoFactory;
 
         // State pattern initialization: different state instances are created and linked with one another to
         // represent the allowable transitions within the state lifecycle of the engine.
-        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, tangoConfig);
-        ReadyState readyState = new ReadyState(this, tangoConfig);
+        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, config);
+        ReadyState readyState = new ReadyState(this, config);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
