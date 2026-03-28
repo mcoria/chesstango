@@ -12,9 +12,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.goyeneche.AbstractUCIEngine;
 import net.chesstango.goyeneche.UCICommand;
 import net.chesstango.goyeneche.UCIEngine;
-import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.requests.*;
-import net.chesstango.goyeneche.stream.UCIOutputStream;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
 import java.util.List;

@@ -60,7 +60,7 @@ public class UciMain implements Runnable, AutoCloseable {
     public UciMain(InputStream in, PrintStream out) {
         this.pipe = new UCIActiveStreamReader();
         this.uciTango = new UciTango();
-        this.uciTango.setConsumer(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
+        this.uciTango.setUCIOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
         this.pipe.setInputStream(new UCIInputStreamFromStringAdapter(new StringSupplier(new InputStreamReader(in))));
         this.pipe.setOutputStream(uciTango::accept);
     }
