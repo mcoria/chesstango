@@ -20,10 +20,6 @@ import java.util.logging.Logger;
 @Slf4j
 public class UciMain implements Runnable, AutoCloseable {
 
-    private final InputStream in;
-
-    private final PrintStream out;
-
     private final UciTango uciTango;
 
     private final UCIActiveStreamReader pipe;
@@ -62,8 +58,6 @@ public class UciMain implements Runnable, AutoCloseable {
     }
 
     public UciMain(InputStream in, PrintStream out) {
-        this.in = in;
-        this.out = out;
         this.pipe = new UCIActiveStreamReader();
         this.uciTango = new UciTango(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
         this.pipe.setInputStream(new UCIInputStreamFromStringAdapter(new StringSupplier(new InputStreamReader(in))));
@@ -79,17 +73,11 @@ public class UciMain implements Runnable, AutoCloseable {
 
             pipe.run();
 
-            isRunning = false;
         } catch (RuntimeException e) {
             log.error("Error:", e);
             throw e;
         } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                log.error("Error:", e);
-            }
-            out.close();
+            isRunning = false;
         }
     }
 
