@@ -9,11 +9,10 @@ import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.goyeneche.AbstractUCIEngine;
 import net.chesstango.goyeneche.UCICommand;
 import net.chesstango.goyeneche.UCIEngine;
-import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.requests.*;
-import net.chesstango.goyeneche.stream.UCIOutputStream;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
 import java.util.List;
@@ -30,16 +29,14 @@ import java.util.function.Function;
  * @author Mauricio Coria
  */
 @Slf4j
-public class UciTango implements UCIService {
+public class UciTango extends AbstractUCIEngine {
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
-    private final Config tangoConfig;
-
-    private final Function<Config, Tango> tangoFactory;
+    @Setter
+    private Config tangoConfig;
 
     @Setter
-    private UCIOutputStream outputStream;
-
+    private Function<Config, Tango> tangoFactory;
 
     // Represents the current state of the engine. This is the key variable where the state pattern is applied,
     // allowing behavior to change dynamically at runtime based on the current state.
@@ -55,11 +52,11 @@ public class UciTango implements UCIService {
         this(new Config().setSyncSearch(false), Tango::open);
     }
 
-    public UciTango(Config tangoConfig) {
-        this(tangoConfig, Tango::open);
+    public UciTango(Config config) {
+        this(config, Tango::open);
     }
 
-    UciTango(Config tangoConfig, Function<Config, Tango> tangoFactory) {
+    UciTango(Config config, Function<Config, Tango> tangoFactory) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(ReqUci cmdUci) {
@@ -104,17 +101,14 @@ public class UciTango implements UCIService {
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
 
-        this.tangoConfig = tangoConfig;
+        this.tangoConfig = config;
 
         this.tangoFactory = tangoFactory;
-    }
 
-    @Override
-    public void open() {
-        // State pattern initialization: different state instances are created and linked with one another to 
+        // State pattern initialization: different state instances are created and linked with one another to
         // represent the allowable transitions within the state lifecycle of the engine.
-        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, tangoConfig);
-        ReadyState readyState = new ReadyState(this, tangoConfig);
+        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, config);
+        ReadyState readyState = new ReadyState(this, config);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
@@ -150,7 +144,7 @@ public class UciTango implements UCIService {
     synchronized void reply(UCIEngine newState, UCICommand command) {
         log.trace("tango >> {}", command);
         changeState(newState);
-        outputStream.accept(command);
+        reply(command);
     }
 
 

@@ -3,7 +3,6 @@ package net.chesstango.uci.engine;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Tango;
-import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.stream.UCIActiveStreamReader;
 import net.chesstango.goyeneche.stream.UCIInputStreamFromStringAdapter;
 import net.chesstango.goyeneche.stream.UCIOutputStreamToStringAdapter;
@@ -19,13 +18,9 @@ import java.util.logging.Logger;
  * @author Mauricio Coria
  */
 @Slf4j
-public class UciMain implements Runnable {
+public class UciMain implements Runnable, AutoCloseable {
 
-    private final UCIService service;
-
-    private final InputStream in;
-
-    private final PrintStream out;
+    private final UciTango uciTango;
 
     private final UCIActiveStreamReader pipe;
 
@@ -52,19 +47,22 @@ public class UciMain implements Runnable {
             }
         }
 
-        UciMain uciMain = new UciMain(new UciTango(), System.in, System.out);
+        try (UciMain uciMain = new UciMain(System.in, System.out)) {
 
-        uciMain.run();
+            uciMain.run();
+
+            System.exit(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public UciMain(UCIService service, InputStream in, PrintStream out) {
-        this.service = service;
-        this.in = in;
-        this.out = out;
+    public UciMain(InputStream in, PrintStream out) {
         this.pipe = new UCIActiveStreamReader();
-        this.service.setOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
+        this.uciTango = new UciTango();
+        this.uciTango.setUCIOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
         this.pipe.setInputStream(new UCIInputStreamFromStringAdapter(new StringSupplier(new InputStreamReader(in))));
-        this.pipe.setOutputStream(service::accept);
+        this.pipe.setOutputStream(uciTango::accept);
     }
 
     @Override
@@ -72,26 +70,20 @@ public class UciMain implements Runnable {
         try {
             log.info("{} {} by {}", Tango.ENGINE_NAME, Tango.ENGINE_AUTHOR, Tango.ENGINE_VERSION);
 
-            service.open();
-
             isRunning = true;
 
             pipe.run();
 
-            isRunning = false;
-
-            service.close();
         } catch (RuntimeException e) {
             log.error("Error:", e);
             throw e;
         } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                log.error("Error:", e);
-            }
-            out.close();
+            isRunning = false;
         }
     }
 
+    @Override
+    public void close() throws Exception {
+        uciTango.close();
+    }
 }
