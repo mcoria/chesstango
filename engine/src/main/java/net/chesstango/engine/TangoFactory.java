@@ -18,8 +18,7 @@ interface TangoFactory {
     SearchInvoker createSearchInvokerSync(SearchByChain searchByChain);
 
     SearchManager createSearchManager(int infiniteDepth,
-                                      Runnable stopFn,
-                                      Runnable resetFn,
+                                      SearchByTree searchByTree,
                                       TimeMgmt timeMgmt,
                                       SearchInvoker searchInvoker,
                                       ScheduledExecutorService timeOutExecutor);
@@ -32,7 +31,7 @@ interface TangoFactory {
 
     ThreadFactory createThreadFactory(String threadNamePrefix);
 
-    SearchByAggregator createSearchByAggregator(Config config);
+    SearchByAggregator createSearchByAggregator(Config config, SearchByTree searchByTree);
 
     SearchByTree createSearchByTree(Config config);
 

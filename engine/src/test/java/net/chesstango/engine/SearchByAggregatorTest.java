@@ -43,17 +43,15 @@ public class SearchByAggregatorTest {
     public void setup() {
         config = new Config();
         when(tangoFactory.createSearchByProxy()).thenReturn(new SearchByProxy(), new SearchByProxy());
-        when(tangoFactory.createSearchByTree(any(Config.class))).thenReturn(searchByTree);
     }
 
     @Test
     public void testBuildNoOptions() {
-        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config);
+        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
 
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createSearchByTree(eq(config));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();
         assertNull(searchByOpenBookProxy.getImp());
@@ -68,12 +66,11 @@ public class SearchByAggregatorTest {
         when(tangoFactory.createPolyglotBook(any(String.class))).thenReturn(polyglotBook);
         when(tangoFactory.createSearchByOpenBook(any(PolyglotBook.class))).thenReturn(searchByOpenBook);
 
-        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config);
+        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
 
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createSearchByTree(eq(config));
         verify(tangoFactory).createPolyglotBook(eq("test.bin"));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();
@@ -90,12 +87,11 @@ public class SearchByAggregatorTest {
         when(tangoFactory.createSyzygy(any(String.class))).thenReturn(syzygy);
         when(tangoFactory.createSearchByTablebase(any(Syzygy.class))).thenReturn(searchByTablebase);
 
-        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config);
+        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
 
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createSearchByTree(eq(config));
         verify(tangoFactory).createSyzygy(eq("/mnt/syzygy"));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();
@@ -117,15 +113,13 @@ public class SearchByAggregatorTest {
         when(tangoFactory.createSyzygy(any(String.class))).thenReturn(syzygy);
         when(tangoFactory.createSearchByTablebase(any(Syzygy.class))).thenReturn(searchByTablebase);
 
-        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config);
+        SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
 
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createSearchByTree(eq(config));
         verify(tangoFactory).createPolyglotBook(eq("test.bin"));
 
-        verify(tangoFactory).createSearchByTree(eq(config));
         verify(tangoFactory).createSyzygy(eq("/mnt/syzygy"));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();

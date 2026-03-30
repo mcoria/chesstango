@@ -2,7 +2,6 @@ package net.chesstango.uci.engine;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.SearchListener;
@@ -32,18 +31,12 @@ import java.util.function.Function;
 public class UciTango extends AbstractUCIEngine {
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
-    @Setter
-    private Config tangoConfig;
-
-    @Setter
-    private Function<Config, Tango> tangoFactory;
+    private final Tango tango;
 
     // Represents the current state of the engine. This is the key variable where the state pattern is applied,
     // allowing behavior to change dynamically at runtime based on the current state.
     @Getter(AccessLevel.PACKAGE)
     private volatile UCIEngine currentState;
-
-    private volatile Tango tango;
 
     @Getter
     private volatile Session session;
@@ -101,14 +94,12 @@ public class UciTango extends AbstractUCIEngine {
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
 
-        this.tangoConfig = config;
-
-        this.tangoFactory = tangoFactory;
+        this.tango = tangoFactory.apply(config);
 
         // State pattern initialization: different state instances are created and linked with one another to
         // represent the allowable transitions within the state lifecycle of the engine.
         WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, config);
-        ReadyState readyState = new ReadyState(this, config);
+        ReadyState readyState = new ReadyState(this);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
@@ -164,16 +155,6 @@ public class UciTango extends AbstractUCIEngine {
         currentState = newState;
     }
 
-    void loadTango() {
-        log.debug("Loading tango");
-        try {
-            close();
-            tango = tangoFactory.apply(tangoConfig);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     void newSession() {
         session = tango.newSession();
     }
@@ -208,5 +189,13 @@ public class UciTango extends AbstractUCIEngine {
 
     void setSessionSearchListener(SearchListener searchListener) {
         session.setSearchListener(searchListener);
+    }
+
+    void setPolyglotFile(String polyglotFile) {
+        tango.setPolyglotFile(polyglotFile);
+    }
+
+    void setSyzygyPath(String syzygyPath) {
+        tango.setSyzygyPath(syzygyPath);
     }
 }

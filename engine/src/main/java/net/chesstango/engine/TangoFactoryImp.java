@@ -35,12 +35,11 @@ class TangoFactoryImp implements TangoFactory {
 
     @Override
     public SearchManager createSearchManager(int infiniteDepth,
-                                             Runnable stopFn,
-                                             Runnable resetFn,
+                                             SearchByTree searchByTree,
                                              TimeMgmt timeMgmt,
                                              SearchInvoker searchInvoker,
                                              ScheduledExecutorService timeOutExecutor) {
-        return new SearchManager(infiniteDepth, stopFn, resetFn, timeMgmt, searchInvoker, timeOutExecutor);
+        return new SearchManager(infiniteDepth, searchByTree, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
 
@@ -74,8 +73,8 @@ class TangoFactoryImp implements TangoFactory {
     }
 
     @Override
-    public SearchByAggregator createSearchByAggregator(Config config) {
-        return new SearchByAggregator(this, config);
+    public SearchByAggregator createSearchByAggregator(Config config, SearchByTree searchByTree) {
+        return new SearchByAggregator(this, config, searchByTree);
     }
 
     @Override

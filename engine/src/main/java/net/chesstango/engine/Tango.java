@@ -74,6 +74,13 @@ public class Tango implements AutoCloseable {
         return searchManager.newSession();
     }
 
+    public void setPolyglotFile(String polyglotFile) {
+
+    }
+
+    public void setSyzygyPath(String syzygyPath) {
+    }
+
     private static Properties loadProperties() {
         Properties properties;
         try (InputStream inputStream = Tango.class.getResourceAsStream("/chesstango.properties")) {

@@ -60,7 +60,9 @@ class SearchManagerBuilder {
             log.warn("Both search and evaluator are set. Evaluator will be ignored");
         }
 
-        SearchByAggregator searchByAggregator = tangoFactory.createSearchByAggregator(config);
+        SearchByTree searchByTree = tangoFactory.createSearchByTree(config);
+
+        SearchByAggregator searchByAggregator = tangoFactory.createSearchByAggregator(config, searchByTree);
 
         SearchInvoker searchInvoker = config.getSyncSearch()
                 ? tangoFactory.createSearchInvokerSync(searchByAggregator)
@@ -68,7 +70,7 @@ class SearchManagerBuilder {
 
         TimeMgmt timeMgmt = tangoFactory.createTimeMgmt();
 
-        return tangoFactory.createSearchManager(infiniteDepth, searchByAggregator::stopSearching, searchByAggregator::reset, timeMgmt, searchInvoker, timeOutExecutor);
+        return tangoFactory.createSearchManager(infiniteDepth, searchByTree, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
 

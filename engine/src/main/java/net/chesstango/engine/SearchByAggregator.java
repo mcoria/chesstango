@@ -17,11 +17,11 @@ class SearchByAggregator implements SearchByChain {
     private final SearchByProxy searchByTablebaseProxy;
     private final SearchByTree searchByTree;
 
-    SearchByAggregator(TangoFactory tangoFactory, Config config) {
+    SearchByAggregator(TangoFactory tangoFactory, Config config, SearchByTree searchByTree) {
         this.tangoFactory = tangoFactory;
         this.searchByOpenBookProxy = tangoFactory.createSearchByProxy();
         this.searchByTablebaseProxy = tangoFactory.createSearchByProxy();
-        this.searchByTree = tangoFactory.createSearchByTree(config);
+        this.searchByTree = searchByTree;
 
         this.searchByOpenBookProxy.setNext(searchByTablebaseProxy);
         this.searchByTablebaseProxy.setNext(searchByTree);
@@ -38,14 +38,6 @@ class SearchByAggregator implements SearchByChain {
     @Override
     public SearchResponse search(SearchContext context) {
         return searchByOpenBookProxy.search(context);
-    }
-
-    void stopSearching() {
-        searchByTree.stopSearching();
-    }
-
-    void reset() {
-        searchByTree.reset();
     }
 
     void withPolyglotFile(String polyglotFile) {
