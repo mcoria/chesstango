@@ -15,16 +15,19 @@ class SearchManagerReady implements SearchManagerState {
     private final SearchManager searchManager;
     private final SearchInvoker searchInvoker;
     private final SearchByTree searchByTree;
+    private final SearchByAggregator searchByAggregator;
     private final int infiniteDepth;
 
     SearchManagerReady(SearchManager searchManager,
                        SearchInvoker searchInvoker,
                        SearchByTree searchByTree,
+                       SearchByAggregator searchByAggregator,
                        int infiniteDepth) {
         this.searchManager = searchManager;
         this.searchInvoker = searchInvoker;
-        this.infiniteDepth = infiniteDepth;
         this.searchByTree = searchByTree;
+        this.searchByAggregator = searchByAggregator;
+        this.infiniteDepth = infiniteDepth;
     }
 
     @Override
@@ -70,11 +73,11 @@ class SearchManagerReady implements SearchManagerState {
 
     @Override
     public void setPolyglotFile(String polyglotFile) {
-
+        searchByAggregator.withPolyglotFile(polyglotFile);
     }
 
     @Override
     public void setSyzygyPath(String syzygyPath) {
-
+        searchByAggregator.withSyzygyPath(syzygyPath);
     }
 }

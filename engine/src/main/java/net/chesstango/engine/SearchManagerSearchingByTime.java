@@ -98,11 +98,11 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
 
     @Override
     public void setPolyglotFile(String polyglotFile) {
-
+        log.warn("Search is in progress");
     }
 
     @Override
     public void setSyzygyPath(String syzygyPath) {
-
+        log.warn("Search is in progress");
     }
 }

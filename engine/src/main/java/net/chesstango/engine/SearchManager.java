@@ -76,7 +76,7 @@ class SearchManager implements TangoOptions {
     }
 
     SearchManagerReady createReadyState() {
-        return new SearchManagerReady(this, searchInvoker, searchByTree, infiniteDepth);
+        return new SearchManagerReady(this, searchInvoker, searchByTree, searchByAggregator, infiniteDepth);
     }
 
     SearchManagerSearchingByTime createSearchingByTimeState(int timeOut, SearchListener searchListener) {
