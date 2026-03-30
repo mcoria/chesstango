@@ -12,10 +12,6 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -27,7 +23,7 @@ import java.util.Random;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchByOpenBook implements SearchByChain, Closeable {
+class SearchByOpenBook implements SearchByChain {
     private final Random random = new Random();
 
     private final PolyglotBook book;
@@ -48,19 +44,6 @@ class SearchByOpenBook implements SearchByChain, Closeable {
             }
         }
         return searchResponse;
-    }
-
-
-    @Override
-    public void close() {
-        if (book != null) {
-            try {
-                book.close();
-            } catch (IOException e) {
-                log.error("Error closing opening book", e);
-                e.printStackTrace(System.err);
-            }
-        }
     }
 
     private Optional<PolyglotEntry> searchByBook(Game game) {

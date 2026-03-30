@@ -17,9 +17,10 @@ import java.util.concurrent.ThreadFactory;
 @Slf4j
 class TangoFactorySmart implements TangoFactory, AutoCloseable {
 
-    final TangoFactory imp;
+    private final TangoFactory imp;
 
     private PolyglotBook polyglotBook;
+
     private Syzygy syzygy;
 
     TangoFactorySmart(TangoFactory tangoFactory) {

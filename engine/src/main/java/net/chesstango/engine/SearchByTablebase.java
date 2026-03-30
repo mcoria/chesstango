@@ -1,7 +1,5 @@
 package net.chesstango.engine;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -13,8 +11,6 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -25,7 +21,7 @@ import static net.chesstango.piazzolla.syzygy.Syzygy.*;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchByTablebase implements SearchByChain, Closeable {
+class SearchByTablebase implements SearchByChain {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final SyzygyPosition syzygyPosition;
@@ -48,19 +44,6 @@ class SearchByTablebase implements SearchByChain, Closeable {
             }
         }
         return searchResponse;
-    }
-
-
-    @Override
-    public void close(){
-        try {
-            if (syzygy != null) {
-                syzygy.close();
-            }
-        } catch (IOException e) {
-            log.error("Error closing syzygy tablebases", e);
-            e.printStackTrace(System.err);
-        }
     }
 
 
