@@ -76,7 +76,7 @@ public class SearchManagerTest {
     }
 
     @Test
-    public void testStartSearchInfinite() {
+    public void test_SearchInfinite() {
         Future<SearchResponse> searchResultFuture = searchManager.searchInfinite(game, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
@@ -88,7 +88,7 @@ public class SearchManagerTest {
 
 
     @Test
-    public void testStartSearchDepth() {
+    public void test_SearchDepth() {
         Future<SearchResponse> searchResultFuture = searchManager.searchDepth(game, 3, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(3), any(Predicate.class), any(SearchListener.class));
@@ -99,7 +99,7 @@ public class SearchManagerTest {
     }
 
     @Test
-    public void testStartSearchTime() {
+    public void test_SearchTime_NoTimeOut() {
         Future<SearchResponse> searchResultFuture = searchManager.searchTime(game, 10000, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
@@ -110,7 +110,7 @@ public class SearchManagerTest {
     }
 
     @Test
-    public void testStartSearchTime_WithTimeOut() {
+    public void test_SearchTime_TimeOut() {
         Future<SearchResponse> searchResultFuture = searchManager.searchTime(game, 100, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));

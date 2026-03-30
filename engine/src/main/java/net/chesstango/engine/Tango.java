@@ -24,7 +24,7 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         log.info("Opening Tango engine");
 
-        TangoFactory tangoFactory = new TangoFactory();
+        TangoFactory tangoFactory = new TangoFactoryImp();
 
         ExecutorService searchExecutor = config.getSyncSearch() ? null : Executors.newSingleThreadExecutor(tangoFactory.createThreadFactory("search"));
 

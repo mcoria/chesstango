@@ -1,7 +1,9 @@
 package net.chesstango.engine;
 
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,9 @@ public class SearchByTreeTest {
     @Mock
     private Evaluator evaluator;
 
+    @Mock
+    private Syzygy syzygy;
+
 
     @BeforeEach
     public void setup() {
@@ -34,7 +39,7 @@ public class SearchByTreeTest {
     }
 
     @Test
-    public void testSearchByTree_noOptions() {
+    public void test_noOptions() {
         when(tangoFactory.createSearch()).thenReturn(search);
 
         SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
@@ -46,7 +51,7 @@ public class SearchByTreeTest {
 
 
     @Test
-    public void testSearchByTree_withSearch() {
+    public void test_withSearch() {
         config.setSearch(search);
 
         SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
@@ -58,7 +63,7 @@ public class SearchByTreeTest {
 
 
     @Test
-    public void testSearchByTree_withEvaluator() {
+    public void test_withEvaluator() {
         config.setEvaluator(evaluator);
 
         when(tangoFactory.createSearch(any(Evaluator.class))).thenReturn(search);
@@ -66,6 +71,21 @@ public class SearchByTreeTest {
         SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
 
         verify(tangoFactory).createSearch(eq(evaluator));
+
+        assertEquals(search, searchByTree.getSearch());
+    }
+
+    @Test
+    public void test_setSyzygy() {
+        when(tangoFactory.createSearch()).thenReturn(search);
+
+        SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
+
+        searchByTree.setSyzygy(syzygy);
+
+        verify(tangoFactory).createSearch();
+        verify(tangoFactory).createSyzygyTableBaseAdapter(eq(syzygy));
+        verify(search).accept(any(SetEndGameTableBaseVisitor.class));
 
         assertEquals(search, searchByTree.getSearch());
     }

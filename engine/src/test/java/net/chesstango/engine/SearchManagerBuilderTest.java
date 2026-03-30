@@ -1,8 +1,6 @@
 package net.chesstango.engine;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.piazzolla.polyglot.PolyglotBook;
-import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

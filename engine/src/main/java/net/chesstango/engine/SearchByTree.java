@@ -22,9 +22,11 @@ import java.time.Instant;
 @Slf4j
 @Getter(AccessLevel.PACKAGE)
 class SearchByTree implements SearchByChain {
+    private final TangoFactory tangoFactory;
     private final Search search;
 
     SearchByTree(TangoFactory tangoFactory, Config config) {
+        this.tangoFactory = tangoFactory;
         if (config.getSearch() == null) {
             if (config.getEvaluator() != null) {
                 search = tangoFactory.createSearch(config.getEvaluator());
@@ -63,13 +65,12 @@ class SearchByTree implements SearchByChain {
         search.stopSearch();
     }
 
-
     void reset() {
         search.reset();
     }
 
     void setSyzygy(Syzygy syzygy) {
-        EndGameTableBase egtb = new SyzygyAdapter(syzygy);
+        EndGameTableBase egtb = tangoFactory.createSyzygyTableBaseAdapter(syzygy);
         search.accept(new SetEndGameTableBaseVisitor(egtb));
     }
 }
