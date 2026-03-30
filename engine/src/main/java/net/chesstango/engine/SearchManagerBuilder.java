@@ -70,7 +70,7 @@ class SearchManagerBuilder {
 
         TimeMgmt timeMgmt = tangoFactory.createTimeMgmt();
 
-        return tangoFactory.createSearchManager(infiniteDepth, searchByTree, timeMgmt, searchInvoker, timeOutExecutor);
+        return tangoFactory.createSearchManager(infiniteDepth, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
 

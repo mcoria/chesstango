@@ -28,6 +28,12 @@ public class SearchManagerTest {
     private SearchManager searchManager;
 
     @Mock
+    private SearchByAggregator searchByAggregator;
+
+    @Mock
+    private SearchByTree searchByTree;
+
+    @Mock
     private TimeMgmt timeMgmt;
 
     @Mock
@@ -35,9 +41,6 @@ public class SearchManagerTest {
 
     @Mock
     private SearchListener listener;
-
-    @Mock
-    private SearchByTree searchByTree;
 
     private ScheduledExecutorService timeOutExecutor;
 
@@ -64,7 +67,7 @@ public class SearchManagerTest {
                     return CompletableFuture.completedFuture(expectedResult);
                 });
 
-        searchManager = new SearchManager(10, searchByTree, timeMgmt, searchInvoker, timeOutExecutor);
+        searchManager = new SearchManager(10, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
     @AfterEach

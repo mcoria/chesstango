@@ -36,10 +36,11 @@ class TangoFactoryImp implements TangoFactory {
     @Override
     public SearchManager createSearchManager(int infiniteDepth,
                                              SearchByTree searchByTree,
+                                             SearchByAggregator searchByAggregator,
                                              TimeMgmt timeMgmt,
                                              SearchInvoker searchInvoker,
                                              ScheduledExecutorService timeOutExecutor) {
-        return new SearchManager(infiniteDepth, searchByTree, timeMgmt, searchInvoker, timeOutExecutor);
+        return new SearchManager(infiniteDepth, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
 
