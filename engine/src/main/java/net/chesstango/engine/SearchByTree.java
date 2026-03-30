@@ -1,9 +1,14 @@
 package net.chesstango.engine;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import net.chesstango.search.visitors.SetSearchPredicateVisitor;
@@ -15,29 +20,21 @@ import java.time.Instant;
  * @author Mauricio Coria
  */
 @Slf4j
+@Getter(AccessLevel.PACKAGE)
 class SearchByTree implements SearchByChain {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
     private final Search search;
 
-    SearchByTree(Search search) {
-        this.search = search;
+    SearchByTree(TangoFactory tangoFactory, Config config) {
+        if (config.getSearch() == null) {
+            if (config.getEvaluator() != null) {
+                search = tangoFactory.createSearch(config.getEvaluator());
+            } else {
+                search = tangoFactory.createSearch();
+            }
+        } else {
+            search = config.getSearch();
+        }
     }
-
-    @Override
-    public void reset() {
-        search.reset();
-    }
-
-    @Override
-    public void stopSearching() {
-        search.stopSearch();
-    }
-
-    @Override
-    public void close() {
-    }
-
 
     /**
      * TODO: deberia subsribirse al listener para manipular el latcher que habilita el stop
@@ -55,10 +52,24 @@ class SearchByTree implements SearchByChain {
 
         SearchResult searchResult = search.startSearch(context.getGame());
 
-        log.debug("Tree search move found: {}", simpleMoveEncoder.encode(searchResult.getBestMove()));
+        log.debug("Tree search move found: {}", SimpleMoveEncoder.INSTANCE.encode(searchResult.getBestMove()));
 
         long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
 
         return new SearchByTreeResult(searchResult.getBestMove(), searchResult, timeSearching);
+    }
+
+    void stopSearching() {
+        search.stopSearch();
+    }
+
+
+    void reset() {
+        search.reset();
+    }
+
+    void setSyzygy(Syzygy syzygy) {
+        EndGameTableBase egtb = new SyzygyAdapter(syzygy);
+        search.accept(new SetEndGameTableBaseVisitor(egtb));
     }
 }

@@ -24,7 +24,6 @@ class SyzygyAdapter implements EndGameTableBase {
     private final Syzygy syzygy;
     private final int tbLargest;
     private final SyzygyPosition syzygyPosition;
-
     private Game game;
 
     /**

@@ -1,6 +1,5 @@
 package net.chesstango.engine;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -13,6 +12,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,59 +27,15 @@ import java.util.Random;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchByOpenBook implements SearchByChain {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+class SearchByOpenBook implements SearchByChain, Closeable {
     private final Random random = new Random();
 
-    @Setter
-    private SearchByChain next;
-
     private final PolyglotBook book;
-
-    static SearchByOpenBook open(String polyglotFile) {
-        if (polyglotFile != null) {
-            try {
-                Path polyglotFilePath = Path.of(polyglotFile);
-                if (Files.exists(polyglotFilePath)) {
-                    return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
-                } else {
-                    log.warn("Book file '{}' not found", polyglotFile);
-                }
-            } catch (IOException e) {
-                log.error("Error opening book file", e);
-            }
-        }
-        return null;
-    }
 
     SearchByOpenBook(PolyglotBook book) {
         this.book = book;
     }
 
-    @Override
-    public void reset() {
-        next.reset();
-    }
-
-
-    @Override
-    public void stopSearching() {
-        next.stopSearching();
-    }
-
-
-    @Override
-    public void close() throws Exception {
-        if (book != null) {
-            try {
-                book.close();
-            } catch (IOException e) {
-                log.error("Error closing opening book", e);
-                e.printStackTrace(System.err);
-            }
-        }
-        next.close();
-    }
 
     @Override
     public SearchResponse search(SearchContext context) {
@@ -91,7 +47,20 @@ class SearchByOpenBook implements SearchByChain {
                 searchResponse = createSearchResponse(context.getGame(), polyglotEntryOpt.get(), timeSearching);
             }
         }
-        return searchResponse == null ? next.search(context) : searchResponse;
+        return searchResponse;
+    }
+
+
+    @Override
+    public void close() {
+        if (book != null) {
+            try {
+                book.close();
+            } catch (IOException e) {
+                log.error("Error closing opening book", e);
+                e.printStackTrace(System.err);
+            }
+        }
     }
 
     private Optional<PolyglotEntry> searchByBook(Game game) {

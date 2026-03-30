@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 
+import java.util.Objects;
+
 /**
  * @author Mauricio Coria
  */
@@ -22,4 +24,15 @@ public class Config {
     private String polyglotFile;
 
     private String syzygyPath;
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Config config)) return false;
+        return Objects.equals(syncSearch, config.syncSearch) && Objects.equals(polyglotFile, config.polyglotFile) && Objects.equals(syzygyPath, config.syzygyPath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(syncSearch, polyglotFile, syzygyPath);
+    }
 }

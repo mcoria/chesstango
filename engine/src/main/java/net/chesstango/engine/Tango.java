@@ -8,8 +8,6 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mauricio Corial
@@ -26,27 +24,21 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         log.info("Opening Tango engine");
 
-        ExecutorService searchExecutor = Executors.newSingleThreadExecutor(new SearchManagerThreadFactory("search"));
+        TangoFactory tangoFactory = new TangoFactory();
 
-        ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
+        ExecutorService searchExecutor = config.getSyncSearch() ? null : Executors.newSingleThreadExecutor(tangoFactory.createThreadFactory("search"));
 
-        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
-                .withSearch(config.getSearch())
-                .withEvaluator(config.getEvaluator())
-                .withPolyglotFile(config.getPolyglotFile())
-                .withSyzygyPath(config.getSyzygyPath())
-                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
-                .withScheduledExecutorService(timeOutExecutor);
-
+        ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(tangoFactory.createThreadFactory("timeout"));
 
         // Configure search execution mode:
         // - Async mode: Executes search asynchronously
         // - Sync mode: Executes search synchronously in the calling thread
-        if (!config.getSyncSearch()) {
-            searchManagerBuilder
-                    .withAsyncInvoker()
-                    .withExecutorService(searchExecutor);
-        }
+        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder(tangoFactory)
+                .withConfig(config)
+                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
+                .withExecutorService(searchExecutor)
+                .withScheduledExecutorService(timeOutExecutor);
+
 
         SearchManager searchManager = searchManagerBuilder.build();
 
@@ -59,21 +51,25 @@ public class Tango implements AutoCloseable {
 
     private final SearchManager searchManager;
 
-    private Tango(SearchManager searchManager, ExecutorService searchExecutor, ScheduledExecutorService timeOutExecutor) {
+    private Tango(SearchManager searchManager,
+                  ExecutorService searchExecutor,
+                  ScheduledExecutorService timeOutExecutor) {
         this.searchExecutor = searchExecutor;
         this.timeOutExecutor = timeOutExecutor;
         this.searchManager = searchManager;
     }
 
     @Override
-    public void close() throws Exception {
-        searchExecutor.shutdown();
+    public void close() {
+        if (searchExecutor != null) {
+            searchExecutor.shutdown();
+        }
         timeOutExecutor.shutdown();
-        searchManager.close();
+        //searchManager.close();
     }
 
     public Session newSession() {
-        searchManager.reset();
+        //searchManager.reset();
         return new Session(searchManager);
     }
 
@@ -89,18 +85,5 @@ public class Tango implements AutoCloseable {
             throw new RuntimeException(e);
         }
         return properties;
-    }
-
-    private static class SearchManagerThreadFactory implements ThreadFactory {
-        private final AtomicInteger threadCounter = new AtomicInteger(1);
-        private String threadNamePrefix = "";
-
-        public SearchManagerThreadFactory(String threadNamePrefix) {
-            this.threadNamePrefix = threadNamePrefix;
-        }
-
-        public Thread newThread(Runnable runnable) {
-            return new Thread(runnable, String.format("%s-%d", threadNamePrefix, threadCounter.getAndIncrement()));
-        }
     }
 }
