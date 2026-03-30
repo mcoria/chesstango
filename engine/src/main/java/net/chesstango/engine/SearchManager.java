@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchManager {
+class SearchManager implements TangoOptions {
     private final int infiniteDepth;
     private final SearchByTree searchByTree;
     private final TimeMgmt timeMgmt;
@@ -55,6 +55,16 @@ class SearchManager {
 
     synchronized Session newSession() {
         return currentSearchManagerState.newSessionImp();
+    }
+
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
+        currentSearchManagerState.setPolyglotFile(polyglotFile);
+    }
+
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
+        currentSearchManagerState.setSyzygyPath(syzygyPath);
     }
 
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {

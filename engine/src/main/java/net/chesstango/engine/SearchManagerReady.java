@@ -67,4 +67,14 @@ class SearchManagerReady implements SearchManagerState {
         searchByTree.reset();
         return new Session(searchManager);
     }
+
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
+
+    }
+
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
+
+    }
 }

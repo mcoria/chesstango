@@ -76,4 +76,14 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
         searchManager.setCurrentSearchManagerState(searchManager.createReadyState());
         searchListener.searchFinished(searchResult);
     }
+
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
+
+    }
+
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
+
+    }
 }

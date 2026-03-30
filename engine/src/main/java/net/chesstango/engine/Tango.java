@@ -13,7 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author Mauricio Corial
  */
 @Slf4j
-public class Tango implements AutoCloseable {
+public class Tango implements AutoCloseable, TangoOptions {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
     public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
@@ -74,11 +74,14 @@ public class Tango implements AutoCloseable {
         return searchManager.newSession();
     }
 
+    @Override
     public void setPolyglotFile(String polyglotFile) {
-
+        searchManager.setPolyglotFile(polyglotFile);
     }
 
+    @Override
     public void setSyzygyPath(String syzygyPath) {
+        searchManager.setSyzygyPath(syzygyPath);
     }
 
     private static Properties loadProperties() {
