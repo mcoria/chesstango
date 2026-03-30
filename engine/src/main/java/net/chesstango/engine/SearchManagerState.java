@@ -15,4 +15,6 @@ interface SearchManagerState {
     Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener);
 
     void stopSearchingImp();
+
+    Session newSessionImp();
 }

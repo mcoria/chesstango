@@ -55,6 +55,12 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     }
 
     @Override
+    public Session newSessionImp() {
+        log.warn("Search is in progress");
+        return null;
+    }
+
+    @Override
     public void searchStarted() {
         searchListener.searchStarted();
     }

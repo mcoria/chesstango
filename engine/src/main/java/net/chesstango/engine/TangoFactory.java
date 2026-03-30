@@ -19,6 +19,7 @@ interface TangoFactory {
 
     SearchManager createSearchManager(int infiniteDepth,
                                       Runnable stopFn,
+                                      Runnable resetFn,
                                       TimeMgmt timeMgmt,
                                       SearchInvoker searchInvoker,
                                       ScheduledExecutorService timeOutExecutor);

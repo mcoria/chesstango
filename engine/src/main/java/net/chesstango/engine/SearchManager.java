@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 class SearchManager {
     private final int infiniteDepth;
     private final Runnable stopFn;
+    private final Runnable resetFn;
     private final TimeMgmt timeMgmt;
     private final SearchInvoker searchInvoker;
     private final ScheduledExecutorService timeOutExecutor;
@@ -21,11 +22,13 @@ class SearchManager {
 
     SearchManager(int infiniteDepth,
                   Runnable stopFn,
+                  Runnable resetFn,
                   TimeMgmt timeMgmt,
                   SearchInvoker searchInvoker,
                   ScheduledExecutorService timeOutExecutor) {
         this.infiniteDepth = infiniteDepth;
         this.stopFn = stopFn;
+        this.resetFn = resetFn;
         this.timeMgmt = timeMgmt;
         this.searchInvoker = searchInvoker;
         this.timeOutExecutor = timeOutExecutor;
@@ -53,13 +56,17 @@ class SearchManager {
         currentSearchManagerState.stopSearchingImp();
     }
 
+    synchronized public Session newSession() {
+        return currentSearchManagerState.newSessionImp();
+    }
+
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
         log.trace("Changing state from {} to {}", this.currentSearchManagerState != null ? this.currentSearchManagerState.getClass().getSimpleName() : "-", currentSearchManagerState.getClass().getSimpleName());
         this.currentSearchManagerState = currentSearchManagerState;
     }
 
     SearchManagerReady createReadyState() {
-        return new SearchManagerReady(this, searchInvoker, infiniteDepth);
+        return new SearchManagerReady(this, searchInvoker, resetFn, infiniteDepth);
     }
 
     SearchManagerSearchingByTime createSearchingByTimeState(int timeOut, SearchListener searchListener) {

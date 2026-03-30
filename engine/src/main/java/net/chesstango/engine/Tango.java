@@ -24,26 +24,26 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         log.info("Opening Tango engine");
 
-        TangoFactory tangoFactory = new TangoFactoryImp();
+        TangoFactorySmart tangoFactorySmart = new TangoFactorySmart(new TangoFactoryImp());
 
-        ExecutorService searchExecutor = config.getSyncSearch() ? null : Executors.newSingleThreadExecutor(tangoFactory.createThreadFactory("search"));
+        ExecutorService searchExecutor = config.getSyncSearch() ? null : Executors.newSingleThreadExecutor(tangoFactorySmart.createThreadFactory("search"));
 
-        ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(tangoFactory.createThreadFactory("timeout"));
+        ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(tangoFactorySmart.createThreadFactory("timeout"));
 
         // Configure search execution mode:
         // - Async mode: Executes search asynchronously
         // - Sync mode: Executes search synchronously in the calling thread
-        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder(tangoFactory)
+        SearchManager searchManager = new SearchManagerBuilder(tangoFactorySmart)
                 .withConfig(config)
                 .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
                 .withExecutorService(searchExecutor)
-                .withScheduledExecutorService(timeOutExecutor);
+                .withScheduledExecutorService(timeOutExecutor)
+                .build();
 
-
-        SearchManager searchManager = searchManagerBuilder.build();
-
-        return new Tango(searchManager, searchExecutor, timeOutExecutor);
+        return new Tango(tangoFactorySmart, searchManager, searchExecutor, timeOutExecutor);
     }
+
+    private final TangoFactorySmart tangoFactorySmart;
 
     private final ExecutorService searchExecutor;
 
@@ -51,9 +51,11 @@ public class Tango implements AutoCloseable {
 
     private final SearchManager searchManager;
 
-    private Tango(SearchManager searchManager,
+    private Tango(TangoFactorySmart tangoFactorySmart,
+                  SearchManager searchManager,
                   ExecutorService searchExecutor,
                   ScheduledExecutorService timeOutExecutor) {
+        this.tangoFactorySmart = tangoFactorySmart;
         this.searchExecutor = searchExecutor;
         this.timeOutExecutor = timeOutExecutor;
         this.searchManager = searchManager;
@@ -65,12 +67,11 @@ public class Tango implements AutoCloseable {
             searchExecutor.shutdown();
         }
         timeOutExecutor.shutdown();
-        //searchManager.close();
+        tangoFactorySmart.close();
     }
 
     public Session newSession() {
-        //searchManager.reset();
-        return new Session(searchManager);
+        return searchManager.newSession();
     }
 
     private static Properties loadProperties() {

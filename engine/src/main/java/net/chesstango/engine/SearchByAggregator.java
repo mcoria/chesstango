@@ -44,17 +44,20 @@ class SearchByAggregator implements SearchByChain {
         searchByTree.stopSearching();
     }
 
-    SearchByAggregator withPolyglotFile(String polyglotFile) {
+    void reset() {
+        searchByTree.reset();
+    }
+
+    void withPolyglotFile(String polyglotFile) {
         PolyglotBook polyglotBook = tangoFactory.createPolyglotBook(polyglotFile);
         if (polyglotBook != null) {
             SearchByOpenBook searchByOpenBook = tangoFactory.createSearchByOpenBook(polyglotBook);
             searchByOpenBookProxy.setImp(searchByOpenBook);
         }
-        return this;
     }
 
 
-    SearchByAggregator withSyzygyPath(String syzygyPath) {
+    void withSyzygyPath(String syzygyPath) {
         Syzygy syzygy = tangoFactory.createSyzygy(syzygyPath);
 
         if (syzygy != null) {
@@ -64,7 +67,6 @@ class SearchByAggregator implements SearchByChain {
             searchByTree.setSyzygy(syzygy);
         }
 
-        return this;
     }
 
 }

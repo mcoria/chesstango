@@ -31,6 +31,9 @@ public class SearchManagerTest {
     private Runnable stopFn;
 
     @Mock
+    private Runnable resetFn;
+
+    @Mock
     private TimeMgmt timeMgmt;
 
     @Mock
@@ -67,7 +70,7 @@ public class SearchManagerTest {
                     return CompletableFuture.completedFuture(expectedResult);
                 });
 
-        searchManager = new SearchManager(10, stopFn, timeMgmt, searchInvoker, timeOutExecutor);
+        searchManager = new SearchManager(10, stopFn, resetFn, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
     @AfterEach

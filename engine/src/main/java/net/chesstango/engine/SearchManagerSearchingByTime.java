@@ -69,6 +69,12 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
     }
 
     @Override
+    public Session newSessionImp() {
+        log.warn("Search is in progress");
+        return null;
+    }
+
+    @Override
     public void searchStarted() {
         stopTask = timeOutExecutor.schedule(this::stopSearchingImp, timeOut, TimeUnit.MILLISECONDS);
         searchListener.searchStarted();

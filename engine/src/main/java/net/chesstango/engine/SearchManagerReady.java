@@ -14,14 +14,17 @@ import java.util.function.Predicate;
 class SearchManagerReady implements SearchManagerState {
     private final SearchManager searchManager;
     private final SearchInvoker searchInvoker;
+    private final Runnable resetFn;
     private final int infiniteDepth;
 
     SearchManagerReady(SearchManager searchManager,
                        SearchInvoker searchInvoker,
+                       Runnable resetFn,
                        int infiniteDepth) {
         this.searchManager = searchManager;
         this.searchInvoker = searchInvoker;
         this.infiniteDepth = infiniteDepth;
+        this.resetFn = resetFn;
     }
 
     @Override
@@ -57,5 +60,11 @@ class SearchManagerReady implements SearchManagerState {
     @Override
     public void stopSearchingImp() {
         log.warn("No search in progress");
+    }
+
+    @Override
+    public Session newSessionImp() {
+        resetFn.run();
+        return new Session(searchManager);
     }
 }
