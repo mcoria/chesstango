@@ -13,7 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 class SearchManager implements TangoOptions {
     private final int infiniteDepth;
     private final SearchByTree searchByTree;
-    private final SearchByAggregator searchByAggregator;
+    private final TangoOptions tangoOptions;
     private final TimeMgmt timeMgmt;
     private final SearchInvoker searchInvoker;
     private final ScheduledExecutorService timeOutExecutor;
@@ -22,13 +22,13 @@ class SearchManager implements TangoOptions {
 
     SearchManager(int infiniteDepth,
                   SearchByTree searchByTree,
-                  SearchByAggregator searchByAggregator,
+                  TangoOptions tangoOptions,
                   TimeMgmt timeMgmt,
                   SearchInvoker searchInvoker,
                   ScheduledExecutorService timeOutExecutor) {
         this.infiniteDepth = infiniteDepth;
         this.searchByTree = searchByTree;
-        this.searchByAggregator = searchByAggregator;
+        this.tangoOptions = tangoOptions;
         this.timeMgmt = timeMgmt;
         this.searchInvoker = searchInvoker;
         this.timeOutExecutor = timeOutExecutor;
@@ -76,7 +76,7 @@ class SearchManager implements TangoOptions {
     }
 
     SearchManagerReady createReadyState() {
-        return new SearchManagerReady(this, searchInvoker, searchByTree, searchByAggregator, infiniteDepth);
+        return new SearchManagerReady(this, searchInvoker, searchByTree, tangoOptions, infiniteDepth);
     }
 
     SearchManagerSearchingByTime createSearchingByTimeState(int timeOut, SearchListener searchListener) {

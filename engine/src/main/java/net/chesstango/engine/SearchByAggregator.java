@@ -11,7 +11,7 @@ import net.chesstango.piazzolla.syzygy.Syzygy;
  */
 @Slf4j
 @Getter(AccessLevel.PACKAGE)
-class SearchByAggregator implements SearchByChain {
+class SearchByAggregator implements SearchByChain, TangoOptions {
     private final TangoFactory tangoFactory;
     private final SearchByProxy searchByOpenBookProxy;
     private final SearchByProxy searchByTablebaseProxy;
@@ -27,10 +27,10 @@ class SearchByAggregator implements SearchByChain {
         this.searchByTablebaseProxy.setNext(searchByTree);
 
         if (config.getPolyglotFile() != null) {
-            withPolyglotFile(config.getPolyglotFile());
+            setPolyglotFile(config.getPolyglotFile());
         }
         if (config.getSyzygyPath() != null) {
-            withSyzygyPath(config.getSyzygyPath());
+            setSyzygyPath(config.getSyzygyPath());
         }
     }
 
@@ -40,7 +40,8 @@ class SearchByAggregator implements SearchByChain {
         return searchByOpenBookProxy.search(context);
     }
 
-    void withPolyglotFile(String polyglotFile) {
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
         PolyglotBook polyglotBook = tangoFactory.createPolyglotBook(polyglotFile);
         if (polyglotBook != null) {
             SearchByOpenBook searchByOpenBook = tangoFactory.createSearchByOpenBook(polyglotBook);
@@ -49,7 +50,8 @@ class SearchByAggregator implements SearchByChain {
     }
 
 
-    void withSyzygyPath(String syzygyPath) {
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
         Syzygy syzygy = tangoFactory.createSyzygy(syzygyPath);
 
         if (syzygy != null) {
@@ -60,5 +62,4 @@ class SearchByAggregator implements SearchByChain {
         }
 
     }
-
 }

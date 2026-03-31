@@ -69,11 +69,11 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     @Override
     public SearchManager createSearchManager(int infiniteDepth,
                                              SearchByTree searchByTree,
-                                             SearchByAggregator searchByAggregator,
+                                             TangoOptions tangoOptions,
                                              TimeMgmt timeMgmt,
                                              SearchInvoker searchInvoker,
                                              ScheduledExecutorService timeOutExecutor) {
-        return imp.createSearchManager(infiniteDepth, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
+        return imp.createSearchManager(infiniteDepth, searchByTree, tangoOptions, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
     @Override
