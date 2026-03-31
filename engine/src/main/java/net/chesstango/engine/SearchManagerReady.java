@@ -14,13 +14,19 @@ import java.util.function.Predicate;
 class SearchManagerReady implements SearchManagerState {
     private final SearchManager searchManager;
     private final SearchInvoker searchInvoker;
+    private final SearchByTree searchByTree;
+    private final TangoOptions tangoOptions;
     private final int infiniteDepth;
 
     SearchManagerReady(SearchManager searchManager,
                        SearchInvoker searchInvoker,
+                       SearchByTree searchByTree,
+                       TangoOptions tangoOptions,
                        int infiniteDepth) {
         this.searchManager = searchManager;
         this.searchInvoker = searchInvoker;
+        this.searchByTree = searchByTree;
+        this.tangoOptions = tangoOptions;
         this.infiniteDepth = infiniteDepth;
     }
 
@@ -57,5 +63,21 @@ class SearchManagerReady implements SearchManagerState {
     @Override
     public void stopSearchingImp() {
         log.warn("No search in progress");
+    }
+
+    @Override
+    public Session newSessionImp() {
+        searchByTree.reset();
+        return new Session(searchManager);
+    }
+
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
+        tangoOptions.setPolyglotFile(polyglotFile);
+    }
+
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
+        tangoOptions.setPolyglotFile(syzygyPath);
     }
 }

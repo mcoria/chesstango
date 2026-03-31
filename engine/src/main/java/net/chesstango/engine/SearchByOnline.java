@@ -9,21 +9,7 @@ class SearchByOnline implements SearchByChain {
 
     @Override
     public SearchResponse search(SearchContext context) {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public void stopSearching() {
-
-    }
-
-    @Override
-    public void reset() {
-
-    }
-
-    @Override
-    public void close() throws Exception {
-
-    }
 }

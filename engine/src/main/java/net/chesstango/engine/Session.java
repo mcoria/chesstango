@@ -26,7 +26,6 @@ public class Session {
     @Setter
     private SearchListener searchListener;
 
-
     @Setter
     private FEN fen;
 

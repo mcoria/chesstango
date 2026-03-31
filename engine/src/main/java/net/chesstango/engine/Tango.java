@@ -5,17 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mauricio Corial
  */
 @Slf4j
-public class Tango implements AutoCloseable {
+public class Tango implements AutoCloseable, TangoOptions {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
     public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
@@ -26,55 +21,46 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         log.info("Opening Tango engine");
 
-        ExecutorService searchExecutor = Executors.newSingleThreadExecutor(new SearchManagerThreadFactory("search"));
-
-        ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
-
-        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
-                .withSearch(config.getSearch())
-                .withEvaluator(config.getEvaluator())
-                .withPolyglotFile(config.getPolyglotFile())
-                .withSyzygyPath(config.getSyzygyPath())
-                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
-                .withScheduledExecutorService(timeOutExecutor);
-
+        TangoFactorySmart tangoFactorySmart = new TangoFactorySmart(new TangoFactoryImp());
 
         // Configure search execution mode:
         // - Async mode: Executes search asynchronously
         // - Sync mode: Executes search synchronously in the calling thread
-        if (!config.getSyncSearch()) {
-            searchManagerBuilder
-                    .withAsyncInvoker()
-                    .withExecutorService(searchExecutor);
-        }
+        SearchManager searchManager = new SearchManagerBuilder(tangoFactorySmart)
+                .withConfig(config)
+                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
+                .build();
 
-        SearchManager searchManager = searchManagerBuilder.build();
-
-        return new Tango(searchManager, searchExecutor, timeOutExecutor);
+        return new Tango(tangoFactorySmart, searchManager);
     }
 
-    private final ExecutorService searchExecutor;
-
-    private final ScheduledExecutorService timeOutExecutor;
+    private final TangoFactorySmart tangoFactorySmart;
 
     private final SearchManager searchManager;
 
-    private Tango(SearchManager searchManager, ExecutorService searchExecutor, ScheduledExecutorService timeOutExecutor) {
-        this.searchExecutor = searchExecutor;
-        this.timeOutExecutor = timeOutExecutor;
+    Tango(TangoFactorySmart tangoFactorySmart,
+                  SearchManager searchManager) {
+        this.tangoFactorySmart = tangoFactorySmart;
         this.searchManager = searchManager;
     }
 
-    @Override
-    public void close() throws Exception {
-        searchExecutor.shutdown();
-        timeOutExecutor.shutdown();
-        searchManager.close();
+    public Session newSession() {
+        return searchManager.newSession();
     }
 
-    public Session newSession() {
-        searchManager.reset();
-        return new Session(searchManager);
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
+        searchManager.setPolyglotFile(polyglotFile);
+    }
+
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
+        searchManager.setSyzygyPath(syzygyPath);
+    }
+
+    @Override
+    public void close() {
+        tangoFactorySmart.close();
     }
 
     private static Properties loadProperties() {
@@ -89,18 +75,5 @@ public class Tango implements AutoCloseable {
             throw new RuntimeException(e);
         }
         return properties;
-    }
-
-    private static class SearchManagerThreadFactory implements ThreadFactory {
-        private final AtomicInteger threadCounter = new AtomicInteger(1);
-        private String threadNamePrefix = "";
-
-        public SearchManagerThreadFactory(String threadNamePrefix) {
-            this.threadNamePrefix = threadNamePrefix;
-        }
-
-        public Thread newThread(Runnable runnable) {
-            return new Thread(runnable, String.format("%s-%d", threadNamePrefix, threadCounter.getAndIncrement()));
-        }
     }
 }

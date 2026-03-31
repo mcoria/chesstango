@@ -1,7 +1,5 @@
 package net.chesstango.engine;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -13,7 +11,6 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -28,11 +25,6 @@ class SearchByTablebase implements SearchByChain {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final SyzygyPosition syzygyPosition;
-
-    @Setter
-    private SearchByChain next;
-
-    @Getter
     private final Syzygy syzygy;
 
     SearchByTablebase(Syzygy syzygy) {
@@ -40,33 +32,6 @@ class SearchByTablebase implements SearchByChain {
         this.syzygyPosition = new SyzygyPosition();
     }
 
-    static SearchByTablebase open(String syzygyPath) {
-        return new SearchByTablebase(Syzygy.open(syzygyPath));
-    }
-
-    @Override
-    public void reset() {
-        next.reset();
-    }
-
-    @Override
-    public void stopSearching() {
-        next.stopSearching();
-    }
-
-
-    @Override
-    public void close() throws Exception {
-        try {
-            if (syzygy != null) {
-                syzygy.close();
-            }
-        } catch (IOException e) {
-            log.error("Error closing syzygy tablebases", e);
-            e.printStackTrace(System.err);
-        }
-        next.close();
-    }
 
     @Override
     public SearchResponse search(SearchContext context) {
@@ -78,10 +43,11 @@ class SearchByTablebase implements SearchByChain {
                 searchResponse = createSearchResponse(context.getGame(), syzygyResult, timeSearching);
             }
         }
-        return searchResponse == null ? next.search(context) : searchResponse;
+        return searchResponse;
     }
 
-    int searchSyzygyTableBases(Game game) {
+
+    private int searchSyzygyTableBases(Game game) {
         int result = TB_RESULT_FAILED;
         final int tbLargest = syzygy.tb_largest();
         if (tbLargest >= 3 && tbLargest >= Long.bitCount(game.getPosition().getAllPositions())) {

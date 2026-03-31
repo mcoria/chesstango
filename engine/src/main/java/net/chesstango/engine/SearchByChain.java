@@ -3,11 +3,6 @@ package net.chesstango.engine;
 /**
  * @author Mauricio Coria
  */
-interface SearchByChain extends AutoCloseable {
-
+interface SearchByChain {
     SearchResponse search(SearchContext context);
-
-    void stopSearching();
-
-    void reset();
 }

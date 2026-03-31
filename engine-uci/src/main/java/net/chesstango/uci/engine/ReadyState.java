@@ -23,27 +23,20 @@ import static net.chesstango.uci.engine.UciOption.SYZYGY_PATH;
 class ReadyState implements UCIEngine {
     private final UciTango uciTango;
 
-    private final Config tangoConfig;
-
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    private volatile boolean loadTango;
-
-    ReadyState(UciTango uciTango, Config tangoConfig) {
+    ReadyState(UciTango uciTango) {
         this.uciTango = uciTango;
-        this.tangoConfig = tangoConfig;
-        this.loadTango = true;
     }
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
         if (POLYGLOT_FILE.getId().equals(cmdSetOption.getId())) {
-            tangoConfig.setPolyglotFile(cmdSetOption.getValue());
+            uciTango.setPolyglotFile(cmdSetOption.getValue());
         } else if (SYZYGY_PATH.getId().equals(cmdSetOption.getId())) {
-            tangoConfig.setSyzygyPath(cmdSetOption.getValue());
+            uciTango.setSyzygyPath(cmdSetOption.getValue());
         }
-        this.loadTango = true;
     }
 
     @Override
@@ -53,7 +46,6 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
-        loadTango();
         uciTango.newSession();
     }
 
@@ -64,8 +56,6 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_position(ReqPosition cmdPosition) {
-        loadTango();
-
         FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
                 ? FEN.START_POSITION
                 : FEN.of(cmdPosition.getFen());
@@ -75,12 +65,5 @@ class ReadyState implements UCIEngine {
         uciTango.setSessionMoves(cmdPosition.getMoves());
 
         uciTango.changeState(waitCmdGoState);
-    }
-
-    private void loadTango() {
-        if (loadTango) {
-            uciTango.loadTango();
-            loadTango = false;
-        }
     }
 }

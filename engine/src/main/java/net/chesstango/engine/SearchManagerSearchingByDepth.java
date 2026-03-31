@@ -14,15 +14,15 @@ import java.util.function.Predicate;
 class SearchManagerSearchingByDepth implements SearchManagerState, SearchListener {
     private final SearchManager searchManager;
 
-    private final SearchByChain searchByChain;
+    private final Runnable stopFn;
 
     private final CountDownLatch countDownLatch;
 
     private final SearchListener searchListener;
 
-    SearchManagerSearchingByDepth(SearchManager searchManager, SearchByChain searchByChain, SearchListener searchListener) {
+    SearchManagerSearchingByDepth(SearchManager searchManager, Runnable stopFn, SearchListener searchListener) {
         this.searchManager = searchManager;
-        this.searchByChain = searchByChain;
+        this.stopFn = stopFn;
         this.searchListener = searchListener;
         this.countDownLatch = new CountDownLatch(1);
     }
@@ -47,11 +47,17 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
             // Aca se puede dar la interrupcion
             countDownLatch.await();
 
-            searchByChain.stopSearching();
+            stopFn.run();
         } catch (InterruptedException e) {
             // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
             log.warn("Stopping interrupted");
         }
+    }
+
+    @Override
+    public Session newSessionImp() {
+        log.warn("Search is in progress");
+        return null;
     }
 
     @Override
@@ -69,5 +75,15 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     public void searchFinished(SearchResponse searchResult) {
         searchManager.setCurrentSearchManagerState(searchManager.createReadyState());
         searchListener.searchFinished(searchResult);
+    }
+
+    @Override
+    public void setPolyglotFile(String polyglotFile) {
+        log.warn("Search is in progress");
+    }
+
+    @Override
+    public void setSyzygyPath(String syzygyPath) {
+        log.warn("Search is in progress");
     }
 }
