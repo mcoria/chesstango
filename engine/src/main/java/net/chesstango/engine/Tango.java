@@ -38,15 +38,10 @@ public class Tango implements AutoCloseable, TangoOptions {
 
     private final SearchManager searchManager;
 
-    private Tango(TangoFactorySmart tangoFactorySmart,
+    Tango(TangoFactorySmart tangoFactorySmart,
                   SearchManager searchManager) {
         this.tangoFactorySmart = tangoFactorySmart;
         this.searchManager = searchManager;
-    }
-
-    @Override
-    public void close() {
-        tangoFactorySmart.close();
     }
 
     public Session newSession() {
@@ -61,6 +56,11 @@ public class Tango implements AutoCloseable, TangoOptions {
     @Override
     public void setSyzygyPath(String syzygyPath) {
         searchManager.setSyzygyPath(syzygyPath);
+    }
+
+    @Override
+    public void close() {
+        tangoFactorySmart.close();
     }
 
     private static Properties loadProperties() {
