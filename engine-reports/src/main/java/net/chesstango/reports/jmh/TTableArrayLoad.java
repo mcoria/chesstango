@@ -2,7 +2,7 @@ package net.chesstango.reports.jmh;
 
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
@@ -24,7 +24,7 @@ public class TTableArrayLoad {
     private TranspositionEntry transposition;
     private Random random;
 
-    private static final TranspositionBound[] BOUNDS = TranspositionBound.values();
+    private static final Bound[] BOUNDS = Bound.values();
     private static final int BOUNDS_SIZE = BOUNDS.length;
     private long loadCalls;
     private long founds;

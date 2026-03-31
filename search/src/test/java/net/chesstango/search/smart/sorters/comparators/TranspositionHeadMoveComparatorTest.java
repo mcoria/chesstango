@@ -10,7 +10,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableMap;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static net.chesstango.search.Bound.EXACT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -58,7 +59,7 @@ public class TranspositionHeadMoveComparatorTest {
 
         TranspositionEntry entry = new TranspositionEntry()
                 .setHash(hash)
-                .setBound(TranspositionBound.EXACT)
+                .setBound(EXACT)
                 .setDraft((byte)1)
                 .setMove(move)
                 .setValue(value);

@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.transposition;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.search.Bound;
 
 import java.io.Serializable;
 
@@ -17,7 +18,7 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
     byte draft; // Distance to the horizon
     short move;
     int value;
-    TranspositionBound bound;
+    Bound bound;
 
     public void reset() {
         hash = 0;

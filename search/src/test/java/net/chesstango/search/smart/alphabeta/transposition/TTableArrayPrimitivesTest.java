@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.transposition;
 
 import org.junit.jupiter.api.Test;
 
+import static net.chesstango.search.Bound.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,7 +22,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 3)
                 .setMove((short) 13)
                 .setValue(37)
-                .setBound(TranspositionBound.EXACT);
+                .setBound(EXACT);
 
         // Act
         TTable.SaveResult result = tTableArray.save(newEntry);
@@ -51,7 +52,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft(Byte.MIN_VALUE)
                 .setMove(Short.MIN_VALUE)
                 .setValue(Integer.MIN_VALUE)
-                .setBound(TranspositionBound.LOWER_BOUND);
+                .setBound(LOWER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(newEntry);
@@ -81,7 +82,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft(Byte.MAX_VALUE)
                 .setMove(Short.MAX_VALUE)
                 .setValue(Integer.MAX_VALUE)
-                .setBound(TranspositionBound.UPPER_BOUND);
+                .setBound(UPPER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(newEntry);
@@ -113,7 +114,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 5)
                 .setMove((short) 1)
                 .setValue(100)
-                .setBound(TranspositionBound.EXACT);
+                .setBound(EXACT);
         tTableArray.save(initialEntry);
 
         TranspositionEntry updatedEntry = new TranspositionEntry()
@@ -121,7 +122,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 6)
                 .setMove((short) 2)
                 .setValue(200)
-                .setBound(TranspositionBound.LOWER_BOUND);
+                .setBound(LOWER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(updatedEntry);
@@ -154,7 +155,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 5)
                 .setMove((short) 1)
                 .setValue(100)
-                .setBound(TranspositionBound.EXACT);
+                .setBound(EXACT);
         tTableArray.save(entry1);
 
         TranspositionEntry conflictingEntry = new TranspositionEntry()
@@ -162,7 +163,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 6)
                 .setMove((short) 2)
                 .setValue(200)
-                .setBound(TranspositionBound.UPPER_BOUND);
+                .setBound(UPPER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(conflictingEntry);
@@ -194,7 +195,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 5)
                 .setMove((short) 1)
                 .setValue(100)
-                .setBound(TranspositionBound.EXACT);
+                .setBound(EXACT);
         tTableArray.save(entryInOldSession);
 
         tTableArray.clear();
@@ -204,7 +205,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft((byte) 6)
                 .setMove((short) 2)
                 .setValue(200)
-                .setBound(TranspositionBound.LOWER_BOUND);
+                .setBound(LOWER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(entryInNewSession);
@@ -236,7 +237,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft(Byte.MAX_VALUE)
                 .setMove(Short.MAX_VALUE)
                 .setValue(Integer.MAX_VALUE)
-                .setBound(TranspositionBound.UPPER_BOUND);
+                .setBound(UPPER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(newEntry);
@@ -291,7 +292,7 @@ public class TTableArrayPrimitivesTest {
                 .setDraft(Byte.MAX_VALUE)
                 .setMove(Short.MAX_VALUE)
                 .setValue(Integer.MAX_VALUE)
-                .setBound(TranspositionBound.UPPER_BOUND);
+                .setBound(UPPER_BOUND);
 
         // Act
         TTable.SaveResult result = tTableArray.save(newEntry);

@@ -1,13 +1,15 @@
 package net.chesstango.search.smart.alphabeta.transposition;
 
+import static net.chesstango.search.Bound.*;
+
 /**
  * @author Mauricio Coria
  */
 public class TTableArrayPrimitives implements TTable {
 
-    static final long EXACT_BOUND = 0b00000001_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-    static final long LOWER_BOUND = 0b00000010_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-    static final long UPPER_BOUND = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long EXACT_BOUND_VALUE = 0b00000001_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long LOWER_BOUND_VALUE = 0b00000010_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+    static final long UPPER_BOUND_VALUE = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
 
 
     static final long AGE_MASK = 0b11111100_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
@@ -68,7 +70,7 @@ public class TTableArrayPrimitives implements TTable {
         entry.draft = draftByte;
         entry.move = move;
         entry.value = value;
-        entry.bound = bound == EXACT_BOUND ? TranspositionBound.EXACT : bound == LOWER_BOUND ? TranspositionBound.LOWER_BOUND : TranspositionBound.UPPER_BOUND;
+        entry.bound = bound == EXACT_BOUND_VALUE ? EXACT : bound == LOWER_BOUND_VALUE ? LOWER_BOUND : UPPER_BOUND;
 
         return true;
     }
@@ -95,7 +97,7 @@ public class TTableArrayPrimitives implements TTable {
             }
         }
 
-        long bound = entry.bound == TranspositionBound.EXACT ? EXACT_BOUND : entry.bound == TranspositionBound.LOWER_BOUND ? LOWER_BOUND : UPPER_BOUND;
+        long bound = entry.bound == EXACT ? EXACT_BOUND_VALUE : entry.bound == LOWER_BOUND ? LOWER_BOUND_VALUE : UPPER_BOUND_VALUE;
         byte draftByte = entry.draft;
         short move = entry.move;
         int value = entry.value;

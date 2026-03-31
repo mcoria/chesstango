@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.transposition.TTableMap;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -57,7 +57,7 @@ public abstract class AbstractNodeSorterTest {
         return sortedMovesStr;
     }
 
-    protected void saveEntry(TTable table, long hash, TranspositionBound bound, int draft, long moveAndValue) {
+    protected void saveEntry(TTable table, long hash, Bound bound, int draft, long moveAndValue) {
         short move = AlphaBetaHelper.decodeMove(moveAndValue);
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
 

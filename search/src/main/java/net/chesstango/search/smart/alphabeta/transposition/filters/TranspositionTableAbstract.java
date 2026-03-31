@@ -6,8 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
+
+import static net.chesstango.search.Bound.*;
 
 /**
  * @author Mauricio Coria
@@ -42,11 +44,11 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
-            if (entryWorkspace.getBound() == TranspositionBound.EXACT) {
+            if (entryWorkspace.getBound() == EXACT) {
                 return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
-            } else if (entryWorkspace.getBound() == TranspositionBound.LOWER_BOUND && beta <= entryWorkspace.getValue()) {
+            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
                 return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
-            } else if (entryWorkspace.getBound() == TranspositionBound.UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
+            } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
                 return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
             }
         }
@@ -72,11 +74,11 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
-            if (entryWorkspace.getBound() == TranspositionBound.EXACT) {
+            if (entryWorkspace.getBound() == EXACT) {
                 return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
-            } else if (entryWorkspace.getBound() == TranspositionBound.LOWER_BOUND && beta <= entryWorkspace.getValue()) {
+            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
                 return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
-            } else if (entryWorkspace.getBound() == TranspositionBound.UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
+            } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
                 return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
             }
         }
@@ -102,11 +104,11 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         entryWorkspace.setValue(value);
 
         if (beta <= value) {
-            entryWorkspace.setBound(TranspositionBound.LOWER_BOUND);
+            entryWorkspace.setBound(LOWER_BOUND);
         } else if (value <= alpha) {
-            entryWorkspace.setBound(TranspositionBound.UPPER_BOUND);
+            entryWorkspace.setBound(UPPER_BOUND);
         } else {
-            entryWorkspace.setBound(TranspositionBound.EXACT);
+            entryWorkspace.setBound(EXACT);
         }
 
         table.save(entryWorkspace);
