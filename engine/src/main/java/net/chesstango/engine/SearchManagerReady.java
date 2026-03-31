@@ -78,6 +78,6 @@ class SearchManagerReady implements SearchManagerState {
 
     @Override
     public void setSyzygyPath(String syzygyPath) {
-        tangoOptions.setPolyglotFile(syzygyPath);
+        tangoOptions.setSyzygyPath(syzygyPath);
     }
 }
