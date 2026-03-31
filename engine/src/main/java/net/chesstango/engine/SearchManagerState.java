@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-interface SearchManagerState extends TangoOptions{
+interface SearchManagerState extends TangoOptions {
     Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener);
 
     Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener);

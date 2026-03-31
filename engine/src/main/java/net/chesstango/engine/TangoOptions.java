@@ -3,7 +3,7 @@ package net.chesstango.engine;
 /**
  * @author Mauricio Corial
  */
-interface TangoOptions {
+public interface TangoOptions {
     void setPolyglotFile(String polyglotFile);
 
     void setSyzygyPath(String syzygyPath);

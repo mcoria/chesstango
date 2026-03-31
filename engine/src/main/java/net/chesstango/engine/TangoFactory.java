@@ -8,7 +8,7 @@ import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
+
 /**
  * @author Mauricio Corial
  */
@@ -29,8 +29,6 @@ interface TangoFactory {
 
     EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy);
 
-    ThreadFactory createThreadFactory(String threadNamePrefix);
-
     SearchByAggregator createSearchByAggregator(Config config, SearchByTree searchByTree);
 
     SearchByTree createSearchByTree(Config config);
@@ -46,4 +44,8 @@ interface TangoFactory {
     PolyglotBook createPolyglotBook(String polyglotFile);
 
     Syzygy createSyzygy(String syzygyPath);
+
+    ScheduledExecutorService createScheduledExecutorService();
+
+    ExecutorService createExecutorService();
 }

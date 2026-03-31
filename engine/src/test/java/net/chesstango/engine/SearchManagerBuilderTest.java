@@ -64,11 +64,10 @@ public class SearchManagerBuilderTest {
         when(tangoFactory.createSearchByAggregator(any(Config.class), any(SearchByTree.class))).thenReturn(searchByAggregator);
         when(tangoFactory.createSearchInvokerSync(any(SearchByChain.class))).thenReturn(searchInvokerSync);
         when(tangoFactory.createTimeMgmt()).thenReturn(timeMgmt);
+        when(tangoFactory.createScheduledExecutorService()).thenReturn(scheduledExecutorService);
         when(tangoFactory.createSearchManager(anyInt(), any(SearchByTree.class), any(SearchByAggregator.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
 
         SearchManager searchManager = builder
-                .withExecutorService(executorService)
-                .withScheduledExecutorService(scheduledExecutorService)
                 .withInfiniteDepth(100)
                 .withConfig(config.setSyncSearch(true))
                 .build();
@@ -79,6 +78,7 @@ public class SearchManagerBuilderTest {
         verify(tangoFactory).createSearchByAggregator(eq(config), eq(searchByTree));
         verify(tangoFactory).createSearchInvokerSync(eq(searchByAggregator));
         verify(tangoFactory).createTimeMgmt();
+        verify(tangoFactory).createScheduledExecutorService();
         verify(tangoFactory).createSearchManager(eq(100), eq(searchByTree), eq(searchByAggregator), eq(timeMgmt), eq(searchInvokerSync), eq(scheduledExecutorService));
     }
 
@@ -86,13 +86,13 @@ public class SearchManagerBuilderTest {
     public void testBuildSearchInvokerAsync() {
         when(tangoFactory.createSearchByTree(any(Config.class))).thenReturn(searchByTree);
         when(tangoFactory.createSearchByAggregator(any(Config.class), any(SearchByTree.class))).thenReturn(searchByAggregator);
+        when(tangoFactory.createExecutorService()).thenReturn(executorService);
         when(tangoFactory.createSearchInvokerAsync(any(SearchByChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
         when(tangoFactory.createTimeMgmt()).thenReturn(timeMgmt);
+        when(tangoFactory.createScheduledExecutorService()).thenReturn(scheduledExecutorService);
         when(tangoFactory.createSearchManager(anyInt(), any(SearchByTree.class), any(SearchByAggregator.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
 
         SearchManager searchManager = builder
-                .withExecutorService(executorService)
-                .withScheduledExecutorService(scheduledExecutorService)
                 .withInfiniteDepth(100)
                 .withConfig(config.setSyncSearch(false))
                 .build();
@@ -101,8 +101,10 @@ public class SearchManagerBuilderTest {
 
         verify(tangoFactory).createSearchByTree(eq(config));
         verify(tangoFactory).createSearchByAggregator(eq(config), eq(searchByTree));
+        verify(tangoFactory).createExecutorService();
         verify(tangoFactory).createSearchInvokerAsync(eq(searchByAggregator), eq(executorService));
         verify(tangoFactory).createTimeMgmt();
+        verify(tangoFactory).createScheduledExecutorService();
         verify(tangoFactory).createSearchManager(eq(100), eq(searchByTree), eq(searchByAggregator), eq(timeMgmt), eq(searchInvokerAsync), eq(scheduledExecutorService));
     }
 

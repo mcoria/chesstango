@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,12 +21,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 class TangoFactoryImp implements TangoFactory {
+    private final SearchManagerThreadFactory searchThreadFactory;
+    private final SearchManagerThreadFactory timeoutThreadFactory;
+
+    TangoFactoryImp() {
+        this.searchThreadFactory = new SearchManagerThreadFactory("search");
+        this.timeoutThreadFactory = new SearchManagerThreadFactory("timeout");
+    }
 
     @Override
     public SearchInvoker createSearchInvokerAsync(SearchByChain searchByChain, ExecutorService executorService) {
         return new SearchInvokerAsync(searchByChain, executorService);
     }
-
 
     @Override
     public SearchInvoker createSearchInvokerSync(SearchByChain searchByChain) {
@@ -65,12 +72,6 @@ class TangoFactoryImp implements TangoFactory {
     @Override
     public EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy) {
         return new SyzygyAdapter(syzygy);
-    }
-
-
-    @Override
-    public ThreadFactory createThreadFactory(String threadNamePrefix) {
-        return new SearchManagerThreadFactory(threadNamePrefix);
     }
 
     @Override
@@ -126,6 +127,16 @@ class TangoFactoryImp implements TangoFactory {
             return Syzygy.open(syzygyPath);
         }
         return null;
+    }
+
+    @Override
+    public ScheduledExecutorService createScheduledExecutorService() {
+        return Executors.newSingleThreadScheduledExecutor(timeoutThreadFactory);
+    }
+
+    @Override
+    public ExecutorService createExecutorService() {
+        return Executors.newSingleThreadExecutor(searchThreadFactory);
     }
 
     private static class SearchManagerThreadFactory implements ThreadFactory {

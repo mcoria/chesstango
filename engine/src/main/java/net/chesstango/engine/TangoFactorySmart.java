@@ -9,7 +9,6 @@ import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * @author Mauricio Corial
@@ -23,6 +22,10 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
 
     private Syzygy syzygy;
 
+    private ScheduledExecutorService scheduledExecutorService;
+
+    private ExecutorService executorService;
+
     TangoFactorySmart(TangoFactory tangoFactory) {
         this.imp = tangoFactory;
     }
@@ -32,6 +35,15 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     public void close() {
         closeInstance(polyglotBook);
         closeInstance(syzygy);
+        closeExecutorService(scheduledExecutorService);
+        closeExecutorService(executorService);
+    }
+
+    private void closeExecutorService(ExecutorService executorService) {
+        if (executorService != null) {
+            executorService.shutdown();
+            closeInstance(executorService);
+        }
     }
 
     private void closeInstance(AutoCloseable theInstance) {
@@ -80,11 +92,6 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     }
 
     @Override
-    public ThreadFactory createThreadFactory(String threadNamePrefix) {
-        return imp.createThreadFactory(threadNamePrefix);
-    }
-
-    @Override
     public SearchByAggregator createSearchByAggregator(Config config, SearchByTree searchByTree) {
         return imp.createSearchByAggregator(config, searchByTree);
     }
@@ -124,5 +131,17 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     public Syzygy createSyzygy(String syzygyPath) {
         syzygy = imp.createSyzygy(syzygyPath);
         return syzygy;
+    }
+
+    @Override
+    public ScheduledExecutorService createScheduledExecutorService() {
+        scheduledExecutorService = imp.createScheduledExecutorService();
+        return scheduledExecutorService;
+    }
+
+    @Override
+    public ExecutorService createExecutorService() {
+        executorService = imp.createExecutorService();
+        return executorService;
     }
 }
