@@ -19,22 +19,12 @@ public record RootMoveEvaluation(Move move,
         int result = Integer.compare(evaluation, other.evaluation);
 
         if (result == 0) {
-            if (Bound.LOWER_BOUND.equals(bound) && !Bound.LOWER_BOUND.equals(other.bound)) {
-                result = 1;
-            } else if (Bound.EXACT.equals(bound)) {
-                if (Bound.UPPER_BOUND.equals(other.bound)) {
-                    result = 1;
-                } else if (Bound.LOWER_BOUND.equals(other.bound)) {
-                    result = -1;
-                }
-            } else if (Bound.UPPER_BOUND.equals(bound) && !Bound.UPPER_BOUND.equals(other.bound)) {
-                result = -1;
-            }
+            result = bound.compareTo(other.bound);
         }
 
 
         /**
-         * Me parece que esto no va, deja de actual el proximo comparador cuando result == 0
+         * Me parece que esto no va, deja de actuar el proximo comparador cuando result == 0
          */
         if (result == 0) {
             result = DefaultMoveComparator.compareImp(move, other.move);
