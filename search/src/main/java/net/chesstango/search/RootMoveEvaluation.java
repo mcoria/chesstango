@@ -22,14 +22,6 @@ public record RootMoveEvaluation(Move move,
             result = bound.compareTo(other.bound);
         }
 
-
-        /**
-         * Me parece que esto no va, deja de actuar el proximo comparador cuando result == 0
-         */
-        if (result == 0) {
-            result = DefaultMoveComparator.compareImp(move, other.move);
-        }
-
         return result;
     }
 }

@@ -22,7 +22,9 @@ import org.junit.platform.suite.api.Suite;
         DefaultMoveSorterTest.class,
         NodeSorter01Test.class,
         NodeSorter02Test.class,
-        NodeSorter03Test.class
+        NodeSorter03Test.class,
+
+        RootMoveEvaluationTest.class
 })
 public class SorterTestSuite {
 
