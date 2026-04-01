@@ -36,7 +36,6 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
-        rootMoveSorter.setLastRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
         rootMoveSorter.setLastRootMoveEvaluations(searchResultByDepth.getRootMoveEvaluations());
     }
 

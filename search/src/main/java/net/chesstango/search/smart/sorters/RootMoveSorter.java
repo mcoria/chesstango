@@ -5,19 +5,22 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
+
+    private final RootMoveEvaluationComparator rootMoveEvaluationComparator = new RootMoveEvaluationComparator();
 
     @Getter
     @Setter
@@ -28,10 +31,6 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
 
     @Setter
     private List<RootMoveEvaluation> lastRootMoveEvaluations;
-
-    @Setter
-    private RootMoveEvaluation lastRootMoveEvaluation;
-
 
     private boolean maximize;
 
@@ -47,12 +46,11 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
         this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
         this.lastRootMoveEvaluations = null;
-        this.lastRootMoveEvaluation = null;
     }
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
-        if (lastRootMoveEvaluation == null) {
+        if (lastRootMoveEvaluations == null) {
             return next.getOrderedMoves(currentPly);
         } else {
             return getSortedMovesByLastMoveEvaluations();
@@ -61,23 +59,31 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
 
 
     private List<Move> getSortedMovesByLastMoveEvaluations() {
-        List<Move> moveList = new LinkedList<>();
+        List<RootMoveEvaluation> lastRootMoveEvaluationsCopy = new ArrayList<>(lastRootMoveEvaluations);
 
-        Move lastBestMove = lastRootMoveEvaluation.move();
-
-        moveList.add(lastBestMove);
-
-        Stream<RootMoveEvaluation> moveStream = lastRootMoveEvaluations.stream()
-                .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
-
-        moveStream = maximize ? moveStream.sorted(Comparator.reverseOrder()) : moveStream.sorted();
-
-        moveStream.map(RootMoveEvaluation::move).forEach(moveList::add);
-
-        if (moveList.size() != numberOfMove) {
+        if (lastRootMoveEvaluationsCopy.size() != numberOfMove) {
             throw new RuntimeException("Not all move were explorer during last iteration");
         }
 
-        return moveList;
+        lastRootMoveEvaluationsCopy.sort(maximize ? rootMoveEvaluationComparator.reversed() : rootMoveEvaluationComparator);
+
+        if (Bound.EXACT != lastRootMoveEvaluationsCopy.getFirst().bound()) {
+            throw new RuntimeException("First move bound is not exact after sorting");
+        }
+
+        return lastRootMoveEvaluationsCopy.stream().map(RootMoveEvaluation::move).toList();
+    }
+
+    static final class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluation> {
+        private final Comparator<Move> defaultMoveComparator = new DefaultMoveComparator();
+
+        @Override
+        public int compare(RootMoveEvaluation o1, RootMoveEvaluation o2) {
+            int result = o1.compareTo(o2);
+            if (result == 0) {
+                return defaultMoveComparator.compare(o1.move(), o2.move());
+            }
+            return result;
+        }
     }
 }
