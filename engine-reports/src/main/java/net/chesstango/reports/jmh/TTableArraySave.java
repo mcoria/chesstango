@@ -1,11 +1,13 @@
 package net.chesstango.reports.jmh;
 
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.*;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 
 @Fork(value = 1)
 @State(Scope.Benchmark)
@@ -21,7 +23,7 @@ public class TTableArraySave {
     private TranspositionEntry transpositionWrite;
     private Random random;
 
-    private static final TranspositionBound[] BOUNDS = TranspositionBound.values();
+    private static final Bound[] BOUNDS = Bound.values();
     private static final int BOUNDS_SIZE = BOUNDS.length;
     private long hashToWrite;
     private int updatedCounter;

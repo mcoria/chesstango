@@ -7,8 +7,10 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
+
+import static net.chesstango.search.Bound.EXACT;
 
 /**
  * @author Mauricio Coria
@@ -72,12 +74,12 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
         //TranspositionBound bound;
         if (beta <= value) {
-            //bound = TranspositionBound.LOWER_BOUND;
+            //bound = LOWER_BOUND;
         } else if (value <= alpha) {
-            //bound = TranspositionBound.UPPER_BOUND;
+            //bound = UPPER_BOUND;
         } else {
             entryWorkspace.setHash(hash);
-            entryWorkspace.setBound(TranspositionBound.EXACT);
+            entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft((byte) depth);
             entryWorkspace.setMove(move);
             entryWorkspace.setValue(value);

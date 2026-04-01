@@ -2,13 +2,15 @@ package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import static net.chesstango.search.Bound.EXACT;
 
 /**
  * Captura Nodos con lecturas para ordenar; que coincidan en valor y al menos una de ellas sea EXACT
@@ -32,7 +34,7 @@ public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
         for (Map.Entry<Integer, List<DebugOperationTT>> entry : valueToDebugNodeTTMap.entrySet()) {
             List<DebugOperationTT> entryList = entry.getValue();
             if (entryList.size() > 1 &&
-                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.getEntry().getBound()))) {
+                    entryList.stream().anyMatch(debugNodeTT -> EXACT.equals(debugNodeTT.getEntry().getBound()))) {
                 return true;
             }
         }

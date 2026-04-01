@@ -12,13 +12,15 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+
+import static net.chesstango.search.Bound.EXACT;
 
 /**
  * TTPVReader will not be considering for statistics purposes.
@@ -128,7 +130,7 @@ public class TTPVReader implements PVReader, SearchByCycleListener, SearchByDept
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
             boolean load = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
-            if (load && TranspositionBound.EXACT.equals(entryWorkspace.getBound())) {
+            if (load && EXACT.equals(entryWorkspace.getBound())) {
                 short bestMoveEncoded = entryWorkspace.getMove();
                 result = bestMoveEncoded != 0 ? getMove(bestMoveEncoded) : null;
             }

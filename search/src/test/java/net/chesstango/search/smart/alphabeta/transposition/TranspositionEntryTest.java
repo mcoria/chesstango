@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.transposition;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import org.junit.jupiter.api.Test;
 
+import static net.chesstango.search.Bound.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -172,10 +173,10 @@ public class TranspositionEntryTest {
     @Test
     void testCompare01() {
         TranspositionEntry t1 = new TranspositionEntry();
-        t1.setBound(TranspositionBound.EXACT);
+        t1.setBound(EXACT);
 
         TranspositionEntry t2 = new TranspositionEntry();
-        t2.setBound(TranspositionBound.EXACT);
+        t2.setBound(EXACT);
 
         assertEquals(0, t1.compareTo(t2));
         assertEquals(0, t2.compareTo(t1));
@@ -185,15 +186,15 @@ public class TranspositionEntryTest {
     void testCompareSameValue() {
         TranspositionEntry t1 = new TranspositionEntry();
         t1.setValue(0);
-        t1.setBound(TranspositionBound.LOWER_BOUND);
+        t1.setBound(LOWER_BOUND);
 
         TranspositionEntry t2 = new TranspositionEntry();
         t2.setValue(0);
-        t2.setBound(TranspositionBound.EXACT);
+        t2.setBound(EXACT);
 
         TranspositionEntry t3 = new TranspositionEntry();
         t3.setValue(0);
-        t3.setBound(TranspositionBound.UPPER_BOUND);
+        t3.setBound(UPPER_BOUND);
 
         assertTrue(t1.compareTo(t2) > 0);
         assertTrue(t2.compareTo(t1) < 0);
@@ -209,15 +210,15 @@ public class TranspositionEntryTest {
     void testCompareDifferentValue01() {
         TranspositionEntry t1 = new TranspositionEntry();
         t1.setValue(1);
-        t1.setBound(TranspositionBound.LOWER_BOUND);
+        t1.setBound(LOWER_BOUND);
 
         TranspositionEntry t2 = new TranspositionEntry();
         t2.setValue(0);
-        t2.setBound(TranspositionBound.EXACT);
+        t2.setBound(EXACT);
 
         TranspositionEntry t3 = new TranspositionEntry();
         t3.setValue(-1);
-        t3.setBound(TranspositionBound.UPPER_BOUND);
+        t3.setBound(UPPER_BOUND);
 
         assertTrue(t1.compareTo(t2) > 0);
         assertTrue(t2.compareTo(t1) < 0);
@@ -233,15 +234,15 @@ public class TranspositionEntryTest {
     void testCompareDifferentValue02() {
         TranspositionEntry t1 = new TranspositionEntry();
         t1.setValue(-1);
-        t1.setBound(TranspositionBound.LOWER_BOUND);
+        t1.setBound(LOWER_BOUND);
 
         TranspositionEntry t2 = new TranspositionEntry();
         t2.setValue(0);
-        t2.setBound(TranspositionBound.EXACT);
+        t2.setBound(EXACT);
 
         TranspositionEntry t3 = new TranspositionEntry();
         t3.setValue(1);
-        t3.setBound(TranspositionBound.UPPER_BOUND);
+        t3.setBound(UPPER_BOUND);
 
         assertTrue(t1.compareTo(t2) > 0);
         assertTrue(t2.compareTo(t1) < 0);

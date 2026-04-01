@@ -7,8 +7,10 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
+
+import static net.chesstango.search.Bound.EXACT;
 
 /**
  * Terminal filter in the alpha-beta search chain that stores terminal (leaf) positions in transposition tables.
@@ -59,7 +61,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
         if (!maxMap.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
-            entryWorkspace.setBound(TranspositionBound.EXACT);
+            entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft(Byte.MAX_VALUE);
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
@@ -78,7 +80,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
         if (!minMap.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
-            entryWorkspace.setBound(TranspositionBound.EXACT);
+            entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft(Byte.MAX_VALUE);
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));

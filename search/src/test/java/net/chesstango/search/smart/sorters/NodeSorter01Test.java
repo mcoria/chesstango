@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.chesstango.search.Bound.UPPER_BOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -25,7 +26,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
     @Test
     public void test01() {
-        saveEntry(minMap, 0xF91593D0EB65C164L, TranspositionBound.UPPER_BOUND, 1, 3147906084927624L);
+        saveEntry(minMap, 0xF91593D0EB65C164L, UPPER_BOUND, 1, 3147906084927624L);
 
         moveSorterBuilder
                 .withTranspositionTable()
