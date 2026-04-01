@@ -33,6 +33,9 @@ public record RootMoveEvaluation(Move move,
         }
 
 
+        /**
+         * Me parece que esto no va, deja de actual el proximo comparador cuando result == 0
+         */
         if (result == 0) {
             result = DefaultMoveComparator.compareImp(move, other.move);
         }
