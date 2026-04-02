@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Mauricio Coria
@@ -32,7 +30,7 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
-    public void testMoveByPiece() {
+    public void testSimpleMove_CompareByPiece() {
         Move moveQueen = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
@@ -57,21 +55,36 @@ public class DefaultMoveComparatorTest {
         assertTrue(defaultMoveComparator.compare(moveQueen, movePawn) > 0);
         assertTrue(defaultMoveComparator.compare(moveQueen, moveKing) > 0);
 
+        assertTrue(defaultMoveComparator.compare(moveKnight, moveQueen) < 0);
         assertTrue(defaultMoveComparator.compare(moveKnight, moveBishop) > 0);
         assertTrue(defaultMoveComparator.compare(moveKnight, moveRook) > 0);
         assertTrue(defaultMoveComparator.compare(moveKnight, movePawn) > 0);
         assertTrue(defaultMoveComparator.compare(moveKnight, moveKing) > 0);
 
+        assertTrue(defaultMoveComparator.compare(moveBishop, moveQueen) < 0);
+        assertTrue(defaultMoveComparator.compare(moveBishop, moveKnight) < 0);
         assertTrue(defaultMoveComparator.compare(moveBishop, moveRook) > 0);
         assertTrue(defaultMoveComparator.compare(moveBishop, movePawn) > 0);
         assertTrue(defaultMoveComparator.compare(moveBishop, moveKing) > 0);
 
+        assertTrue(defaultMoveComparator.compare(moveRook, moveQueen) < 0);
+        assertTrue(defaultMoveComparator.compare(moveRook, moveKnight) < 0);
+        assertTrue(defaultMoveComparator.compare(moveRook, moveBishop) < 0);
         assertTrue(defaultMoveComparator.compare(moveRook, movePawn) > 0);
         assertTrue(defaultMoveComparator.compare(moveRook, moveKing) > 0);
 
+        assertTrue(defaultMoveComparator.compare(movePawn, moveQueen) < 0);
+        assertTrue(defaultMoveComparator.compare(movePawn, moveKnight) < 0);
+        assertTrue(defaultMoveComparator.compare(movePawn, moveBishop) < 0);
+        assertTrue(defaultMoveComparator.compare(movePawn, moveRook) < 0);
         assertTrue(defaultMoveComparator.compare(movePawn, moveKing) > 0);
-    }
 
+        assertTrue(defaultMoveComparator.compare(moveKing, moveQueen) < 0);
+        assertTrue(defaultMoveComparator.compare(moveKing, moveKnight) < 0);
+        assertTrue(defaultMoveComparator.compare(moveKing, moveBishop) < 0);
+        assertTrue(defaultMoveComparator.compare(moveKing, moveRook) < 0);
+        assertTrue(defaultMoveComparator.compare(moveKing, movePawn) < 0);
+    }
 
 
     @Test
@@ -328,29 +341,29 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void sort_Fried_Liver_Attack_Mirror() {
-        Game game1 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
-        Game game2 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
+        Game blackGame = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
+        Game whiteGame = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
 
-        MoveContainerReader<Move> moves1 = game1.getPossibleMoves();
-        List<Move> moveList1 = new ArrayList<>(moves1.size());
-        for (Move move : moves1) {
-            moveList1.add(move);
+        MoveContainerReader<Move> blackPossibleMoves = blackGame.getPossibleMoves();
+        List<Move> blackPossibleMovesList = new ArrayList<>(blackPossibleMoves.size());
+        for (Move move : blackPossibleMoves) {
+            blackPossibleMovesList.add(move);
         }
 
-        MoveContainerReader<Move> moves2 = game2.getPossibleMoves();
-        List<Move> moveList2 = new ArrayList<>(moves2.size());
-        for (Move move : moves2) {
-            moveList2.add(move);
+        MoveContainerReader<Move> whitePossibleMoves = whiteGame.getPossibleMoves();
+        List<Move> whitePossibleMovesList = new ArrayList<>(whitePossibleMoves.size());
+        for (Move move : whitePossibleMoves) {
+            whitePossibleMovesList.add(move);
         }
 
-        moveList1.sort(defaultMoveComparator);
-        moveList2.sort(defaultMoveComparator.reversed());
+        blackPossibleMovesList.sort(defaultMoveComparator);
+        whitePossibleMovesList.sort(defaultMoveComparator.reversed());
 
-        assertEquals(moveList1.size(), moveList2.size());
+        assertEquals(blackPossibleMovesList.size(), whitePossibleMovesList.size());
 
-        for (int i = 0; i < moveList1.size(); i++) {
-            Move move1 = moveList1.get(i);
-            Move move2 = moveList2.get(i);
+        for (int i = 0; i < blackPossibleMovesList.size(); i++) {
+            Move move1 = blackPossibleMovesList.get(i);
+            Move move2 = whitePossibleMovesList.get(i);
             assertEquals(move1.getFrom().piece(), move2.getFrom().piece().getOpposite());
             assertEquals(move1.getFrom().square(), move2.getFrom().square().mirror());
             assertEquals(move1.getTo().square(), move2.getTo().square().mirror());
