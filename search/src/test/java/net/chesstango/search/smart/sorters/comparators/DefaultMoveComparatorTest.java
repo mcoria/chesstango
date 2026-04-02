@@ -1,14 +1,23 @@
 package net.chesstango.search.smart.sorters.comparators;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.gardel.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Mauricio Coria
@@ -120,6 +129,233 @@ public class DefaultMoveComparatorTest {
         assertTrue(defaultMoveComparator.compare(move1, move2) > 0);
 
         assertTrue(defaultMoveComparator.compare(move2, move1) < 0);
+    }
+
+    @Test
+    public void sortMoveToEmptySquareWhite() {
+        Move move = null;
+
+        List<Move> moveList = new ArrayList<>();
+
+        moveList.add(createSimpleOneSquarePawnMove(PiecePositioned.of(Square.e2, Piece.PAWN_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.QUEEN_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.KING_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.KNIGHT_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.ROOK_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.BISHOP_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.sort(defaultMoveComparator.reversed());
+        Iterator<Move> movesSortedIt = moveList.iterator();
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.QUEEN_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.BISHOP_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.ROOK_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KING_WHITE, move.getFrom().piece());
+
+        assertFalse(movesSortedIt.hasNext());
+    }
+
+
+    @Test
+    public void sortMoveCaptureWhite() {
+        Move move = null;
+
+        List<Move> moveList = new ArrayList<>();
+
+        moveList.add(createCapturePawnMove(PiecePositioned.of(Square.e2, Piece.PAWN_WHITE),
+                PiecePositioned.of(Square.f3, Piece.QUEEN_BLACK), Cardinal.NorteEste));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.QUEEN_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.KING_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.KNIGHT_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.ROOK_WHITE),
+                PiecePositioned.getPosition(Square.e3)));
+
+        moveList.add(createCaptureKnightMove(PiecePositioned.of(Square.e2, Piece.BISHOP_WHITE),
+                PiecePositioned.of(Square.e3, Piece.PAWN_BLACK)));
+
+        moveList.sort(defaultMoveComparator.reversed());
+        Iterator<Move> movesSortedIt = moveList.iterator();
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.BISHOP_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.QUEEN_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.ROOK_WHITE, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KING_WHITE, move.getFrom().piece());
+
+        assertFalse(movesSortedIt.hasNext());
+    }
+
+    @Test
+    public void sortMoveToEmptySquareBlack() {
+        Move move = null;
+
+        List<Move> moveList = new ArrayList<>();
+
+        moveList.add(createSimpleOneSquarePawnMove(PiecePositioned.of(Square.e7, Piece.PAWN_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.QUEEN_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.KING_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.KNIGHT_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.ROOK_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.BISHOP_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+
+        moveList.sort(defaultMoveComparator.reversed());
+        Iterator<Move> movesSortedIt = moveList.iterator();
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.QUEEN_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.BISHOP_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.ROOK_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KING_BLACK, move.getFrom().piece());
+
+        assertFalse(movesSortedIt.hasNext());
+    }
+
+    @Test
+    public void sortMoveCaptureBlack() {
+        Move move = null;
+
+        List<Move> moveList = new ArrayList<>();
+
+        moveList.add(createCapturePawnMove(PiecePositioned.of(Square.e7, Piece.PAWN_BLACK),
+                PiecePositioned.of(Square.f6, Piece.QUEEN_WHITE), Cardinal.SurEste));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.QUEEN_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.KING_BLACK),
+                PiecePositioned.getPosition(Square.e5)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.KNIGHT_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e7, Piece.ROOK_BLACK),
+                PiecePositioned.getPosition(Square.e6)));
+
+        moveList.add(createCaptureKnightMove(PiecePositioned.of(Square.e7, Piece.BISHOP_BLACK),
+                PiecePositioned.of(Square.e6, Piece.PAWN_WHITE)));
+
+
+        moveList.sort(defaultMoveComparator.reversed());
+        Iterator<Move> movesSortedIt = moveList.iterator();
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.BISHOP_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.QUEEN_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.ROOK_BLACK, move.getFrom().piece());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KING_BLACK, move.getFrom().piece());
+
+        assertFalse(movesSortedIt.hasNext());
+    }
+
+    @Test
+    public void sort_Fried_Liver_Attack_Mirror() {
+        Game game1 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
+        Game game2 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
+
+        MoveContainerReader<Move> moves1 = game1.getPossibleMoves();
+        List<Move> moveList1 = new ArrayList<>(moves1.size());
+        for (Move move : moves1) {
+            moveList1.add(move);
+        }
+
+        MoveContainerReader<Move> moves2 = game2.getPossibleMoves();
+        List<Move> moveList2 = new ArrayList<>(moves2.size());
+        for (Move move : moves2) {
+            moveList2.add(move);
+        }
+
+        moveList1.sort(defaultMoveComparator);
+        moveList2.sort(defaultMoveComparator.reversed());
+
+        assertEquals(moveList1.size(), moveList2.size());
+
+        for (int i = 0; i < moveList1.size(); i++) {
+            Move move1 = moveList1.get(i);
+            Move move2 = moveList2.get(i);
+            assertEquals(move1.getFrom().piece(), move2.getFrom().piece().getOpposite());
+            assertEquals(move1.getFrom().square(), move2.getFrom().square().mirror());
+            assertEquals(move1.getTo().square(), move2.getTo().square().mirror());
+        }
+
     }
 
     private Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {

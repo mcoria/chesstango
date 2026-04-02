@@ -141,4 +141,62 @@ public class AlphaBetaSearchesTest {
         assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
     }
 
+    @Test
+    public void testSearch_Fried_Liver_Attack_Mirror() {
+        final int depthAnalysis = 2;
+
+        Search search1 = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+        Game game1 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
+        search1.accept(new SetMaxDepthVisitor(depthAnalysis));
+        SearchResult searchResultBlack = search1.startSearch(game1);
+
+        int movesCount = game1.getPossibleMoves().size();
+
+        Search search2 = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+        Game game2 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
+        search2.accept(new SetMaxDepthVisitor(depthAnalysis));
+        SearchResult searchResultWhite = search2.startSearch(game2);
+
+
+        assertEquals(searchResultBlack.getBestEvaluation(), -searchResultWhite.getBestEvaluation());
+        assertEquals(movesCount, game2.getPossibleMoves().size());
+
+        for (int i = 0; i < depthAnalysis; i++) {
+            SearchResultByDepth blackSearchResultByDepth = searchResultBlack.getSearchResultByDepths().get(i);
+            SearchResultByDepth whiteSearchResultByDepth = searchResultWhite.getSearchResultByDepths().get(i);
+
+            List<RootMoveEvaluation> blackRootMoveEvaluations = blackSearchResultByDepth.getRootMoveEvaluations();
+            List<RootMoveEvaluation> whiteRootMoveEvaluations = whiteSearchResultByDepth.getRootMoveEvaluations();
+
+            for (int j = 0; j < movesCount; j++) {
+                RootMoveEvaluation blackRootMoveEvaluation = blackRootMoveEvaluations.get(j);
+                RootMoveEvaluation whiteRootMoveEvaluation = whiteRootMoveEvaluations.get(j);
+
+                assertEquals(blackRootMoveEvaluation.evaluation(), -whiteRootMoveEvaluation.evaluation());
+
+                if (blackRootMoveEvaluation.bound() == Bound.EXACT) {
+                    assertEquals(Bound.EXACT, whiteRootMoveEvaluation.bound());
+                } else if (blackRootMoveEvaluation.bound() == Bound.UPPER_BOUND) {
+                    assertEquals(Bound.LOWER_BOUND, whiteRootMoveEvaluation.bound());
+                } else if (blackRootMoveEvaluation.bound() == Bound.LOWER_BOUND) {
+                    assertEquals(Bound.UPPER_BOUND, whiteRootMoveEvaluation.bound());
+                }
+
+                Move blackMove = blackRootMoveEvaluation.move();
+                Move whiteMove = whiteRootMoveEvaluation.move();
+
+                assertEquals(blackMove.getFrom().piece(), whiteMove.getFrom().piece().getOpposite());
+                assertEquals(blackMove.getFrom(), whiteMove.getFrom().getMirrorPosition());
+                assertEquals(blackMove.getTo(), whiteMove.getTo().getMirrorPosition());
+            }
+        }
+    }
 }

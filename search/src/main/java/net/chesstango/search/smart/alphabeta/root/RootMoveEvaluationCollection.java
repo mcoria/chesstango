@@ -1,12 +1,17 @@
 package net.chesstango.search.smart.alphabeta.root;
 
 import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Bound;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
+import net.chesstango.search.smart.sorters.RootMoveEvaluationComparator;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -17,9 +22,17 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationCollection implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+
+    private final RootMoveEvaluationComparator rootMoveEvaluationComparator = new RootMoveEvaluationComparator();
+
     @Getter
     private List<RootMoveEvaluation> rootMoveEvaluations;
+
+    @Setter
+    private Game game;
+
+    private boolean maximize;
 
     @Override
     public void accept(Visitor visitor) {
@@ -27,8 +40,22 @@ public class RootMoveEvaluationCollection implements SearchByDepthListener, Sear
     }
 
     @Override
+    public void beforeSearch() {
+        this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
+    }
+
+    @Override
     public void beforeSearchByDepth() {
         this.rootMoveEvaluations = new LinkedList<>();
+    }
+
+    @Override
+    public void afterSearchByDepth() {
+        rootMoveEvaluations.sort(maximize ? rootMoveEvaluationComparator.reversed() : rootMoveEvaluationComparator);
+
+        if (Bound.EXACT != rootMoveEvaluations.getFirst().bound()) {
+            throw new RuntimeException("First move bound is not exact after sorting");
+        }
     }
 
     @Override
