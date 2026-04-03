@@ -142,9 +142,8 @@ public class AlphaBetaSearchesTest {
     }
 
     @Test
-    @Disabled
     public void testSearch_Fried_Liver_Attack_Mirror() {
-        final int depthAnalysis = 2;
+        final int depthAnalysis = 6;
 
         Search search1 = AlphaBetaBuilder
                 .createDefaultBuilderInstance()

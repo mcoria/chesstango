@@ -368,8 +368,8 @@ public class DefaultMoveComparatorTest {
             whitePossibleMovesList.add(move);
         }
 
-        blackPossibleMovesList.sort(defaultMoveComparator);
-        whitePossibleMovesList.sort(defaultMoveComparator);
+        blackPossibleMovesList.sort(defaultMoveComparator.reversed());
+        whitePossibleMovesList.sort(defaultMoveComparator.reversed());
 
         assertEquals(blackPossibleMovesList.size(), whitePossibleMovesList.size());
 

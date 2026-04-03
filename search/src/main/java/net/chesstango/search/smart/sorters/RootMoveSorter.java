@@ -18,7 +18,8 @@ import java.util.List;
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
 
-    private final RootMoveEvaluationComparator rootMoveEvaluationComparator = new RootMoveEvaluationComparator();
+    private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.WHITE);
+    private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.BLACK);
 
     @Getter
     @Setter
@@ -68,7 +69,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
             throw new RuntimeException("Not all move were explorer during last iteration");
         }
 
-        lastRootMoveEvaluationsCopy.sort(maximize ? rootMoveEvaluationComparator.reversed() : rootMoveEvaluationComparator);
+        lastRootMoveEvaluationsCopy.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
 
         if (Bound.EXACT != lastRootMoveEvaluationsCopy.getFirst().bound()) {
             throw new RuntimeException("First move bound is not exact after sorting");
