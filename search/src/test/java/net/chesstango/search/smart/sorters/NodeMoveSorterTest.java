@@ -19,14 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class DefaultMoveSorterTest {
+public class NodeMoveSorterTest {
 
     private NodeMoveSorter nodeMoveSorter;
 
     @BeforeEach
     public void setUp() {
         nodeMoveSorter = new NodeMoveSorter();
-        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
     }
 
     /**
@@ -35,6 +34,8 @@ public class DefaultMoveSorterTest {
      */
     @Test
     public void testCapture01() {
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         Move move = null;
 
         Game game = Game.from(FEN.of("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4"));
@@ -58,6 +59,8 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testCapture01Mirror() {
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         Move move = null;
 
         Game game = Game.from(FEN.of("rnbqkb1r/pppp1ppp/8/4p2n/5Q2/4P3/PPPP1PPP/RNB1KBNR b KQkq - 4 1"));
@@ -87,6 +90,8 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testCapture02() {
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         Move move = null;
 
         Game game = Game.from(FEN.of("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1"));
@@ -120,6 +125,8 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testCapture02Mirror() {
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         Move move = null;
 
         Game game = Game.from(FEN.of("rnbqkb1r/pppp1ppp/8/4p2n/3R1Q2/4P1B1/PPPP1PPP/1NB1K1NR b Kkq - 4 1"));
@@ -153,6 +160,8 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testInitial() {
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         Game game = Game.from(FEN.START_POSITION);
 
         initMoveSorter(nodeMoveSorter, game);
@@ -169,12 +178,15 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testGamesMirror() {
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         testMirror(Game.from(FEN.START_POSITION));
         testMirror(Game.from(FEN.of("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14")));
         testMirror(Game.from(FEN.of("2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1")));
         testMirror(Game.from(FEN.of("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1")));
         testMirror(Game.from(FEN.of("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4")));
         testMirror(Game.from(FEN.of("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1")));
+        testMirror(Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")));
     }
 
 
@@ -207,8 +219,7 @@ public class DefaultMoveSorterTest {
             assertEquals(move.getFrom().square(), moveMirror.getFrom().square().mirror());
             assertEquals(move.getTo().square(), moveMirror.getTo().square().mirror());
 
-            if (move instanceof MovePromotion) {
-                MovePromotion movePromotion = (MovePromotion) move;
+            if (move instanceof MovePromotion movePromotion) {
                 MovePromotion movePromotionMirror = (MovePromotion) moveMirror;
                 assertEquals(movePromotion.getPromotion(), movePromotionMirror.getPromotion().getOpposite());
             }

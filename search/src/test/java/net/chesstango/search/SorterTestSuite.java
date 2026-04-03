@@ -1,6 +1,6 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.sorters.DefaultMoveSorterTest;
+import net.chesstango.search.smart.sorters.NodeMoveSorterTest;
 import net.chesstango.search.smart.sorters.NodeSorter01Test;
 import net.chesstango.search.smart.sorters.NodeSorter02Test;
 import net.chesstango.search.smart.sorters.NodeSorter03Test;
@@ -17,7 +17,7 @@ import org.junit.platform.suite.api.Suite;
         DefaultMoveComparatorTest.class,
         TranspositionHeadMoveComparatorTest.class,
 
-        DefaultMoveSorterTest.class,
+        NodeMoveSorterTest.class,
         NodeSorter01Test.class,
         NodeSorter02Test.class,
         NodeSorter03Test.class,
