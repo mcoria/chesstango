@@ -188,11 +188,6 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
-        rootMoveEvaluationCollection.setGame(game);
-    }
-
-    @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {
         nodeMoveSorter.setGame(game);
     }

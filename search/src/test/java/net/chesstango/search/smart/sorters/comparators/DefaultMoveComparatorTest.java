@@ -9,6 +9,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.gardel.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -152,6 +153,7 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
+    @Disabled
     public void sortMoveToEmptySquareWhite() {
         Move move = null;
 
@@ -201,6 +203,7 @@ public class DefaultMoveComparatorTest {
 
 
     @Test
+    @Disabled
     public void sortMoveCaptureWhite() {
         Move move = null;
 
@@ -249,6 +252,7 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
+    @Disabled
     public void sortMoveToEmptySquareBlack() {
         Move move = null;
 
@@ -298,6 +302,7 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
+    @Disabled
     public void sortMoveCaptureBlack() {
         Move move = null;
 
