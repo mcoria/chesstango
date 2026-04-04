@@ -10,6 +10,10 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
+ * EL orden de movimientos es el natural, de menor a mayor, aplicando las siguientes reglas:
+ *
+ * En movimiento simples, el orden lo determina la pieza que se mueve: KING_WHITE -> PAWN_WHITE -> ROOK_WHITE -> BISHOP_WHITE -> KNIGHT_WHITE -> QUEEN_WHITE
+ *
  * @author Mauricio Coria
  */
 public class DefaultMoveComparator implements MoveComparator {
@@ -63,8 +67,8 @@ public class DefaultMoveComparator implements MoveComparator {
             return -1;
         }
 
+        // En caso que alguno o ambos de los movimientos sea captura
         if (result == 0) {
-            // En caso que alguno o ambos de los movimientos sea captura
             boolean isMove1Capture = isCapture(move1From, move1To);
             boolean isMove2Capture = isCapture(move2From, move2To);
             if (isMove1Capture && isMove2Capture) {
@@ -95,7 +99,6 @@ public class DefaultMoveComparator implements MoveComparator {
         if (result == 0) {
             result = move1From.square().getFile() - move2From.square().getFile();
         }
-
 
         if (result == 0) {
             result = move1To.square().getRank() - move2To.square().getRank();

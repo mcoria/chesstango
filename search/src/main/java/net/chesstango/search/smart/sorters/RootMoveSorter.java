@@ -5,19 +5,21 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
-import java.util.Comparator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
+
+    private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.WHITE);
+    private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.BLACK);
 
     @Getter
     @Setter
@@ -61,23 +63,18 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
 
 
     private List<Move> getSortedMovesByLastMoveEvaluations() {
-        List<Move> moveList = new LinkedList<>();
+        List<RootMoveEvaluation> lastRootMoveEvaluationsCopy = new ArrayList<>(lastRootMoveEvaluations);
 
-        Move lastBestMove = lastRootMoveEvaluation.move();
-
-        moveList.add(lastBestMove);
-
-        Stream<RootMoveEvaluation> moveStream = lastRootMoveEvaluations.stream()
-                .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
-
-        moveStream = maximize ? moveStream.sorted(Comparator.reverseOrder()) : moveStream.sorted();
-
-        moveStream.map(RootMoveEvaluation::move).forEach(moveList::add);
-
-        if (moveList.size() != numberOfMove) {
+        if (lastRootMoveEvaluationsCopy.size() != numberOfMove) {
             throw new RuntimeException("Not all move were explorer during last iteration");
         }
 
-        return moveList;
+        lastRootMoveEvaluationsCopy.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
+
+        if (Bound.EXACT != lastRootMoveEvaluationsCopy.getFirst().bound()) {
+            throw new RuntimeException("First move bound is not exact after sorting");
+        }
+
+        return lastRootMoveEvaluationsCopy.stream().map(RootMoveEvaluation::move).toList();
     }
 }
