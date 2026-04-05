@@ -9,8 +9,10 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -76,5 +78,31 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
         }
 
         return lastRootMoveEvaluationsCopy.stream().map(RootMoveEvaluation::move).toList();
+    }
+
+    /**
+     * @author Mauricio Coria
+     */
+    public static class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluation> {
+        private final Comparator<RootMoveEvaluation> rootMoveEvaluationComparator;
+
+        public RootMoveEvaluationComparator(Color color) {
+            DefaultMoveComparator defaultMoveComparator = new DefaultMoveComparator();
+            this.rootMoveEvaluationComparator = Color.WHITE.equals(color)
+                    ? Comparator
+                      .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
+                      .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
+                      .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()))
+                    : Comparator
+                      .comparing(RootMoveEvaluation::bound)
+                      .thenComparing(RootMoveEvaluation::evaluation)                                   // De menor a mayor: natural order
+                      .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
+
+        }
+
+        @Override
+        public int compare(RootMoveEvaluation o1, RootMoveEvaluation o2) {
+            return rootMoveEvaluationComparator.compare(o1, o2);
+        }
     }
 }

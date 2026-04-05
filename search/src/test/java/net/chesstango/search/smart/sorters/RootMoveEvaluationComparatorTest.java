@@ -16,16 +16,15 @@ import static org.mockito.Mockito.mock;
  * Unit tests for RootMoveEvaluation class, focusing on its compareTo method.
  * The compareTo method first compares evaluations, and if they are equal, compares bounds.
  */
-@Disabled
 public class RootMoveEvaluationComparatorTest {
 
-    RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
-    RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
+    RootMoveSorter.RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
+    RootMoveSorter.RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
 
     @BeforeEach
     void setup() {
-        whiteRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.WHITE);
-        blackRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.BLACK);
+        whiteRootMoveEvaluationComparator = new RootMoveSorter.RootMoveEvaluationComparator(Color.WHITE);
+        blackRootMoveEvaluationComparator = new RootMoveSorter.RootMoveEvaluationComparator(Color.BLACK);
     }
 
     /**
