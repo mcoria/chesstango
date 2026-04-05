@@ -28,16 +28,28 @@ public class RootMoveEvaluationComparatorTest {
         blackRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.BLACK);
     }
 
+    /**
+     * Ambos RootMoveEvaluation coinciden en BOUND pero difieren en EVALUATION.
+     */
     @Test
     void testCompareTo_BothEvaluationsDifferent() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
-        RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 100, Bound.EXACT);
-        RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 200, Bound.EXACT);
+        RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, -100, Bound.EXACT);
+        RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 100, Bound.EXACT);
 
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2)< 0);
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
+        /**
+         * Cuando ordenamos para Blancas: los valores mayores preceden a los menores
+         */
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
+
+        /**
+         * Cuando ordenamos para Negra: los valores menores preceden a los mayores
+         */
+        assertTrue(blackRootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
+        assertTrue(blackRootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
     }
 
     @Test
@@ -48,8 +60,8 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 100, Bound.LOWER_BOUND);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 100, Bound.EXACT);
 
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
     }
 
     @Test
@@ -73,8 +85,8 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 150, Bound.UPPER_BOUND);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 150, Bound.LOWER_BOUND);
 
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
     }
 
     @Test
@@ -85,7 +97,7 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 200, Bound.EXACT);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 200, Bound.UPPER_BOUND);
 
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
-        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
+        assertTrue(whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
     }
 }

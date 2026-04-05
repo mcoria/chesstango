@@ -17,9 +17,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
-
-    private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.WHITE);
-    private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.BLACK);
+    private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
+    private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
 
     @Getter
     @Setter
@@ -31,13 +30,15 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     @Setter
     private List<RootMoveEvaluation> lastRootMoveEvaluations;
 
-    @Setter
-    private RootMoveEvaluation lastRootMoveEvaluation;
-
 
     private boolean maximize;
 
     private int numberOfMove;
+
+    public RootMoveSorter() {
+        this.whiteRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.WHITE);
+        this.blackRootMoveEvaluationComparator = new RootMoveEvaluationComparator(Color.BLACK);
+    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -49,12 +50,11 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
         this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
         this.lastRootMoveEvaluations = null;
-        this.lastRootMoveEvaluation = null;
     }
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
-        if (lastRootMoveEvaluation == null) {
+        if (lastRootMoveEvaluations == null) {
             return next.getOrderedMoves(currentPly);
         } else {
             return getSortedMovesByLastMoveEvaluations();

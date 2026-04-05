@@ -17,11 +17,11 @@ public class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluati
         this.rootMoveEvaluationComparator = Color.WHITE.equals(color)
                 ? Comparator
                   .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
-                  .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())
+                  .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
                   .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()))
                 : Comparator
                   .comparing(RootMoveEvaluation::bound)
-                  .thenComparing(RootMoveEvaluation::evaluation)
+                  .thenComparing(RootMoveEvaluation::evaluation)                                   // De menor a mayor: natural order
                   .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
 
     }
