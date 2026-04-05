@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public interface GroupSorter extends SortListener{
+public interface GroupSorter extends SortListener {
     boolean offer(Move move);
 
     void collect(List<Move> moves);
