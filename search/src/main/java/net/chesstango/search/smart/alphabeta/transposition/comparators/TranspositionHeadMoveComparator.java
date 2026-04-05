@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
@@ -42,7 +41,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
+    public void beforeSort(final int currentPly) {
         final Color currentTurn = game.getPosition().getCurrentTurn();
 
         long hash = game.getPosition().getZobristHash();
@@ -56,12 +55,12 @@ public class TranspositionHeadMoveComparator implements MoveComparator {
             bestMoveEncoded = 0;
         }
 
-        next.beforeSort(currentPly, moveToZobrist);
+        next.beforeSort(currentPly);
     }
 
     @Override
-    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
-        next.afterSort(currentPly, moveToZobrist);
+    public void afterSort(int currentPly) {
+        next.afterSort(currentPly);
     }
 
 

@@ -100,6 +100,7 @@ Acceptor:
 	TriangularPV @ 22
 	AlphaBeta @ 16
 	NodeMoveSorter @ 17
+	QuietComparator @ 18
 	RecaptureMoveComparator @ 20
 	EgtbEvaluation @ 12
 	RootMoveEvaluationTracker @ 7

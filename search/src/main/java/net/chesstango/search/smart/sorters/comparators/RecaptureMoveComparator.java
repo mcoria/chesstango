@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
@@ -32,7 +31,7 @@ public class RecaptureMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
+    public void beforeSort(final int currentPly) {
         GameHistoryRecord stateHistory = this.game.getHistory().peekLastRecord();
         Move previousMove = stateHistory.playedMove();
         if (previousMove != null && !previousMove.isQuiet()) {
@@ -41,12 +40,12 @@ public class RecaptureMoveComparator implements MoveComparator {
             previousMoveToSquare = null;
         }
 
-        next.beforeSort(currentPly, moveToZobrist);
+        next.beforeSort(currentPly);
     }
 
     @Override
-    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
-        next.afterSort(currentPly, moveToZobrist);
+    public void afterSort(int currentPly) {
+        next.afterSort(currentPly);
     }
 
     @Override

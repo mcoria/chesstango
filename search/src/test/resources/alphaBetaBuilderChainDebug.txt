@@ -200,6 +200,7 @@ Acceptor:
 	KillerMoveTracker @ 47
 	AlphaBeta @ 32
 	NodeMoveSorter @ 34
+	QuietComparator @ 39
 	TranspositionHeadMoveComparator @ 36
 	TranspositionTailMoveComparator @ 38
 	PrincipalVariationComparator @ 35
