@@ -35,11 +35,15 @@ public class NodeGroupSorter implements MoveSorter {
 
         List<Move> moveList = new ArrayList<>(moves.size());
 
+        groupSorter.beforeSort(currentPly);
+
         for (Move move : moves) {
             groupSorter.offer(move);
         }
 
         groupSorter.collect(moveList);
+
+        groupSorter.afterSort();
 
         return moveList;
     }

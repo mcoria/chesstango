@@ -11,6 +11,16 @@ import java.util.List;
 public class NoQuietGroup implements GroupSorter {
 
     @Override
+    public void beforeSort(int currentPly) {
+
+    }
+
+    @Override
+    public void afterSort() {
+
+    }
+
+    @Override
     public boolean offer(Move move) {
         return false;
     }

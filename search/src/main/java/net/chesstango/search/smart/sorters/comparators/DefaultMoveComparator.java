@@ -167,7 +167,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(int currentPly) {
+    public void afterSort() {
 
     }
 }

@@ -56,7 +56,7 @@ public class NodeMoveSorter implements MoveSorter {
 
         moveComparator.beforeSort(currentPly);
         moveList.sort(moveComparator.reversed());
-        moveComparator.afterSort(currentPly);
+        moveComparator.afterSort();
 
         return moveList;
     }

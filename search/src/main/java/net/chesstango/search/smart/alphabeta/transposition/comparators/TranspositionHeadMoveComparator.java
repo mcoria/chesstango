@@ -59,8 +59,8 @@ public class TranspositionHeadMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(int currentPly) {
-        next.afterSort(currentPly);
+    public void afterSort() {
+        next.afterSort();
     }
 
 

@@ -6,5 +6,5 @@ package net.chesstango.search.smart.sorters;
 public interface SortListener {
     void beforeSort(int currentPly);
 
-    void afterSort(int currentPly);
+    void afterSort();
 }
