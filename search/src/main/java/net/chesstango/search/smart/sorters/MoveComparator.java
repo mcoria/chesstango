@@ -8,10 +8,6 @@ import java.util.Comparator;
 /**
  * @author Mauricio Coria
  */
-public interface MoveComparator extends Comparator<Move>, Acceptor {
-
-    void beforeSort(int currentPly);
-
-    void afterSort(int currentPly);
+public interface MoveComparator extends Comparator<Move>, Acceptor, SortListener {
 
 }
