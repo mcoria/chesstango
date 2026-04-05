@@ -3,7 +3,6 @@ package net.chesstango.search.smart.sorters.comparators;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
@@ -24,15 +23,15 @@ public class QuietComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
-        noQuietNext.beforeSort(currentPly, moveToZobrist);
-        quietNext.beforeSort(currentPly, moveToZobrist);
+    public void beforeSort(int currentPly) {
+        noQuietNext.beforeSort(currentPly);
+        quietNext.beforeSort(currentPly);
     }
 
     @Override
-    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
-        noQuietNext.afterSort(currentPly, moveToZobrist);
-        quietNext.afterSort(currentPly, moveToZobrist);
+    public void afterSort(int currentPly) {
+        noQuietNext.afterSort(currentPly);
+        quietNext.afterSort(currentPly);
     }
 
     @Override

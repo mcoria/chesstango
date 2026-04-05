@@ -3,6 +3,7 @@ package net.chesstango.search.smart.sorters;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.Bound;
@@ -37,6 +38,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         searchListenerMediator.accept(new SetGameVisitor(game));
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         searchListenerMediator.triggerBeforeSearch();
 

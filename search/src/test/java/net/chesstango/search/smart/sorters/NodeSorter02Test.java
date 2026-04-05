@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.Bound;
@@ -40,6 +41,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         searchListenerMediator.accept(new SetGameVisitor(game));
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         searchListenerMediator.accept(new SetDepthVisitor(2));
         searchListenerMediator.triggerBeforeSearchByDepth();
@@ -68,6 +70,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
         searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesTable));
+        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
 
         searchListenerMediator.triggerBeforeSearchByDepth();

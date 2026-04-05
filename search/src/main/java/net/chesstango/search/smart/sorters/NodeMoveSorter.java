@@ -18,7 +18,8 @@ import java.util.function.Predicate;
 public class NodeMoveSorter implements MoveSorter {
     private final Predicate<Move> filter;
 
-    private final MoveToHashMap moveToZobrist;
+    @Setter
+    private MoveToHashMap moveToZobrist;
 
     @Setter
     private Game game;
@@ -33,7 +34,6 @@ public class NodeMoveSorter implements MoveSorter {
 
     public NodeMoveSorter(Predicate<Move> filter) {
         this.filter = filter;
-        this.moveToZobrist = new MoveToHashMap();
     }
 
     @Override
@@ -54,9 +54,9 @@ public class NodeMoveSorter implements MoveSorter {
 
         moveToZobrist.clear();
 
-        moveComparator.beforeSort(currentPly, moveToZobrist);
+        moveComparator.beforeSort(currentPly);
         moveList.sort(moveComparator.reversed());
-        moveComparator.afterSort(currentPly, moveToZobrist);
+        moveComparator.afterSort(currentPly);
 
         return moveList;
     }

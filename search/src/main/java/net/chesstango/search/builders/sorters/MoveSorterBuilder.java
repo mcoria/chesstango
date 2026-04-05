@@ -141,6 +141,7 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
     private void setupListenerMediator() {
         searchListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.add(quietComparator);
 
         if (transpositionHeadMoveComparator != null) {
             searchListenerMediator.add(transpositionHeadMoveComparator);
@@ -166,16 +167,9 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
             searchListenerMediator.add(moveSorterDebug);
         }
 
-
         if (killerMoveComparator != null) {
             searchListenerMediator.add(killerMoveComparator);
         }
-
-        /*
-        if (quietComparator != null) {
-            smartListenerMediator.add(quietComparator);
-        }
-         */
     }
 
 

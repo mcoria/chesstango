@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -40,8 +39,8 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByCyc
     }
 
     @Override
-    public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
-        this.next.beforeSort(currentPly, moveToZobrist);
+    public void beforeSort(int currentPly) {
+        this.next.beforeSort(currentPly);
         if (lastPrincipalVariations != null) {
             if (lastPrincipalVariations.size() > currentPly) {
                 long hash = game.getPosition().getZobristHash();
@@ -54,8 +53,8 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByCyc
     }
 
     @Override
-    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
-        this.next.afterSort(currentPly, moveToZobrist);
+    public void afterSort(int currentPly) {
+        this.next.afterSort(currentPly);
         this.pvMove = null;
     }
 

@@ -22,7 +22,7 @@ public class RootMoveEvaluationComparatorTest {
     RootMoveSorter.RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         whiteRootMoveEvaluationComparator = new RootMoveSorter.RootMoveEvaluationComparator(Color.WHITE);
         blackRootMoveEvaluationComparator = new RootMoveSorter.RootMoveEvaluationComparator(Color.BLACK);
     }
@@ -31,7 +31,7 @@ public class RootMoveEvaluationComparatorTest {
      * Ambos RootMoveEvaluation coinciden en BOUND pero difieren en EVALUATION.
      */
     @Test
-    void testCompareTo_BothEvaluationsDifferent() {
+    public void testCompareTo_BothEvaluationsDifferent() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
@@ -52,7 +52,7 @@ public class RootMoveEvaluationComparatorTest {
     }
 
     @Test
-    void testCompareTo_EvaluationsSame_BoundDifferent() {
+    public void testCompareTo_EvaluationsSame_BoundDifferent() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
@@ -65,7 +65,7 @@ public class RootMoveEvaluationComparatorTest {
 
     @Test
     @Disabled
-    void testCompareTo_EvaluationsAndBoundsSame() {
+    public void testCompareTo_EvaluationsAndBoundsSame() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
@@ -77,7 +77,7 @@ public class RootMoveEvaluationComparatorTest {
     }
 
     @Test
-    void testCompareTo_BoundComparison() {
+    public void testCompareTo_BoundComparison() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
@@ -89,7 +89,7 @@ public class RootMoveEvaluationComparatorTest {
     }
 
     @Test
-    void testCompareTo_BoundComparisonWithExact() {
+    public void testCompareTo_BoundComparisonWithExact() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 

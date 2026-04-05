@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
@@ -27,6 +28,7 @@ import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollect
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
+import net.chesstango.search.smart.sorters.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
 /**
@@ -283,6 +285,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withStatistics) {
             searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
         }
+
+        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         evaluationBuilder.link();
     }
