@@ -241,6 +241,7 @@ Acceptor:
 	KillerMoveTracker @ 57
 	AlphaBeta @ 41
 	NodeMoveSorter @ 43
+	QuietComparator @ 49
 	TranspositionHeadMoveComparator @ 45
 	TranspositionTailMoveComparator @ 48
 	PrincipalVariationComparator @ 44

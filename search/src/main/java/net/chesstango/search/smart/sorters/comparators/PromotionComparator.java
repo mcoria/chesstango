@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
@@ -24,13 +23,13 @@ public class PromotionComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
-        next.beforeSort(currentPly, moveToZobrist);
+    public void beforeSort(int currentPly) {
+        next.beforeSort(currentPly);
     }
 
     @Override
-    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
-        next.afterSort(currentPly, moveToZobrist);
+    public void afterSort(int currentPly) {
+        next.afterSort(currentPly);
     }
 
     @Override

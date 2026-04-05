@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Acceptor;
 
 import java.util.Comparator;
@@ -11,8 +10,8 @@ import java.util.Comparator;
  */
 public interface MoveComparator extends Comparator<Move>, Acceptor {
 
-    void beforeSort(int currentPly, MoveToHashMap moveToZobrist);
+    void beforeSort(int currentPly);
 
-    void afterSort(int currentPly, MoveToHashMap moveToZobrist);
+    void afterSort(int currentPly);
 
 }

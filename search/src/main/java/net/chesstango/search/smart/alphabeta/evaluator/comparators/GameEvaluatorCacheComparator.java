@@ -27,7 +27,9 @@ public class GameEvaluatorCacheComparator implements MoveComparator {
     @Setter
     private Game game;
 
+    @Setter
     private MoveToHashMap moveToZobrist;
+
     private Color currentTurn;
 
     @Override
@@ -36,17 +38,15 @@ public class GameEvaluatorCacheComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
-        this.moveToZobrist = moveToZobrist;
-
+    public void beforeSort(final int currentPly) {
         this.currentTurn = game.getPosition().getCurrentTurn();
 
-        next.beforeSort(currentPly, moveToZobrist);
+        next.beforeSort(currentPly);
     }
 
     @Override
-    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
-        next.afterSort(currentPly, moveToZobrist);
+    public void afterSort(int currentPly) {
+        next.afterSort(currentPly);
     }
 
     @Override

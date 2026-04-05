@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +36,7 @@ public class NodeMoveSorterTest {
     @Test
     public void testCapture01() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
 
@@ -60,6 +62,7 @@ public class NodeMoveSorterTest {
     @Test
     public void testCapture01Mirror() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
 
@@ -91,6 +94,7 @@ public class NodeMoveSorterTest {
     @Test
     public void testCapture02() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
 
@@ -126,6 +130,7 @@ public class NodeMoveSorterTest {
     @Test
     public void testCapture02Mirror() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
 
@@ -161,6 +166,7 @@ public class NodeMoveSorterTest {
     @Test
     public void testInitial() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Game game = Game.from(FEN.START_POSITION);
 
@@ -179,6 +185,7 @@ public class NodeMoveSorterTest {
     @Test
     public void testGamesMirror() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         testMirror(Game.from(FEN.START_POSITION));
         testMirror(Game.from(FEN.of("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14")));
@@ -191,19 +198,20 @@ public class NodeMoveSorterTest {
 
 
     private void testMirror(Game game) {
-        NodeMoveSorter moveSorter = new NodeMoveSorter();
-        moveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Game gameMirror = game.mirror();
 
         NodeMoveSorter moveSorterMirror = new NodeMoveSorter();
         moveSorterMirror.setMoveComparator(new DefaultMoveComparator());
+        moveSorterMirror.setMoveToZobrist(new MoveToHashMap());
 
-        initMoveSorter(moveSorter, game);
+        initMoveSorter(nodeMoveSorter, game);
         initMoveSorter(moveSorterMirror, gameMirror);
 
         List<Move> movesSorted = new ArrayList<>();
-        moveSorter.getOrderedMoves(0).forEach(movesSorted::add);
+        nodeMoveSorter.getOrderedMoves(0).forEach(movesSorted::add);
 
         List<Move> movesSortedMirror = new ArrayList<>();
         moveSorterMirror.getOrderedMoves(0).forEach(movesSortedMirror::add);

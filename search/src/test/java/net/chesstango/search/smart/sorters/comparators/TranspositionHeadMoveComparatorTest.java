@@ -10,7 +10,6 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableMap;
-import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,9 +83,9 @@ public class TranspositionHeadMoveComparatorTest {
         moves.forEach(movesList::add);
 
         MoveToHashMap moveToZobrist = new MoveToHashMap();
-        headMoveComparator.beforeSort(0, moveToZobrist);
+        headMoveComparator.beforeSort(0);
         movesList.sort(headMoveComparator.reversed());
-        headMoveComparator.afterSort(0, moveToZobrist);
+        headMoveComparator.afterSort(0);
 
         return movesList;
     }
