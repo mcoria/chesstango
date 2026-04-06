@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class NodeGroupSorter implements MoveSorter {
 
-
     @Setter
     private Game game;
 

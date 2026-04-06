@@ -45,6 +45,7 @@ import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -289,6 +290,20 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
+    public void visit(NodeGroupSorter nodeGroupSorter) {
+        printChainDownLine();
+        printNodeObjectText(nodeGroupSorter);
+
+        GroupSorter groupSorter = nodeGroupSorter.getGroupSorter();
+        printChainDownLine();
+        printChainText(" -> GroupSorter");
+        nestedChain++;
+        groupSorter.accept(this);
+        nestedChain--;
+    }
+
+
+    @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {
         printChainDownLine();
         printNodeObjectText(nodeMoveSorter);
@@ -436,6 +451,12 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(DefaultMoveComparator defaultMoveComparator) {
         printChainDownLine();
         printNodeObjectText(defaultMoveComparator);
+    }
+
+    @Override
+    public void visit(CatchAllGroup catchAllGroup) {
+        printChainDownLine();
+        printNodeObjectText(catchAllGroup);
     }
 
 

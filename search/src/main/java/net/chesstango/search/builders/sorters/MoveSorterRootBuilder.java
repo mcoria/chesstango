@@ -1,11 +1,9 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
  */
 public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
-    private final NodeMoveSorter nodeMoveSorter;
+    private final NodeGroupSorter nodeGroupSorter;
     private MoveSorterDebug moveSorterDebug;
 
     private SearchListenerMediator searchListenerMediator;
@@ -24,7 +22,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterRootBuilder() {
         rootMoveSorter = new RootMoveSorter();
-        nodeMoveSorter = new NodeMoveSorter();
+        nodeGroupSorter = new NodeGroupSorter();
     }
 
     public MoveSorterRootBuilder withDebugSearchTree() {
@@ -46,7 +44,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     }
 
     private void buildObjects() {
-        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        nodeGroupSorter.setGroupSorter(new CatchAllGroup());
 
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
@@ -58,9 +56,9 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
             searchListenerMediator.add(moveSorterDebug);
         }
 
-        searchListenerMediator.add(nodeMoveSorter);
-
         searchListenerMediator.add(rootMoveSorter);
+
+        searchListenerMediator.add(nodeGroupSorter);
     }
 
     private MoveSorter createChain() {
@@ -72,7 +70,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(rootMoveSorter);
 
-        chain.add(nodeMoveSorter);
+        chain.add(nodeGroupSorter);
 
         return buildChain(chain);
     }

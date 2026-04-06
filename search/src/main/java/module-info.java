@@ -55,6 +55,8 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.evaluator.filters;
     exports net.chesstango.search.smart.alphabeta.quiescence;
     exports net.chesstango.search.smart.alphabeta.root.filters;
+    exports net.chesstango.search.smart.sorters.groupsorters;
+    exports net.chesstango.search.builders.sorters;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
@@ -63,5 +65,4 @@ module net.chesstango.search {
     requires static lombok;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
-    exports net.chesstango.search.builders.sorters;
 }

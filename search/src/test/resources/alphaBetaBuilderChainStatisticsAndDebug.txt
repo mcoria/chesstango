@@ -22,11 +22,11 @@ AlphaBeta @ 11
 	|
 	RootMoveSorter @ 13
 	|
-	NodeMoveSorter @ 14
+	NodeGroupSorter @ 14
 	|
-	 -> Comparator
+	 -> GroupSorter
 		|
-		DefaultMoveComparator @ 15
+		CatchAllGroup @ 15
 |
 RootMoveEvaluationTracker @ 16
 |
@@ -279,7 +279,7 @@ Acceptor:
 	TTPVReaderDebug @ 18
 	AlphaBeta @ 11
 	MoveSorterDebug @ 12
-	NodeMoveSorter @ 14
 	RootMoveSorter @ 13
+	NodeGroupSorter @ 14
 	SetDebugOutput @ 84
 
