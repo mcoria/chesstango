@@ -198,6 +198,7 @@ public class SetGameVisitor implements Visitor {
         moveSorterDebug.setGame(game);
     }
 
+    @Override
     public void visit(NodeGroupSorter nodeGroupSorter) {
         nodeGroupSorter.setGame(game);
     }
