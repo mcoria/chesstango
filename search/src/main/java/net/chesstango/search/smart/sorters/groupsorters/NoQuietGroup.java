@@ -1,9 +1,11 @@
 package net.chesstango.search.smart.sorters.groupsorters;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.GroupSorter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,31 +13,35 @@ import java.util.List;
  */
 public class NoQuietGroup implements GroupSorter {
 
-    private final List<Move> moves;
+    @Setter
+    @Getter
+    private GroupSorter groupSorter;
 
-    public NoQuietGroup() {
-        this.moves = new ArrayList<>();
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
     public void beforeSort(int currentPly) {
-        moves.clear();
+        groupSorter.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
+        groupSorter.afterSort();
     }
 
     @Override
     public boolean offer(Move move) {
         if (!move.isQuiet()) {
-            moves.add(move);
-            return true;
+            return groupSorter.offer(move);
         }
         return false;
     }
 
     @Override
     public void collect(List<Move> moves) {
+        groupSorter.collect(moves);
     }
 }

@@ -46,6 +46,7 @@ import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -294,12 +295,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printNodeObjectText(nodeGroupSorter);
 
-        GroupSorter groupSorter = nodeGroupSorter.getGroupSorter();
-        printChainDownLine();
-        printChainText(" -> GroupSorter");
-        nestedChain++;
-        groupSorter.accept(this);
-        nestedChain--;
+        printGroupSorter(nodeGroupSorter.getGroupSorter());
     }
 
 
@@ -378,6 +374,11 @@ public class ChainPrinterVisitor implements Visitor {
         }
     }
 
+    /**
+     *
+     * MoveComparators
+     */
+
     @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
         print(principalVariationComparator, principalVariationComparator.getNext());
@@ -453,12 +454,52 @@ public class ChainPrinterVisitor implements Visitor {
         printNodeObjectText(defaultMoveComparator);
     }
 
+    /**
+     *
+     * GroupSorters
+     */
+
     @Override
     public void visit(CatchAllGroup catchAllGroup) {
         printChainDownLine();
         printNodeObjectText(catchAllGroup);
     }
 
+    @Override
+    public void visit(NoQuietGroup noQuietGroup) {
+        printChainDownLine();
+        printNodeObjectText(noQuietGroup);
+
+        printGroupSorter(noQuietGroup.getGroupSorter());
+    }
+
+    /**
+     *
+     * Evaluators
+     */
+
+    @Override
+    public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
+        printChainDownLine();
+        printChainText(String.format("%s [Evaluator: %s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getEvaluator())));
+    }
+
+    @Override
+    public void visit(LoopEvaluation loopEvaluation) {
+        printChainDownLine();
+        printNodeObjectText(loopEvaluation);
+    }
+
+    @Override
+    public void visit(EgtbEvaluation egtbEvaluation) {
+        printChainDownLine();
+        printChainText(String.format("%s [EndGameTableBase: %s]", objectText(egtbEvaluation), printGameEvaluator(egtbEvaluation.getEndGameTableBase())));
+    }
+
+    /**
+     *
+     * Private methods
+     */
 
     private void printChainSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         printChainText("SearchByCycleListeners:");
@@ -510,25 +551,15 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
     }
 
-    @Override
-    public void visit(LoopEvaluation loopEvaluation) {
+    private void printGroupSorter(GroupSorter groupSorter){
         printChainDownLine();
-        printNodeObjectText(loopEvaluation);
+        printChainText(" -> GroupSorter");
+        nestedChain++;
+        groupSorter.accept(this);
+        nestedChain--;
     }
 
-    @Override
-    public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
-        printChainDownLine();
-        printChainText(String.format("%s [Evaluator: %s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getEvaluator())));
-    }
-
-    @Override
-    public void visit(EgtbEvaluation egtbEvaluation) {
-        printChainDownLine();
-        printChainText(String.format("%s [EndGameTableBase: %s]", objectText(egtbEvaluation), printGameEvaluator(egtbEvaluation.getEndGameTableBase())));
-    }
-
-    public void print(Object object, Acceptor acceptor) {
+    private void print(Object object, Acceptor acceptor) {
         printChainDownLine();
         printNodeObjectText(object);
 
@@ -595,7 +626,6 @@ public class ChainPrinterVisitor implements Visitor {
         } else if (ttPvReader instanceof TTPVReader ttpvReader) {
             return objectText(ttpvReader);
         }
-
         throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());
     }
 

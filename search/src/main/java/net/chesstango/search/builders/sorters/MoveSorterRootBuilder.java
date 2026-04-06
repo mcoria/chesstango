@@ -40,12 +40,12 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
         setupListenerMediator();
 
+        nodeGroupSorter.setGroupSorter(new CatchAllGroup());
+
         return createChain();
     }
 
     private void buildObjects() {
-        nodeGroupSorter.setGroupSorter(new CatchAllGroup());
-
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
         }

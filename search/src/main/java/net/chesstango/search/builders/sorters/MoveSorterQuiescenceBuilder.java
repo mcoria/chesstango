@@ -1,20 +1,17 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +20,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
-    private final NodeMoveSorter nodeMoveSorter;
+    private final NodeGroupSorter nodeGroupSorter;
     private SearchListenerMediator searchListenerMediator;
     private DefaultMoveComparator defaultMoveComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
@@ -42,7 +39,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private boolean withGameEvaluatorCache;
 
     public MoveSorterQuiescenceBuilder() {
-        this.nodeMoveSorter = new NodeMoveSorter(move -> !move.isQuiet());
+        this.nodeGroupSorter = new NodeGroupSorter();
     }
 
     public MoveSorterQuiescenceBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
@@ -82,7 +79,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
         setupListenerMediator();
 
-        nodeMoveSorter.setMoveComparator(createComparatorChain());
+        nodeGroupSorter.setGroupSorter(createGroupSorterChain());
 
         return createChain();
     }
@@ -94,7 +91,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
             chain.add(moveSorterDebug);
         }
 
-        chain.add(nodeMoveSorter);
+        chain.add(nodeGroupSorter);
 
         return buildChain(chain);
     }
@@ -130,7 +127,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.add(nodeGroupSorter);
 
         if (transpositionHeadMoveComparator != null) {
             searchListenerMediator.add(transpositionHeadMoveComparator);
@@ -155,6 +152,13 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
         }
+    }
+
+
+    private GroupSorter createGroupSorterChain() {
+        NoQuietGroup noQuietGroup = new NoQuietGroup();
+        noQuietGroup.setGroupSorter(new CatchAllGroup());
+        return noQuietGroup;
     }
 
 

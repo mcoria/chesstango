@@ -63,6 +63,7 @@ import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
 
 /**
  * @author Mauricio Coria
@@ -330,6 +331,9 @@ public interface Visitor {
 
     // GroupSorter elements
     default void visit(CatchAllGroup catchAllGroup) {
+    }
+
+    default void visit(NoQuietGroup noQuietGroup) {
     }
 
 }
