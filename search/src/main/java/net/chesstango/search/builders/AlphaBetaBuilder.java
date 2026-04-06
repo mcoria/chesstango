@@ -108,6 +108,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public AlphaBetaBuilder withIterativeDeepening() {
         withIterativeDeepening = true;
+        quiescenceChainBuilder.withIterativeDeepening();
         return this;
     }
 

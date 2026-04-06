@@ -28,6 +28,7 @@ import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -460,17 +461,19 @@ public class ChainPrinterVisitor implements Visitor {
      */
 
     @Override
-    public void visit(CatchAllGroup catchAllGroup) {
-        printChainDownLine();
-        printNodeObjectText(catchAllGroup);
+    public void visit(NoQuietGroup noQuietGroup) {
+        print(noQuietGroup, noQuietGroup.getNext());
     }
 
     @Override
-    public void visit(NoQuietGroup noQuietGroup) {
-        printChainDownLine();
-        printNodeObjectText(noQuietGroup);
+    public void visit(PrincipalVariationGroup principalVariationGroup) {
+        print(principalVariationGroup, principalVariationGroup.getNext());
+    }
 
-        printGroupSorter(noQuietGroup.getGroupSorter());
+    @Override
+    public void visit(CatchAllGroup catchAllGroup) {
+        printChainDownLine();
+        printNodeObjectText(catchAllGroup);
     }
 
     /**

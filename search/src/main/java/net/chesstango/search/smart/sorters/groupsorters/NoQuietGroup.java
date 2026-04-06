@@ -15,7 +15,7 @@ public class NoQuietGroup implements GroupSorter {
 
     @Setter
     @Getter
-    private GroupSorter groupSorter;
+    private GroupSorter next;
 
     @Override
     public void accept(Visitor visitor) {
@@ -24,24 +24,24 @@ public class NoQuietGroup implements GroupSorter {
 
     @Override
     public void beforeSort(int currentPly) {
-        groupSorter.beforeSort(currentPly);
+        next.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
-        groupSorter.afterSort();
+        next.afterSort();
     }
 
     @Override
     public boolean offer(Move move) {
         if (!move.isQuiet()) {
-            return groupSorter.offer(move);
+            return next.offer(move);
         }
         return false;
     }
 
     @Override
     public void collect(List<Move> moves) {
-        groupSorter.collect(moves);
+        next.collect(moves);
     }
 }

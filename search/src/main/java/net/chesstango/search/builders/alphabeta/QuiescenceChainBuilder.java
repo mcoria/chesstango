@@ -48,6 +48,11 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
+    public QuiescenceChainBuilder withIterativeDeepening() {
+        moveSorterBuilder.withIterativeDeepening();
+        return this;
+    }
+
     public QuiescenceChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
         this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
@@ -209,4 +214,5 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         return createChain(chain);
     }
+
 }

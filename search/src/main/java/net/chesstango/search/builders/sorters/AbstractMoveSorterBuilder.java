@@ -3,15 +3,14 @@ package net.chesstango.search.builders.sorters;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
 
 import java.util.List;
 
@@ -29,9 +28,10 @@ public abstract class AbstractMoveSorterBuilder {
 
                 case RootMoveSorter rootMoveSorter -> rootMoveSorter.setNext(next);
 
-                case null -> throw new RuntimeException(String.format("sorter %d is null", i));
+                case null -> throw new RuntimeException(String.format("MoveSorter %d is null", i));
 
-                default -> throw new RuntimeException("sorter not found: " + currentSorter.getClass().getSimpleName());
+                default ->
+                        throw new RuntimeException("MoveSorter not found: " + currentSorter.getClass().getSimpleName());
             }
         }
         return chain.getFirst();
@@ -53,12 +53,31 @@ public abstract class AbstractMoveSorterBuilder {
                 case PromotionComparator comparator -> comparator.setNext(next);
                 case PrincipalVariationComparator variationComparator -> variationComparator.setNext(next);
 
-                case null -> throw new RuntimeException(String.format("comparator %d is null", i));
+                case null -> throw new RuntimeException(String.format("MoveComparator %d is null", i));
 
                 default ->
-                        throw new RuntimeException("comparator not found: " + currentComparator.getClass().getSimpleName());
+                        throw new RuntimeException("MoveComparator not found: " + currentComparator.getClass().getSimpleName());
             }
         }
         return chain.getFirst();
+    }
+
+    protected GroupSorter linkGroupSorterChain(List<GroupSorter> chain) {
+        for (int i = 0; i < chain.size() - 1; i++) {
+            GroupSorter currentGroupSorter = chain.get(i);
+            GroupSorter next = chain.get(i + 1);
+            switch (currentGroupSorter) {
+                case NoQuietGroup noQuietGroup -> noQuietGroup.setNext(next);
+
+                case PrincipalVariationGroup principalVariationGroup -> principalVariationGroup.setNext(next);
+
+                case null -> throw new RuntimeException(String.format("GroupSorter %d is null", i));
+
+                default ->
+                        throw new RuntimeException("GroupSorter not found: " + currentGroupSorter.getClass().getSimpleName());
+            }
+        }
+        return chain.getFirst();
+
     }
 }

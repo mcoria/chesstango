@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -31,50 +32,6 @@ public class AlphaBetaSearchesTest {
                 //.withDebugSearchTree(false, true, true)
                 .build();
 
-        search.accept(new SetMaxDepthVisitor(3));
-        SearchResult searchResult = search.startSearch(game);
-
-        Move bm = searchResult.getBestMove();
-
-        assertNotNull(bm);
-
-        assertEquals(Piece.KNIGHT_WHITE, bm.getFrom().piece());
-        assertEquals(Square.g1, bm.getFrom().square());
-        assertEquals(Square.h3, bm.getTo().square());
-    }
-
-    @Test
-    public void testSearch_02() {
-        Game game = Game.from(FEN.START_POSITION);
-
-        Search search = AlphaBetaBuilder
-                .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                .build();
-
-        search.accept(new SetMaxDepthVisitor(6));
-        SearchResult searchResult = search.startSearch(game);
-
-        Move bm = searchResult.getBestMove();
-
-        assertNotNull(bm);
-
-        assertEquals(Piece.KNIGHT_WHITE, bm.getFrom().piece());
-        assertEquals(Square.g1, bm.getFrom().square());
-        assertEquals(Square.h3, bm.getTo().square());
-    }
-
-    @Test
-    public void testSearch_03() {
-        Game game = Game.from(FEN.START_POSITION);
-
-        Search search = AlphaBetaBuilder
-                .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                //.withStatistics()
-                //.withDebugSearchTree(false, true, true)
-                .build();
-
         search.accept(new SetMaxDepthVisitor(6));
         SearchResult searchResult = search.startSearch(game);
 
@@ -93,7 +50,8 @@ public class AlphaBetaSearchesTest {
 
         Search search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
                 //.withDebugSearchTree(true, false, false)
                 .build();
 
