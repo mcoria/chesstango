@@ -53,8 +53,8 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByCyc
     }
 
     @Override
-    public void afterSort(int currentPly) {
-        this.next.afterSort(currentPly);
+    public void afterSort() {
+        this.next.afterSort();
         this.pvMove = null;
     }
 

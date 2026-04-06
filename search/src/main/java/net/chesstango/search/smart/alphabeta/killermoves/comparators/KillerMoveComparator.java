@@ -33,8 +33,8 @@ public class KillerMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(int currentPly) {
-        this.next.afterSort(currentPly);
+    public void afterSort() {
+        this.next.afterSort();
     }
 
     @Override

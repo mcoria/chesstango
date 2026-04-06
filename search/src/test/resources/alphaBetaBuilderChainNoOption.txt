@@ -10,11 +10,11 @@ AlphaBeta @ 3
 	|
 	RootMoveSorter @ 4
 	|
-	NodeMoveSorter @ 5
+	NodeGroupSorter @ 5
 	|
-	 -> Comparator
+	 -> GroupSorter
 		|
-		DefaultMoveComparator @ 6
+		CatchAllGroup @ 6
 |
 RootMoveEvaluationTracker @ 7
 |
@@ -107,6 +107,6 @@ Acceptor:
 	RootMoveEvaluationCollection @ 25
 	TriangularPV @ 8
 	AlphaBeta @ 3
-	NodeMoveSorter @ 5
 	RootMoveSorter @ 4
+	NodeGroupSorter @ 5
 

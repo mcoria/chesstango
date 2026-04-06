@@ -62,6 +62,7 @@ import net.chesstango.search.smart.sorters.NodeGroupSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
 
 /**
  * @author Mauricio Coria
@@ -309,13 +310,11 @@ public interface Visitor {
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
 
-
     default void visit(TTableStatisticsNodeCollector tTableStatisticsCollector) {
     }
 
     default void visit(TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
     }
-
 
     default void visit(TTableStatisticsListener tTableStatisticsListener) {
     }
@@ -327,6 +326,10 @@ public interface Visitor {
     }
 
     default void visit(DepthCollector maxRegularDepth) {
+    }
+
+    // GroupSorter elements
+    default void visit(CatchAllGroup catchAllGroup) {
     }
 
 }

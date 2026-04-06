@@ -18,11 +18,11 @@ AlphaBeta @ 9
 	|
 	RootMoveSorter @ 10
 	|
-	NodeMoveSorter @ 11
+	NodeGroupSorter @ 11
 	|
-	 -> Comparator
+	 -> GroupSorter
 		|
-		DefaultMoveComparator @ 12
+		CatchAllGroup @ 12
 |
 RootMoveEvaluationTracker @ 13
 |
@@ -234,6 +234,6 @@ Acceptor:
 	TranspositionPV @ 14
 	TTPVReader @ 15
 	AlphaBeta @ 9
-	NodeMoveSorter @ 11
 	RootMoveSorter @ 10
+	NodeGroupSorter @ 11
 

@@ -25,9 +25,9 @@ public abstract class AbstractMoveSorterBuilder {
             MoveSorter currentSorter = chain.get(i);
             MoveSorter next = chain.get(i + 1);
             switch (currentSorter) {
-                case RootMoveSorter rootMoveSorter -> rootMoveSorter.setNext(next);
-
                 case MoveSorterDebug moveSorterDebug -> moveSorterDebug.setNext(next);
+
+                case RootMoveSorter rootMoveSorter -> rootMoveSorter.setNext(next);
 
                 case null -> throw new RuntimeException(String.format("sorter %d is null", i));
 
