@@ -12,6 +12,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.pv.visitors.SetTrianglePVVisitor;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Setter
     private Evaluator evaluator;
+
+    @Setter
+    private EndGameTableBase endGameTableBase;
 
     private final short[][] trianglePV;
 
@@ -93,6 +97,8 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         // En caso que se llegó a loop
         if (game.getState().getRepetitionCounter() > 1) {
             pvEvaluation = 0;
+        }else if (endGameTableBase.isProbeAvailable()) {
+            pvEvaluation = endGameTableBase.evaluate();
         }
 
         if (bestMoveEvaluation.evaluation() == pvEvaluation) {

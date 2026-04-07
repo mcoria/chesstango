@@ -66,8 +66,8 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationStatistics()
-                .withEvaluationCacheStatistics()
-                .withTranspositionStatistics()
+                //.withEvaluationCacheStatistics()
+                //.withTranspositionStatistics()
                 .withPrincipalVariationStatistics()
                 .printReport(System.out);
 
@@ -79,8 +79,8 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationReport()
-                .withEvaluationCacheReport()
-                .withTranspositionReport()
+                //.withEvaluationCacheReport()
+                //.withTranspositionReport()
                 .withIterationEvaluationReport()
                 .withPrincipalVariationReport()
                 .withPrincipalVariationIterationReport()
@@ -91,18 +91,19 @@ public class TangoGame01IntegrationTest {
     @Test
     public void testPlay() {
         Config config = new Config()
+                /*
                 .setSearch(AlphaBetaBuilder
                         .createDefaultBuilderInstance()
                         .withGameEvaluator(Evaluator.createInstance())
                         .withStatistics()
                         .build()
                 )
-                /*
+                 */
                 .setSearch(new AlphaBetaBuilder()
                         .withGameEvaluator(Evaluator.createInstance())
-                        .withGameEvaluatorCache()
+                        //.withGameEvaluatorCache()
 
-                        .withQuiescence()
+                        //.withQuiescence()
 
                         //.withTranspositionTable()
 
@@ -115,13 +116,12 @@ public class TangoGame01IntegrationTest {
 
                         .withIterativeDeepening()
 
-                        //.withStopProcessingCatch()
+                        .withStopProcessingCatch()
 
                         .withStatistics()
 
                         .build()
                 )
-                 */
                 .setSyncSearch(true)
                 .setPolyglotFile(POLYGLOT_FILE)
                 .setSyzygyPath(SYZYGY_PATH);
@@ -137,22 +137,20 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            session.goTime(5000);
-            //session.goDepth(5);
+            //session.goTime(5000);
+            session.goDepth(5);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 //if (i == 36) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                session.goTime(5000);
-                //session.goDepth(5);
+                //session.goTime(5000);
+                session.goDepth(5);
                 //}
             }
 
             searchResponseList = session.getSearchResults();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 }

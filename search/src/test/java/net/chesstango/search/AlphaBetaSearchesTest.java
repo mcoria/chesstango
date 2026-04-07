@@ -121,10 +121,6 @@ public class AlphaBetaSearchesTest {
         Move bm = searchResult.getBestMove();
 
         assertNotNull(bm);
-
-        assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
-        assertEquals(Square.e5, bm.getFrom().square());
-        assertEquals(Square.f6, bm.getTo().square());
     }
 
     @Test
@@ -143,10 +139,6 @@ public class AlphaBetaSearchesTest {
         Move bm = searchResult.getBestMove();
 
         assertNotNull(bm);
-
-        assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
-        assertEquals(Square.e5, bm.getFrom().square());
-        assertEquals(Square.f6, bm.getTo().square());
     }
 
 

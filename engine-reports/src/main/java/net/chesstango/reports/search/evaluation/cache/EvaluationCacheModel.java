@@ -66,10 +66,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         this.evaluationsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationsCounter).sum();
         this.evaluationsCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.evaluationsCacheHitsCounter).sum();
-        this.evaluationsCacheHitsPercentageTotal = this.evaluationsCacheHitsCounterTotal * 100 / this.evaluationsCounterTotal;
+        this.evaluationsCacheHitsPercentageTotal = this.evaluationsCounterTotal > 0 ? this.evaluationsCacheHitsCounterTotal * 100 / this.evaluationsCounterTotal : 0;
         this.readFromCacheCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readsFromCacheCounter).sum();
         this.readFromCacheHitsCounterTotal = this.moveDetails.stream().mapToLong(detail -> detail.readsFromCacheHitsCounter).sum();
-        this.readFromCacheHitsPercentageTotal = this.readFromCacheHitsCounterTotal * 100 / this.readFromCacheCounterTotal;
+        this.readFromCacheHitsPercentageTotal = this.readFromCacheCounterTotal > 0 ? this.readFromCacheHitsCounterTotal * 100 / this.readFromCacheCounterTotal : 0;
         this.fillPercentageAvg = (int) this.moveDetails.stream().mapToInt(detail -> detail.fillPercentage).average().orElse(0);
     }
 
