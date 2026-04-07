@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class NoQuietBifurcation implements GroupSorter {
 
-
     private final boolean noQuietFirst;
 
     @Setter

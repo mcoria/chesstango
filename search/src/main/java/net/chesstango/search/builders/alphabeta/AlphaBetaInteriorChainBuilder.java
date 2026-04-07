@@ -46,6 +46,11 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         moveSorterBuilder = new MoveSorterBuilder();
     }
 
+    public AlphaBetaInteriorChainBuilder withIterativeDeepening() {
+        moveSorterBuilder.withIterativeDeepening();
+        return this;
+    }
+
     public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
         this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;

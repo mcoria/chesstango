@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AlphaBetaSearchesTest {
 
+    // DEPTH 9 = 23 segs
     @Test
     public void test_START_POSITION() {
         Game game = Game.from(FEN.START_POSITION);
@@ -32,7 +33,7 @@ public class AlphaBetaSearchesTest {
                 //.withDebugSearchTree(false, true, true)
                 .build();
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(9));
         SearchResult searchResult = search.startSearch(game);
 
         Move bm = searchResult.getBestMove();
@@ -99,9 +100,10 @@ public class AlphaBetaSearchesTest {
         assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
     }
 
+    // DEPTH 9 = 90 segs
     @Test
     public void testSearch_Fried_Liver_Attack_Mirror() {
-        final int depthAnalysis = 6;
+        final int depthAnalysis = 9;
 
         Search search1 = AlphaBetaBuilder
                 .createDefaultBuilderInstance()

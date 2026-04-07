@@ -14,9 +14,9 @@ import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -172,21 +172,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         nodeGroupSorter.setGroupSorter(createGroupSorterChain());
     }
 
-    private GroupSorter createGroupSorterChain() {
-        GroupSorter head = null;
-        /*
-        if (principalVariationGroup != null) {
-            principalVariationGroup.setNext(noQuietBifurcation);
-            head = principalVariationGroup;
-        }
-        if (head == null) {
-            head = noQuietBifurcation;
-        }
-         */
-
-        return noQuietBifurcation;
-    }
-
     @Override
     protected MoveSorter buildSorterChain() {
         List<MoveSorter> chain = new LinkedList<>();
@@ -198,5 +183,20 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         chain.add(nodeGroupSorter);
 
         return linkMoveSorterChain(chain);
+    }
+
+
+    private GroupSorter createGroupSorterChain() {
+        GroupSorter head = null;
+
+        if (principalVariationGroup != null) {
+            principalVariationGroup.setNext(noQuietBifurcation);
+            head = principalVariationGroup;
+        }
+        if (head == null) {
+            head = noQuietBifurcation;
+        }
+
+        return head;
     }
 }

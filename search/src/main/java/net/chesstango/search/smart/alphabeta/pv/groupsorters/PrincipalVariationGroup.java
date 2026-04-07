@@ -69,6 +69,7 @@ public class PrincipalVariationGroup implements SearchByCycleListener, SearchByD
                 throw new RuntimeException("Principal variation hash mismatch");
             }
         }
+        next.beforeSort(currentPly);
     }
 
     @Override
@@ -76,15 +77,17 @@ public class PrincipalVariationGroup implements SearchByCycleListener, SearchByD
         if (principalVariations[currentPly] != null) {
             principalVariations[currentPly] = null;
         }
+        next.afterSort();
     }
 
     @Override
     public boolean offer(Move move) {
         boolean result = false;
         if (principalVariations[currentPly] != null) {
-            result =  move.equals(principalVariations[currentPly].move());
+            Move pvMove = principalVariations[currentPly].move();
+            result = move.binaryEncoding() == pvMove.binaryEncoding();
         }
-        return !result ? next.offer(move) : result;
+        return result ? result : next.offer(move);
     }
 
     @Override
@@ -92,5 +95,6 @@ public class PrincipalVariationGroup implements SearchByCycleListener, SearchByD
         if (principalVariations[currentPly] != null) {
             moves.add(principalVariations[currentPly].move());
         }
+        next.collect(moves);
     }
 }

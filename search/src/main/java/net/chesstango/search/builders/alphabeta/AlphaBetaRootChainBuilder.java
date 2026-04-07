@@ -35,7 +35,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     private final AlphaBeta alphaBeta;
 
-    private final MoveSorterRootBuilder moveSorterBuilder;
+    private final MoveSorterRootBuilder moveSorterRootBuilder;
 
     private AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics;
     private StopProcessingCatch stopProcessingCatch;
@@ -60,9 +60,14 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaRootChainBuilder() {
         alphaBeta = new AlphaBeta();
-        moveSorterBuilder = new MoveSorterRootBuilder();
+        moveSorterRootBuilder = new MoveSorterRootBuilder();
         moveEvaluationTracker = new RootMoveEvaluationTracker();
         moveEvaluations = new RootMoveEvaluationCollection();
+    }
+
+    public AlphaBetaRootChainBuilder withIterativeDeepening() {
+        moveSorterRootBuilder.withIterativeDeepening();
+        return this;
     }
 
     public AlphaBetaRootChainBuilder withStatistics() {
@@ -72,7 +77,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaRootChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
-        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
+        this.moveSorterRootBuilder.withSmartListenerMediator(searchListenerMediator);
         return this;
     }
 
@@ -109,7 +114,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaRootChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
-        moveSorterBuilder.withDebugSearchTree();
+        moveSorterRootBuilder.withDebugSearchTree();
         return this;
     }
 
@@ -118,7 +123,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         setupListenerMediator();
 
-        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+        alphaBeta.setMoveSorter(moveSorterRootBuilder.build());
 
         return createChain();
     }

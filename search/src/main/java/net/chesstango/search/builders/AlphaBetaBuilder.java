@@ -108,6 +108,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public AlphaBetaBuilder withIterativeDeepening() {
         withIterativeDeepening = true;
+        alphaBetaRootChainBuilder.withIterativeDeepening();
+        alphaBetaInteriorChainBuilder.withIterativeDeepening();
         quiescenceChainBuilder.withIterativeDeepening();
         return this;
     }
@@ -438,10 +440,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
                 .withTranspositionTable()
 
-                .withTranspositionMoveSorter()
-                .withKillerMoveSorter()
-                .withRecaptureSorter()
-                .withMvvLvaSorter()
+                //.withTranspositionMoveSorter()
+                //.withKillerMoveSorter()
+                //.withRecaptureSorter()
+                //.withMvvLvaSorter()
 
                 .withAspirationWindows()
 
