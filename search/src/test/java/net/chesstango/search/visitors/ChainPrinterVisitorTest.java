@@ -97,6 +97,17 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
+    public void alphaBetaBuilderIterativeDeepening() throws IOException {
+        AlphaBetaBuilder builder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withIterativeDeepening();
+
+        Search search = builder.build();
+
+        assertSearchTree(search, "alphaBetaBuilderChainIterativeDeepening.txt");
+    }
+
+    @Test
     public void alphaBetaBuilderChainDebug() throws IOException {
         AlphaBetaBuilder builder = AlphaBetaBuilder
                 .createDefaultBuilderInstance()

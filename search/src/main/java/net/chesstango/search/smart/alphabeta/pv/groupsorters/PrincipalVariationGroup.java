@@ -62,7 +62,7 @@ public class PrincipalVariationGroup implements SearchByCycleListener, SearchByD
     @Override
     public void beforeSort(int currentPly) {
         this.currentPly = currentPly;
-        if (principalVariations[currentPly] != null) {
+        if (lastPrincipalVariations != null && currentPly < lastPrincipalVariations.size() && principalVariations[currentPly] != null) {
             long hash = game.getPosition().getZobristHash();
             PrincipalVariation principalVariation = lastPrincipalVariations.get(currentPly);
             if (principalVariation.hash() != hash) {

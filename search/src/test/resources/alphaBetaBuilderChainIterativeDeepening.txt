@@ -1,0 +1,108 @@
+ROOT
+|
+IterativeDeepening @ 1
+|
+AlphaBetaFacade @ 2
+|
+AlphaBeta @ 3
+|
+ -> Sorter
+	|
+	NodeGroupSorter @ 4
+	|
+	 -> GroupSorter
+		|
+		PrincipalVariationGroup @ 5
+		|
+		CatchAllSortGroup @ 6
+|
+RootMoveEvaluationTracker @ 7
+|
+TriangularPV @ 8
+|
+AlphaBetaFlowControl @ 9
+|
+ -> TerminalNode
+	|
+	AlphaBetaEvaluation @ 10 [Evaluator: EvaluatorByMaterial @ 11]
+
+ -> EgtbNode
+	|
+	EgtbEvaluation @ 12 [EndGameTableBase: EndGameTableBaseNull @ 13]
+
+ -> LoopNode
+	|
+	LoopEvaluation @ 14
+
+ -> LeafNode
+	|
+	AlphaBetaEvaluation @ 15 [Evaluator: EvaluatorByMaterial @ 11]
+
+ -> InteriorNode
+	|
+	AlphaBeta @ 16
+	|
+	 -> Sorter
+		|
+		NodeGroupSorter @ 17
+		|
+		 -> GroupSorter
+			|
+			PrincipalVariationGroup @ 18
+			|
+			CatchAllSortGroup @ 19
+	|
+	TriangularPV @ 20
+	|
+	AlphaBetaFlowControl @ 9 -> LOOP
+
+
+SearchByCycleListeners:
+	AlphaBetaFacade @ 2
+	SetSearchTimers @ 21
+	AlphaBetaFlowControl @ 9
+	SetTrianglePV @ 22
+	PrincipalVariationGroup @ 18
+	RootMoveSorter @ 23
+	PrincipalVariationGroup @ 5
+
+SearchByDepthListener:
+	AlphaBetaFacade @ 2
+	SetSearchTimers @ 21
+	SetTrianglePV @ 22
+	PrincipalVariationGroup @ 18
+	RootMoveEvaluationCollection @ 24
+	PrincipalVariationGroup @ 5
+
+SearchByWindowsListeners:
+	RootMoveEvaluationCollection @ 24
+
+StopSearchingListener:
+	AlphaBetaFlowControl @ 9
+
+ResetListener:
+
+Acceptor:
+	SetGameToEvaluator @ 25
+	SetGameToEndGameTableBase @ 26
+	AlphaBetaFacade @ 2
+	SetSearchTimers @ 21
+	AlphaBetaFlowControl @ 9
+	SetTrianglePV @ 22
+	AlphaBetaEvaluation @ 10
+	AlphaBetaEvaluation @ 15
+	TriangularPV @ 20
+	AlphaBeta @ 16
+	NodeGroupSorter @ 17
+	QuietComparator @ 27
+	RecaptureMoveComparator @ 28
+	PrincipalVariationGroup @ 18
+	EgtbEvaluation @ 12
+	RootMoveEvaluationTracker @ 7
+	RootMoveEvaluationCollection @ 24
+	TriangularPV @ 8
+	AlphaBeta @ 3
+	RootMoveSorter @ 23
+	NodeGroupSorter @ 4
+	PrincipalVariationGroup @ 5
+

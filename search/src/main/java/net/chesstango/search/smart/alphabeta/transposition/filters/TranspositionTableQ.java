@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.transposition.filters;
 
+import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 
 /**
@@ -15,7 +16,7 @@ public class TranspositionTableQ extends TranspositionTableAbstract {
 
     @Override
     protected boolean isTranspositionEntryValid(int draft) {
-        return true;
+        return Bound.EXACT != entryWorkspace.getBound();
     }
 
 }
