@@ -18,6 +18,25 @@ import java.util.List;
  */
 public abstract class AbstractMoveSorterBuilder {
 
+    public MoveSorter build() {
+        buildObjects();
+
+        setupListenerMediator();
+
+        linkObjects();
+
+        return buildSorterChain();
+    }
+
+    protected abstract void buildObjects();
+
+    protected abstract void setupListenerMediator();
+
+    protected abstract void linkObjects();
+
+    protected abstract MoveSorter buildSorterChain();
+
+
     protected MoveSorter linkMoveSorterChain(List<MoveSorter> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
             MoveSorter currentSorter = chain.get(i);

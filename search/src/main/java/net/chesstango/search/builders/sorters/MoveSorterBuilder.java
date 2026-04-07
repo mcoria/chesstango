@@ -6,11 +6,9 @@ import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveC
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,9 +17,11 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
-    private final NodeMoveSorter nodeMoveSorter;
     private final QuietComparator quietComparator;
     private final DefaultMoveComparator defaultMoveComparator;
+    private final NodeGroupSorter nodeGroupSorter;
+    private final CatchAllSortGroup catchAllSortGroup;
+
     private SearchListenerMediator searchListenerMediator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
@@ -41,10 +41,11 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
     private boolean withGameEvaluatorCache;
 
     public MoveSorterBuilder() {
-        this.nodeMoveSorter = new NodeMoveSorter();
         this.quietComparator = new QuietComparator();
         this.recaptureMoveComparator = new RecaptureMoveComparator();
         this.defaultMoveComparator = new DefaultMoveComparator();
+        this.nodeGroupSorter = new NodeGroupSorter();
+        this.catchAllSortGroup = new CatchAllSortGroup();
     }
 
 
@@ -83,29 +84,10 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
         return this;
     }
 
-    public MoveSorter build() {
-        buildObjects();
+    @Override
+    protected void buildObjects() {
+        promotionComparator = new PromotionComparator();
 
-        setupListenerMediator();
-
-        nodeMoveSorter.setMoveComparator(createComparatorChain());
-
-        return createChain();
-    }
-
-    private MoveSorter createChain() {
-        List<MoveSorter> chain = new LinkedList<>();
-
-        if (moveSorterDebug != null) {
-            chain.add(moveSorterDebug);
-        }
-
-        chain.add(nodeMoveSorter);
-
-        return linkMoveSorterChain(chain);
-    }
-
-    private void buildObjects() {
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
 
@@ -133,12 +115,12 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
         if (withMvvLva) {
             mvvLvaComparator = new MvvLvaComparator();
         }
-
-        promotionComparator = new PromotionComparator();
     }
 
-    private void setupListenerMediator() {
-        searchListenerMediator.add(nodeMoveSorter);
+    @Override
+    protected void setupListenerMediator() {
+        searchListenerMediator.add(nodeGroupSorter);
+
         searchListenerMediator.add(quietComparator);
 
         if (transpositionHeadMoveComparator != null) {
@@ -168,6 +150,26 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
         if (killerMoveComparator != null) {
             searchListenerMediator.add(killerMoveComparator);
         }
+    }
+
+    @Override
+    protected void linkObjects() {
+        catchAllSortGroup.setMoveComparator(createComparatorChain());
+
+        nodeGroupSorter.setGroupSorter(catchAllSortGroup);
+    }
+
+    @Override
+    protected MoveSorter buildSorterChain() {
+        List<MoveSorter> chain = new LinkedList<>();
+
+        if (moveSorterDebug != null) {
+            chain.add(moveSorterDebug);
+        }
+
+        chain.add(nodeGroupSorter);
+
+        return linkMoveSorterChain(chain);
     }
 
 

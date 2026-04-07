@@ -5,6 +5,7 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeGroupSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
     private final NodeGroupSorter nodeGroupSorter;
     private final CatchAllSortGroup catchAllSortGroup;
+    private final DefaultMoveComparator defaultMoveComparator;
 
 
     private MoveSorterDebug moveSorterDebug;
@@ -26,9 +28,10 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private boolean withDebugSearchTree;
 
     public MoveSorterRootBuilder() {
-        rootMoveSorter = new RootMoveSorter();
-        nodeGroupSorter = new NodeGroupSorter();
-        catchAllSortGroup = new CatchAllSortGroup();
+        this.rootMoveSorter = new RootMoveSorter();
+        this.nodeGroupSorter = new NodeGroupSorter();
+        this.catchAllSortGroup = new CatchAllSortGroup();
+        this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
     public MoveSorterRootBuilder withDebugSearchTree() {
@@ -41,23 +44,15 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         return this;
     }
 
-    public MoveSorter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        linkObjects();
-
-        return buildSorterChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected void buildObjects() {
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected void setupListenerMediator() {
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
         }
@@ -67,18 +62,21 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         searchListenerMediator.add(nodeGroupSorter);
     }
 
-    private void linkObjects() {
+    @Override
+    protected void linkObjects() {
+        catchAllSortGroup.setMoveComparator(defaultMoveComparator);
         nodeGroupSorter.setGroupSorter(catchAllSortGroup);
     }
 
-    private MoveSorter buildSorterChain() {
+    @Override
+    protected MoveSorter buildSorterChain() {
         List<MoveSorter> chain = new LinkedList<>();
 
         if (moveSorterDebug != null) {
             chain.add(moveSorterDebug);
         }
 
-        chain.add(rootMoveSorter);
+        //chain.add(rootMoveSorter);
 
         chain.add(nodeGroupSorter);
 
