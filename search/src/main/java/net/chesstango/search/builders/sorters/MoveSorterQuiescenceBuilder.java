@@ -6,13 +6,17 @@ import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationCo
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.sorters.*;
+import net.chesstango.search.smart.sorters.GroupSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
+import net.chesstango.search.smart.sorters.NodeGroupSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
-import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
+import net.chesstango.search.smart.sorters.groupsorters.NullGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,9 +39,11 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private PrincipalVariationComparator principalVariationComparator;
 
 
-    private NoQuietGroup noQuietGroup;;
+    private NoQuietBifurcation noQuietBifurcation;
+
     private PrincipalVariationGroup principalVariationGroup;
-    private CatchAllGroup catchAllGroup;
+    private final CatchAllGroup catchAllGroup;
+    private final NullGroup nullGroup;
 
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
@@ -48,8 +54,9 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterQuiescenceBuilder() {
         this.nodeGroupSorter = new NodeGroupSorter();
-        this.noQuietGroup = new NoQuietGroup();
+        this.noQuietBifurcation = new NoQuietBifurcation(true);
         this.catchAllGroup = new CatchAllGroup();
+        this.nullGroup = new NullGroup();
     }
 
     public MoveSorterQuiescenceBuilder withIterativeDeepening() {
@@ -179,14 +186,20 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
 
     private GroupSorter createGroupSorterChain() {
-        List<GroupSorter> chain = new LinkedList<>();
+        GroupSorter head = null;
 
-        chain.add(noQuietGroup);
         if (principalVariationGroup != null) {
-            chain.add(principalVariationGroup);
+            principalVariationGroup.setNext(noQuietBifurcation);
+            head = principalVariationGroup;
         }
-        chain.add(catchAllGroup);
 
-        return linkGroupSorterChain(chain);
+        if (head == null) {
+            head = noQuietBifurcation;
+        }
+
+        noQuietBifurcation.setNoQuietGroup(catchAllGroup);
+        noQuietBifurcation.setQuietGroup(nullGroup);
+
+        return head;
     }
 }

@@ -63,8 +63,9 @@ import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
-import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NullGroup;
 
 /**
  * @author Mauricio Coria
@@ -337,10 +338,13 @@ public interface Visitor {
     default void visit(CatchAllGroup catchAllGroup) {
     }
 
-    default void visit(NoQuietGroup noQuietGroup) {
+    default void visit(NoQuietBifurcation noQuietGroup) {
     }
 
     default void visit(PrincipalVariationGroup principalVariationGroup) {
     }
 
+
+    default void visit(NullGroup nullGroup) {
+    }
 }

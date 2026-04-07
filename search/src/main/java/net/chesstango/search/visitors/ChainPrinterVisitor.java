@@ -47,7 +47,8 @@ import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
-import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
+import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
+import net.chesstango.search.smart.sorters.groupsorters.NullGroup;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -461,8 +462,23 @@ public class ChainPrinterVisitor implements Visitor {
      */
 
     @Override
-    public void visit(NoQuietGroup noQuietGroup) {
-        print(noQuietGroup, noQuietGroup.getNext());
+    public void visit(NoQuietBifurcation noQuietBifurcation) {
+        printChainDownLine();
+        printNodeObjectText(noQuietBifurcation);
+
+        GroupSorter noQuietGroup = noQuietBifurcation.getNoQuietGroup();
+        printChainDownLine();
+        printChainText(" -> NoQuietGroup");
+        nestedChain++;
+        noQuietGroup.accept(this);
+        nestedChain--;
+
+        GroupSorter quietGroup = noQuietBifurcation.getQuietGroup();
+        out.println();
+        printChainText(" -> QuietGroup");
+        nestedChain++;
+        quietGroup.accept(this);
+        nestedChain--;
     }
 
     @Override
@@ -474,6 +490,12 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(CatchAllGroup catchAllGroup) {
         printChainDownLine();
         printNodeObjectText(catchAllGroup);
+    }
+
+    @Override
+    public void visit(NullGroup nullGroup) {
+        printChainDownLine();
+        printNodeObjectText(nullGroup);
     }
 
     /**
@@ -554,7 +576,7 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
     }
 
-    private void printGroupSorter(GroupSorter groupSorter){
+    private void printGroupSorter(GroupSorter groupSorter) {
         printChainDownLine();
         printChainText(" -> GroupSorter");
         nestedChain++;

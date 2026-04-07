@@ -37,7 +37,9 @@ public class NodeGroupSorter implements MoveSorter {
         groupSorter.beforeSort(currentPly);
 
         for (Move move : moves) {
-            groupSorter.offer(move);
+            if (!groupSorter.offer(move)) {
+                throw new RuntimeException("GroupSorter offer returned false");
+            }
         }
 
         groupSorter.collect(moveList);

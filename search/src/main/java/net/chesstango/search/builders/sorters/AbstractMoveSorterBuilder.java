@@ -10,7 +10,6 @@ import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
-import net.chesstango.search.smart.sorters.groupsorters.NoQuietGroup;
 
 import java.util.List;
 
@@ -67,7 +66,6 @@ public abstract class AbstractMoveSorterBuilder {
             GroupSorter currentGroupSorter = chain.get(i);
             GroupSorter next = chain.get(i + 1);
             switch (currentGroupSorter) {
-                case NoQuietGroup noQuietGroup -> noQuietGroup.setNext(next);
 
                 case PrincipalVariationGroup principalVariationGroup -> principalVariationGroup.setNext(next);
 
