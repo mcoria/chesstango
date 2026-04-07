@@ -18,7 +18,7 @@ import java.util.List;
  */
 public abstract class AbstractMoveSorterBuilder {
 
-    protected MoveSorter buildChain(List<MoveSorter> chain) {
+    protected MoveSorter linkMoveSorterChain(List<MoveSorter> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
             MoveSorter currentSorter = chain.get(i);
             MoveSorter next = chain.get(i + 1);
@@ -36,7 +36,7 @@ public abstract class AbstractMoveSorterBuilder {
         return chain.getFirst();
     }
 
-    protected MoveComparator linkComparatorChain(List<MoveComparator> chain) {
+    protected MoveComparator linkMoveComparatorChain(List<MoveComparator> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);

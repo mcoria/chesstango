@@ -115,7 +115,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(nodeGroupSorter);
 
-        return buildChain(chain);
+        return linkMoveSorterChain(chain);
     }
 
     private void buildObjects() {

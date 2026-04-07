@@ -1,7 +1,10 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.sorters.*;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
+import net.chesstango.search.smart.sorters.NodeGroupSorter;
+import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
@@ -13,6 +16,9 @@ import java.util.List;
 public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
     private final NodeGroupSorter nodeGroupSorter;
+    private final CatchAllSortGroup catchAllSortGroup;
+
+
     private MoveSorterDebug moveSorterDebug;
 
     private SearchListenerMediator searchListenerMediator;
@@ -22,6 +28,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     public MoveSorterRootBuilder() {
         rootMoveSorter = new RootMoveSorter();
         nodeGroupSorter = new NodeGroupSorter();
+        catchAllSortGroup = new CatchAllSortGroup();
     }
 
     public MoveSorterRootBuilder withDebugSearchTree() {
@@ -39,9 +46,9 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
         setupListenerMediator();
 
-        nodeGroupSorter.setGroupSorter(new CatchAllSortGroup());
+        linkObjects();
 
-        return createChain();
+        return buildSorterChain();
     }
 
     private void buildObjects() {
@@ -60,7 +67,11 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         searchListenerMediator.add(nodeGroupSorter);
     }
 
-    private MoveSorter createChain() {
+    private void linkObjects() {
+        nodeGroupSorter.setGroupSorter(catchAllSortGroup);
+    }
+
+    private MoveSorter buildSorterChain() {
         List<MoveSorter> chain = new LinkedList<>();
 
         if (moveSorterDebug != null) {
@@ -71,7 +82,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(nodeGroupSorter);
 
-        return buildChain(chain);
+        return linkMoveSorterChain(chain);
     }
 
 }

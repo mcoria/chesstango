@@ -22,10 +22,6 @@ public class CatchAllSortGroup implements GroupSorter {
         this.collectedMoves = new ArrayList<>();
     }
 
-    public CatchAllSortGroup(List<Move> collectedMoves) {
-        this.collectedMoves = collectedMoves;
-    }
-
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -45,9 +41,11 @@ public class CatchAllSortGroup implements GroupSorter {
     @Override
     public void beforeSort(int currentPly) {
         collectedMoves.clear();
+        moveComparator.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
+        moveComparator.afterSort();
     }
 }

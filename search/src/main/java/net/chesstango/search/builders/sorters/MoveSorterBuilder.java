@@ -1,8 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
@@ -104,7 +102,7 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(nodeMoveSorter);
 
-        return buildChain(chain);
+        return linkMoveSorterChain(chain);
     }
 
     private void buildObjects() {
@@ -188,7 +186,7 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(quietComparator);
 
-        return linkComparatorChain(chain);
+        return linkMoveComparatorChain(chain);
     }
 
 
@@ -207,7 +205,7 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(chainTail);
 
-        return linkComparatorChain(chain);
+        return linkMoveComparatorChain(chain);
     }
 
     private MoveComparator buildQuietNext(MoveComparator chainTail) {
@@ -219,7 +217,7 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(chainTail);
 
-        return linkComparatorChain(chain);
+        return linkMoveComparatorChain(chain);
     }
 
     private MoveComparator buildChainTail() {
@@ -231,6 +229,6 @@ public class MoveSorterBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(defaultMoveComparator);
 
-        return linkComparatorChain(chain);
+        return linkMoveComparatorChain(chain);
     }
 }
