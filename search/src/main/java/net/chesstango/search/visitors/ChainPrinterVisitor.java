@@ -46,9 +46,9 @@ import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
-import net.chesstango.search.smart.sorters.groupsorters.NullGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -487,13 +487,13 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(CatchAllGroup catchAllGroup) {
+    public void visit(CatchAllSortGroup catchAllGroup) {
         printChainDownLine();
         printNodeObjectText(catchAllGroup);
     }
 
     @Override
-    public void visit(NullGroup nullGroup) {
+    public void visit(CatchAllNullGroup nullGroup) {
         printChainDownLine();
         printNodeObjectText(nullGroup);
     }

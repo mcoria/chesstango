@@ -14,9 +14,9 @@ import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
-import net.chesstango.search.smart.sorters.groupsorters.NullGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,8 +42,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private NoQuietBifurcation noQuietBifurcation;
 
     private PrincipalVariationGroup principalVariationGroup;
-    private final CatchAllGroup catchAllGroup;
-    private final NullGroup nullGroup;
+    private final CatchAllSortGroup catchAllGroup;
+    private final CatchAllNullGroup nullGroup;
 
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
@@ -55,8 +55,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     public MoveSorterQuiescenceBuilder() {
         this.nodeGroupSorter = new NodeGroupSorter();
         this.noQuietBifurcation = new NoQuietBifurcation(true);
-        this.catchAllGroup = new CatchAllGroup();
-        this.nullGroup = new NullGroup();
+        this.catchAllGroup = new CatchAllSortGroup();
+        this.nullGroup = new CatchAllNullGroup();
     }
 
     public MoveSorterQuiescenceBuilder withIterativeDeepening() {
@@ -121,6 +121,9 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private void buildObjects() {
         defaultMoveComparator = new DefaultMoveComparator();
 
+        promotionComparator = new PromotionComparator();
+
+
         if (withIterativeDeepening) {
             principalVariationGroup = new PrincipalVariationGroup();
         }
@@ -147,9 +150,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         if (withMvvLva) {
             mvvLvaComparator = new MvvLvaComparator();
         }
-
-        promotionComparator = new PromotionComparator();
-
     }
 
     private void setupListenerMediator() {
@@ -186,13 +186,15 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
 
     private GroupSorter createGroupSorterChain() {
-        GroupSorter head = null;
+        catchAllGroup.setMoveComparator(defaultMoveComparator);
 
+        GroupSorter head = null;
+        /*
         if (principalVariationGroup != null) {
             principalVariationGroup.setNext(noQuietBifurcation);
             head = principalVariationGroup;
         }
-
+         */
         if (head == null) {
             head = noQuietBifurcation;
         }

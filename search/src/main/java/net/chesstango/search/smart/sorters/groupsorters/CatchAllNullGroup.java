@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NullGroup implements GroupSorter {
+public class CatchAllNullGroup implements GroupSorter {
 
     @Override
     public void accept(Visitor visitor) {

@@ -62,10 +62,10 @@ import net.chesstango.search.smart.sorters.NodeGroupSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.sorters.groupsorters.NullGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 
 /**
  * @author Mauricio Coria
@@ -335,7 +335,7 @@ public interface Visitor {
      *
      * GroupSorter elements
      */
-    default void visit(CatchAllGroup catchAllGroup) {
+    default void visit(CatchAllSortGroup catchAllGroup) {
     }
 
     default void visit(NoQuietBifurcation noQuietGroup) {
@@ -345,6 +345,6 @@ public interface Visitor {
     }
 
 
-    default void visit(NullGroup nullGroup) {
+    default void visit(CatchAllNullGroup nullGroup) {
     }
 }

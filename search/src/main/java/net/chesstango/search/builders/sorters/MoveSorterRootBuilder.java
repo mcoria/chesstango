@@ -2,8 +2,7 @@ package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.*;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllGroup;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
         setupListenerMediator();
 
-        nodeGroupSorter.setGroupSorter(new CatchAllGroup());
+        nodeGroupSorter.setGroupSorter(new CatchAllSortGroup());
 
         return createChain();
     }
