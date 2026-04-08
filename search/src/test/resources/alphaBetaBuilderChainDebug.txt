@@ -24,7 +24,7 @@ AlphaBeta @ 9
 	|
 	 -> GroupSorter
 		|
-		CatchAllGroup @ 13
+		CatchAllSortGroup @ 13
 |
 RootMoveEvaluationTracker @ 14
 |

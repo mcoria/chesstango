@@ -20,7 +20,7 @@ AlphaBeta @ 7
 	|
 	 -> GroupSorter
 		|
-		CatchAllGroup @ 10
+		CatchAllSortGroup @ 10
 |
 RootMoveEvaluationTracker @ 11
 |
@@ -96,22 +96,38 @@ AlphaBetaFlowControl @ 14
 	|
 	 -> Sorter
 		|
-		NodeGroupSorter @ 38
+		NodeMoveSorter @ 38
 		|
-		 -> GroupSorter
+		 -> Comparator
+			|
+			PrincipalVariationComparator @ 39
+			|
+			TranspositionHeadMoveComparator @ 40 [TTable: TTableArrayPrimitives @ 6]
+			|
+			TranspositionTailMoveComparator @ 41 [TTable: TTableArrayPrimitives @ 6]
+			|
+			PromotionComparator @ 42
+			|
+			RecaptureMoveComparator @ 43
+			|
+			MvvLvaComparator @ 44
+			|
+			GameEvaluatorCacheComparator @ 45 [EvaluatorCacheRead: EvaluatorCache @ 16]
+			|
+			DefaultMoveComparator @ 46
 	|
 	AlphaBetaFlowControl @ 14 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 39
-	TTListener @ 40
+	EvaluatorCacheListener @ 47
+	TTListener @ 48
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 41
+	SetSearchTimers @ 49
 	AlphaBetaFlowControl @ 14
-	SetKillerMoveTables @ 42
+	SetKillerMoveTables @ 50
 	PrincipalVariationComparator @ 25
-	PrincipalVariationComparator @ 43
+	PrincipalVariationComparator @ 39
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TTPVReader @ 13
@@ -119,29 +135,29 @@ SearchByCycleListeners:
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 41
-	RootMoveEvaluationCollection @ 44
+	SetSearchTimers @ 49
+	RootMoveEvaluationCollection @ 51
 	TTPVReader @ 13
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 44
+	RootMoveEvaluationCollection @ 51
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 14
 
 ResetListener:
-	EvaluatorCacheListener @ 39
-	TTListener @ 40
+	EvaluatorCacheListener @ 47
+	TTListener @ 48
 
 Acceptor:
-	SetGameToEvaluator @ 45
-	EvaluatorCacheListener @ 39
-	TTListener @ 40
-	SetGameToEndGameTableBase @ 46
+	SetGameToEvaluator @ 52
+	EvaluatorCacheListener @ 47
+	TTListener @ 48
+	SetGameToEndGameTableBase @ 53
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 41
+	SetSearchTimers @ 49
 	AlphaBetaFlowControl @ 14
-	SetKillerMoveTables @ 42
+	SetKillerMoveTables @ 50
 	AlphaBetaEvaluation @ 15
 	AlphaBetaEvaluation @ 21
 	TranspositionTable @ 22
@@ -158,14 +174,14 @@ Acceptor:
 	EgtbEvaluation @ 18
 	TranspositionTableQ @ 36
 	Quiescence @ 37
-	NodeGroupSorter @ 38
-	TranspositionHeadMoveComparator @ 47
-	TranspositionTailMoveComparator @ 48
-	PrincipalVariationComparator @ 43
-	RecaptureMoveComparator @ 49
-	GameEvaluatorCacheComparator @ 50
+	NodeMoveSorter @ 38
+	TranspositionHeadMoveComparator @ 40
+	TranspositionTailMoveComparator @ 41
+	PrincipalVariationComparator @ 39
+	RecaptureMoveComparator @ 43
+	GameEvaluatorCacheComparator @ 45
 	RootMoveEvaluationTracker @ 11
-	RootMoveEvaluationCollection @ 44
+	RootMoveEvaluationCollection @ 51
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TranspositionTableRoot @ 5

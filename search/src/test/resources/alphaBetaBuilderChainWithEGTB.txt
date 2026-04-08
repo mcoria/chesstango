@@ -20,7 +20,7 @@ AlphaBeta @ 7
 	|
 	 -> GroupSorter
 		|
-		CatchAllGroup @ 10
+		CatchAllSortGroup @ 10
 |
 RootMoveEvaluationTracker @ 11
 |

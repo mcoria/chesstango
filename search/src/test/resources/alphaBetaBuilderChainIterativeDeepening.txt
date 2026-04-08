@@ -8,11 +8,11 @@ AlphaBeta @ 3
 |
  -> Sorter
 	|
-	NodeGroupSorter @ 4
+	RootMoveSorter @ 4
+	|
+	NodeGroupSorter @ 5
 	|
 	 -> GroupSorter
-		|
-		PrincipalVariationGroup @ 5
 		|
 		CatchAllSortGroup @ 6
 |
@@ -44,38 +44,44 @@ AlphaBetaFlowControl @ 9
 	|
 	 -> Sorter
 		|
-		NodeGroupSorter @ 17
+		NodeMoveSorter @ 17
 		|
-		 -> GroupSorter
+		 -> Comparator
 			|
-			PrincipalVariationGroup @ 18
+			QuietComparator @ 18
 			|
-			CatchAllSortGroup @ 19
+			 -> NoQuietComparatorNode
+				|
+				PromotionComparator @ 19
+				|
+				RecaptureMoveComparator @ 20
+				|
+				DefaultMoveComparator @ 21
+
+			 -> QuietComparatorNode
+				|
+				DefaultMoveComparator @ 21
 	|
-	TriangularPV @ 20
+	TriangularPV @ 22
 	|
 	AlphaBetaFlowControl @ 9 -> LOOP
 
 
 SearchByCycleListeners:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 21
+	SetSearchTimers @ 23
 	AlphaBetaFlowControl @ 9
-	SetTrianglePV @ 22
-	PrincipalVariationGroup @ 18
-	RootMoveSorter @ 23
-	PrincipalVariationGroup @ 5
+	SetTrianglePV @ 24
+	RootMoveSorter @ 4
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 21
-	SetTrianglePV @ 22
-	PrincipalVariationGroup @ 18
-	RootMoveEvaluationCollection @ 24
-	PrincipalVariationGroup @ 5
+	SetSearchTimers @ 23
+	SetTrianglePV @ 24
+	RootMoveEvaluationCollection @ 25
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 24
+	RootMoveEvaluationCollection @ 25
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 9
@@ -83,26 +89,24 @@ StopSearchingListener:
 ResetListener:
 
 Acceptor:
-	SetGameToEvaluator @ 25
-	SetGameToEndGameTableBase @ 26
+	SetGameToEvaluator @ 26
+	SetGameToEndGameTableBase @ 27
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 21
+	SetSearchTimers @ 23
 	AlphaBetaFlowControl @ 9
-	SetTrianglePV @ 22
+	SetTrianglePV @ 24
 	AlphaBetaEvaluation @ 10
 	AlphaBetaEvaluation @ 15
-	TriangularPV @ 20
+	TriangularPV @ 22
 	AlphaBeta @ 16
-	NodeGroupSorter @ 17
-	QuietComparator @ 27
-	RecaptureMoveComparator @ 28
-	PrincipalVariationGroup @ 18
+	NodeMoveSorter @ 17
+	QuietComparator @ 18
+	RecaptureMoveComparator @ 20
 	EgtbEvaluation @ 12
 	RootMoveEvaluationTracker @ 7
-	RootMoveEvaluationCollection @ 24
+	RootMoveEvaluationCollection @ 25
 	TriangularPV @ 8
 	AlphaBeta @ 3
-	RootMoveSorter @ 23
-	NodeGroupSorter @ 4
-	PrincipalVariationGroup @ 5
+	RootMoveSorter @ 4
+	NodeGroupSorter @ 5
 

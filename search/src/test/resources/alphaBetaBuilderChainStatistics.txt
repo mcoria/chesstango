@@ -22,7 +22,7 @@ AlphaBeta @ 9
 	|
 	 -> GroupSorter
 		|
-		CatchAllGroup @ 12
+		CatchAllSortGroup @ 12
 |
 RootMoveEvaluationTracker @ 13
 |

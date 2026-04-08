@@ -434,18 +434,18 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public static AlphaBetaBuilder createDefaultBuilderInstance() {
         return new AlphaBetaBuilder()
-                //.withGameEvaluatorCache()
+                .withGameEvaluatorCache()
 
-                //.withQuiescence()
+                .withQuiescence()
 
-                //.withTranspositionTable()
+                .withTranspositionTable()
 
-                //.withTranspositionMoveSorter()
-                //.withKillerMoveSorter()
-                //.withRecaptureSorter()
-                //.withMvvLvaSorter()
+                .withTranspositionMoveSorter()
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
 
-                //.withAspirationWindows()
+                .withAspirationWindows()
 
                 .withIterativeDeepening()
 

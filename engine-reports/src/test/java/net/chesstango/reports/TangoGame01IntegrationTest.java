@@ -66,8 +66,8 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationStatistics()
-                //.withEvaluationCacheStatistics()
-                //.withTranspositionStatistics()
+                .withEvaluationCacheStatistics()
+                .withTranspositionStatistics()
                 .withPrincipalVariationStatistics()
                 .printReport(System.out);
 
@@ -79,8 +79,8 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
                 .withEvaluationReport()
-                //.withEvaluationCacheReport()
-                //.withTranspositionReport()
+                .withEvaluationCacheReport()
+                .withTranspositionReport()
                 .withIterationEvaluationReport()
                 .withPrincipalVariationReport()
                 .withPrincipalVariationIterationReport()
@@ -91,19 +91,18 @@ public class TangoGame01IntegrationTest {
     @Test
     public void testPlay() {
         Config config = new Config()
-                /*
                 .setSearch(AlphaBetaBuilder
                         .createDefaultBuilderInstance()
                         .withGameEvaluator(Evaluator.createInstance())
                         .withStatistics()
                         .build()
                 )
-                 */
+                /*
                 .setSearch(new AlphaBetaBuilder()
                         .withGameEvaluator(Evaluator.createInstance())
-                        //.withGameEvaluatorCache()
+                        .withGameEvaluatorCache()
 
-                        //.withQuiescence()
+                        .withQuiescence()
 
                         //.withTranspositionTable()
 
@@ -116,12 +115,13 @@ public class TangoGame01IntegrationTest {
 
                         .withIterativeDeepening()
 
-                        .withStopProcessingCatch()
+                        //.withStopProcessingCatch()
 
                         .withStatistics()
 
                         .build()
                 )
+                 */
                 .setSyncSearch(true)
                 .setPolyglotFile(POLYGLOT_FILE)
                 .setSyzygyPath(SYZYGY_PATH);
