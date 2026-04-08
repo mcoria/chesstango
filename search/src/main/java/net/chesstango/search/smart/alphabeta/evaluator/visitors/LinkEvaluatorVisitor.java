@@ -5,7 +5,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 
 /**
@@ -35,7 +35,7 @@ public class LinkEvaluatorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTPVReader ttPVReader) {
+    public void visit(TTPVReaderImp ttPVReader) {
         ttPVReader.setEvaluator(evaluator);
     }
 

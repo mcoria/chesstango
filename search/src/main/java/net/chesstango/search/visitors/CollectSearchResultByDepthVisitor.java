@@ -1,13 +1,11 @@
 package net.chesstango.search.visitors;
 
-import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 
 /**
@@ -29,7 +27,7 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
 
     @Override
-    public void visit(TTPVReader ttpvReader) {
+    public void visit(TTPVReaderImp ttpvReader) {
         searchResultByDepth.setPrincipalVariation(ttpvReader.getPrincipalVariation());
         searchResultByDepth.setPvComplete(ttpvReader.isPvComplete());
     }

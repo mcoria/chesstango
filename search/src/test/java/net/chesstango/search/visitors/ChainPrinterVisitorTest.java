@@ -100,7 +100,19 @@ public class ChainPrinterVisitorTest {
     public void alphaBetaBuilderIterativeDeepening() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withIterativeDeepening();
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
+
+                .withAspirationWindows()
+
+                .withIterativeDeepening()
+
+                .withStopProcessingCatch();
 
         Search search = builder.build();
 

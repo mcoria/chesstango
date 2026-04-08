@@ -12,12 +12,11 @@ import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTable
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -96,7 +95,7 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTPVReader ttpvReader) {
+    public void visit(TTPVReaderImp ttpvReader) {
         ttpvReader.setGame(game);
     }
 

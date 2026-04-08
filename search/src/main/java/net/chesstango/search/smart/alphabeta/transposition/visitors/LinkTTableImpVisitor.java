@@ -1,11 +1,8 @@
 package net.chesstango.search.smart.alphabeta.transposition.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
 
@@ -23,7 +20,7 @@ public class LinkTTableImpVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTPVReader ttpvReader) {
+    public void visit(TTPVReaderImp ttpvReader) {
         ttpvReader.setMaxMap(maxMap);
         ttpvReader.setMinMap(minMap);
     }

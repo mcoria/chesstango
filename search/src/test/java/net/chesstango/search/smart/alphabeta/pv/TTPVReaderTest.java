@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.alphabeta.pv;
 
-import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
@@ -44,13 +43,13 @@ public class TTPVReaderTest {
     @Mock
     private TTable qMinMap;
 
-    private TTPVReader ttPvReader;
+    private TTPVReaderImp ttPvReader;
 
     private Game game;
 
     @BeforeEach
     public void setup() {
-        ttPvReader = new TTPVReader();
+        ttPvReader = new TTPVReaderImp();
 
         ttPvReader.beforeSearch();
         ttPvReader.beforeSearchByDepth();
@@ -157,8 +156,8 @@ public class TTPVReaderTest {
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
 
         // Supongamos que se ejecutó readPrincipalVariation
-        ttPvReader.principalVariation = List.of(new PrincipalVariation(startZobrist, startExecutedMove));
-        ttPvReader.pvComplete = true;
+        ttPvReader.setPrincipalVariation(List.of(new PrincipalVariation(startZobrist, startExecutedMove)));
+        ttPvReader.setPvComplete(true);
 
         // Y continuamos con la siguiente profundidad
         ttPvReader.beforeSearchByDepth();

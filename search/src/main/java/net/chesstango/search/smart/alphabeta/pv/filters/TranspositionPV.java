@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.pv.PVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 
 /**
  * Este filtro se ejecuta luego de AlphaBeta para capturar tempranamente el PV.
@@ -19,7 +19,7 @@ public class TranspositionPV implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
-    private PVReader pvReader;
+    private TTPVReader pvReader;
 
     @Override
     public void accept(Visitor visitor) {

@@ -9,7 +9,7 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
@@ -47,7 +47,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private TTPVReader ttPvReader;
+    private TTPVReaderImp ttPvReader;
     private TTPVReaderDebug ttpvReaderDebug;
 
     private boolean withStatistics;
@@ -145,7 +145,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
             transpositionPV = new TranspositionPV();
 
-            ttPvReader = new TTPVReader();
+            ttPvReader = new TTPVReaderImp();
         }
 
         if (withZobristTracker) {

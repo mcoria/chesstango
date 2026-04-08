@@ -26,7 +26,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveC
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
@@ -214,7 +214,7 @@ public interface Visitor {
     default void visit(KillerMovesDebug killerMovesDebug) {
     }
 
-    default void visit(TTPVReader ttpvReader) {
+    default void visit(TTPVReaderImp ttpvReader) {
     }
 
     default void visit(TTPVReaderDebug ttpvReaderDebug) {

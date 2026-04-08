@@ -8,7 +8,7 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 
 /**
@@ -50,7 +50,7 @@ public class SetEndGameTableBaseVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTPVReader ttPVReader) {
+    public void visit(TTPVReaderImp ttPVReader) {
         ttPVReader.setEndGameTableBase(endGameTableBase);
     }
 
