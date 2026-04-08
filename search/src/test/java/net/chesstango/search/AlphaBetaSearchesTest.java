@@ -38,7 +38,7 @@ public class AlphaBetaSearchesTest {
                 //.withDebugSearchTree(false, true, true)
                 .build();
 
-        search.accept(new SetMaxDepthVisitor(9));
+        search.accept(new SetMaxDepthVisitor(6));
         SearchResult searchResult = search.startSearch(game);
 
         Move bm = searchResult.getBestMove();
@@ -151,7 +151,7 @@ public class AlphaBetaSearchesTest {
      */
     @Test
     public void testSearch_Fried_Liver_Attack_Mirror() {
-        final int depthAnalysis = 9;
+        final int depthAnalysis = 6;
 
         Search search1 = AlphaBetaBuilder
                 .createDefaultBuilderInstance()

@@ -1,8 +1,10 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.sorters.*;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
+import net.chesstango.search.smart.sorters.NodeGroupSorter;
+import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 
@@ -20,11 +22,8 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     private MoveSorterDebug moveSorterDebug;
 
-    private PrincipalVariationGroup principalVariationGroup;
-
     private SearchListenerMediator searchListenerMediator;
 
-    private boolean withIterativeDeepening;
     private boolean withDebugSearchTree;
 
     public MoveSorterRootBuilder() {
@@ -32,11 +31,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         this.nodeGroupSorter = new NodeGroupSorter();
         this.catchAllSortGroup = new CatchAllSortGroup();
         this.defaultMoveComparator = new DefaultMoveComparator();
-    }
-
-    public MoveSorterRootBuilder withIterativeDeepening() {
-        this.withIterativeDeepening = true;
-        return this;
     }
 
     public MoveSorterRootBuilder withDebugSearchTree() {
@@ -54,31 +48,23 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
         }
-
-        if (withIterativeDeepening) {
-            principalVariationGroup = new PrincipalVariationGroup();
-        }
     }
 
     @Override
     protected void setupListenerMediator() {
-        searchListenerMediator.add(rootMoveSorter);
-
-        searchListenerMediator.add(nodeGroupSorter);
-
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
         }
 
-        if (principalVariationGroup != null) {
-            searchListenerMediator.add(principalVariationGroup);
-        }
+        searchListenerMediator.add(rootMoveSorter);
+
+        searchListenerMediator.add(nodeGroupSorter);
     }
 
     @Override
     protected void linkObjects() {
         catchAllSortGroup.setMoveComparator(defaultMoveComparator);
-        nodeGroupSorter.setGroupSorter(createGroupSorterChain());
+        nodeGroupSorter.setGroupSorter(catchAllSortGroup);
     }
 
     @Override
@@ -89,23 +75,11 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
             chain.add(moveSorterDebug);
         }
 
+        chain.add(rootMoveSorter);
+
         chain.add(nodeGroupSorter);
 
         return linkMoveSorterChain(chain);
-    }
-
-    private GroupSorter createGroupSorterChain() {
-        GroupSorter head = null;
-
-        if (principalVariationGroup != null) {
-            principalVariationGroup.setNext(catchAllSortGroup);
-            head = principalVariationGroup;
-        }
-        if (head == null) {
-            head = catchAllSortGroup;
-        }
-
-        return head;
     }
 
 }

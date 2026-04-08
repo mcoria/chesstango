@@ -47,7 +47,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withIterativeDeepening() {
-        moveSorterBuilder.withIterativeDeepening();
+        //moveSorterBuilder.withIterativeDeepening();
         return this;
     }
 
