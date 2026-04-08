@@ -66,7 +66,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     }
 
     public AlphaBetaRootChainBuilder withIterativeDeepening() {
-        //moveSorterRootBuilder.withIterativeDeepening();
+        moveSorterRootBuilder.withIterativeDeepening();
         return this;
     }
 

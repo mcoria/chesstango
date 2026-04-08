@@ -22,8 +22,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     private MoveSorterDebug moveSorterDebug;
 
-    private SearchListenerMediator searchListenerMediator;
-
     private boolean withDebugSearchTree;
 
     public MoveSorterRootBuilder() {
@@ -33,13 +31,14 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
-    public MoveSorterRootBuilder withDebugSearchTree() {
-        this.withDebugSearchTree = true;
-        return this;
+    @Override
+    public MoveSorterBuilder withIterativeDeepening() {
+        return null;
     }
 
-    public MoveSorterRootBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    @Override
+    public MoveSorterRootBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
         return this;
     }
 

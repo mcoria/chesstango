@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.builders.sorters.MoveSorterBuilder;
+import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -25,7 +25,7 @@ public abstract class AbstractNodeSorterTest {
     protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     protected SearchListenerMediator searchListenerMediator;
-    protected MoveSorterBuilder moveSorterBuilder;
+    protected MoveSorterInteriorBuilder moveSorterBuilder;
     protected TTable maxMap;
     protected TTable minMap;
     protected KillerMovesTable killerMovesTable;
@@ -42,7 +42,7 @@ public abstract class AbstractNodeSorterTest {
 
         killerMovesTable = new KillerMovesTable();
 
-        moveSorterBuilder = new MoveSorterBuilder()
+        moveSorterBuilder = new MoveSorterInteriorBuilder()
                 .withSmartListenerMediator(searchListenerMediator);
     }
 

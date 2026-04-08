@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
-    private SearchListenerMediator searchListenerMediator;
     private DefaultMoveComparator defaultMoveComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
@@ -45,8 +44,14 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         this.nodeMoveSorter = new NodeMoveSorter(move -> !move.isQuiet());
     }
 
-    public MoveSorterQuiescenceBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    @Override
+    public MoveSorterBuilder withIterativeDeepening() {
+        return null;
+    }
+
+    @Override
+    public MoveSorterQuiescenceBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
         return this;
     }
 
@@ -57,11 +62,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterQuiescenceBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
-        return this;
-    }
-
-    public MoveSorterQuiescenceBuilder withDebugSearchTree() {
-        this.withDebugSearchTree = true;
         return this;
     }
 

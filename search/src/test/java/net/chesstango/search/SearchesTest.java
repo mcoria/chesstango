@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaSearchesTest {
+public class SearchesTest {
 
     /**
      * Con TT:
@@ -38,7 +38,7 @@ public class AlphaBetaSearchesTest {
                 //.withDebugSearchTree(false, true, true)
                 .build();
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(9));
         SearchResult searchResult = search.startSearch(game);
 
         Move bm = searchResult.getBestMove();

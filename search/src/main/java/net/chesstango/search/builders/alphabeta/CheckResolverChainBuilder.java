@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.search.builders.sorters.MoveSorterBuilder;
+import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
-    private final MoveSorterBuilder moveSorterBuilder;
+    private final MoveSorterInteriorBuilder moveSorterBuilder;
     private AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
@@ -36,7 +36,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
 
     public CheckResolverChainBuilder() {
         alphaBeta = new AlphaBeta();
-        moveSorterBuilder = new MoveSorterBuilder();
+        moveSorterBuilder = new MoveSorterInteriorBuilder();
     }
 
     public CheckResolverChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {

@@ -1,5 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
@@ -16,8 +17,17 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public abstract class AbstractMoveSorterBuilder {
+public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
 
+    protected SearchListenerMediator searchListenerMediator;
+
+    @Override
+    public AbstractMoveSorterBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
+        return this;
+    }
+
+    @Override
     public MoveSorter build() {
         buildObjects();
 

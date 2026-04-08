@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 /**
  * @author Mauricio Coria
  */
-class CatchAllSortGroupTest {
+public class CatchAllSortGroupTest {
 
     /**
      * Test for the `offer` method of the CatchAllGroup class.
@@ -23,7 +23,7 @@ class CatchAllSortGroupTest {
      * It returns `true` if the move is added successfully.
      */
     @Test
-    void testOfferAddsMoveSuccessfully() {
+    public void testOfferAddsMoveSuccessfully() {
         // Arrange
         CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
         Move mockMove = mock(Move.class);
@@ -42,7 +42,7 @@ class CatchAllSortGroupTest {
      * that the internal list contains the offered move after the method is invoked.
      */
     @Test
-    void testOfferStoresMoveInInternalList() {
+    public void testOfferStoresMoveInInternalList() {
         // Arrange
         CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
 
@@ -70,7 +70,7 @@ class CatchAllSortGroupTest {
      * to the group's internal list.
      */
     @Test
-    void testOfferWithMultipleMoves() {
+    public void testOfferWithMultipleMoves() {
         // Arrange
         CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
 

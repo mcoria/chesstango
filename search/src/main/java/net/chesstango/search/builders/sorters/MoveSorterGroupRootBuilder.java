@@ -22,8 +22,6 @@ public class MoveSorterGroupRootBuilder extends AbstractMoveSorterBuilder {
 
     private PrincipalVariationGroup principalVariationGroup;
 
-    private SearchListenerMediator searchListenerMediator;
-
     private boolean withIterativeDeepening;
     private boolean withDebugSearchTree;
 
@@ -34,18 +32,15 @@ public class MoveSorterGroupRootBuilder extends AbstractMoveSorterBuilder {
         this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
+    @Override
     public MoveSorterGroupRootBuilder withIterativeDeepening() {
         this.withIterativeDeepening = true;
         return this;
     }
 
+    @Override
     public MoveSorterGroupRootBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
-        return this;
-    }
-
-    public MoveSorterGroupRootBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 

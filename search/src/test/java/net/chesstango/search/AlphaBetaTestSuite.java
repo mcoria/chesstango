@@ -31,7 +31,7 @@ import org.junit.platform.suite.api.Suite;
         BestMovesWhiteTest.class,
 
         TranspositionEntryTableTest.class,
-        AlphaBetaSearchesTest.class,
+        SearchesTest.class,
         AspirationWindowsTest.class,
         RootMoveEvaluationTrackerTest.class,
 
