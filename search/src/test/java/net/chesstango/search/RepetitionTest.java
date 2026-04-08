@@ -24,13 +24,9 @@ public class RepetitionTest {
     public void setup() {
         searchResult = null;
 
-        search = new AlphaBetaBuilder()
+        search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-
-                .withTranspositionTable()
-
-                .withStatistics()
-
                 .build();
     }
 

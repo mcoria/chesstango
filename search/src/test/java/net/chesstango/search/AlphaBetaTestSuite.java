@@ -14,7 +14,7 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-        AlphaBetaSymmetryTest.class,
+        SymmetryTest.class,
 
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,
@@ -31,7 +31,7 @@ import org.junit.platform.suite.api.Suite;
         BestMovesWhiteTest.class,
 
         TranspositionEntryTableTest.class,
-        SearchesTest.class,
+        SearchTest.class,
         AspirationWindowsTest.class,
         RootMoveEvaluationTrackerTest.class,
 

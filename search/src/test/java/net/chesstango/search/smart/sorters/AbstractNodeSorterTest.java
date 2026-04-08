@@ -5,6 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesTable;
@@ -29,6 +30,7 @@ public abstract class AbstractNodeSorterTest {
     protected TTable maxMap;
     protected TTable minMap;
     protected KillerMovesTable killerMovesTable;
+    protected EvaluatorCache gameEvaluatorCache;
     protected Game game;
 
     @BeforeEach
