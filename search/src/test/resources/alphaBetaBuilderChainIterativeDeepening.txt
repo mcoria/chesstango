@@ -52,112 +52,120 @@ AlphaBetaFlowControl @ 11
 		|
 		 -> Comparator
 			|
-			QuietComparator @ 21
+			PrincipalVariationComparator @ 21
+			|
+			QuietComparator @ 22
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 22
+				PromotionComparator @ 23
 				|
-				RecaptureMoveComparator @ 23
+				RecaptureMoveComparator @ 24
 				|
-				MvvLvaComparator @ 24
+				MvvLvaComparator @ 25
 				|
-				GameEvaluatorCacheComparator @ 25 [EvaluatorCacheRead: EvaluatorCache @ 13]
+				GameEvaluatorCacheComparator @ 26 [EvaluatorCacheRead: EvaluatorCache @ 13]
 				|
-				DefaultMoveComparator @ 26
+				DefaultMoveComparator @ 27
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 27
+				KillerMoveComparator @ 28
 				|
-				GameEvaluatorCacheComparator @ 25 [EvaluatorCacheRead: EvaluatorCache @ 13]
+				GameEvaluatorCacheComparator @ 26 [EvaluatorCacheRead: EvaluatorCache @ 13]
 				|
-				DefaultMoveComparator @ 26
+				DefaultMoveComparator @ 27
 	|
-	TriangularPV @ 28
+	TriangularPV @ 29
 	|
-	KillerMoveTracker @ 29
+	KillerMoveTracker @ 30
 	|
 	AlphaBetaFlowControl @ 11 -> LOOP
 
  -> QuiescenceNode
 	|
-	Quiescence @ 30 [Evaluator: EvaluatorCache @ 13 -> EvaluatorByMaterial @ 14]
+	Quiescence @ 31 [Evaluator: EvaluatorCache @ 13 -> EvaluatorByMaterial @ 14]
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 31
+		NodeMoveSorter @ 32
 		|
 		 -> Comparator
 			|
-			PromotionComparator @ 32
+			PrincipalVariationComparator @ 33
 			|
-			RecaptureMoveComparator @ 33
+			PromotionComparator @ 34
 			|
-			MvvLvaComparator @ 34
+			RecaptureMoveComparator @ 35
 			|
-			GameEvaluatorCacheComparator @ 35 [EvaluatorCacheRead: EvaluatorCache @ 13]
+			MvvLvaComparator @ 36
 			|
-			DefaultMoveComparator @ 36
+			GameEvaluatorCacheComparator @ 37 [EvaluatorCacheRead: EvaluatorCache @ 13]
+			|
+			DefaultMoveComparator @ 38
 	|
-	TriangularPV @ 37
+	TriangularPV @ 39
 	|
 	AlphaBetaFlowControl @ 11 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 38
+	EvaluatorCacheListener @ 40
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 39
+	SetSearchTimers @ 41
 	AlphaBetaFlowControl @ 11
-	SetTrianglePV @ 40
-	SetKillerMoveTables @ 41
+	SetTrianglePV @ 42
+	SetKillerMoveTables @ 43
+	PrincipalVariationComparator @ 21
+	PrincipalVariationComparator @ 33
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	RootMoveSorter @ 6
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 39
-	SetTrianglePV @ 40
-	RootMoveEvaluationCollection @ 42
+	SetSearchTimers @ 41
+	SetTrianglePV @ 42
+	RootMoveEvaluationCollection @ 44
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 42
+	RootMoveEvaluationCollection @ 44
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 11
 
 ResetListener:
-	EvaluatorCacheListener @ 38
+	EvaluatorCacheListener @ 40
 
 Acceptor:
-	SetGameToEvaluator @ 43
-	EvaluatorCacheListener @ 38
-	SetGameToEndGameTableBase @ 44
+	SetGameToEvaluator @ 45
+	EvaluatorCacheListener @ 40
+	SetGameToEndGameTableBase @ 46
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 39
+	SetSearchTimers @ 41
 	AlphaBetaFlowControl @ 11
-	SetTrianglePV @ 40
-	SetKillerMoveTables @ 41
+	SetTrianglePV @ 42
+	SetKillerMoveTables @ 43
 	AlphaBetaEvaluation @ 12
 	AlphaBetaEvaluation @ 18
-	TriangularPV @ 28
-	KillerMoveTracker @ 29
+	TriangularPV @ 29
+	KillerMoveTracker @ 30
 	AlphaBeta @ 19
 	NodeMoveSorter @ 20
-	QuietComparator @ 21
-	RecaptureMoveComparator @ 23
-	GameEvaluatorCacheComparator @ 25
-	KillerMoveComparator @ 27
+	QuietComparator @ 22
+	PrincipalVariationComparator @ 21
+	RecaptureMoveComparator @ 24
+	GameEvaluatorCacheComparator @ 26
+	KillerMoveComparator @ 28
 	EgtbEvaluation @ 15
-	TriangularPV @ 37
-	Quiescence @ 30
-	NodeMoveSorter @ 31
-	RecaptureMoveComparator @ 33
-	GameEvaluatorCacheComparator @ 35
+	TriangularPV @ 39
+	Quiescence @ 31
+	NodeMoveSorter @ 32
+	PrincipalVariationComparator @ 33
+	RecaptureMoveComparator @ 35
+	GameEvaluatorCacheComparator @ 37
 	RootMoveEvaluationTracker @ 9
-	RootMoveEvaluationCollection @ 42
+	RootMoveEvaluationCollection @ 44
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TriangularPV @ 10

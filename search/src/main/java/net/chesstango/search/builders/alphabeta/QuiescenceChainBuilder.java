@@ -49,7 +49,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     public QuiescenceChainBuilder withIterativeDeepening() {
-        //moveSorterBuilder.withIterativeDeepening();
+        moveSorterBuilder.withIterativeDeepening();
         return this;
     }
 

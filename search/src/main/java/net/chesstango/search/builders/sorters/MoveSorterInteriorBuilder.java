@@ -33,6 +33,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private PromotionComparator promotionComparator;
     private PrincipalVariationComparator principalVariationComparator;
 
+    private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withKillerMoveSorter;
@@ -49,6 +50,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     public MoveSorterInteriorBuilder withIterativeDeepening() {
+        this.withIterativeDeepening = true;
         return null;
     }
 
@@ -91,12 +93,15 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void buildObjects() {
+
+        if (withIterativeDeepening) {
+            principalVariationComparator = new PrincipalVariationComparator();
+        }
+
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
 
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
-
-            principalVariationComparator = new PrincipalVariationComparator();
         }
 
         if (withDebugSearchTree) {
@@ -178,8 +183,11 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private MoveComparator createComparatorChain() {
         List<MoveComparator> chain = new LinkedList<>();
 
-        if (withTranspositionTable) {
+        if (principalVariationComparator != null) {
             chain.add(principalVariationComparator);
+        }
+
+        if (withTranspositionTable) {
             chain.add(transpositionHeadMoveComparator);
             chain.add(transpositionTailMoveComparator);
         }

@@ -22,6 +22,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     private MoveSorterDebug moveSorterDebug;
 
+    private boolean withIterativeDeepening;
     private boolean withDebugSearchTree;
 
     public MoveSorterRootBuilder() {
@@ -33,6 +34,7 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     public MoveSorterBuilder withIterativeDeepening() {
+        this.withIterativeDeepening = true;
         return null;
     }
 
