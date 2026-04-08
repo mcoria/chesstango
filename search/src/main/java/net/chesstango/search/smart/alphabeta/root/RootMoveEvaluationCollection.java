@@ -48,6 +48,11 @@ public class RootMoveEvaluationCollection implements SearchByDepthListener, Sear
         this.rootMoveEvaluations.add(moveEvaluation);
     }
 
+    /**
+     * Con Aspiration Windows habilitado, si la ventana actual falla:
+     * - Si maximizo, debiera retornar LOWER_BOUND o EXACT ?
+     * - Si minimizo, debiera retornar UPPER_BOUND o EXACT ?
+     */
     public Optional<RootMoveEvaluation> getBestMoveEvaluation(boolean maximize) {
         Stream<RootMoveEvaluation> moveEvaluationStream = rootMoveEvaluations
                 .stream()
