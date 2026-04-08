@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-class CatchAllGroupTest {
+/**
+ * @author Mauricio Coria
+ */
+class CatchAllSortGroupTest {
 
     /**
      * Test for the `offer` method of the CatchAllGroup class.
@@ -42,6 +45,10 @@ class CatchAllGroupTest {
     void testOfferStoresMoveInInternalList() {
         // Arrange
         CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
+
+        MoveComparator moveComparator = mock(MoveComparator.class);
+        catchAllGroup.setMoveComparator(moveComparator);
+
         Move mockMove = mock(Move.class);
 
         // Act
