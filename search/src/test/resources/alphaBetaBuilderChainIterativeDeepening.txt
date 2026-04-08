@@ -1,6 +1,6 @@
 ROOT
 |
-NoIterativeDeepening @ 1
+IterativeDeepening @ 1
 |
 AlphaBetaFacade @ 2
 |

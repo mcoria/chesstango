@@ -15,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTrack
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -230,5 +231,10 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(RecaptureMoveComparator recaptureMoveComparator) {
         recaptureMoveComparator.setGame(game);
+    }
+
+    @Override
+    public void visit(PrincipalVariationGroup principalVariationGroup) {
+        principalVariationGroup.setGame(game);
     }
 }

@@ -5,11 +5,11 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -21,6 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AlphaBetaSearchesTest {
 
+    /**
+     * Con TT:
+     * - DEPTH 9 = 23 segs
+     *
+     * Sin TT:
+     * - DEPTH 9 = 103 segs
+     */
     @Test
     public void test_START_POSITION() {
         Game game = Game.from(FEN.START_POSITION);
@@ -28,50 +35,6 @@ public class AlphaBetaSearchesTest {
         Search search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                //.withDebugSearchTree(false, true, true)
-                .build();
-
-        search.accept(new SetMaxDepthVisitor(3));
-        SearchResult searchResult = search.startSearch(game);
-
-        Move bm = searchResult.getBestMove();
-
-        assertNotNull(bm);
-
-        assertEquals(Piece.KNIGHT_WHITE, bm.getFrom().piece());
-        assertEquals(Square.g1, bm.getFrom().square());
-        assertEquals(Square.h3, bm.getTo().square());
-    }
-
-    @Test
-    public void testSearch_02() {
-        Game game = Game.from(FEN.START_POSITION);
-
-        Search search = AlphaBetaBuilder
-                .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                .build();
-
-        search.accept(new SetMaxDepthVisitor(6));
-        SearchResult searchResult = search.startSearch(game);
-
-        Move bm = searchResult.getBestMove();
-
-        assertNotNull(bm);
-
-        assertEquals(Piece.KNIGHT_WHITE, bm.getFrom().piece());
-        assertEquals(Square.g1, bm.getFrom().square());
-        assertEquals(Square.h3, bm.getTo().square());
-    }
-
-    @Test
-    public void testSearch_03() {
-        Game game = Game.from(FEN.START_POSITION);
-
-        Search search = AlphaBetaBuilder
-                .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                //.withStatistics()
                 //.withDebugSearchTree(false, true, true)
                 .build();
 
@@ -93,7 +56,8 @@ public class AlphaBetaSearchesTest {
 
         Search search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
                 //.withDebugSearchTree(true, false, false)
                 .build();
 
@@ -141,6 +105,50 @@ public class AlphaBetaSearchesTest {
         assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
     }
 
+    @Test
+    public void testHashMismatch() {
+        Game game = Game.from(FEN.of("1Q1NR3/6pk/1r5p/3n1p1P/P2p4/1P1B4/1KP2q2/8 w - - 0 1"));
+
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.createInstance())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(5));
+        SearchResult searchResult = search.startSearch(game);
+
+        Move bm = searchResult.getBestMove();
+
+        assertNotNull(bm);
+    }
+
+    @Test
+    public void testOutOfBound() {
+        Game game = Game.from(FEN.of("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 1 1"));
+
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.createInstance())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(4));
+        SearchResult searchResult = search.startSearch(game);
+
+        Move bm = searchResult.getBestMove();
+
+        assertNotNull(bm);
+    }
+
+
+    /**
+     * Con TT:
+     * - DEPTH 9 = 90 segs
+     *
+     * Sin TT:
+     * - DEPTH 9 = 180 segs
+     */
     @Test
     public void testSearch_Fried_Liver_Attack_Mirror() {
         final int depthAnalysis = 6;

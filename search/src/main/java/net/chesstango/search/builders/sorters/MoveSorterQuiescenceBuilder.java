@@ -77,29 +77,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     }
 
 
-    public MoveSorter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        nodeMoveSorter.setMoveComparator(createComparatorChain());
-
-        return createChain();
-    }
-
-    private MoveSorter createChain() {
-        List<MoveSorter> chain = new LinkedList<>();
-
-        if (moveSorterDebug != null) {
-            chain.add(moveSorterDebug);
-        }
-
-        chain.add(nodeMoveSorter);
-
-        return buildChain(chain);
-    }
-
-    private void buildObjects() {
+    @Override
+    protected void buildObjects() {
         defaultMoveComparator = new DefaultMoveComparator();
 
         if (withTranspositionTable) {
@@ -129,7 +108,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected void setupListenerMediator() {
         searchListenerMediator.add(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
@@ -155,6 +135,24 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
         }
+    }
+
+    @Override
+    protected void linkObjects() {
+        nodeMoveSorter.setMoveComparator(createComparatorChain());
+    }
+
+    @Override
+    protected MoveSorter buildSorterChain() {
+        List<MoveSorter> chain = new LinkedList<>();
+
+        if (moveSorterDebug != null) {
+            chain.add(moveSorterDebug);
+        }
+
+        chain.add(nodeMoveSorter);
+
+        return linkMoveSorterChain(chain);
     }
 
 
@@ -183,6 +181,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
         chain.add(defaultMoveComparator);
 
-        return linkComparatorChain(chain);
+        return linkMoveComparatorChain(chain);
     }
 }

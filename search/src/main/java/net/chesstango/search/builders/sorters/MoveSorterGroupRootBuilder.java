@@ -1,10 +1,8 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeGroupSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 
@@ -14,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
+public class MoveSorterGroupRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
     private final NodeGroupSorter nodeGroupSorter;
     private final CatchAllSortGroup catchAllSortGroup;
@@ -22,23 +20,31 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     private MoveSorterDebug moveSorterDebug;
 
+    private PrincipalVariationGroup principalVariationGroup;
+
     private SearchListenerMediator searchListenerMediator;
 
+    private boolean withIterativeDeepening;
     private boolean withDebugSearchTree;
 
-    public MoveSorterRootBuilder() {
+    public MoveSorterGroupRootBuilder() {
         this.rootMoveSorter = new RootMoveSorter();
         this.nodeGroupSorter = new NodeGroupSorter();
         this.catchAllSortGroup = new CatchAllSortGroup();
         this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
-    public MoveSorterRootBuilder withDebugSearchTree() {
+    public MoveSorterGroupRootBuilder withIterativeDeepening() {
+        this.withIterativeDeepening = true;
+        return this;
+    }
+
+    public MoveSorterGroupRootBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
 
-    public MoveSorterRootBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+    public MoveSorterGroupRootBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
         return this;
     }
@@ -48,23 +54,31 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
         }
+
+        if (withIterativeDeepening) {
+            principalVariationGroup = new PrincipalVariationGroup();
+        }
     }
 
     @Override
     protected void setupListenerMediator() {
+        searchListenerMediator.add(rootMoveSorter);
+
+        searchListenerMediator.add(nodeGroupSorter);
+
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
         }
 
-        searchListenerMediator.add(rootMoveSorter);
-
-        searchListenerMediator.add(nodeGroupSorter);
+        if (principalVariationGroup != null) {
+            searchListenerMediator.add(principalVariationGroup);
+        }
     }
 
     @Override
     protected void linkObjects() {
         catchAllSortGroup.setMoveComparator(defaultMoveComparator);
-        nodeGroupSorter.setGroupSorter(catchAllSortGroup);
+        nodeGroupSorter.setGroupSorter(createGroupSorterChain());
     }
 
     @Override
@@ -75,11 +89,23 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
             chain.add(moveSorterDebug);
         }
 
-        chain.add(rootMoveSorter);
-
         chain.add(nodeGroupSorter);
 
         return linkMoveSorterChain(chain);
+    }
+
+    private GroupSorter createGroupSorterChain() {
+        GroupSorter head = null;
+
+        if (principalVariationGroup != null) {
+            principalVariationGroup.setNext(catchAllSortGroup);
+            head = principalVariationGroup;
+        }
+        if (head == null) {
+            head = catchAllSortGroup;
+        }
+
+        return head;
     }
 
 }

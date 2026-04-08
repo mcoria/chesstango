@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-class CatchAllGroupTest {
+/**
+ * @author Mauricio Coria
+ */
+class CatchAllSortGroupTest {
 
     /**
      * Test for the `offer` method of the CatchAllGroup class.
@@ -22,7 +25,7 @@ class CatchAllGroupTest {
     @Test
     void testOfferAddsMoveSuccessfully() {
         // Arrange
-        CatchAllGroup catchAllGroup = new CatchAllGroup();
+        CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
         Move mockMove = mock(Move.class);
 
         // Act
@@ -41,7 +44,11 @@ class CatchAllGroupTest {
     @Test
     void testOfferStoresMoveInInternalList() {
         // Arrange
-        CatchAllGroup catchAllGroup = new CatchAllGroup();
+        CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
+
+        MoveComparator moveComparator = mock(MoveComparator.class);
+        catchAllGroup.setMoveComparator(moveComparator);
+
         Move mockMove = mock(Move.class);
 
         // Act
@@ -65,7 +72,9 @@ class CatchAllGroupTest {
     @Test
     void testOfferWithMultipleMoves() {
         // Arrange
-        CatchAllGroup catchAllGroup = new CatchAllGroup(new ArrayList<>(), new MoveComparator() {
+        CatchAllSortGroup catchAllGroup = new CatchAllSortGroup();
+
+        catchAllGroup.setMoveComparator(new MoveComparator() {
             @Override
             public int compare(Move o1, Move o2) {
                 return 0;
@@ -73,12 +82,10 @@ class CatchAllGroupTest {
 
             @Override
             public void beforeSort(int currentPly) {
-
             }
 
             @Override
             public void afterSort() {
-
             }
         });
         Move mockMove1 = mock(Move.class);

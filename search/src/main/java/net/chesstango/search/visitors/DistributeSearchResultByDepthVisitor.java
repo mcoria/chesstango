@@ -4,6 +4,7 @@ import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -43,6 +44,9 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
     public void visit(PrincipalVariationComparator principalVariationComparator) {
         principalVariationComparator.setLastPrincipalVariations(searchResultByDepth.getPrincipalVariation());
     }
-
+    @Override
+    public void visit(PrincipalVariationGroup principalVariationGroup) {
+        principalVariationGroup.setLastPrincipalVariations(searchResultByDepth.getPrincipalVariation());
+    }
 
 }

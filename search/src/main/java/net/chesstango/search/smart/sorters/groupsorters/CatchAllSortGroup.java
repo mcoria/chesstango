@@ -1,10 +1,10 @@
 package net.chesstango.search.smart.sorters.groupsorters;
 
+import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.GroupSorter;
 import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +12,14 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class CatchAllGroup implements GroupSorter {
+public class CatchAllSortGroup implements GroupSorter {
     private final List<Move> collectedMoves;
-    private final MoveComparator defaultMoveComparator;
 
-    public CatchAllGroup() {
+    @Setter
+    private MoveComparator moveComparator;
+
+    public CatchAllSortGroup() {
         this.collectedMoves = new ArrayList<>();
-        this.defaultMoveComparator = new DefaultMoveComparator();
-    }
-
-    public CatchAllGroup(List<Move> collectedMoves, MoveComparator defaultMoveComparator) {
-        this.collectedMoves = collectedMoves;
-        this.defaultMoveComparator = defaultMoveComparator;
     }
 
     @Override
@@ -38,16 +34,18 @@ public class CatchAllGroup implements GroupSorter {
 
     @Override
     public void collect(List<Move> moves) {
-        collectedMoves.sort(defaultMoveComparator.reversed());
+        collectedMoves.sort(moveComparator.reversed());
         moves.addAll(collectedMoves);
     }
 
     @Override
     public void beforeSort(int currentPly) {
         collectedMoves.clear();
+        moveComparator.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
+        moveComparator.afterSort();
     }
 }

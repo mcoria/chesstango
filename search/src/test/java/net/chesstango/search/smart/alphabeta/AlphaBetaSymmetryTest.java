@@ -25,7 +25,7 @@ public class AlphaBetaSymmetryTest {
     @Test
     @Disabled
     public void symmetryMate02() {
-        Game game = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -"));
+        Game game = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1"));
 
         Search search = buildSearch();
 
