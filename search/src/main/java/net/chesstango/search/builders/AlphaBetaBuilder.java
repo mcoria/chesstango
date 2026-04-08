@@ -439,8 +439,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
                 .withQuiescence()
 
                 .withTranspositionTable()
-
                 .withTranspositionMoveSorter()
+
                 .withKillerMoveSorter()
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
