@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.pv;
 /**
  * @author Mauricio Coria
  */
-public interface TTPVReader {
+public interface PVReader {
     /**
      * Los parametros corresponden al segundo movimiento de la PV
      * @param bestMove

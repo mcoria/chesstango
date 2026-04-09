@@ -22,9 +22,9 @@ import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluati
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.PVReader;
+import net.chesstango.search.smart.alphabeta.pv.TranspositionPVReader;
+import net.chesstango.search.smart.alphabeta.pv.PVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
@@ -645,10 +645,10 @@ public class ChainPrinterVisitor implements Visitor {
         throw new IllegalArgumentException("Unknown TTable: " + ttable.getClass().getSimpleName());
     }
 
-    private String printTTPVReader(TTPVReader ttPvReader) {
-        if (ttPvReader instanceof TTPVReaderDebug ttPVReaderDebug) {
+    private String printTTPVReader(PVReader ttPvReader) {
+        if (ttPvReader instanceof PVReaderDebug ttPVReaderDebug) {
             return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
-        } else if (ttPvReader instanceof TTPVReaderImp ttpvReader) {
+        } else if (ttPvReader instanceof TranspositionPVReader ttpvReader) {
             return objectText(ttpvReader);
         }
         throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());

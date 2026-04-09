@@ -8,6 +8,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.pv.PVReader;
 
 /**
  * @author Mauricio Coria
@@ -17,6 +18,8 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
 
     @Getter
     private AlphaBetaFilter next;
+
+    private PVReader pvReader;
 
     private short[][] trianglePV;
 
@@ -41,13 +44,9 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     public long maximize(int currentPly, int alpha, int beta) {
         cleanNextWorkingArray(currentPly);
 
-        long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        long moveAndValue = next.maximize(currentPly, alpha, beta);
 
-        if (currentValue < beta) {
-            updatePVTable(currentPly);
-        }
-        return bestMoveAndValue;
+        return process(currentPly, alpha, beta, moveAndValue);
     }
 
 
@@ -55,15 +54,29 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     public long minimize(int currentPly, int alpha, int beta) {
         cleanNextWorkingArray(currentPly);
 
-        long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        long moveAndValue = next.minimize(currentPly, alpha, beta);
 
-        if (currentValue > alpha) {
-            updatePVTable(currentPly);
-        }
-        return bestMoveAndValue;
+        return process(currentPly, alpha, beta, moveAndValue);
     }
 
+
+    /**
+     * Decodes move/value; reads principal variation if within alpha-beta window
+     */
+    protected long process(int currentPly, int alpha, int beta, long moveAndValue) {
+        final short currentMove = AlphaBetaHelper.decodeMove(moveAndValue);
+        final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
+
+        if (alpha < currentValue && currentValue < beta) {
+            updatePVTable(currentPly);
+
+            if (currentPly == 1) {
+                pvReader.readPrincipalVariation(currentMove, currentValue);
+            }
+        }
+
+        return moveAndValue;
+    }
 
     void updatePVTable(int currentPly) {
         short bestMove = game.getHistory().peekLastRecord().playedMove().binaryEncoding();

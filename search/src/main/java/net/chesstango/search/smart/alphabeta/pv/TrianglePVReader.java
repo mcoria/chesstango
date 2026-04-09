@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.pv;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
@@ -12,22 +11,16 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import static net.chesstango.search.Bound.EXACT;
-
 /**
- * TTPVReader will not be considering for statistics purposes.
- *
  * @author Mauricio Coria
  */
-public class TTPVReaderImp implements TTPVReader, SearchByCycleListener, SearchByDepthListener {
+public class TrianglePVReader implements PVReader, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private Evaluator evaluator;
@@ -36,10 +29,7 @@ public class TTPVReaderImp implements TTPVReader, SearchByCycleListener, SearchB
     private EndGameTableBase endGameTableBase;
 
     @Setter
-    private TTable maxMap;
-
-    @Setter
-    private TTable minMap;
+    private short[][] trianglePV;
 
     @Setter
     private Game game;
@@ -54,12 +44,6 @@ public class TTPVReaderImp implements TTPVReader, SearchByCycleListener, SearchB
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private List<PrincipalVariation> principalVariation;
-
-    private final TranspositionEntry entryWorkspace;
-
-    public TTPVReaderImp() {
-        entryWorkspace = new TranspositionEntry();
-    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -89,23 +73,28 @@ public class TTPVReaderImp implements TTPVReader, SearchByCycleListener, SearchB
         final Move previousMove = game.getHistory().peekLastRecord().playedMove();
         principalVariation.add(new PrincipalVariation(previousHash, previousMove));
 
-
-        // Second PV move
         Deque<Move> moves = new LinkedList<>();
-        long currentHash = game.getPosition().getZobristHash();
-        Move currentMove = getMove(bestMove);
 
-        while (currentMove != null) {
+        if (bestMove != 0) {
+            // Second PV move
+            long currentHash = game.getPosition().getZobristHash();
+            Move currentMove = getMove(bestMove);
 
-            principalVariation.add(new PrincipalVariation(currentHash, currentMove));
+            int pvMoveCounter = 2;
+            short[] pvMoves = trianglePV[0];
+            while (currentMove != null) {
+                principalVariation.add(new PrincipalVariation(currentHash, currentMove));
 
-            currentMove.executeMove();
+                currentMove.executeMove();
 
-            moves.push(currentMove);
+                moves.push(currentMove);
 
-            // Third PV move and onward
-            currentHash = game.getPosition().getZobristHash();
-            currentMove = readMoveFromTT();
+                // Third PV move and onward
+                currentHash = game.getPosition().getZobristHash();
+                currentMove = getMove(pvMoves[pvMoveCounter]);
+
+                pvMoveCounter++;
+            };
         }
 
         int pvEvaluation = evaluator.evaluate();
@@ -127,27 +116,12 @@ public class TTPVReaderImp implements TTPVReader, SearchByCycleListener, SearchB
         }
     }
 
-    final Move readMoveFromTT() {
-        Move result = null;
-        if (maxMap != null && minMap != null) {
-            long hash = game.getPosition().getZobristHash();
-            boolean load = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
-            if (load && EXACT.equals(entryWorkspace.getBound())) {
-                short bestMoveEncoded = entryWorkspace.getMove();
-                result = bestMoveEncoded != 0 ? getMove(bestMoveEncoded) : null;
-            }
-        }
-        return result;
-    }
-
-    final Move getMove(short moveEncoded) {
-        Move result = null;
+    private Move getMove(short moveEncoded) {
         for (Move posibleMove : game.getPossibleMoves()) {
             if (posibleMove.binaryEncoding() == moveEncoded) {
-                result = posibleMove;
-                break;
+                return posibleMove;
             }
         }
-        return result;
+        return null;
     }
 }

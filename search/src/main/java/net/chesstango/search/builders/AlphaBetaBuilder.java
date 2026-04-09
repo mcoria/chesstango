@@ -22,7 +22,7 @@ import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTable
 import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.TrianglePVReader;
 import net.chesstango.search.smart.alphabeta.pv.visitors.LinkTrianglePVVisitor;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
@@ -58,7 +58,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
     private DepthCollector depthCollector;
-    private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
@@ -268,7 +267,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.link();
         }
 
-        if(!withTranspositionTable) {
+        if (!withTranspositionTable) {
             searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
         }
 
@@ -296,10 +295,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withTranspositionTable) {
             transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
             transpositionTableBuilder.build();
-        }
-
-        if (!withTranspositionTable) {
-            setTrianglePV = new SetTrianglePV();
         }
 
         if (withStatistics) {
@@ -347,10 +342,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (setZobristMemory != null) {
             searchListenerMediator.add(setZobristMemory);
-        }
-
-        if (setTrianglePV != null) {
-            searchListenerMediator.add(setTrianglePV);
         }
 
         if (nodeCounters != null) {

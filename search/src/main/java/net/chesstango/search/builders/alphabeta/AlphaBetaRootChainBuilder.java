@@ -9,8 +9,9 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
+import net.chesstango.search.smart.alphabeta.pv.PVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.TranspositionPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TrianglePVReader;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
@@ -46,9 +47,10 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
+    private TrianglePVReader trianglePVReader;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private TTPVReaderImp ttPvReader;
-    private TTPVReaderDebug ttpvReaderDebug;
+    private TranspositionPVReader transpositionPVReader;
+    private PVReaderDebug ttpvReaderDebug;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -139,16 +141,15 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             transpositionTableRoot = new TranspositionTableRoot();
 
             transpositionPV = new TranspositionPV();
-
-            ttPvReader = new TTPVReaderImp();
+            transpositionPVReader = new TranspositionPVReader();
 
             if (withDebugSearchTree) {
-                ttpvReaderDebug = new TTPVReaderDebug();
-                ttpvReaderDebug.setImp(ttPvReader);
+                ttpvReaderDebug = new PVReaderDebug();
+                ttpvReaderDebug.setImp(transpositionPVReader);
 
                 transpositionPV.setPvReader(ttpvReaderDebug);
             } else {
-                transpositionPV.setPvReader(ttPvReader);
+                transpositionPV.setPvReader(transpositionPVReader);
             }
         }
 
@@ -162,6 +163,16 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         if (!withTranspositionTable) {
             triangularPV = new TriangularPV();
+            trianglePVReader = new TrianglePVReader();
+
+            if (withDebugSearchTree) {
+                ttpvReaderDebug = new PVReaderDebug();
+                ttpvReaderDebug.setImp(trianglePVReader);
+
+                triangularPV.setPvReader(ttpvReaderDebug);
+            } else {
+                triangularPV.setPvReader(trianglePVReader);
+            }
         }
 
         if (stopProcessingCatch != null) {
@@ -206,8 +217,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(triangularPV);
         }
 
-        if (ttPvReader != null) {
-            searchListenerMediator.add(ttPvReader);
+        if (trianglePVReader != null) {
+            searchListenerMediator.add(trianglePVReader);
+        }
+
+        if (transpositionPVReader != null) {
+            searchListenerMediator.add(transpositionPVReader);
         }
 
         if (ttpvReaderDebug != null) {

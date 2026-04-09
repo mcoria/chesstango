@@ -10,11 +10,11 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 /**
  * @author Mauricio Coria
  */
-public class TTPVReaderDebug implements TTPVReader, Acceptor {
+public class PVReaderDebug implements PVReader, Acceptor {
 
     @Setter
     @Getter
-    private TTPVReaderImp imp;
+    private PVReader imp;
 
     @Setter
     private SearchTracker searchTracker;

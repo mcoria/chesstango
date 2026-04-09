@@ -26,12 +26,12 @@ import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveC
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.TranspositionPVReader;
+import net.chesstango.search.smart.alphabeta.pv.PVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.TrianglePVReader;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
@@ -199,7 +199,7 @@ public interface Visitor {
     default void visit(SetGameToEvaluator setGameToEvaluator) {
     }
 
-    default void visit(SetTrianglePV setTrianglePV) {
+    default void visit(TrianglePVReader setTrianglePV) {
     }
 
     default void visit(NodeCounters nodeCounters) {
@@ -214,10 +214,10 @@ public interface Visitor {
     default void visit(KillerMovesDebug killerMovesDebug) {
     }
 
-    default void visit(TTPVReaderImp ttpvReader) {
+    default void visit(TranspositionPVReader ttpvReader) {
     }
 
-    default void visit(TTPVReaderDebug ttpvReaderDebug) {
+    default void visit(PVReaderDebug ttpvReaderDebug) {
     }
 
     default void visit(TTableDebug tableDebug) {

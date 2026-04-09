@@ -7,7 +7,7 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.PVReaderDebug;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 
@@ -58,7 +58,7 @@ public class SetSearchTrackerVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTPVReaderDebug ttpvReaderDebug) {
+    public void visit(PVReaderDebug ttpvReaderDebug) {
         ttpvReaderDebug.setSearchTracker(searchTracker);
     }
 

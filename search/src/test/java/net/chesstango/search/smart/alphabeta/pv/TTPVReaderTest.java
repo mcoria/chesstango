@@ -43,13 +43,13 @@ public class TTPVReaderTest {
     @Mock
     private TTable qMinMap;
 
-    private TTPVReaderImp ttPvReader;
+    private TranspositionPVReader ttPvReader;
 
     private Game game;
 
     @BeforeEach
     public void setup() {
-        ttPvReader = new TTPVReaderImp();
+        ttPvReader = new TranspositionPVReader();
 
         ttPvReader.beforeSearch();
         ttPvReader.beforeSearchByDepth();
