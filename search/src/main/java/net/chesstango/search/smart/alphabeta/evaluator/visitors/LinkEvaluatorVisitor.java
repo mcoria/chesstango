@@ -6,7 +6,7 @@ import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluati
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
-import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.SetTrianglePV;
 
 /**
  * @author Mauricio Coria

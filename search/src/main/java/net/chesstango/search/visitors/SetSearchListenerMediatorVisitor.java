@@ -5,8 +5,7 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.pv.SetTrianglePV;
 
 /**
  *
@@ -34,9 +33,4 @@ public class SetSearchListenerMediatorVisitor implements Visitor {
         setKillerMoveTablesDebug.setSearchListenerMediator(searchListenerMediator);
     }
 
-
-    @Override
-    public void visit(SetTrianglePV setTrianglePV) {
-        setTrianglePV.setSearchListenerMediator(searchListenerMediator);
-    }
 }

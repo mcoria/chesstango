@@ -9,7 +9,7 @@ import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTable
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
-import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.SetTrianglePV;
 
 /**
  *

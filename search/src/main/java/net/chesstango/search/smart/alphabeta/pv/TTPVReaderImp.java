@@ -68,20 +68,20 @@ public class TTPVReaderImp implements TTPVReader, SearchByCycleListener, SearchB
 
     @Override
     public void beforeSearch() {
-        // Solo al comienzo de la busqueda para limpiar la lista de PVs
-        principalVariation = new ArrayList<>();
+        principalVariation = null;
+        pvComplete = false;
     }
 
     @Override
     public void beforeSearchByDepth() {
-        // Cada vez que profundizamos comenzamos la lista de movimientos no se encuentra completa
+        principalVariation = null;
         pvComplete = false;
     }
 
     @Override
     public void readPrincipalVariation(short bestMove, int bestValue) {
         // Cada vez que recalculamos Principal Variation
-        principalVariation.clear();
+        principalVariation = new ArrayList<>();
         pvComplete = false;
 
         // First PV move

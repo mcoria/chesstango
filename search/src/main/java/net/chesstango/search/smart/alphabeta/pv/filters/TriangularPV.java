@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
@@ -11,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
  * @author Mauricio Coria
  */
 @Setter
-public class TriangularPV implements AlphaBetaFilter {
+public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     @Getter
     private AlphaBetaFilter next;
@@ -23,6 +25,16 @@ public class TriangularPV implements AlphaBetaFilter {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearch() {
+        cleanWorkingArray();
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        cleanWorkingArray();
     }
 
     @Override
@@ -52,7 +64,8 @@ public class TriangularPV implements AlphaBetaFilter {
         return bestMoveAndValue;
     }
 
-    private void updatePVTable(int currentPly) {
+
+    void updatePVTable(int currentPly) {
         short bestMove = game.getHistory().peekLastRecord().playedMove().binaryEncoding();
 
         final short[] workingArray = trianglePV[currentPly - 1];
@@ -63,7 +76,15 @@ public class TriangularPV implements AlphaBetaFilter {
     }
 
 
-    private void cleanNextWorkingArray(int currentPly) {
+    void cleanWorkingArray() {
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 40; j++) {
+                trianglePV[i][j] = 0;
+            }
+        }
+    }
+
+    void cleanNextWorkingArray(int currentPly) {
         final short[] nextWorkingArray = trianglePV[currentPly];
         for (int i = 0; i < 40; i++) {
             nextWorkingArray[i] = 0;
