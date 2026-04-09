@@ -87,7 +87,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void buildObjects() {
-
         if (withIterativeDeepening) {
             principalVariationComparator = new PrincipalVariationComparator();
         }

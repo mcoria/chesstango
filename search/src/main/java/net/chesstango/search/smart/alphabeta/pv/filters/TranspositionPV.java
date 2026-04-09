@@ -8,7 +8,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 
 /**
- * Este filtro se ejecuta luego de AlphaBeta para capturar tempranamente el PV.
+ * Este filtro se ejecuta UNICAMENTE luego de AlphaBeta de Root Node para capturar tempranamente el PV.
  * Busquedas sucesivas ocacionan que TT se ensucie y no se logre reconstruir PV
  *
  * @author Mauricio Coria

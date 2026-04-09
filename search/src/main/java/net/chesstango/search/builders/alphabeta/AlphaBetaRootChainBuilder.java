@@ -9,8 +9,8 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderImp;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
@@ -55,7 +55,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private boolean withTranspositionTable;
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
-    private boolean withTriangularPV;
 
 
     public AlphaBetaRootChainBuilder() {
@@ -102,10 +101,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withTriangularPV() {
-        this.withTriangularPV = true;
-        return this;
-    }
 
     public AlphaBetaRootChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
@@ -146,17 +141,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             transpositionPV = new TranspositionPV();
 
             ttPvReader = new TTPVReaderImp();
-        }
 
-        if (withZobristTracker) {
-            zobristTracker = new ZobristTracker();
-        }
-
-        if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
-        }
-
-        if (transpositionPV != null) {
             if (withDebugSearchTree) {
                 ttpvReaderDebug = new TTPVReaderDebug();
                 ttpvReaderDebug.setImp(ttPvReader);
@@ -167,8 +152,15 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             }
         }
 
+        if (withZobristTracker) {
+            zobristTracker = new ZobristTracker();
+        }
 
-        if (withTriangularPV) {
+        if (withDebugSearchTree) {
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
+        }
+
+        if (!withTranspositionTable) {
             triangularPV = new TriangularPV();
         }
 

@@ -1,7 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -40,7 +39,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
-    private boolean withTriangularPV;
 
 
     public QuiescenceChainBuilder() {
@@ -84,11 +82,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     public QuiescenceChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
-        return this;
-    }
-
-    public QuiescenceChainBuilder withTriangularPV() {
-        this.withTriangularPV = true;
         return this;
     }
 
@@ -152,7 +145,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
             gameEvaluatorDebug = new EvaluatorDebug();
         }
-        if (withTriangularPV) {
+        if (!withTranspositionTable) {
             triangularPV = new TriangularPV();
         }
     }

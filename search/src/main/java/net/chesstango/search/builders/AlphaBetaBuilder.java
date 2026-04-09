@@ -68,7 +68,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTable;
-    private boolean withTriangularPV;
     private boolean withZobristTracker;
     private boolean withQuiescence;
     private boolean withExtensionCheckResolver;
@@ -201,15 +200,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    public AlphaBetaBuilder withTriangularPV() {
-        withTriangularPV = true;
-        alphaBetaRootChainBuilder.withTriangularPV();
-        alphaBetaInteriorChainBuilder.withTriangularPV();
-        quiescenceChainBuilder.withTriangularPV();
-        checkResolverChainBuilder.withTriangularPV();
-        return this;
-    }
-
     public AlphaBetaBuilder withKillerMoveSorter() {
         alphaBetaInteriorChainBuilder.withKillerMoveSorter();
         withKillerMoveSorter = true;
@@ -256,14 +246,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     @Override
     public Search build() {
-        if (withTriangularPV && withTranspositionTable) {
-            throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
-        }
-
-        if (!withTranspositionTable) {
-            withTriangularPV();
-        }
-
         buildObjects();
 
         setupListenerMediatorBeforeChain();
@@ -311,7 +293,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.build();
         }
 
-        if (withTriangularPV) {
+        if (!withTranspositionTable) {
             setTrianglePV = new SetTrianglePV();
         }
 
