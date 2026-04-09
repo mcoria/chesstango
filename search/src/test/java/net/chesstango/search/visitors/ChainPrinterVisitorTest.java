@@ -97,7 +97,7 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void alphaBetaBuilderIterativeDeepening() throws IOException {
+    public void alphaBetaBuilderChainNoTranspositionTable() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluatorCache()
@@ -116,7 +116,7 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderChainIterativeDeepening.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainNoTranspositionTable.txt");
     }
 
     @Test
