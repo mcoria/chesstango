@@ -8,18 +8,17 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
 
 /**
- * Este filtro se ejecuta UNICAMENTE luego de AlphaBeta de Root Node para capturar tempranamente el PV.
- * Busquedas sucesivas ocacionan que TT se ensucie y no se logre reconstruir PV
- *
  * @author Mauricio Coria
  */
 @Setter
-@Getter
-public class TranspositionPV implements AlphaBetaFilter {
+public class TriangularTriggerPV implements AlphaBetaFilter {
 
+    @Getter
     private AlphaBetaFilter next;
 
+    @Getter
     private PVCalculator pvReader;
+
 
     @Override
     public void accept(Visitor visitor) {
@@ -32,6 +31,7 @@ public class TranspositionPV implements AlphaBetaFilter {
 
         return process(alpha, beta, moveAndValue);
     }
+
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
@@ -54,5 +54,4 @@ public class TranspositionPV implements AlphaBetaFilter {
 
         return moveAndValue;
     }
-
 }

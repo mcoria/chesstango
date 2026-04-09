@@ -5,8 +5,8 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.alphabeta.pv.TranspositionPVReader;
-import net.chesstango.search.smart.alphabeta.pv.TrianglePVReader;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 
 /**
  *
@@ -27,13 +27,13 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
 
     @Override
-    public void visit(TranspositionPVReader transpositionPVReader) {
+    public void visit(PVCalculatorTransposition transpositionPVReader) {
         searchResultByDepth.setPrincipalVariation(transpositionPVReader.getPrincipalVariation());
         searchResultByDepth.setPvComplete(transpositionPVReader.isPvComplete());
     }
 
     @Override
-    public void visit(TrianglePVReader trianglePVReader) {
+    public void visit(PVCalculatorTriangular trianglePVReader) {
         searchResultByDepth.setPrincipalVariation(trianglePVReader.getPrincipalVariation());
         searchResultByDepth.setPvComplete(trianglePVReader.isPvComplete());
     }

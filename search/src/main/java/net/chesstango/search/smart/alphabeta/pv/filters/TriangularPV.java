@@ -8,7 +8,6 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.pv.PVReader;
 
 /**
  * @author Mauricio Coria
@@ -18,8 +17,6 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
 
     @Getter
     private AlphaBetaFilter next;
-
-    private PVReader pvReader;
 
     private short[][] trianglePV;
 
@@ -69,10 +66,6 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
 
         if (alpha < currentValue && currentValue < beta) {
             updatePVTable(currentPly);
-
-            if (currentPly == 1) {
-                pvReader.readPrincipalVariation(currentMove, currentValue);
-            }
         }
 
         return moveAndValue;

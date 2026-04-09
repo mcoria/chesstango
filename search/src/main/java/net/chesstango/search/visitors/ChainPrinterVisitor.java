@@ -22,12 +22,14 @@ import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluati
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.PVReader;
-import net.chesstango.search.smart.alphabeta.pv.TranspositionPVReader;
-import net.chesstango.search.smart.alphabeta.pv.PVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriangularTriggerPV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
@@ -226,9 +228,17 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionPV transpositionPV) {
         printChainDownLine();
-        printChainText(String.format("%s [PVReader: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getPvReader())));
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getPvReader())));
 
         transpositionPV.getNext().accept(this);
+    }
+
+    @Override
+    public void visit(TriangularTriggerPV triangularTriggerPV) {
+        printChainDownLine();
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(triangularTriggerPV), printTTPVReader(triangularTriggerPV.getPvReader())));
+
+        triangularTriggerPV.getNext().accept(this);
     }
 
     @Override
@@ -645,11 +655,13 @@ public class ChainPrinterVisitor implements Visitor {
         throw new IllegalArgumentException("Unknown TTable: " + ttable.getClass().getSimpleName());
     }
 
-    private String printTTPVReader(PVReader ttPvReader) {
-        if (ttPvReader instanceof PVReaderDebug ttPVReaderDebug) {
+    private String printTTPVReader(PVCalculator ttPvReader) {
+        if (ttPvReader instanceof PVCalculatorDebug ttPVReaderDebug) {
             return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
-        } else if (ttPvReader instanceof TranspositionPVReader ttpvReader) {
+        } else if (ttPvReader instanceof PVCalculatorTransposition ttpvReader) {
             return objectText(ttpvReader);
+        }else if (ttPvReader instanceof PVCalculatorTriangular PVCalculatorTriangular) {
+            return objectText(PVCalculatorTriangular);
         }
         throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());
     }

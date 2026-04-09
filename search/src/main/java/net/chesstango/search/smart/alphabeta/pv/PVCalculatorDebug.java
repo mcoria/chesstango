@@ -10,11 +10,11 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 /**
  * @author Mauricio Coria
  */
-public class PVReaderDebug implements PVReader, Acceptor {
+public class PVCalculatorDebug implements PVCalculator, Acceptor {
 
     @Setter
     @Getter
-    private PVReader imp;
+    private PVCalculator imp;
 
     @Setter
     private SearchTracker searchTracker;
@@ -25,12 +25,12 @@ public class PVReaderDebug implements PVReader, Acceptor {
     }
 
     @Override
-    public void readPrincipalVariation(short bestMove, int bestValue) {
+    public void calculatePrincipalVariation(short bestMove, int bestValue) {
         DebugNode currentNode = searchTracker.getCurrentNode(); //El root node
 
         currentNode.readingPrincipalVariationON();
 
-        imp.readPrincipalVariation(bestMove, bestValue);
+        imp.calculatePrincipalVariation(bestMove, bestValue);
 
         currentNode.readingPrincipalVariationOFF();
     }

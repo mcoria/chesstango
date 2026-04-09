@@ -3,11 +3,11 @@ package net.chesstango.search.smart.alphabeta.pv;
 /**
  * @author Mauricio Coria
  */
-public interface PVReader {
+public interface PVCalculator {
     /**
      * Los parametros corresponden al segundo movimiento de la PV
-     * @param bestMove
+     * @param bestMove This is the second move of the PV
      * @param bestValue
      */
-    void readPrincipalVariation(short bestMove, int bestValue);
+    void calculatePrincipalVariation(short bestMove, int bestValue);
 }

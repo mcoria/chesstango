@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.transposition.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.pv.TranspositionPVReader;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
@@ -20,7 +20,7 @@ public class LinkTTableImpVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionPVReader ttpvReader) {
+    public void visit(PVCalculatorTransposition ttpvReader) {
         ttpvReader.setMaxMap(maxMap);
         ttpvReader.setMinMap(minMap);
     }

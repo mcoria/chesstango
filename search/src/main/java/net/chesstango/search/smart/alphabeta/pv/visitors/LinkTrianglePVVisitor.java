@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.pv.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.pv.TrianglePVReader;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 
 /**
@@ -20,7 +20,7 @@ public class LinkTrianglePVVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TrianglePVReader setTrianglePV) {
+    public void visit(PVCalculatorTriangular setTrianglePV) {
         setTrianglePV.setTrianglePV(trianglePV);
     }
 
