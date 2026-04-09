@@ -63,7 +63,7 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
     }
 
     @Override
-    public void calculatePrincipalVariation(short bestMove, int bestValue) {
+    public void calculatePrincipalVariation(short secondMovePV, int bestValue) {
         // Cada vez que recalculamos Principal Variation
         principalVariation = new ArrayList<>();
         pvComplete = false;
@@ -75,14 +75,15 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
 
         Deque<Move> moves = new LinkedList<>();
 
-        if (bestMove != 0) {
+        if (secondMovePV != 0) {
             // Second PV move
             long currentHash = game.getPosition().getZobristHash();
-            Move currentMove = getMove(bestMove);
+            Move currentMove = getMove(secondMovePV);
 
             int pvMoveCounter = 2;
             short[] pvMoves = trianglePV[0];
             while (currentMove != null) {
+
                 principalVariation.add(new PrincipalVariation(currentHash, currentMove));
 
                 currentMove.executeMove();
@@ -94,7 +95,7 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
                 currentMove = getMove(pvMoves[pvMoveCounter]);
 
                 pvMoveCounter++;
-            };
+            }
         }
 
         int pvEvaluation = evaluator.evaluate();

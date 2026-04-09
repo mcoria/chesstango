@@ -228,7 +228,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionPV transpositionPV) {
         printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getPvReader())));
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getPvCalculator())));
 
         transpositionPV.getNext().accept(this);
     }
@@ -236,7 +236,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TriangularTriggerPV triangularTriggerPV) {
         printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(triangularTriggerPV), printTTPVReader(triangularTriggerPV.getPvReader())));
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(triangularTriggerPV), printTTPVReader(triangularTriggerPV.getPvCalculator())));
 
         triangularTriggerPV.getNext().accept(this);
     }

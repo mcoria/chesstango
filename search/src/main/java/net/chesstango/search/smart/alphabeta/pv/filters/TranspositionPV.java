@@ -19,7 +19,7 @@ public class TranspositionPV implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
-    private PVCalculator pvReader;
+    private PVCalculator pvCalculator;
 
     @Override
     public void accept(Visitor visitor) {
@@ -49,7 +49,7 @@ public class TranspositionPV implements AlphaBetaFilter {
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
-            pvReader.calculatePrincipalVariation(currentMove, currentValue);
+            pvCalculator.calculatePrincipalVariation(currentMove, currentValue);
         }
 
         return moveAndValue;

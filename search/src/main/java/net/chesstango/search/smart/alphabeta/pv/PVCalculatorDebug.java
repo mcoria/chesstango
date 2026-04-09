@@ -25,12 +25,12 @@ public class PVCalculatorDebug implements PVCalculator, Acceptor {
     }
 
     @Override
-    public void calculatePrincipalVariation(short bestMove, int bestValue) {
+    public void calculatePrincipalVariation(short secondMovePV, int bestValue) {
         DebugNode currentNode = searchTracker.getCurrentNode(); //El root node
 
         currentNode.readingPrincipalVariationON();
 
-        imp.calculatePrincipalVariation(bestMove, bestValue);
+        imp.calculatePrincipalVariation(secondMovePV, bestValue);
 
         currentNode.readingPrincipalVariationOFF();
     }

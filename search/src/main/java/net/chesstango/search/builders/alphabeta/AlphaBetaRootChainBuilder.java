@@ -149,9 +149,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
                 ttpvReaderDebug = new PVCalculatorDebug();
                 ttpvReaderDebug.setImp(transpositionPVReader);
 
-                transpositionPV.setPvReader(ttpvReaderDebug);
+                transpositionPV.setPvCalculator(ttpvReaderDebug);
             } else {
-                transpositionPV.setPvReader(transpositionPVReader);
+                transpositionPV.setPvCalculator(transpositionPVReader);
             }
         }
 
@@ -172,9 +172,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
                 ttpvReaderDebug = new PVCalculatorDebug();
                 ttpvReaderDebug.setImp(trianglePVReader);
 
-                triangularTriggerPV.setPvReader(ttpvReaderDebug);
+                triangularTriggerPV.setPvCalculator(ttpvReaderDebug);
             } else {
-                triangularTriggerPV.setPvReader(trianglePVReader);
+                triangularTriggerPV.setPvCalculator(trianglePVReader);
             }
         }
 

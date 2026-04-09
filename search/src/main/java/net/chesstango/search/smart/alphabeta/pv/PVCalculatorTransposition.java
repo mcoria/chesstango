@@ -79,7 +79,7 @@ public class PVCalculatorTransposition implements PVCalculator, SearchByCycleLis
     }
 
     @Override
-    public void calculatePrincipalVariation(short bestMove, int bestValue) {
+    public void calculatePrincipalVariation(short secondMovePV, int bestValue) {
         // Cada vez que recalculamos Principal Variation
         principalVariation = new ArrayList<>();
         pvComplete = false;
@@ -89,13 +89,12 @@ public class PVCalculatorTransposition implements PVCalculator, SearchByCycleLis
         final Move previousMove = game.getHistory().peekLastRecord().playedMove();
         principalVariation.add(new PrincipalVariation(previousHash, previousMove));
 
-
         Deque<Move> moves = new LinkedList<>();
 
-        if (bestMove != 0) {
+        if (secondMovePV != 0) {
             // Second PV move
             long currentHash = game.getPosition().getZobristHash();
-            Move currentMove = getMove(bestMove);
+            Move currentMove = getMove(secondMovePV);
 
             while (currentMove != null) {
 
@@ -107,7 +106,7 @@ public class PVCalculatorTransposition implements PVCalculator, SearchByCycleLis
 
                 // Third PV move and onward
                 currentHash = game.getPosition().getZobristHash();
-                currentMove = readMoveFromTT(currentHash);
+                currentMove = readMoveFromTT(currentHash, bestValue);
             }
         }
 
@@ -130,11 +129,11 @@ public class PVCalculatorTransposition implements PVCalculator, SearchByCycleLis
         }
     }
 
-    final Move readMoveFromTT(long hash) {
+    final Move readMoveFromTT(long hash, int eval) {
         Move result = null;
         if (maxMap != null && minMap != null) {
             boolean load = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
-            if (load && EXACT.equals(entryWorkspace.getBound())) {
+            if (load && EXACT.equals(entryWorkspace.getBound()) && entryWorkspace.getValue() == eval) {
                 short bestMoveEncoded = entryWorkspace.getMove();
                 result = bestMoveEncoded != 0 ? getMove(bestMoveEncoded) : null;
             }
