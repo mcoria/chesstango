@@ -37,9 +37,6 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
     private MoveSorterDebug moveSorterDebug;
 
     private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
-    private MvvLvaComparator mvvLvaComparator;
-    private PromotionComparator promotionComparator;
-    private PrincipalVariationComparator principalVariationComparator;
 
     private PrincipalVariationGroup principalVariationGroup;
 
@@ -94,9 +91,6 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
 
     @Override
     protected void buildObjects() {
-        promotionComparator = new PromotionComparator();
-
-
         if (withIterativeDeepening) {
             principalVariationGroup = new PrincipalVariationGroup();
         }
@@ -104,8 +98,6 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
-
-            principalVariationComparator = new PrincipalVariationComparator();
         }
 
         if (withDebugSearchTree) {
@@ -118,10 +110,6 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
 
         if (withRecaptureSorter) {
             recaptureMoveComparator = new RecaptureMoveComparator();
-        }
-
-        if (withMvvLva) {
-            mvvLvaComparator = new MvvLvaComparator();
         }
     }
 
@@ -137,8 +125,8 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
             searchListenerMediator.add(transpositionTailMoveComparator);
         }
 
-        if (principalVariationComparator != null) {
-            searchListenerMediator.add(principalVariationComparator);
+        if (principalVariationGroup != null) {
+            searchListenerMediator.add(principalVariationGroup);
         }
 
         if (recaptureMoveComparator != null) {
@@ -151,10 +139,6 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
 
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
-        }
-
-        if (principalVariationGroup != null) {
-            searchListenerMediator.add(principalVariationGroup);
         }
     }
 

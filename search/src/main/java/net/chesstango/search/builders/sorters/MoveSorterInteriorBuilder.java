@@ -22,7 +22,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
     private final QuietComparator quietComparator;
     private final DefaultMoveComparator defaultMoveComparator;
-    private SearchListenerMediator searchListenerMediator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
@@ -57,11 +56,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     @Override
     public MoveSorterInteriorBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
-        return this;
-    }
-
-    public MoveSorterInteriorBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
