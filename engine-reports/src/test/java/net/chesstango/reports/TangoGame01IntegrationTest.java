@@ -91,14 +91,13 @@ public class TangoGame01IntegrationTest {
     @Test
     public void testPlay() {
         Config config = new Config()
-                /*
                 .setSearch(AlphaBetaBuilder
                         .createDefaultBuilderInstance()
                         .withGameEvaluator(Evaluator.createInstance())
                         .withStatistics()
                         .build()
                 )
-                 */
+                 /*
                 .setSearch(new AlphaBetaBuilder()
                         .withGameEvaluator(Evaluator.createInstance())
                         .withGameEvaluatorCache()
@@ -122,6 +121,7 @@ public class TangoGame01IntegrationTest {
 
                         .build()
                 )
+                */
                 .setSyncSearch(true)
                 .setPolyglotFile(POLYGLOT_FILE)
                 .setSyzygyPath(SYZYGY_PATH);

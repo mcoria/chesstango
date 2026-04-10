@@ -49,7 +49,7 @@ public class TriangularTriggerPV implements AlphaBetaFilter {
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
-            pvCalculator.calculatePrincipalVariation(currentMove, currentValue);
+            pvCalculator.calculatePrincipalVariation(currentValue);
         }
 
         return moveAndValue;
