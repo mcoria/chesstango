@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -43,8 +44,14 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
             return next.getOrderedMoves(currentPly);
         } else {
 
+            // Una vez ejecutadas la busqueda DEPTH N-1, la busqueda en DEPTH N debe debieara:
+
             if (lastRootMoveEvaluations.size() != numberOfMove) {
                 throw new RuntimeException("Not all move were explorer during last iteration");
+            }
+
+            if (Bound.EXACT != lastRootMoveEvaluations.getFirst().bound()) {
+                throw new RuntimeException("First move bound is not exact after sorting");
             }
 
             return lastRootMoveEvaluations.stream().map(RootMoveEvaluation::move).toList();

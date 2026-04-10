@@ -99,10 +99,6 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
     public List<RootMoveEvaluation> getRootMoveEvaluations() {
         rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
 
-        if (Bound.EXACT != rootMoveEvaluations.getFirst().bound()) {
-            throw new RuntimeException("First move bound is not exact after sorting");
-        }
-
         return List.copyOf(rootMoveEvaluations);
     }
 
