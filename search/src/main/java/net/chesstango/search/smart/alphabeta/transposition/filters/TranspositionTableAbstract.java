@@ -3,10 +3,10 @@ package net.chesstango.search.smart.alphabeta.transposition.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
 import static net.chesstango.search.Bound.*;
@@ -25,6 +25,8 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     private TTable minMap;
 
     private int depth;
+
+    private Move[] bestMoves;
 
     protected final TranspositionEntry entryWorkspace;
 
@@ -59,7 +61,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(maxMap, hash, draft, alpha, beta, moveAndValue);
+        writeTransposition(maxMap, hash, currentPly, draft, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
@@ -89,13 +91,13 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(minMap, hash, draft, alpha, beta, moveAndValue);
+        writeTransposition(minMap, hash, currentPly, draft, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
 
-    protected void writeTransposition(TTable table, long hash, int draft, int alpha, int beta, long moveAndValue) {
-        short move = AlphaBetaHelper.decodeMove(moveAndValue);
+    private void writeTransposition(TTable table, long hash, int currentPly, int draft, int alpha, int beta, long moveAndValue) {
+        short move = bestMoves[currentPly] != null ? bestMoves[currentPly].binaryEncoding() : 0;
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         entryWorkspace.setHash(hash);

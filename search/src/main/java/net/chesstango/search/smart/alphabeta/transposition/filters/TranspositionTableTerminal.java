@@ -45,6 +45,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
     public TranspositionTableTerminal() {
         entryWorkspace = new TranspositionEntry();
+        throw new RuntimeException("Deprecated class");
     }
 
     @Override

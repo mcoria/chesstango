@@ -46,6 +46,7 @@ public class TranspositionTableLeaf implements AlphaBetaFilter {
 
     public TranspositionTableLeaf() {
         entryWorkspace = new TranspositionEntry();
+        throw new RuntimeException("Deprecated class");
     }
 
     @Override

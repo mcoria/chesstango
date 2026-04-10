@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.transposition.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
@@ -15,25 +16,23 @@ import static net.chesstango.search.Bound.EXACT;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class TranspositionTableRoot implements AlphaBetaFilter {
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
     @Getter
     protected TTable maxMap;
 
-    @Setter
     @Getter
     protected TTable minMap;
 
-    @Setter
     protected Game game;
 
-    @Setter
     protected int depth;
+
+    private Move[] bestMoves;
 
     private final TranspositionEntry entryWorkspace;
 
@@ -70,7 +69,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
     }
 
     protected void saveEntry(TTable table, long hash, int alpha, int beta, long moveAndValue) {
-        short move = AlphaBetaHelper.decodeMove(moveAndValue);
+        short move = bestMoves[0] != null ? bestMoves[0].binaryEncoding() : 0;
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
         //TranspositionBound bound;
         if (beta <= value) {
