@@ -19,8 +19,6 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
     private DebugFilter debugFilter;
     private AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics;
 
-    private SearchListenerMediator searchListenerMediator;
-
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
@@ -43,18 +41,8 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    /**
-     * @return
-     */
-    public AlphaBetaFilter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected  void buildObjects() {
         if (withDebugSearchTree) {
             this.debugFilter = new DebugFilter(DebugNode.NodeTopology.EGTB);
         }
@@ -64,7 +52,8 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected  void setupListenerMediator() {
         if (debugFilter != null) {
             searchListenerMediator.add(debugFilter);
         }
@@ -76,7 +65,13 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
         searchListenerMediator.add(egtbEvaluation);
     }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected void linkObjects() {
+
+    }
+
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugFilter != null) {

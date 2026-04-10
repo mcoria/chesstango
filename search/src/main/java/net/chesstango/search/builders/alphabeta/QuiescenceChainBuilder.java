@@ -33,8 +33,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private EvaluatorDebug gameEvaluatorDebug;
     private TriangularPV triangularPV;
 
-    private SearchListenerMediator searchListenerMediator;
-
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -57,8 +55,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     public QuiescenceChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
         this.searchListenerMediator = searchListenerMediator;
+        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
         return this;
     }
 
@@ -106,31 +104,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    /**
-     * <p>
-     * <p>
-     * *  QuiescenceStatics -> ZobristTracker -> TranspositionTableQ -> QuiescenceFlowControl -> Quiescence
-     * *            ^                                                                              |
-     * *            |                                                                              |
-     * *            -------------------------------------------------------------------------------
-     *
-     * @return
-     */
-    public AlphaBetaFilter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        quiescence.setMoveSorter(moveSorterBuilder.build());
-
-        if (withDebugSearchTree) {
-            quiescence.setEvaluator(gameEvaluatorDebug);
-        }
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected  void buildObjects() {
         if (withStatistics) {
             alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
             alphaBetaQuiescenceNodeExpected = new AlphaBetaQuiescenceNodeExpected();
@@ -150,7 +125,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected  void setupListenerMediator() {
         if (alphaBetaQuiescenceNodeVisited != null) {
             searchListenerMediator.add(alphaBetaQuiescenceNodeVisited);
         }
@@ -173,7 +149,17 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         searchListenerMediator.add(quiescence);
     }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected void linkObjects() {
+        quiescence.setMoveSorter(moveSorterBuilder.build());
+
+        if (withDebugSearchTree) {
+            quiescence.setEvaluator(gameEvaluatorDebug);
+        }
+    }
+
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugFilter != null) {

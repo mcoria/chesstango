@@ -1,5 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
+import net.chesstango.search.builders.sorters.AbstractMoveSorterBuilder;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
@@ -13,13 +15,35 @@ import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class AbstractChainBuilder {
+public abstract class AbstractChainBuilder {
+
+    protected SearchListenerMediator searchListenerMediator;
+
+    public AlphaBetaFilter build() {
+        buildObjects();
+
+        setupListenerMediator();
+
+        linkObjects();
+
+        return buildAlphaBetaChain();
+    }
+
+    protected abstract void buildObjects();
+
+    protected abstract void setupListenerMediator();
+
+    protected abstract void linkObjects();
+
+    protected abstract AlphaBetaFilter buildAlphaBetaChain();
+
 
     protected AlphaBetaFilter createChain(List<AlphaBetaFilter> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
