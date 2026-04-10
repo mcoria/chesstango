@@ -1,25 +1,39 @@
 package net.chesstango.search.smart.alphabeta.root;
 
 import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Bound;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationCollection implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+
+    private final List<RootMoveEvaluation> rootMoveEvaluations;
+
     @Getter
-    private List<RootMoveEvaluation> rootMoveEvaluations;
+    private RootMoveEvaluation bestRootMoveEvaluation;
+
+    @Setter
+    private Game game;
+
+    private boolean maximize;
+
+    public RootMoveEvaluationCollection() {
+        rootMoveEvaluations = new LinkedList<>();
+    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -27,8 +41,15 @@ public class RootMoveEvaluationCollection implements SearchByDepthListener, Sear
     }
 
     @Override
+    public void beforeSearch() {
+        rootMoveEvaluations.clear();
+        bestRootMoveEvaluation = null;
+        maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
+    }
+
+    @Override
     public void beforeSearchByDepth() {
-        this.rootMoveEvaluations = new LinkedList<>();
+        rootMoveEvaluations.clear();
     }
 
     @Override
@@ -44,30 +65,29 @@ public class RootMoveEvaluationCollection implements SearchByDepthListener, Sear
         }
     }
 
-    public void add(RootMoveEvaluation moveEvaluation) {
-        this.rootMoveEvaluations.add(moveEvaluation);
-    }
-
-    /**
-     * Con Aspiration Windows habilitado, si la ventana actual falla:
-     * - Si maximizo, debiera retornar LOWER_BOUND o EXACT ?
-     * - Si minimizo, debiera retornar UPPER_BOUND o EXACT ?
-     */
-    public Optional<RootMoveEvaluation> getBestMoveEvaluation(boolean maximize) {
-        Stream<RootMoveEvaluation> moveEvaluationStream = rootMoveEvaluations
-                .stream()
-                .filter(moveEvaluation -> Bound.EXACT.equals(moveEvaluation.bound()));
-
-        return maximize ? moveEvaluationStream.max(Comparator.comparing(RootMoveEvaluation::evaluation)) : moveEvaluationStream.min(Comparator.comparing(RootMoveEvaluation::evaluation));
+    public void save(RootMoveEvaluation moveEvaluation) {
+        if (Bound.EXACT == moveEvaluation.bound()) {
+            if (bestRootMoveEvaluation == null || rootMoveEvaluations.isEmpty()) {
+                bestRootMoveEvaluation = moveEvaluation;
+            } else if (maximize && moveEvaluation.evaluation() > bestRootMoveEvaluation.evaluation()) {
+                bestRootMoveEvaluation = moveEvaluation;
+            } else if (!maximize && moveEvaluation.evaluation() < bestRootMoveEvaluation.evaluation()) {
+                bestRootMoveEvaluation = moveEvaluation;
+            }
+        }
+        rootMoveEvaluations.add(moveEvaluation);
     }
 
     public Optional<RootMoveEvaluation> get(Move currentMove) {
         for (RootMoveEvaluation evaluatedMove : rootMoveEvaluations) {
             if (evaluatedMove.move().equals(currentMove)) {
                 return Optional.of(evaluatedMove);
-
             }
         }
         return Optional.empty();
+    }
+
+    public List<RootMoveEvaluation> getRootMoveEvaluations() {
+        return List.copyOf(rootMoveEvaluations);
     }
 }

@@ -66,7 +66,7 @@ public class CatchAllSortGroupTest {
     /**
      * Test for the `offer` method with multiple moves added.
      * <p>
-     * Verifies that multiple calls to `offer` correctly add the moves
+     * Verifies that multiple calls to `offer` correctly save the moves
      * to the group's internal list.
      */
     @Test

@@ -67,7 +67,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     private List<Move> getSortedMovesByLastMoveEvaluations() {
         List<RootMoveEvaluation> lastRootMoveEvaluationsCopy = new ArrayList<>(lastRootMoveEvaluations);
 
-        if (lastRootMoveEvaluationsCopy.size() != numberOfMove) {
+        if (lastRootMoveEvaluations.size() != numberOfMove) {
             throw new RuntimeException("Not all move were explorer during last iteration");
         }
 
@@ -77,7 +77,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
             throw new RuntimeException("First move bound is not exact after sorting");
         }
 
-        return lastRootMoveEvaluationsCopy.stream().map(RootMoveEvaluation::move).toList();
+        return lastRootMoveEvaluations.stream().map(RootMoveEvaluation::move).toList();
     }
 
     /**

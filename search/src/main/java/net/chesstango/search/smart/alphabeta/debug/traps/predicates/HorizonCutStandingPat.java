@@ -24,7 +24,7 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
                 if (DebugNode.NodeTopology.QUIESCENCE.equals(childNode.getTopology()) &&
                         childNode.getChildNodes().size() > 1 &&
                         Objects.equals(childNode.getStandingPat(), childNode.getValue())) {
-                    candidates.add(debugNode);
+                    candidates.save(debugNode);
                 }
             }
         } else

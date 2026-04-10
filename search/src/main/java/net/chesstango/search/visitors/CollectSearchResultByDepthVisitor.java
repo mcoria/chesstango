@@ -2,7 +2,6 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
@@ -20,11 +19,6 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
         this.searchResultByDepth = searchResultByDepth;
     }
 
-    @Override
-    public void visit(AlphaBetaFacade alphaBetaFacade) {
-        searchResultByDepth.setBestRootMoveEvaluation(alphaBetaFacade.getBestMoveEvaluation());
-    }
-
 
     @Override
     public void visit(PVCalculatorTransposition transpositionPVReader) {
@@ -40,6 +34,7 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(RootMoveEvaluationCollection moveEvaluations) {
+        searchResultByDepth.setBestRootMoveEvaluation(moveEvaluations.getBestRootMoveEvaluation());
         searchResultByDepth.setRootMoveEvaluations(moveEvaluations.getRootMoveEvaluations());
     }
 

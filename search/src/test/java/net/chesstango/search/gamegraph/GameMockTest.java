@@ -26,7 +26,7 @@ public class GameMockTest {
        // minMax.setGameEvaluator(evaluator);
 
         SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
-        //searchListenerMediator.add(minMax);
+        //searchListenerMediator.save(minMax);
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, searchListenerMediator);
 

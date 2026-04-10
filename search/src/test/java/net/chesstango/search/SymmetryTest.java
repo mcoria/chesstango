@@ -31,7 +31,7 @@ public class SymmetryTest {
      * - DEPTH 9 = 180 segs
      */
     @Test
-    public void testSearch_Fried_Liver_Attack_Mirror() {
+    public void symmetry_Fried_Liver_Attack_Mirror() {
         final int depthAnalysis = 6;
 
         Search search1 = AlphaBetaBuilder
@@ -43,7 +43,7 @@ public class SymmetryTest {
         search1.accept(new SetMaxDepthVisitor(depthAnalysis));
         SearchResult searchResultBlack = search1.startSearch(game1);
 
-        int movesCount = game1.getPossibleMoves().size();
+
 
         Search search2 = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
@@ -56,6 +56,9 @@ public class SymmetryTest {
 
 
         assertEquals(searchResultBlack.getBestEvaluation(), -searchResultWhite.getBestEvaluation());
+
+
+        int movesCount = game1.getPossibleMoves().size();
         assertEquals(movesCount, game2.getPossibleMoves().size());
 
         for (int i = 0; i < depthAnalysis; i++) {
@@ -69,7 +72,7 @@ public class SymmetryTest {
                 RootMoveEvaluation blackRootMoveEvaluation = blackRootMoveEvaluations.get(j);
                 RootMoveEvaluation whiteRootMoveEvaluation = whiteRootMoveEvaluations.get(j);
 
-                assertEquals(blackRootMoveEvaluation.evaluation(), -whiteRootMoveEvaluation.evaluation());
+                assertEquals(blackRootMoveEvaluation.evaluation(), -whiteRootMoveEvaluation.evaluation(), String.format("Evaluation mismatch %d %d", i, j));
 
                 if (blackRootMoveEvaluation.bound() == Bound.EXACT) {
                     assertEquals(Bound.EXACT, whiteRootMoveEvaluation.bound());
@@ -90,7 +93,7 @@ public class SymmetryTest {
     }
 
     @Test
-    public void symmetryMate02() {
+    public void symmetry_Mate02() {
         Game game = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1"));
 
         Search search = buildSearch();

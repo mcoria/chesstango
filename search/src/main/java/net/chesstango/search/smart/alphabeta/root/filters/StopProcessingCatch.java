@@ -3,30 +3,23 @@ package net.chesstango.search.smart.alphabeta.root.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
-
-import java.util.Optional;
 
 /**
  * @author Mauricio Coria
  */
 @Setter
-public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListener {
+public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Getter
     private AlphaBetaFilter next;
 
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
-
-    private RootMoveEvaluation lastRootMoveEvaluation;
 
     private Game game;
 
@@ -35,11 +28,6 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
         visitor.visit(this);
     }
 
-
-    @Override
-    public void beforeSearch() {
-        lastRootMoveEvaluation = null;
-    }
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
@@ -60,24 +48,15 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
             undoMoves(startHash);
         }
 
-        RootMoveEvaluation bestEvaluationResult = lastRootMoveEvaluation;
-
         // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
-        Optional<RootMoveEvaluation> bestEvaluationTracked = rootMoveEvaluationCollection.getBestMoveEvaluation(maximize);
-
+        RootMoveEvaluation bestRootMoveEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
 
         // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior
-        if (bestEvaluationTracked.isPresent()) {
-            bestEvaluationResult = bestEvaluationTracked.get();
+        if (bestRootMoveEvaluation == null) {
+            throw new RuntimeException("Stopped too early");
         }
 
-        if (bestEvaluationResult != null) {
-            Move bestMove = bestEvaluationResult.move();
-            int bestValue = bestEvaluationResult.evaluation();
-            return AlphaBetaHelper.encode(bestMove, bestValue);
-        }
-
-        throw new RuntimeException("Stopped too early");
+        return 0;
     }
 
     private void undoMoves(long startHash) {

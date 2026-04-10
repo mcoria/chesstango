@@ -52,7 +52,7 @@ public class ZobristTracker implements AlphaBetaFilter {
         String oldFenWithoutClocks = theMap.put(hash, fenWithoutClocks);
         if (Objects.nonNull(oldFenWithoutClocks) && !Objects.equals(oldFenWithoutClocks, fenWithoutClocks)) {
             HexFormat hexFormat = HexFormat.of().withUpperCase();
-            zobristCollisions.add(String.format("0x%sL - %s - %s", hexFormat.formatHex(longToByte(hash)), oldFenWithoutClocks, fenWithoutClocks));
+            zobristCollisions.save(String.format("0x%sL - %s - %s", hexFormat.formatHex(longToByte(hash)), oldFenWithoutClocks, fenWithoutClocks));
         }*/
     }
 

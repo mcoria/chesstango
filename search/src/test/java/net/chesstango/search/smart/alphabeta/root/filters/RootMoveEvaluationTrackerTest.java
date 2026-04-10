@@ -1,101 +1,42 @@
 package net.chesstango.search.smart.alphabeta.root.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Bound;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Mauricio Coria
  */
+@ExtendWith(MockitoExtension.class)
 public class RootMoveEvaluationTrackerTest {
     private RootMoveEvaluationTracker moveEvaluationTracker;
+
+    @Mock
     private RootMoveEvaluationCollection moveEvaluations;
 
     @BeforeEach
     public void setup() {
         moveEvaluationTracker = new RootMoveEvaluationTracker();
-        moveEvaluations = new RootMoveEvaluationCollection();
-        moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
-    }
-
-    @Test
-    public void test01() {
-        moveEvaluations.beforeSearchByDepth();
-
-        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
-        moveEvaluations.add(new RootMoveEvaluation(move1, 1000, Bound.EXACT));
-
-        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
-        moveEvaluations.add(new RootMoveEvaluation(move2, 2000, Bound.EXACT));
-
-        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
-        moveEvaluations.add(new RootMoveEvaluation(move3, 3000, Bound.EXACT));
-
-
-        Optional<RootMoveEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
-        assertTrue(maxEvaluationOpt.isPresent());
-        RootMoveEvaluation maxEvaluation = maxEvaluationOpt.get();
-        assertEquals(move3, maxEvaluation.move());
-        assertEquals(3000, maxEvaluation.evaluation());
-        assertEquals(Bound.EXACT, maxEvaluation.bound());
-
-
-        Optional<RootMoveEvaluation> minEvaluationOpt = moveEvaluations.getBestMoveEvaluation(false);
-        assertTrue(minEvaluationOpt.isPresent());
-        RootMoveEvaluation minEvaluation = minEvaluationOpt.get();
-        assertEquals(move1, minEvaluation.move());
-        assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(Bound.EXACT, minEvaluation.bound());
+        moveEvaluationTracker.setRootMoveEvaluationCollection(moveEvaluations);
     }
 
 
-    @Test
-    public void test02() {
-        moveEvaluations.beforeSearchByDepth();
-
-        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
-        moveEvaluations.add(new RootMoveEvaluation(move1, 1000, Bound.LOWER_BOUND));
-
-        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
-        moveEvaluations.add(new RootMoveEvaluation(move2, 1000, Bound.EXACT));
-
-        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
-        moveEvaluations.add(new RootMoveEvaluation(move3, 1000, Bound.UPPER_BOUND));
-
-
-        Optional<RootMoveEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
-        assertTrue(maxEvaluationOpt.isPresent());
-        RootMoveEvaluation maxEvaluation = maxEvaluationOpt.get();
-        assertEquals(move2, maxEvaluation.move());
-        assertEquals(1000, maxEvaluation.evaluation());
-        assertEquals(Bound.EXACT, maxEvaluation.bound());
-
-
-        Optional<RootMoveEvaluation> minEvaluationOpt = moveEvaluations.getBestMoveEvaluation(false);
-        assertTrue(minEvaluationOpt.isPresent());
-        RootMoveEvaluation minEvaluation = minEvaluationOpt.get();
-        assertEquals(move2, minEvaluation.move());
-        assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(Bound.EXACT, minEvaluation.bound());
-    }
 
     /**
      * Este caso es interesante, representa una busqueda con windows muy cerrado.
@@ -103,70 +44,72 @@ public class RootMoveEvaluationTrackerTest {
      * Ninguno es valido
      */
     @Test
-    public void test03() {
+    public void test_process01() {
         AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
         when(fn.search(0, -500, 500))
-                .thenReturn(AlphaBetaHelper.encode(-1000))
-                .thenReturn(AlphaBetaHelper.encode(1000));
-
+                .thenReturn(AlphaBetaHelper.encode(-1000));
+        when(moveEvaluations.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);
         moveEvaluationTracker.setGame(game);
-        moveEvaluations.beforeSearchByDepth();
 
-        game.executeMove(Square.a2, Square.a3);
+        Move move = game.getMove(Square.a2, Square.a3);
+        move.executeMove();
         moveEvaluationTracker.process(0, -500, 500, fn);
         game.undoMove();
 
-        game.executeMove(Square.b2, Square.b3);
+        verify(moveEvaluations, times(1)).get(move);
+        verify(moveEvaluations, times(1)).save(any(RootMoveEvaluation.class));
+    }
+
+    @Test
+    public void test_process02() {
+        AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
+        when(fn.search(0, -500, 500))
+                .thenReturn(AlphaBetaHelper.encode(1000));
+        when(moveEvaluations.get(any(Move.class))).thenReturn(Optional.empty());
+
+        Game game = Game.from(FEN.START_POSITION);
+        moveEvaluationTracker.setGame(game);
+
+        Move move = game.getMove(Square.b2, Square.b3);
+        move.executeMove();
         moveEvaluationTracker.process(0, -500, 500, fn);
         game.undoMove();
 
-        Optional<RootMoveEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
-        assertTrue(maxEvaluationOpt.isEmpty());
+        verify(moveEvaluations, times(1)).get(move);
+        verify(moveEvaluations, times(1)).save(any(RootMoveEvaluation.class));
     }
 
-    private Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
-        return createMove(from, to);
+    @Test
+    public void test_createRootMoveEvaluationExactBound() {
+        Move move = mock(Move.class);
+        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation(move, 0, -10, 10);
+
+        assertEquals(move, result.move());
+        assertEquals(0, result.evaluation());
+        assertEquals(Bound.EXACT, result.bound());
     }
 
-    private Move createMove(PiecePositioned from, PiecePositioned to) {
-        return new Move() {
-            @Override
-            public PiecePositioned getFrom() {
-                return from;
-            }
+    @Test
+    public void test_createRootMoveEvaluationUpperBound() {
+        Move move = mock(Move.class);
+        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation(move, -20, -10, 10);
 
-            @Override
-            public PiecePositioned getTo() {
-                return to;
-            }
-
-            @Override
-            public void executeMove() {
-                throw new RuntimeException("Not meant for execution");
-            }
-
-            @Override
-            public void undoMove() {
-                throw new RuntimeException("Not meant for execution");
-            }
-
-            @Override
-            public Cardinal getMoveDirection() {
-                throw new RuntimeException("Not meant for execution");
-            }
-
-            @Override
-            public boolean isQuiet() {
-                throw new RuntimeException("Not meant for execution");
-            }
-
-            @Override
-            public long getZobristHash() {
-                throw new RuntimeException("Not meant for execution");
-            }
-        };
+        assertEquals(move, result.move());
+        assertEquals(-20, result.evaluation());
+        assertEquals(Bound.UPPER_BOUND, result.bound());
     }
+
+    @Test
+    public void test_createRootMoveEvaluationLowerBound() {
+        Move move = mock(Move.class);
+        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation(move, 20, -10, 10);
+
+        assertEquals(move, result.move());
+        assertEquals(20, result.evaluation());
+        assertEquals(Bound.LOWER_BOUND, result.bound());
+    }
+
 
 }
