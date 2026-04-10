@@ -1,21 +1,27 @@
 package net.chesstango.search.smart.alphabeta.pv.visitors;
 
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 
 /**
  *
  * @author Mauricio Coria
  */
-public class SetTrianglePVVisitor implements Visitor {
+public class LinkTrianglePVVisitor implements Visitor {
 
     /**
      * Se utiliza para el calculo de PV
      */
     private final short[][] trianglePV;
 
-    public SetTrianglePVVisitor(short[][] trianglePV) {
+    public LinkTrianglePVVisitor(short[][] trianglePV) {
         this.trianglePV = trianglePV;
+    }
+
+    @Override
+    public void visit(PVCalculatorTriangular setTrianglePV) {
+        setTrianglePV.setTrianglePV(trianglePV);
     }
 
 

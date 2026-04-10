@@ -22,7 +22,7 @@ import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTable
 import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.visitors.LinkTrianglePVVisitor;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -57,7 +57,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
     private DepthCollector depthCollector;
-    private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
@@ -68,7 +67,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTable;
-    private boolean withTriangularPV;
     private boolean withZobristTracker;
     private boolean withQuiescence;
     private boolean withExtensionCheckResolver;
@@ -201,15 +199,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    public AlphaBetaBuilder withTriangularPV() {
-        withTriangularPV = true;
-        alphaBetaRootChainBuilder.withTriangularPV();
-        alphaBetaInteriorChainBuilder.withTriangularPV();
-        quiescenceChainBuilder.withTriangularPV();
-        checkResolverChainBuilder.withTriangularPV();
-        return this;
-    }
-
     public AlphaBetaBuilder withKillerMoveSorter() {
         alphaBetaInteriorChainBuilder.withKillerMoveSorter();
         withKillerMoveSorter = true;
@@ -256,14 +245,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     @Override
     public Search build() {
-        if (withTriangularPV && withTranspositionTable) {
-            throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
-        }
-
-        if (!withTranspositionTable) {
-            withTriangularPV();
-        }
-
         buildObjects();
 
         setupListenerMediatorBeforeChain();
@@ -283,6 +264,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
+        }
+
+        if (!withTranspositionTable) {
+            searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
         }
 
         if (withStatistics) {
@@ -309,10 +294,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withTranspositionTable) {
             transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
             transpositionTableBuilder.build();
-        }
-
-        if (withTriangularPV) {
-            setTrianglePV = new SetTrianglePV();
         }
 
         if (withStatistics) {
@@ -360,10 +341,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (setZobristMemory != null) {
             searchListenerMediator.add(setZobristMemory);
-        }
-
-        if (setTrianglePV != null) {
-            searchListenerMediator.add(setTrianglePV);
         }
 
         if (nodeCounters != null) {
@@ -439,8 +416,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
                 .withQuiescence()
 
                 .withTranspositionTable()
-
                 .withTranspositionMoveSorter()
+
                 .withKillerMoveSorter()
                 .withRecaptureSorter()
                 .withMvvLvaSorter()

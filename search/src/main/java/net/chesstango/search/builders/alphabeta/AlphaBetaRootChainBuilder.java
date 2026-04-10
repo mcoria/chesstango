@@ -9,9 +9,10 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
-import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
@@ -41,21 +42,21 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
-    private TranspositionPV transpositionPV;
+    private TriggerPVCalculation triggerPVCalculation;
     private SearchListenerMediator searchListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
+    private PVCalculatorTriangular trianglePVReader;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private TTPVReader ttPvReader;
-    private TTPVReaderDebug ttpvReaderDebug;
+    private PVCalculatorTransposition transpositionPVReader;
+    private PVCalculatorDebug ttpvReaderDebug;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
     private boolean withTranspositionTable;
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
-    private boolean withTriangularPV;
 
 
     public AlphaBetaRootChainBuilder() {
@@ -102,10 +103,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withTriangularPV() {
-        this.withTriangularPV = true;
-        return this;
-    }
 
     public AlphaBetaRootChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
@@ -143,9 +140,17 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (withTranspositionTable) {
             transpositionTableRoot = new TranspositionTableRoot();
 
-            transpositionPV = new TranspositionPV();
+            triggerPVCalculation = new TriggerPVCalculation();
+            transpositionPVReader = new PVCalculatorTransposition();
 
-            ttPvReader = new TTPVReader();
+            if (withDebugSearchTree) {
+                ttpvReaderDebug = new PVCalculatorDebug();
+                ttpvReaderDebug.setImp(transpositionPVReader);
+
+                triggerPVCalculation.setPvCalculator(ttpvReaderDebug);
+            } else {
+                triggerPVCalculation.setPvCalculator(transpositionPVReader);
+            }
         }
 
         if (withZobristTracker) {
@@ -156,20 +161,19 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
         }
 
-        if (transpositionPV != null) {
-            if (withDebugSearchTree) {
-                ttpvReaderDebug = new TTPVReaderDebug();
-                ttpvReaderDebug.setImp(ttPvReader);
-
-                transpositionPV.setPvReader(ttpvReaderDebug);
-            } else {
-                transpositionPV.setPvReader(ttPvReader);
-            }
-        }
-
-
-        if (withTriangularPV) {
+        if (!withTranspositionTable) {
+            triggerPVCalculation = new TriggerPVCalculation();
             triangularPV = new TriangularPV();
+            trianglePVReader = new PVCalculatorTriangular();
+
+            if (withDebugSearchTree) {
+                ttpvReaderDebug = new PVCalculatorDebug();
+                ttpvReaderDebug.setImp(trianglePVReader);
+
+                triggerPVCalculation.setPvCalculator(ttpvReaderDebug);
+            } else {
+                triggerPVCalculation.setPvCalculator(trianglePVReader);
+            }
         }
 
         if (stopProcessingCatch != null) {
@@ -206,16 +210,20 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(transpositionTableRoot);
         }
 
-        if (transpositionPV != null) {
-            searchListenerMediator.add(transpositionPV);
+        if (triggerPVCalculation != null) {
+            searchListenerMediator.add(triggerPVCalculation);
         }
 
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);
         }
 
-        if (ttPvReader != null) {
-            searchListenerMediator.add(ttPvReader);
+        if (trianglePVReader != null) {
+            searchListenerMediator.add(trianglePVReader);
+        }
+
+        if (transpositionPVReader != null) {
+            searchListenerMediator.add(transpositionPVReader);
         }
 
         if (ttpvReaderDebug != null) {
@@ -257,12 +265,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         chain.add(moveEvaluationTracker);
 
-        if (triangularPV != null) {
-            chain.add(triangularPV);
+        if (triggerPVCalculation != null) {
+            chain.add(triggerPVCalculation);
         }
 
-        if (transpositionPV != null) {
-            chain.add(transpositionPV);
+        if (triangularPV != null) {
+            chain.add(triangularPV);
         }
 
         chain.add(alphaBetaFlowControl);

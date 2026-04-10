@@ -19,7 +19,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.statistics.evaluation;
     exports net.chesstango.search.smart.alphabeta.pv;
     exports net.chesstango.search.smart.alphabeta.pv.visitors;
-    exports net.chesstango.search.smart.alphabeta.pv.listeners;
     exports net.chesstango.search.smart.alphabeta.pv.filters;
     exports net.chesstango.search.smart.alphabeta.pv.comparators;
     exports net.chesstango.search.smart.alphabeta.killermoves;

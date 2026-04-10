@@ -18,94 +18,100 @@ AlphaBeta @ 3
 |
 RootMoveEvaluationTracker @ 7
 |
-TriangularPV @ 8
+TriggerPVCalculation @ 8 [PVCalculator: PVCalculatorTriangular @ 9]
 |
-AlphaBetaFlowControl @ 9
+TriangularPV @ 10
+|
+AlphaBetaFlowControl @ 11
 |
  -> TerminalNode
 	|
-	AlphaBetaEvaluation @ 10 [Evaluator: EvaluatorByMaterial @ 11]
+	AlphaBetaEvaluation @ 12 [Evaluator: EvaluatorByMaterial @ 13]
 
  -> EgtbNode
 	|
-	EgtbEvaluation @ 12 [EndGameTableBase: EndGameTableBaseNull @ 13]
+	EgtbEvaluation @ 14 [EndGameTableBase: EndGameTableBaseNull @ 15]
 
  -> LoopNode
 	|
-	LoopEvaluation @ 14
+	LoopEvaluation @ 16
 
  -> LeafNode
 	|
-	AlphaBetaEvaluation @ 15 [Evaluator: EvaluatorByMaterial @ 11]
+	AlphaBetaEvaluation @ 17 [Evaluator: EvaluatorByMaterial @ 13]
 
  -> InteriorNode
 	|
-	AlphaBeta @ 16
+	AlphaBeta @ 18
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 17
+		NodeMoveSorter @ 19
 		|
 		 -> Comparator
 			|
-			QuietComparator @ 18
+			QuietComparator @ 20
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 19
+				PromotionComparator @ 21
 				|
-				RecaptureMoveComparator @ 20
+				RecaptureMoveComparator @ 22
 				|
-				DefaultMoveComparator @ 21
+				DefaultMoveComparator @ 23
 
 			 -> QuietComparatorNode
 				|
-				DefaultMoveComparator @ 21
+				DefaultMoveComparator @ 23
 	|
-	TriangularPV @ 22
+	TriangularPV @ 24
 	|
-	AlphaBetaFlowControl @ 9 -> LOOP
+	AlphaBetaFlowControl @ 11 -> LOOP
 
 
 SearchByCycleListeners:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 23
-	AlphaBetaFlowControl @ 9
-	SetTrianglePV @ 24
+	SetSearchTimers @ 25
+	AlphaBetaFlowControl @ 11
+	TriangularPV @ 24
+	TriangularPV @ 10
+	PVCalculatorTriangular @ 9
 	RootMoveSorter @ 4
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 23
-	SetTrianglePV @ 24
-	RootMoveEvaluationCollection @ 25
+	SetSearchTimers @ 25
+	TriangularPV @ 24
+	RootMoveEvaluationCollection @ 26
+	TriangularPV @ 10
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 25
+	RootMoveEvaluationCollection @ 26
 
 StopSearchingListener:
-	AlphaBetaFlowControl @ 9
+	AlphaBetaFlowControl @ 11
 
 ResetListener:
 
 Acceptor:
-	SetGameToEvaluator @ 26
-	SetGameToEndGameTableBase @ 27
+	SetGameToEvaluator @ 27
+	SetGameToEndGameTableBase @ 28
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 23
-	AlphaBetaFlowControl @ 9
-	SetTrianglePV @ 24
-	AlphaBetaEvaluation @ 10
-	AlphaBetaEvaluation @ 15
-	TriangularPV @ 22
-	AlphaBeta @ 16
-	NodeMoveSorter @ 17
-	QuietComparator @ 18
-	RecaptureMoveComparator @ 20
-	EgtbEvaluation @ 12
+	SetSearchTimers @ 25
+	AlphaBetaFlowControl @ 11
+	AlphaBetaEvaluation @ 12
+	AlphaBetaEvaluation @ 17
+	TriangularPV @ 24
+	AlphaBeta @ 18
+	NodeMoveSorter @ 19
+	QuietComparator @ 20
+	RecaptureMoveComparator @ 22
+	EgtbEvaluation @ 14
 	RootMoveEvaluationTracker @ 7
-	RootMoveEvaluationCollection @ 25
-	TriangularPV @ 8
+	RootMoveEvaluationCollection @ 26
+	TriggerPVCalculation @ 8
+	TriangularPV @ 10
+	PVCalculatorTriangular @ 9
 	AlphaBeta @ 3
 	RootMoveSorter @ 4
 	NodeGroupSorter @ 5

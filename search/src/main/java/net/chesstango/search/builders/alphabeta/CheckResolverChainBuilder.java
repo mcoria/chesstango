@@ -31,7 +31,6 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
-    private boolean withTriangularPV;
 
 
     public CheckResolverChainBuilder() {
@@ -68,11 +67,6 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public CheckResolverChainBuilder withTriangularPV() {
-        this.withTriangularPV = true;
-        return this;
-    }
-
     public CheckResolverChainBuilder withDebugSearchTree() {
         moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
@@ -103,7 +97,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
         }
-        if (withTriangularPV) {
+        if (!withTranspositionTable) {
             triangularPV = new TriangularPV();
         }
     }

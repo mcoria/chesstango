@@ -37,7 +37,6 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
-    private boolean withTriangularPV;
     private boolean withKillerMoveSorter;
 
     public AlphaBetaInteriorChainBuilder() {
@@ -46,7 +45,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withIterativeDeepening() {
-        //moveSorterBuilder.withIterativeDeepening();
+        moveSorterBuilder.withIterativeDeepening();
         return this;
     }
 
@@ -81,11 +80,6 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaInteriorChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
-        return this;
-    }
-
-    public AlphaBetaInteriorChainBuilder withTriangularPV() {
-        this.withTriangularPV = true;
         return this;
     }
 
@@ -141,7 +135,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.INTERIOR);
         }
-        if (withTriangularPV) {
+        if (!withTranspositionTable) {
             triangularPV = new TriangularPV();
         }
         if (withKillerMoveSorter) {

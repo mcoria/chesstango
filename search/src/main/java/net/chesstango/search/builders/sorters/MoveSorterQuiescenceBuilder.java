@@ -1,8 +1,5 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
@@ -34,6 +31,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
     private PrincipalVariationComparator principalVariationComparator;
+
+    private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withRecaptureSorter;
@@ -46,6 +45,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     public MoveSorterBuilder withIterativeDeepening() {
+        this.withIterativeDeepening = true;
         return null;
     }
 
@@ -81,11 +81,13 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     protected void buildObjects() {
         defaultMoveComparator = new DefaultMoveComparator();
 
+        if (withIterativeDeepening) {
+            principalVariationComparator = new PrincipalVariationComparator();
+        }
+
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
-
-            principalVariationComparator = new PrincipalVariationComparator();
         }
 
         if (withDebugSearchTree) {
@@ -159,8 +161,11 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private MoveComparator createComparatorChain() {
         List<MoveComparator> chain = new LinkedList<>();
 
-        if (withTranspositionTable) {
+        if (principalVariationComparator != null) {
             chain.add(principalVariationComparator);
+        }
+
+        if (withTranspositionTable) {
             chain.add(transpositionHeadMoveComparator);
             chain.add(transpositionTailMoveComparator);
         }

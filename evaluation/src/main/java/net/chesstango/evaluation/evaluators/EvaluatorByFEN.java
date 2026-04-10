@@ -1,9 +1,5 @@
 package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
-import net.chesstango.evaluation.Evaluator;
-import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 
 import java.util.HashMap;
@@ -12,22 +8,12 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorByFEN implements Evaluator {
+public class EvaluatorByFEN extends AbstractEvaluator {
     private int defaultValue;
+
     private final Map<String, Integer> evaluations = new HashMap<>();
 
-    private Game game;
-
     @Override
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public int evaluate() {
-        return game.getStatus().isFinalStatus() ? evaluateFinalStatus() : evaluateNonFinalStatus();
-    }
-
     protected int evaluateNonFinalStatus() {
         FENBuilder fenBuilder = new FENBuilder();
 
@@ -35,18 +21,9 @@ public class EvaluatorByFEN implements Evaluator {
 
         String fen = fenBuilder.getPositionRepresentation().toString();
 
-        Integer evaluation = evaluations.get(fen);
-
-        return evaluation == null ? defaultValue : evaluation;
+        return evaluations.getOrDefault(fen, defaultValue);
     }
 
-    protected int evaluateFinalStatus() {
-        return switch (game.getStatus()) {
-            case MATE -> Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-            case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> 0;
-            default -> throw new RuntimeException("Game is still in progress");
-        };
-    }
 
     public EvaluatorByFEN setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
@@ -58,11 +35,4 @@ public class EvaluatorByFEN implements Evaluator {
         return this;
     }
 
-    public static EvaluatorByFEN loadEvaluations() {
-        EvaluatorByFEN mock = new EvaluatorByFEN();
-        mock.setDefaultValue(0);
-        mock.addEvaluation(FEN.START_POSITION_STRING, 0);
-
-        return mock;
-    }
 }

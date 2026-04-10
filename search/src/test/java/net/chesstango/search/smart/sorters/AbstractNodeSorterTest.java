@@ -44,8 +44,8 @@ public abstract class AbstractNodeSorterTest {
 
         killerMovesTable = new KillerMovesTable();
 
-        moveSorterBuilder = new MoveSorterInteriorBuilder()
-                .withSmartListenerMediator(searchListenerMediator);
+        moveSorterBuilder = new MoveSorterInteriorBuilder();
+        moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
     }
 
     protected abstract Game createGame();

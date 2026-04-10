@@ -28,7 +28,7 @@ AlphaBeta @ 9
 |
 RootMoveEvaluationTracker @ 14
 |
-TranspositionPV @ 15 [PVReader: TTPVReaderDebug @ 16 -> TTPVReader @ 17]
+TriggerPVCalculation @ 15 [PVCalculator: PVCalculatorDebug @ 16 -> PVCalculatorTransposition @ 17]
 |
 AlphaBetaFlowControl @ 18
 |
@@ -151,7 +151,7 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 53
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
-	TTPVReader @ 17
+	PVCalculatorTransposition @ 17
 	RootMoveSorter @ 11
 	SetDebugOutput @ 66
 
@@ -160,7 +160,6 @@ SearchByDepthListener:
 	SetSearchTimers @ 63
 	SetSearchTracker @ 64
 	RootMoveEvaluationCollection @ 67
-	TTPVReader @ 17
 	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
@@ -228,9 +227,9 @@ Acceptor:
 	AspirationWindows @ 4
 	DebugFilter @ 5
 	TranspositionTableRoot @ 6
-	TranspositionPV @ 15
-	TTPVReader @ 17
-	TTPVReaderDebug @ 16
+	TriggerPVCalculation @ 15
+	PVCalculatorTransposition @ 17
+	PVCalculatorDebug @ 16
 	AlphaBeta @ 9
 	MoveSorterDebug @ 10
 	RootMoveSorter @ 11

@@ -5,21 +5,21 @@ import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.pv.PVReader;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
 
 /**
- * Este filtro se ejecuta luego de AlphaBeta para capturar tempranamente el PV.
+ * Este filtro se ejecuta UNICAMENTE luego de AlphaBeta de Root Node para capturar tempranamente el PV.
  * Busquedas sucesivas ocacionan que TT se ensucie y no se logre reconstruir PV
  *
  * @author Mauricio Coria
  */
 @Setter
 @Getter
-public class TranspositionPV implements AlphaBetaFilter {
+public class TriggerPVCalculation implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
-    private PVReader pvReader;
+    private PVCalculator pvCalculator;
 
     @Override
     public void accept(Visitor visitor) {
@@ -45,11 +45,10 @@ public class TranspositionPV implements AlphaBetaFilter {
      * Decodes move/value; reads principal variation if within alpha-beta window
      */
     protected long process(int alpha, int beta, long moveAndValue) {
-        final short currentMove = AlphaBetaHelper.decodeMove(moveAndValue);
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
-            pvReader.readPrincipalVariation(currentMove, currentValue);
+            pvCalculator.calculatePrincipalVariation(currentValue);
         }
 
         return moveAndValue;

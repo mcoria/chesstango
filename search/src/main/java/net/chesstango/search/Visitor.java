@@ -26,12 +26,12 @@ import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveC
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
@@ -141,7 +141,7 @@ public interface Visitor {
     default void visit(RootMoveEvaluationCollection oveEvaluations) {
     }
 
-    default void visit(TranspositionPV transpositionPV) {
+    default void visit(TriggerPVCalculation triggerPVCalculation) {
     }
 
     default void visit(TriangularPV triangularPV) {
@@ -199,7 +199,7 @@ public interface Visitor {
     default void visit(SetGameToEvaluator setGameToEvaluator) {
     }
 
-    default void visit(SetTrianglePV setTrianglePV) {
+    default void visit(PVCalculatorTriangular setTrianglePV) {
     }
 
     default void visit(NodeCounters nodeCounters) {
@@ -214,10 +214,10 @@ public interface Visitor {
     default void visit(KillerMovesDebug killerMovesDebug) {
     }
 
-    default void visit(TTPVReader ttpvReader) {
+    default void visit(PVCalculatorTransposition ttpvReader) {
     }
 
-    default void visit(TTPVReaderDebug ttpvReaderDebug) {
+    default void visit(PVCalculatorDebug ttpvReaderDebug) {
     }
 
     default void visit(TTableDebug tableDebug) {
@@ -235,7 +235,6 @@ public interface Visitor {
 
     default void visit(EvaluationCounters evaluationCounters) {
     }
-
 
     default void visit(SetKillerMoveTables setKillerMoveTables) {
     }
@@ -268,7 +267,6 @@ public interface Visitor {
 
     default void visit(NodeMoveSorter nodeMoveSorter) {
     }
-
 
     default void visit(NodeGroupSorter nodeGroupSorter) {
     }
@@ -343,7 +341,6 @@ public interface Visitor {
 
     default void visit(PrincipalVariationGroup principalVariationGroup) {
     }
-
 
     default void visit(CatchAllNullGroup nullGroup) {
     }

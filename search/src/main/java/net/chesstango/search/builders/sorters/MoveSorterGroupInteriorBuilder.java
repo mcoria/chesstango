@@ -32,9 +32,6 @@ public class MoveSorterGroupInteriorBuilder extends AbstractMoveSorterBuilder {
     private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private KillerMoveComparator killerMoveComparator;
-    private MvvLvaComparator mvvLvaComparator;
-    private PromotionComparator promotionComparator;
-    private PrincipalVariationComparator principalVariationComparator;
 
     private PrincipalVariationGroup principalVariationGroup;
 
@@ -101,8 +98,6 @@ public class MoveSorterGroupInteriorBuilder extends AbstractMoveSorterBuilder {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
 
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
-
-            principalVariationComparator = new PrincipalVariationComparator();
         }
 
         if (withDebugSearchTree) {
@@ -120,10 +115,6 @@ public class MoveSorterGroupInteriorBuilder extends AbstractMoveSorterBuilder {
         if (withRecaptureSorter) {
             recaptureMoveComparator = new RecaptureMoveComparator();
         }
-
-        if (withMvvLva) {
-            mvvLvaComparator = new MvvLvaComparator();
-        }
     }
 
     @Override
@@ -140,8 +131,8 @@ public class MoveSorterGroupInteriorBuilder extends AbstractMoveSorterBuilder {
             searchListenerMediator.add(transpositionTailMoveComparator);
         }
 
-        if (principalVariationComparator != null) {
-            searchListenerMediator.add(principalVariationComparator);
+        if (principalVariationGroup != null) {
+            searchListenerMediator.add(principalVariationGroup);
         }
 
         if (recaptureMoveComparator != null) {
@@ -158,10 +149,6 @@ public class MoveSorterGroupInteriorBuilder extends AbstractMoveSorterBuilder {
 
         if (killerMoveComparator != null) {
             searchListenerMediator.add(killerMoveComparator);
-        }
-
-        if (principalVariationGroup != null) {
-            searchListenerMediator.add(principalVariationGroup);
         }
     }
 

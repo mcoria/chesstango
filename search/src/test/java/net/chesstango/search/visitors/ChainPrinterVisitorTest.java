@@ -97,14 +97,26 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void alphaBetaBuilderIterativeDeepening() throws IOException {
+    public void alphaBetaBuilderChainNoTranspositionTable() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withIterativeDeepening();
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
+
+                .withAspirationWindows()
+
+                .withIterativeDeepening()
+
+                .withStopProcessingCatch();
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderChainIterativeDeepening.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainNoTranspositionTable.txt");
     }
 
     @Test

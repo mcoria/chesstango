@@ -6,9 +6,12 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -73,6 +76,7 @@ public abstract class MateIn1Test {
     public void testFoolsMateTest() {
         // Fool's mate
         Game game = Game.from(FEN.of("rnbqkbnr/pppp1ppp/4p3/8/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2"));
+        long hash = game.getPosition().getZobristHash();
 
         SearchResult searchResult = search.startSearch(game);
 
@@ -83,6 +87,13 @@ public abstract class MateIn1Test {
         assertEquals(Square.h4, smartMove.getTo().square());
 
         assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
+
+        List<PrincipalVariation> pvMoves = searchResult.getPrincipalVariation();
+        assertEquals(1, pvMoves.size());
+
+        PrincipalVariation firstPV = pvMoves.getFirst();
+        assertEquals(hash, firstPV.hash());
+        assertEquals(smartMove, firstPV.move());
     }
 
 }

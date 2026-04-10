@@ -1,14 +1,12 @@
 package net.chesstango.search.visitors;
 
-import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
-import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 
 /**
  *
@@ -29,16 +27,15 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
 
     @Override
-    public void visit(TTPVReader ttpvReader) {
-        searchResultByDepth.setPrincipalVariation(ttpvReader.getPrincipalVariation());
-        searchResultByDepth.setPvComplete(ttpvReader.isPvComplete());
+    public void visit(PVCalculatorTransposition transpositionPVReader) {
+        searchResultByDepth.setPrincipalVariation(transpositionPVReader.getPrincipalVariation());
+        searchResultByDepth.setPvComplete(transpositionPVReader.isPvComplete());
     }
 
     @Override
-    public void visit(SetTrianglePV setTrianglePV) {
-        setTrianglePV.calculatePrincipalVariation(searchResultByDepth.getBestRootMoveEvaluation());
-        searchResultByDepth.setPrincipalVariation(setTrianglePV.getPrincipalVariation());
-        searchResultByDepth.setPvComplete(setTrianglePV.isPvComplete());
+    public void visit(PVCalculatorTriangular trianglePVReader) {
+        searchResultByDepth.setPrincipalVariation(trianglePVReader.getPrincipalVariation());
+        searchResultByDepth.setPvComplete(trianglePVReader.isPvComplete());
     }
 
     @Override
