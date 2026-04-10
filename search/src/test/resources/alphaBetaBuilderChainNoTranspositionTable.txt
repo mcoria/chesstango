@@ -113,7 +113,6 @@ AlphaBetaFlowControl @ 13
 
 SearchByCycleListeners:
 	EvaluatorCacheListener @ 42
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 43
 	AlphaBetaFlowControl @ 13
 	SetKillerMoveTables @ 44
@@ -121,14 +120,13 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 23
 	TriangularPV @ 41
 	PrincipalVariationComparator @ 35
-	StopProcessingCatch @ 3
+	RootMoveEvaluationCollection @ 45
 	AspirationWindows @ 4
 	TriangularPV @ 12
 	PVCalculatorTriangular @ 11
 	RootMoveSorter @ 6
 
 SearchByDepthListener:
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 43
 	TriangularPV @ 31
 	TriangularPV @ 41

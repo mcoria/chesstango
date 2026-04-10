@@ -1,5 +1,6 @@
 package net.chesstango.search;
 
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparatorTest;
 import net.chesstango.search.smart.sorters.comparators.TranspositionHeadMoveComparatorTest;

@@ -11,7 +11,9 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,8 @@ import java.util.Optional;
 public class RootMoveEvaluationCollection implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
 
     private final List<RootMoveEvaluation> rootMoveEvaluations;
+    private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
+    private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
 
     @Getter
     private RootMoveEvaluation bestRootMoveEvaluation;
@@ -31,8 +35,12 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
 
     private boolean maximize;
 
+    private int numberOfMove;
+
     public RootMoveEvaluationCollection() {
         rootMoveEvaluations = new LinkedList<>();
+        whiteRootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator(Color.WHITE);
+        blackRootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator(Color.BLACK);
     }
 
     @Override
@@ -45,6 +53,7 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
         rootMoveEvaluations.clear();
         bestRootMoveEvaluation = null;
         maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
+        numberOfMove = game.getPossibleMoves().size();
     }
 
     @Override
@@ -88,6 +97,38 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
     }
 
     public List<RootMoveEvaluation> getRootMoveEvaluations() {
+        rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
+
+        if (Bound.EXACT != rootMoveEvaluations.getFirst().bound()) {
+            throw new RuntimeException("First move bound is not exact after sorting");
+        }
+
         return List.copyOf(rootMoveEvaluations);
+    }
+
+    /**
+     * @author Mauricio Coria
+     */
+    public static class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluation> {
+        private final Comparator<RootMoveEvaluation> rootMoveEvaluationComparator;
+
+        public RootMoveEvaluationComparator(Color color) {
+            DefaultMoveComparator defaultMoveComparator = new DefaultMoveComparator();
+            this.rootMoveEvaluationComparator = Color.WHITE.equals(color)
+                    ? Comparator
+                      .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
+                      .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
+                      .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()))
+                    : Comparator
+                      .comparing(RootMoveEvaluation::bound)
+                      .thenComparing(RootMoveEvaluation::evaluation)                                   // De menor a mayor: natural order
+                      .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
+
+        }
+
+        @Override
+        public int compare(RootMoveEvaluation o1, RootMoveEvaluation o2) {
+            return rootMoveEvaluationComparator.compare(o1, o2);
+        }
     }
 }

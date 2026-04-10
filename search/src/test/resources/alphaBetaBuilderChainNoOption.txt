@@ -70,16 +70,15 @@ AlphaBetaFlowControl @ 11
 
 
 SearchByCycleListeners:
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 25
 	AlphaBetaFlowControl @ 11
 	TriangularPV @ 24
+	RootMoveEvaluationCollection @ 26
 	TriangularPV @ 10
 	PVCalculatorTriangular @ 9
 	RootMoveSorter @ 4
 
 SearchByDepthListener:
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 25
 	TriangularPV @ 24
 	RootMoveEvaluationCollection @ 26

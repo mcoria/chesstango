@@ -143,7 +143,6 @@ SearchByCycleListeners:
 	TTListener @ 61
 	TTableCounters @ 62
 	TTableStatisticsListener @ 63
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 16
 	NodeCounters @ 65
@@ -152,13 +151,12 @@ SearchByCycleListeners:
 	SetKillerMoveTables @ 68
 	PrincipalVariationComparator @ 34
 	PrincipalVariationComparator @ 51
-	StopProcessingCatch @ 3
+	RootMoveEvaluationCollection @ 69
 	AspirationWindows @ 4
 	PVCalculatorTransposition @ 15
 	RootMoveSorter @ 10
 
 SearchByDepthListener:
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 64
 	NodeCounters @ 65
 	DepthCollector @ 67
