@@ -12,9 +12,8 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
-import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularTriggerPV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -43,11 +42,10 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
-    private TranspositionPV transpositionPV;
+    private TriggerPVCalculation triggerPVCalculation;
     private SearchListenerMediator searchListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private TriangularTriggerPV triangularTriggerPV;
     private TriangularPV triangularPV;
     private PVCalculatorTriangular trianglePVReader;
     private AlphaBetaFilter alphaBetaFlowControl;
@@ -142,16 +140,16 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (withTranspositionTable) {
             transpositionTableRoot = new TranspositionTableRoot();
 
-            transpositionPV = new TranspositionPV();
+            triggerPVCalculation = new TriggerPVCalculation();
             transpositionPVReader = new PVCalculatorTransposition();
 
             if (withDebugSearchTree) {
                 ttpvReaderDebug = new PVCalculatorDebug();
                 ttpvReaderDebug.setImp(transpositionPVReader);
 
-                transpositionPV.setPvCalculator(ttpvReaderDebug);
+                triggerPVCalculation.setPvCalculator(ttpvReaderDebug);
             } else {
-                transpositionPV.setPvCalculator(transpositionPVReader);
+                triggerPVCalculation.setPvCalculator(transpositionPVReader);
             }
         }
 
@@ -164,7 +162,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         if (!withTranspositionTable) {
-            triangularTriggerPV = new TriangularTriggerPV();
+            triggerPVCalculation = new TriggerPVCalculation();
             triangularPV = new TriangularPV();
             trianglePVReader = new PVCalculatorTriangular();
 
@@ -172,9 +170,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
                 ttpvReaderDebug = new PVCalculatorDebug();
                 ttpvReaderDebug.setImp(trianglePVReader);
 
-                triangularTriggerPV.setPvCalculator(ttpvReaderDebug);
+                triggerPVCalculation.setPvCalculator(ttpvReaderDebug);
             } else {
-                triangularTriggerPV.setPvCalculator(trianglePVReader);
+                triggerPVCalculation.setPvCalculator(trianglePVReader);
             }
         }
 
@@ -212,8 +210,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(transpositionTableRoot);
         }
 
-        if (transpositionPV != null) {
-            searchListenerMediator.add(transpositionPV);
+        if (triggerPVCalculation != null) {
+            searchListenerMediator.add(triggerPVCalculation);
         }
 
         if (triangularPV != null) {
@@ -267,16 +265,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         chain.add(moveEvaluationTracker);
 
-        if (triangularTriggerPV != null) {
-            chain.add(triangularTriggerPV);
+        if (triggerPVCalculation != null) {
+            chain.add(triggerPVCalculation);
         }
 
         if (triangularPV != null) {
             chain.add(triangularPV);
-        }
-
-        if (transpositionPV != null) {
-            chain.add(transpositionPV);
         }
 
         chain.add(alphaBetaFlowControl);

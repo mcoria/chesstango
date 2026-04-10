@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycleListener, SearchByDepthListener {
+public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycleListener {
 
     @Setter
     protected Evaluator evaluator;
@@ -41,12 +41,6 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
 
     @Override
     public void beforeSearch() {
-        principalVariation = null;
-        pvComplete = false;
-    }
-
-    @Override
-    public void beforeSearchByDepth() {
         principalVariation = null;
         pvComplete = false;
     }

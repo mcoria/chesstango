@@ -27,9 +27,8 @@ import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularTriggerPV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
@@ -226,19 +225,11 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionPV transpositionPV) {
+    public void visit(TriggerPVCalculation triggerPVCalculation) {
         printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getPvCalculator())));
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(triggerPVCalculation), printTTPVReader(triggerPVCalculation.getPvCalculator())));
 
-        transpositionPV.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(TriangularTriggerPV triangularTriggerPV) {
-        printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(triangularTriggerPV), printTTPVReader(triangularTriggerPV.getPvCalculator())));
-
-        triangularTriggerPV.getNext().accept(this);
+        triggerPVCalculation.getNext().accept(this);
     }
 
     @Override

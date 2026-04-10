@@ -18,7 +18,7 @@ AlphaBeta @ 3
 |
 RootMoveEvaluationTracker @ 7
 |
-TriangularTriggerPV @ 8 [PVCalculator: PVCalculatorTriangular @ 9]
+TriggerPVCalculation @ 8 [PVCalculator: PVCalculatorTriangular @ 9]
 |
 TriangularPV @ 10
 |
@@ -84,7 +84,6 @@ SearchByDepthListener:
 	TriangularPV @ 24
 	RootMoveEvaluationCollection @ 26
 	TriangularPV @ 10
-	PVCalculatorTriangular @ 9
 
 SearchByWindowsListeners:
 	RootMoveEvaluationCollection @ 26
@@ -110,6 +109,7 @@ Acceptor:
 	EgtbEvaluation @ 14
 	RootMoveEvaluationTracker @ 7
 	RootMoveEvaluationCollection @ 26
+	TriggerPVCalculation @ 8
 	TriangularPV @ 10
 	PVCalculatorTriangular @ 9
 	AlphaBeta @ 3

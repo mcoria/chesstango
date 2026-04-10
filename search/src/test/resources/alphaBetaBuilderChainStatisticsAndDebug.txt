@@ -30,7 +30,7 @@ AlphaBeta @ 11
 |
 RootMoveEvaluationTracker @ 16
 |
-TranspositionPV @ 17 [PVCalculator: PVCalculatorDebug @ 18 -> PVCalculatorTransposition @ 19]
+TriggerPVCalculation @ 17 [PVCalculator: PVCalculatorDebug @ 18 -> PVCalculatorTransposition @ 19]
 |
 AlphaBetaFlowControl @ 20
 |
@@ -186,7 +186,6 @@ SearchByDepthListener:
 	NodeCounters @ 80
 	DepthCollector @ 82
 	RootMoveEvaluationCollection @ 85
-	PVCalculatorTransposition @ 19
 	SetDebugOutput @ 84
 
 SearchByWindowsListeners:
@@ -274,7 +273,7 @@ Acceptor:
 	DebugFilter @ 5
 	AlphaBetaRootNodeStatistics @ 6
 	TranspositionTableRoot @ 7
-	TranspositionPV @ 17
+	TriggerPVCalculation @ 17
 	PVCalculatorTransposition @ 19
 	PVCalculatorDebug @ 18
 	AlphaBeta @ 11

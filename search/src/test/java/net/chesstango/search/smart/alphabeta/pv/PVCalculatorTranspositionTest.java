@@ -73,26 +73,6 @@ public class PVCalculatorTranspositionTest {
         assertNull(pvCalculator.getPrincipalVariation());
     }
 
-    @Test
-    void test_beforeSearchByDepth() {
-        game = Game.from(FEN.START_POSITION);
-        pvCalculator.setGame(game);
-        pvCalculator.setDepth(2);
-
-        // Supongamos que se ejecutó walkPrincipalVariation
-        final long startZobrist = game.getPosition().getZobristHash();
-        final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
-        pvCalculator.setPrincipalVariation(List.of(new PrincipalVariation(startZobrist, startExecutedMove)));
-        pvCalculator.setPvComplete(true);
-
-        // Y continuamos con la siguiente profundidad
-        pvCalculator.beforeSearchByDepth();
-
-        // Entonces pvComplete debe ser false y PV null
-        assertFalse(pvCalculator.isPvComplete());
-        assertNull(pvCalculator.getPrincipalVariation());
-    }
-
 
     /**
      * Este es el test mas simple de todos.
@@ -105,7 +85,6 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.setGame(game);
         pvCalculator.setDepth(1);
         pvCalculator.beforeSearch();
-        pvCalculator.beforeSearchByDepth();
 
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", 10);
@@ -145,7 +124,6 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.setGame(game);
         pvCalculator.setDepth(2);
         pvCalculator.beforeSearch();
-        pvCalculator.beforeSearchByDepth();
 
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w KQkq d6 0 2", 10);
@@ -189,7 +167,6 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.setGame(game);
         pvCalculator.setDepth(3);
         pvCalculator.beforeSearch();
-        pvCalculator.beforeSearchByDepth();
 
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
@@ -233,7 +210,6 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.setGame(game);
         pvCalculator.setDepth(1);
         pvCalculator.beforeSearch();
-        pvCalculator.beforeSearchByDepth();
 
         evaluator.setGame(game);
 

@@ -29,10 +29,9 @@ import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMove
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularTriggerPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
@@ -142,13 +141,10 @@ public interface Visitor {
     default void visit(RootMoveEvaluationCollection oveEvaluations) {
     }
 
-    default void visit(TranspositionPV transpositionPV) {
+    default void visit(TriggerPVCalculation triggerPVCalculation) {
     }
 
     default void visit(TriangularPV triangularPV) {
-    }
-
-    default void visit(TriangularTriggerPV triangularTriggerPV) {
     }
 
     default void visit(AlphaBetaFlowControl alphaBetaFlowControl) {

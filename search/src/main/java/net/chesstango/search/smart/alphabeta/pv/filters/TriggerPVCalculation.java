@@ -15,7 +15,7 @@ import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
  */
 @Setter
 @Getter
-public class TranspositionPV implements AlphaBetaFilter {
+public class TriggerPVCalculation implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
@@ -45,7 +45,6 @@ public class TranspositionPV implements AlphaBetaFilter {
      * Decodes move/value; reads principal variation if within alpha-beta window
      */
     protected long process(int alpha, int beta, long moveAndValue) {
-        final short currentMove = AlphaBetaHelper.decodeMove(moveAndValue);
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
