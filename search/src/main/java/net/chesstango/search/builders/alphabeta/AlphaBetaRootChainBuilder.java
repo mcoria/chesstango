@@ -43,7 +43,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
     private TriggerPVCalculation triggerPVCalculation;
-    private SearchListenerMediator searchListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
@@ -115,17 +114,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaFilter build() {
-        buildObjects();
 
-        setupListenerMediator();
-
-        alphaBeta.setMoveSorter(moveSorterRootBuilder.build());
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected  void buildObjects() {
         moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
 
         if (withAspirationWindows) {
@@ -182,7 +173,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     }
 
 
-    private void setupListenerMediator() {
+    @Override
+    protected  void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
         searchListenerMediator.add(moveEvaluations);
 
@@ -233,8 +225,13 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         searchListenerMediator.add(alphaBeta);
     }
 
+    @Override
+    protected void linkObjects() {
+        alphaBeta.setMoveSorter(moveSorterRootBuilder.build());
+    }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (stopProcessingCatch != null) {

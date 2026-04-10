@@ -26,7 +26,6 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
-    private SearchListenerMediator searchListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -73,18 +72,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-
-    public AlphaBetaFilter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        alphaBeta.setMoveSorter(moveSorterBuilder.build());
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected  void buildObjects() {
         if (withStatistics) {
             alphaBetaNodeStatistics = new AlphaBetaInteriorNodeVisited();
         }
@@ -102,7 +91,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected  void setupListenerMediator() {
         if (withStatistics) {
             searchListenerMediator.add(alphaBetaNodeStatistics);
         }
@@ -121,7 +111,13 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         searchListenerMediator.add(alphaBeta);
     }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected void linkObjects() {
+        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+    }
+
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugFilter != null) {

@@ -32,7 +32,6 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
     private KillerMoveTracker killerMoveTracker;
-    private SearchListenerMediator searchListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -110,18 +109,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-
-    public AlphaBetaFilter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        alphaBeta.setMoveSorter(moveSorterBuilder.build());
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected void buildObjects() {
         if (withStatistics) {
             alphaBetaInteriorNodeVisited = new AlphaBetaInteriorNodeVisited();
             alphaBetaInteriorNodeExpected = new AlphaBetaInteriorNodeExpected();
@@ -143,7 +132,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected void setupListenerMediator() {
         if (alphaBetaInteriorNodeVisited != null) {
             searchListenerMediator.add(alphaBetaInteriorNodeVisited);
         }
@@ -166,11 +156,16 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(killerMoveTracker);
         }
 
-
         searchListenerMediator.add(alphaBeta);
     }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected void linkObjects() {
+        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+    }
+
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugFilter != null) {

@@ -21,7 +21,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics;
     private DebugFilter debugSearchTree;
-    private SearchListenerMediator searchListenerMediator;
 
     /**
      * TranspositionTableLeaf escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
@@ -58,18 +57,8 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     }
 
 
-    /**
-     * @return
-     */
-    public AlphaBetaFilter build() {
-        buildObjects();
-
-        setupListenerMediator();
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected  void buildObjects() {
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -83,7 +72,8 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected  void setupListenerMediator() {
         searchListenerMediator.add(leaf);
 
         if (zobristTracker != null) {
@@ -99,7 +89,13 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected void linkObjects() {
+
+    }
+
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugSearchTree != null) {

@@ -19,7 +19,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
     private DebugFilter debugFilter;
-    private SearchListenerMediator searchListenerMediator;
 
 
     /**
@@ -56,18 +55,9 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    /**
-     * @return
-     */
-    public AlphaBetaFilter build() {
-        buildObjects();
 
-        setupListenerMediator();
-
-        return createChain();
-    }
-
-    private void buildObjects() {
+    @Override
+    protected  void buildObjects() {
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -81,7 +71,8 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private void setupListenerMediator() {
+    @Override
+    protected  void setupListenerMediator() {
         searchListenerMediator.add(alphaBetaEvaluation);
         if (zobristTracker != null) {
             searchListenerMediator.add(zobristTracker);
@@ -94,7 +85,12 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         }
     }
 
-    private AlphaBetaFilter createChain() {
+    @Override
+    protected void linkObjects() {
+    }
+
+    @Override
+    protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugFilter != null) {
