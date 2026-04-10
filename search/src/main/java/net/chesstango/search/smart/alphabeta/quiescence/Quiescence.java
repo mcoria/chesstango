@@ -27,6 +27,9 @@ public class Quiescence implements AlphaBetaFilter {
     @Getter
     private Evaluator evaluator;
 
+    @Setter
+    private Move[] bestMoves;
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -35,7 +38,7 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        Move bestMove = null;
+        bestMoves[currentPly] = null;
         int maxValue = evaluator.evaluate();
         if (maxValue >= beta) {
             return AlphaBetaHelper.encode(maxValue);
@@ -52,7 +55,7 @@ public class Quiescence implements AlphaBetaFilter {
                 int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
-                    bestMove = move;
+                    bestMoves[currentPly] = move;
                     if (maxValue >= beta) {
                         search = false;
                     } else if (maxValue == Evaluator.WHITE_WON) {
@@ -63,13 +66,13 @@ public class Quiescence implements AlphaBetaFilter {
                 move.undoMove();
             }
         }
-        return AlphaBetaHelper.encode(bestMove, maxValue);
+        return AlphaBetaHelper.encode(bestMoves[currentPly], maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        Move bestMove = null;
+        bestMoves[currentPly] = null;
         int minValue = evaluator.evaluate();
         if (minValue <= alpha) {
             return AlphaBetaHelper.encode(minValue);
@@ -86,7 +89,7 @@ public class Quiescence implements AlphaBetaFilter {
                 int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue < minValue) {
                     minValue = currentValue;
-                    bestMove = move;
+                    bestMoves[currentPly] = move;
                     if (minValue <= alpha) {
                         search = false;
                     } else if (minValue == Evaluator.BLACK_WON) {
@@ -97,8 +100,7 @@ public class Quiescence implements AlphaBetaFilter {
                 move.undoMove();
             }
         }
-        return AlphaBetaHelper.encode(bestMove, minValue);
+        return AlphaBetaHelper.encode(bestMoves[currentPly], minValue);
     }
-
 
 }
