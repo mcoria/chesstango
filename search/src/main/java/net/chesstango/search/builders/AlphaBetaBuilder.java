@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
@@ -14,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.alphabeta.core.visitors.LinkBestMovesArray;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
@@ -249,16 +251,16 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         setupListenerMediatorBeforeChain();
 
-        alphaBetaFacade.setAlphaBetaFilter(createChain());
+        link();
 
         setupListenerMediatorAfterChain();
-
-        link();
 
         return search;
     }
 
     private void link() {
+        alphaBetaFacade.setAlphaBetaFilter(createChain());
+
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
@@ -275,6 +277,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+
+        searchListenerMediator.accept(new LinkBestMovesArray(new Move[40]));
 
         evaluationBuilder.link();
     }

@@ -25,6 +25,9 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Getter
     private MoveSorter moveSorter;
 
+    @Setter
+    private Move[] bestMoves;
+
     protected Game game;
 
     @Override
@@ -35,7 +38,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        Move bestMove = null;
+        bestMoves[currentPly] = null;
         int maxValue = Evaluator.INFINITE_NEGATIVE;
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
@@ -48,7 +51,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
             if (currentValue > maxValue) {
                 maxValue = currentValue;
-                bestMove = move;
+                bestMoves[currentPly] = move;
                 if (maxValue >= beta) {
                     search = false;
                 } else if (maxValue == Evaluator.WHITE_WON) {
@@ -57,13 +60,14 @@ public class AlphaBeta implements AlphaBetaFilter {
             }
             move.undoMove();
         }
-        return AlphaBetaHelper.encode(bestMove, maxValue);
+
+        return AlphaBetaHelper.encode(bestMoves[currentPly], maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        Move bestMove = null;
+        bestMoves[currentPly] = null;
         int minValue = Evaluator.INFINITE_POSITIVE;
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
@@ -76,7 +80,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
             if (currentValue < minValue) {
                 minValue = currentValue;
-                bestMove = move;
+                bestMoves[currentPly]  = move;
                 if (minValue <= alpha) {
                     search = false;
                 } else if (minValue == Evaluator.BLACK_WON) {
@@ -85,7 +89,8 @@ public class AlphaBeta implements AlphaBetaFilter {
             }
             move.undoMove();
         }
-        return AlphaBetaHelper.encode(bestMove, minValue);
+
+        return AlphaBetaHelper.encode(bestMoves[currentPly] , minValue);
     }
 
 }

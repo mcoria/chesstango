@@ -61,7 +61,6 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
      * Decodes move/value; reads principal variation if within alpha-beta window
      */
     protected long process(int currentPly, int alpha, int beta, long moveAndValue) {
-        final short currentMove = AlphaBetaHelper.decodeMove(moveAndValue);
         final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
