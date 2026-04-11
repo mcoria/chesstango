@@ -8,7 +8,6 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 import java.util.Objects;
 

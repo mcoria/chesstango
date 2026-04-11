@@ -3,7 +3,6 @@ package net.chesstango.search;
 import net.chesstango.board.moves.Move;
 
 import java.io.Serializable;
-import java.util.HexFormat;
 
 /**
  * Represents an entry in the Principal Variation (PV) line of a chess game.

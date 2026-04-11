@@ -6,8 +6,6 @@ import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLeafNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableLeaf;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;

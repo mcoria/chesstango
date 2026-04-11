@@ -2,11 +2,11 @@ package net.chesstango.search.smart.alphabeta.evaluator.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
+import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 
 /**
  * @author Mauricio Coria

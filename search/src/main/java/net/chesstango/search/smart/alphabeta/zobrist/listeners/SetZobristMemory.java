@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.alphabeta.zobrist.listeners;
 
 import lombok.Setter;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;

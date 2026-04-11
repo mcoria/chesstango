@@ -1,6 +1,5 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;

@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.debug.listeners;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;

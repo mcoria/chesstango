@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 

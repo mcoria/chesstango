@@ -11,7 +11,6 @@ import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
@@ -25,6 +24,7 @@ import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVi
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.visitors.LinkTrianglePVVisitor;
+import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;

@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
 import java.util.ArrayList;
