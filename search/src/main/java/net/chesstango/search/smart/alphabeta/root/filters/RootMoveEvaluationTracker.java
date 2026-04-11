@@ -55,7 +55,8 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter {
         Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCollection.get(currentMove);
 
         if (moveEvaluation.isPresent()) {
-            return AlphaBetaHelper.encode(moveEvaluation.get().move(), moveEvaluation.get().evaluation());
+            RootMoveEvaluation rootMoveEvaluation = moveEvaluation.get();
+            return AlphaBetaHelper.encode(rootMoveEvaluation.move(), rootMoveEvaluation.evaluation());
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);

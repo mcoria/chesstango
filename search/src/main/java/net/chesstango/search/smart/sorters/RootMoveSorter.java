@@ -44,7 +44,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
             return next.getOrderedMoves(currentPly);
         } else {
 
-            // Una vez ejecutadas la busqueda DEPTH N-1, la busqueda en DEPTH N debe debieara:
+            // Una vez ejecutadas la busqueda DEPTH N-1, la busqueda en DEPTH N:
 
             if (lastRootMoveEvaluations.size() != numberOfMove) {
                 throw new RuntimeException("Not all move were explorer during last iteration");

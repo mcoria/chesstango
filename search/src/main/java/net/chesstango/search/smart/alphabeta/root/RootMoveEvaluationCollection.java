@@ -24,6 +24,7 @@ import java.util.Optional;
 public class RootMoveEvaluationCollection implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
 
     private final List<RootMoveEvaluation> rootMoveEvaluations;
+
     private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
     private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
 
@@ -35,7 +36,6 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
 
     private boolean maximize;
 
-    private int numberOfMove;
 
     public RootMoveEvaluationCollection() {
         rootMoveEvaluations = new LinkedList<>();
@@ -53,7 +53,6 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
         rootMoveEvaluations.clear();
         bestRootMoveEvaluation = null;
         maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
-        numberOfMove = game.getPossibleMoves().size();
     }
 
     @Override
@@ -62,15 +61,15 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
     }
 
     @Override
-    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+    public void beforeSearchByWindows(int alpha, int beta, int searchByWindowsCycle) {
         if (searchByWindowsCycle > 0) {
             /**
              * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
              * Dejo resultado exactos dado que no es necesario volver a explorarlos.
              * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
              */
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alphaBound <= moveEvaluation.evaluation());
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= betaBound);
+            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alpha <= moveEvaluation.evaluation());
+            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= beta);
         }
     }
 
