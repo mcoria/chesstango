@@ -97,6 +97,11 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         return this;
     }
 
+    @Override
+    public SearchBuilder withTranspositionTable(int hashSize) {
+        return null;
+    }
+
     public BottomMoveCounterBuilder withGameEvaluatorCache() {
         withGameEvaluatorCache = true;
         return this;

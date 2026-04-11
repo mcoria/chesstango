@@ -32,7 +32,7 @@ public class TTableArrayLoad {
     @Setup(Level.Trial)
     public void setUp() {
         random = new Random();
-        tTable = new TTableArrayPrimitives();
+        tTable = new TTableArrayPrimitives(1024);
         //tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transposition = new TranspositionEntry();

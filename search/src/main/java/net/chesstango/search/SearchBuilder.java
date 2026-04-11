@@ -38,6 +38,9 @@ public interface SearchBuilder<T extends SearchBuilder<T>> {
      */
     T withGameEvaluator(Evaluator evaluator);
 
+
+    T withTranspositionTable(int hashSize);
+
     /**
      * Constructs and returns the configured Search instance.
      * <p>

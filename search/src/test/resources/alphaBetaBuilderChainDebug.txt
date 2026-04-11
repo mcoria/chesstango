@@ -177,17 +177,19 @@ Acceptor:
 	EvaluatorCacheListener @ 61
 	EvaluatorCacheDebug @ 44
 	TTListener @ 62
+	TTableArrayPrimitives @ 8
+	TTableArrayPrimitives @ 69
 	TTableDebug @ 7
-	TTableDebug @ 69
-	TTableDebug @ 37
 	TTableDebug @ 70
-	SetGameToEndGameTableBase @ 71
+	TTableDebug @ 37
+	TTableDebug @ 71
+	SetGameToEndGameTableBase @ 72
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 63
 	AlphaBetaFlowControl @ 18
 	SetSearchTracker @ 64
 	SetKillerMoveTablesDebug @ 65
-	KillerMovesDebug @ 72
+	KillerMovesDebug @ 73
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 19
 	AlphaBetaEvaluation @ 29
@@ -210,7 +212,7 @@ Acceptor:
 	EgtbEvaluation @ 24
 	TranspositionTableQ @ 49
 	DebugFilter @ 48
-	EvaluatorDebug @ 73
+	EvaluatorDebug @ 74
 	Quiescence @ 50
 	NodeMoveSorter @ 52
 	TranspositionHeadMoveComparator @ 54

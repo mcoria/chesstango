@@ -15,10 +15,10 @@ import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
  *
  * @author Mauricio Coria
  */
-public class SetEndGameTableBaseVisitor implements Visitor {
+public class LinkEndGameTableBaseVisitor implements Visitor {
     private final EndGameTableBase endGameTableBase;
 
-    public SetEndGameTableBaseVisitor(EndGameTableBase endGameTableBase) {
+    public LinkEndGameTableBaseVisitor(EndGameTableBase endGameTableBase) {
         this.endGameTableBase = endGameTableBase;
     }
 

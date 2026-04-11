@@ -130,6 +130,7 @@ public class UciTangoTest {
             assertEquals("id author Mauricio Coria", in.readLine());
             assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
             assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
+            assertEquals("option name Hash type spin default 32 minValue 1 maxValue 64", in.readLine());
             assertEquals("uciok", in.readLine());
             assertEquals(ReadyState.class, engine.getCurrentState().getClass());
 

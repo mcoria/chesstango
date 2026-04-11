@@ -20,7 +20,7 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.visitors.LinkTrianglePVVisitor;
@@ -29,6 +29,7 @@ import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.smart.sorters.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
@@ -153,13 +154,17 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    public AlphaBetaBuilder withTranspositionTable() {
-        withTranspositionTable = true;
+    @Override
+    public AlphaBetaBuilder withTranspositionTable(int hashSize) {
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
+
+        transpositionTableBuilder.withTranspositionTableSize(hashSize);
+
+        withTranspositionTable = true;
         return this;
     }
 
@@ -262,7 +267,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaFacade.setAlphaBetaFilter(createChain());
 
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
-        searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
+        searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
@@ -419,7 +424,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
                 .withQuiescence()
 
-                .withTranspositionTable()
+                .withTranspositionTable(TTableArrayPrimitives.DEFAULT_HASH_SIZE_KB)
                 .withTranspositionMoveSorter()
 
                 .withKillerMoveSorter()

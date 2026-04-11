@@ -70,6 +70,11 @@ class SearchManager implements TangoOptions {
         currentSearchManagerState.setSyzygyPath(syzygyPath);
     }
 
+    @Override
+    public void setHashSize(int hashSize) {
+        currentSearchManagerState.setHashSize(hashSize);
+    }
+
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
         log.trace("Changing state from {} to {}", this.currentSearchManagerState != null ? this.currentSearchManagerState.getClass().getSimpleName() : "-", currentSearchManagerState.getClass().getSimpleName());
         this.currentSearchManagerState = currentSearchManagerState;

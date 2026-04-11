@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 public enum UciOption {
     SYZYGY_PATH("SyzygyPath"),
-    POLYGLOT_FILE("PolyglotFile");
+    POLYGLOT_FILE("PolyglotFile"),
+    HASH_SIZE("Hash");
 
     private final String id;
 

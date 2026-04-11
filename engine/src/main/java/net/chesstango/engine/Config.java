@@ -25,10 +25,15 @@ public class Config {
 
     private String syzygyPath;
 
+    private Integer hashSize;
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Config config)) return false;
-        return Objects.equals(syncSearch, config.syncSearch) && Objects.equals(polyglotFile, config.polyglotFile) && Objects.equals(syzygyPath, config.syzygyPath);
+        return Objects.equals(syncSearch, config.syncSearch)
+                && Objects.equals(polyglotFile, config.polyglotFile)
+                && Objects.equals(syzygyPath, config.syzygyPath)
+                && Objects.equals(hashSize, config.hashSize);
     }
 
     @Override

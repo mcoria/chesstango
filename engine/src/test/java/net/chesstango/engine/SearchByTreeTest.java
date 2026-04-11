@@ -3,7 +3,9 @@ package net.chesstango.engine;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
-import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.SearchBuilder;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +26,9 @@ public class SearchByTreeTest {
     private TangoFactory tangoFactory;
 
     @Mock
+    private SearchBuilder searchBuilder;
+
+    @Mock
     private Search search;
 
     @Mock
@@ -40,11 +45,13 @@ public class SearchByTreeTest {
 
     @Test
     public void test_noOptions() {
-        when(tangoFactory.createSearch()).thenReturn(search);
+        when(tangoFactory.createSearchBuilder()).thenReturn(searchBuilder);
+        when(searchBuilder.build()).thenReturn(search);
 
         SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
 
-        verify(tangoFactory).createSearch();
+        verify(tangoFactory).createSearchBuilder();
+        verify(searchBuilder).build();
 
         assertEquals(search, searchByTree.getSearch());
     }
@@ -66,26 +73,48 @@ public class SearchByTreeTest {
     public void test_withEvaluator() {
         config.setEvaluator(evaluator);
 
-        when(tangoFactory.createSearch(any(Evaluator.class))).thenReturn(search);
+        when(tangoFactory.createSearchBuilder()).thenReturn(searchBuilder);
+        when(searchBuilder.withGameEvaluator(any(Evaluator.class))).thenReturn(searchBuilder);
+        when(searchBuilder.build()).thenReturn(search);
 
         SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
 
-        verify(tangoFactory).createSearch(eq(evaluator));
+        verify(tangoFactory).createSearchBuilder();
+        verify(searchBuilder).withGameEvaluator(evaluator);
+        verify(searchBuilder).build();
 
         assertEquals(search, searchByTree.getSearch());
     }
 
     @Test
     public void test_setSyzygy() {
-        when(tangoFactory.createSearch()).thenReturn(search);
+        when(tangoFactory.createSearchBuilder()).thenReturn(searchBuilder);
+        when(searchBuilder.build()).thenReturn(search);
 
         SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
 
         searchByTree.setSyzygy(syzygy);
 
-        verify(tangoFactory).createSearch();
+        verify(tangoFactory).createSearchBuilder();
+        verify(searchBuilder).build();
         verify(tangoFactory).createSyzygyTableBaseAdapter(eq(syzygy));
-        verify(search).accept(any(SetEndGameTableBaseVisitor.class));
+        verify(search).accept(any(LinkEndGameTableBaseVisitor.class));
+
+        assertEquals(search, searchByTree.getSearch());
+    }
+
+    @Test
+    public void test_setHashSize() {
+        when(tangoFactory.createSearchBuilder()).thenReturn(searchBuilder);
+        when(searchBuilder.build()).thenReturn(search);
+
+        SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
+
+        searchByTree.setHashSize(64);
+
+        verify(tangoFactory).createSearchBuilder();
+        verify(searchBuilder).build();
+        verify(search).accept(any(SetTTableHashSizeVisitor.class));
 
         assertEquals(search, searchByTree.getSearch());
     }

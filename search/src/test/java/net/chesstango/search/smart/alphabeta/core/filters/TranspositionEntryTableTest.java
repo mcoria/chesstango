@@ -122,7 +122,7 @@ public class TranspositionEntryTableTest {
     private Search createSearchWithTT() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorImp04())
-                .withTranspositionTable()
+                .withTranspositionTable(1024)
                 .withTranspositionMoveSorter()
                 .build();
     }

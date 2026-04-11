@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import net.chesstango.search.visitors.SetSearchPredicateVisitor;
@@ -28,11 +30,14 @@ class SearchByTree implements SearchByChain {
     SearchByTree(TangoFactory tangoFactory, Config config) {
         this.tangoFactory = tangoFactory;
         if (config.getSearch() == null) {
+            SearchBuilder<?> searchBuilder = tangoFactory.createSearchBuilder();
             if (config.getEvaluator() != null) {
-                search = tangoFactory.createSearch(config.getEvaluator());
-            } else {
-                search = tangoFactory.createSearch();
+                searchBuilder.withGameEvaluator(config.getEvaluator());
             }
+            if (config.getHashSize() != null) {
+                searchBuilder.withTranspositionTable(config.getHashSize());
+            }
+            search = searchBuilder.build();
         } else {
             search = config.getSearch();
         }
@@ -71,6 +76,15 @@ class SearchByTree implements SearchByChain {
 
     void setSyzygy(Syzygy syzygy) {
         EndGameTableBase egtb = tangoFactory.createSyzygyTableBaseAdapter(syzygy);
-        search.accept(new SetEndGameTableBaseVisitor(egtb));
+        search.accept(new LinkEndGameTableBaseVisitor(egtb));
+    }
+
+    /**
+     *
+     * @param hashSize in megabytes
+     */
+    void setHashSize(int hashSize) {
+        // Dado que son 2 tablas y el parametro es en KB ...
+        search.accept(new SetTTableHashSizeVisitor(hashSize * 1024 / 2));
     }
 }

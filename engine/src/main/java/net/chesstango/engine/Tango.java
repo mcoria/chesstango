@@ -10,7 +10,7 @@ import java.util.Properties;
  * @author Mauricio Corial
  */
 @Slf4j
-public class Tango implements AutoCloseable, TangoOptions {
+public class Tango implements TangoOptions, AutoCloseable {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
     public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
@@ -56,6 +56,11 @@ public class Tango implements AutoCloseable, TangoOptions {
     @Override
     public void setSyzygyPath(String syzygyPath) {
         searchManager.setSyzygyPath(syzygyPath);
+    }
+
+    @Override
+    public void setHashSize(int hashSize) {
+        searchManager.setHashSize(hashSize);
     }
 
     @Override
