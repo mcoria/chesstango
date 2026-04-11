@@ -6,7 +6,6 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 
 /**

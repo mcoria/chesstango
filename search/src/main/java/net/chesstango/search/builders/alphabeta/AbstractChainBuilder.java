@@ -1,13 +1,12 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.search.builders.sorters.AbstractMoveSorterBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -15,7 +14,6 @@ import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
-import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.List;
 

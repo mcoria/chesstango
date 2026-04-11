@@ -7,8 +7,8 @@ import net.chesstango.search.Acceptor;
  */
 public interface AlphaBetaFilter extends Acceptor {
 
-    long maximize(final int currentPly, final int alpha, final int beta);
+    int maximize(final int currentPly, final int alpha, final int beta);
 
-    long minimize(final int currentPly, final int alpha, final int beta);
+    int minimize(final int currentPly, final int alpha, final int beta);
 
 }

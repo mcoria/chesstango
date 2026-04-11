@@ -7,7 +7,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria
@@ -38,36 +37,35 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         cleanNextWorkingArray(currentPly);
 
-        long moveAndValue = next.maximize(currentPly, alpha, beta);
+        int value = next.maximize(currentPly, alpha, beta);
 
-        return process(currentPly, alpha, beta, moveAndValue);
+        return process(currentPly, alpha, beta, value);
     }
 
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         cleanNextWorkingArray(currentPly);
 
-        long moveAndValue = next.minimize(currentPly, alpha, beta);
+        int value = next.minimize(currentPly, alpha, beta);
 
-        return process(currentPly, alpha, beta, moveAndValue);
+        return process(currentPly, alpha, beta, value);
     }
 
 
     /**
      * Decodes move/value; reads principal variation if within alpha-beta window
      */
-    protected long process(int currentPly, int alpha, int beta, long moveAndValue) {
-        final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
+    protected int process(int currentPly, int alpha, int beta, int currentValue) {
 
         if (alpha < currentValue && currentValue < beta) {
             updatePVTable(currentPly);
         }
 
-        return moveAndValue;
+        return currentValue;
     }
 
     void updatePVTable(int currentPly) {

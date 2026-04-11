@@ -17,12 +17,12 @@ public class QuiescenceNull implements AlphaBetaFilter {
     }
 
     @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
+    public int minimize(final int currentPly, final int alpha, final int beta) {
         return evaluator.evaluate();
     }
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
+    public int maximize(final int currentPly, final int alpha, final int beta) {
         return evaluator.evaluate();
     }
 

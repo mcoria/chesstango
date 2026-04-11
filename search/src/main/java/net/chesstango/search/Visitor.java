@@ -3,8 +3,6 @@ package net.chesstango.search;
 import net.chesstango.search.dummy.Dummy;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.root.filters.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
@@ -26,18 +24,17 @@ import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveC
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
+import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
-import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.root.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
@@ -62,10 +59,9 @@ import net.chesstango.search.smart.sorters.NodeGroupSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
 import net.chesstango.search.smart.sorters.groupsorters.NoQuietBifurcation;
-import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllNullGroup;
 
 /**
  * @author Mauricio Coria

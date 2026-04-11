@@ -6,7 +6,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
@@ -36,12 +35,12 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
+    public int maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
         int maxValue = evaluator.evaluate();
         if (maxValue >= beta) {
-            return AlphaBetaHelper.encode(maxValue);
+            return maxValue;
         }
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
@@ -51,8 +50,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (!move.isQuiet()) {
                 move.executeMove();
 
-                long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
-                int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+                int currentValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMoves[currentPly] = move;
@@ -66,16 +64,16 @@ public class Quiescence implements AlphaBetaFilter {
                 move.undoMove();
             }
         }
-        return AlphaBetaHelper.encode(bestMoves[currentPly], maxValue);
+        return maxValue;
     }
 
     @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
+    public int minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
         int minValue = evaluator.evaluate();
         if (minValue <= alpha) {
-            return AlphaBetaHelper.encode(minValue);
+            return minValue;
         }
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
@@ -85,8 +83,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (!move.isQuiet()) {
                 move.executeMove();
 
-                long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-                int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+                int currentValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
                 if (currentValue < minValue) {
                     minValue = currentValue;
                     bestMoves[currentPly] = move;
@@ -100,7 +97,7 @@ public class Quiescence implements AlphaBetaFilter {
                 move.undoMove();
             }
         }
-        return AlphaBetaHelper.encode(bestMoves[currentPly], minValue);
+        return minValue;
     }
 
 }

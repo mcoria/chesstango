@@ -14,7 +14,6 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 
 /**
@@ -82,7 +81,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, SearchByCycleLi
     protected int targetMoveEvaluation(final AlphaBetaFunction alphaBetaFn) {
         targetMove.executeMove();
         long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        int currentValue = 0;//AlphaBetaHelper.decodeValue(bestMoveAndValue);
         targetMove.undoMove();
         return currentValue;
     }
@@ -92,7 +91,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, SearchByCycleLi
             if (!move.equals(targetMove)) {
                 move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
-                int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+                int currentValue = 0;//AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.bottomMoveCounter++;
                 }
@@ -106,7 +105,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, SearchByCycleLi
             if (!move.equals(targetMove)) {
                 move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
-                int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+                int currentValue = 0;//AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
                     this.bottomMoveCounter++;
                 }

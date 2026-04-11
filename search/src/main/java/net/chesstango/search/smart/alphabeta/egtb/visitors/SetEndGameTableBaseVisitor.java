@@ -5,9 +5,9 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
+import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 

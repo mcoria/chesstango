@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -22,6 +21,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     private Game game;
 
     private TTable maxMap;
+
     private TTable minMap;
 
     private int depth;
@@ -37,7 +37,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     protected abstract boolean isTranspositionEntryValid(int draft);
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
+    public int maximize(final int currentPly, final int alpha, final int beta) {
         int draft = depth - currentPly;
 
         long hash = game.getPosition().getZobristHash();
@@ -47,27 +47,27 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
             if (entryWorkspace.getBound() == EXACT) {
-                return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
+                return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
-                return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
+                return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
-                return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
+                return entryWorkspace.getValue();
             }
         }
 
-        long moveAndValue = next.maximize(currentPly, alpha, beta);
+        int value = next.maximize(currentPly, alpha, beta);
 
         /**
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(maxMap, hash, currentPly, draft, alpha, beta, moveAndValue);
+        writeTransposition(maxMap, hash, currentPly, draft, alpha, beta, value);
 
-        return moveAndValue;
+        return value;
     }
 
     @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
+    public int minimize(final int currentPly, final int alpha, final int beta) {
         int draft = depth - currentPly;
 
         long hash = game.getPosition().getZobristHash();
@@ -77,28 +77,27 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
             if (entryWorkspace.getBound() == EXACT) {
-                return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
+                return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
-                return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
+                return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
-                return AlphaBetaHelper.encode(entryWorkspace.getMove(), entryWorkspace.getValue());
+                return entryWorkspace.getValue();
             }
         }
 
-        long moveAndValue = next.minimize(currentPly, alpha, beta);
+        int value = next.minimize(currentPly, alpha, beta);
 
         /**
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(minMap, hash, currentPly, draft, alpha, beta, moveAndValue);
+        writeTransposition(minMap, hash, currentPly, draft, alpha, beta, value);
 
-        return moveAndValue;
+        return value;
     }
 
-    private void writeTransposition(TTable table, long hash, int currentPly, int draft, int alpha, int beta, long moveAndValue) {
+    private void writeTransposition(TTable table, long hash, int currentPly, int draft, int alpha, int beta, int value) {
         short move = bestMoves[currentPly] != null ? bestMoves[currentPly].binaryEncoding() : 0;
-        int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         entryWorkspace.setHash(hash);
         entryWorkspace.setDraft((byte) draft);

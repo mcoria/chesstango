@@ -47,7 +47,7 @@ public class RootMoveEvaluationTrackerTest {
     public void test_process01() {
         AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
         when(fn.search(0, -500, 500))
-                .thenReturn(AlphaBetaHelper.encode(-1000));
+                .thenReturn(-1000);
         when(moveEvaluations.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);
@@ -66,7 +66,7 @@ public class RootMoveEvaluationTrackerTest {
     public void test_process02() {
         AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
         when(fn.search(0, -500, 500))
-                .thenReturn(AlphaBetaHelper.encode(1000));
+                .thenReturn(1000);
         when(moveEvaluations.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);

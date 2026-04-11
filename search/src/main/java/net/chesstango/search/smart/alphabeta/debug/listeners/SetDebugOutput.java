@@ -4,7 +4,6 @@ import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;

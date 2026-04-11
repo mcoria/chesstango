@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
-import net.chesstango.search.Bound;
 
 import java.util.ArrayList;
 import java.util.HashMap;

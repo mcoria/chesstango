@@ -30,16 +30,16 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::maximize, true);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::minimize, false);
     }
 
-    private long process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean maximize) {
+    private int process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean maximize) {
         final long startHash = game.getPosition().getZobristHash();
 
         try {

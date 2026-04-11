@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
@@ -36,7 +35,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
+    public int maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
         int maxValue = Evaluator.INFINITE_NEGATIVE;
@@ -47,8 +46,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             Move move = moveIterator.next();
             move.executeMove();
 
-            long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
-            int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+            int currentValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
             if (currentValue > maxValue) {
                 maxValue = currentValue;
                 bestMoves[currentPly] = move;
@@ -61,11 +59,11 @@ public class AlphaBeta implements AlphaBetaFilter {
             move.undoMove();
         }
 
-        return AlphaBetaHelper.encode(bestMoves[currentPly], maxValue);
+        return maxValue;
     }
 
     @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
+    public int minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
         int minValue = Evaluator.INFINITE_POSITIVE;
@@ -76,8 +74,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             Move move = moveIterator.next();
             move.executeMove();
 
-            long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-            int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+            int currentValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
             if (currentValue < minValue) {
                 minValue = currentValue;
                 bestMoves[currentPly]  = move;
@@ -90,7 +87,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             move.undoMove();
         }
 
-        return AlphaBetaHelper.encode(bestMoves[currentPly] , minValue);
+        return minValue;
     }
 
 }
