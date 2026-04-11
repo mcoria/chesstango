@@ -6,9 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
 import static net.chesstango.search.Bound.EXACT;
@@ -47,30 +45,29 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
 
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
-        long moveAndValue = next.maximize(currentPly, alpha, beta);
+    public int maximize(final int currentPly, final int alpha, final int beta) {
+        int value = next.maximize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
 
-        saveEntry(maxMap, hash, alpha, beta, moveAndValue);
+        saveEntry(maxMap, hash, alpha, beta, value);
 
-        return moveAndValue;
+        return value;
     }
 
     @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
-        long moveAndValue = next.minimize(currentPly, alpha, beta);
+    public int minimize(final int currentPly, final int alpha, final int beta) {
+        int value = next.minimize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
 
-        saveEntry(minMap, hash, alpha, beta, moveAndValue);
+        saveEntry(minMap, hash, alpha, beta, value);
 
-        return moveAndValue;
+        return value;
     }
 
-    protected void saveEntry(TTable table, long hash, int alpha, int beta, long moveAndValue) {
+    protected void saveEntry(TTable table, long hash, int alpha, int beta, int value) {
         short move = bestMoves[0] != null ? bestMoves[0].binaryEncoding() : 0;
-        int value = AlphaBetaHelper.decodeValue(moveAndValue);
         //TranspositionBound bound;
         if (beta <= value) {
             //bound = LOWER_BOUND;

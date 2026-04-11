@@ -26,13 +26,13 @@ public class AlphaBetaQuiescenceNodeVisited implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
+    public int maximize(final int currentPly, final int alpha, final int beta) {
         updateCounters(currentPly);
         return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
+    public int minimize(final int currentPly, final int alpha, final int beta) {
         updateCounters(currentPly);
         return next.minimize(currentPly, alpha, beta);
     }

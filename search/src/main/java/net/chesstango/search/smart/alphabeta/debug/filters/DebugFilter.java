@@ -32,12 +32,10 @@ public class DebugFilter implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         DebugNode debugNode = createDebugNode("MAX", currentPly, alpha, beta);
 
-        long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        int currentValue = next.maximize(currentPly, alpha, beta);
 
         debugNode.setValue(currentValue);
 
@@ -51,17 +49,15 @@ public class DebugFilter implements AlphaBetaFilter {
 
         searchTracker.save();
 
-        return bestMoveAndValue;
+        return currentValue;
     }
 
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         DebugNode debugNode = createDebugNode("MIN", currentPly, alpha, beta);
 
-        long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        int currentValue = next.minimize(currentPly, alpha, beta);
 
         debugNode.setValue(currentValue);
 
@@ -75,7 +71,7 @@ public class DebugFilter implements AlphaBetaFilter {
 
         searchTracker.save();
 
-        return bestMoveAndValue;
+        return currentValue;
     }
 
     private DebugNode createDebugNode(String fnString, int currentPly, int alpha, int beta) {

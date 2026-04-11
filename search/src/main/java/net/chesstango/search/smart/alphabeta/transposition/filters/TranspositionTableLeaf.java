@@ -5,9 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
 import static net.chesstango.search.Bound.EXACT;
@@ -27,8 +25,9 @@ import static net.chesstango.search.Bound.EXACT;
  * <p>
  * This filter ensures that terminal positions can be quickly retrieved in future searches without
  * re-evaluation, improving search efficiency.
- *
+ * <p>
  * ESCRIBE DEMASIADO EN TT
+ *
  * @author Mauricio Coria
  */
 @Setter
@@ -56,7 +55,7 @@ public class TranspositionTableLeaf implements AlphaBetaFilter {
 
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
@@ -65,16 +64,17 @@ public class TranspositionTableLeaf implements AlphaBetaFilter {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft((byte) 0);
-            entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
-            entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
+            //entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
+            //entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             maxMap.save(entryWorkspace);
         }
 
-        return bestMoveAndValue;
+        //return bestMoveAndValue;
+        return 0;
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
@@ -84,11 +84,12 @@ public class TranspositionTableLeaf implements AlphaBetaFilter {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft((byte) 0);
-            entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
-            entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
+            //entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
+            //entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             minMap.save(entryWorkspace);
         }
 
-        return bestMoveAndValue;
+        //return bestMoveAndValue;
+        return 0;
     }
 }

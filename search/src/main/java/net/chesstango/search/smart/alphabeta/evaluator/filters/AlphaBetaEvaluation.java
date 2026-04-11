@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria
@@ -21,12 +20,12 @@ public class AlphaBetaEvaluation implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
-        return AlphaBetaHelper.encode(evaluator.evaluate());
+    public int maximize(int currentPly, int alpha, int beta) {
+        return evaluator.evaluate();
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
-        return AlphaBetaHelper.encode(evaluator.evaluate());
+    public int minimize(int currentPly, int alpha, int beta) {
+        return evaluator.evaluate();
     }
 }

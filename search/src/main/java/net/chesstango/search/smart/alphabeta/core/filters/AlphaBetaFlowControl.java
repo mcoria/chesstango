@@ -67,7 +67,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
@@ -96,7 +96,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
         }

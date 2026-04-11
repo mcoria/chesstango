@@ -25,13 +25,13 @@ public class ZobristTracker implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         findCollision(zobristMaxMap);
         return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         findCollision(zobristMinMap);
         return next.minimize(currentPly, alpha, beta);
     }

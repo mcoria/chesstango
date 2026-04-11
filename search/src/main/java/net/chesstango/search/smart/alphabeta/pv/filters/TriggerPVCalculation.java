@@ -27,31 +27,30 @@ public class TriggerPVCalculation implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
-        long moveAndValue = next.maximize(currentPly, alpha, beta);
+    public int maximize(int currentPly, int alpha, int beta) {
+        int currentValue = next.maximize(currentPly, alpha, beta);
 
-        return process(alpha, beta, moveAndValue);
+        return process(alpha, beta, currentValue);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
-        long moveAndValue = next.minimize(currentPly, alpha, beta);
+    public int minimize(int currentPly, int alpha, int beta) {
+        int currentValue = next.minimize(currentPly, alpha, beta);
 
-        return process(alpha, beta, moveAndValue);
+        return process(alpha, beta, currentValue);
     }
 
 
     /**
      * Decodes move/value; reads principal variation if within alpha-beta window
      */
-    protected long process(int alpha, int beta, long moveAndValue) {
-        final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
+    protected int process(int alpha, int beta, int currentValue) {
 
         if (alpha < currentValue && currentValue < beta) {
             pvCalculator.calculatePrincipalVariation(currentValue);
         }
 
-        return moveAndValue;
+        return currentValue;
     }
 
 }

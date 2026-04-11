@@ -11,6 +11,7 @@ public class AlphaBetaHelper {
     public static final long BYTE_MASK = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_11111111L;
     public static final int MOVE_SHIFT = 40;
 
+
     public static long encode(int value) {
         return encode((short) 0, value);
     }
@@ -36,4 +37,7 @@ public class AlphaBetaHelper {
     public static short decodeMove(long encodedMovesAndValue) {
         return (short) ((encodedMovesAndValue >> MOVE_SHIFT) & SHORT_MASK);
     }
+
+
+
 }

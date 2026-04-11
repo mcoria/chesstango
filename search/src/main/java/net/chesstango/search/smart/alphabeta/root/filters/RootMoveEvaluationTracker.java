@@ -39,33 +39,31 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter {
 
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::maximize);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::minimize);
     }
 
 
-    final long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
+    final int process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
         Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCollection.get(currentMove);
 
         if (moveEvaluation.isPresent()) {
             RootMoveEvaluation rootMoveEvaluation = moveEvaluation.get();
-            return AlphaBetaHelper.encode(rootMoveEvaluation.move(), rootMoveEvaluation.evaluation());
+            return rootMoveEvaluation.evaluation();
         }
 
-        long bestMoveAndValue = fn.search(currentPly, alpha, beta);
-
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        int currentValue = fn.search(currentPly, alpha, beta);
 
         rootMoveEvaluationCollection.save(createRootMoveEvaluation(currentMove, currentValue, alpha, beta));
 
-        return bestMoveAndValue;
+        return currentValue;
     }
 
 

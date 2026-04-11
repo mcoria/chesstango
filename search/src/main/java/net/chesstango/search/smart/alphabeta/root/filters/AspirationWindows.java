@@ -38,16 +38,16 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public int maximize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::maximize);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public int minimize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::minimize);
     }
 
-    private long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
+    private int process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         int alphaBound = alpha;
         int betaBound = beta;
         int searchByWindowsCycle = 0;
@@ -59,7 +59,6 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
         }
 
         boolean search = true;
-        long bestMoveAndValue;
         int bestValue;
 
         int alphaCycle = 1;
@@ -67,9 +66,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
         do {
             searchListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
-            bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
-
-            bestValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+            bestValue = fn.search(currentPly, alphaBound, betaBound);
 
             if (bestValue <= alphaBound) {
                 if (alpha < bestValue) {
@@ -92,7 +89,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
             searchListenerMediator.triggerAfterSearchByWindows(!search);
         } while (search);
 
-        return bestMoveAndValue;
+        return bestValue;
     }
 
     protected int diffBound(int maxBound, int currentBound, int cycle) {
