@@ -27,10 +27,6 @@ public class DepthCollector implements SearchByCycleListener, SearchByDepthListe
         visitor.visit(this);
     }
 
-    public void setGame(Game game) {
-        possibleMoves = game.getPossibleMoves().size();
-    }
-
     @Override
     public void beforeSearch() {
         exploredDepth = 0;
@@ -44,5 +40,9 @@ public class DepthCollector implements SearchByCycleListener, SearchByDepthListe
     public void afterSearchByDepth() {
         int evaluatedChild = rootMoveEvaluationCollection.getRootMoveEvaluations().size();
         exploredDepth += (float) evaluatedChild / possibleMoves;
+    }
+
+    public void setGame(Game game) {
+        possibleMoves = game.getPossibleMoves().size();
     }
 }

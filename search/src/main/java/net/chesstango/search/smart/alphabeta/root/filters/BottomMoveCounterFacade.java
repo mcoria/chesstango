@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.root.filters;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +10,11 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
+import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 
 /**
@@ -21,7 +26,7 @@ import net.chesstango.search.smart.SearchAlgorithm;
  *
  * @author Mauricio Coria
  */
-public class BottomMoveCounterFacade implements SearchAlgorithm {
+public class BottomMoveCounterFacade implements SearchAlgorithm, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     @Getter

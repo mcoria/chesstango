@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Bound;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
@@ -27,7 +27,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter {
 
     @Getter
     @Setter
-    private RootMoveEvaluationCollection moveEvaluations;
+    private RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
     @Setter
     private Game game;
@@ -52,23 +52,24 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter {
     final long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
-        Optional<RootMoveEvaluation> moveEvaluation = moveEvaluations.get(currentMove);
+        Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCollection.get(currentMove);
 
         if (moveEvaluation.isPresent()) {
-            return AlphaBetaHelper.encode(moveEvaluation.get().move(), moveEvaluation.get().evaluation());
+            RootMoveEvaluation rootMoveEvaluation = moveEvaluation.get();
+            return AlphaBetaHelper.encode(rootMoveEvaluation.move(), rootMoveEvaluation.evaluation());
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);
 
-        trackMoveEvaluation(currentMove, bestMoveAndValue, alpha, beta);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+
+        rootMoveEvaluationCollection.save(createRootMoveEvaluation(currentMove, currentValue, alpha, beta));
 
         return bestMoveAndValue;
     }
 
 
-    final void trackMoveEvaluation(Move currentMove, long bestMoveAndValue, int alpha, int beta) {
-        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
-
+    final RootMoveEvaluation createRootMoveEvaluation(Move currentMove, int currentValue, int alpha, int beta) {
         Bound moveEvaluationType = null;
 
         if (currentValue <= alpha) {
@@ -79,6 +80,6 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter {
             moveEvaluationType = Bound.EXACT;
         }
 
-        moveEvaluations.add(new RootMoveEvaluation(currentMove, currentValue, moveEvaluationType));
+        return new RootMoveEvaluation(currentMove, currentValue, moveEvaluationType);
     }
 }

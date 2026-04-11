@@ -117,7 +117,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected  void buildObjects() {
-        moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
+        moveEvaluationTracker.setRootMoveEvaluationCollection(moveEvaluations);
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();

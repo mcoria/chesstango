@@ -26,11 +26,6 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(StopProcessingCatch stopProcessingCatch) {
-        stopProcessingCatch.setLastRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
-    }
-
-    @Override
     public void visit(SetDebugOutput setDebugOutput) {
         setDebugOutput.searchByDepthCompleted(searchResultByDepth);
     }

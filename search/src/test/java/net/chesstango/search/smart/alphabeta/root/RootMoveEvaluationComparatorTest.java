@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.sorters;
+package net.chesstango.search.smart.alphabeta.root;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
@@ -18,13 +18,13 @@ import static org.mockito.Mockito.mock;
  */
 public class RootMoveEvaluationComparatorTest {
 
-    RootMoveSorter.RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
-    RootMoveSorter.RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
+    RootMoveEvaluationCollection.RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
+    RootMoveEvaluationCollection.RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
 
     @BeforeEach
     public void setup() {
-        whiteRootMoveEvaluationComparator = new RootMoveSorter.RootMoveEvaluationComparator(Color.WHITE);
-        blackRootMoveEvaluationComparator = new RootMoveSorter.RootMoveEvaluationComparator(Color.BLACK);
+        whiteRootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator(Color.WHITE);
+        blackRootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator(Color.BLACK);
     }
 
     /**

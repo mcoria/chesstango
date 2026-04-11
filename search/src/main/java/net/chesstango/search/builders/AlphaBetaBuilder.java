@@ -11,7 +11,7 @@ import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;

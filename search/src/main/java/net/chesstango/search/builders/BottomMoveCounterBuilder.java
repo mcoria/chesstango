@@ -10,7 +10,7 @@ import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
+import net.chesstango.search.smart.alphabeta.root.filters.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;

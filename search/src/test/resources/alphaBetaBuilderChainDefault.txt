@@ -122,19 +122,17 @@ AlphaBetaFlowControl @ 14
 SearchByCycleListeners:
 	EvaluatorCacheListener @ 47
 	TTListener @ 48
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 49
 	AlphaBetaFlowControl @ 14
 	SetKillerMoveTables @ 50
 	PrincipalVariationComparator @ 25
 	PrincipalVariationComparator @ 39
-	StopProcessingCatch @ 3
+	RootMoveEvaluationCollection @ 51
 	AspirationWindows @ 4
 	PVCalculatorTransposition @ 13
 	RootMoveSorter @ 8
 
 SearchByDepthListener:
-	AlphaBetaFacade @ 2
 	SetSearchTimers @ 49
 	RootMoveEvaluationCollection @ 51
 

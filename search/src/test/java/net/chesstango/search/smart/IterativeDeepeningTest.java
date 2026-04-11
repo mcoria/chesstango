@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
