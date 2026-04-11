@@ -59,6 +59,11 @@ public class Tango implements AutoCloseable, TangoOptions {
     }
 
     @Override
+    public void setHashSize(int hashSize) {
+
+    }
+
+    @Override
     public void close() {
         tangoFactorySmart.close();
     }

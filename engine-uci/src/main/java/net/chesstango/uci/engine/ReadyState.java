@@ -1,15 +1,12 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
-import net.chesstango.engine.Config;
 import net.chesstango.gardel.fen.FEN;
-
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
-import static net.chesstango.uci.engine.UciOption.POLYGLOT_FILE;
-import static net.chesstango.uci.engine.UciOption.SYZYGY_PATH;
+import static net.chesstango.uci.engine.UciOption.*;
 
 
 /**
@@ -36,6 +33,8 @@ class ReadyState implements UCIEngine {
             uciTango.setPolyglotFile(cmdSetOption.getValue());
         } else if (SYZYGY_PATH.getId().equals(cmdSetOption.getId())) {
             uciTango.setSyzygyPath(cmdSetOption.getValue());
+        } else if (HASH_SIZE.getId().equals(cmdSetOption.getId())) {
+            uciTango.setHashSize(cmdSetOption.getValue());
         }
     }
 

@@ -198,4 +198,8 @@ public class UciTango extends AbstractUCIEngine {
     void setSyzygyPath(String syzygyPath) {
         tango.setSyzygyPath(syzygyPath);
     }
+
+    void setHashSize(String hashSize) {
+        tango.setHashSize(Integer.getInteger(hashSize));
+    }
 }

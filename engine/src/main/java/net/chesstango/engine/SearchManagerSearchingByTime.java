@@ -105,4 +105,9 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
     public void setSyzygyPath(String syzygyPath) {
         log.warn("Search is in progress");
     }
+
+    @Override
+    public void setHashSize(int hashSize) {
+        log.warn("Search is in progress");
+    }
 }

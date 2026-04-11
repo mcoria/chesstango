@@ -80,4 +80,9 @@ class SearchManagerReady implements SearchManagerState {
     public void setSyzygyPath(String syzygyPath) {
         tangoOptions.setSyzygyPath(syzygyPath);
     }
+
+    @Override
+    public void setHashSize(int hashSize) {
+        tangoOptions.setHashSize(hashSize);
+    }
 }
