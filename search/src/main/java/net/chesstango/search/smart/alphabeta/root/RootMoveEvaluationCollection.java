@@ -61,6 +61,12 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
     }
 
     @Override
+    public void afterSearchByDepth() {
+        rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
+        bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+    }
+
+    @Override
     public void beforeSearchByWindows(int alpha, int beta, int searchByWindowsCycle) {
         if (searchByWindowsCycle > 0) {
             /**
@@ -74,15 +80,6 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
     }
 
     public void save(RootMoveEvaluation moveEvaluation) {
-        if (Bound.EXACT == moveEvaluation.bound()) {
-            if (bestRootMoveEvaluation == null || rootMoveEvaluations.isEmpty()) {
-                bestRootMoveEvaluation = moveEvaluation;
-            } else if (maximize && moveEvaluation.evaluation() > bestRootMoveEvaluation.evaluation()) {
-                bestRootMoveEvaluation = moveEvaluation;
-            } else if (!maximize && moveEvaluation.evaluation() < bestRootMoveEvaluation.evaluation()) {
-                bestRootMoveEvaluation = moveEvaluation;
-            }
-        }
         rootMoveEvaluations.add(moveEvaluation);
     }
 
@@ -96,8 +93,6 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
     }
 
     public List<RootMoveEvaluation> getRootMoveEvaluations() {
-        rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
-
         return List.copyOf(rootMoveEvaluations);
     }
 
