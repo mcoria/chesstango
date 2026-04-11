@@ -80,7 +80,7 @@ class SearchByTree implements SearchByChain {
      * @param hashSize in megabytes
      */
     void setHashSize(int hashSize) {
-        // Dado que son 2 tablas ...
+        // Dado que son 2 tablas y el parametro es en KB ...
         search.accept(new SetTTableHashSizeVisitor(hashSize * 1024 / 2));
     }
 }

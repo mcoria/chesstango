@@ -25,8 +25,8 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
  * @author Mauricio Corias
  */
 public class TranspositionTableBuilder {
-    private final TTable maxMapImp;
-    private final TTable minMapImp;
+    private TTable maxMapImp;
+    private TTable minMapImp;
 
     private final TTListener transpositionTablesListener;
 
@@ -54,9 +54,9 @@ public class TranspositionTableBuilder {
     private TTable maxComparatorMap;
     private TTable minComparatorMap;
 
+    private int hashSize;
+
     public TranspositionTableBuilder() {
-        maxMapImp = new TTableArrayPrimitives();
-        minMapImp = new TTableArrayPrimitives();
         transpositionTablesListener = new TTListener();
     }
 
@@ -75,26 +75,24 @@ public class TranspositionTableBuilder {
         return this;
     }
 
+    public TranspositionTableBuilder withTranspositionTableSize(int hashSize) {
+        this.hashSize = hashSize;
+        return this;
+    }
+
     public void build() {
         buildObjects();
-
-        transpositionTablesListener.setMaxMap(maxMapImp);
-        transpositionTablesListener.setMinMap(minMapImp);
 
         setupListenerMediator();
 
         createChains();
     }
 
-    public void link() {
-        searchListenerMediator.accept(new LinkTTableNodeVisitor(maxNodeMap, minNodeMap));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxComparatorMap, minComparatorMap));
-
-        // TTPVReader will not be considering for statistics purposes.
-        searchListenerMediator.accept(new LinkTTableImpVisitor(maxMapImp, minMapImp));
-    }
-
     private void buildObjects() {
+        maxMapImp = new TTableArrayPrimitives(hashSize);
+
+        minMapImp = new TTableArrayPrimitives(hashSize);
+
         if (withDebugSearchTree) {
             maxMapNodeDebug = new TTableDebug(MAX_MAP);
             minMapNodeDebug = new TTableDebug(MIN_MAP);
@@ -184,5 +182,16 @@ public class TranspositionTableBuilder {
             }
         }
         return chain.getFirst();
+    }
+
+    public void link() {
+        transpositionTablesListener.setMaxMap(maxMapImp);
+        transpositionTablesListener.setMinMap(minMapImp);
+
+        searchListenerMediator.accept(new LinkTTableNodeVisitor(maxNodeMap, minNodeMap));
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxComparatorMap, minComparatorMap));
+
+        // TTPVReader will not be considering for statistics purposes.
+        searchListenerMediator.accept(new LinkTTableImpVisitor(maxMapImp, minMapImp));
     }
 }

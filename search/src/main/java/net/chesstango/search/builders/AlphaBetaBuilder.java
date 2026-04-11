@@ -153,13 +153,16 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    public AlphaBetaBuilder withTranspositionTable() {
-        withTranspositionTable = true;
+    public AlphaBetaBuilder withTranspositionTable(int hashSize) {
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
+
+        transpositionTableBuilder.withTranspositionTableSize(hashSize);
+
+        withTranspositionTable = true;
         return this;
     }
 
@@ -419,7 +422,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
                 .withQuiescence()
 
-                .withTranspositionTable()
+                .withTranspositionTable(16 * 1024)
                 .withTranspositionMoveSorter()
 
                 .withKillerMoveSorter()
