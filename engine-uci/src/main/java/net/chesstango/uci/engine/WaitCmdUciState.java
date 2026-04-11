@@ -7,8 +7,7 @@ import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.ReqUci;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
-import static net.chesstango.uci.engine.UciOption.POLYGLOT_FILE;
-import static net.chesstango.uci.engine.UciOption.SYZYGY_PATH;
+import static net.chesstango.uci.engine.UciOption.*;
 
 
 /**
@@ -38,6 +37,7 @@ class WaitCmdUciState implements UCIEngine {
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
         uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile()));
         uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath()));
+        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), Integer.toString(16), Integer.toString(1), Integer.toString(64)));
         uciTango.reply(readyState, UCIResponse.uciok());
     }
 }
