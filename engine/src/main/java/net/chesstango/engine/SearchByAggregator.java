@@ -32,9 +32,6 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
         if (config.getSyzygyPath() != null) {
             setSyzygyPath(config.getSyzygyPath());
         }
-        if (config.getHashSize() != null) {
-            setHashSize(config.getHashSize());
-        }
     }
 
 

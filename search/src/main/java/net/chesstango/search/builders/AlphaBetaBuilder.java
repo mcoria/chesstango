@@ -29,6 +29,7 @@ import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.smart.sorters.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
@@ -153,6 +154,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
+    @Override
     public AlphaBetaBuilder withTranspositionTable(int hashSize) {
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
@@ -422,7 +424,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
                 .withQuiescence()
 
-                .withTranspositionTable(16 * 1024)
+                .withTranspositionTable(TTableArrayPrimitives.DEFAULT_HASH_SIZE_KB)
                 .withTranspositionMoveSorter()
 
                 .withKillerMoveSorter()

@@ -1,10 +1,10 @@
 package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
 import java.util.concurrent.ExecutorService;
@@ -77,13 +77,9 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     }
 
     @Override
-    public Search createSearch() {
-        return imp.createSearch();
-    }
-
-    @Override
-    public Search createSearch(Evaluator evaluator) {
-        return imp.createSearch(evaluator);
+    public SearchBuilder<?> createSearchBuilder(){
+        return Search
+                .newSearchBuilder();
     }
 
     @Override

@@ -1,10 +1,10 @@
 package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
 import java.io.IOException;
@@ -50,24 +50,11 @@ class TangoFactoryImp implements TangoFactory {
         return new SearchManager(infiniteDepth, searchByTree, tangoOptions, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
-
     @Override
-    public Search createSearch() {
+    public SearchBuilder<?> createSearchBuilder(){
         return Search
-                .newSearchBuilder()
-                .withGameEvaluator(Evaluator.createInstance())
-                .build();
+                .newSearchBuilder();
     }
-
-
-    @Override
-    public Search createSearch(Evaluator evaluator) {
-        return Search
-                .newSearchBuilder()
-                .withGameEvaluator(evaluator)
-                .build();
-    }
-
 
     @Override
     public EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy) {

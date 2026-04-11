@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
@@ -29,11 +30,14 @@ class SearchByTree implements SearchByChain {
     SearchByTree(TangoFactory tangoFactory, Config config) {
         this.tangoFactory = tangoFactory;
         if (config.getSearch() == null) {
+            SearchBuilder<?> searchBuilder = tangoFactory.createSearchBuilder();
             if (config.getEvaluator() != null) {
-                search = tangoFactory.createSearch(config.getEvaluator());
-            } else {
-                search = tangoFactory.createSearch();
+                searchBuilder.withGameEvaluator(config.getEvaluator());
             }
+            if (config.getHashSize() != null) {
+                searchBuilder.withTranspositionTable(config.getHashSize());
+            }
+            search = searchBuilder.build();
         } else {
             search = config.getSearch();
         }
