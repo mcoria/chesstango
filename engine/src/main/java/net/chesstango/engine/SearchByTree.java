@@ -8,7 +8,8 @@ import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import net.chesstango.search.visitors.SetSearchPredicateVisitor;
@@ -71,6 +72,11 @@ class SearchByTree implements SearchByChain {
 
     void setSyzygy(Syzygy syzygy) {
         EndGameTableBase egtb = tangoFactory.createSyzygyTableBaseAdapter(syzygy);
-        search.accept(new SetEndGameTableBaseVisitor(egtb));
+        search.accept(new LinkEndGameTableBaseVisitor(egtb));
+    }
+
+    void setHashSize(int hashSize) {
+        // Dado que son 2 tablas ...
+        search.accept(new SetTTableHashSizeVisitor(hashSize / 2));
     }
 }

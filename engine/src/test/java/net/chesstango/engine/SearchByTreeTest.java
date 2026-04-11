@@ -3,7 +3,8 @@ package net.chesstango.engine;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
-import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,7 +86,21 @@ public class SearchByTreeTest {
 
         verify(tangoFactory).createSearch();
         verify(tangoFactory).createSyzygyTableBaseAdapter(eq(syzygy));
-        verify(search).accept(any(SetEndGameTableBaseVisitor.class));
+        verify(search).accept(any(LinkEndGameTableBaseVisitor.class));
+
+        assertEquals(search, searchByTree.getSearch());
+    }
+
+    @Test
+    public void test_setHashSize() {
+        when(tangoFactory.createSearch()).thenReturn(search);
+
+        SearchByTree searchByTree = new SearchByTree(tangoFactory, config);
+
+        searchByTree.setHashSize(64);
+
+        verify(tangoFactory).createSearch();
+        verify(search).accept(any(SetTTableHashSizeVisitor.class));
 
         assertEquals(search, searchByTree.getSearch());
     }

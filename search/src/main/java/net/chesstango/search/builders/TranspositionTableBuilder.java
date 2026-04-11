@@ -1,5 +1,6 @@
 package net.chesstango.search.builders;
 
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
@@ -26,6 +27,7 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
 public class TranspositionTableBuilder {
     private final TTable maxMapImp;
     private final TTable minMapImp;
+
     private final TTListener transpositionTablesListener;
 
     private TTableDebug maxMapNodeDebug;
@@ -115,6 +117,12 @@ public class TranspositionTableBuilder {
     private void setupListenerMediator() {
         searchListenerMediator.add(transpositionTablesListener);
 
+        if (maxMapImp instanceof Acceptor maxMapImpAcceptor) {
+            searchListenerMediator.add(maxMapImpAcceptor);
+        }
+        if (minMapImp instanceof Acceptor minMapImpAcceptor) {
+            searchListenerMediator.add(minMapImpAcceptor);
+        }
         if (maxMapNodeDebug != null) {
             searchListenerMediator.add(maxMapNodeDebug);
         }

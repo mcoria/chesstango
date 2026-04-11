@@ -7,7 +7,7 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ public class ChainPrinterVisitorTest {
      * otherwise, chain-related output is suppressed.
      * Used for debugging purposes within the test class.
      */
-    private static final boolean PRINT_CHAIN = false;
+    private static final boolean PRINT_CHAIN = true;
 
     private ChainPrinterVisitor chainPrinterVisitor;
     private DebugNodeTrap debugNodeTrap;
@@ -69,7 +69,7 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        search.accept(new SetEndGameTableBaseVisitor(new MyEndGameTableBaseExtension()));
+        search.accept(new LinkEndGameTableBaseVisitor(new MyEndGameTableBaseExtension()));
 
         assertSearchTree(search, "alphaBetaBuilderChainWithEGTB.txt");
     }

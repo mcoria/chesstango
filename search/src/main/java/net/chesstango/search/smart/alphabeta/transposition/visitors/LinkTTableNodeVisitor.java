@@ -23,7 +23,6 @@ public class LinkTTableNodeVisitor implements Visitor {
         transpositionTableRoot.setMinMap(minMap);
     }
 
-
     @Override
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
         transpositionTableTerminal.setMaxMap(maxMap);

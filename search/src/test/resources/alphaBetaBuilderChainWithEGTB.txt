@@ -150,7 +150,9 @@ Acceptor:
 	SetGameToEvaluator @ 52
 	EvaluatorCacheListener @ 47
 	TTListener @ 48
-	SetGameToEndGameTableBase @ 53
+	TTableArrayPrimitives @ 6
+	TTableArrayPrimitives @ 53
+	SetGameToEndGameTableBase @ 54
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 49
 	AlphaBetaFlowControl @ 14

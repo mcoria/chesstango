@@ -46,6 +46,7 @@ import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCoun
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
@@ -144,6 +145,9 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
+    }
+
+    default void visit(TTableArrayPrimitives ttArrayPrimitives) {
     }
 
     default void visit(TranspositionTableTerminal transpositionTableTerminal) {
