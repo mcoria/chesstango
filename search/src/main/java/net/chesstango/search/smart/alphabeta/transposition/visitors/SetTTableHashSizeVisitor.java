@@ -11,6 +11,9 @@ import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives
  * @author Mauricio Coria
  */
 public class SetTTableHashSizeVisitor implements Visitor {
+    /**
+     * The hash size in KB
+     */
     private final int hashSize;
 
     public SetTTableHashSizeVisitor(int hashSize) {

@@ -27,7 +27,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     static final long MOVE_MASK = 0b00000000_00000000_11111111_11111111_00000000_00000000_00000000_00000000L;
     static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
-    static final int DEFAULT_HASH_SIZE_MB = 16;
+    static final int DEFAULT_HASH_SIZE_KB = 16 * 1024;
     static final int STALE_AGE = 3;
     static final int MAX_AGE = 0x3F;
 
@@ -37,11 +37,16 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     int currentAge;
 
     public TTableArrayPrimitives() {
-        setupHashTable(DEFAULT_HASH_SIZE_MB);
+        setupHashTable(DEFAULT_HASH_SIZE_KB);
     }
 
     public void setupHashTable(int hashSize) {
-        this.arraySize = (hashSize / 16) * 1024 * 1024;
+        this.arraySize = (hashSize / 16)  * 1024;
+
+        if (arraySize < 1) {
+            throw new IllegalArgumentException("Hash size must be greater than 0");
+        }
+
         this.hashArray = new long[arraySize]; // 8MB table
         this.dataArray = new long[arraySize]; // 8MB table
         this.currentAge = STALE_AGE;

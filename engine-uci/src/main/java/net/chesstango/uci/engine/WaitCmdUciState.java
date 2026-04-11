@@ -34,10 +34,16 @@ class WaitCmdUciState implements UCIEngine {
     @Override
     public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, UCIResponse.idName(String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
+
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
+
         uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile()));
+
         uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath()));
-        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), Integer.toString(16), Integer.toString(1), Integer.toString(64)));
+
+        int defaultHashSize = tangoConfig.getHashSize() == null ? 32 : tangoConfig.getHashSize();
+        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), Integer.toString(defaultHashSize), Integer.toString(1), Integer.toString(64)));
+
         uciTango.reply(readyState, UCIResponse.uciok());
     }
 }

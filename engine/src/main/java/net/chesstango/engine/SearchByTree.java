@@ -75,8 +75,12 @@ class SearchByTree implements SearchByChain {
         search.accept(new LinkEndGameTableBaseVisitor(egtb));
     }
 
+    /**
+     *
+     * @param hashSize in megabytes
+     */
     void setHashSize(int hashSize) {
         // Dado que son 2 tablas ...
-        search.accept(new SetTTableHashSizeVisitor(hashSize / 2));
+        search.accept(new SetTTableHashSizeVisitor(hashSize * 1024 / 2));
     }
 }
