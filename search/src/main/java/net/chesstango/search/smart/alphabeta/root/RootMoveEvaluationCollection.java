@@ -62,8 +62,11 @@ public class RootMoveEvaluationCollection implements SearchByCycleListener, Sear
 
     @Override
     public void afterSearchByDepth() {
-        rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
-        bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+        //En caso de stop inmediatamente se completó DEPTH = 1
+        if (!rootMoveEvaluations.isEmpty()) {
+            rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
+            bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+        }
     }
 
     @Override
