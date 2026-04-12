@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.killermoves.listeners;
 
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -11,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.visitors.SetKillerMoves
 /**
  * @author Mauricio Coria
  */
-public class SetKillerMoveTables implements SearchByCycleListener {
+public class SetKillerMoveTables implements Acceptor, SearchByCycleListener {
 
     private KillerMoves killerMoves;
 

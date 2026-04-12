@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
@@ -21,7 +22,7 @@ import java.util.Optional;
 /**
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
 
     private final List<RootMoveEvaluation> rootMoveEvaluations;
 

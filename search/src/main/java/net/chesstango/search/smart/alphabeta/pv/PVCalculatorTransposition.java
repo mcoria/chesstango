@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.pv;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
@@ -17,7 +18,7 @@ import static net.chesstango.search.Bound.EXACT;
  *
  * @author Mauricio Coria
  */
-public class PVCalculatorTransposition extends PVCalculatorAbstract {
+public class PVCalculatorTransposition extends PVCalculatorAbstract implements Acceptor{
 
     @Setter
     private TTable maxMap;

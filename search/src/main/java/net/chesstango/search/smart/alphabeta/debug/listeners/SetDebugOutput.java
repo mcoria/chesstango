@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug.listeners;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
@@ -28,7 +29,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;

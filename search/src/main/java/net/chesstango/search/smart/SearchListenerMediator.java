@@ -63,38 +63,57 @@ public class SearchListenerMediator implements Acceptor {
         resetListeners.forEach(ResetListener::reset);
     }
 
-    public void add(Acceptor acceptor) {
+    public void add(Object object) {
+        if (object instanceof Acceptor acceptor) {
+            addAcceptor(acceptor);
+        }
+        if (object instanceof SearchListener searchListener) {
+            addSearchListener(searchListener);
+        }
+    }
 
+    private void addAcceptor(Acceptor acceptor) {
         if (acceptors.contains(acceptor)) {
             throw new RuntimeException(String.format("Acceptor already added %s", acceptor));
         }
 
         acceptors.add(acceptor);
+    }
 
-        if (acceptor instanceof SearchByCycleListener searchByCycleListener) {
+    private void addSearchListener(SearchListener searchListener) {
+        if (searchListener instanceof SearchByCycleListener searchByCycleListener) {
+            if (searchByCycleListeners.contains(searchByCycleListener)) {
+                throw new RuntimeException(String.format("SearchByCycleListener already added %s", searchByCycleListener));
+            }
             searchByCycleListeners.add(searchByCycleListener);
         }
 
-        if (acceptor instanceof SearchByDepthListener searchByDepthListener) {
+        if (searchListener instanceof SearchByDepthListener searchByDepthListener) {
+            if (searchByDepthListeners.contains(searchByDepthListener)) {
+                throw new RuntimeException(String.format("SearchByDepthListener already added %s", searchByDepthListener));
+            }
             searchByDepthListeners.add(searchByDepthListener);
         }
 
-        if (acceptor instanceof SearchByWindowsListener searchByWindowsListener) {
+        if (searchListener instanceof SearchByWindowsListener searchByWindowsListener) {
+            if (searchByWindowsListeners.contains(searchByWindowsListener)) {
+                throw new RuntimeException(String.format("SearchByWindowsListener already added %s", searchByWindowsListener));
+            }
             searchByWindowsListeners.add(searchByWindowsListener);
         }
 
-        if (acceptor instanceof StopSearchingListener stopSearchingListener) {
+        if (searchListener instanceof StopSearchingListener stopSearchingListener) {
+            if (stopSearchingListeners.contains(stopSearchingListener)) {
+                throw new RuntimeException(String.format("StopSearchingListener already added %s", stopSearchingListener));
+            }
             stopSearchingListeners.add(stopSearchingListener);
         }
 
-        if (acceptor instanceof ResetListener resetListener) {
+        if (searchListener instanceof ResetListener resetListener) {
+            if (resetListeners.contains(resetListener)) {
+                throw new RuntimeException(String.format("ResetListener already added %s", resetListener));
+            }
             resetListeners.add(resetListener);
         }
-
-    }
-
-
-    public void addAllAcceptor(List<Acceptor> acceptors) {
-        acceptors.forEach(this::add);
     }
 }

@@ -2,13 +2,14 @@ package net.chesstango.search.smart.alphabeta.statistics.game;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class GameCountersCollector implements SearchByCycleListener {
+public class GameCountersCollector implements Acceptor, SearchByCycleListener {
 
     @Setter
     private Game game;

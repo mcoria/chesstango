@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.listeners;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -13,7 +14,7 @@ import net.chesstango.search.smart.alphabeta.debug.visitors.SetSearchTrackerVisi
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetSearchTracker implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private SearchTracker searchTracker;
 
     @Setter

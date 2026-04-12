@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.statistics.transposition;
 
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
@@ -10,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives
  * @author Mauricio Coria
  */
 @Setter
-public class TTableStatisticsListener implements SearchByCycleListener {
+public class TTableStatisticsListener implements Acceptor, SearchByCycleListener {
 
     private final TTableCounters tTableCounters;
     private final TTable maxMap;

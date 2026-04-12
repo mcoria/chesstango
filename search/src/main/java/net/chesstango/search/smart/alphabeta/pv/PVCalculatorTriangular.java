@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.pv;
 
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PVCalculatorTriangular extends PVCalculatorAbstract {
+public class PVCalculatorTriangular extends PVCalculatorAbstract implements Acceptor {
 
     @Setter
     private short[][] trianglePV;

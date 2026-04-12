@@ -282,10 +282,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     }
 
     private void setupListenerMediatorAfterChain() {
-        if (debugNodeTrap instanceof SearchListener debugNodeTrapSearchListener) {
-            searchListenerMediator.add(debugNodeTrapSearchListener);
-        } else if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
-            searchListenerMediator.add(debugNodeTrapAcceptor);
+        if (debugNodeTrap instanceof Acceptor acceptor) {
+            searchListenerMediator.add(acceptor);
         }
         if (setDebugOutput != null) {
             searchListenerMediator.add(setDebugOutput);
