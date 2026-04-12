@@ -189,7 +189,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(" -> Sorter");
         nestedChain++;
-        moveSorter.accept(this);
+        traverse(moveSorter);
         nestedChain--;
 
         traverse(alphaBeta.getNext());
@@ -204,7 +204,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(" -> Sorter");
         nestedChain++;
-        moveSorter.accept(this);
+        traverse(moveSorter);
         nestedChain--;
 
         traverse(quiescence.getNext());
@@ -581,6 +581,18 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
     }
 
+    ///
+    ///
+    /// Traverse methods
+    ///
+    ///
+    ///
+    private void traverse(MoveSorter moveSorter) {
+        if (moveSorter instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
     private void traverse(MoveComparator moveComparator) {
         if (moveComparator instanceof Acceptor acceptor) {
             acceptor.accept(this);
@@ -595,6 +607,21 @@ public class ChainPrinterVisitor implements Visitor {
 
     private void traverse(AlphaBetaFilter filter) {
         if (filter instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
+    ///
+    ///
+    /// Print methods
+    ///
+    ///
+
+    private void print(Object object, MoveSorter next) {
+        printChainDownLine();
+        printNodeObjectText(object);
+
+        if (next instanceof Acceptor acceptor) {
             acceptor.accept(this);
         }
     }
