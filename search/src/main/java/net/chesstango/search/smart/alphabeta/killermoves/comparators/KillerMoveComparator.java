@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.killermoves.comparators;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMoves;
 import net.chesstango.search.smart.sorters.MoveComparator;
@@ -10,7 +11,7 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
-public class KillerMoveComparator implements MoveComparator {
+public class KillerMoveComparator implements MoveComparator, Acceptor {
 
     @Getter
     @Setter

@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class RecaptureMoveComparator implements MoveComparator {
+public class RecaptureMoveComparator implements MoveComparator, Acceptor {
 
     @Getter
     @Setter

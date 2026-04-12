@@ -7,13 +7,14 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorCacheComparator implements MoveComparator {
+public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor {
 
     @Getter
     @Setter

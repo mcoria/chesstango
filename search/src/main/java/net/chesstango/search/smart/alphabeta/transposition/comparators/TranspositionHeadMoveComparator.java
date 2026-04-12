@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
@@ -14,7 +15,7 @@ import net.chesstango.search.smart.sorters.MoveComparator;
  * @author Mauricio Coria
  */
 @Setter
-public class TranspositionHeadMoveComparator implements MoveComparator {
+public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor {
 
     @Getter
     private MoveComparator next;

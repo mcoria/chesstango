@@ -116,4 +116,10 @@ public class SearchListenerMediator implements Acceptor {
             resetListeners.add(resetListener);
         }
     }
+
+    public void addAll(List<?> objects) {
+        for (Object object : objects) {
+            add(object);
+        }
+    }
 }

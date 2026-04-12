@@ -17,11 +17,6 @@ import net.chesstango.search.smart.sorters.MoveComparator;
  */
 public class DefaultMoveComparator implements MoveComparator {
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
 
     @Override
     public int compare(Move move1, Move move2) {

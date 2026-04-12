@@ -6,6 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
@@ -14,7 +15,7 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTailMoveComparator implements MoveComparator {
+public class TranspositionTailMoveComparator implements MoveComparator, Acceptor {
 
     @Getter
     @Setter

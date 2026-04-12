@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
@@ -13,7 +14,7 @@ import net.chesstango.search.smart.sorters.MoveComparator;
  */
 @Setter
 @Getter
-public class MvvLvaComparator implements MoveComparator {
+public class MvvLvaComparator implements MoveComparator, Acceptor {
 
     private MoveComparator next;
 

@@ -307,7 +307,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(" -> Comparator");
         nestedChain++;
-        moveComparator.accept(this);
+        traverse(moveComparator);
         nestedChain--;
     }
 
@@ -388,7 +388,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparator), printTTable(transpositionHeadMoveComparator.getMaxMap())));
 
-        transpositionHeadMoveComparator.getNext().accept(this);
+        traverse(transpositionHeadMoveComparator.getNext());
     }
 
     @Override
@@ -396,7 +396,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparator), printTTable(transpositionTailMoveComparator.getMaxMap())));
 
-        transpositionTailMoveComparator.getNext().accept(this);
+        traverse(transpositionTailMoveComparator.getNext());
     }
 
     @Override
@@ -409,7 +409,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
 
-        gameEvaluatorCacheComparator.getNext().accept(this);
+        traverse(gameEvaluatorCacheComparator.getNext());
     }
 
     @Override
@@ -436,14 +436,14 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(" -> NoQuietComparatorNode");
         nestedChain++;
-        noQuietNext.accept(this);
+        traverse(noQuietNext);
         nestedChain--;
 
         MoveComparator quietNext = quietComparator.getQuietNext();
         out.println();
         printChainText(" -> QuietComparatorNode");
         nestedChain++;
-        quietNext.accept(this);
+        traverse(quietNext);
         nestedChain--;
     }
 
@@ -480,10 +480,7 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(PrincipalVariationGroup principalVariationGroup) {
-        printChainDownLine();
-        printNodeObjectText(principalVariationGroup);
-
-        traverse(principalVariationGroup.getNext());
+        print(principalVariationGroup, principalVariationGroup.getNext());
     }
 
     @Override
@@ -584,6 +581,11 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
     }
 
+    private void traverse(MoveComparator moveComparator) {
+        if (moveComparator instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
 
     private void traverse(GroupSorter groupSorter) {
         if (groupSorter instanceof Acceptor acceptor) {
@@ -593,6 +595,24 @@ public class ChainPrinterVisitor implements Visitor {
 
     private void traverse(AlphaBetaFilter filter) {
         if (filter instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
+    private void print(Object object, GroupSorter next) {
+        printChainDownLine();
+        printNodeObjectText(object);
+
+        if (next instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
+    private void print(Object object, MoveComparator next) {
+        printChainDownLine();
+        printNodeObjectText(object);
+
+        if (next instanceof Acceptor acceptor) {
             acceptor.accept(this);
         }
     }
