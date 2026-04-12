@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -12,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SearchAlgorithm {
+public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
 
     @Setter
     @Getter

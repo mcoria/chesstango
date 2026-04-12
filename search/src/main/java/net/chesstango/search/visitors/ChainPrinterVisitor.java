@@ -96,7 +96,7 @@ public class ChainPrinterVisitor implements Visitor {
         printNodeObjectText(iterativeDeepening);
 
         SearchAlgorithm algorithm = iterativeDeepening.getSearchAlgorithm();
-        algorithm.accept(this);
+        traverse(algorithm);
 
         printChainText("");
         printChainText("");
@@ -109,7 +109,7 @@ public class ChainPrinterVisitor implements Visitor {
         printNodeObjectText(noIterativeDeepening);
 
         SearchAlgorithm algorithm = noIterativeDeepening.getSearchAlgorithm();
-        algorithm.accept(this);
+        traverse(algorithm);
 
         printChainText("");
         printChainText("");
@@ -587,6 +587,15 @@ public class ChainPrinterVisitor implements Visitor {
     ///
     ///
     ///
+    ///
+    ///
+
+    private void traverse(SearchAlgorithm searchAlgorithm) {
+        if (searchAlgorithm instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
     private void traverse(MoveSorter moveSorter) {
         if (moveSorter instanceof Acceptor acceptor) {
             acceptor.accept(this);

@@ -1,15 +1,12 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.search.Acceptor;
-
 /**
  * @author Mauricio Coria
  */
-public interface SearchAlgorithm extends Acceptor {
+public interface SearchAlgorithm {
 
     /**
      * Invoked once per search depth
      */
     void search();
-
 }
