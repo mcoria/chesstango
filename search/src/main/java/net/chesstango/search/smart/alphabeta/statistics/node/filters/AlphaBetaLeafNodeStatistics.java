@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -10,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaLeafNodeStatistics implements AlphaBetaFilter {
+public class AlphaBetaLeafNodeStatistics implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;

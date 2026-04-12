@@ -8,6 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -25,7 +26,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
  *
  * @author Mauricio Coria
  */
-public class BottomMoveCounterFacade implements SearchAlgorithm, SearchByCycleListener, SearchByDepthListener {
+public class BottomMoveCounterFacade implements SearchAlgorithm, Acceptor, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     @Getter

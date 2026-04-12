@@ -28,11 +28,6 @@ public class NoQuietBifurcation implements GroupSorter {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
     public void beforeSort(int currentPly) {
         quietGroup.beforeSort(currentPly);
         noQuietGroup.beforeSort(currentPly);

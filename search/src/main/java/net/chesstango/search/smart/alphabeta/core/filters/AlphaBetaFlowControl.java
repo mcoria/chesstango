@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -15,7 +16,7 @@ import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, StopSearchingListener {
+public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchByCycleListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter

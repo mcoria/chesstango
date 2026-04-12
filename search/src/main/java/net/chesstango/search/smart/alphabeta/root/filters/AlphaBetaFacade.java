@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -12,11 +13,11 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SearchAlgorithm {
+public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
 
     @Setter
     @Getter
-    private AlphaBetaFilter alphaBetaFilter;
+    private AlphaBetaFilter next;
 
     @Setter
     private Game game;
@@ -32,8 +33,8 @@ public class AlphaBetaFacade implements SearchAlgorithm {
         final Color currentTurn = game.getPosition().getCurrentTurn();
 
         final long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                alphaBetaFilter.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
-                alphaBetaFilter.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
+                next.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
+                next.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
     }
 

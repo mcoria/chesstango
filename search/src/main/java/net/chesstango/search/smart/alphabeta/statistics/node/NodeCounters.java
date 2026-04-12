@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.statistics.node;
 
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -8,7 +9,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 /**
  * @author Mauricio Coria
  */
-public class NodeCounters implements SearchByCycleListener, SearchByDepthListener {
+public class NodeCounters implements Acceptor, SearchByCycleListener, SearchByDepthListener {
 
     private long rootNodeCounter;
     private long interiorNodeCounter;

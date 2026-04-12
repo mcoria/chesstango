@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.transposition.listeners;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
@@ -19,7 +20,7 @@ import java.util.concurrent.Future;
  * @author Mauricio Coria
  */
 @Setter
-public class TTLoad implements SearchByDepthListener {
+public class TTLoad implements Acceptor, SearchByDepthListener {
 
     private Game game;
     private TTable maxMap;

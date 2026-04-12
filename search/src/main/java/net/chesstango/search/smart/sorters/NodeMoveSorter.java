@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public class NodeMoveSorter implements MoveSorter {
+public class NodeMoveSorter implements MoveSorter, Acceptor {
     private final Predicate<Move> filter;
 
     @Setter

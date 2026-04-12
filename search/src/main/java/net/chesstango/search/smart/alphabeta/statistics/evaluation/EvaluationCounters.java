@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.statistics.evaluation;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  *
  * @author Mauricio Coria
  */
-public class EvaluationCounters implements SearchByCycleListener {
+public class EvaluationCounters implements Acceptor, SearchByCycleListener {
     private long evaluationsCounter;
 
     @Setter

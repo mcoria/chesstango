@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.pv.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
@@ -14,7 +15,7 @@ import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
  */
 @Setter
 @Getter
-public class TriggerPVCalculation implements AlphaBetaFilter {
+public class TriggerPVCalculation implements AlphaBetaFilter, Acceptor {
 
     private AlphaBetaFilter next;
 

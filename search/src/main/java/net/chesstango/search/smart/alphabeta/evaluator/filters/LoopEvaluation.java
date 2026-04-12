@@ -1,12 +1,13 @@
 package net.chesstango.search.smart.alphabeta.evaluator.filters;
 
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class LoopEvaluation implements AlphaBetaFilter {
+public class LoopEvaluation implements AlphaBetaFilter, Acceptor {
 
     @Override
     public void accept(Visitor visitor) {

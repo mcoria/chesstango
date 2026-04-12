@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
+public class RootMoveSorter implements MoveSorter, Acceptor, SearchByCycleListener {
     @Getter
     @Setter
     private MoveSorter next;

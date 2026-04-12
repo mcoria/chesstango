@@ -1,13 +1,14 @@
 package net.chesstango.search.smart.alphabeta.quiescence;
 
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceNull implements AlphaBetaFilter {
+public class QuiescenceNull implements AlphaBetaFilter, Acceptor {
 
     private Evaluator evaluator;
 

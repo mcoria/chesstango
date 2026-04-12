@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -12,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter {
+public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;

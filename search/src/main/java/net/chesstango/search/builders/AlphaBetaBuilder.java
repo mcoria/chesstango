@@ -264,7 +264,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void link() {
-        alphaBetaFacade.setAlphaBetaFilter(createChain());
+        alphaBetaFacade.setNext(createChain());
 
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
@@ -375,8 +375,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void setupListenerMediatorAfterChain() {
-        if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
-            searchListenerMediator.add(debugNodeTrapAcceptor);
+        if (debugNodeTrap instanceof Acceptor acceptor) {
+            searchListenerMediator.add(acceptor);
         }
         if (setDebugOutput != null) {
             searchListenerMediator.add(setDebugOutput);

@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
@@ -10,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 /**
  * @author Mauricio Coria
  */
-public class DebugFilter implements AlphaBetaFilter {
+public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     @Setter
     @Getter

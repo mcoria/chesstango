@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.root.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
@@ -14,7 +15,7 @@ import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
  * @author Mauricio Coria
  */
 @Setter
-public class StopProcessingCatch implements AlphaBetaFilter {
+public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;

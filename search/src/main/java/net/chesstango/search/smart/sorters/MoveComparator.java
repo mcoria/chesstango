@@ -1,12 +1,11 @@
 package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.Acceptor;
 
 import java.util.Comparator;
 
 /**
  * @author Mauricio Coria
  */
-public interface MoveComparator extends Comparator<Move>, Acceptor, SortListener {
+public interface MoveComparator extends Comparator<Move>, SortListener {
 }
