@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.evaluator.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
@@ -11,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
  */
 @Setter
 @Getter
-public class AlphaBetaEvaluation implements AlphaBetaFilter {
+public class AlphaBetaEvaluation implements AlphaBetaFilter, Acceptor {
     private Evaluator evaluator;
 
     @Override

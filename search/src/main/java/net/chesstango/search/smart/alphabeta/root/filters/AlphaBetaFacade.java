@@ -16,7 +16,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
 
     @Setter
     @Getter
-    private AlphaBetaFilter alphaBetaFilter;
+    private AlphaBetaFilter next;
 
     @Setter
     private Game game;
@@ -32,8 +32,8 @@ public class AlphaBetaFacade implements SearchAlgorithm {
         final Color currentTurn = game.getPosition().getCurrentTurn();
 
         final long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                alphaBetaFilter.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
-                alphaBetaFilter.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
+                next.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
+                next.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
     }
 

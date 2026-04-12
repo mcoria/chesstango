@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.transposition.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
@@ -30,7 +31,7 @@ import static net.chesstango.search.Bound.EXACT;
  */
 @Setter
 @Getter
-public class TranspositionTableTerminal implements AlphaBetaFilter {
+public class TranspositionTableTerminal implements AlphaBetaFilter, Acceptor {
 
     private Game game;
 

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
@@ -15,7 +16,7 @@ import static net.chesstango.search.Bound.EXACT;
  * @author Mauricio Coria
  */
 @Setter
-public class TranspositionTableRoot implements AlphaBetaFilter {
+public class TranspositionTableRoot implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;

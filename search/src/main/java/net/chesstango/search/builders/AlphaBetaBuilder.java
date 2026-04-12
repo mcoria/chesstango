@@ -264,7 +264,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void link() {
-        alphaBetaFacade.setAlphaBetaFilter(createChain());
+        alphaBetaFacade.setNext(createChain());
 
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));

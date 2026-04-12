@@ -118,11 +118,7 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(AlphaBetaFacade alphaBetaFacade) {
-        printChainDownLine();
-        printNodeObjectText(alphaBetaFacade);
-
-        AlphaBetaFilter alphaBeta = alphaBetaFacade.getAlphaBetaFilter();
-        alphaBeta.accept(this);
+        print(alphaBetaFacade, alphaBetaFacade.getNext());
     }
 
     @Override
@@ -135,7 +131,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableRoot), printTTable(transpositionTableRoot.getMaxMap())));
 
-        transpositionTableRoot.getNext().accept(this);
+        traverse(transpositionTableRoot.getNext());
     }
 
     @Override
@@ -196,7 +192,7 @@ public class ChainPrinterVisitor implements Visitor {
         moveSorter.accept(this);
         nestedChain--;
 
-        alphaBeta.getNext().accept(this);
+        traverse(alphaBeta.getNext());
     }
 
     @Override
@@ -211,7 +207,7 @@ public class ChainPrinterVisitor implements Visitor {
         moveSorter.accept(this);
         nestedChain--;
 
-        quiescence.getNext().accept(this);
+        traverse(quiescence.getNext());
     }
 
     @Override
@@ -229,7 +225,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [PVCalculator: %s]", objectText(triggerPVCalculation), printTTPVReader(triggerPVCalculation.getPvCalculator())));
 
-        triggerPVCalculation.getNext().accept(this);
+        traverse(triggerPVCalculation.getNext());
     }
 
     @Override
@@ -242,7 +238,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableTerminal), printTTable(transpositionTableTerminal.getMaxMap())));
 
-        transpositionTableTerminal.getNext().accept(this);
+        traverse(transpositionTableTerminal.getNext());
     }
 
     @Override
@@ -250,7 +246,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableLeaf), printTTable(transpositionTableLeaf.getMaxMap())));
 
-        transpositionTableLeaf.getNext().accept(this);
+        traverse(transpositionTableLeaf.getNext());
     }
 
     @Override
@@ -258,7 +254,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getMaxMap())));
 
-        transpositionTable.getNext().accept(this);
+        traverse(transpositionTable.getNext());
     }
 
     @Override
@@ -271,7 +267,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getMaxMap())));
 
-        transpositionTableQ.getNext().accept(this);
+        traverse(transpositionTableQ.getNext());
     }
 
     @Override
@@ -332,35 +328,35 @@ public class ChainPrinterVisitor implements Visitor {
             printChainDownLine();
             printChainText(" -> TerminalNode");
             nestedChain++;
-            terminalNode.accept(this);
+            traverse(terminalNode);
             nestedChain--;
 
             AlphaBetaFilter egtbNode = alphaBetaFlowControl.getEgtbNode();
             out.println();
             printChainText(" -> EgtbNode");
             nestedChain++;
-            egtbNode.accept(this);
+            traverse(egtbNode);
             nestedChain--;
 
             AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
             out.println();
             printChainText(" -> LoopNode");
             nestedChain++;
-            loopNode.accept(this);
+            traverse(loopNode);
             nestedChain--;
 
             AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();
             out.println();
             printChainText(" -> LeafNode");
             nestedChain++;
-            leafNode.accept(this);
+            traverse(leafNode);
             nestedChain--;
 
             AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
             out.println();
             printChainText(" -> InteriorNode");
             nestedChain++;
-            interiorNode.accept(this);
+            traverse(interiorNode);
             nestedChain--;
 
             AlphaBetaFilter horizonNode = alphaBetaFlowControl.getQuiescenceNode();
@@ -368,7 +364,7 @@ public class ChainPrinterVisitor implements Visitor {
                 out.println();
                 printChainText(" -> QuiescenceNode");
                 nestedChain++;
-                horizonNode.accept(this);
+                traverse(horizonNode);
                 nestedChain--;
             }
 
@@ -585,6 +581,22 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
     }
 
+
+    private void traverse(AlphaBetaFilter filter) {
+        if (filter instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
+    private void print(Object object, AlphaBetaFilter next) {
+        printChainDownLine();
+        printNodeObjectText(object);
+
+        if (next instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
+
     private void print(Object object, Acceptor acceptor) {
         printChainDownLine();
         printNodeObjectText(object);
@@ -651,7 +663,7 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
         } else if (ttPvReader instanceof PVCalculatorTransposition ttpvReader) {
             return objectText(ttpvReader);
-        }else if (ttPvReader instanceof PVCalculatorTriangular PVCalculatorTriangular) {
+        } else if (ttPvReader instanceof PVCalculatorTriangular PVCalculatorTriangular) {
             return objectText(PVCalculatorTriangular);
         }
         throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());

@@ -71,7 +71,7 @@ public class AlphaBetaTest {
         this.searchListenerMediator = new SearchListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
+        this.alphaBetaFacade.setNext(alphaBeta);
 
         this.searchListenerMediator.addAllAcceptor(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameToEvaluator, alphaBetaFacade));
         this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameToEvaluator, alphaBetaFacade);

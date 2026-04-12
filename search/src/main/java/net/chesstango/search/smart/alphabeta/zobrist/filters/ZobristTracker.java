@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.zobrist.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 @Setter
 @Getter
-public class ZobristTracker implements AlphaBetaFilter {
+public class ZobristTracker implements AlphaBetaFilter, Acceptor {
     private AlphaBetaFilter next;
     private Map<Long, String> zobristMaxMap;
     private Map<Long, String> zobristMinMap;

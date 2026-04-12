@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.root.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -15,7 +16,7 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 @Setter
-public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener {
+public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCycleListener {
 
     private static final int OFFSET = 64;
 

@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.pv.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -12,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
  * @author Mauricio Coria
  */
 @Setter
-public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class TriangularPV implements AlphaBetaFilter, Acceptor, SearchByCycleListener, SearchByDepthListener {
 
     @Getter
     private AlphaBetaFilter next;
