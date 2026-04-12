@@ -467,20 +467,23 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(" -> NoQuietGroup");
         nestedChain++;
-        noQuietGroup.accept(this);
+        traverse(noQuietGroup);
         nestedChain--;
 
         GroupSorter quietGroup = noQuietBifurcation.getQuietGroup();
         out.println();
         printChainText(" -> QuietGroup");
         nestedChain++;
-        quietGroup.accept(this);
+        traverse(quietGroup);
         nestedChain--;
     }
 
     @Override
     public void visit(PrincipalVariationGroup principalVariationGroup) {
-        print(principalVariationGroup, principalVariationGroup.getNext());
+        printChainDownLine();
+        printNodeObjectText(principalVariationGroup);
+
+        traverse(principalVariationGroup.getNext());
     }
 
     @Override
@@ -577,10 +580,16 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(" -> GroupSorter");
         nestedChain++;
-        groupSorter.accept(this);
+        traverse(groupSorter);
         nestedChain--;
     }
 
+
+    private void traverse(GroupSorter groupSorter) {
+        if (groupSorter instanceof Acceptor acceptor) {
+            acceptor.accept(this);
+        }
+    }
 
     private void traverse(AlphaBetaFilter filter) {
         if (filter instanceof Acceptor acceptor) {

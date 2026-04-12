@@ -2,6 +2,7 @@ package net.chesstango.search.smart.sorters.groupsorters;
 
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.GroupSorter;
 import net.chesstango.search.smart.sorters.MoveComparator;
@@ -20,11 +21,6 @@ public class CatchAllSortGroup implements GroupSorter {
 
     public CatchAllSortGroup() {
         this.collectedMoves = new ArrayList<>();
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
     @Override

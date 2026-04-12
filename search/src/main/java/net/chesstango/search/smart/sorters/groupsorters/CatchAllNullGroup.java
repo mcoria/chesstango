@@ -12,11 +12,6 @@ import java.util.List;
 public class CatchAllNullGroup implements GroupSorter {
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
     public boolean offer(Move move) {
         return true;
     }
