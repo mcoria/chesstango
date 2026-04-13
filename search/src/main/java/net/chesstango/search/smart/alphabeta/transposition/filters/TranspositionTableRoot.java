@@ -22,10 +22,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter, Acceptor {
     private AlphaBetaFilter next;
 
     @Getter
-    protected TTable maxMap;
-
-    @Getter
-    protected TTable minMap;
+    protected TTable tTable;
 
     protected Game game;
 
@@ -51,7 +48,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter, Acceptor {
 
         long hash = game.getPosition().getZobristHash();
 
-        saveEntry(maxMap, hash, alpha, beta, value);
+        saveEntry(hash, alpha, beta, value);
 
         return value;
     }
@@ -62,12 +59,12 @@ public class TranspositionTableRoot implements AlphaBetaFilter, Acceptor {
 
         long hash = game.getPosition().getZobristHash();
 
-        saveEntry(minMap, hash, alpha, beta, value);
+        saveEntry(hash, alpha, beta, value);
 
         return value;
     }
 
-    protected void saveEntry(TTable table, long hash, int alpha, int beta, int value) {
+    protected void saveEntry(long hash, int alpha, int beta, int value) {
         short move = bestMoves[0] != null ? bestMoves[0].binaryEncoding() : 0;
         //TranspositionBound bound;
         if (beta <= value) {
@@ -81,7 +78,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter, Acceptor {
             entryWorkspace.setMove(move);
             entryWorkspace.setValue(value);
 
-            table.save(entryWorkspace);
+            tTable.save(entryWorkspace);
         }
     }
 }

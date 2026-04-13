@@ -23,8 +23,7 @@ import java.util.concurrent.Future;
 @Setter
 public class TTDump implements Acceptor, SearchByDepthListener {
     private Game game;
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable tTable;
 
     private boolean initialStateDumped = false;
 
@@ -52,8 +51,8 @@ public class TTDump implements Acceptor, SearchByDepthListener {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         System.out.println("Dumping " + searchCycle);
-        Future<?> task1 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "maxMap", searchCycle), maxMap));
-        Future<?> task2 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "minMap", searchCycle), minMap));
+        Future<?> task1 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "tTable", searchCycle)));
+        Future<?> task2 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "minMap", searchCycle)));
 
         while (!(task1.isDone() && task2.isDone())) {
             try {
@@ -66,7 +65,7 @@ public class TTDump implements Acceptor, SearchByDepthListener {
         executorService.shutdown();
     }
 
-    private void dumpTable(String fileName, TTable map) {
+    private void dumpTable(String fileName) {
         try {
             FileOutputStream fos = new FileOutputStream(fileName);
             BufferedOutputStream bos = new BufferedOutputStream(fos);

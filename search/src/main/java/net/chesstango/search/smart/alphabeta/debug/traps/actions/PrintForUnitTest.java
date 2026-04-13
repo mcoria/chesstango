@@ -53,13 +53,7 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
 
-                    String table = switch (ttOperation.getTableType()) {
-                        case MAX_MAP -> "maxMap";
-                        case MIN_MAP -> "minMap";
-                    };
-
-                    printStream.printf("%s.write(0x%sL, %d, %d, %d, TranspositionBound.%s); // %s \n",
-                            table,
+                    printStream.printf("tTable.write(0x%sL, %d, %d, %d, TranspositionBound.%s); // %s \n",
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getDraft(),
                             entry.getMove(),

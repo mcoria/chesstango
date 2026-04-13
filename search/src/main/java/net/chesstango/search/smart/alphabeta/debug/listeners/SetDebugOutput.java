@@ -187,9 +187,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s ReadTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s ReadTT[ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
-                    readOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
@@ -205,9 +204,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s WriteTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s WriteTT[ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
-                    writeOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
@@ -247,10 +245,9 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.printf("%s Sorter %s ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]\n",
+                        debugOut.printf("%s Sorter %s ReadTT[ %s 0x%s draft=%d move=? value=%d ]\n",
                                 ">\t".repeat(currentNode.getPly()),
                                 moveStr,
-                                ttOperation.getTableType(),
                                 entry.getBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getDraft(),
@@ -290,9 +287,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
-                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]",
+                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s 0x%s draft=%d move=? value=%d ]",
                             ">\t".repeat(currentNode.getPly()),
-                            ttOperation.getTableType(),
                             entry.getBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getDraft(),
@@ -305,8 +301,7 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
         currentNode.getPvReads().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
-            debugOut.printf(" PV ReadTT[ %s 0x%s %s draft=%d move=? value=%d ]\n",
-                    readOp.getTableType(),
+            debugOut.printf(" PV ReadTT[ 0x%s %s draft=%d move=? value=%d ]\n",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),

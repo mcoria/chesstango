@@ -26,11 +26,7 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
 
     @Setter
     @Getter
-    private TTable maxMap;
-
-    @Setter
-    @Getter
-    private TTable minMap;
+    private TTable tTable;
 
     @Setter
     private MoveToHashMap moveToZobrist;
@@ -55,7 +51,7 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
     @Override
     public void beforeSort(final int currentPly) {
         this.currentTurn = game.getPosition().getCurrentTurn();
-        this.currentMap = Color.WHITE.equals(currentTurn) ? minMap : maxMap;
+        this.currentMap = tTable;
 
         next.beforeSort(currentPly);
     }

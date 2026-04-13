@@ -23,8 +23,8 @@ import java.util.concurrent.Future;
 public class TTLoad implements Acceptor, SearchByDepthListener {
 
     private Game game;
-    private TTable maxMap;
-    private TTable minMap;
+
+    private TTable tTable;
 
     private boolean initialStateLoaded = false;
 
@@ -45,8 +45,8 @@ public class TTLoad implements Acceptor, SearchByDepthListener {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         System.out.println("Loading ...");
-        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", maxMap));
-        Future<?> task2 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", minMap));
+        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", tTable));
+        Future<?> task2 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", tTable));
 
         while (!(task1.isDone() && task2.isDone())) {
             try {
