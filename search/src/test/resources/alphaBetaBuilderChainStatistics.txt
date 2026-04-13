@@ -171,14 +171,11 @@ Acceptor:
 	EvaluatorCacheListener @ 57
 	TTListener @ 58
 	TTableArrayPrimitives @ 8
-	TTableArrayPrimitives @ 68
 	TTableCounters @ 59
 	TTableStatisticsNodeCollector @ 7
-	TTableStatisticsNodeCollector @ 69
 	TTableStatisticsComparatorCollector @ 35
-	TTableStatisticsComparatorCollector @ 70
 	TTableStatisticsListener @ 60
-	SetGameToEndGameTableBase @ 71
+	SetGameToEndGameTableBase @ 68
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 61
 	AlphaBetaFlowControl @ 15

@@ -198,18 +198,13 @@ Acceptor:
 	EvaluatorCacheDebug @ 53
 	TTListener @ 72
 	TTableArrayPrimitives @ 10
-	TTableArrayPrimitives @ 84
 	TTableDebug @ 8
-	TTableDebug @ 85
 	TTableDebug @ 45
-	TTableDebug @ 86
 	TTableCounters @ 73
 	TTableStatisticsNodeCollector @ 9
-	TTableStatisticsNodeCollector @ 87
 	TTableStatisticsComparatorCollector @ 46
-	TTableStatisticsComparatorCollector @ 88
 	TTableStatisticsListener @ 74
-	SetGameToEndGameTableBase @ 89
+	SetGameToEndGameTableBase @ 84
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 75
 	AlphaBetaFlowControl @ 19
@@ -218,7 +213,7 @@ Acceptor:
 	GameCountersCollector @ 78
 	DepthCollector @ 79
 	SetKillerMoveTablesDebug @ 80
-	KillerMovesDebug @ 90
+	KillerMovesDebug @ 85
 	AlphaBetaEvaluation @ 22
 	AlphaBetaTerminalNodeStatistics @ 21
 	DebugFilter @ 20
@@ -249,7 +244,7 @@ Acceptor:
 	AlphaBetaQuiescenceNodeExpected @ 59
 	TranspositionTableQ @ 58
 	DebugFilter @ 56
-	EvaluatorDebug @ 91
+	EvaluatorDebug @ 86
 	Quiescence @ 60
 	NodeMoveSorter @ 62
 	TranspositionHeadMoveComparator @ 64
