@@ -33,9 +33,7 @@ public class PVCalculatorTranspositionTest {
     @Mock
     private EndGameTableBase endGameTableBase;
 
-    private TTableMap maxMap;
-
-    private TTableMap minMap;
+    private TTableMap tTableMap;
 
     private PVCalculatorTransposition pvCalculator;
 
@@ -44,14 +42,12 @@ public class PVCalculatorTranspositionTest {
     @BeforeEach
     public void setup() {
         evaluator = new EvaluatorByFEN();
-        maxMap = new TTableMap();
-        minMap = new TTableMap();
+        tTableMap = new TTableMap();
 
         pvCalculator = new PVCalculatorTransposition();
         pvCalculator.setEvaluator(evaluator);
         pvCalculator.setEndGameTableBase(endGameTableBase);
-        pvCalculator.setMaxMap(maxMap);
-        pvCalculator.setMinMap(minMap);
+        pvCalculator.setTTable(tTableMap);
     }
 
     @Test
@@ -133,7 +129,7 @@ public class PVCalculatorTranspositionTest {
         firstMove.executeMove();
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-        writeTT(minMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
+        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
         pvCalculator.calculatePrincipalVariation(10);
@@ -176,8 +172,8 @@ public class PVCalculatorTranspositionTest {
         firstMove.executeMove();
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-        writeTT(minMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
-        writeTT(maxMap, 0x183558FAE2A3D387L, (short) 0x02DB, 10);
+        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
+        writeTT(tTableMap, 0x183558FAE2A3D387L, (short) 0x02DB, 10);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
         pvCalculator.calculatePrincipalVariation(10);

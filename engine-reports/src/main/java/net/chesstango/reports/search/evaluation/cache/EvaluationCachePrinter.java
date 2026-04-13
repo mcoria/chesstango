@@ -34,7 +34,7 @@ class EvaluationCachePrinter implements Printer {
         out.printf("Cache Hits            : %8d (%2d%%)%n%n", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal);
         out.printf("Read Cache            : %8d%n", reportModel.readFromCacheCounterTotal);
         out.printf("Read Cache Hits       : %8d (%2d%%)%n%n", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal);
-        out.printf("Fill %% Avg           : %8d%%%n", reportModel.fillPercentageAvg);
+        out.printf("Fill Avg              : %8d%%%n", reportModel.fillPercentageAvg);
         out.printf("%n");
         return this;
     }
@@ -45,7 +45,7 @@ class EvaluationCachePrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill %");
+        printerTxtTable.setTitles("Move", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill");
         reportModel.moveDetails.forEach(moveDetail -> {
 
             printerTxtTable.addRow(moveDetail.move,

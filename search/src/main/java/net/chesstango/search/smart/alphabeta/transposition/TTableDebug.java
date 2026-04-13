@@ -16,18 +16,12 @@ import java.util.Optional;
  */
 public class TTableDebug implements TTable, Acceptor {
 
-    private final DebugOperationTT.TableType tableType;
-
     @Setter
     @Getter
     private TTable tTable;
 
     @Setter
     private SearchTracker searchTracker;
-
-    public TTableDebug(DebugOperationTT.TableType tableType) {
-        this.tableType = tableType;
-    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -71,12 +65,11 @@ public class TTableDebug implements TTable, Acceptor {
 
                 Optional<DebugOperationTT> previousReadOpt = readList
                         .stream()
-                        .filter(debugOperation -> debugOperation.getTableType().equals(tableType) && debugOperation.getEntry().getHash() == hashRequested)
+                        .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
                         .findFirst();
 
                 if (previousReadOpt.isEmpty()) {
                     readList.add(new DebugOperationTT()
-                            .setTableType(tableType)
                             .setEntry(entryRead));
                 }
             }
@@ -92,7 +85,6 @@ public class TTableDebug implements TTable, Acceptor {
             List<DebugOperationTT> writeList = currentNode.getCurrentEntryWrite();
 
             writeList.add(new DebugOperationTT()
-                    .setTableType(tableType)
                     .setEntry(entryWrite));
 
         }

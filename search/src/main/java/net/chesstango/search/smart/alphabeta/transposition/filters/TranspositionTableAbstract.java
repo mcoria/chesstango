@@ -18,11 +18,10 @@ import static net.chesstango.search.Bound.*;
 public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
+
     private Game game;
 
-    private TTable maxMap;
-
-    private TTable minMap;
+    private TTable tTable;
 
     private int depth;
 
@@ -42,7 +41,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
 
-        boolean load = maxMap.load(hash, entryWorkspace);
+        boolean load = tTable.load(hash, entryWorkspace);
 
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
@@ -61,7 +60,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(maxMap, hash, currentPly, draft, alpha, beta, value);
+        writeTransposition(hash, currentPly, draft, alpha, beta, value);
 
         return value;
     }
@@ -72,7 +71,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
 
-        boolean load = minMap.load(hash, entryWorkspace);
+        boolean load = tTable.load(hash, entryWorkspace);
 
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
@@ -91,12 +90,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(minMap, hash, currentPly, draft, alpha, beta, value);
+        writeTransposition(hash, currentPly, draft, alpha, beta, value);
 
         return value;
     }
 
-    private void writeTransposition(TTable table, long hash, int currentPly, int draft, int alpha, int beta, int value) {
+    private void writeTransposition(long hash, int currentPly, int draft, int alpha, int beta, int value) {
         short move = bestMoves[currentPly] != null ? bestMoves[currentPly].binaryEncoding() : 0;
 
         entryWorkspace.setHash(hash);
@@ -112,6 +111,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             entryWorkspace.setBound(EXACT);
         }
 
-        table.save(entryWorkspace);
+        tTable.save(entryWorkspace);
     }
 }

@@ -10,24 +10,20 @@ import net.chesstango.search.smart.alphabeta.transposition.comparators.Transposi
  * @author Mauricio Coria
  */
 public class LinkTTableComparatorVisitor implements Visitor {
-    private final TTable maxMap;
-    private final TTable minMap;
+    private final TTable tTable;
 
-    public LinkTTableComparatorVisitor(TTable maxMap, TTable minMap) {
-        this.maxMap = maxMap;
-        this.minMap = minMap;
+    public LinkTTableComparatorVisitor(TTable tTable) {
+        this.tTable = tTable;
     }
 
     @Override
     public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
-        transpositionHeadMoveComparator.setMaxMap(maxMap);
-        transpositionHeadMoveComparator.setMinMap(minMap);
+        transpositionHeadMoveComparator.setTTable(tTable);
     }
 
     @Override
     public void visit(TranspositionTailMoveComparator transpositionHeadMoveComparator) {
-        transpositionHeadMoveComparator.setMaxMap(maxMap);
-        transpositionHeadMoveComparator.setMinMap(minMap);
+        transpositionHeadMoveComparator.setTTable(tTable);
     }
 
 }

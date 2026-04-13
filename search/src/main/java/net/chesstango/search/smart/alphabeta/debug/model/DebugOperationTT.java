@@ -12,10 +12,6 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 @Setter
 @Accessors(chain = true)
 public class DebugOperationTT {
-    public enum TableType {MAX_MAP, MIN_MAP}
-
-    private TableType tableType;
-
     /**
      * Este field es clonado del TranspositionEntry original
      */

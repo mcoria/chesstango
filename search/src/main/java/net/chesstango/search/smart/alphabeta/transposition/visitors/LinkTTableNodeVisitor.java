@@ -9,41 +9,34 @@ import net.chesstango.search.smart.alphabeta.transposition.filters.*;
  * @author Mauricio Coria
  */
 public class LinkTTableNodeVisitor implements Visitor {
-    private final TTable maxMap;
-    private final TTable minMap;
+    private final TTable tTable;
 
-    public LinkTTableNodeVisitor(TTable maxMap, TTable minMap) {
-        this.maxMap = maxMap;
-        this.minMap = minMap;
+    public LinkTTableNodeVisitor(TTable tTable) {
+        this.tTable = tTable;
     }
 
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
-        transpositionTableRoot.setMaxMap(maxMap);
-        transpositionTableRoot.setMinMap(minMap);
+        transpositionTableRoot.setTTable(tTable);
     }
 
     @Override
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
-        transpositionTableTerminal.setMaxMap(maxMap);
-        transpositionTableTerminal.setMinMap(minMap);
+        transpositionTableTerminal.setTTable(tTable);
     }
 
     @Override
     public void visit(TranspositionTableLeaf transpositionTableLeaf) {
-        transpositionTableLeaf.setMaxMap(maxMap);
-        transpositionTableLeaf.setMinMap(minMap);
+        transpositionTableLeaf.setTTable(tTable);
     }
 
     @Override
     public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setMaxMap(maxMap);
-        transpositionTable.setMinMap(minMap);
+        transpositionTable.setTTable(tTable);
     }
 
     @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
-        transpositionTableQ.setMaxMap(maxMap);
-        transpositionTableQ.setMinMap(minMap);
+        transpositionTableQ.setTTable(tTable);
     }
 }

@@ -16,7 +16,7 @@ import static net.chesstango.search.Bound.EXACT;
  * <p>
  * This filter executes after the search reaches terminal positions and stores the exact evaluation values
  * in the transposition tables. It maintains separate tables for maximizing and minimizing positions,
- * as well as separate tables for regular search (maxMap, minMap) and quiescence search (maxQMap, minQMap).
+ * as well as separate tables for regular search and quiescence search.
  * <p>
  * The stored entries are marked with:
  * - EXACT bound (since these are terminal evaluations)
@@ -37,8 +37,7 @@ public class TranspositionTableLeaf implements AlphaBetaFilter, Acceptor {
 
     private Game game;
 
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable tTable;
 
     private AlphaBetaFilter next;
 
@@ -61,13 +60,13 @@ public class TranspositionTableLeaf implements AlphaBetaFilter, Acceptor {
 
         long hash = game.getPosition().getZobristHash();
 
-        if (!maxMap.load(hash, entryWorkspace)) {
+        if (!tTable.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft((byte) 0);
             //entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             //entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
-            maxMap.save(entryWorkspace);
+            tTable.save(entryWorkspace);
         }
 
         //return bestMoveAndValue;
@@ -81,13 +80,13 @@ public class TranspositionTableLeaf implements AlphaBetaFilter, Acceptor {
         long hash = game.getPosition().getZobristHash();
 
 
-        if (!minMap.load(hash, entryWorkspace)) {
+        if (!tTable.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(EXACT);
             entryWorkspace.setDraft((byte) 0);
             //entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             //entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
-            minMap.save(entryWorkspace);
+            tTable.save(entryWorkspace);
         }
 
         //return bestMoveAndValue;

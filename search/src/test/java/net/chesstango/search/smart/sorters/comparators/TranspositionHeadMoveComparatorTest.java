@@ -27,14 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class TranspositionHeadMoveComparatorTest {
 
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable tTable;
     private TranspositionHeadMoveComparator headMoveComparator;
 
     @BeforeEach
     public void setup() {
-        maxMap = new TTableMap();
-        minMap = new TTableMap();
+        tTable = new TTableMap();
         headMoveComparator = new TranspositionHeadMoveComparator();
         headMoveComparator.setNext(new DefaultMoveComparator());
     }
@@ -63,7 +61,7 @@ public class TranspositionHeadMoveComparatorTest {
                 .setMove(move)
                 .setValue(value);
 
-        maxMap.save(entry);
+        tTable.save(entry);
 
         initMoveSorter(game);
 
@@ -92,8 +90,7 @@ public class TranspositionHeadMoveComparatorTest {
 
     private void initMoveSorter(Game game) {
         headMoveComparator.setGame(game);
-        headMoveComparator.setMaxMap(maxMap);
-        headMoveComparator.setMinMap(minMap);
+        headMoveComparator.setTTable(tTable);
     }
 
 }

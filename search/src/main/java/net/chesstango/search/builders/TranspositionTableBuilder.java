@@ -18,29 +18,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.MAX_MAP;
-import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.MIN_MAP;
-
 /**
  * @author Mauricio Corias
  */
 public class TranspositionTableBuilder {
-    private TTable maxMapImp;
-    private TTable minMapImp;
-
     private final TTListener transpositionTablesListener;
 
-    private TTableDebug maxMapNodeDebug;
-    private TTableDebug minMapNodeDebug;
+    private TTable mapImp;
 
-    private TTableDebug maxMapComparatorDebug;
-    private TTableDebug minMapComparatorDebug;
+    private TTableDebug mapNodeDebug;
+
+    private TTableDebug mapComparatorDebug;
 
     private TTableCounters tTableCounters;
-    private TTableStatisticsNodeCollector maxMapNodeCollector;
-    private TTableStatisticsNodeCollector minMapNodeCollector;
-    private TTableStatisticsComparatorCollector maxMapComparatorCollector;
-    private TTableStatisticsComparatorCollector minMapComparatorCollector;
+    private TTableStatisticsNodeCollector mapNodeCollector;
+    private TTableStatisticsComparatorCollector mapComparatorCollector;
     private TTableStatisticsListener tTableStatisticsListener;
 
     private SearchListenerMediator searchListenerMediator;
@@ -48,11 +40,8 @@ public class TranspositionTableBuilder {
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
-    private TTable maxNodeMap;
-    private TTable minNodeMap;
-
-    private TTable maxComparatorMap;
-    private TTable minComparatorMap;
+    private TTable nodeMap;
+    private TTable comparatorMap;
 
     private int hashSize;
 
@@ -89,64 +78,44 @@ public class TranspositionTableBuilder {
     }
 
     private void buildObjects() {
-        maxMapImp = new TTableArrayPrimitives(hashSize);
-
-        minMapImp = new TTableArrayPrimitives(hashSize);
+        mapImp = new TTableArrayPrimitives(hashSize);
 
         if (withDebugSearchTree) {
-            maxMapNodeDebug = new TTableDebug(MAX_MAP);
-            minMapNodeDebug = new TTableDebug(MIN_MAP);
-
-            maxMapComparatorDebug = new TTableDebug(MAX_MAP);
-            minMapComparatorDebug = new TTableDebug(MIN_MAP);
+            mapNodeDebug = new TTableDebug();
+            mapComparatorDebug = new TTableDebug();
         }
+
         if (withStatistics) {
             tTableCounters = new TTableCounters();
-            maxMapNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
-            minMapNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
 
-            maxMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
-            minMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+            mapNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
 
-            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, maxMapImp, minMapImp);
+            mapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+
+            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, mapImp);
         }
     }
 
     private void setupListenerMediator() {
         searchListenerMediator.add(transpositionTablesListener);
 
-        if (maxMapImp instanceof Acceptor maxMapImpAcceptor) {
-            searchListenerMediator.add(maxMapImpAcceptor);
+        if (mapImp instanceof Acceptor acceptor) {
+            searchListenerMediator.add(acceptor);
         }
-        if (minMapImp instanceof Acceptor minMapImpAcceptor) {
-            searchListenerMediator.add(minMapImpAcceptor);
+        if (mapNodeDebug != null) {
+            searchListenerMediator.add(mapNodeDebug);
         }
-        if (maxMapNodeDebug != null) {
-            searchListenerMediator.add(maxMapNodeDebug);
-        }
-        if (minMapNodeDebug != null) {
-            searchListenerMediator.add(minMapNodeDebug);
-        }
-        if (maxMapComparatorDebug != null) {
-            searchListenerMediator.add(maxMapComparatorDebug);
-        }
-        if (minMapComparatorDebug != null) {
-            searchListenerMediator.add(minMapComparatorDebug);
+        if (mapComparatorDebug != null) {
+            searchListenerMediator.add(mapComparatorDebug);
         }
         if (tTableCounters != null) {
             searchListenerMediator.add(tTableCounters);
         }
-        if (maxMapNodeCollector != null) {
-            searchListenerMediator.add(maxMapNodeCollector);
+        if (mapNodeCollector != null) {
+            searchListenerMediator.add(mapNodeCollector);
         }
-        if (minMapNodeCollector != null) {
-            searchListenerMediator.add(minMapNodeCollector);
-        }
-        if (maxMapComparatorCollector != null) {
-            searchListenerMediator.add(maxMapComparatorCollector);
-        }
-        if (minMapComparatorCollector != null) {
-            searchListenerMediator.add(minMapComparatorCollector);
+        if (mapComparatorCollector != null) {
+            searchListenerMediator.add(mapComparatorCollector);
         }
         if (tTableStatisticsListener != null) {
             searchListenerMediator.add(tTableStatisticsListener);
@@ -154,11 +123,8 @@ public class TranspositionTableBuilder {
     }
 
     private void createChains() {
-        maxNodeMap = linkChain(maxMapNodeDebug, maxMapNodeCollector, maxMapImp);
-        minNodeMap = linkChain(minMapNodeDebug, minMapNodeCollector, minMapImp);
-
-        maxComparatorMap = linkChain(maxMapComparatorDebug, maxMapComparatorCollector, maxMapImp);
-        minComparatorMap = linkChain(minMapComparatorDebug, minMapComparatorCollector, minMapImp);
+        nodeMap = linkChain(mapNodeDebug, mapNodeCollector, mapImp);
+        comparatorMap = linkChain(mapComparatorDebug, mapComparatorCollector, mapImp);
     }
 
     private TTable linkChain(TTable... tTables) {
@@ -185,13 +151,12 @@ public class TranspositionTableBuilder {
     }
 
     public void link() {
-        transpositionTablesListener.setMaxMap(maxMapImp);
-        transpositionTablesListener.setMinMap(minMapImp);
+        transpositionTablesListener.setTTable(mapImp);
 
-        searchListenerMediator.accept(new LinkTTableNodeVisitor(maxNodeMap, minNodeMap));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxComparatorMap, minComparatorMap));
+        searchListenerMediator.accept(new LinkTTableNodeVisitor(nodeMap));
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(comparatorMap));
 
         // TTPVReader will not be considering for statistics purposes.
-        searchListenerMediator.accept(new LinkTTableImpVisitor(maxMapImp, minMapImp));
+        searchListenerMediator.accept(new LinkTTableImpVisitor(mapImp));
     }
 }

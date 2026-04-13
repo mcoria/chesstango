@@ -129,7 +129,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableRoot), printTTable(transpositionTableRoot.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableRoot), printTTable(transpositionTableRoot.getTTable())));
 
         traverse(transpositionTableRoot.getNext());
     }
@@ -236,7 +236,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableTerminal), printTTable(transpositionTableTerminal.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableTerminal), printTTable(transpositionTableTerminal.getTTable())));
 
         traverse(transpositionTableTerminal.getNext());
     }
@@ -244,7 +244,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTableLeaf transpositionTableLeaf) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableLeaf), printTTable(transpositionTableLeaf.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableLeaf), printTTable(transpositionTableLeaf.getTTable())));
 
         traverse(transpositionTableLeaf.getNext());
     }
@@ -252,7 +252,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTable transpositionTable) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getTTable())));
 
         traverse(transpositionTable.getNext());
     }
@@ -265,7 +265,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getTTable())));
 
         traverse(transpositionTableQ.getNext());
     }
@@ -386,7 +386,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparator), printTTable(transpositionHeadMoveComparator.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparator), printTTable(transpositionHeadMoveComparator.getTTable())));
 
         traverse(transpositionHeadMoveComparator.getNext());
     }
@@ -394,7 +394,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparator), printTTable(transpositionTailMoveComparator.getMaxMap())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparator), printTTable(transpositionTailMoveComparator.getTTable())));
 
         traverse(transpositionTailMoveComparator.getNext());
     }

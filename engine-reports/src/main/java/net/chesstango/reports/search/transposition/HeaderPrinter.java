@@ -30,8 +30,7 @@ public class HeaderPrinter implements Printer {
         out.printf("Updates               : %10d (%2d%%)%n", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal);
         out.printf("OverWrites            : %10d (%2d%%)%n", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal);
         out.printf("Writes                : %10d%n", transpositionModel.writesTotal);
-        out.printf("MaxFill %% Avg         : %10d%%%n", transpositionModel.maxMapFillPercentageAvg);
-        out.printf("MinFill %% Avg         : %10d%%%n", transpositionModel.minMapFillPercentageAvg);
+        out.printf("Fill Avg              : %10d%%%n", transpositionModel.mapFillPercentageAvg);
         out.printf("%n");
 
         return this;

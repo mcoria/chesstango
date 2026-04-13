@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.transposition.comparators;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
@@ -23,10 +22,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
     private Game game;
 
     @Getter
-    private TTable maxMap;
-
-    @Getter
-    private TTable minMap;
+    private TTable tTable;
 
     private short bestMoveEncoded;
 
@@ -43,12 +39,9 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
 
     @Override
     public void beforeSort(final int currentPly) {
-        final Color currentTurn = game.getPosition().getCurrentTurn();
-
         long hash = game.getPosition().getZobristHash();
 
-        boolean load = Color.WHITE.equals(currentTurn) ?
-                maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
+        boolean load = tTable.load(hash, entryWorkspace) ;
 
         if (load) {
             bestMoveEncoded = entryWorkspace.getMove();

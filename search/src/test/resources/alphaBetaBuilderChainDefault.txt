@@ -143,8 +143,7 @@ Acceptor:
 	EvaluatorCacheListener @ 44
 	TTListener @ 45
 	TTableArrayPrimitives @ 6
-	TTableArrayPrimitives @ 50
-	SetGameToEndGameTableBase @ 51
+	SetGameToEndGameTableBase @ 50
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 46
 	AlphaBetaFlowControl @ 13

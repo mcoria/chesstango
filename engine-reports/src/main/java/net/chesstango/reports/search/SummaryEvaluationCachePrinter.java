@@ -31,7 +31,7 @@ public class SummaryEvaluationCachePrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill % Avg");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill Avg");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
