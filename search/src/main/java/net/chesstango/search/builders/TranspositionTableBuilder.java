@@ -99,8 +99,8 @@ public class TranspositionTableBuilder {
     private void setupListenerMediator() {
         searchListenerMediator.add(transpositionTablesListener);
 
-        if (mapImp instanceof Acceptor maxMapImpAcceptor) {
-            searchListenerMediator.add(maxMapImpAcceptor);
+        if (mapImp instanceof Acceptor acceptor) {
+            searchListenerMediator.add(acceptor);
         }
         if (mapNodeDebug != null) {
             searchListenerMediator.add(mapNodeDebug);

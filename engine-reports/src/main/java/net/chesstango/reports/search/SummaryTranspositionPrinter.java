@@ -41,7 +41,7 @@ public class SummaryTranspositionPrinter implements Printer {
                     Long.toString(row.writesTotal),
                     String.format("%d (%2d%%)", row.updatesTotal, row.updatesPercentageTotal),
                     String.format("%d (%2d%%)", row.overWritesTotal, row.overWritesPercentageTotal),
-                    String.format("%2d%%", row.maxMapFillPercentageAvg)
+                    String.format("%2d%%", row.mapFillPercentageAvg)
             );
         });
         printerTxtTable.print();

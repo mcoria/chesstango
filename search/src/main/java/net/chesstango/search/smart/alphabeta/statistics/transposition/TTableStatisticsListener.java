@@ -32,9 +32,9 @@ public class TTableStatisticsListener implements Acceptor, SearchByCycleListener
 
     @Override
     public void afterSearch() {
-        int maxMapFillPercentage = getFillPercentage(tTable);
+        int mapFillPercentage = getFillPercentage(tTable);
 
-        tTableCounters.setMaxMapFillPercentage(maxMapFillPercentage);
+        tTableCounters.setMapFillPercentage(mapFillPercentage);
     }
 
     private int getFillPercentage(TTable tTable) {

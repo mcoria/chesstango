@@ -45,7 +45,7 @@ public class TTLoad implements Acceptor, SearchByDepthListener {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         System.out.println("Loading ...");
-        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", tTable));
+        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\map-0.ser", tTable));
 
         while (!(task1.isDone())) {
             try {

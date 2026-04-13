@@ -11,17 +11,17 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetZobristMemoryVisitor implements Visitor {
-    private final Map<Long, String> zobristMaxMap;
+    private final Map<Long, String> zobristMap;
     private final List<String> zobristCollisions;
 
-    public SetZobristMemoryVisitor(Map<Long, String> zobristMaxMap, List<String> zobristCollisions) {
-        this.zobristMaxMap = zobristMaxMap;
+    public SetZobristMemoryVisitor(Map<Long, String> zobristMap, List<String> zobristCollisions) {
+        this.zobristMap = zobristMap;
         this.zobristCollisions = zobristCollisions;
     }
 
     @Override
     public void visit(ZobristTracker zobristTracker) {
-        zobristTracker.setZobristMap(zobristMaxMap);
+        zobristTracker.setZobristMap(zobristMap);
         zobristTracker.setZobristCollisions(zobristCollisions);
     }
 }

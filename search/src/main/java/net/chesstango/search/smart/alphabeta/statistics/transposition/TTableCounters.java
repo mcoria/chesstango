@@ -20,7 +20,7 @@ public class TTableCounters implements Acceptor, SearchByCycleListener {
     private long updates;
 
     @Setter
-    private int maxMapFillPercentage;
+    private int mapFillPercentage;
 
     public void increaseReads() {
         reads++;
@@ -57,7 +57,7 @@ public class TTableCounters implements Acceptor, SearchByCycleListener {
         updates = 0;
         overWrites = 0;
 
-        maxMapFillPercentage = 0;
+        mapFillPercentage = 0;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TTableCounters implements Acceptor, SearchByCycleListener {
     }
 
     public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(reads, readNodeHits, readComparatorHits, writes, updates, overWrites, maxMapFillPercentage);
+        return new TTableStatistics(reads, readNodeHits, readComparatorHits, writes, updates, overWrites, mapFillPercentage);
     }
 
 }
