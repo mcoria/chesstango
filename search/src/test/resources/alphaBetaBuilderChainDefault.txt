@@ -22,163 +22,198 @@ AlphaBeta @ 7
 |
 RootMoveEvaluationTracker @ 10
 |
-TriggerPVCalculation @ 11 [PVCalculator: PVCalculatorTransposition @ 12]
+TriggerPVCalculation @ 11 [PVCalculator: PVCalculatorTriangular @ 12]
 |
-AlphaBetaFlowControl @ 13
+TriangularPV @ 13
+|
+AlphaBetaFlowControl @ 14
 |
  -> TerminalNode
 	|
-	AlphaBetaEvaluation @ 14 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
+	AlphaBetaEvaluation @ 15 [Evaluator: EvaluatorCache @ 16 -> EvaluatorByMaterial @ 17]
 
  -> EgtbNode
 	|
-	EgtbEvaluation @ 17 [EndGameTableBase: EndGameTableBaseNull @ 18]
+	EgtbEvaluation @ 18 [EndGameTableBase: EndGameTableBaseNull @ 19]
 
  -> LoopNode
 	|
-	LoopEvaluation @ 19
+	LoopEvaluation @ 20
 
  -> LeafNode
 	|
-	AlphaBetaEvaluation @ 20 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
+	AlphaBetaEvaluation @ 21 [Evaluator: EvaluatorCache @ 16 -> EvaluatorByMaterial @ 17]
 
  -> InteriorNode
 	|
-	TranspositionTable @ 21 [TTable: TTableArrayPrimitives @ 6]
+	TranspositionTable @ 22 [TTable: TTableArrayPrimitives @ 6]
 	|
-	AlphaBeta @ 22
+	AlphaBeta @ 23
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 23
+		NodeMoveSorter @ 24
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 24
+			PrincipalVariationComparator @ 25
 			|
-			TranspositionHeadMoveComparator @ 25 [TTable: TTableArrayPrimitives @ 6]
+			TranspositionHeadMoveComparator @ 26 [TTable: TTableArrayPrimitives @ 6]
 			|
-			TranspositionTailMoveComparator @ 26 [TTable: TTableArrayPrimitives @ 6]
+			TranspositionTailMoveComparator @ 27 [TTable: TTableArrayPrimitives @ 6]
 			|
-			QuietComparator @ 27
+			QuietComparator @ 28
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 28
+				PromotionComparator @ 29
 				|
-				RecaptureMoveComparator @ 29
+				RecaptureMoveComparator @ 30
 				|
-				MvvLvaComparator @ 30
+				MvvLvaComparator @ 31
 				|
-				GameEvaluatorCacheComparator @ 31 [EvaluatorCacheRead: EvaluatorCache @ 15]
+				GameEvaluatorCacheComparator @ 32 [EvaluatorCacheRead: EvaluatorCache @ 16]
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 32
+				KillerMoveComparator @ 33
 				|
-				GameEvaluatorCacheComparator @ 31 [EvaluatorCacheRead: EvaluatorCache @ 15]
+				GameEvaluatorCacheComparator @ 32 [EvaluatorCacheRead: EvaluatorCache @ 16]
 	|
-	KillerMoveTracker @ 33
+	TriangularPV @ 34
 	|
-	AlphaBetaFlowControl @ 13 -> LOOP
+	KillerMoveTracker @ 35
+	|
+	AlphaBetaFlowControl @ 14 -> LOOP
 
  -> QuiescenceNode
 	|
-	TranspositionTableQ @ 34 [TTable: TTableArrayPrimitives @ 6]
+	TranspositionTableQ @ 36 [TTable: TTableArrayPrimitives @ 6]
 	|
-	Quiescence @ 35 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
+	Quiescence @ 37 [Evaluator: EvaluatorCache @ 16 -> EvaluatorByMaterial @ 17]
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 36
+		NodeMoveSorter @ 38
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 37
+			PrincipalVariationComparator @ 39
 			|
-			TranspositionHeadMoveComparator @ 38 [TTable: TTableArrayPrimitives @ 6]
+			TranspositionHeadMoveComparator @ 40 [TTable: TTableArrayPrimitives @ 6]
 			|
-			TranspositionTailMoveComparator @ 39 [TTable: TTableArrayPrimitives @ 6]
+			TranspositionTailMoveComparator @ 41 [TTable: TTableArrayPrimitives @ 6]
 			|
-			PromotionComparator @ 40
+			PromotionComparator @ 42
 			|
-			RecaptureMoveComparator @ 41
+			RecaptureMoveComparator @ 43
 			|
-			MvvLvaComparator @ 42
+			MvvLvaComparator @ 44
 			|
-			GameEvaluatorCacheComparator @ 43 [EvaluatorCacheRead: EvaluatorCache @ 15]
+			GameEvaluatorCacheComparator @ 45 [EvaluatorCacheRead: EvaluatorCache @ 16]
 	|
-	AlphaBetaFlowControl @ 13 -> LOOP
+	TriangularPV @ 46
+	|
+	AlphaBetaFlowControl @ 14 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 44
-	TTListener @ 45
-	SetSearchTimers @ 46
-	AlphaBetaFlowControl @ 13
-	SetKillerMoveTables @ 47
-	PrincipalVariationComparator @ 24
-	PrincipalVariationComparator @ 37
-	RootMoveEvaluationCollection @ 48
+	EvaluatorCacheListener @ 47
+	TTListener @ 48
+	SetSearchTimers @ 49
+	AlphaBetaFlowControl @ 14
+	SetKillerMoveTables @ 50
+	TriangularPV @ 34
+	PrincipalVariationComparator @ 25
+	TriangularPV @ 46
+	PrincipalVariationComparator @ 39
+	RootMoveEvaluationCollection @ 51
 	AspirationWindows @ 4
-	PVCalculatorTransposition @ 12
+	TriangularPV @ 13
+	PVCalculatorTriangular @ 12
 	RootMoveSorter @ 8
 
 SearchByDepthListener:
-	SetSearchTimers @ 46
-	RootMoveEvaluationCollection @ 48
+	SetSearchTimers @ 49
+	TriangularPV @ 34
+	TriangularPV @ 46
+	RootMoveEvaluationCollection @ 51
+	TriangularPV @ 13
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCollection @ 51
 
 StopSearchingListener:
-	AlphaBetaFlowControl @ 13
+	AlphaBetaFlowControl @ 14
 
 ResetListener:
-	EvaluatorCacheListener @ 44
-	TTListener @ 45
+	EvaluatorCacheListener @ 47
+	TTListener @ 48
 
 Acceptor:
-	SetGameToEvaluator @ 49
-	EvaluatorCacheListener @ 44
-	TTListener @ 45
+	SetGameToEvaluator @ 52
+	EvaluatorCacheListener @ 47
+	TTListener @ 48
 	TTableArrayPrimitives @ 6
-	TTableArrayPrimitives @ 50
-	SetGameToEndGameTableBase @ 51
+	TTableArrayPrimitives @ 53
+	SetGameToEndGameTableBase @ 54
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 46
-	AlphaBetaFlowControl @ 13
-	SetKillerMoveTables @ 47
-	AlphaBetaEvaluation @ 14
-	AlphaBetaEvaluation @ 20
-	TranspositionTable @ 21
-	KillerMoveTracker @ 33
-	AlphaBeta @ 22
-	NodeMoveSorter @ 23
-	QuietComparator @ 27
-	TranspositionHeadMoveComparator @ 25
-	TranspositionTailMoveComparator @ 26
-	PrincipalVariationComparator @ 24
-	RecaptureMoveComparator @ 29
-	GameEvaluatorCacheComparator @ 31
-	KillerMoveComparator @ 32
-	EgtbEvaluation @ 17
-	TranspositionTableQ @ 34
-	Quiescence @ 35
-	NodeMoveSorter @ 36
-	TranspositionHeadMoveComparator @ 38
-	TranspositionTailMoveComparator @ 39
-	PrincipalVariationComparator @ 37
-	RecaptureMoveComparator @ 41
-	GameEvaluatorCacheComparator @ 43
+	SetSearchTimers @ 49
+	AlphaBetaFlowControl @ 14
+	SetKillerMoveTables @ 50
+	AlphaBetaEvaluation @ 15
+	AlphaBetaEvaluation @ 21
+	TranspositionTable @ 22
+	TriangularPV @ 34
+	KillerMoveTracker @ 35
+	AlphaBeta @ 23
+	NodeMoveSorter @ 24
+	QuietComparator @ 28
+	TranspositionHeadMoveComparator @ 26
+	TranspositionTailMoveComparator @ 27
+	PrincipalVariationComparator @ 25
+	RecaptureMoveComparator @ 30
+	GameEvaluatorCacheComparator @ 32
+	KillerMoveComparator @ 33
+	EgtbEvaluation @ 18
+	TranspositionTableQ @ 36
+	TriangularPV @ 46
+	Quiescence @ 37
+	NodeMoveSorter @ 38
+	TranspositionHeadMoveComparator @ 40
+	TranspositionTailMoveComparator @ 41
+	PrincipalVariationComparator @ 39
+	RecaptureMoveComparator @ 43
+	GameEvaluatorCacheComparator @ 45
 	RootMoveEvaluationTracker @ 10
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCollection @ 51
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TranspositionTableRoot @ 5
 	TriggerPVCalculation @ 11
-	PVCalculatorTransposition @ 12
+	TriangularPV @ 13
+	PVCalculatorTriangular @ 12
 	AlphaBeta @ 7
 	RootMoveSorter @ 8
 	NodeGroupSorter @ 9
+
+
+expected: <189> but was: <199>
+Comparison Failure:
+Expected :189
+Actual   :199
+<Click to see difference>
+
+org.opentest4j.AssertionFailedError: expected: <189> but was: <199>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at net.chesstango.search@1.7.0-SNAPSHOT/net.chesstango.search.visitors.ChainPrinterVisitorTest.assertSearchTree(ChainPrinterVisitorTest.java:161)
+	at net.chesstango.search@1.7.0-SNAPSHOT/net.chesstango.search.visitors.ChainPrinterVisitorTest.alphaBetaBuilderChainDefault(ChainPrinterVisitorTest.java:61)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 

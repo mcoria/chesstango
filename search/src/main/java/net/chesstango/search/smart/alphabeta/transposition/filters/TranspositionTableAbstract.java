@@ -18,6 +18,7 @@ import static net.chesstango.search.Bound.*;
 public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
+
     private Game game;
 
     private TTable maxMap;
@@ -46,9 +47,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
-            if (entryWorkspace.getBound() == EXACT) {
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
+            if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
                 return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
                 return entryWorkspace.getValue();

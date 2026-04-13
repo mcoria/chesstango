@@ -106,6 +106,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected  void buildObjects() {
+        triangularPV = new TriangularPV();
         if (withStatistics) {
             alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
             alphaBetaQuiescenceNodeExpected = new AlphaBetaQuiescenceNodeExpected();
@@ -119,9 +120,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
             gameEvaluatorDebug = new EvaluatorDebug();
-        }
-        if (!withTranspositionTable) {
-            triangularPV = new TriangularPV();
         }
     }
 

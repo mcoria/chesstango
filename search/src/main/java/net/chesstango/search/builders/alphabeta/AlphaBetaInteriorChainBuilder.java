@@ -111,6 +111,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void buildObjects() {
+        triangularPV = new TriangularPV();
         if (withStatistics) {
             alphaBetaInteriorNodeVisited = new AlphaBetaInteriorNodeVisited();
             alphaBetaInteriorNodeExpected = new AlphaBetaInteriorNodeExpected();
@@ -123,9 +124,6 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.INTERIOR);
-        }
-        if (!withTranspositionTable) {
-            triangularPV = new TriangularPV();
         }
         if (withKillerMoveSorter) {
             killerMoveTracker = new KillerMoveTracker();
@@ -190,7 +188,6 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         }
 
         chain.add(alphaBeta);
-
 
         if (triangularPV != null) {
             chain.add(triangularPV);

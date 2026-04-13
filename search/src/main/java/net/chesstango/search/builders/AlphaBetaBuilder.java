@@ -273,9 +273,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.link();
         }
 
-        if (!withTranspositionTable) {
-            searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
-        }
+        searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
 
         if (withStatistics) {
             searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
