@@ -38,7 +38,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     int currentAge;
 
     public TTableArrayPrimitives(int hashSize) {
-        setupHashTable(DEFAULT_HASH_SIZE_KB);
+        setupHashTable(hashSize);
     }
 
     public void setupHashTable(int hashSize) {
