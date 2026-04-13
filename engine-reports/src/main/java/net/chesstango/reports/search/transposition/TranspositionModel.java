@@ -39,8 +39,6 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
     public int maxMapFillPercentageAvg;
 
-    public int minMapFillPercentageAvg;
-
     public List<TranspositionModelDetail> transpositionModelDetail;
 
     public static class TranspositionModelDetail {
@@ -69,8 +67,6 @@ public class TranspositionModel implements Model<List<SearchResult>> {
         public int overWritePercentage;
 
         public int maxMapFillPercentage;
-
-        public int minMapFillPercentage;
     }
 
     @Override
@@ -93,7 +89,6 @@ public class TranspositionModel implements Model<List<SearchResult>> {
         this.overWritesPercentageTotal = writesTotal > 0 ? (int) (100 * overWritesTotal / writesTotal) : 0;
 
         this.maxMapFillPercentageAvg = (int) transpositionModelDetail.stream().mapToInt(detail -> detail.maxMapFillPercentage).average().orElse(0);
-        this.minMapFillPercentageAvg = (int) transpositionModelDetail.stream().mapToInt(detail -> detail.minMapFillPercentage).average().orElse(0);
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -117,8 +112,6 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.overWrites = ttableStatistics.overWrites();
             transpositionModelDetail.overWritePercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.overWrites() / ttableStatistics.writes()) : 0;
             transpositionModelDetail.maxMapFillPercentage = ttableStatistics.maxMapFillPercentage();
-            transpositionModelDetail.minMapFillPercentage = ttableStatistics.minMapFillPercentage();
-
 
             this.searches++;
             this.readsTotal += transpositionModelDetail.reads;

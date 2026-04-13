@@ -42,12 +42,12 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     }
 
     public void setupHashTable(int hashSize) {
-        this.arraySize = (hashSize / 32)  * 1024;
+        this.arraySize = (hashSize / 16)  * 1024;
         if (arraySize < 1) {
             throw new IllegalArgumentException("Hash size must be greater than 0");
         }
-        this.hashArray = new long[arraySize]; // 8MB table
-        this.dataArray = new long[arraySize]; // 8MB table
+        this.hashArray = new long[arraySize]; // 8 bytes * 2048 = 16MB table
+        this.dataArray = new long[arraySize]; // 8 bytes * 2048 = 16MB table
         this.currentAge = STALE_AGE;
     }
 

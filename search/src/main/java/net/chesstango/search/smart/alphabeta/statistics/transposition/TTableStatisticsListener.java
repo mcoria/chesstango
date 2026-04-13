@@ -35,7 +35,6 @@ public class TTableStatisticsListener implements Acceptor, SearchByCycleListener
         int maxMapFillPercentage = getFillPercentage(tTable);
 
         tTableCounters.setMaxMapFillPercentage(maxMapFillPercentage);
-        tTableCounters.setMinMapFillPercentage(maxMapFillPercentage);
     }
 
     private int getFillPercentage(TTable tTable) {

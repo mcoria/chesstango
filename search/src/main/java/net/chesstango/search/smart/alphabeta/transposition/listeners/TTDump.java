@@ -52,9 +52,8 @@ public class TTDump implements Acceptor, SearchByDepthListener {
 
         System.out.println("Dumping " + searchCycle);
         Future<?> task1 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "tTable", searchCycle)));
-        Future<?> task2 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "minMap", searchCycle)));
 
-        while (!(task1.isDone() && task2.isDone())) {
+        while (!(task1.isDone())) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

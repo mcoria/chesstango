@@ -16,7 +16,7 @@ import static net.chesstango.search.Bound.EXACT;
  * <p>
  * This filter executes after the search reaches terminal positions and stores the exact evaluation values
  * in the transposition tables. It maintains separate tables for maximizing and minimizing positions,
- * as well as separate tables for regular search (tTable, minMap) and quiescence search (maxQMap, minQMap).
+ * as well as separate tables for regular search and quiescence search.
  * <p>
  * The stored entries are marked with:
  * - EXACT bound (since these are terminal evaluations)

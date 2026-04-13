@@ -19,5 +19,5 @@ import java.io.Serializable;
  */
 public record TTableStatistics(long reads, long readNodeHits, long readComparatorHits,
                                long writes, long updates, long overWrites,
-                               int maxMapFillPercentage, int minMapFillPercentage) implements Serializable {
+                               int maxMapFillPercentage) implements Serializable {
 }
