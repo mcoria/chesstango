@@ -15,14 +15,14 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 @Setter
 public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
+    private final DebugNode.NodeTopology topology;
+
     @Getter
     private AlphaBetaFilter next;
 
     private SearchTracker searchTracker;
 
     private Game game;
-
-    private final DebugNode.NodeTopology topology;
 
     public DebugFilter(DebugNode.NodeTopology topology) {
         this.topology = topology;
@@ -55,5 +55,4 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
         return currentValue;
     }
-
 }
