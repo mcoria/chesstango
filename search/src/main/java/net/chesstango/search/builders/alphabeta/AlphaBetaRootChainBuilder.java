@@ -48,8 +48,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private TriangularPV triangularPV;
     private PVCalculatorTriangular trianglePVReader;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private PVCalculatorTransposition transpositionPVReader;
-    private PVCalculatorDebug ttpvReaderDebug;
+    private PVCalculatorTransposition pvCalculatorTransposition;
+    private PVCalculatorDebug pvCalculatorDebug;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -132,15 +132,15 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             transpositionTableRoot = new TranspositionTableRoot();
 
             triggerPVCalculation = new TriggerPVCalculation();
-            transpositionPVReader = new PVCalculatorTransposition();
+            pvCalculatorTransposition = new PVCalculatorTransposition();
 
             if (withDebugSearchTree) {
-                ttpvReaderDebug = new PVCalculatorDebug();
-                ttpvReaderDebug.setImp(transpositionPVReader);
+                pvCalculatorDebug = new PVCalculatorDebug();
+                pvCalculatorDebug.setImp(pvCalculatorTransposition);
 
-                triggerPVCalculation.setPvCalculator(ttpvReaderDebug);
+                triggerPVCalculation.setPvCalculator(pvCalculatorDebug);
             } else {
-                triggerPVCalculation.setPvCalculator(transpositionPVReader);
+                triggerPVCalculation.setPvCalculator(pvCalculatorTransposition);
             }
         }
 
@@ -158,10 +158,10 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             trianglePVReader = new PVCalculatorTriangular();
 
             if (withDebugSearchTree) {
-                ttpvReaderDebug = new PVCalculatorDebug();
-                ttpvReaderDebug.setImp(trianglePVReader);
+                pvCalculatorDebug = new PVCalculatorDebug();
+                pvCalculatorDebug.setImp(trianglePVReader);
 
-                triggerPVCalculation.setPvCalculator(ttpvReaderDebug);
+                triggerPVCalculation.setPvCalculator(pvCalculatorDebug);
             } else {
                 triggerPVCalculation.setPvCalculator(trianglePVReader);
             }
@@ -214,12 +214,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(trianglePVReader);
         }
 
-        if (transpositionPVReader != null) {
-            searchListenerMediator.add(transpositionPVReader);
+        if (pvCalculatorTransposition != null) {
+            searchListenerMediator.add(pvCalculatorTransposition);
         }
 
-        if (ttpvReaderDebug != null) {
-            searchListenerMediator.add(ttpvReaderDebug);
+        if (pvCalculatorDebug != null) {
+            searchListenerMediator.add(pvCalculatorDebug);
         }
 
         searchListenerMediator.add(alphaBeta);

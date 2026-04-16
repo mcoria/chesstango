@@ -118,7 +118,13 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
 
     private void dumpSearchTracker() {
         debugErrorMessages = new LinkedList<>();
-        dumpNode(searchTracker.getRootNode());
+
+        DebugNode rootNode = searchTracker.getRootNode();
+        dumpNode(rootNode);
+        if (showNodeTranspositionAccess) {
+            showNodePVTranspositionAccess(rootNode);
+        }
+
         debugErrorMessages.forEach(debugOut::println);
         debugOut.flush();
     }
@@ -151,10 +157,6 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
             } else {
                 dumpNode(childNode);
             }
-        }
-
-        if (showNodeTranspositionAccess) {
-            showNodePVTranspositionAccess(currentNode);
         }
     }
 

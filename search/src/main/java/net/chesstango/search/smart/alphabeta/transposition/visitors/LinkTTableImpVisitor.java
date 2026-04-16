@@ -17,11 +17,6 @@ public class LinkTTableImpVisitor implements Visitor {
         this.tTable = tTable;
     }
 
-    @Override
-    public void visit(PVCalculatorTransposition pvCalculatorTransposition) {
-        pvCalculatorTransposition.setTTable(tTable);
-    }
-
 
     @Override
     public void visit(TTDump ttDump) {

@@ -58,7 +58,7 @@ public class SearchTest {
                 .createDefaultBuilderInstance()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(false, true, true)
+                .withDebugSearchTree(true, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(3));
