@@ -35,7 +35,7 @@ public class SearchTest {
         Search search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                //.withDebugSearchTree(false, true, true)
+                .withDebugSearchTree(true, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(9));
@@ -58,7 +58,7 @@ public class SearchTest {
                 .createDefaultBuilderInstance()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, false, false)
+                .withDebugSearchTree(false, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(3));

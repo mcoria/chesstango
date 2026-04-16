@@ -4,7 +4,6 @@ package net.chesstango.search.builders;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
@@ -16,8 +15,9 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.core.visitors.LinkBestMovesArray;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.visitors.LinkSearchTrackerVisitor;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
@@ -62,10 +62,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private DepthCollector depthCollector;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
-    private SetSearchTracker setSearchTracker;
     private SetKillerMoveTables setKillerMoveTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private DebugNodeTrap debugNodeTrap;
+    private SearchTracker searchTracker;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -258,34 +258,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         link();
 
-        setupListenerMediatorAfterChain();
-
         return search;
-    }
-
-    private void link() {
-        alphaBetaFacade.setNext(createChain());
-
-        searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
-        searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
-
-        if (withTranspositionTable) {
-            transpositionTableBuilder.link();
-        }
-
-        if (!withTranspositionTable) {
-            searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
-        }
-
-        if (withStatistics) {
-            searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
-        }
-
-        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
-
-        searchListenerMediator.accept(new LinkBestMovesArray(new Move[40]));
-
-        evaluationBuilder.link();
     }
 
     private void buildObjects() {
@@ -318,11 +291,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         if (withDebugSearchTree) {
-            setSearchTracker = new SetSearchTracker();
+            searchTracker = new SearchTracker();
             setDebugOutput = new SetDebugOutput(withAspirationWindows, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
-            if (debugNodeTrap != null) {
-                setDebugOutput.setDebugNodeTrap(debugNodeTrap);
-            }
         }
 
         if (withKillerMoveSorter) {
@@ -343,10 +313,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         searchListenerMediator.add(setSearchTimers);
 
         searchListenerMediator.add(alphaBetaFlowControl);
-
-        if (setSearchTracker != null) {
-            searchListenerMediator.add(setSearchTracker);
-        }
 
         if (setZobristMemory != null) {
             searchListenerMediator.add(setZobristMemory);
@@ -372,17 +338,54 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(setKillerMoveTablesDebug);
             searchListenerMediator.add(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
-    }
 
-    private void setupListenerMediatorAfterChain() {
-        if (debugNodeTrap instanceof Acceptor acceptor) {
-            searchListenerMediator.add(acceptor);
+        if (searchTracker != null) {
+            searchListenerMediator.add(searchTracker);
         }
+
+        if (debugNodeTrap != null) {
+            searchListenerMediator.add(debugNodeTrap);
+        }
+
         if (setDebugOutput != null) {
             searchListenerMediator.add(setDebugOutput);
         }
     }
 
+    private void link() {
+        alphaBetaFacade.setNext(createChain());
+
+        searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
+
+        searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
+
+        if (withTranspositionTable) {
+            transpositionTableBuilder.link();
+        }
+
+        if (!withTranspositionTable) {
+            searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
+        }
+
+        if (withStatistics) {
+            depthCollector.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
+
+            searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
+        }
+
+        if (withDebugSearchTree) {
+            if (debugNodeTrap != null) {
+                setDebugOutput.setDebugNodeTrap(debugNodeTrap);
+            }
+            searchListenerMediator.accept(new LinkSearchTrackerVisitor(searchTracker));
+        }
+
+        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+
+        searchListenerMediator.accept(new LinkBestMovesArray(new Move[40]));
+
+        evaluationBuilder.link();
+    }
 
     private AlphaBetaFilter createChain() {
         terminalChainBuilder.withSmartListenerMediator(searchListenerMediator);

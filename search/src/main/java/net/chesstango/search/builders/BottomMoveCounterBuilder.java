@@ -8,14 +8,12 @@ import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
@@ -49,7 +47,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private NodeCounters nodeCounters;
     private SetDebugOutput setDebugOutput;
-    private SetSearchTracker setSearchTracker;
     private SetKillerMoveTables setKillerMoveTables;
     private DebugNodeTrap debugNodeTrap;
 
@@ -233,7 +230,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setSearchTracker = new SetSearchTracker();
+
             setDebugOutput = new SetDebugOutput(false, false, showNodeTranspositionAccess, showSorterOperations);
         }
 
@@ -254,10 +251,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         searchListenerMediator.add(bottomMoveCounterFacade);
 
         searchListenerMediator.add(setSearchTimers);
-
-        if (setSearchTracker != null) {
-            searchListenerMediator.add(setSearchTracker);
-        }
 
         if (resetTranspositionTables != null) {
             searchListenerMediator.add(resetTranspositionTables);

@@ -6,7 +6,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
@@ -180,8 +180,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(SetSearchTracker setSearchTracker) {
-        setSearchTracker.setGame(game);
+    public void visit(SearchTracker searchTracker) {
+        searchTracker.setGame(game);
     }
 
     /**

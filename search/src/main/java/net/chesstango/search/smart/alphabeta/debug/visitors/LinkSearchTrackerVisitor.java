@@ -15,10 +15,10 @@ import net.chesstango.search.smart.sorters.MoveSorterDebug;
  *
  * @author Mauricio Coria
  */
-public class SetSearchTrackerVisitor implements Visitor {
+public class LinkSearchTrackerVisitor implements Visitor {
     private final SearchTracker searchTracker;
 
-    public SetSearchTrackerVisitor(SearchTracker searchTracker) {
+    public LinkSearchTrackerVisitor(SearchTracker searchTracker) {
         this.searchTracker = searchTracker;
     }
 

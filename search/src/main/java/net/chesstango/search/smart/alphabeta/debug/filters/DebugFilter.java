@@ -33,7 +33,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int maximize(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = createDebugNode("MAX", currentPly, alpha, beta);
+        DebugNode debugNode = createDebugNode("WHITE", currentPly, alpha, beta);
 
         int currentValue = next.maximize(currentPly, alpha, beta);
 
@@ -55,7 +55,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int minimize(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = createDebugNode("MIN", currentPly, alpha, beta);
+        DebugNode debugNode = createDebugNode("BLACK", currentPly, alpha, beta);
 
         int currentValue = next.minimize(currentPly, alpha, beta);
 

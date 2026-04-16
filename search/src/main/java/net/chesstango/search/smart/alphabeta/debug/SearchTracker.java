@@ -6,6 +6,11 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 
@@ -15,7 +20,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SearchTracker {
+public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private DebugNode rootNode;
@@ -26,9 +31,27 @@ public class SearchTracker {
     @Setter
     private Game game;
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearch() {
+        reset();
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        reset();
+    }
+
+    @Override
+    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+        reset();
+    }
 
     public DebugNode newNode(DebugNode.NodeTopology topology, int currentPly) {
-
         DebugNode newNode;
         if (DebugNode.NodeTopology.ROOT.equals(topology)) {
             newNode = createRootNode();
@@ -48,7 +71,6 @@ public class SearchTracker {
 
         return currentNode;
     }
-
 
     protected DebugNode createRootNode() {
         assert currentNode == null;
