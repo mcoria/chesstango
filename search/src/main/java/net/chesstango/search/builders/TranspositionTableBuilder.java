@@ -1,6 +1,5 @@
 package net.chesstango.search.builders;
 
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
@@ -24,24 +23,39 @@ import java.util.Objects;
 public class TranspositionTableBuilder {
     private final TTListener transpositionTablesListener;
 
-    private TTable mapImp;
+    /**
+     * Implementation TTable filters
+     */
+    private TTable tTableImp;
 
-    private TTableDebug mapNodeDebug;
+    /**
+     * Front-end TTable filters
+     */
+    private TTable tTableNode;
+    private TTable tTableComparator;
 
-    private TTableDebug mapComparatorDebug;
+    /**
+     * Debug operations filters
+     */
+    private TTableDebug tTableNodeDebug;
+    private TTableDebug tTableComparatorDebug;
 
+    /**
+     * Statistics operations filters
+     */
+    private TTableStatisticsNodeCollector tTableNodeCollector;
+    private TTableStatisticsComparatorCollector tTableComparatorCollector;
+
+    /**
+     * Statistics model
+     */
     private TTableCounters tTableCounters;
-    private TTableStatisticsNodeCollector mapNodeCollector;
-    private TTableStatisticsComparatorCollector mapComparatorCollector;
     private TTableStatisticsListener tTableStatisticsListener;
 
     private SearchListenerMediator searchListenerMediator;
 
     private boolean withDebugSearchTree;
     private boolean withStatistics;
-
-    private TTable nodeMap;
-    private TTable comparatorMap;
 
     private int hashSize;
 
@@ -78,44 +92,40 @@ public class TranspositionTableBuilder {
     }
 
     private void buildObjects() {
-        mapImp = new TTableArrayPrimitives(hashSize);
+        tTableImp = new TTableArrayPrimitives(hashSize);
 
         if (withDebugSearchTree) {
-            mapNodeDebug = new TTableDebug();
-            mapComparatorDebug = new TTableDebug();
+            tTableNodeDebug = new TTableDebug();
+            tTableComparatorDebug = new TTableDebug();
         }
 
         if (withStatistics) {
             tTableCounters = new TTableCounters();
-
-            mapNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
-
-            mapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
-
-            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, mapImp);
+            tTableNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
+            tTableComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, tTableImp);
         }
     }
 
     private void setupListenerMediator() {
         searchListenerMediator.add(transpositionTablesListener);
 
-        if (mapImp instanceof Acceptor acceptor) {
-            searchListenerMediator.add(acceptor);
+        searchListenerMediator.add(tTableImp);
+
+        if (tTableNodeDebug != null) {
+            searchListenerMediator.add(tTableNodeDebug);
         }
-        if (mapNodeDebug != null) {
-            searchListenerMediator.add(mapNodeDebug);
-        }
-        if (mapComparatorDebug != null) {
-            searchListenerMediator.add(mapComparatorDebug);
+        if (tTableComparatorDebug != null) {
+            searchListenerMediator.add(tTableComparatorDebug);
         }
         if (tTableCounters != null) {
             searchListenerMediator.add(tTableCounters);
         }
-        if (mapNodeCollector != null) {
-            searchListenerMediator.add(mapNodeCollector);
+        if (tTableNodeCollector != null) {
+            searchListenerMediator.add(tTableNodeCollector);
         }
-        if (mapComparatorCollector != null) {
-            searchListenerMediator.add(mapComparatorCollector);
+        if (tTableComparatorCollector != null) {
+            searchListenerMediator.add(tTableComparatorCollector);
         }
         if (tTableStatisticsListener != null) {
             searchListenerMediator.add(tTableStatisticsListener);
@@ -123,8 +133,8 @@ public class TranspositionTableBuilder {
     }
 
     private void createChains() {
-        nodeMap = linkChain(mapNodeDebug, mapNodeCollector, mapImp);
-        comparatorMap = linkChain(mapComparatorDebug, mapComparatorCollector, mapImp);
+        tTableNode = linkChain(tTableNodeDebug, tTableNodeCollector, tTableImp);
+        tTableComparator = linkChain(tTableComparatorDebug, tTableComparatorCollector, tTableImp);
     }
 
     private TTable linkChain(TTable... tTables) {
@@ -151,12 +161,13 @@ public class TranspositionTableBuilder {
     }
 
     public void link() {
-        transpositionTablesListener.setTTable(mapImp);
+        transpositionTablesListener.setTTable(tTableImp);
 
-        searchListenerMediator.accept(new LinkTTableNodeVisitor(nodeMap));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(comparatorMap));
+        searchListenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
+
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTableComparator));
 
         // TTPVReader will not be considering for statistics purposes.
-        searchListenerMediator.accept(new LinkTTableImpVisitor(mapImp));
+        searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
     }
 }

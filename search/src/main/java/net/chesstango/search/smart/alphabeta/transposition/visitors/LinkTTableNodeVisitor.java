@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.transposition.visitors;
 
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 
@@ -38,5 +39,10 @@ public class LinkTTableNodeVisitor implements Visitor {
     @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
         transpositionTableQ.setTTable(tTable);
+    }
+
+    @Override
+    public void visit(PVCalculatorTransposition pvCalculatorTransposition) {
+        pvCalculatorTransposition.setTTable(tTable);
     }
 }
