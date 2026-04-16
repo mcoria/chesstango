@@ -55,7 +55,7 @@ public class RootMoveEvaluationTrackerTest {
 
         Move move = game.getMove(Square.a2, Square.a3);
         move.executeMove();
-        moveEvaluationTracker.process(0, -500, 500, fn);
+        moveEvaluationTracker.alphaBeta(0, -500, 500);
         game.undoMove();
 
         verify(moveEvaluations, times(1)).get(move);
@@ -74,7 +74,7 @@ public class RootMoveEvaluationTrackerTest {
 
         Move move = game.getMove(Square.b2, Square.b3);
         move.executeMove();
-        moveEvaluationTracker.process(0, -500, 500, fn);
+        moveEvaluationTracker.alphaBeta(0, -500, 500);
         game.undoMove();
 
         verify(moveEvaluations, times(1)).get(move);

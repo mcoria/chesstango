@@ -87,8 +87,7 @@ public class IterativeDeepening implements Search {
              */
             RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
 
-            continueDeepening = (Color.WHITE.equals(currentTurn) && bestRootMoveEvaluation.evaluation() < Evaluator.WHITE_WON) ||
-                            (Color.BLACK.equals(currentTurn) && bestRootMoveEvaluation.evaluation() > Evaluator.BLACK_WON);
+            continueDeepening = bestRootMoveEvaluation.evaluation() < Evaluator.WON;
 
         } while (keepProcessing &&
                 continueDeepening &&

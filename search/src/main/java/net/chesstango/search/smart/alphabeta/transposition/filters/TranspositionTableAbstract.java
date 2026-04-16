@@ -36,7 +36,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     protected abstract boolean isTranspositionEntryValid(int draft);
 
     @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         int draft = depth - currentPly;
 
         long hash = game.getPosition().getZobristHash();
@@ -54,37 +54,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             }
         }
 
-        int value = next.maximize(currentPly, alpha, beta);
-
-        /**
-         * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
-         */
-
-        writeTransposition(hash, currentPly, draft, alpha, beta, value);
-
-        return value;
-    }
-
-    @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        int draft = depth - currentPly;
-
-        long hash = game.getPosition().getZobristHash();
-
-        boolean load = tTable.load(hash, entryWorkspace);
-
-        if (load && isTranspositionEntryValid(draft)) {
-            // Es un valor exacto
-            if (entryWorkspace.getBound() == EXACT) {
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
-                return entryWorkspace.getValue();
-            }
-        }
-
-        int value = next.minimize(currentPly, alpha, beta);
+        int value = next.alphaBeta(currentPly, alpha, beta);
 
         /**
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no

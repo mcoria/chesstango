@@ -9,6 +9,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ public class SymmetryTest {
         SearchResult searchResultWhite = search2.startSearch(game2);
 
 
-        assertEquals(searchResultBlack.getBestEvaluation(), -searchResultWhite.getBestEvaluation());
+        assertEquals(searchResultBlack.getBestEvaluation(), searchResultWhite.getBestEvaluation());
 
 
         int movesCount = game1.getPossibleMoves().size();
@@ -72,15 +73,9 @@ public class SymmetryTest {
                 RootMoveEvaluation blackRootMoveEvaluation = blackRootMoveEvaluations.get(j);
                 RootMoveEvaluation whiteRootMoveEvaluation = whiteRootMoveEvaluations.get(j);
 
-                assertEquals(blackRootMoveEvaluation.evaluation(), -whiteRootMoveEvaluation.evaluation(), String.format("Evaluation mismatch %d %d", i, j));
+                assertEquals(blackRootMoveEvaluation.evaluation(), whiteRootMoveEvaluation.evaluation(), String.format("Evaluation mismatch %d %d", i, j));
 
-                if (blackRootMoveEvaluation.bound() == Bound.EXACT) {
-                    assertEquals(Bound.EXACT, whiteRootMoveEvaluation.bound());
-                } else if (blackRootMoveEvaluation.bound() == Bound.UPPER_BOUND) {
-                    assertEquals(Bound.LOWER_BOUND, whiteRootMoveEvaluation.bound());
-                } else if (blackRootMoveEvaluation.bound() == Bound.LOWER_BOUND) {
-                    assertEquals(Bound.UPPER_BOUND, whiteRootMoveEvaluation.bound());
-                }
+                assertEquals(blackRootMoveEvaluation.bound(), whiteRootMoveEvaluation.bound());
 
                 Move blackMove = blackRootMoveEvaluation.move();
                 Move whiteMove = whiteRootMoveEvaluation.move();
@@ -106,13 +101,13 @@ public class SymmetryTest {
         assertEquals(Square.h6, smartMove.getFrom().square());
         assertEquals(Square.g7, smartMove.getTo().square());
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
 
         /**
          * Testing mirror
          */
-        Game mirrorGame = game.mirror();
+        Game mirrorGame = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1")).mirror();
 
         Search searchMirror = buildSearch();
 
@@ -124,7 +119,7 @@ public class SymmetryTest {
         assertEquals(Square.h6.mirror(), smartMoveMirror.getFrom().square());
         assertEquals(Square.g7.mirror(), smartMoveMirror.getTo().square());
 
-        assertEquals(Evaluator.BLACK_WON, searchResultMirror.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResultMirror.getBestEvaluation());
 
         /**
          * Testing mirror
@@ -139,8 +134,8 @@ public class SymmetryTest {
 
 
         for (int i = 0; i < 30; i++) {
-            assertEquals(expectedNodes[i], expectedNodesMirror[i]);
-            assertEquals(visitedNodes[i], visitedNodesMirror[i]);
+            assertEquals(expectedNodes[i], expectedNodesMirror[i], String.format("Expected nodes mismatch %d", i));
+            assertEquals(visitedNodes[i], visitedNodesMirror[i], String.format("Visited nodes mismatch %d", i));
         }
 
     }

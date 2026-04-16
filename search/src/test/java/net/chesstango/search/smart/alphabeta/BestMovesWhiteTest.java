@@ -16,6 +16,7 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
                 .withIterativeDeepening()
+                //.withDebugSearchTree(false, true, true)
                 .build();
     }
 }

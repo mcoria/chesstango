@@ -53,30 +53,10 @@ public class TranspositionTableTerminal implements AlphaBetaFilter, Acceptor {
 
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+    public int alphaBeta(int currentPly, int alpha, int beta) {
+        long bestMoveAndValue = next.alphaBeta(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
-
-        if (!tTable.load(hash, entryWorkspace)) {
-            entryWorkspace.setHash(hash);
-            entryWorkspace.setBound(EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
-            //entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
-            //entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
-            tTable.save(entryWorkspace);
-        }
-
-        //return bestMoveAndValue;
-        return 0;
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-
-        long hash = game.getPosition().getZobristHash();
-
 
         if (!tTable.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);

@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.pv;
 
 import lombok.Setter;
+import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
@@ -38,8 +39,9 @@ public class PVCalculatorTransposition extends PVCalculatorAbstract implements A
     protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList, int eval) {
         // Second PV move
         long currentHash = game.getPosition().getZobristHash();
-        Move currentMove = readMoveFromTT(currentHash, eval);
+        Move currentMove = readMoveFromTT(currentHash, -eval);
 
+        boolean keepSign = true;
         while (currentMove != null) {
 
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
@@ -48,7 +50,8 @@ public class PVCalculatorTransposition extends PVCalculatorAbstract implements A
 
             // Third PV move and onward
             currentHash = game.getPosition().getZobristHash();
-            currentMove = readMoveFromTT(currentHash, eval);
+            currentMove = readMoveFromTT(currentHash, keepSign ? eval : -eval);
+            keepSign = !keepSign;
         }
 
         return principalVariationList;

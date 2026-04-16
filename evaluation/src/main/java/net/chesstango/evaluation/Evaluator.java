@@ -14,12 +14,18 @@ public interface Evaluator {
     int INFINITE_POSITIVE = Integer.MAX_VALUE;
     int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
 
+    // Absolute scores
     int WHITE_WON = INFINITE_POSITIVE - 1;
     int BLACK_WON = INFINITE_NEGATIVE + 1;
 
     int WHITE_LOST = BLACK_WON;
     int BLACK_LOST = WHITE_WON;
 
+    int DRAW = 0;
+
+    // Relative to current player
+    int WON = INFINITE_POSITIVE - 1;
+    int LOST = INFINITE_NEGATIVE + 1;
 
     int evaluate();
 

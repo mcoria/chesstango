@@ -38,20 +38,10 @@ public class TriangularPV implements AlphaBetaFilter, Acceptor, SearchByCycleLis
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         cleanNextWorkingArray(currentPly);
 
-        int value = next.maximize(currentPly, alpha, beta);
-
-        return process(currentPly, alpha, beta, value);
-    }
-
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        cleanNextWorkingArray(currentPly);
-
-        int value = next.minimize(currentPly, alpha, beta);
+        int value = next.alphaBeta(currentPly, alpha, beta);
 
         return process(currentPly, alpha, beta, value);
     }

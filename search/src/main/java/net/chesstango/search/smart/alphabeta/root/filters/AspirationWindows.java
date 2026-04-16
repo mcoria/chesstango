@@ -38,16 +38,7 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCyc
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::maximize);
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::minimize);
-    }
-
-    private int process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         int alphaBound = alpha;
         int betaBound = beta;
         int searchByWindowsCycle = 0;
@@ -66,7 +57,7 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCyc
         do {
             searchListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
-            bestValue = fn.search(currentPly, alphaBound, betaBound);
+            bestValue = next.alphaBeta(currentPly, alphaBound, betaBound);
 
             if (bestValue <= alphaBound) {
                 if (alpha < bestValue) {

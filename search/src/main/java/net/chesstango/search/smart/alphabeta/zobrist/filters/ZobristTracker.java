@@ -25,15 +25,9 @@ public class ZobristTracker implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         findCollision(zobristMap);
-        return next.maximize(currentPly, alpha, beta);
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        findCollision(zobristMap);
-        return next.minimize(currentPly, alpha, beta);
+        return next.alphaBeta(currentPly, alpha, beta);
     }
 
     protected void findCollision(Map<Long, String> theMap) {

@@ -73,9 +73,9 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, Acceptor, Searc
     public void search() {
         final Color currentTurn = game.getPosition().getCurrentTurn();
         if (Color.WHITE.equals(currentTurn)) {
-            maximize(targetMoveEvaluation(alphaBetaFilter::minimize));
+            // maximize(targetMoveEvaluation(alphaBetaFilter::minimize));
         } else {
-            minimize(targetMoveEvaluation(alphaBetaFilter::maximize));
+            //minimize(targetMoveEvaluation(alphaBetaFilter::alphaBeta));
         }
     }
 
@@ -91,7 +91,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, Acceptor, Searc
         for (Move move : game.getPossibleMoves()) {
             if (!move.equals(targetMove)) {
                 move.executeMove();
-                long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
+                //long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
                 int currentValue = 0;//AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.bottomMoveCounter++;
@@ -101,17 +101,4 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, Acceptor, Searc
         }
     }
 
-    protected void minimize(final int minValue) {
-        for (Move move : game.getPossibleMoves()) {
-            if (!move.equals(targetMove)) {
-                move.executeMove();
-                long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
-                int currentValue = 0;//AlphaBetaHelper.decodeValue(bestMoveAndValue);
-                if (currentValue > minValue) {
-                    this.bottomMoveCounter++;
-                }
-                move.undoMove();
-            }
-        }
-    }
 }

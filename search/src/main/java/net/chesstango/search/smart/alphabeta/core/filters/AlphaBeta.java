@@ -15,20 +15,16 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class AlphaBeta implements AlphaBetaFilter, Acceptor {
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
     @Getter
     private MoveSorter moveSorter;
 
-    @Setter
     private Move[] bestMoves;
-
-    protected Game game;
 
     @Override
     public void accept(Visitor visitor) {
@@ -36,7 +32,7 @@ public class AlphaBeta implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
         int maxValue = Evaluator.INFINITE_NEGATIVE;
@@ -47,13 +43,13 @@ public class AlphaBeta implements AlphaBetaFilter, Acceptor {
             Move move = moveIterator.next();
             move.executeMove();
 
-            int currentValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
+            int currentValue = next.alphaBeta(currentPly + 1, Math.max(maxValue, alpha), beta);
             if (currentValue > maxValue) {
                 maxValue = currentValue;
                 bestMoves[currentPly] = move;
                 if (maxValue >= beta) {
                     search = false;
-                } else if (maxValue == Evaluator.WHITE_WON) {
+                } else if (maxValue == Evaluator.WON) {
                     search = false;
                 }
             }
@@ -61,34 +57,6 @@ public class AlphaBeta implements AlphaBetaFilter, Acceptor {
         }
 
         return maxValue;
-    }
-
-    @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        boolean search = true;
-        bestMoves[currentPly] = null;
-        int minValue = Evaluator.INFINITE_POSITIVE;
-
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
-        Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search) {
-            Move move = moveIterator.next();
-            move.executeMove();
-
-            int currentValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-            if (currentValue < minValue) {
-                minValue = currentValue;
-                bestMoves[currentPly]  = move;
-                if (minValue <= alpha) {
-                    search = false;
-                } else if (minValue == Evaluator.BLACK_WON) {
-                    search = false;
-                }
-            }
-            move.undoMove();
-        }
-
-        return minValue;
     }
 
 }

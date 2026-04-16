@@ -34,7 +34,7 @@ public abstract class MateIn2Test {
         assertEquals(Square.d3, smartMove.getFrom().square());
         assertEquals(Square.c4, smartMove.getTo().square());
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -49,7 +49,7 @@ public abstract class MateIn2Test {
         assertEquals(Square.b1, smartMove.getFrom().square());
         assertEquals(Square.f5, smartMove.getTo().square());
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -64,7 +64,7 @@ public abstract class MateIn2Test {
         assertEquals(Square.d5, smartMove.getFrom().square());
         assertEquals(Square.f6, smartMove.getTo().square());
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
     //Robert Thacker vs. Bobby Fischer
@@ -83,7 +83,7 @@ public abstract class MateIn2Test {
         assertTrue(smartMove instanceof MovePromotion);
         assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion) smartMove).getPromotion());
 
-        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
 }

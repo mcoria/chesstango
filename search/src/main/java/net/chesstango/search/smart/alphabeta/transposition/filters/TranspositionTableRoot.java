@@ -43,19 +43,8 @@ public class TranspositionTableRoot implements AlphaBetaFilter, Acceptor {
 
 
     @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
-        int value = next.maximize(currentPly, alpha, beta);
-
-        long hash = game.getPosition().getZobristHash();
-
-        saveEntry(hash, alpha, beta, value);
-
-        return value;
-    }
-
-    @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        int value = next.minimize(currentPly, alpha, beta);
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
+        int value = next.alphaBeta(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
 
