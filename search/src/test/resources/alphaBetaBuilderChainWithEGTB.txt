@@ -116,20 +116,19 @@ SearchByCycleListeners:
 	TTListener @ 45
 	SetSearchTimers @ 46
 	AlphaBetaFlowControl @ 13
-	SetKillerMoveTables @ 47
 	PrincipalVariationComparator @ 24
 	PrincipalVariationComparator @ 37
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCollection @ 47
 	AspirationWindows @ 4
 	PVCalculatorTransposition @ 12
 	RootMoveSorter @ 8
 
 SearchByDepthListener:
 	SetSearchTimers @ 46
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCollection @ 47
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCollection @ 47
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 13
@@ -139,15 +138,14 @@ ResetListener:
 	TTListener @ 45
 
 Acceptor:
-	SetGameToEvaluator @ 49
+	SetGameToEvaluator @ 48
 	EvaluatorCacheListener @ 44
 	TTListener @ 45
 	TTableArrayPrimitives @ 6
-	SetGameToEndGameTableBase @ 50
+	SetGameToEndGameTableBase @ 49
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 46
 	AlphaBetaFlowControl @ 13
-	SetKillerMoveTables @ 47
 	AlphaBetaEvaluation @ 14
 	AlphaBetaEvaluation @ 20
 	TranspositionTable @ 21
@@ -171,7 +169,7 @@ Acceptor:
 	RecaptureMoveComparator @ 41
 	GameEvaluatorCacheComparator @ 43
 	RootMoveEvaluationTracker @ 10
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCollection @ 47
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TranspositionTableRoot @ 5

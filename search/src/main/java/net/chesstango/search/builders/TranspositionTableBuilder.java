@@ -20,13 +20,13 @@ import java.util.Objects;
 /**
  * @author Mauricio Corias
  */
-public class TranspositionTableBuilder {
+public class TranspositionTableBuilder implements SearchObjectBuilder<TranspositionTableBuilder>{
     private final TTListener transpositionTablesListener;
 
     /**
      * Implementation TTable filters
      */
-    private TTable tTableImp;
+    private TTableArrayPrimitives tTableImp;
 
     /**
      * Front-end TTable filters
@@ -73,6 +73,7 @@ public class TranspositionTableBuilder {
         return this;
     }
 
+    @Override
     public TranspositionTableBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
         return this;
@@ -83,12 +84,25 @@ public class TranspositionTableBuilder {
         return this;
     }
 
+    @Override
     public void build() {
         buildObjects();
 
         setupListenerMediator();
 
         createChains();
+    }
+
+    @Override
+    public void link() {
+        transpositionTablesListener.setTTable(tTableImp);
+
+        searchListenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
+
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTableComparator));
+
+        // TTPVReader will not be considering for statistics purposes.
+        searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
     }
 
     private void buildObjects() {
@@ -158,16 +172,5 @@ public class TranspositionTableBuilder {
             }
         }
         return chain.getFirst();
-    }
-
-    public void link() {
-        transpositionTablesListener.setTTable(tTableImp);
-
-        searchListenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
-
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTableComparator));
-
-        // TTPVReader will not be considering for statistics purposes.
-        searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
     }
 }

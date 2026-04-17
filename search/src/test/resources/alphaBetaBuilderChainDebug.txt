@@ -136,26 +136,25 @@ SearchByCycleListeners:
 	TTListener @ 59
 	SetSearchTimers @ 60
 	AlphaBetaFlowControl @ 17
-	SetSearchTracker @ 61
-	SetKillerMoveTablesDebug @ 62
+	SearchTracker @ 61
+	SetDebugOutput @ 62
 	PrincipalVariationComparator @ 34
 	PrincipalVariationComparator @ 51
 	RootMoveEvaluationCollection @ 63
 	AspirationWindows @ 4
 	PVCalculatorTransposition @ 16
 	RootMoveSorter @ 11
-	SetDebugOutput @ 64
 
 SearchByDepthListener:
 	SetSearchTimers @ 60
-	SetSearchTracker @ 61
+	SearchTracker @ 61
+	SetDebugOutput @ 62
 	RootMoveEvaluationCollection @ 63
-	SetDebugOutput @ 64
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 61
+	SearchTracker @ 61
+	SetDebugOutput @ 62
 	RootMoveEvaluationCollection @ 63
-	SetDebugOutput @ 64
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
@@ -165,20 +164,20 @@ ResetListener:
 	TTListener @ 59
 
 Acceptor:
-	SetGameToEvaluator @ 65
+	SetGameToEvaluator @ 64
 	EvaluatorCacheListener @ 58
 	EvaluatorCacheDebug @ 43
 	TTListener @ 59
 	TTableArrayPrimitives @ 8
 	TTableDebug @ 7
 	TTableDebug @ 36
+	KillerMovesDebug @ 65
 	SetGameToEndGameTableBase @ 66
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 60
 	AlphaBetaFlowControl @ 17
-	SetSearchTracker @ 61
-	SetKillerMoveTablesDebug @ 62
-	KillerMovesDebug @ 67
+	SearchTracker @ 61
+	SetDebugOutput @ 62
 	AlphaBetaEvaluation @ 19
 	DebugFilter @ 18
 	AlphaBetaEvaluation @ 28
@@ -201,7 +200,7 @@ Acceptor:
 	EgtbEvaluation @ 23
 	TranspositionTableQ @ 47
 	DebugFilter @ 46
-	EvaluatorDebug @ 68
+	EvaluatorDebug @ 67
 	Quiescence @ 48
 	NodeMoveSorter @ 50
 	TranspositionHeadMoveComparator @ 52
@@ -223,5 +222,4 @@ Acceptor:
 	MoveSorterDebug @ 10
 	RootMoveSorter @ 11
 	NodeGroupSorter @ 12
-	SetDebugOutput @ 64
 

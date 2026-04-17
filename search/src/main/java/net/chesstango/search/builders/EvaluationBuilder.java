@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Mauricio Corias
  */
-public class EvaluationBuilder {
+public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>{
 
     private Evaluator evaluatorImp;
     private SetGameToEvaluator setGameToEvaluator;
@@ -68,25 +68,22 @@ public class EvaluationBuilder {
         return this;
     }
 
+    @Override
     public EvaluationBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
+    @Override
     public void build() {
         buildObjects();
 
         setupListenerMediator();
 
-        evaluator = createEvaluatorChain();
-
-        setGameToEvaluator.setEvaluator(evaluator);
-
-        if (withGameEvaluatorCache) {
-            evaluatorCacheRead = createEvaluatorCacheChain();
-        }
+        createChains();
     }
 
+    @Override
     public void link() {
         searchListenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
 
@@ -135,6 +132,16 @@ public class EvaluationBuilder {
         }
         if (gameEvaluatorCacheDebug != null) {
             searchListenerMediator.add(gameEvaluatorCacheDebug);
+        }
+    }
+
+    private void createChains() {
+        evaluator = createEvaluatorChain();
+
+        setGameToEvaluator.setEvaluator(evaluator);
+
+        if (withGameEvaluatorCache) {
+            evaluatorCacheRead = createEvaluatorCacheChain();
         }
     }
 

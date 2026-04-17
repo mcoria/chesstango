@@ -22,8 +22,6 @@ import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVis
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
-import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
@@ -234,12 +232,6 @@ public interface Visitor {
     }
 
     default void visit(EvaluationCounters evaluationCounters) {
-    }
-
-    default void visit(SetKillerMoveTables setKillerMoveTables) {
-    }
-
-    default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
     }
 
     default void visit(TTListener transpositionTableListener) {
