@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.pv;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.gardel.fen.FEN;
@@ -76,7 +77,7 @@ public class PVCalculatorTranspositionTest {
      * PV = {g1f3}
      */
     @Test
-    public void test_calculatePrincipalVariation_depth01() {
+    public void test_calculatePrincipalVariation_white_depth01() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(1);
@@ -92,12 +93,21 @@ public class PVCalculatorTranspositionTest {
         // 0x463B96181691FC9CL
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
+        /**
+         * Execute
+         * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
+         */
         pvCalculator.calculatePrincipalVariation(10);
 
+        /**
+         * Assertions
+         */
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
         assertEquals(1, pv.size());
+
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"g1f3"}, pvString.toArray());
 
         PrincipalVariation firstPV = pv.getFirst();
         assertEquals(firstZobrist, firstPV.hash());
@@ -112,39 +122,49 @@ public class PVCalculatorTranspositionTest {
     /**
      * Este es el test mas simple de todos.
      * Se busca con depth = 2
-     * PV = {g1f3, d7d5}
+     * PV = {g1f3, g8f6}
      */
     @Test
-    public void test_calculatePrincipalVariation_depth02() {
+    public void test_calculatePrincipalVariation_white_depth02() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(2);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w KQkq d6 0 2", 10);
+        evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", 10);
 
         final long firstZobrist = game.getPosition().getZobristHash();
         final Move firstMove = game.getMove(Square.g1, Square.f3);
         firstMove.executeMove();
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
+        writeTT(tTableMap, 0x9D5F7AEE7E779DA1L, (short) 0x0FAD, 10);
 
-        // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
+
+        /**
+         * Execute
+         * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
+         */
         pvCalculator.calculatePrincipalVariation(10);
 
+        /**
+         * Assertions
+         */
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
         assertEquals(2, pv.size());
+
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"g1f3", "g8f6"}, pvString.toArray());
 
         PrincipalVariation firstPV = pv.getFirst();
         assertEquals(firstZobrist, firstPV.hash());
         assertEquals(firstMove, firstPV.move());
 
-        PrincipalVariation lastPV = pv.getLast();
-        assertEquals(zobristBeforeCalculate, lastPV.hash());
-        assertEquals((short) 0x0CE3, lastPV.move().binaryEncoding());
+        PrincipalVariation secondPV = pv.getLast();
+        assertEquals(0x9D5F7AEE7E779DA1L, secondPV.hash());
+        assertEquals((short) 0x0FAD, secondPV.move().binaryEncoding());
 
         assertTrue(pvCalculator.isPvComplete());
 
@@ -155,43 +175,53 @@ public class PVCalculatorTranspositionTest {
     /**
      * Este es el test mas simple de todos.
      * Se busca con depth = 2
-     * PV = {g1f3, d7d5}
+     * PV = {g1f3, g8f6, d2d4}
      */
     @Test
-    public void test_calculatePrincipalVariation_depth03() {
+    public void test_calculatePrincipalVariation_white_depth03() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(3);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
+        evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
 
         final long firstZobrist = game.getPosition().getZobristHash();
         final Move firstMove = game.getMove(Square.g1, Square.f3);
         firstMove.executeMove();
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
-        writeTT(tTableMap, 0x183558FAE2A3D387L, (short) 0x02DB, 10);
+        writeTT(tTableMap, 0x9D5F7AEE7E779DA1L, (short) 0x0FAD, 10);
+        writeTT(tTableMap, 0xC6B14E1BD38DDC37L, (short) 0x02DB, 10);
 
-        // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
+
+        /**
+         * Execute
+         * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
+         */
         pvCalculator.calculatePrincipalVariation(10);
 
+        /**
+         * Assertions
+         */
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
         assertEquals(3, pv.size());
+
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"g1f3", "g8f6", "d2d4"}, pvString.toArray());
 
         PrincipalVariation firstPV = pv.getFirst();
         assertEquals(firstZobrist, firstPV.hash());
         assertEquals(firstMove, firstPV.move());
 
         PrincipalVariation secondPV = pv.get(1);
-        assertEquals(zobristBeforeCalculate, secondPV.hash());
-        assertEquals((short) 0x0CE3, secondPV.move().binaryEncoding());
+        assertEquals(0x9D5F7AEE7E779DA1L, secondPV.hash());
+        assertEquals((short) 0x0FAD, secondPV.move().binaryEncoding());
 
-        PrincipalVariation thirdPV = pv.get(2);
-        assertEquals(0x183558FAE2A3D387L, thirdPV.hash());
+        PrincipalVariation thirdPV = pv.getLast();
+        assertEquals(0xC6B14E1BD38DDC37L, thirdPV.hash());
         assertEquals((short) 0x02DB, thirdPV.move().binaryEncoding());
 
         assertTrue(pvCalculator.isPvComplete());

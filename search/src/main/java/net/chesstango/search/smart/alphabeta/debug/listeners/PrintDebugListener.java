@@ -34,9 +34,11 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
     private final boolean withAspirationWindows;
+
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
@@ -191,7 +193,7 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s Read TT [ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
@@ -232,7 +234,7 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
     }
 
     private void showNodeKillerMoves(DebugNode currentNode) {
-        if(currentNode.getKillerMove() != null) {
+        if (currentNode.getKillerMove() != null) {
             debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
         }
     }
@@ -311,10 +313,11 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
         currentNode.getPvReads().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
-            debugOut.printf(" PV ReadTT[ 0x%s %s draft=%d move=? value=%d ]\n",
+            debugOut.printf(" PV Read  TT[ 0x%s %s draft=%d move=0x%s value=%d ]\n",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
+                    hexFormat.toHexDigits(entry.getMove()),
                     entry.getValue());
         });
     }

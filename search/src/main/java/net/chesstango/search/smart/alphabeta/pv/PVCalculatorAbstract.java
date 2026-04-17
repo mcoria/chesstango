@@ -70,13 +70,15 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
     protected boolean validatePrincipalVariation(int eval) {
         boolean isPVComplete = false;
 
-        int pvEvaluation = evaluator.evaluate();
+        int pvEvaluation = 0;
 
         // En caso que se llegó a loop
         if (game.getState().getRepetitionCounter() > 1) {
-            pvEvaluation = 0;
+            // Do nothing
         } else if (endGameTableBase.isProbeAvailable()) {
             pvEvaluation = endGameTableBase.evaluate();
+        } else {
+            pvEvaluation = evaluator.evaluate();
         }
 
         if (eval == pvEvaluation && principalVariation.size() >= depth) {
