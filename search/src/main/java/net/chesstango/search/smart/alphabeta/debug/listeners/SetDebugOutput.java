@@ -136,6 +136,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
             showNodeTranspositionAccess(currentNode);
         }
 
+        showNodeKillerMoves(currentNode);
+
         if (currentNode.getSortedMoves() != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
             if (showSorterOperations) {
@@ -227,6 +229,12 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
             }
             debugOut.print("\n");
         });
+    }
+
+    private void showNodeKillerMoves(DebugNode currentNode) {
+        if(currentNode.getKillerMove() != null) {
+            debugOut.printf("%s KillerMove %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
+        }
     }
 
     private void dumpSorterOperations(DebugNode currentNode) {

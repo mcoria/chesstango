@@ -157,31 +157,30 @@ SearchByCycleListeners:
 	TTableStatisticsListener @ 74
 	SetSearchTimers @ 75
 	AlphaBetaFlowControl @ 19
-	SetSearchTracker @ 76
-	NodeCounters @ 77
-	GameCountersCollector @ 78
-	DepthCollector @ 79
-	SetKillerMoveTablesDebug @ 80
+	NodeCounters @ 76
+	GameCountersCollector @ 77
+	DepthCollector @ 78
+	SearchTracker @ 79
+	SetDebugOutput @ 80
 	PrincipalVariationComparator @ 43
 	PrincipalVariationComparator @ 63
 	RootMoveEvaluationCollection @ 81
 	AspirationWindows @ 4
 	PVCalculatorTransposition @ 18
 	RootMoveSorter @ 13
-	SetDebugOutput @ 82
 
 SearchByDepthListener:
 	SetSearchTimers @ 75
-	SetSearchTracker @ 76
-	NodeCounters @ 77
-	DepthCollector @ 79
+	NodeCounters @ 76
+	DepthCollector @ 78
+	SearchTracker @ 79
+	SetDebugOutput @ 80
 	RootMoveEvaluationCollection @ 81
-	SetDebugOutput @ 82
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 76
+	SearchTracker @ 79
+	SetDebugOutput @ 80
 	RootMoveEvaluationCollection @ 81
-	SetDebugOutput @ 82
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 19
@@ -191,7 +190,7 @@ ResetListener:
 	TTListener @ 72
 
 Acceptor:
-	SetGameToEvaluator @ 83
+	SetGameToEvaluator @ 82
 	EvaluationCounters @ 70
 	EvaluatorStatisticsCollector @ 23
 	EvaluatorCacheListener @ 71
@@ -204,16 +203,16 @@ Acceptor:
 	TTableStatisticsNodeCollector @ 9
 	TTableStatisticsComparatorCollector @ 46
 	TTableStatisticsListener @ 74
+	KillerMovesDebug @ 83
 	SetGameToEndGameTableBase @ 84
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 75
 	AlphaBetaFlowControl @ 19
-	SetSearchTracker @ 76
-	NodeCounters @ 77
-	GameCountersCollector @ 78
-	DepthCollector @ 79
-	SetKillerMoveTablesDebug @ 80
-	KillerMovesDebug @ 85
+	NodeCounters @ 76
+	GameCountersCollector @ 77
+	DepthCollector @ 78
+	SearchTracker @ 79
+	SetDebugOutput @ 80
 	AlphaBetaEvaluation @ 22
 	AlphaBetaTerminalNodeStatistics @ 21
 	DebugFilter @ 20
@@ -244,7 +243,7 @@ Acceptor:
 	AlphaBetaQuiescenceNodeExpected @ 59
 	TranspositionTableQ @ 58
 	DebugFilter @ 56
-	EvaluatorDebug @ 86
+	EvaluatorDebug @ 85
 	Quiescence @ 60
 	NodeMoveSorter @ 62
 	TranspositionHeadMoveComparator @ 64
@@ -267,5 +266,4 @@ Acceptor:
 	MoveSorterDebug @ 12
 	RootMoveSorter @ 13
 	NodeGroupSorter @ 14
-	SetDebugOutput @ 82
 

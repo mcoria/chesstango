@@ -107,12 +107,11 @@ SearchByCycleListeners:
 	EvaluatorCacheListener @ 39
 	SetSearchTimers @ 40
 	AlphaBetaFlowControl @ 12
-	SetKillerMoveTables @ 41
 	TriangularPV @ 29
 	PrincipalVariationComparator @ 22
 	TriangularPV @ 38
 	PrincipalVariationComparator @ 33
-	RootMoveEvaluationCollection @ 42
+	RootMoveEvaluationCollection @ 41
 	AspirationWindows @ 4
 	TriangularPV @ 11
 	PVCalculatorTriangular @ 10
@@ -122,11 +121,11 @@ SearchByDepthListener:
 	SetSearchTimers @ 40
 	TriangularPV @ 29
 	TriangularPV @ 38
-	RootMoveEvaluationCollection @ 42
+	RootMoveEvaluationCollection @ 41
 	TriangularPV @ 11
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 42
+	RootMoveEvaluationCollection @ 41
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 12
@@ -135,13 +134,12 @@ ResetListener:
 	EvaluatorCacheListener @ 39
 
 Acceptor:
-	SetGameToEvaluator @ 43
+	SetGameToEvaluator @ 42
 	EvaluatorCacheListener @ 39
-	SetGameToEndGameTableBase @ 44
+	SetGameToEndGameTableBase @ 43
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 40
 	AlphaBetaFlowControl @ 12
-	SetKillerMoveTables @ 41
 	AlphaBetaEvaluation @ 13
 	AlphaBetaEvaluation @ 19
 	TriangularPV @ 29
@@ -161,7 +159,7 @@ Acceptor:
 	RecaptureMoveComparator @ 35
 	GameEvaluatorCacheComparator @ 37
 	RootMoveEvaluationTracker @ 8
-	RootMoveEvaluationCollection @ 42
+	RootMoveEvaluationCollection @ 41
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TriggerPVCalculation @ 9
