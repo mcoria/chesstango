@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Disabled
-public class SearchesTest {
+public class ReportSearchesIntegrationTest {
     private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
@@ -32,36 +32,6 @@ public class SearchesTest {
                 .withDebugSearchTree(false, true, true)
                 .withStatistics()
                 .build();
-
-        /*
-        search = new AlphaBetaBuilder()
-                .withGameEvaluator(Evaluator.createInstance())
-                .withGameEvaluatorCache()
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-
-                .withTranspositionMoveSorter()
-                .withKillerMoveSorter()
-                .withRecaptureSorter()
-                .withMvvLvaSorter()
-
-                .withAspirationWindows()
-                .withIterativeDeepening()
-
-                .withStatistics()
-                //.withZobristTracker()
-                //.withTrackEvaluations() // Consume demasiada memoria
-
-                //.withPrintChain()
-                //.withDebugSearchTree(false, true, true)
-
-                //.withStopProcessingCatch()
-
-                .build();
-
-         */
     }
 
     @AfterEach

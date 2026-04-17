@@ -21,7 +21,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Disabled
-public class TangoGame01IntegrationTest {
+public class ReportGamesIntegrationTest {
     private static final String POLYGLOT_FILE = "C:\\java\\projects\\chess\\chess-utils\\books\\openings\\polyglot-collection\\komodo.bin";
     private static final String SYZYGY_PATH = "D:\\k8s_shared\\syzygy\\3-4-5;D:\\k8s_shared\\syzygy\\6-DTZ;D:\\k8s_shared\\syzygy\\6-WDL";
 

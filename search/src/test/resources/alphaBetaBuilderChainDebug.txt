@@ -137,7 +137,7 @@ SearchByCycleListeners:
 	SetSearchTimers @ 60
 	AlphaBetaFlowControl @ 17
 	SearchTracker @ 61
-	SetDebugOutput @ 62
+	PrintDebugListener @ 62
 	PrincipalVariationComparator @ 34
 	PrincipalVariationComparator @ 51
 	RootMoveEvaluationCollection @ 63
@@ -148,12 +148,12 @@ SearchByCycleListeners:
 SearchByDepthListener:
 	SetSearchTimers @ 60
 	SearchTracker @ 61
-	SetDebugOutput @ 62
+	PrintDebugListener @ 62
 	RootMoveEvaluationCollection @ 63
 
 SearchByWindowsListeners:
 	SearchTracker @ 61
-	SetDebugOutput @ 62
+	PrintDebugListener @ 62
 	RootMoveEvaluationCollection @ 63
 
 StopSearchingListener:
@@ -177,7 +177,7 @@ Acceptor:
 	SetSearchTimers @ 60
 	AlphaBetaFlowControl @ 17
 	SearchTracker @ 61
-	SetDebugOutput @ 62
+	PrintDebugListener @ 62
 	AlphaBetaEvaluation @ 19
 	DebugFilter @ 18
 	AlphaBetaEvaluation @ 28
