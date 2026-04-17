@@ -13,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintDebugListener;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.root.filters.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
@@ -43,7 +43,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
     private TTListener resetTranspositionTables;
     private NodeCounters nodeCounters;
-    private SetDebugOutput setDebugOutput;
+    private PrintDebugListener printDebugListener;
     private DebugNodeTrap debugNodeTrap;
 
     private boolean withStatistics;
@@ -227,7 +227,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         if (withDebugSearchTree) {
 
-            setDebugOutput = new SetDebugOutput(false, false, showNodeTranspositionAccess, showSorterOperations);
+            printDebugListener = new PrintDebugListener(false, false, showNodeTranspositionAccess, showSorterOperations);
         }
 
 
@@ -261,8 +261,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         if (debugNodeTrap instanceof Acceptor acceptor) {
             searchListenerMediator.add(acceptor);
         }
-        if (setDebugOutput != null) {
-            searchListenerMediator.add(setDebugOutput);
+        if (printDebugListener != null) {
+            searchListenerMediator.add(printDebugListener);
         }
     }
 

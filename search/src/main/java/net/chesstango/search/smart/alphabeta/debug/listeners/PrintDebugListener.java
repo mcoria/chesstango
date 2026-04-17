@@ -29,7 +29,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class PrintDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
@@ -52,7 +52,7 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
 
     private List<String> debugErrorMessages;
 
-    public SetDebugOutput(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public PrintDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
@@ -191,7 +191,7 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s ReadTT[ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Read TT [ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
@@ -208,7 +208,7 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s WriteTT[ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
@@ -233,7 +233,7 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
 
     private void showNodeKillerMoves(DebugNode currentNode) {
         if(currentNode.getKillerMove() != null) {
-            debugOut.printf("%s KillerMove %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
+            debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
         }
     }
 
