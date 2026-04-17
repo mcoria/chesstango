@@ -48,9 +48,10 @@ public class SearchTest {
         assertEquals(Square.g1, bm.getFrom().square());
         assertEquals(Square.h3, bm.getTo().square());
 
-        assertTrue(searchResult.isPvComplete());
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"g1h3", "g8h6", "h3g5", "h6g4", "g5e4", "g4e5", "e4g5", "e5g4", "g5e4", "g4e5", "e4g5", "e5g4"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
     }
 
     @Test
@@ -74,9 +75,10 @@ public class SearchTest {
         assertEquals(Square.d8, bm.getFrom().square());
         assertEquals(Square.f6, bm.getTo().square());
 
-        assertTrue(searchResult.isPvComplete());
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"d8f6", "d6c4", "c1e2"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
     }
 
     @Test
@@ -100,9 +102,10 @@ public class SearchTest {
         assertEquals(Square.e5, bm.getFrom().square());
         assertEquals(Square.f6, bm.getTo().square());
 
-        assertTrue(searchResult.isPvComplete());
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
     }
 
     @Test
@@ -126,9 +129,10 @@ public class SearchTest {
         assertEquals(Square.e8, bm.getFrom().square());
         assertEquals(Square.h8, bm.getTo().square());
 
-        assertTrue(searchResult.isPvComplete());
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"e8h8", "h7h8", "d8f7", "h8h7", "b8h8"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
     }
 
     @Test
@@ -152,8 +156,9 @@ public class SearchTest {
         assertEquals(Square.d6, bm.getFrom().square());
         assertEquals(Square.d1, bm.getTo().square());
 
-        assertTrue(searchResult.isPvComplete());
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"d6d1", "c1d1", "d7g4", "d1e1", "d8d1"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
     }
 }
