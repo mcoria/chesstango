@@ -161,7 +161,7 @@ SearchByCycleListeners:
 	GameCountersCollector @ 77
 	DepthCollector @ 78
 	SearchTracker @ 79
-	SetDebugOutput @ 80
+	PrintDebugListener @ 80
 	PrincipalVariationComparator @ 43
 	PrincipalVariationComparator @ 63
 	RootMoveEvaluationCollection @ 81
@@ -174,12 +174,12 @@ SearchByDepthListener:
 	NodeCounters @ 76
 	DepthCollector @ 78
 	SearchTracker @ 79
-	SetDebugOutput @ 80
+	PrintDebugListener @ 80
 	RootMoveEvaluationCollection @ 81
 
 SearchByWindowsListeners:
 	SearchTracker @ 79
-	SetDebugOutput @ 80
+	PrintDebugListener @ 80
 	RootMoveEvaluationCollection @ 81
 
 StopSearchingListener:
@@ -212,7 +212,7 @@ Acceptor:
 	GameCountersCollector @ 77
 	DepthCollector @ 78
 	SearchTracker @ 79
-	SetDebugOutput @ 80
+	PrintDebugListener @ 80
 	AlphaBetaEvaluation @ 22
 	AlphaBetaTerminalNodeStatistics @ 21
 	DebugFilter @ 20

@@ -25,12 +25,12 @@ public class AlphaBetaStopTest {
     private ExecutorService singleThreadExecutor;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         singleThreadExecutor = Executors.newSingleThreadExecutor();
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         singleThreadExecutor.shutdown();
     }
 
