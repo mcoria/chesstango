@@ -6,7 +6,6 @@ import net.chesstango.search.smart.alphabeta.core.filters.TranspositionEntryTabl
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTranspositionTest;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangularTest;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollectionTest;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindowsTest;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTrackerTest;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntryTest;
@@ -39,7 +38,6 @@ import org.junit.platform.suite.api.Suite;
         PVCalculatorTranspositionTest.class,
         PVCalculatorTriangularTest.class,
 
-        RootMoveEvaluationComparatorTest.class,
         RootMoveEvaluationCollectionTest.class,
         RootMoveEvaluationTrackerTest.class,
 
