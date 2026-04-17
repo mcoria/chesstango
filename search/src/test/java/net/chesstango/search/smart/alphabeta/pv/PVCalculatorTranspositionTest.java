@@ -89,7 +89,7 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", 10);
+        evaluator.addEvaluation("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", -10);
 
         game.executeMove(Square.g1, Square.f3);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
@@ -134,7 +134,7 @@ public class PVCalculatorTranspositionTest {
         game.executeMove(Square.g1, Square.f3);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x9D5F7AEE7E779DA1L, (short) 0x0FAD, (byte) 0, 10);
+        writeTT(tTableMap, 0x9D5F7AEE7E779DA1L, (short) 0x0FAD, (byte) 0, -10);
 
         /**
          * Execute
@@ -171,12 +171,12 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
+        evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", -10);
 
         game.executeMove(Square.g1, Square.f3);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x9D5F7AEE7E779DA1L, (short) 0x0FAD, (byte) 1, 10);
+        writeTT(tTableMap, 0x9D5F7AEE7E779DA1L, (short) 0x0FAD, (byte) 1, -10);
         writeTT(tTableMap, 0xC6B14E1BD38DDC37L, (short) 0x02DB, (byte) 0, 10);
 
 
@@ -215,10 +215,10 @@ public class PVCalculatorTranspositionTest {
         final long nextZobrist = game.getPosition().getZobristHash();
 
         when(endGameTableBase.isProbeAvailable()).thenReturn(true);
-        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WHITE_WON);
+        when(endGameTableBase.evaluate()).thenReturn(Evaluator.LOST); // Luego de mover blancas, negras pierde
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
-        pvCalculator.calculatePrincipalVariation(Evaluator.WHITE_WON);
+        pvCalculator.calculatePrincipalVariation(Evaluator.WON);
 
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
@@ -247,7 +247,7 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("1k2r3/1pp5/4B3/1P3Q2/3q1np1/6Pp/3p3P/5R1K w - - 0 2", 10);
+        evaluator.addEvaluation("1k2r3/1pp5/4B3/1P3Q2/3q1np1/6Pp/3p3P/5R1K w - - 0 2", -10);
 
         game.executeMove(Square.d3, Square.f4);
 
@@ -292,9 +292,9 @@ public class PVCalculatorTranspositionTest {
         game.executeMove(Square.d3, Square.c5);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 1, 10);  // Depth = 1
+        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 1, -10);  // Depth = 1
         writeTT(tTableMap, 0xDFAE6857111476D0L, (short) 0x08AC, (byte) 0, 10);  // Depth = 2
-        writeTT(tTableMap, 0xAA5BB7008B28A5EEL, (short) 0x095E, (byte) -1, 10); // Quiescence
+        writeTT(tTableMap, 0xAA5BB7008B28A5EEL, (short) 0x095E, (byte) -1, -10); // Quiescence
         writeTT(tTableMap, 0xEF99BE0BC51479B4L, (short) 0x0000, (byte) -2, 10); // Quiescence - no explora hijos
 
         /**
@@ -336,9 +336,9 @@ public class PVCalculatorTranspositionTest {
         game.executeMove(Square.d3, Square.c5);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 2, 10);  // Depth = 2
+        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 2, -10);  // Depth = 2
         writeTT(tTableMap, 0xDFAE6857111476D0L, (short) 0x08AC, (byte) 1, 10);  // Depth = 1
-        writeTT(tTableMap, 0xAA5BB7008B28A5EEL, (short) 0x095E, (byte) -1, 10); // Depth = 0 (observar que draft es -1)
+        writeTT(tTableMap, 0xAA5BB7008B28A5EEL, (short) 0x095E, (byte) -1, -10); // Depth = 0 (observar que draft es -1)
         writeTT(tTableMap, 0xEF99BE0BC51479B4L, (short) 0x0000, (byte) -2, 10); // Quiescence - no explora hijos
 
         /**
