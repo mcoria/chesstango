@@ -122,14 +122,14 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w KQkq d6 0 2", 10);
+        evaluator.addEvaluation("rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w KQkq d6 0 2", -10);
 
         final long firstZobrist = game.getPosition().getZobristHash();
         final Move firstMove = game.getMove(Square.g1, Square.f3);
         firstMove.executeMove();
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
+        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, -10);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
         pvCalculator.calculatePrincipalVariation(10);
@@ -172,7 +172,7 @@ public class PVCalculatorTranspositionTest {
         firstMove.executeMove();
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, 10);
+        writeTT(tTableMap, zobristBeforeCalculate, (short) 0x0CE3, -10);
         writeTT(tTableMap, 0x183558FAE2A3D387L, (short) 0x02DB, 10);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
