@@ -15,7 +15,6 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
     public void setup() {
         this.search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withDebugSearchTree(false, true, true)
                 .build();
 
         this.search.accept(new SetMaxDepthVisitor(1));
