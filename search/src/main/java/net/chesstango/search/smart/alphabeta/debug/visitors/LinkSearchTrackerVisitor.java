@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintDebugListener;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
@@ -33,8 +33,8 @@ public class LinkSearchTrackerVisitor implements Visitor {
     }
 
     @Override
-    public void visit(SetDebugOutput setDebugOutput) {
-        setDebugOutput.setSearchTracker(searchTracker);
+    public void visit(PrintDebugListener printDebugListener) {
+        printDebugListener.setSearchTracker(searchTracker);
     }
 
     @Override
