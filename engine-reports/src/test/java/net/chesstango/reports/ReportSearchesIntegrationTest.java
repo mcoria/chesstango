@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Disabled
-public class SearchesTest {
+public class ReportSearchesIntegrationTest {
     private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
