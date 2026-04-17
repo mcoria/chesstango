@@ -33,7 +33,7 @@ public class KillerMoveTracker implements AlphaBetaFilter, Acceptor {
     public int alphaBeta(int currentPly, int alpha, int beta) {
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
-        if (currentValue < alpha) {
+        if (beta < currentValue) {
             Move previousMove = game.getHistory().peekLastRecord().playedMove();
             killerMoves.trackKillerMove(previousMove, currentPly);
         }
