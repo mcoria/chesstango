@@ -66,11 +66,10 @@ public class RootMoveEvaluationComparatorTest {
     @Test
     @Disabled
     public void testCompareTo_EvaluationsAndBoundsSame() {
-        Move move1 = mock(Move.class);
-        Move move2 = mock(Move.class);
+        Move move = mock(Move.class);
 
-        RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 100, Bound.EXACT);
-        RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 100, Bound.EXACT);
+        RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move, 100, Bound.EXACT);
+        RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move, 100, Bound.EXACT);
 
         assertEquals(0, whiteRootMoveEvaluationComparator.compare(evaluation1, evaluation2));
         assertEquals(0, whiteRootMoveEvaluationComparator.compare(evaluation2, evaluation1));
