@@ -22,12 +22,7 @@ public class EgtbEvaluation implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        return endGameTableBase.evaluate();
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         return endGameTableBase.evaluate();
     }
 }

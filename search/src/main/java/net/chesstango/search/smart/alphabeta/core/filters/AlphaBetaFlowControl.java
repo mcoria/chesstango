@@ -68,59 +68,30 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchBy
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
 
         if (game.getStatus().isFinalStatus()) {
-            return terminalNode.maximize(currentPly, alpha, beta);
+            return -terminalNode.alphaBeta(currentPly, -beta, -alpha);
         }
 
         if (endGameTableBase.isProbeAvailable()) {
-            return egtbNode.maximize(currentPly, alpha, beta);
+            return -egtbNode.alphaBeta(currentPly, -beta, -alpha);
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return loopNode.maximize(currentPly, alpha, beta);
+            return -loopNode.alphaBeta(currentPly, -beta, -alpha);
         }
 
         if (currentPly < depth) {
-            return interiorNode.maximize(currentPly, alpha, beta);
+            return -interiorNode.alphaBeta(currentPly, -beta, -alpha);
         } else {
             if (quiescenceNode == null || isCurrentPositionQuiet()) {
-                return leafNode.maximize(currentPly, alpha, beta);
+                return -leafNode.alphaBeta(currentPly, -beta, -alpha);
             } else {
-                return quiescenceNode.maximize(currentPly, alpha, beta);
-            }
-        }
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        if (!keepProcessing) {
-            throw new StopSearchingException();
-        }
-
-        if (game.getStatus().isFinalStatus()) {
-            return terminalNode.minimize(currentPly, alpha, beta);
-        }
-
-        if (endGameTableBase.isProbeAvailable()) {
-            return egtbNode.minimize(currentPly, alpha, beta);
-        }
-
-        if (game.getState().getRepetitionCounter() > 1) {
-            return loopNode.minimize(currentPly, alpha, beta);
-        }
-
-        if (currentPly < depth) {
-            return interiorNode.minimize(currentPly, alpha, beta);
-        } else {
-            if (quiescenceNode == null || isCurrentPositionQuiet()) {
-                return leafNode.minimize(currentPly, alpha, beta);
-            } else {
-                return quiescenceNode.minimize(currentPly, alpha, beta);
+                return -quiescenceNode.alphaBeta(currentPly, -beta, -alpha);
             }
         }
     }

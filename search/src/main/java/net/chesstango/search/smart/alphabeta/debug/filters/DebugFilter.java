@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -11,16 +12,17 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
-    @Setter
+    private final DebugNode.NodeTopology topology;
+
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
     private SearchTracker searchTracker;
 
-    private final DebugNode.NodeTopology topology;
+    private Game game;
 
     public DebugFilter(DebugNode.NodeTopology topology) {
         this.topology = topology;
@@ -32,53 +34,25 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = createDebugNode("WHITE", currentPly, alpha, beta);
-
-        int currentValue = next.maximize(currentPly, alpha, beta);
-
-        debugNode.setValue(currentValue);
-
-        if (currentValue <= alpha) {
-            debugNode.setType(DebugNode.NodeType.ALL);
-        } else if (beta <= currentValue) {
-            debugNode.setType(DebugNode.NodeType.CUT);
-        } else {
-            debugNode.setType(DebugNode.NodeType.PV);
-        }
-
-        searchTracker.save();
-
-        return currentValue;
-    }
-
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = createDebugNode("BLACK", currentPly, alpha, beta);
-
-        int currentValue = next.minimize(currentPly, alpha, beta);
-
-        debugNode.setValue(currentValue);
-
-        if (currentValue <= alpha) {
-            debugNode.setType(DebugNode.NodeType.CUT);
-        } else if (beta <= currentValue) {
-            debugNode.setType(DebugNode.NodeType.ALL);
-        } else {
-            debugNode.setType(DebugNode.NodeType.PV);
-        }
-
-        searchTracker.save();
-
-        return currentValue;
-    }
-
-    private DebugNode createDebugNode(String fnString, int currentPly, int alpha, int beta) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         DebugNode debugNode = searchTracker.newNode(topology, currentPly);
 
-        debugNode.setDebugSearch(fnString, alpha, beta);
+        debugNode.setDebugSearch(game.getPosition().getCurrentTurn().toString(), alpha, beta);
 
-        return debugNode;
+        int currentValue = next.alphaBeta(currentPly, alpha, beta);
+
+        debugNode.setValue(currentValue);
+
+        if (currentValue <= alpha) {
+            debugNode.setType(DebugNode.NodeType.ALL);
+        } else if (beta <= currentValue) {
+            debugNode.setType(DebugNode.NodeType.CUT);
+        } else {
+            debugNode.setType(DebugNode.NodeType.PV);
+        }
+
+        searchTracker.save();
+
+        return currentValue;
     }
 }

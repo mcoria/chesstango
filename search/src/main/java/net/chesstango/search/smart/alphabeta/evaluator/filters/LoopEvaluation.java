@@ -15,12 +15,8 @@ public class LoopEvaluation implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         return 0;
     }
 
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        return 0;
-    }
 }

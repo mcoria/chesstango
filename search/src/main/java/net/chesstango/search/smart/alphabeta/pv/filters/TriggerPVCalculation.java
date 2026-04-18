@@ -27,15 +27,8 @@ public class TriggerPVCalculation implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        int currentValue = next.maximize(currentPly, alpha, beta);
-
-        return process(alpha, beta, currentValue);
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        int currentValue = next.minimize(currentPly, alpha, beta);
+    public int alphaBeta(int currentPly, int alpha, int beta) {
+        int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         return process(alpha, beta, currentValue);
     }

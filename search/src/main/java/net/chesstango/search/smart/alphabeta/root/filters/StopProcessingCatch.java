@@ -31,20 +31,11 @@ public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
 
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::maximize, true);
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::minimize, false);
-    }
-
-    private int process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean maximize) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         final long startHash = game.getPosition().getZobristHash();
 
         try {
-            return fn.search(currentPly, alpha, beta);
+            return next.alphaBeta(currentPly, alpha, beta);
         } catch (StopSearchingException re) {
             undoMoves(startHash);
         }

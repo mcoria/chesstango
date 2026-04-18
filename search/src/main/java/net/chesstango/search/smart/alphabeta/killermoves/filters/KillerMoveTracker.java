@@ -30,24 +30,14 @@ public class KillerMoveTracker implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        int currentValue = next.maximize(currentPly, alpha, beta);
+    public int alphaBeta(int currentPly, int alpha, int beta) {
+        int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
-        if (currentValue < alpha) {
-            Move previousMove = game.getHistory().peekLastRecord().playedMove();
-            killerMoves.trackKillerMove(previousMove, currentPly);
-        }
-
-        return currentValue;
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        int currentValue = next.minimize(currentPly, alpha, beta);
         if (beta < currentValue) {
             Move previousMove = game.getHistory().peekLastRecord().playedMove();
             killerMoves.trackKillerMove(previousMove, currentPly);
         }
+
         return currentValue;
     }
 }

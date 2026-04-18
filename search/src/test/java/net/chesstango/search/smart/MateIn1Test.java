@@ -36,7 +36,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.f3, smartMove.getFrom().square());
         assertEquals(Square.f7, smartMove.getTo().square());
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -52,7 +52,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.f6, smartMove.getFrom().square());
         assertEquals(Square.f2, smartMove.getTo().square());
 
-        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -68,7 +68,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.h6, smartMove.getFrom().square());
         assertEquals(Square.h8, smartMove.getTo().square());
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
 
@@ -86,7 +86,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.d8, smartMove.getFrom().square());
         assertEquals(Square.h4, smartMove.getTo().square());
 
-        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
         List<PrincipalVariation> pvMoves = searchResult.getPrincipalVariation();
         assertEquals(1, pvMoves.size());

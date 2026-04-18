@@ -8,6 +8,7 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,17 +46,18 @@ public class RootMoveEvaluationTrackerTest {
      */
     @Test
     public void test_process01() {
-        AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
-        when(fn.search(0, -500, 500))
+        AlphaBeta fn = mock(AlphaBeta.class);
+        when(fn.alphaBeta(0, -500, 500))
                 .thenReturn(-1000);
         when(moveEvaluations.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);
         moveEvaluationTracker.setGame(game);
+        moveEvaluationTracker.setNext(fn);
 
         Move move = game.getMove(Square.a2, Square.a3);
         move.executeMove();
-        moveEvaluationTracker.process(0, -500, 500, fn);
+        moveEvaluationTracker.alphaBeta(0, -500, 500);
         game.undoMove();
 
         verify(moveEvaluations, times(1)).get(move);
@@ -64,17 +66,18 @@ public class RootMoveEvaluationTrackerTest {
 
     @Test
     public void test_process02() {
-        AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
-        when(fn.search(0, -500, 500))
+        AlphaBeta fn = mock(AlphaBeta.class);
+        when(fn.alphaBeta(0, -500, 500))
                 .thenReturn(1000);
         when(moveEvaluations.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);
         moveEvaluationTracker.setGame(game);
+        moveEvaluationTracker.setNext(fn);
 
         Move move = game.getMove(Square.b2, Square.b3);
         move.executeMove();
-        moveEvaluationTracker.process(0, -500, 500, fn);
+        moveEvaluationTracker.alphaBeta(0, -500, 500);
         game.undoMove();
 
         verify(moveEvaluations, times(1)).get(move);

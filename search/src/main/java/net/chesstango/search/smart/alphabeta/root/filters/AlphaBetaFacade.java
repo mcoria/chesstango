@@ -30,12 +30,7 @@ public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
 
     @Override
     public void search() {
-        final Color currentTurn = game.getPosition().getCurrentTurn();
-
-        final long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                next.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
-                next.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
-
+        final long bestMoveAndValue = next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
     }
 
 }

@@ -56,7 +56,7 @@ public abstract class AbstractBestMovesBlackTest {
         assertEquals(Square.c7, smartMove.getFrom().square());
         assertEquals(Square.b8, smartMove.getTo().square(), "There is no other option for black King");
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.LOST, searchResult.getBestEvaluation());
     }
 
 
@@ -74,7 +74,7 @@ public abstract class AbstractBestMovesBlackTest {
         assertEquals(Square.c7, smartMove.getFrom().square());
         assertEquals(Square.b8, smartMove.getTo().square(), "There is no other option for black King");
 
-        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.LOST, searchResult.getBestEvaluation());
     }
 
 
@@ -94,7 +94,7 @@ public abstract class AbstractBestMovesBlackTest {
         Square to = smartMove.getTo().square();
         assertTrue(Square.a1.equals(to) || Square.a2.equals(to) || Square.b3.equals(to) || Square.b4.equals(to) || Square.b5.equals(to));
 
-        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
     @Test //Max Walter vs. Emanuel Lasker
@@ -111,7 +111,7 @@ public abstract class AbstractBestMovesBlackTest {
         assertEquals(Square.e6, smartMove.getFrom().square());
         assertEquals(Square.g6, smartMove.getTo().square());
 
-        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
     }
 
 }

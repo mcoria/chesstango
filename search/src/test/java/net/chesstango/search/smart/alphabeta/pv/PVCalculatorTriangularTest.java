@@ -212,10 +212,10 @@ public class PVCalculatorTriangularTest {
         final long nextZobrist = game.getPosition().getZobristHash();
 
         when(endGameTableBase.isProbeAvailable()).thenReturn(true);
-        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WHITE_WON);
+        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WON);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
-        pvCalculator.calculatePrincipalVariation(Evaluator.WHITE_WON);
+        pvCalculator.calculatePrincipalVariation(Evaluator.WON);
 
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
