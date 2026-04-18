@@ -89,7 +89,7 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", -10);
+        evaluator.addEvaluation("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", 10);
 
         game.executeMove(Square.g1, Square.f3);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
@@ -215,7 +215,7 @@ public class PVCalculatorTranspositionTest {
         final long nextZobrist = game.getPosition().getZobristHash();
 
         when(endGameTableBase.isProbeAvailable()).thenReturn(true);
-        when(endGameTableBase.evaluate()).thenReturn(Evaluator.LOST); // Luego de mover blancas, negras pierde
+        when(endGameTableBase.evaluate()).thenReturn(Evaluator.LOST);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
         pvCalculator.calculatePrincipalVariation(Evaluator.WON);
@@ -276,8 +276,7 @@ public class PVCalculatorTranspositionTest {
     }
 
     /**
-     * PV se extiende luego del horizonte
-     * PV = {d3c5 f1d1 c5e6 f5g4}
+     * PV = {d3c5 f1d1}
      */
     @Test
     public void test_calculatePrincipalVariation_black_depth02() {
@@ -287,15 +286,12 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("1k2r3/1pp5/4n3/1P6/3q1PQ1/6Pp/3p3P/3R3K b - - 0 3", 10);
+        evaluator.addEvaluation("1k2r3/1pp5/4B3/1Pn2Q2/3q1Pp1/6Pp/3p3P/3R3K b - - 2 2", 10);
 
         game.executeMove(Square.d3, Square.c5);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 1, -10);  // Depth = 1
-        writeTT(tTableMap, 0xDFAE6857111476D0L, (short) 0x08AC, (byte) 0, 10);  // Depth = 2
-        writeTT(tTableMap, 0xAA5BB7008B28A5EEL, (short) 0x095E, (byte) -1, -10); // Quiescence
-        writeTT(tTableMap, 0xEF99BE0BC51479B4L, (short) 0x0000, (byte) -2, 10); // Quiescence - no explora hijos
+        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 0, 10);  // Depth = 1
 
         /**
          * Execute
@@ -308,10 +304,10 @@ public class PVCalculatorTranspositionTest {
          */
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
-        assertEquals(4, pv.size());
+        assertEquals(2, pv.size());
 
         List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
-        assertArrayEquals(new String[]{"d3c5", "f1d1", "c5e6", "f5g4"}, pvString.toArray());
+        assertArrayEquals(new String[]{"d3c5", "f1d1"}, pvString.toArray());
 
         assertTrue(pvCalculator.isPvComplete());
 
@@ -320,8 +316,7 @@ public class PVCalculatorTranspositionTest {
     }
 
     /**
-     * PV se extiende luego del horizonte
-     * PV = {d3c5 f1d1 c5e6 f5g4}
+     * PV = {d3c5 f1d1 c5e6}
      */
     @Test
     public void test_calculatePrincipalVariation_black_depth03() {
@@ -331,15 +326,13 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("1k2r3/1pp5/4n3/1P6/3q1PQ1/6Pp/3p3P/3R3K b - - 0 3", 10);
+        evaluator.addEvaluation("1k2r3/1pp5/4n3/1P3Q2/3q1Pp1/6Pp/3p3P/3R3K w - - 0 3", 10);
 
         game.executeMove(Square.d3, Square.c5);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 2, -10);  // Depth = 2
+        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 2, 10);  // Depth = 2
         writeTT(tTableMap, 0xDFAE6857111476D0L, (short) 0x08AC, (byte) 1, 10);  // Depth = 1
-        writeTT(tTableMap, 0xAA5BB7008B28A5EEL, (short) 0x095E, (byte) -1, -10); // Depth = 0 (observar que draft es -1)
-        writeTT(tTableMap, 0xEF99BE0BC51479B4L, (short) 0x0000, (byte) -2, 10); // Quiescence - no explora hijos
 
         /**
          * Execute
@@ -352,10 +345,10 @@ public class PVCalculatorTranspositionTest {
          */
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 
-        assertEquals(4, pv.size());
+        assertEquals(3, pv.size());
 
         List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
-        assertArrayEquals(new String[]{"d3c5", "f1d1", "c5e6", "f5g4"}, pvString.toArray());
+        assertArrayEquals(new String[]{"d3c5", "f1d1", "c5e6"}, pvString.toArray());
 
         assertTrue(pvCalculator.isPvComplete());
 
