@@ -171,7 +171,7 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", -10);
+        evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
 
         game.executeMove(Square.g1, Square.f3);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
@@ -215,7 +215,7 @@ public class PVCalculatorTranspositionTest {
         final long nextZobrist = game.getPosition().getZobristHash();
 
         when(endGameTableBase.isProbeAvailable()).thenReturn(true);
-        when(endGameTableBase.evaluate()).thenReturn(Evaluator.LOST);
+        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WHITE_WON); // Retorna el valor absoluto
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
         pvCalculator.calculatePrincipalVariation(Evaluator.WON);
@@ -286,12 +286,12 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("1k2r3/1pp5/4B3/1Pn2Q2/3q1Pp1/6Pp/3p3P/3R3K b - - 2 2", 10);
+        evaluator.addEvaluation("1k2r3/1pp5/4B3/1Pn2Q2/3q1Pp1/6Pp/3p3P/3R3K b - - 2 2", -10);
 
         game.executeMove(Square.d3, Square.c5);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 0, 10);  // Depth = 1
+        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 0, -10);  // Depth = 1
 
         /**
          * Execute
@@ -326,12 +326,12 @@ public class PVCalculatorTranspositionTest {
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
-        evaluator.addEvaluation("1k2r3/1pp5/4n3/1P3Q2/3q1Pp1/6Pp/3p3P/3R3K w - - 0 3", 10);
+        evaluator.addEvaluation("1k2r3/1pp5/4n3/1P3Q2/3q1Pp1/6Pp/3p3P/3R3K w - - 0 3", -10);
 
         game.executeMove(Square.d3, Square.c5);
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 2, 10);  // Depth = 2
+        writeTT(tTableMap, 0x328C589289A180DFL, (short) 0x0143, (byte) 2, -10);  // Depth = 2
         writeTT(tTableMap, 0xDFAE6857111476D0L, (short) 0x08AC, (byte) 1, 10);  // Depth = 1
 
         /**

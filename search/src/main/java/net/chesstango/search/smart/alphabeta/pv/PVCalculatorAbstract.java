@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.pv;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
@@ -70,7 +71,7 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
     protected boolean validatePrincipalVariation(int eval) {
         boolean isPVComplete = false;
 
-        int sign = principalVariation.size() % 2 == 0 ? -1 : 1;
+        int sign = principalVariation.size() % 2 == 0 ? 1 : -1;
 
         int pvEvaluation = 0;
 
@@ -78,9 +79,9 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
         if (game.getState().getRepetitionCounter() > 1) {
             // Nothing to do
         } else if (endGameTableBase.isProbeAvailable()) {
-            pvEvaluation = sign * endGameTableBase.evaluate();
+            pvEvaluation = sign * (Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? endGameTableBase.evaluate() : -endGameTableBase.evaluate());
         } else {
-            pvEvaluation = sign * evaluator.evaluate();
+            pvEvaluation = sign * (Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate());
         }
 
         if (eval == pvEvaluation && principalVariation.size() >= depth) {
