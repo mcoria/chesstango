@@ -1,14 +1,15 @@
 module net.chesstango.reports {
     exports net.chesstango.reports;
-    exports net.chesstango.reports.engine;
-    exports net.chesstango.reports.search.nodes.depth;
-    exports net.chesstango.reports.search.nodes.types;
-    exports net.chesstango.reports.search.pv;
-    exports net.chesstango.reports.search.transposition;
     exports net.chesstango.reports.search;
-    exports net.chesstango.reports.search.board;
+    exports net.chesstango.reports.search.transposition;
+    exports net.chesstango.reports.search.pv;
+    exports net.chesstango.reports.search.pv.iteration;
+    exports net.chesstango.reports.search.nodes.types;
+    exports net.chesstango.reports.search.nodes.depth;
     exports net.chesstango.reports.search.iteration;
     exports net.chesstango.reports.search.evaluation;
+    exports net.chesstango.reports.search.board;
+    exports net.chesstango.reports.engine;
 
 
     requires net.chesstango.search;
