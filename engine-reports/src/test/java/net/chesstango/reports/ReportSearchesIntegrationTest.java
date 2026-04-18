@@ -29,7 +29,7 @@ public class ReportSearchesIntegrationTest {
         search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, true, false)
+                .withDebugSearchTree(true, false, false)
                 .withStatistics()
                 .build();
     }
@@ -184,6 +184,18 @@ public class ReportSearchesIntegrationTest {
         Game game = Game.from(FEN.of("rq3k2/1p3bp1/2p1pp1p/2P5/1P2PPP1/4Q2P/6BK/3R4 b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(5));
+        searchResult = search.startSearch(game);
+    }
+
+    /**
+     * Nolot 01
+     */
+    @Test
+    @Disabled
+    public void testSearch_15() {
+        Game game = Game.from(FEN.of("r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
     }
 
