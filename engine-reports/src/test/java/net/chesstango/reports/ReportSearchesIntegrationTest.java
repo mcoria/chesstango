@@ -29,7 +29,7 @@ public class ReportSearchesIntegrationTest {
         search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(true, true, false)
+                //.withDebugSearchTree(true, true, false)
                 .withStatistics()
                 .build();
     }
@@ -197,6 +197,16 @@ public class ReportSearchesIntegrationTest {
         Game game = Game.from(FEN.of("r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(7));
+        searchResult = search.startSearch(game);
+    }
+
+
+    @Test
+    @Disabled
+    public void testSearch_16() {
+        Game game = Game.from(FEN.of("8/8/5k2/3BR3/5pP1/4P2P/8/6K1 w - - 0 50"));
+
+        search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
     }
 
