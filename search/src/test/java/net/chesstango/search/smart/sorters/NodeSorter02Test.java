@@ -8,10 +8,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
-import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.smart.alphabeta.killermoves.visitors.SetKillerMovesVisitor;
+import net.chesstango.search.smart.alphabeta.killermoves.visitors.LinkKillerMovesVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +38,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTable));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
@@ -67,9 +66,9 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxMap, minMap));
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTable));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
-        searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesTable));
+        searchListenerMediator.accept(new LinkKillerMovesVisitor(killerMovesTable));
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
 
@@ -90,7 +89,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
     }
 
     protected void loadTranspositionTables() {
-        saveEntry(maxMap, 0x337D4750B1C4CD1AL, LOWER_BOUND, 1, 4078092922146620L);
+        saveEntry(tTable, 0x337D4750B1C4CD1AL, LOWER_BOUND, 1, 4078092922146620L);
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {

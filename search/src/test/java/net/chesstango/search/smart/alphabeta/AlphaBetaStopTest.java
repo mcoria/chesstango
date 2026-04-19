@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
@@ -25,19 +26,19 @@ public class AlphaBetaStopTest {
     private ExecutorService singleThreadExecutor;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         singleThreadExecutor = Executors.newSingleThreadExecutor();
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         singleThreadExecutor.shutdown();
     }
 
     @Test
     public void testStop() throws InterruptedException {
         Search search = new AlphaBetaBuilder()
-                .withGameEvaluator(Evaluator.createInstance())
+                .withGameEvaluator(new EvaluatorByMaterial())
 
                 .withQuiescence()
 

@@ -14,13 +14,11 @@ import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives
 public class TTableStatisticsListener implements Acceptor, SearchByCycleListener {
 
     private final TTableCounters tTableCounters;
-    private final TTable maxMap;
-    private final TTable minMap;
+    private final TTable tTable;
 
-    public TTableStatisticsListener(TTableCounters tTableCounters, TTable maxMap, TTable minMap) {
+    public TTableStatisticsListener(TTableCounters tTableCounters, TTable tTable) {
         this.tTableCounters = tTableCounters;
-        this.maxMap = maxMap;
-        this.minMap = minMap;
+        this.tTable = tTable;
     }
 
     @Override
@@ -34,11 +32,9 @@ public class TTableStatisticsListener implements Acceptor, SearchByCycleListener
 
     @Override
     public void afterSearch() {
-        int maxMapFillPercentage = getFillPercentage(maxMap);
-        int minMapFillPercentage = getFillPercentage(minMap);
+        int mapFillPercentage = getFillPercentage(tTable);
 
-        tTableCounters.setMaxMapFillPercentage(maxMapFillPercentage);
-        tTableCounters.setMinMapFillPercentage(minMapFillPercentage);
+        tTableCounters.setMapFillPercentage(mapFillPercentage);
     }
 
     private int getFillPercentage(TTable tTable) {

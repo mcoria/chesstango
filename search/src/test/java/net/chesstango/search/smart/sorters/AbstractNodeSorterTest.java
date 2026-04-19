@@ -27,8 +27,7 @@ public abstract class AbstractNodeSorterTest {
 
     protected SearchListenerMediator searchListenerMediator;
     protected MoveSorterInteriorBuilder moveSorterBuilder;
-    protected TTable maxMap;
-    protected TTable minMap;
+    protected TTable tTable;
     protected KillerMovesTable killerMovesTable;
     protected EvaluatorCache gameEvaluatorCache;
     protected Game game;
@@ -39,8 +38,7 @@ public abstract class AbstractNodeSorterTest {
 
         searchListenerMediator = new SearchListenerMediator();
 
-        maxMap = new TTableMap();
-        minMap = new TTableMap();
+        tTable = new TTableMap();
 
         killerMovesTable = new KillerMovesTable();
 

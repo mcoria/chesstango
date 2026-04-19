@@ -60,20 +60,20 @@ public class RootMoveEvaluationCollectionTest {
         rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
-        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
+        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a7, Piece.PAWN_BLACK), PiecePositioned.of(Square.a6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move1, 1000, Bound.EXACT));
 
-        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
+        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b7, Piece.PAWN_BLACK), PiecePositioned.of(Square.b6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move2, 2000, Bound.EXACT));
 
-        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
+        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c7, Piece.PAWN_BLACK), PiecePositioned.of(Square.c6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move3, 3000, Bound.EXACT));
 
         rootMoveEvaluationCollection.afterSearchByDepth();
 
         RootMoveEvaluation minEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
-        assertEquals(move1, minEvaluation.move());
-        assertEquals(1000, minEvaluation.evaluation());
+        assertEquals(move3, minEvaluation.move());
+        assertEquals(3000, minEvaluation.evaluation());
         assertEquals(Bound.EXACT, minEvaluation.bound());
     }
 
@@ -109,22 +109,22 @@ public class RootMoveEvaluationCollectionTest {
         rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
-        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
+        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a7, Piece.PAWN_BLACK), PiecePositioned.of(Square.a6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move1, 1000, Bound.LOWER_BOUND));
 
-        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
+        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b7, Piece.PAWN_BLACK), PiecePositioned.of(Square.b6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move2, 1000, Bound.EXACT));
 
-        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
+        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c7, Piece.PAWN_BLACK), PiecePositioned.of(Square.c6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move3, 1000, Bound.UPPER_BOUND));
 
         rootMoveEvaluationCollection.afterSearchByDepth();
 
         // Move1 es más prometedor que el resto, dado que minimizamos y es UPPER_BOUND, por lo que es el mejor
         RootMoveEvaluation minEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
-        assertEquals(move3, minEvaluation.move());
+        assertEquals(move1, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(Bound.UPPER_BOUND, minEvaluation.bound());
+        assertEquals(Bound.LOWER_BOUND, minEvaluation.bound());
     }
 
 

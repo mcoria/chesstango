@@ -48,7 +48,7 @@ public class PVCalculatorTriangularTest {
     }
 
     @Test
-    void test_beforeSearch() {
+    public void test_beforeSearch() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(1);
@@ -72,7 +72,7 @@ public class PVCalculatorTriangularTest {
      * PV = {g1f3}
      */
     @Test
-    void test_calculatePrincipalVariation_depth01() {
+    public void test_calculatePrincipalVariation_depth01() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(1);
@@ -111,7 +111,7 @@ public class PVCalculatorTriangularTest {
      * PV = {g1f3, d7d5}
      */
     @Test
-    void test_calculatePrincipalVariation_depth02() {
+    public void test_calculatePrincipalVariation_depth02() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(2);
@@ -154,7 +154,7 @@ public class PVCalculatorTriangularTest {
      * PV = {g1f3, d7d5}
      */
     @Test
-    void test_calculatePrincipalVariation_depth03() {
+    public void test_calculatePrincipalVariation_depth03() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
         pvCalculator.setDepth(3);
@@ -197,7 +197,7 @@ public class PVCalculatorTriangularTest {
     }
 
     @Test
-    void test_calculatePrincipalVariation_depth01_EGTB() {
+    public void test_calculatePrincipalVariation_depth01_EGTB() {
         game = Game.from(FEN.of("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
         pvCalculator.setGame(game);
         pvCalculator.setDepth(1);
@@ -212,10 +212,10 @@ public class PVCalculatorTriangularTest {
         final long nextZobrist = game.getPosition().getZobristHash();
 
         when(endGameTableBase.isProbeAvailable()).thenReturn(true);
-        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WHITE_WON);
+        when(endGameTableBase.evaluate()).thenReturn(Evaluator.WON);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
-        pvCalculator.calculatePrincipalVariation(Evaluator.WHITE_WON);
+        pvCalculator.calculatePrincipalVariation(Evaluator.WON);
 
         List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
 

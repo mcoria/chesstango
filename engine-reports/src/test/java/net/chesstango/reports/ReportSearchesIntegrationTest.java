@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Disabled
-public class SearchesTest {
+public class ReportSearchesIntegrationTest {
     private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
@@ -29,39 +29,9 @@ public class SearchesTest {
         search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(false, true, true)
+                //.withDebugSearchTree(true, true, false)
                 .withStatistics()
                 .build();
-
-        /*
-        search = new AlphaBetaBuilder()
-                .withGameEvaluator(Evaluator.createInstance())
-                .withGameEvaluatorCache()
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-
-                .withTranspositionMoveSorter()
-                .withKillerMoveSorter()
-                .withRecaptureSorter()
-                .withMvvLvaSorter()
-
-                .withAspirationWindows()
-                .withIterativeDeepening()
-
-                .withStatistics()
-                //.withZobristTracker()
-                //.withTrackEvaluations() // Consume demasiada memoria
-
-                //.withPrintChain()
-                //.withDebugSearchTree(false, true, true)
-
-                //.withStopProcessingCatch()
-
-                .build();
-
-         */
     }
 
     @AfterEach
@@ -90,6 +60,7 @@ public class SearchesTest {
                     .withTranspositionReport()
                     .withIterationEvaluationReport()
                     .withPrincipalVariationReport()
+                    .withPrincipalVariationIterationReport()
                     .printReport(System.out);
         }
     }
@@ -99,7 +70,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = Game.from(FEN.START_POSITION);
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(3));
         searchResult = search.startSearch(game);
     }
 
@@ -118,7 +89,7 @@ public class SearchesTest {
     public void testSearch_02() {
         Game game = Game.from(FEN.of("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1"));
 
-        search.accept(new SetMaxDepthVisitor(5));
+        search.accept(new SetMaxDepthVisitor(3));
         searchResult = search.startSearch(game);
     }
 
@@ -212,6 +183,28 @@ public class SearchesTest {
     @Disabled
     public void testSearch_14() {
         Game game = Game.from(FEN.of("rq3k2/1p3bp1/2p1pp1p/2P5/1P2PPP1/4Q2P/6BK/3R4 b - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(5));
+        searchResult = search.startSearch(game);
+    }
+
+    /**
+     * Nolot 01
+     */
+    @Test
+    @Disabled
+    public void testSearch_15() {
+        Game game = Game.from(FEN.of("r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(7));
+        searchResult = search.startSearch(game);
+    }
+
+
+    @Test
+    @Disabled
+    public void testSearch_16() {
+        Game game = Game.from(FEN.of("8/8/5k2/3BR3/5pP1/4P2P/8/6K1 w - - 0 50"));
 
         search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);

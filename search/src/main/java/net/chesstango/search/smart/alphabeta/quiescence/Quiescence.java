@@ -2,6 +2,8 @@ package net.chesstango.search.smart.alphabeta.quiescence;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
@@ -14,21 +16,21 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class Quiescence implements AlphaBetaFilter, Acceptor {
-    @Setter
+
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
     @Getter
     private MoveSorter moveSorter;
 
-    @Setter
     @Getter
     private Evaluator evaluator;
 
-    @Setter
     private Move[] bestMoves;
+
+    private Game game;
 
     @Override
     public void accept(Visitor visitor) {
@@ -36,10 +38,10 @@ public class Quiescence implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
-        int maxValue = evaluator.evaluate();
+        int maxValue = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
         if (maxValue >= beta) {
             return maxValue;
         }
@@ -51,13 +53,13 @@ public class Quiescence implements AlphaBetaFilter, Acceptor {
             if (!move.isQuiet()) {
                 move.executeMove();
 
-                int currentValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
+                int currentValue = next.alphaBeta(currentPly + 1, Math.max(maxValue, alpha), beta);
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMoves[currentPly] = move;
                     if (maxValue >= beta) {
                         search = false;
-                    } else if (maxValue == Evaluator.WHITE_WON) {
+                    } else if (maxValue == Evaluator.WON) {
                         search = false;
                     }
                 }
@@ -66,39 +68,6 @@ public class Quiescence implements AlphaBetaFilter, Acceptor {
             }
         }
         return maxValue;
-    }
-
-    @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        boolean search = true;
-        bestMoves[currentPly] = null;
-        int minValue = evaluator.evaluate();
-        if (minValue <= alpha) {
-            return minValue;
-        }
-
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
-        Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search) {
-            Move move = moveIterator.next();
-            if (!move.isQuiet()) {
-                move.executeMove();
-
-                int currentValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-                if (currentValue < minValue) {
-                    minValue = currentValue;
-                    bestMoves[currentPly] = move;
-                    if (minValue <= alpha) {
-                        search = false;
-                    } else if (minValue == Evaluator.BLACK_WON) {
-                        search = false;
-                    }
-                }
-
-                move.undoMove();
-            }
-        }
-        return minValue;
     }
 
 }

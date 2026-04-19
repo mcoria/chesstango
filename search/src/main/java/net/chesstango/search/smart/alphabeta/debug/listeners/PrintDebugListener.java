@@ -29,14 +29,16 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class PrintDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
     private final boolean withAspirationWindows;
+
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
@@ -52,7 +54,7 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
 
     private List<String> debugErrorMessages;
 
-    public SetDebugOutput(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public PrintDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
@@ -118,7 +120,13 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
 
     private void dumpSearchTracker() {
         debugErrorMessages = new LinkedList<>();
-        dumpNode(searchTracker.getRootNode());
+
+        DebugNode rootNode = searchTracker.getRootNode();
+        dumpNode(rootNode);
+        if (showNodeTranspositionAccess) {
+            showNodePVTranspositionAccess(rootNode);
+        }
+
         debugErrorMessages.forEach(debugOut::println);
         debugOut.flush();
     }
@@ -129,6 +137,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         if (showNodeTranspositionAccess) {
             showNodeTranspositionAccess(currentNode);
         }
+
+        showNodeKillerMoves(currentNode);
 
         if (currentNode.getSortedMoves() != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
@@ -151,10 +161,6 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
             } else {
                 dumpNode(childNode);
             }
-        }
-
-        if (showNodeTranspositionAccess) {
-            showNodePVTranspositionAccess(currentNode);
         }
     }
 
@@ -187,9 +193,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s ReadTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
-                    readOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
@@ -205,9 +210,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s WriteTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
-                    writeOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
@@ -229,6 +233,12 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
         });
     }
 
+    private void showNodeKillerMoves(DebugNode currentNode) {
+        if (currentNode.getKillerMove() != null) {
+            debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
+        }
+    }
+
     private void dumpSorterOperations(DebugNode currentNode) {
         List<String> sortedMoves = currentNode.getSortedMoves();
 
@@ -247,10 +257,9 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.printf("%s Sorter %s ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]\n",
+                        debugOut.printf("%s Sorter %s ReadTT[ %s 0x%s draft=%d move=? value=%d ]\n",
                                 ">\t".repeat(currentNode.getPly()),
                                 moveStr,
-                                ttOperation.getTableType(),
                                 entry.getBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getDraft(),
@@ -290,9 +299,8 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
-                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]",
+                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s 0x%s draft=%d move=? value=%d ]",
                             ">\t".repeat(currentNode.getPly()),
-                            ttOperation.getTableType(),
                             entry.getBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getDraft(),
@@ -305,11 +313,11 @@ public class SetDebugOutput implements Acceptor, SearchByCycleListener, SearchBy
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
         currentNode.getPvReads().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
-            debugOut.printf(" PV ReadTT[ %s 0x%s %s draft=%d move=? value=%d ]\n",
-                    readOp.getTableType(),
+            debugOut.printf(" PV Read  TT[ 0x%s %s draft=%d move=0x%s value=%d ]\n",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
+                    hexFormat.toHexDigits(entry.getMove()),
                     entry.getValue());
         });
     }

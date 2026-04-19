@@ -9,7 +9,6 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 import java.util.Optional;
@@ -39,17 +38,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::maximize);
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::minimize);
-    }
-
-
-    final int process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
+    public int alphaBeta(int currentPly, int alpha, int beta) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
         Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCollection.get(currentMove);
@@ -59,7 +48,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
             return rootMoveEvaluation.evaluation();
         }
 
-        int currentValue = fn.search(currentPly, alpha, beta);
+        int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         rootMoveEvaluationCollection.save(createRootMoveEvaluation(currentMove, currentValue, alpha, beta));
 

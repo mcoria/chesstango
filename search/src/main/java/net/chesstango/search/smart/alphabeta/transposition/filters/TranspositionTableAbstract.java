@@ -21,9 +21,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
     private Game game;
 
-    private TTable maxMap;
-
-    private TTable minMap;
+    private TTable tTable;
 
     private int depth;
 
@@ -38,12 +36,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     protected abstract boolean isTranspositionEntryValid(int draft);
 
     @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         int draft = depth - currentPly;
 
         long hash = game.getPosition().getZobristHash();
 
-        boolean load = maxMap.load(hash, entryWorkspace);
+        boolean load = tTable.load(hash, entryWorkspace);
 
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
@@ -54,48 +52,18 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             }
         }
 
-        int value = next.maximize(currentPly, alpha, beta);
+        int value = next.alphaBeta(currentPly, alpha, beta);
 
         /**
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(maxMap, hash, currentPly, draft, alpha, beta, value);
+        writeTransposition(hash, currentPly, draft, alpha, beta, value);
 
         return value;
     }
 
-    @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        int draft = depth - currentPly;
-
-        long hash = game.getPosition().getZobristHash();
-
-        boolean load = minMap.load(hash, entryWorkspace);
-
-        if (load && isTranspositionEntryValid(draft)) {
-            // Es un valor exacto
-            if (entryWorkspace.getBound() == EXACT) {
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
-                return entryWorkspace.getValue();
-            }
-        }
-
-        int value = next.minimize(currentPly, alpha, beta);
-
-        /**
-         * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
-         */
-
-        writeTransposition(minMap, hash, currentPly, draft, alpha, beta, value);
-
-        return value;
-    }
-
-    private void writeTransposition(TTable table, long hash, int currentPly, int draft, int alpha, int beta, int value) {
+    private void writeTransposition(long hash, int currentPly, int draft, int alpha, int beta, int value) {
         short move = bestMoves[currentPly] != null ? bestMoves[currentPly].binaryEncoding() : 0;
 
         entryWorkspace.setHash(hash);
@@ -111,6 +79,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             entryWorkspace.setBound(EXACT);
         }
 
-        table.save(entryWorkspace);
+        tTable.save(entryWorkspace);
     }
 }

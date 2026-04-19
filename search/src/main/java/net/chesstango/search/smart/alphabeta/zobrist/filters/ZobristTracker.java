@@ -16,8 +16,7 @@ import java.util.Map;
 @Getter
 public class ZobristTracker implements AlphaBetaFilter, Acceptor {
     private AlphaBetaFilter next;
-    private Map<Long, String> zobristMaxMap;
-    private Map<Long, String> zobristMinMap;
+    private Map<Long, String> zobristMap;
     private List<String> zobristCollisions;
 
     @Override
@@ -26,15 +25,9 @@ public class ZobristTracker implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(int currentPly, int alpha, int beta) {
-        findCollision(zobristMaxMap);
-        return next.maximize(currentPly, alpha, beta);
-    }
-
-    @Override
-    public int minimize(int currentPly, int alpha, int beta) {
-        findCollision(zobristMinMap);
-        return next.minimize(currentPly, alpha, beta);
+    public int alphaBeta(int currentPly, int alpha, int beta) {
+        findCollision(zobristMap);
+        return next.alphaBeta(currentPly, alpha, beta);
     }
 
     protected void findCollision(Map<Long, String> theMap) {

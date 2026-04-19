@@ -8,17 +8,13 @@ import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintDebugListener;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
-import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.root.filters.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -46,11 +42,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
     private TTListener resetTranspositionTables;
-    private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private NodeCounters nodeCounters;
-    private SetDebugOutput setDebugOutput;
-    private SetSearchTracker setSearchTracker;
-    private SetKillerMoveTables setKillerMoveTables;
+    private PrintDebugListener printDebugListener;
     private DebugNodeTrap debugNodeTrap;
 
     private boolean withStatistics;
@@ -233,17 +226,10 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setSearchTracker = new SetSearchTracker();
-            setDebugOutput = new SetDebugOutput(false, false, showNodeTranspositionAccess, showSorterOperations);
+
+            printDebugListener = new PrintDebugListener(false, false, showNodeTranspositionAccess, showSorterOperations);
         }
 
-        if (withKillerMoveSorter) {
-            if (withDebugSearchTree) {
-                setKillerMoveTablesDebug = new SetKillerMoveTablesDebug();
-            } else {
-                setKillerMoveTables = new SetKillerMoveTables();
-            }
-        }
 
     }
 
@@ -254,10 +240,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         searchListenerMediator.add(bottomMoveCounterFacade);
 
         searchListenerMediator.add(setSearchTimers);
-
-        if (setSearchTracker != null) {
-            searchListenerMediator.add(setSearchTracker);
-        }
 
         if (resetTranspositionTables != null) {
             searchListenerMediator.add(resetTranspositionTables);
@@ -271,12 +253,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
             searchListenerMediator.add(gameEvaluatorStatisticsCollector);
         }
 
-        if (setKillerMoveTables != null) {
-            searchListenerMediator.add(setKillerMoveTables);
-        } else if (setKillerMoveTablesDebug != null) {
-            searchListenerMediator.add(setKillerMoveTablesDebug);
-            searchListenerMediator.add(setKillerMoveTablesDebug.getKillerMovesDebug());
-        }
 
         searchListenerMediator.add(alphaBetaFlowControl);
     }
@@ -285,8 +261,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         if (debugNodeTrap instanceof Acceptor acceptor) {
             searchListenerMediator.add(acceptor);
         }
-        if (setDebugOutput != null) {
-            searchListenerMediator.add(setDebugOutput);
+        if (printDebugListener != null) {
+            searchListenerMediator.add(printDebugListener);
         }
     }
 

@@ -12,8 +12,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
  */
 @Setter
 public class TTListener implements Acceptor, SearchByCycleListener, ResetListener {
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable tTable;
 
     @Override
     public void accept(Visitor visitor) {
@@ -22,13 +21,11 @@ public class TTListener implements Acceptor, SearchByCycleListener, ResetListene
 
     @Override
     public void beforeSearch() {
-        maxMap.increaseAge();
-        minMap.increaseAge();
+        tTable.increaseAge();
     }
 
     @Override
     public void reset() {
-        maxMap.clear();
-        minMap.clear();
+        tTable.clear();
     }
 }

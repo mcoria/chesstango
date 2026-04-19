@@ -19,7 +19,7 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
 
     private SearchTracker searchTracker;
 
-    private KillerMoves killerMovesImp;
+    private KillerMoves imp;
 
     @Override
     public void accept(Visitor visitor) {
@@ -28,7 +28,7 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
 
     @Override
     public boolean trackKillerMove(Move move, int currentPly) {
-        if (killerMovesImp.trackKillerMove(move, currentPly)) {
+        if (imp.trackKillerMove(move, currentPly)) {
             DebugNode currentNode = searchTracker.getCurrentNode();
             currentNode.setKillerMove(move);
             return true;
@@ -39,7 +39,7 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
 
     @Override
     public boolean isKiller(Move move, int currentPly) {
-        if (killerMovesImp.isKiller(move, currentPly)) {
+        if (imp.isKiller(move, currentPly)) {
             DebugNode currentNode = searchTracker.getCurrentNode();
             List<Move> sorterKms = currentNode.getSorterKm();
             if (!sorterKms.contains(move)) {
@@ -53,6 +53,6 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
 
     @Override
     public void reset() {
-        killerMovesImp.reset();
+        imp.reset();
     }
 }

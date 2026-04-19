@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.root;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
@@ -26,8 +25,7 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
 
     private final List<RootMoveEvaluation> rootMoveEvaluations;
 
-    private final RootMoveEvaluationComparator whiteRootMoveEvaluationComparator;
-    private final RootMoveEvaluationComparator blackRootMoveEvaluationComparator;
+    private final RootMoveEvaluationComparator rootMoveEvaluationComparator;
 
     @Getter
     private RootMoveEvaluation bestRootMoveEvaluation;
@@ -35,13 +33,10 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     @Setter
     private Game game;
 
-    private boolean maximize;
-
 
     public RootMoveEvaluationCollection() {
         rootMoveEvaluations = new LinkedList<>();
-        whiteRootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator(Color.WHITE);
-        blackRootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator(Color.BLACK);
+        rootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator();
     }
 
     @Override
@@ -53,7 +48,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     public void beforeSearch() {
         rootMoveEvaluations.clear();
         bestRootMoveEvaluation = null;
-        maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
     }
 
     @Override
@@ -65,7 +59,7 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     public void afterSearchByDepth() {
         //En caso de stop inmediatamente se completó DEPTH = 1
         if (!rootMoveEvaluations.isEmpty()) {
-            rootMoveEvaluations.sort(maximize ? whiteRootMoveEvaluationComparator : blackRootMoveEvaluationComparator);
+            rootMoveEvaluations.sort(rootMoveEvaluationComparator);
             bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
         }
     }
@@ -106,17 +100,12 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     public static class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluation> {
         private final Comparator<RootMoveEvaluation> rootMoveEvaluationComparator;
 
-        public RootMoveEvaluationComparator(Color color) {
+        public RootMoveEvaluationComparator() {
             DefaultMoveComparator defaultMoveComparator = new DefaultMoveComparator();
-            this.rootMoveEvaluationComparator = Color.WHITE.equals(color)
-                    ? Comparator
-                      .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
-                      .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
-                      .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()))
-                    : Comparator
-                      .comparing(RootMoveEvaluation::bound)
-                      .thenComparing(RootMoveEvaluation::evaluation)                                   // De menor a mayor: natural order
-                      .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
+            this.rootMoveEvaluationComparator = Comparator
+                    .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
+                    .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
+                    .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
 
         }
 

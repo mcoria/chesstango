@@ -27,15 +27,9 @@ public class AlphaBetaLoopNodeStatistics implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         updateCounters(currentPly);
-        return next.maximize(currentPly, alpha, beta);
-    }
-
-    @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        updateCounters(currentPly);
-        return next.minimize(currentPly, alpha, beta);
+        return next.alphaBeta(currentPly, alpha, beta);
     }
 
     protected void updateCounters(final int currentPly) {

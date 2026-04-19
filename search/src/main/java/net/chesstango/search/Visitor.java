@@ -6,9 +6,9 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.traps.LeafNodeTrap;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
@@ -22,8 +22,6 @@ import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVis
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
-import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
@@ -205,10 +203,10 @@ public interface Visitor {
     default void visit(NodeCounters nodeCounters) {
     }
 
-    default void visit(SetSearchTracker setSearchTracker) {
+    default void visit(SearchTracker searchTracker) {
     }
 
-    default void visit(SetDebugOutput setDebugOutput) {
+    default void visit(PrintDebugListener printDebugListener) {
     }
 
     default void visit(KillerMovesDebug killerMovesDebug) {
@@ -234,12 +232,6 @@ public interface Visitor {
     }
 
     default void visit(EvaluationCounters evaluationCounters) {
-    }
-
-    default void visit(SetKillerMoveTables setKillerMoveTables) {
-    }
-
-    default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
     }
 
     default void visit(TTListener transpositionTableListener) {

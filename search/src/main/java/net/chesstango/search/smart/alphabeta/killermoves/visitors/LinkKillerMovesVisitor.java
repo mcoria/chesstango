@@ -9,11 +9,11 @@ import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTrack
  *
  * @author Mauricio Coria
  */
-public class SetKillerMovesVisitor implements Visitor {
+public class LinkKillerMovesVisitor implements Visitor {
 
     private final KillerMoves killerMoves;
 
-    public SetKillerMovesVisitor(KillerMoves killerMoves) {
+    public LinkKillerMovesVisitor(KillerMoves killerMoves) {
         this.killerMoves = killerMoves;
     }
 
@@ -21,7 +21,6 @@ public class SetKillerMovesVisitor implements Visitor {
     public void visit(KillerMoveTracker killerMoveTracker) {
         killerMoveTracker.setKillerMoves(killerMoves);
     }
-
 
     @Override
     public void visit(KillerMoveComparator killerMoveComparator) {

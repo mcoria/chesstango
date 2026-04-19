@@ -11,31 +11,21 @@ import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
  * @author Mauricio Coria
  */
 public class LinkTTableImpVisitor implements Visitor {
-    private final TTable maxMap;
-    private final TTable minMap;
+    private final TTable tTable;
 
-    public LinkTTableImpVisitor(TTable maxMap, TTable minMap) {
-        this.maxMap = maxMap;
-        this.minMap = minMap;
-    }
-
-    @Override
-    public void visit(PVCalculatorTransposition ttpvReader) {
-        ttpvReader.setMaxMap(maxMap);
-        ttpvReader.setMinMap(minMap);
+    public LinkTTableImpVisitor(TTable tTable) {
+        this.tTable = tTable;
     }
 
 
     @Override
     public void visit(TTDump ttDump) {
-        ttDump.setMaxMap(maxMap);
-        ttDump.setMaxMap(minMap);
+        ttDump.setTTable(tTable);
     }
 
     @Override
     public void visit(TTLoad ttLoad) {
-        ttLoad.setMaxMap(maxMap);
-        ttLoad.setMinMap(minMap);
+        ttLoad.setTTable(tTable);
     }
 
 }

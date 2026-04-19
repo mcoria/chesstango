@@ -18,12 +18,7 @@ public class QuiescenceNull implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int minimize(final int currentPly, final int alpha, final int beta) {
-        return evaluator.evaluate();
-    }
-
-    @Override
-    public int maximize(final int currentPly, final int alpha, final int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         return evaluator.evaluate();
     }
 

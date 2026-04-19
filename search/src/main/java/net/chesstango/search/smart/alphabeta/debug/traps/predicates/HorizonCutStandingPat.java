@@ -40,8 +40,7 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
                 if (!candidate.getEntryWrite().isEmpty()) {
                     DebugOperationTT candidateWriteTT = candidate.getEntryWrite().getFirst();
                     DebugOperationTT debugNodeReadTT = debugNode.getEntryRead().getFirst();
-                    if (candidateWriteTT.getTableType().equals(debugNodeReadTT.getTableType()) &&
-                            candidateWriteTT.getEntry().getMove() == debugNodeReadTT.getEntry().getMove() &&
+                    if (candidateWriteTT.getEntry().getMove() == debugNodeReadTT.getEntry().getMove() &&
                             candidateWriteTT.getEntry().getValue() == debugNodeReadTT.getEntry().getValue()) {
                         DebugNode qNode = candidate.getChildNodes().getFirst();
                         for (int i = 0; i < Math.min(qNode.getChildNodes().size(), debugNode.getChildNodes().size()); i++) {

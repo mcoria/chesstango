@@ -18,13 +18,10 @@ import static net.chesstango.search.Bound.EXACT;
  *
  * @author Mauricio Coria
  */
-public class PVCalculatorTransposition extends PVCalculatorAbstract implements Acceptor{
+public class PVCalculatorTransposition extends PVCalculatorAbstract implements Acceptor {
 
     @Setter
-    private TTable maxMap;
-
-    @Setter
-    private TTable minMap;
+    private TTable tTable;
 
     private final TranspositionEntry entryWorkspace;
 
@@ -42,8 +39,9 @@ public class PVCalculatorTransposition extends PVCalculatorAbstract implements A
     protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList, int eval) {
         // Second PV move
         long currentHash = game.getPosition().getZobristHash();
-        Move currentMove = readMoveFromTT(currentHash, eval);
+        Move currentMove = readMoveFromTT(currentHash, -eval);
 
+        boolean keepSign = true;
         while (currentMove != null) {
 
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
@@ -52,7 +50,8 @@ public class PVCalculatorTransposition extends PVCalculatorAbstract implements A
 
             // Third PV move and onward
             currentHash = game.getPosition().getZobristHash();
-            currentMove = readMoveFromTT(currentHash, eval);
+            currentMove = readMoveFromTT(currentHash, keepSign ? eval : -eval);
+            keepSign = !keepSign;
         }
 
         return principalVariationList;
@@ -60,8 +59,8 @@ public class PVCalculatorTransposition extends PVCalculatorAbstract implements A
 
     final Move readMoveFromTT(long hash, int eval) {
         Move result = null;
-        if (maxMap != null && minMap != null) {
-            boolean load = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
+        if (tTable != null) {
+            boolean load = tTable.load(hash, entryWorkspace);
             if (load && EXACT.equals(entryWorkspace.getBound()) && entryWorkspace.getValue() == eval) {
                 short bestMoveEncoded = entryWorkspace.getMove();
                 result = bestMoveEncoded != 0 ? getMove(bestMoveEncoded) : null;
