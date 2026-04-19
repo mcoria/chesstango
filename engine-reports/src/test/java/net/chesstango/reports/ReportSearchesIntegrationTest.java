@@ -109,7 +109,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_04() {
         Game game = Game.from(FEN.of("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39"));
 
-        search.accept(new SetMaxDepthVisitor(7));
+        search.accept(new SetMaxDepthVisitor(9));
         searchResult = search.startSearch(game);
     }
 
@@ -119,7 +119,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_06() {
         Game game = Game.from(FEN.of("R7/P4k2/8/8/8/8/r7/6K1 w - - 0 1"));
 
-        search.accept(new SetMaxDepthVisitor(7));
+        search.accept(new SetMaxDepthVisitor(9));
         searchResult = search.startSearch(game);
     }
 
@@ -128,7 +128,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_07() {
         Game game = Game.from(FEN.of("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22"));
 
-        search.accept(new SetMaxDepthVisitor(3));
+        search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
     }
 
@@ -137,7 +137,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_08() {
         Game game = Game.from(FEN.of("7k/6p1/8/8/8/N7/8/K7 w - - 0 1"));
 
-        search.accept(new SetMaxDepthVisitor(9));
+        search.accept(new SetMaxDepthVisitor(10));
         searchResult = search.startSearch(game);
     }
 
@@ -156,7 +156,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_11() {
         Game game = Game.from(FEN.of("1r2r1k1/pp3p1p/3pb1pB/4b3/P2pQ3/1PqP2P1/2P2RBP/3R2K1 b - - 2 23"));
 
-        search.accept(new SetMaxDepthVisitor(4));
+        search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
     }
 
@@ -166,7 +166,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_12() {
         Game game = Game.from(FEN.of("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49"));
 
-        search.accept(new SetMaxDepthVisitor(7));
+        search.accept(new SetMaxDepthVisitor(8));
         searchResult = search.startSearch(game);
     }
 
@@ -175,7 +175,7 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_13() {
         Game game = Game.from(FEN.of("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
 
-        search.accept(new SetMaxDepthVisitor(5));
+        search.accept(new SetMaxDepthVisitor(1));
         searchResult = search.startSearch(game);
     }
 
@@ -184,8 +184,13 @@ public class ReportSearchesIntegrationTest {
     public void testSearch_14() {
         Game game = Game.from(FEN.of("rq3k2/1p3bp1/2p1pp1p/2P5/1P2PPP1/4Q2P/6BK/3R4 b - - 0 1"));
 
-        search.accept(new SetMaxDepthVisitor(5));
+        search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
+
+        //List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        //System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
+        //System.out.printf("%d PV moves: %s%n", pv.size(), Arrays.toString(pv.toArray()));
+        //System.out.println(searchResult.isPvComplete());
     }
 
     /**

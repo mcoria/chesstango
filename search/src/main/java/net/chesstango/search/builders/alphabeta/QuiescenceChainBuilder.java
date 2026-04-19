@@ -107,44 +107,55 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     @Override
     protected  void buildObjects() {
         triangularPV = new TriangularPV();
+
         if (withStatistics) {
             alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
             alphaBetaQuiescenceNodeExpected = new AlphaBetaQuiescenceNodeExpected();
         }
+
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();
         }
+
         if (withTranspositionTable) {
             transpositionTableQ = new TranspositionTableQ();
         }
+
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
             gameEvaluatorDebug = new EvaluatorDebug();
         }
+
     }
 
     @Override
     protected  void setupListenerMediator() {
+        searchListenerMediator.add(quiescence);
+
         if (alphaBetaQuiescenceNodeVisited != null) {
             searchListenerMediator.add(alphaBetaQuiescenceNodeVisited);
         }
+
         if (alphaBetaQuiescenceNodeExpected != null) {
             searchListenerMediator.add(alphaBetaQuiescenceNodeExpected);
         }
+
         if (zobristQTracker != null) {
             searchListenerMediator.add(zobristQTracker);
         }
+
         if (transpositionTableQ != null) {
             searchListenerMediator.add(transpositionTableQ);
         }
+
         if (withDebugSearchTree) {
             searchListenerMediator.add(debugFilter);
             searchListenerMediator.add(gameEvaluatorDebug);
         }
+
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);
         }
-        searchListenerMediator.add(quiescence);
     }
 
     @Override

@@ -102,6 +102,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         loopChainBuilder = new LoopChainBuilder();
 
         egtbChainBuilder = new EgtbChainBuilder();
+
         setGameToEndGameTableBase = new SetGameToEndGameTableBase();
     }
 
@@ -155,9 +156,11 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     @Override
     public AlphaBetaBuilder withTranspositionTable(int hashSize) {
         alphaBetaRootChainBuilder.withTranspositionTable();
+
         alphaBetaInteriorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
+
         checkResolverChainBuilder.withTranspositionTable();
 
         transpositionTableBuilder.withTranspositionTableSize(hashSize);
@@ -345,12 +348,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
+        searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
+
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
-        }
-
-        if (!withTranspositionTable) {
-            searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
         }
 
         if(withKillerMoveSorter) {

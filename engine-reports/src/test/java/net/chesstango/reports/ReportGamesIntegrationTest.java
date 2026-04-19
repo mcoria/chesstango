@@ -141,9 +141,9 @@ public class ReportGamesIntegrationTest {
             //session.goTime(5000);
             session.goDepth(5);
 
-            for (int i = 0; i < movesArray.length; i += 2) {
+            for (int i = 0; i < movesArray.length; i++) {
                 //if (i == 36) {
-                List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
+                List<String> currentMoves = Arrays.stream(movesArray).limit(i + 1).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
                 //session.goTime(5000);
