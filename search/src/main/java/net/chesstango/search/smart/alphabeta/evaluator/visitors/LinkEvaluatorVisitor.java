@@ -25,11 +25,6 @@ public class LinkEvaluatorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(EvaluatorDebug evaluatorDebug) {
-        evaluatorDebug.setEvaluator(evaluator);
-    }
-
-    @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         alphaBetaEvaluation.setEvaluator(evaluator);
     }

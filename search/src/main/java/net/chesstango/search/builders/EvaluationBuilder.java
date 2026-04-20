@@ -5,6 +5,7 @@ import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
@@ -18,13 +19,14 @@ import java.util.List;
 /**
  * @author Mauricio Corias
  */
-public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>{
+public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder> {
 
     private Evaluator evaluatorImp;
+    private EvaluatorDebug evaluatorDebug;
     private SetGameToEvaluator setGameToEvaluator;
 
-    private EvaluatorCache gameEvaluatorCache;
-    private EvaluatorCacheDebug gameEvaluatorCacheDebug;
+    private EvaluatorCache evaluatorCache;
+    private EvaluatorCacheDebug evaluatorCacheDebug;
     private EvaluatorCacheListener evaluatorCacheListener;
 
     private EvaluationCounters evaluationCounters;
@@ -37,6 +39,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private boolean withGameEvaluatorCache;
     private boolean withStatistics;
 
+
+    /**
+     * Front-end evaluators
+     */
     private Evaluator evaluator;
     private EvaluatorCacheRead evaluatorCacheRead;
 
@@ -87,7 +93,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     public void link() {
         searchListenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
 
-        if (withGameEvaluatorCache) {
+        if (evaluatorCacheRead != null) {
             searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCacheRead));
         }
     }
@@ -95,25 +101,24 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private void buildObjects() {
         setGameToEvaluator = new SetGameToEvaluator();
 
-        if (withDebugSearchTree) {
-            gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
-            gameEvaluatorCacheDebug.setEvaluatorCacheRead(gameEvaluatorCache);
-        }
-
         if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new EvaluatorCache();
+            evaluatorCache = new EvaluatorCache();
 
             evaluatorCacheListener = new EvaluatorCacheListener();
-            evaluatorCacheListener.setGameEvaluatorCache(gameEvaluatorCache);
+            evaluatorCacheListener.setGameEvaluatorCache(evaluatorCache);
+        }
+
+        if (withDebugSearchTree) {
+            evaluatorDebug = new EvaluatorDebug();
+            evaluatorCacheDebug = new EvaluatorCacheDebug();
         }
 
         if (withStatistics) {
             evaluationCounters = new EvaluationCounters()
-                    .setEvaluatorCache(gameEvaluatorCache);
+                    .setEvaluatorCache(evaluatorCache);  // No importa que sea NULL
 
             evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setEvaluationsCounters(evaluationCounters);
-
         }
     }
 
@@ -130,8 +135,11 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         if (evaluatorCacheListener != null) {
             searchListenerMediator.add(evaluatorCacheListener);
         }
-        if (gameEvaluatorCacheDebug != null) {
-            searchListenerMediator.add(gameEvaluatorCacheDebug);
+        if (evaluatorCacheDebug != null) {
+            searchListenerMediator.add(evaluatorCacheDebug);
+        }
+        if (evaluatorDebug != null) {
+            searchListenerMediator.add(evaluatorDebug);
         }
     }
 
@@ -152,8 +160,12 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             chain.add(evaluatorStatisticsCollector);
         }
 
-        if (gameEvaluatorCache != null) {
-            chain.add(gameEvaluatorCache);
+        if (evaluatorDebug != null) {
+            chain.add(evaluatorDebug);
+        }
+
+        if (evaluatorCache != null) {
+            chain.add(evaluatorCache);
         }
 
         chain.add(evaluatorImp);
@@ -170,7 +182,11 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
                 case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
                         evaluatorStatisticsCollector.setImp(next);
 
-                case EvaluatorCache evaluatorCache -> evaluatorCache.setImp(next);
+                case EvaluatorCache evaluatorCache ->
+                        evaluatorCache.setImp(next);
+
+                case EvaluatorDebug evaluatorDebug ->
+                        evaluatorDebug.setEvaluator(next);
 
                 case null -> throw new RuntimeException(String.format("evaluator %d is null", i));
 
@@ -185,11 +201,11 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private EvaluatorCacheRead createEvaluatorCacheChain() {
         List<EvaluatorCacheRead> chain = new LinkedList<>();
 
-        if (gameEvaluatorCacheDebug != null) {
-            chain.add(gameEvaluatorCacheDebug);
+        if (evaluatorCacheDebug != null) {
+            chain.add(evaluatorCacheDebug);
         }
 
-        chain.add(gameEvaluatorCache);
+        chain.add(evaluatorCache);
 
         return linkEvaluatorCacheChain(chain);
     }
