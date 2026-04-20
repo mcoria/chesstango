@@ -21,10 +21,7 @@ import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HexFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -134,11 +131,13 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
     private void dumpNode(DebugNode currentNode) {
         dumpNodeHeader(currentNode);
 
+        showNodePV(currentNode);
+
+        showNodeKillerMoves(currentNode);
+
         if (showNodeTranspositionAccess) {
             showNodeTranspositionAccess(currentNode);
         }
-
-        showNodeKillerMoves(currentNode);
 
         if (currentNode.getSortedMoves() != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
@@ -237,6 +236,10 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
         if (currentNode.getKillerMove() != null) {
             debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
         }
+    }
+
+    private void showNodePV(DebugNode currentNode) {
+        debugOut.printf("%s PV %s\n", ">\t".repeat(currentNode.getPly()), Arrays.toString(currentNode.getPV()));
     }
 
     private void dumpSorterOperations(DebugNode currentNode) {

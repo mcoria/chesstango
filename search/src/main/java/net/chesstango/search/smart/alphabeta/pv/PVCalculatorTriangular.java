@@ -5,6 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class PVCalculatorTriangular extends PVCalculatorAbstract implements Acceptor {
 
     @Setter
-    private short[][] trianglePV;
+    private TriangularPVTable trianglePV;
 
     @Override
     public void accept(Visitor visitor) {
@@ -24,22 +25,19 @@ public class PVCalculatorTriangular extends PVCalculatorAbstract implements Acce
 
     @Override
     protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList, int eval) {
-        int pvMoveCounter = 1;
-        short[] pvMoves = trianglePV[0];
+        int pvMoveCounter = 0;
+        short[] pvMoves = trianglePV.getRootPV();
 
-        // Second PV move
-        long currentHash = game.getPosition().getZobristHash();
-        Move currentMove = getMove(pvMoves[pvMoveCounter++]);
+        // First PV move
 
-        while (currentMove != null) {
+        while (pvMoveCounter < pvMoves.length) {
+
+            long currentHash = game.getPosition().getZobristHash();
+            Move currentMove = getMove(pvMoves[pvMoveCounter++]);
 
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
 
             currentMove.executeMove();
-
-            // Third PV move and onward
-            currentHash = game.getPosition().getZobristHash();
-            currentMove = getMove(pvMoves[pvMoveCounter++]);
         }
 
         return principalVariationList;

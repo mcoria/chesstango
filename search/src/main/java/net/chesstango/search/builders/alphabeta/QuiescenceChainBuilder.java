@@ -8,7 +8,8 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
@@ -31,7 +32,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
     private EvaluatorDebug gameEvaluatorDebug;
-    private TriangularPV triangularPV;
+    private UpdatePV updatePV;
+    private ClearPV clearPV;
 
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -105,8 +107,9 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected  void buildObjects() {
-        triangularPV = new TriangularPV();
+    protected void buildObjects() {
+        clearPV = new ClearPV();
+        updatePV = new UpdatePV();
 
         if (withStatistics) {
             alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
@@ -129,7 +132,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected  void setupListenerMediator() {
+    protected void setupListenerMediator() {
         searchListenerMediator.add(quiescence);
 
         if (alphaBetaQuiescenceNodeVisited != null) {
@@ -153,8 +156,12 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(gameEvaluatorDebug);
         }
 
-        if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+        if (clearPV != null) {
+            searchListenerMediator.add(clearPV);
+        }
+
+        if (updatePV != null) {
+            searchListenerMediator.add(updatePV);
         }
     }
 
@@ -175,6 +182,10 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(debugFilter);
         }
 
+        if (clearPV != null) {
+            chain.add(clearPV);
+        }
+
         if (zobristQTracker != null) {
             chain.add(zobristQTracker);
         }
@@ -193,8 +204,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         chain.add(quiescence);
 
-        if (triangularPV != null) {
-            chain.add(triangularPV);
+        if (updatePV != null) {
+            chain.add(updatePV);
         }
 
         chain.add(alphaBetaFlowControl);

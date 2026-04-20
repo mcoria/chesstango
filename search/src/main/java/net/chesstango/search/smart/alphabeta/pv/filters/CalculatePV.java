@@ -6,6 +6,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
+import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 /**
  * Este filtro se ejecuta UNICAMENTE luego de AlphaBeta de Root Node para capturar tempranamente el PV.
@@ -15,11 +16,14 @@ import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
  */
 @Setter
 @Getter
-public class TriggerPVCalculation implements AlphaBetaFilter, Acceptor {
+public class CalculatePV implements AlphaBetaFilter, Acceptor {
 
     private AlphaBetaFilter next;
 
     private PVCalculator pvCalculator;
+
+    private TriangularPVTable trianglePV;
+
 
     @Override
     public void accept(Visitor visitor) {
@@ -28,20 +32,11 @@ public class TriggerPVCalculation implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
+        trianglePV.clearPV(currentPly);
+
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
-        return process(alpha, beta, currentValue);
-    }
-
-
-    /**
-     * Decodes move/value; reads principal variation if within alpha-beta window
-     */
-    protected int process(int alpha, int beta, int currentValue) {
-
-        if (alpha < currentValue && currentValue < beta) {
-            pvCalculator.calculatePrincipalVariation(currentValue);
-        }
+        pvCalculator.calculatePrincipalVariation(currentValue);
 
         return currentValue;
     }

@@ -28,9 +28,6 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
     @Setter
     protected Game game;
 
-    @Setter
-    protected int depth;
-
     @Getter
     @Setter(AccessLevel.PACKAGE)
     protected boolean pvComplete;
@@ -51,20 +48,12 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
     public void calculatePrincipalVariation(int eval) {
         List<PrincipalVariation> principalVariationList = new ArrayList<>();
 
-        // First PV move
-        final long rootHash = game.getHistory().peekLastRecord().zobristHash().getZobristHash();
-        final Move rootMove = game.getHistory().peekLastRecord().playedMove();
-        principalVariationList.add(new PrincipalVariation(rootHash, rootMove));
-
         // Cada vez que recalculamos Principal Variation
         this.principalVariation = walkPrincipalVariation(principalVariationList, eval);
         this.pvComplete = validatePrincipalVariation(eval);
 
         // Rewind game
-        for (int i = principalVariationList.size() - 1; i > 0; i--) {
-            Move move = principalVariationList.get(i).move();
-            move.undoMove();
-        }
+        principalVariationList.reversed().stream().map(PrincipalVariation::move).forEach(Move::undoMove);
     }
 
 
@@ -84,7 +73,8 @@ public abstract class PVCalculatorAbstract implements PVCalculator, SearchByCycl
             pvEvaluation = sign * (Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate());
         }
 
-        if (eval == pvEvaluation && principalVariation.size() >= depth) {
+        // No se debe considerar DEPH dado que al entrar en LOOP la cantidad de movimientos PVs puede ser menor a DEPTH
+        if (eval == pvEvaluation) {
             isPVComplete = true;
         }
 

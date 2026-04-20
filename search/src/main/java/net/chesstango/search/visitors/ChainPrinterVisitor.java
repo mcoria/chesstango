@@ -26,8 +26,9 @@ import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
@@ -221,16 +222,21 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TriggerPVCalculation triggerPVCalculation) {
+    public void visit(CalculatePV calculatePV) {
         printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(triggerPVCalculation), printTTPVReader(triggerPVCalculation.getPvCalculator())));
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(calculatePV), printTTPVReader(calculatePV.getPvCalculator())));
 
-        traverse(triggerPVCalculation.getNext());
+        traverse(calculatePV.getNext());
     }
 
     @Override
-    public void visit(TriangularPV triangularPV) {
-        print(triangularPV, triangularPV.getNext());
+    public void visit(UpdatePV updatePV) {
+        print(updatePV, updatePV.getNext());
+    }
+
+    @Override
+    public void visit(ClearPV clearPV) {
+        print(clearPV, clearPV.getNext());
     }
 
     @Override

@@ -7,7 +7,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
@@ -25,7 +25,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private TriangularPV triangularPV;
+    private UpdatePV updatePV;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -87,7 +87,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
         }
         if (!withTranspositionTable) {
-            triangularPV = new TriangularPV();
+            updatePV = new UpdatePV();
         }
     }
 
@@ -105,8 +105,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         if (debugFilter != null) {
             searchListenerMediator.add(debugFilter);
         }
-        if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+        if (updatePV != null) {
+            searchListenerMediator.add(updatePV);
         }
         searchListenerMediator.add(alphaBeta);
     }
@@ -138,8 +138,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
 
         chain.add(alphaBeta);
 
-        if (triangularPV != null) {
-            chain.add(triangularPV);
+        if (updatePV != null) {
+            chain.add(updatePV);
         }
 
         //chain.save(extensionFlowControl);

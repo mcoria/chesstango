@@ -5,6 +5,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -19,6 +20,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
     private DebugFilter debugFilter;
+    private ClearPV clearPV;
 
 
     /**
@@ -58,6 +60,8 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected  void buildObjects() {
+        clearPV = new ClearPV();
+
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -68,6 +72,10 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
+        }
+
+        if (clearPV != null) {
+            searchListenerMediator.add(clearPV);
         }
     }
 
@@ -95,6 +103,10 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
         if (debugFilter != null) {
             chain.add(debugFilter);
+        }
+
+        if (clearPV != null) {
+            chain.add(clearPV);
         }
 
         if (zobristTracker != null) {

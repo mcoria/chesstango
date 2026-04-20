@@ -5,6 +5,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLeafNodeStatistics;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -19,6 +20,7 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics;
     private DebugFilter debugSearchTree;
+    private ClearPV clearPV;
 
     /**
      * TranspositionTableLeaf escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
@@ -57,6 +59,8 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected  void buildObjects() {
+        clearPV = new ClearPV();
+
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -85,6 +89,10 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         if (debugSearchTree != null) {
             searchListenerMediator.add(debugSearchTree);
         }
+
+        if (clearPV != null) {
+            searchListenerMediator.add(clearPV);
+        }
     }
 
     @Override
@@ -98,6 +106,10 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
         if (debugSearchTree != null) {
             chain.add(debugSearchTree);
+        }
+
+        if (clearPV != null) {
+            chain.add(clearPV);
         }
 
         if (zobristTracker != null) {

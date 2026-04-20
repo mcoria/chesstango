@@ -8,6 +8,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 /**
  * @author Mauricio Coria
@@ -23,6 +24,8 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
     private SearchTracker searchTracker;
 
     private Game game;
+
+    private TriangularPVTable trianglePV;
 
     public DebugFilter(DebugNode.NodeTopology topology) {
         this.topology = topology;
@@ -42,6 +45,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         debugNode.setValue(currentValue);
+        debugNode.setPV(trianglePV.getPV(currentPly));
 
         if (currentValue <= alpha) {
             debugNode.setType(DebugNode.NodeType.ALL);

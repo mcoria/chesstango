@@ -10,10 +10,9 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
+import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -42,14 +41,16 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
-    private TriggerPVCalculation triggerPVCalculation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private TriangularPV triangularPV;
+
+    private UpdatePV updatePV;
+    private CalculatePV calculatePV;
     private PVCalculatorTriangular pvCalculatorTriangular;
-    private AlphaBetaFilter alphaBetaFlowControl;
-    private PVCalculatorTransposition pvCalculatorTransposition;
     private PVCalculatorDebug pvCalculatorDebug;
+
+    private AlphaBetaFilter alphaBetaFlowControl;
+
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -119,11 +120,11 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     protected void buildObjects() {
         moveEvaluationTracker.setRootMoveEvaluationCollection(moveEvaluations);
 
-        triggerPVCalculation = new TriggerPVCalculation();
+        calculatePV = new CalculatePV();
 
         pvCalculatorTriangular = new PVCalculatorTriangular();
 
-        triangularPV = new TriangularPV();
+        updatePV = new UpdatePV();
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
@@ -158,7 +159,10 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     @Override
     protected void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
+
         searchListenerMediator.add(moveEvaluations);
+
+        searchListenerMediator.add(alphaBeta);
 
         if (stopProcessingCatch != null) {
             searchListenerMediator.add(stopProcessingCatch);
@@ -184,27 +188,21 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(transpositionTableRoot);
         }
 
-        if (triggerPVCalculation != null) {
-            searchListenerMediator.add(triggerPVCalculation);
+        if (calculatePV != null) {
+            searchListenerMediator.add(calculatePV);
         }
 
-        if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+        if (updatePV != null) {
+            searchListenerMediator.add(updatePV);
         }
 
         if (pvCalculatorTriangular != null) {
             searchListenerMediator.add(pvCalculatorTriangular);
         }
 
-        if (pvCalculatorTransposition != null) {
-            searchListenerMediator.add(pvCalculatorTransposition);
-        }
-
         if (pvCalculatorDebug != null) {
             searchListenerMediator.add(pvCalculatorDebug);
         }
-
-        searchListenerMediator.add(alphaBeta);
     }
 
     @Override
@@ -218,9 +216,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             pvCalculatorDebug.setImp(pvCalculatorTriangular);
 
-            triggerPVCalculation.setPvCalculator(pvCalculatorDebug);
+            calculatePV.setPvCalculator(pvCalculatorDebug);
         } else {
-            triggerPVCalculation.setPvCalculator(pvCalculatorTriangular);
+            calculatePV.setPvCalculator(pvCalculatorTriangular);
         }
     }
 
@@ -240,6 +238,10 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             chain.add(aspirationWindows);
         }
 
+        if (calculatePV != null) {
+            chain.add(calculatePV);
+        }
+
         if (debugFilter != null) {
             chain.add(debugFilter);
         }
@@ -254,15 +256,11 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         chain.add(alphaBeta);
 
+        if (updatePV != null) {
+            chain.add(updatePV);
+        }
+
         chain.add(moveEvaluationTracker);
-
-        if (triggerPVCalculation != null) {
-            chain.add(triggerPVCalculation);
-        }
-
-        if (triangularPV != null) {
-            chain.add(triangularPV);
-        }
 
         chain.add(alphaBetaFlowControl);
 

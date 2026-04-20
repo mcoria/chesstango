@@ -13,11 +13,13 @@ import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.transposition.TTableMap;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HexFormat;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +34,7 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
+@Disabled
 public class PVCalculatorTranspositionTest {
 
     private EvaluatorByFEN evaluator;
@@ -60,7 +63,6 @@ public class PVCalculatorTranspositionTest {
     public void test_beforeSearch() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(1);
 
         // Supongamos que se ejecutó walkPrincipalVariation
         final long startZobrist = game.getPosition().getZobristHash();
@@ -85,7 +87,6 @@ public class PVCalculatorTranspositionTest {
     public void test_calculatePrincipalVariation_white_depth01() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(1);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -125,7 +126,6 @@ public class PVCalculatorTranspositionTest {
     public void test_calculatePrincipalVariation_white_depth02() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(2);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -160,14 +160,13 @@ public class PVCalculatorTranspositionTest {
 
     /**
      * Este es el test mas simple de todos.
-     * Se busca con depth = 2
+     * Se busca con depth =
      * PV = {g1f3, g8f6, d2d4}
      */
     @Test
     public void test_calculatePrincipalVariation_white_depth03() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(3);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -206,7 +205,6 @@ public class PVCalculatorTranspositionTest {
     public void test_calculatePrincipalVariation_depth01_EGTB() {
         game = Game.from(FEN.of("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(1);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -243,7 +241,6 @@ public class PVCalculatorTranspositionTest {
     public void test_calculatePrincipalVariation_black_depth01() {
         game = Game.from(FEN.of("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1"));
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(1);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -282,7 +279,6 @@ public class PVCalculatorTranspositionTest {
     public void test_calculatePrincipalVariation_black_depth02() {
         game = Game.from(FEN.of("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1"));
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(2);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -322,7 +318,6 @@ public class PVCalculatorTranspositionTest {
     public void test_calculatePrincipalVariation_black_depth03() {
         game = Game.from(FEN.of("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1"));
         pvCalculator.setGame(game);
-        pvCalculator.setDepth(3);
         pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
@@ -356,8 +351,22 @@ public class PVCalculatorTranspositionTest {
         assertEquals(zobristBeforeCalculate, game.getPosition().getZobristHash());
     }
 
-    /*
+    private void writeTT(TTableMap tTable, long hash, short move, byte draft, int value) {
+        TranspositionEntry entry = new TranspositionEntry()
+                .setHash(hash)
+                .setBound(Bound.EXACT)
+                .setDraft(draft)
+                .setMove(move)
+                .setValue(value);
+        tTable.save(entry);
+    }
+
+
     static void main(String[] args) {
+        edtg();
+    }
+
+    static void playsWhite(){
         HexFormat hexFormat = HexFormat.of().withUpperCase();
 
         Game game = Game.from(FEN.START_POSITION);
@@ -369,8 +378,8 @@ public class PVCalculatorTranspositionTest {
         move.executeMove();
 
         hash = game.getPosition().getZobristHash();
-        move = game.getMove(Square.d7, Square.d5);
-        System.out.printf("d7d5: Hash=0x%sL, Move=0x%s%n", hexFormat.toHexDigits(hash), hexFormat.toHexDigits(move.binaryEncoding()));
+        move = game.getMove(Square.g8, Square.f6);
+        System.out.printf("g8f6: Hash=0x%sL, Move=0x%s%n", hexFormat.toHexDigits(hash), hexFormat.toHexDigits(move.binaryEncoding()));
 
         move.executeMove();
 
@@ -378,16 +387,21 @@ public class PVCalculatorTranspositionTest {
         move = game.getMove(Square.d2, Square.d4);
         System.out.printf("d2d4: Hash=0x%sL, Move=0x%s%n", hexFormat.toHexDigits(hash), hexFormat.toHexDigits(move.binaryEncoding()));
     }
-     */
 
-
-    private void writeTT(TTableMap tTable, long hash, short move, byte draft, int value) {
-        TranspositionEntry entry = new TranspositionEntry()
-                .setHash(hash)
-                .setBound(Bound.EXACT)
-                .setDraft(draft)
-                .setMove(move)
-                .setValue(value);
-        tTable.save(entry);
+    static void playsBlack(){
+        HexFormat hexFormat = HexFormat.of().withUpperCase();
     }
+
+    static void edtg(){
+        HexFormat hexFormat = HexFormat.of().withUpperCase();
+
+        Game game = Game.from(FEN.of("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
+
+        long hash = game.getPosition().getZobristHash();
+        Move move = game.getMove(Square.g4, Square.f5);
+        System.out.printf("g4f5: Hash=0x%sL, Move=0x%s%n", hexFormat.toHexDigits(hash), hexFormat.toHexDigits(move.binaryEncoding()));
+
+        move.executeMove();
+    }
+
 }

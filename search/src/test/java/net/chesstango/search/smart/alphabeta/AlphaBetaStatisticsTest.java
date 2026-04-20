@@ -140,7 +140,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(20, executedMoves);
+        assertEquals(21, executedMoves);
     }
 
     @Test
@@ -163,7 +163,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(20, executedMoves);
+        assertEquals(21, executedMoves);
 
     }
 
@@ -187,7 +187,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(20, executedMoves);
+        assertEquals(21, executedMoves);
     }
 
     @Test
@@ -211,7 +211,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(20, executedMoves);            // Root cuenta como visited pero no ejecutado
+        assertEquals(21, executedMoves);            // Root cuenta como visited pero no ejecutado
     }
 
     @Test
@@ -240,7 +240,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[5]);
 
         assertEquals(29, visitedNodesCountersTotal);
-        assertEquals(53, executedMoves); // TTPVReader influye en esta metrica
+        assertEquals(44, executedMoves);
     }
 
 
@@ -271,7 +271,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[7]);
 
         assertEquals(29, visitedNodesCountersTotal);
-        assertEquals(37, executedMoves);
+        assertEquals(44, executedMoves);
     }
 
 

@@ -5,6 +5,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLoopNodeStatistics;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -19,6 +20,7 @@ public class LoopChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics;
     private DebugFilter debugFilter;
+    private ClearPV clearPV;
 
     private boolean withZobristTracker;
     private boolean withStatistics;
@@ -51,6 +53,8 @@ public class LoopChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected  void buildObjects() {
+        clearPV = new ClearPV();
+
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -60,7 +64,11 @@ public class LoopChainBuilder extends AbstractChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.LOOP);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.LOOP);
+        }
+
+        if (clearPV != null) {
+            searchListenerMediator.add(clearPV);
         }
 
     }
@@ -91,6 +99,10 @@ public class LoopChainBuilder extends AbstractChainBuilder {
 
         if (debugFilter != null) {
             chain.add(debugFilter);
+        }
+
+        if (clearPV != null) {
+            chain.add(clearPV);
         }
 
         if (zobristTracker != null) {

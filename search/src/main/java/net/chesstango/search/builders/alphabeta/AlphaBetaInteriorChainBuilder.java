@@ -9,7 +9,8 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
@@ -30,7 +31,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private DebugFilter debugFilter;
-    private TriangularPV triangularPV;
+    private ClearPV clearPV;
+    private UpdatePV updatePV;
     private KillerMoveTracker killerMoveTracker;
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -111,7 +113,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void buildObjects() {
-        triangularPV = new TriangularPV();
+        clearPV = new ClearPV();
+        updatePV = new UpdatePV();
 
         if (withStatistics) {
             alphaBetaInteriorNodeVisited = new AlphaBetaInteriorNodeVisited();
@@ -137,9 +140,12 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
+        searchListenerMediator.add(alphaBeta);
+
         if (alphaBetaInteriorNodeVisited != null) {
             searchListenerMediator.add(alphaBetaInteriorNodeVisited);
         }
+
         if (alphaBetaInteriorNodeExpected != null) {
             searchListenerMediator.add(alphaBetaInteriorNodeExpected);
         }
@@ -156,15 +162,17 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(debugFilter);
         }
 
-        if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+        if (clearPV != null) {
+            searchListenerMediator.add(clearPV);
+        }
+
+        if (updatePV != null) {
+            searchListenerMediator.add(updatePV);
         }
 
         if (killerMoveTracker != null) {
             searchListenerMediator.add(killerMoveTracker);
         }
-
-        searchListenerMediator.add(alphaBeta);
     }
 
     @Override
@@ -178,6 +186,10 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
         if (debugFilter != null) {
             chain.add(debugFilter);
+        }
+
+        if (clearPV != null) {
+            chain.add(clearPV);
         }
 
         if (zobristTracker != null) {
@@ -199,8 +211,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
         chain.add(alphaBeta);
 
-        if (triangularPV != null) {
-            chain.add(triangularPV);
+        if (updatePV != null) {
+            chain.add(updatePV);
         }
 
         if (killerMoveTracker != null) {

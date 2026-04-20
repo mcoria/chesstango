@@ -5,8 +5,9 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.TriggerPVCalculation;
+import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -81,7 +82,9 @@ public abstract class AbstractChainBuilder {
 
                 case ZobristTracker zobristTracker -> zobristTracker.setNext(next);
 
-                case TriangularPV triangularPV -> triangularPV.setNext(next);
+                case CalculatePV calculatePV -> calculatePV.setNext(next);
+                case ClearPV clearPV -> clearPV.setNext(next);
+                case UpdatePV updatePV -> updatePV.setNext(next);
 
                 case KillerMoveTracker killerMoveTracker -> killerMoveTracker.setNext(next);
 
@@ -90,8 +93,6 @@ public abstract class AbstractChainBuilder {
                 case AspirationWindows aspirationWindows -> aspirationWindows.setNext(next);
 
                 case RootMoveEvaluationTracker moveEvaluationTracker -> moveEvaluationTracker.setNext(next);
-
-                case TriggerPVCalculation triggerPVCalculation -> triggerPVCalculation.setNext(next);
 
                 case null -> throw new RuntimeException(String.format("filter %d is null", i));
 

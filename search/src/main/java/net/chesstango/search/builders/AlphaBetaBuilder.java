@@ -21,6 +21,7 @@ import net.chesstango.search.smart.alphabeta.debug.visitors.LinkSearchTrackerVis
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 import net.chesstango.search.smart.alphabeta.pv.visitors.LinkTrianglePVVisitor;
 import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -348,7 +349,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
-        searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
+        searchListenerMediator.accept(new LinkTrianglePVVisitor(new TriangularPVTable()));
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
