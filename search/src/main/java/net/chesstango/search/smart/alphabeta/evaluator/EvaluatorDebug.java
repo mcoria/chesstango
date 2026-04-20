@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
@@ -21,6 +22,8 @@ public class EvaluatorDebug implements Evaluator, Acceptor {
 
     private Evaluator evaluator;
 
+    private Game game;
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -35,13 +38,14 @@ public class EvaluatorDebug implements Evaluator, Acceptor {
 
     public void trackEvaluation(int evaluation) {
         DebugNode currentNode = searchTracker.getCurrentNode();
-        if (currentNode != null) {
-            currentNode.setStandingPat(evaluation);
+        if (currentNode != null && DebugNode.NodeTopology.QUIESCENCE.equals(currentNode.getTopology())) {
+            currentNode.setStandingPat(Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluation : -evaluation);
         }
     }
 
     @Override
     public void setGame(Game game) {
+        this.game = game;
         this.evaluator.setGame(game);
     }
 }

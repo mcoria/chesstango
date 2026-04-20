@@ -29,7 +29,7 @@ public class ReportSearchesIntegrationTest {
         search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, true, false)
+                .withDebugSearchTree(false, true, false)
                 .withStatistics()
                 .build();
     }

@@ -170,13 +170,13 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
             debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta());
+        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());
         }
 
-        debugOut.printf(" value=%d %s", currentNode.getValue(), currentNode.getType());
+        debugOut.printf(" %s", currentNode.getType());
 
         if (Objects.nonNull(currentNode.getParent()) &&
                 currentNode.getParent().getChildNodes().stream()
