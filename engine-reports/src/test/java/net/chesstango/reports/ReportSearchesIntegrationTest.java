@@ -1,16 +1,19 @@
 package net.chesstango.reports;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.reports.search.DetailsReport;
 import net.chesstango.reports.search.SummaryReport;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,10 +29,9 @@ public class ReportSearchesIntegrationTest {
     public void setup() {
         searchResult = null;
 
-        search = AlphaBetaBuilder
-                .createDefaultBuilderInstance()
+        search = noTranspositionNoAspirationWindowsNoIterativeDeepening()
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, true, false)
+                .withDebugSearchTree(false, false, false)
                 .withStatistics()
                 .build();
     }
@@ -186,11 +188,6 @@ public class ReportSearchesIntegrationTest {
 
         search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
-
-        //List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
-        //System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
-        //System.out.printf("%d PV moves: %s%n", pv.size(), Arrays.toString(pv.toArray()));
-        //System.out.println(searchResult.isPvComplete());
     }
 
     /**
@@ -213,6 +210,37 @@ public class ReportSearchesIntegrationTest {
 
         search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_17() {
+        Game game = Game.from(FEN.of("rnb4k/pp3prp/2p2N2/3Ppp1Q/2B2q2/3P4/PPP4P/R5RK w - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(1));
+        searchResult = search.startSearch(game);
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
+        System.out.printf("PV moves %d: %s%n", pv.size(), Arrays.toString(pv.toArray()));
+        System.out.printf("PV complete: %s%n", searchResult.isPvComplete());
+    }
+
+    private AlphaBetaBuilder defaultSearch() {
+        return AlphaBetaBuilder.createDefaultBuilderInstance();
+    }
+
+    private AlphaBetaBuilder noTranspositionNoAspirationWindowsNoIterativeDeepening() {
+        return new AlphaBetaBuilder()
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
+
+                .withStopProcessingCatch();
     }
 
 }
