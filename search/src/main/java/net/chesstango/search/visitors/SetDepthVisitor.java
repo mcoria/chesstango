@@ -2,6 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -51,6 +52,11 @@ public class SetDepthVisitor implements Visitor {
     @Override
     public void visit(PrintTxtDebugListener printTxtDebugListener) {
         printTxtDebugListener.setDepth(depth);
+    }
+
+    @Override
+    public void visit(PrintHtmlDebugListener printHtmlDebugListener) {
+        printHtmlDebugListener.setDepth(depth);
     }
 
     @Override

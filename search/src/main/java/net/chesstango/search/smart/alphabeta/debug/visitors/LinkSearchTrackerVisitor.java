@@ -33,11 +33,6 @@ public class LinkSearchTrackerVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PrintTxtDebugListener printTxtDebugListener) {
-        printTxtDebugListener.setSearchTracker(searchTracker);
-    }
-
-    @Override
     public void visit(KillerMovesDebug killerMovesDebug) {
         killerMovesDebug.setSearchTracker(searchTracker);
     }

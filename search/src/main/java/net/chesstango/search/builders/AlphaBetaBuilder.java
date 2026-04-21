@@ -16,6 +16,7 @@ import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.core.visitors.LinkBestMovesArray;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.visitors.LinkSearchTrackerVisitor;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
@@ -60,6 +61,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private DepthCollector depthCollector;
     private SetZobristMemory setZobristMemory;
     private PrintTxtDebugListener printTxtDebugListener;
+    private PrintHtmlDebugListener printHtmlDebugListener;
 
     private DebugNodeTrap debugNodeTrap;
     private SearchTracker searchTracker;
@@ -297,6 +299,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withDebugSearchTree) {
             searchTracker = new SearchTracker();
             printTxtDebugListener = new PrintTxtDebugListener(withAspirationWindows, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+            printTxtDebugListener.setSearchTracker(searchTracker);
+
+            printHtmlDebugListener = new PrintHtmlDebugListener(withAspirationWindows);
+            printHtmlDebugListener.setSearchTracker(searchTracker);
         }
     }
 
@@ -337,6 +343,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (printTxtDebugListener != null) {
             searchListenerMediator.add(printTxtDebugListener);
         }
+
+        if (printHtmlDebugListener != null) {
+            searchListenerMediator.add(printHtmlDebugListener);
+        }
     }
 
     private void link() {
@@ -353,7 +363,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.accept(new LinkTrianglePVVisitor(new short[40][40]));
         }
 
-        if(withKillerMoveSorter) {
+        if (withKillerMoveSorter) {
             killerMoveBuilder.link();
         }
 

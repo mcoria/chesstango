@@ -4,7 +4,6 @@ import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -29,12 +28,8 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
-    private final boolean showOnlyPV;
-    private final boolean showNodeTranspositionAccess;
-    private final boolean showSorterOperations;
+public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean withAspirationWindows;
-
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
@@ -54,11 +49,9 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
     private List<String> debugErrorMessages;
 
-    public PrintTxtDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+
+    public PrintHtmlDebugListener(boolean withAspirationWindows) {
         this.withAspirationWindows = withAspirationWindows;
-        this.showOnlyPV = showOnlyPV;
-        this.showNodeTranspositionAccess = showNodeTranspositionAccess;
-        this.showSorterOperations = showSorterOperations;
     }
 
     @Override
@@ -69,21 +62,19 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     @Override
     public void beforeSearch() {
         try {
-            fos = new FileOutputStream(String.format("DebugSearchTree-%s.txt", dtFormatter.format(Instant.now())));
+            fos = new FileOutputStream(String.format("DebugSearchTree-%s.html", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
             debugOut = new PrintStream(bos);
+            printHeader();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-        debugOut.print("Search started\n");
     }
 
     @Override
     public void afterSearch() {
-        debugOut.print("Search completed\n");
-
         try {
+            printTail();
             debugOut.flush();
             debugOut.close();
             bos.close();
@@ -95,78 +86,114 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
     @Override
     public void beforeSearchByDepth() {
-        debugOut.printf("Search by depth %d started\n", depth);
+        debugOut.printf("""
+                <li>
+                <span class="caret">Depth %d</span>
+                <ul class="nested">
+                """, depth);
+    }
+
+    @Override
+    public void afterSearchByDepth() {
+        debugOut.println("""
+                </ul>
+                </li>
+                """);
     }
 
     @Override
     public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
-        debugOut.printf("WIN alpha=%d beta=%d cycle=%d\n", alphaBound, betaBound, searchByWindowsCycle);
+        debugOut.printf("""
+                <li>
+                <span class="caret">WIN alpha=%d beta=%d cycle=%d</span>
+                <ul class="nested">
+                """, alphaBound, betaBound, searchByWindowsCycle);
     }
 
     @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
         dumpSearchTracker();
+        debugOut.println("""
+                </ul>
+                </li>
+                """);
     }
 
     public void searchByDepthCompleted(SearchResultByDepth result) {
+        /*
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
+
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
         debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
+         */
     }
 
     private void dumpSearchTracker() {
         debugErrorMessages = new LinkedList<>();
 
         DebugNode rootNode = searchTracker.getRootNode();
-        dumpNode(rootNode);
-        if (showNodeTranspositionAccess) {
-            showNodePVTranspositionAccess(rootNode);
-        }
 
-        debugErrorMessages.forEach(debugOut::println);
+        dumpNode(rootNode);
+
+        //showNodePVTranspositionAccess(rootNode);
+
+        //debugErrorMessages.forEach(debugOut::println);
         debugOut.flush();
     }
 
     private void dumpNode(DebugNode currentNode) {
+        debugOut.print("""
+                <li>
+                <span class="caret">
+                """);
+
         dumpNodeHeader(currentNode);
 
-        if (showNodeTranspositionAccess) {
-            showNodeTranspositionAccess(currentNode);
-        }
+        debugOut.print("""
+                </span>
+                <ul class="nested">
+                """);
+
+        showNodeTranspositionAccess(currentNode);
 
         showNodeKillerMoves(currentNode);
 
+
         if (currentNode.getSortedMoves() != null) {
-            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
-            if (showSorterOperations) {
-                dumpSorterOperations(currentNode);
-            }
+            debugOut.print("""
+                <li>
+                <span class="caret">
+                """);
+            debugOut.printf("Exploring: %s%n", currentNode.getSortedMoves());
+            debugOut.print("""
+                </span>
+                <ul class="nested">
+                """);
+            dumpSorterOperations(currentNode);
+            debugOut.println("""
+                </ul>
+                </li>
+                """);
         }
 
-        if (debugNodeTrap != null && debugNodeTrap.test(currentNode)) {
-            debugNodeTrap.debugAction(currentNode, debugOut);
-        }
 
         for (DebugNode childNode : currentNode.getChildNodes()) {
-            if (showOnlyPV) {
-                if (childNode.getType().equals(DebugNode.NodeType.PV)) {
-                    dumpNode(childNode);
-                } else {
-                    dumpNodeHeader(childNode);
-                }
-            } else {
-                dumpNode(childNode);
-            }
+            dumpNode(childNode);
         }
+
+        debugOut.println("""
+                </ul>
+                </li>
+                """);
     }
 
     private void dumpNodeHeader(DebugNode currentNode) {
         if (currentNode.getPly() > 0) {
             String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
-            debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
+            debugOut.printf("%s ", moveStr);
         }
 
         debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
@@ -184,16 +211,14 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             debugOut.print(" DUPLICATED CHILD NODE");
             debugErrorMessages.add(String.format("DUPLICATED CHILD NODE %s", currentNode.getZobristHash()));
         }
-
-        debugOut.print("\n");
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
-                    ">\t".repeat(currentNode.getPly()),
+            debugOut.print("<li>");
+            debugOut.printf("Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
@@ -203,14 +228,14 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                 debugOut.print(" WRONG TT_READ ENTRY");
                 debugErrorMessages.add(String.format("WRONG TT_READ ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
             }
-            debugOut.print("\n");
+            debugOut.println("</li>");
         });
 
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
-                    ">\t".repeat(currentNode.getPly()),
+            debugOut.print("<li>");
+            debugOut.printf("Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
@@ -228,13 +253,15 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                 debugOut.print(message);
                 debugErrorMessages.add(message);
             }
-            debugOut.print("\n");
+            debugOut.println("</li>");
         });
     }
 
     private void showNodeKillerMoves(DebugNode currentNode) {
         if (currentNode.getKillerMove() != null) {
-            debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
+            debugOut.print("<li>");
+            debugOut.printf("Write KM %s%n", simpleMoveEncoder.encode(currentNode.getKillerMove()));
+            debugOut.println("</li>");
         }
     }
 
@@ -247,7 +274,9 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
         List<Move> sorterKms = currentNode.getSorterKm();
 
-        debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
+        debugOut.print("<li>");
+        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n",  sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
+        debugOut.println("</li>");
 
         sortedMoves.forEach(moveStr -> {
             sortedReads
@@ -256,13 +285,14 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.printf("%s Sorter %s ReadTT[ %s 0x%s draft=%d move=? value=%d ]\n",
-                                ">\t".repeat(currentNode.getPly()),
+                        debugOut.print("<li>");
+                        debugOut.printf("Sorter %s ReadTT[ %s 0x%s draft=%d move=? value=%d ]%n",
                                 moveStr,
                                 entry.getBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getDraft(),
                                 entry.getValue());
+                        debugOut.println("</li>");
                     });
 
 
@@ -270,11 +300,12 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                     .filter(debugOperationEval -> Objects.equals(moveStr, debugOperationEval.getMove()))
                     .forEach(debugOperationEval ->
                     {
-                        debugOut.printf("%s Sorter %s CacheRead[ 0x%s value=%d ]\n",
-                                ">\t".repeat(currentNode.getPly()),
+                        debugOut.print("<li>");
+                        debugOut.printf("Sorter %s CacheRead[ 0x%s value=%d ]%n",
                                 moveStr,
                                 hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
                                 debugOperationEval.getEvaluation());
+                        debugOut.println("</li>");
                     });
 
             sorterKms.stream()
@@ -282,9 +313,10 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                     .filter(kmStr -> Objects.equals(kmStr, moveStr))
                     .forEach(kmStr ->
                     {
-                        debugOut.printf("%s Sorter %s KillerMove\n",
-                                ">\t".repeat(currentNode.getPly()),
+                        debugOut.print("<li>");
+                        debugOut.printf("Sorter %s KillerMove%n",
                                 moveStr);
+                        debugOut.println("</li>");
                     });
         });
 
@@ -298,13 +330,13 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
-                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s 0x%s draft=%d move=? value=%d ]",
-                            ">\t".repeat(currentNode.getPly()),
+                    debugOut.print("<li>");
+                    debugOut.printf("Sorter NO_MOVE ReadTT[ %s 0x%s draft=%d move=? value=%d ]",
                             entry.getBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getDraft(),
                             ttValue);
-                    debugOut.print("\n");
+                    debugOut.println("</li>");
                 });
 
     }
@@ -332,5 +364,83 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                 (byte) (lng >> 8),
                 (byte) lng
         };
+    }
+
+    private void printHeader() {
+        debugOut.print("""
+                <!DOCTYPE html>
+                <html>
+                <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                ul, #myUL {
+                  list-style-type: none;
+                }
+                
+                #myUL {
+                  margin: 0;
+                  padding: 0;
+                }
+                
+                .caret {
+                  cursor: pointer;
+                  -webkit-user-select: none; /* Safari 3.1+ */
+                  -moz-user-select: none; /* Firefox 2+ */
+                  -ms-user-select: none; /* IE 10+ */
+                  user-select: none;
+                }
+                
+                .caret::before {
+                  content: "\\25B6";
+                  color: black;
+                  display: inline-block;
+                  margin-right: 6px;
+                }
+                
+                .caret-down::before {
+                  -ms-transform: rotate(90deg); /* IE 9 */
+                  -webkit-transform: rotate(90deg); /* Safari */'
+                  transform: rotate(90deg);
+                }
+                
+                .nested {
+                  display: none;
+                }
+                
+                .active {
+                  display: block;
+                }
+                </style>
+                </head>
+                <body>
+                
+                <h2>Tree View</h2>
+                <p>A tree view represents a hierarchical view of information, where each item can have a number of subitems.</p>
+                <p>Click on the arrow(s) to open or close the tree branches.</p>
+                
+                <ul id="myUL">
+                """);
+    }
+
+
+    private void printTail() {
+        debugOut.print("""
+                </ul>
+                
+                <script>
+                var toggler = document.getElementsByClassName("caret");
+                var i;
+                
+                for (i = 0; i < toggler.length; i++) {
+                  toggler[i].addEventListener("click", function() {
+                    this.parentElement.querySelector(".nested").classList.toggle("active");
+                    this.classList.toggle("caret-down");
+                  });
+                }
+                </script>
+                
+                </body>
+                </html>
+                """);
     }
 }
