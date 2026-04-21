@@ -29,7 +29,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrintDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
@@ -54,7 +54,7 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
 
     private List<String> debugErrorMessages;
 
-    public PrintDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public PrintTxtDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;

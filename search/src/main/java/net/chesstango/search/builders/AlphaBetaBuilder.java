@@ -16,7 +16,7 @@ import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.core.visitors.LinkBestMovesArray;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintDebugListener;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.visitors.LinkSearchTrackerVisitor;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
@@ -59,7 +59,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private GameCountersCollector gameCounters;
     private DepthCollector depthCollector;
     private SetZobristMemory setZobristMemory;
-    private PrintDebugListener printDebugListener;
+    private PrintTxtDebugListener printTxtDebugListener;
 
     private DebugNodeTrap debugNodeTrap;
     private SearchTracker searchTracker;
@@ -296,7 +296,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withDebugSearchTree) {
             searchTracker = new SearchTracker();
-            printDebugListener = new PrintDebugListener(withAspirationWindows, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+            printTxtDebugListener = new PrintTxtDebugListener(withAspirationWindows, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
         }
     }
 
@@ -334,8 +334,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(debugNodeTrap);
         }
 
-        if (printDebugListener != null) {
-            searchListenerMediator.add(printDebugListener);
+        if (printTxtDebugListener != null) {
+            searchListenerMediator.add(printTxtDebugListener);
         }
     }
 
@@ -365,7 +365,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withDebugSearchTree) {
             if (debugNodeTrap != null) {
-                printDebugListener.setDebugNodeTrap(debugNodeTrap);
+                printTxtDebugListener.setDebugNodeTrap(debugNodeTrap);
             }
             searchListenerMediator.accept(new LinkSearchTrackerVisitor(searchTracker));
         }
