@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * @author Mauricio Coria
  */
-public class PrintDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
@@ -51,7 +51,7 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
 
     private List<String> debugErrorMessages;
 
-    public PrintDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public PrintTxtDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
@@ -95,16 +95,6 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
         debugOut.printf("Search by depth %d started\n", depth);
     }
 
-
-    public void searchByDepthCompleted(SearchResultByDepth result) {
-        if (!withAspirationWindows) {
-            dumpSearchTracker();
-        }
-        debugOut.print("Search by depth completed\n");
-        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
-    }
-
     @Override
     public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
         debugOut.printf("WIN alpha=%d beta=%d cycle=%d\n", alphaBound, betaBound, searchByWindowsCycle);
@@ -113,6 +103,15 @@ public class PrintDebugListener implements Acceptor, SearchByCycleListener, Sear
     @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
         dumpSearchTracker();
+    }
+
+    public void searchByDepthCompleted(SearchResultByDepth result) {
+        if (!withAspirationWindows) {
+            dumpSearchTracker();
+        }
+        debugOut.print("Search by depth completed\n");
+        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
     }
 
     private void dumpSearchTracker() {

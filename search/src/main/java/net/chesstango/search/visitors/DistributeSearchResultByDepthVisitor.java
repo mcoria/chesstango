@@ -2,7 +2,8 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintDebugListener;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
+import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
@@ -25,8 +26,13 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PrintDebugListener printDebugListener) {
-        printDebugListener.searchByDepthCompleted(searchResultByDepth);
+    public void visit(PrintTxtDebugListener printTxtDebugListener) {
+        printTxtDebugListener.searchByDepthCompleted(searchResultByDepth);
+    }
+
+    @Override
+    public void visit(PrintHtmlDebugListener printHtmlDebugListener) {
+        printHtmlDebugListener.searchByDepthCompleted(searchResultByDepth);
     }
 
     @Override

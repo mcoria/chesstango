@@ -85,6 +85,7 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
         DebugNode newNode = new DebugNode();
         newNode.setTopology(topology);
         newNode.setPly(currentPly);
+        newNode.setFen(game.getPosition().toString());
         newNode.setParent(currentNode);
         return newNode;
     }
