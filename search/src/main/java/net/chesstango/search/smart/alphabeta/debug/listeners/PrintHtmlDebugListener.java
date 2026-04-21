@@ -157,6 +157,9 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 <ul class="nested">
                 """);
 
+
+        showNodeFen(currentNode);
+
         showNodeTranspositionAccess(currentNode);
 
         showNodeKillerMoves(currentNode);
@@ -211,6 +214,12 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
             debugOut.print(" DUPLICATED CHILD NODE");
             debugErrorMessages.add(String.format("DUPLICATED CHILD NODE %s", currentNode.getZobristHash()));
         }
+    }
+
+    private void showNodeFen(DebugNode currentNode) {
+        debugOut.print("<li>");
+        debugOut.printf("FEN [ %s ]", currentNode.getFen());
+        debugOut.println("</li>");
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
@@ -384,10 +393,6 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 
                 .caret {
                   cursor: pointer;
-                  -webkit-user-select: none; /* Safari 3.1+ */
-                  -moz-user-select: none; /* Firefox 2+ */
-                  -ms-user-select: none; /* IE 10+ */
-                  user-select: none;
                 }
                 
                 .caret::before {
