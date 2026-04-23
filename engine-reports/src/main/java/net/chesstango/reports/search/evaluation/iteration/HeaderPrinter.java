@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.iteration;
+package net.chesstango.reports.search.evaluation.iteration;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -12,7 +12,7 @@ import java.io.PrintStream;
 class HeaderPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private IterationEvaluationModel reportModel;
+    private EvaluationIterationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -21,7 +21,7 @@ class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("IterationEvaluationReport   : %s%n%n", reportModel.searchGroupName);
+        out.printf("EvaluationIterationReport   : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches                    : %10d%n", reportModel.searches);
         out.printf("Max Iteration               : %10d%n", reportModel.maxIteration);
         out.printf("Evaluation Std Dev  Avg     : %10d%n", reportModel.evaluationStdDevAvg);

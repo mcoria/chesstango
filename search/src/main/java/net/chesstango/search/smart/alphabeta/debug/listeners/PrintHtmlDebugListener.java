@@ -166,19 +166,19 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
         if (currentNode.getSortedMoves() != null) {
             debugOut.print("""
-                <li>
-                <span class="caret">
-                """);
+                    <li>
+                    <span class="caret">
+                    """);
             debugOut.printf("Exploring: %s%n", currentNode.getSortedMoves());
             debugOut.print("""
-                </span>
-                <ul class="nested">
-                """);
+                    </span>
+                    <ul class="nested">
+                    """);
             dumpSorterOperations(currentNode);
             debugOut.println("""
-                </ul>
-                </li>
-                """);
+                    </ul>
+                    </li>
+                    """);
         }
 
 
@@ -216,9 +216,9 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     private void showNodeFen(DebugNode currentNode) {
-        debugOut.print("<li>");
-        debugOut.printf("FEN [ %s ]", currentNode.getFen());
-        debugOut.println("</li>");
+        debugOut.print("<li> ");
+        debugOut.printf("<span class=\"caret-board\">%s</span>", currentNode.getFen());
+        debugOut.print("</li>");
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
@@ -283,7 +283,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         List<Move> sorterKms = currentNode.getSorterKm();
 
         debugOut.print("<li>");
-        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n",  sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
+        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n", sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
         debugOut.println("</li>");
 
         sortedMoves.forEach(moveStr -> {
@@ -395,6 +395,17 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                   cursor: pointer;
                 }
                 
+                .caret-board {
+                  cursor: pointer;
+                }
+                
+                .caret-board::before {
+                  content: "\\25A6";
+                  color: black;
+                  display: inline-block;
+                  margin-right: 6px;
+                }
+                
                 .caret::before {
                   content: "\\25B6";
                   color: black;
@@ -417,10 +428,10 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 }
                 
                 .fixed-box {
-                    position: fixed;
-                    top: 400px;   /* Distance from top of viewport */
-                    right: 400px; /* Distance from right of viewport */
-                    width: 400px
+                  position: fixed;
+                  top: 0px;
+                  right: 0px;
+                  width: 400px
                 }
                 
                 </style>
@@ -460,15 +471,19 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                   });
                 }
                 
-                // --- Begin Example JS --------------------------------------------------------
                 var config = {
                     position: 'start',
-                    // Set CDN path for pieces
                     pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
                 }
                 
                 var board = Chessboard('myBoard', config)
-                // --- End Example JS ----------------------------------------------------------
+                
+                var board_toggler = document.getElementsByClassName("caret-board");
+                for (i = 0; i < board_toggler.length; i++) {
+                    board_toggler[i].addEventListener("click", function() {
+                    board.position(this.textContent);
+                  });
+                }
                 
                 </script>
                 

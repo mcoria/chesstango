@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.iteration;
+package net.chesstango.reports.search.evaluation.iteration;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class IterationEvaluationModel implements Model<List<SearchResult>> {
+public class EvaluationIterationModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
@@ -35,7 +35,7 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
     public List<IterationModelDetail> iterationModelDetails;
 
     @Override
-    public IterationEvaluationModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+    public EvaluationIterationModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
 
         this.load(searchResults);

@@ -80,7 +80,7 @@ public class ReportGamesIntegrationTest {
                 .withEvaluationReport()
                 .withEvaluationCacheReport()
                 .withTranspositionReport()
-                .withIterationEvaluationReport()
+                .withEvaluationIterationReport()
                 .withPrincipalVariationReport()
                 .withPrincipalVariationIterationReport()
                 //.withEbf()
