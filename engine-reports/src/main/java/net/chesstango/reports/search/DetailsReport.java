@@ -7,7 +7,7 @@ import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.evaluation.cache.EvaluationCacheReport;
-import net.chesstango.reports.search.iteration.IterationEvaluationReport;
+import net.chesstango.reports.search.evaluation.iteration.EvaluationIterationReport;
 import net.chesstango.reports.search.nodes.depth.NodesDepthReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
@@ -29,11 +29,11 @@ public class DetailsReport implements Report {
     private boolean withNodesDepthStatistics;
     private boolean withNodesTypesStatistics;
     private boolean withCutoffStatistics;
-    private boolean withIterationEvaluationReport;
     private boolean withPrincipalVariationReport;
     private boolean withPrincipalVariationIterationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
+    private boolean withEvaluationIterationReport;
     private boolean withEvaluationCacheReport;
     private boolean withEbf;
 
@@ -80,8 +80,8 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withIterationEvaluationReport) {
-            new IterationEvaluationReport()
+        if (withEvaluationIterationReport) {
+            new EvaluationIterationReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);
@@ -150,8 +150,8 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withIterationEvaluationReport() {
-        this.withIterationEvaluationReport = true;
+    public DetailsReport withEvaluationIterationReport() {
+        this.withEvaluationIterationReport = true;
         return this;
     }
 

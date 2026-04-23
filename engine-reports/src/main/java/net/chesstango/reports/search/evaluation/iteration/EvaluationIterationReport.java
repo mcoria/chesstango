@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.iteration;
+package net.chesstango.reports.search.evaluation.iteration;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,27 +11,27 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class IterationEvaluationReport implements Report {
+public class EvaluationIterationReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private IterationEvaluationModel reportModel;
+    private EvaluationIterationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "BoardReport";
+    private String reportTitle = "EvaluationIterationReport";
 
     private PrintStream out;
 
     @Override
-    public IterationEvaluationReport printReport(PrintStream out) {
+    public EvaluationIterationReport printReport(PrintStream out) {
         this.out = out;
         print();
         return this;
     }
 
-    public IterationEvaluationReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = new IterationEvaluationModel().collectStatistics(this.reportTitle, searchResults);
+    public EvaluationIterationReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = new EvaluationIterationModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
@@ -42,7 +42,7 @@ public class IterationEvaluationReport implements Report {
                 .print();
 
 
-        new IterationEvaluationPrinter()
+        new EvaluationIterationPrinter()
                 .setReportModel(reportModel)
                 .setOut(out)
                 .print();

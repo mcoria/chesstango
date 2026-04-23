@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.iteration;
+package net.chesstango.reports.search.evaluation.iteration;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -10,19 +10,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class IterationEvaluationPrinter implements Printer {
+public class EvaluationIterationPrinter implements Printer {
 
     @Setter
     @Accessors(chain = true)
-    private IterationEvaluationModel reportModel;
+    private EvaluationIterationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
     private PrintStream out;
 
     @Override
-    public IterationEvaluationPrinter print() {
-        out.print("Iteration Evaluation Statistics\n");
+    public EvaluationIterationPrinter print() {
+        out.print("Evaluation Iteration Statistics\n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(reportModel.maxIteration + 4).setOut(out);
 

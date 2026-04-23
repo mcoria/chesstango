@@ -95,6 +95,9 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     @Override
     public void afterSearchByDepth() {
+        if (!withAspirationWindows) {
+            dumpSearchTracker();
+        }
         debugOut.println("""
                 </ul>
                 </li>
@@ -120,12 +123,10 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     public void searchByDepthCompleted(SearchResultByDepth result) {
-
+        /*
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
-
-        /*
 
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());

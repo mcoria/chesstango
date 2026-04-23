@@ -59,10 +59,10 @@ public class ReportSearchesIntegrationTest {
                     .withNodesTypesStatistics()
                     .withCutoffStatistics()
                     .withEvaluationReport()
-                    .withTranspositionReport()
-                    .withIterationEvaluationReport()
+                    .withEvaluationIterationReport()
                     .withPrincipalVariationReport()
                     .withPrincipalVariationIterationReport()
+                    .withTranspositionReport()
                     .printReport(System.out);
         }
     }
