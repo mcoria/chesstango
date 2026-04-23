@@ -124,10 +124,6 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     public void searchByDepthCompleted(SearchResultByDepth result) {
         /*
-        if (!withAspirationWindows) {
-            dumpSearchTracker();
-        }
-
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
         debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
@@ -170,19 +166,19 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
         if (currentNode.getSortedMoves() != null) {
             debugOut.print("""
-                <li>
-                <span class="caret">
-                """);
+                    <li>
+                    <span class="caret">
+                    """);
             debugOut.printf("Exploring: %s%n", currentNode.getSortedMoves());
             debugOut.print("""
-                </span>
-                <ul class="nested">
-                """);
+                    </span>
+                    <ul class="nested">
+                    """);
             dumpSorterOperations(currentNode);
             debugOut.println("""
-                </ul>
-                </li>
-                """);
+                    </ul>
+                    </li>
+                    """);
         }
 
 
@@ -220,9 +216,9 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     private void showNodeFen(DebugNode currentNode) {
-        debugOut.print("<li>");
-        debugOut.printf("FEN [ %s ]", currentNode.getFen());
-        debugOut.println("</li>");
+        debugOut.print("<li> ");
+        debugOut.printf("<span class=\"caret-board\">%s</span>", currentNode.getFen());
+        debugOut.print("</li>");
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
@@ -287,7 +283,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         List<Move> sorterKms = currentNode.getSorterKm();
 
         debugOut.print("<li>");
-        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n",  sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
+        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n", sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
         debugOut.println("</li>");
 
         sortedMoves.forEach(moveStr -> {
@@ -384,6 +380,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 <html>
                 <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
                 <style>
                 ul, #myUL {
                   list-style-type: none;
@@ -396,6 +393,17 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 
                 .caret {
                   cursor: pointer;
+                }
+                
+                .caret-board {
+                  cursor: pointer;
+                }
+                
+                .caret-board::before {
+                  content: "\\25A6";
+                  color: black;
+                  display: inline-block;
+                  margin-right: 6px;
                 }
                 
                 .caret::before {
@@ -418,13 +426,22 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 .active {
                   display: block;
                 }
+                
+                .fixed-box {
+                  position: fixed;
+                  top: 0px;
+                  right: 0px;
+                  width: 400px
+                }
+                
                 </style>
                 </head>
                 <body>
                 
                 <h2>Tree View</h2>
-                <p>A tree view represents a hierarchical view of information, where each item can have a number of subitems.</p>
-                <p>Click on the arrow(s) to open or close the tree branches.</p>
+                <p>Search details</p>
+                
+                <div id="myBoard" class="fixed-box"></div>
                 
                 <ul id="myUL">
                 """);
@@ -434,6 +451,14 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private void printTail() {
         debugOut.print("""
                 </ul>
+                
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+                        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+                        crossorigin="anonymous"></script>
+                
+                <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+                        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+                        crossorigin="anonymous"></script>
                 
                 <script>
                 var toggler = document.getElementsByClassName("caret");
@@ -445,6 +470,21 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                     this.classList.toggle("caret-down");
                   });
                 }
+                
+                var config = {
+                    position: 'start',
+                    pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+                }
+                
+                var board = Chessboard('myBoard', config)
+                
+                var board_toggler = document.getElementsByClassName("caret-board");
+                for (i = 0; i < board_toggler.length; i++) {
+                    board_toggler[i].addEventListener("click", function() {
+                    board.position(this.textContent);
+                  });
+                }
+                
                 </script>
                 
                 </body>
