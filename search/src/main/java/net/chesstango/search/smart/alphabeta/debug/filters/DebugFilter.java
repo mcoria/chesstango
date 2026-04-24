@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
+import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
@@ -44,12 +45,23 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
         debugNode.setValue(currentValue);
 
         if (currentValue <= alpha) {
-            debugNode.setType(DebugNode.NodeType.ALL);
+            debugNode.setBound(Bound.UPPER_BOUND);
         } else if (beta <= currentValue) {
+            debugNode.setBound(Bound.LOWER_BOUND);
+        } else {
+            debugNode.setBound(Bound.EXACT);
+        }
+
+        /*
+        if (Bound.UPPER_BOUND.equals(debugNode.getBound())) {
+            debugNode.setType(DebugNode.NodeType.ALL);
+        } else if (Bound.LOWER_BOUND.equals(debugNode.getBound())) {
             debugNode.setType(DebugNode.NodeType.CUT);
         } else {
             debugNode.setType(DebugNode.NodeType.PV);
         }
+         */
+
 
         searchTracker.save();
 

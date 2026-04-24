@@ -88,7 +88,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     public void beforeSearchByDepth() {
         debugOut.printf("""
                 <li>
-                <span class="caret">Depth %d</span>
+                <span class="caret myText">Depth %d</span>
                 <ul class="nested">
                 """, depth);
     }
@@ -98,7 +98,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
-        debugOut.println("""
+        debugOut.print("""
                 </ul>
                 </li>
                 """);
@@ -108,7 +108,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
         debugOut.printf("""
                 <li>
-                <span class="caret">WIN alpha=%d beta=%d cycle=%d</span>
+                <span class="caret myText">WIN alpha=%12d beta=%12d cycle=%d</span>
                 <ul class="nested">
                 """, alphaBound, betaBound, searchByWindowsCycle);
     }
@@ -116,7 +116,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
         dumpSearchTracker();
-        debugOut.println("""
+        debugOut.print("""
                 </ul>
                 </li>
                 """);
@@ -146,7 +146,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private void dumpNode(DebugNode currentNode) {
         debugOut.print("""
                 <li>
-                <span class="caret">
+                <span class="caret myText"> \
                 """);
 
         dumpNodeHeader(currentNode);
@@ -156,37 +156,20 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 <ul class="nested">
                 """);
 
-
         showNodeFen(currentNode);
 
         showNodeTranspositionAccess(currentNode);
 
         showNodeKillerMoves(currentNode);
 
-
-        if (currentNode.getSortedMoves() != null) {
-            debugOut.print("""
-                    <li>
-                    <span class="caret">
-                    """);
-            debugOut.printf("Exploring: %s%n", currentNode.getSortedMoves());
-            debugOut.print("""
-                    </span>
-                    <ul class="nested">
-                    """);
-            dumpSorterOperations(currentNode);
-            debugOut.println("""
-                    </ul>
-                    </li>
-                    """);
-        }
+        showSortedMoves(currentNode);
 
 
         for (DebugNode childNode : currentNode.getChildNodes()) {
             dumpNode(childNode);
         }
 
-        debugOut.println("""
+        debugOut.print("""
                 </ul>
                 </li>
                 """);
@@ -198,13 +181,13 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
             debugOut.printf("%s ", moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
+        debugOut.printf("%s %s 0x%s alpha=%12d beta=%12d value=%12d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
         if (currentNode.getStandingPat() != null) {
-            debugOut.printf(" SP=%d", currentNode.getStandingPat());
+            debugOut.printf(" SP=%12d", currentNode.getStandingPat());
         }
 
-        debugOut.printf(" %s", currentNode.getType());
+        debugOut.printf(" %s", currentNode.getBound());
 
         if (Objects.nonNull(currentNode.getParent()) &&
                 currentNode.getParent().getChildNodes().stream()
@@ -216,16 +199,16 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     private void showNodeFen(DebugNode currentNode) {
-        debugOut.print("<li> ");
-        debugOut.printf("<span class=\"caret-board\">%s</span>", currentNode.getFen());
-        debugOut.print("</li>");
+        debugOut.print("<li>");
+        debugOut.printf("<span class=\"caret-board myText\">%s</span>", currentNode.getFen());
+        debugOut.println("</li>");
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.print("<li>");
+            debugOut.print("<li class=\"myText\">");
             debugOut.printf("Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
@@ -242,7 +225,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.print("<li>");
+            debugOut.print("<li class=\"myText\">");
             debugOut.printf("Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
@@ -267,9 +250,28 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     private void showNodeKillerMoves(DebugNode currentNode) {
         if (currentNode.getKillerMove() != null) {
-            debugOut.print("<li>");
+            debugOut.print("<li class=\"myText\">");
             debugOut.printf("Write KM %s%n", simpleMoveEncoder.encode(currentNode.getKillerMove()));
             debugOut.println("</li>");
+        }
+    }
+
+    private void showSortedMoves(DebugNode currentNode) {
+        if (currentNode.getSortedMoves() != null) {
+            debugOut.print("""
+                    <li>
+                    <span class="caret myText"> \
+                    """);
+            debugOut.printf("Exploring: %s", currentNode.getSortedMoves());
+            debugOut.print("""
+                    </span>
+                    <ul class="nested">
+                    """);
+            dumpSorterOperations(currentNode);
+            debugOut.print("""
+                    </ul>
+                    </li>
+                    """);
         }
     }
 
@@ -282,7 +284,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
         List<Move> sorterKms = currentNode.getSorterKm();
 
-        debugOut.print("<li>");
+        debugOut.print("<li class=\"myText\">");
         debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n", sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
         debugOut.println("</li>");
 
@@ -293,7 +295,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.print("<li>");
+                        debugOut.print("<li class=\"myText\">");
                         debugOut.printf("Sorter %s ReadTT[ %s 0x%s draft=%d move=? value=%d ]%n",
                                 moveStr,
                                 entry.getBound(),
@@ -308,7 +310,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                     .filter(debugOperationEval -> Objects.equals(moveStr, debugOperationEval.getMove()))
                     .forEach(debugOperationEval ->
                     {
-                        debugOut.print("<li>");
+                        debugOut.print("<li class=\"myText\">");
                         debugOut.printf("Sorter %s CacheRead[ 0x%s value=%d ]%n",
                                 moveStr,
                                 hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
@@ -321,7 +323,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                     .filter(kmStr -> Objects.equals(kmStr, moveStr))
                     .forEach(kmStr ->
                     {
-                        debugOut.print("<li>");
+                        debugOut.print("<li class=\"myText\">");
                         debugOut.printf("Sorter %s KillerMove%n",
                                 moveStr);
                         debugOut.println("</li>");
@@ -338,7 +340,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
-                    debugOut.print("<li>");
+                    debugOut.print("<li class=\"myText\">");
                     debugOut.printf("Sorter NO_MOVE ReadTT[ %s 0x%s draft=%d move=? value=%d ]",
                             entry.getBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
@@ -389,6 +391,12 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 #myUL {
                   margin: 0;
                   padding: 0;
+                }
+                
+                .myText {
+                  font-family: monospace;
+                  font-variant-numeric: tabular-nums;
+                  white-space: pre;
                 }
                 
                 .caret {

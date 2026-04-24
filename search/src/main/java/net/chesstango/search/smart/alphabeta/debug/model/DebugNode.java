@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Bound;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,6 +30,8 @@ public class DebugNode {
     private NodeTopology topology;
 
     private NodeType type;
+
+    private Bound bound;
 
     private String fen;
 
