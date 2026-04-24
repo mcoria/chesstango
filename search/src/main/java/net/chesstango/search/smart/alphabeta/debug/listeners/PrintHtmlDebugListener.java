@@ -158,6 +158,8 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
         showNodeFen(currentNode);
 
+        showStandingPat(currentNode);
+
         showNodeTranspositionAccess(currentNode);
 
         showNodeKillerMoves(currentNode);
@@ -183,10 +185,6 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
         debugOut.printf("%s %s 0x%s alpha=%12d beta=%12d value=%12d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
-        if (currentNode.getStandingPat() != null) {
-            debugOut.printf(" SP=%12d", currentNode.getStandingPat());
-        }
-
         debugOut.printf(" %s", currentNode.getBound());
 
         if (Objects.nonNull(currentNode.getParent()) &&
@@ -202,6 +200,14 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         debugOut.print("<li>");
         debugOut.printf("<span class=\"caret-board myText\">%s</span>", currentNode.getFen());
         debugOut.println("</li>");
+    }
+
+    private void showStandingPat(DebugNode currentNode) {
+        if (currentNode.getStandingPat() != null) {
+            debugOut.print("<li>");
+            debugOut.printf("<span class=\"myText\">Standing Pat=%12d</span>", currentNode.getStandingPat());
+            debugOut.println("</li>");
+        }
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
@@ -442,6 +448,15 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                   width: 400px
                 }
                 
+                .flex-container {
+                  display: flex;
+                }
+                
+                .column {
+                  flex: 50%; /* Each column takes half the width */
+                  padding: 10px;
+                }
+                
                 </style>
                 </head>
                 <body>
@@ -449,16 +464,20 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 <h2>Tree View</h2>
                 <p>Search details</p>
                 
-                <div id="myBoard" class="fixed-box"></div>
-                
-                <ul id="myUL">
+                <div class="flex-container">
+                  <div class="column">
+                    <ul id="myUL">
                 """);
     }
 
 
     private void printTail() {
         debugOut.print("""
-                </ul>
+                    </ul>
+                  </div>
+                
+                  <div class="column"><div id="myBoard" class="fixed-box"></div></div>
+                </div>
                 
                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
                         integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
