@@ -1,8 +1,10 @@
 package net.chesstango.search.smart.alphabeta.debug.listeners;
 
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
@@ -42,13 +44,14 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private int depth;
 
     @Setter
-    private SearchTracker searchTracker;
+    private Game game;
 
     @Setter
-    private DebugNodeTrap debugNodeTrap;
+    private SearchTracker searchTracker;
+
+    private FEN fen;
 
     private List<String> debugErrorMessages;
-
 
     public PrintHtmlDebugListener(boolean withAspirationWindows) {
         this.withAspirationWindows = withAspirationWindows;
@@ -61,6 +64,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     @Override
     public void beforeSearch() {
+        fen = game.getCurrentFEN();
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.html", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
@@ -266,7 +270,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         if (currentNode.getSortedMoves() != null) {
             debugOut.print("""
                     <li>
-                    <span class="caret myText"> \
+                    <span class="caret myTextWrap"> \
                     """);
             debugOut.printf("Exploring: %s", currentNode.getSortedMoves());
             debugOut.print("""
@@ -405,6 +409,12 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                   white-space: pre;
                 }
                 
+                .myTextWrap {
+                  font-family: monospace;
+                  font-variant-numeric: tabular-nums;
+                  white-space: pre-wrap;
+                }
+                
                 .caret {
                   cursor: pointer;
                 }
@@ -443,40 +453,41 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 
                 .fixed-box {
                   position: fixed;
-                  top: 0px;
-                  right: 0px;
-                  width: 400px
+                  width: 400px;
+                  padding: 5px;
                 }
                 
                 .flex-container {
                   display: flex;
                 }
                 
-                .column {
-                  flex: 50%; /* Each column takes half the width */
-                  padding: 10px;
+                .column-left {
+                  flex: 0 0 75%; /* Do not grow, do not shrink*/
+                }
+                
+                .column-right {
+                  flex: 0 0 25%;
                 }
                 
                 </style>
                 </head>
                 <body>
                 
-                <h2>Tree View</h2>
-                <p>Search details</p>
+                <h2>Search Tree View</h2>
                 
                 <div class="flex-container">
-                  <div class="column">
+                  <div class="column-left">
                     <ul id="myUL">
                 """);
     }
 
 
     private void printTail() {
-        debugOut.print("""
+        debugOut.printf("""
                     </ul>
                   </div>
                 
-                  <div class="column"><div id="myBoard" class="fixed-box"></div></div>
+                  <div class="column-right"><div id="myBoard" class="fixed-box"></div></div>
                 </div>
                 
                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -499,7 +510,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 }
                 
                 var config = {
-                    position: 'start',
+                    position: '%s',
                     pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
                 }
                 
@@ -516,6 +527,6 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 
                 </body>
                 </html>
-                """);
+                """, fen.toString());
     }
 }
