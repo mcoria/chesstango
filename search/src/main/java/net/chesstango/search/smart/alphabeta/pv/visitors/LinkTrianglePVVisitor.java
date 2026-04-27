@@ -7,6 +7,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTablePVUpdate;
 
 /**
  *
@@ -46,5 +47,10 @@ public class LinkTrianglePVVisitor implements Visitor {
     @Override
     public void visit(DebugFilter debugFilter) {
         debugFilter.setTrianglePV(trianglePV);
+    }
+
+    @Override
+    public void visit(TranspositionTablePVUpdate transpositionTablePVUpdate) {
+        transpositionTablePVUpdate.setTrianglePV(trianglePV);
     }
 }

@@ -45,4 +45,9 @@ public class LinkTTableNodeVisitor implements Visitor {
     public void visit(PVCalculatorTransposition pvCalculatorTransposition) {
         pvCalculatorTransposition.setTTable(tTable);
     }
+
+    @Override
+    public void visit(TranspositionTablePVUpdate transpositionTablePVUpdate) {
+        transpositionTablePVUpdate.setTTable(tTable);
+    }
 }

@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Corias
  */
-public class TranspositionTableBuilder implements SearchObjectBuilder<TranspositionTableBuilder>{
+public class TranspositionTableBuilder implements SearchObjectBuilder<TranspositionTableBuilder> {
     private final TTListener transpositionTablesListener;
 
     /**

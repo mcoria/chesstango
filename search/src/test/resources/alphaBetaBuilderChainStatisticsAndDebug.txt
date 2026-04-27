@@ -179,10 +179,11 @@ SearchByCycleListeners:
 	GameCountersCollector @ 87
 	DepthCollector @ 88
 	SearchTracker @ 89
-	PrintDebugListener @ 90
+	PrintTxtDebugListener @ 90
+	PrintHtmlDebugListener @ 91
 	PrincipalVariationComparator @ 50
 	PrincipalVariationComparator @ 72
-	RootMoveEvaluationCollection @ 91
+	RootMoveEvaluationCollection @ 92
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
 	RootMoveSorter @ 16
@@ -192,13 +193,15 @@ SearchByDepthListener:
 	NodeCounters @ 86
 	DepthCollector @ 88
 	SearchTracker @ 89
-	PrintDebugListener @ 90
-	RootMoveEvaluationCollection @ 91
+	PrintTxtDebugListener @ 90
+	PrintHtmlDebugListener @ 91
+	RootMoveEvaluationCollection @ 92
 
 SearchByWindowsListeners:
 	SearchTracker @ 89
-	PrintDebugListener @ 90
-	RootMoveEvaluationCollection @ 91
+	PrintTxtDebugListener @ 90
+	PrintHtmlDebugListener @ 91
+	RootMoveEvaluationCollection @ 92
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 20
@@ -208,7 +211,7 @@ ResetListener:
 	TTListener @ 82
 
 Acceptor:
-	SetGameToEvaluator @ 92
+	SetGameToEvaluator @ 93
 	EvaluationCounters @ 80
 	EvaluatorStatisticsCollector @ 25
 	EvaluatorCacheListener @ 81
@@ -222,8 +225,8 @@ Acceptor:
 	TTableStatisticsNodeCollector @ 12
 	TTableStatisticsComparatorCollector @ 53
 	TTableStatisticsListener @ 84
-	KillerMovesDebug @ 93
-	SetGameToEndGameTableBase @ 94
+	KillerMovesDebug @ 94
+	SetGameToEndGameTableBase @ 95
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 85
 	AlphaBetaFlowControl @ 20
@@ -231,7 +234,9 @@ Acceptor:
 	GameCountersCollector @ 87
 	DepthCollector @ 88
 	SearchTracker @ 89
-	PrintDebugListener @ 90
+	TranspositionTablePVUpdate @ 96
+	PrintTxtDebugListener @ 90
+	PrintHtmlDebugListener @ 91
 	ClearPV @ 22
 	AlphaBetaEvaluation @ 24
 	AlphaBetaTerminalNodeStatistics @ 23
@@ -269,7 +274,7 @@ Acceptor:
 	AlphaBetaQuiescenceNodeExpected @ 68
 	TranspositionTableQ @ 67
 	DebugFilter @ 64
-	EvaluatorDebug @ 95
+	EvaluatorDebug @ 97
 	ClearPV @ 65
 	UpdatePV @ 79
 	NodeMoveSorter @ 71
@@ -280,7 +285,7 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 78
 	MoveSorterDebug @ 70
 	RootMoveEvaluationTracker @ 19
-	RootMoveEvaluationCollection @ 91
+	RootMoveEvaluationCollection @ 92
 	AlphaBeta @ 14
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

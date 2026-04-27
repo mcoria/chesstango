@@ -27,6 +27,8 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
     private Move[] bestMoves;
 
+    private TranspositionTablePVUpdate transpositionTablePVUpdate;
+
     protected final TranspositionEntry entryWorkspace;
 
     public TranspositionTableAbstract() {
@@ -46,6 +48,8 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         if (load && isTranspositionEntryValid(draft)) {
             // Es un valor exacto
             if (entryWorkspace.getBound() == EXACT) {
+                int value = entryWorkspace.getValue();
+                transpositionTablePVUpdate.walkPrincipalVariation(currentPly, value);
                 return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
                 return entryWorkspace.getValue();

@@ -144,6 +144,11 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
+    public void visit(TranspositionTablePVUpdate transpositionTablePVUpdate) {
+        transpositionTablePVUpdate.setGame(game);
+    }
+
+    @Override
     public void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
         alphaBetaRootNodeStatistics.setGame(game);
     }

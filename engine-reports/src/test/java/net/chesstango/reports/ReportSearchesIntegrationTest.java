@@ -29,7 +29,7 @@ public class ReportSearchesIntegrationTest {
     public void setup() {
         searchResult = null;
 
-        search = noTranspositionNoAspirationWindowsNoIterativeDeepening()
+        search = defaultSearch()
                 .withGameEvaluator(Evaluator.createInstance())
                 .withDebugSearchTree(false, false, false)
                 .withStatistics()
@@ -218,6 +218,15 @@ public class ReportSearchesIntegrationTest {
         Game game = Game.from(FEN.of("rnb4k/pp3prp/2p2N2/3Ppp1Q/2B2q2/3P4/PPP4P/R5RK w - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(1));
+        searchResult = search.startSearch(game);
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_18() {
+        Game game = Game.from(FEN.of("1r1qr1k1/p5b1/2p2ppp/3p4/1Pp5/P1Nn1Q2/3BN1PP/R4RK1 b - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
 
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();

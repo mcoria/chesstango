@@ -164,6 +164,7 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 55
 	AlphaBetaFlowControl @ 14
+	TranspositionTablePVUpdate @ 59
 	ClearPV @ 15
 	AlphaBetaEvaluation @ 16
 	AlphaBetaEvaluation @ 25

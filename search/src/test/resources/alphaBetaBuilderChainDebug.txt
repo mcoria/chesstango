@@ -155,10 +155,11 @@ SearchByCycleListeners:
 	SetSearchTimers @ 70
 	AlphaBetaFlowControl @ 18
 	SearchTracker @ 71
-	PrintDebugListener @ 72
+	PrintTxtDebugListener @ 72
+	PrintHtmlDebugListener @ 73
 	PrincipalVariationComparator @ 41
 	PrincipalVariationComparator @ 60
-	RootMoveEvaluationCollection @ 73
+	RootMoveEvaluationCollection @ 74
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
 	RootMoveSorter @ 14
@@ -166,13 +167,15 @@ SearchByCycleListeners:
 SearchByDepthListener:
 	SetSearchTimers @ 70
 	SearchTracker @ 71
-	PrintDebugListener @ 72
-	RootMoveEvaluationCollection @ 73
+	PrintTxtDebugListener @ 72
+	PrintHtmlDebugListener @ 73
+	RootMoveEvaluationCollection @ 74
 
 SearchByWindowsListeners:
 	SearchTracker @ 71
-	PrintDebugListener @ 72
-	RootMoveEvaluationCollection @ 73
+	PrintTxtDebugListener @ 72
+	PrintHtmlDebugListener @ 73
+	RootMoveEvaluationCollection @ 74
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 18
@@ -182,7 +185,7 @@ ResetListener:
 	TTListener @ 69
 
 Acceptor:
-	SetGameToEvaluator @ 74
+	SetGameToEvaluator @ 75
 	EvaluatorCacheListener @ 68
 	EvaluatorCacheDebug @ 50
 	EvaluatorDebug @ 22
@@ -190,13 +193,15 @@ Acceptor:
 	TTableArrayPrimitives @ 11
 	TTableDebug @ 10
 	TTableDebug @ 43
-	KillerMovesDebug @ 75
-	SetGameToEndGameTableBase @ 76
+	KillerMovesDebug @ 76
+	SetGameToEndGameTableBase @ 77
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 70
 	AlphaBetaFlowControl @ 18
 	SearchTracker @ 71
-	PrintDebugListener @ 72
+	TranspositionTablePVUpdate @ 78
+	PrintTxtDebugListener @ 72
+	PrintHtmlDebugListener @ 73
 	ClearPV @ 20
 	AlphaBetaEvaluation @ 21
 	DebugFilter @ 19
@@ -226,7 +231,7 @@ Acceptor:
 	Quiescence @ 57
 	TranspositionTableQ @ 56
 	DebugFilter @ 54
-	EvaluatorDebug @ 77
+	EvaluatorDebug @ 79
 	ClearPV @ 55
 	UpdatePV @ 67
 	NodeMoveSorter @ 59
@@ -237,7 +242,7 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 66
 	MoveSorterDebug @ 58
 	RootMoveEvaluationTracker @ 17
-	RootMoveEvaluationCollection @ 73
+	RootMoveEvaluationCollection @ 74
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

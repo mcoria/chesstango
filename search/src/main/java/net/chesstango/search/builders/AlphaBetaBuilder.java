@@ -30,6 +30,8 @@ import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollect
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTablePVUpdate;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.smart.sorters.LinkMoveToHashMap;
 
@@ -57,6 +59,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
 
+    private TranspositionTablePVUpdate transpositionTablePVUpdate;
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
     private DepthCollector depthCollector;
@@ -278,6 +281,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withTranspositionTable) {
             transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
             transpositionTableBuilder.build();
+
+            transpositionTablePVUpdate = new TranspositionTablePVUpdate();
         }
 
         if (withKillerMoveSorter) {
@@ -341,6 +346,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(debugNodeTrap);
         }
 
+        if (transpositionTablePVUpdate != null) {
+            searchListenerMediator.add(transpositionTablePVUpdate);
+        }
+
         if (printTxtDebugListener != null) {
             searchListenerMediator.add(printTxtDebugListener);
         }
@@ -351,7 +360,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void link() {
-
         alphaBetaFacade.setNext(createChain());
 
         searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
@@ -360,6 +368,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
+
+            searchListenerMediator.accept(new LinkTranspositionTablePVUpdate(transpositionTablePVUpdate));
         }
 
         if(withKillerMoveSorter) {

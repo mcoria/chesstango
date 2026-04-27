@@ -199,6 +199,7 @@ Acceptor:
 	NodeCounters @ 71
 	GameCountersCollector @ 72
 	DepthCollector @ 73
+	TranspositionTablePVUpdate @ 77
 	ClearPV @ 17
 	AlphaBetaEvaluation @ 19
 	AlphaBetaTerminalNodeStatistics @ 18

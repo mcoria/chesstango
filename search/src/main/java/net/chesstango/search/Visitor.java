@@ -174,6 +174,9 @@ public interface Visitor {
     default void visit(TranspositionTableQ transpositionTableQ) {
     }
 
+    default void visit(TranspositionTablePVUpdate transpositionTablePVUpdate) {
+    }
+
     default void visit(Quiescence quiescence) {
     }
 

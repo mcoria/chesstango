@@ -36,4 +36,10 @@ public class TriangularPVTable {
         System.arraycopy(pvTable[ply], ply, pv, 0, len - ply);
         return pv;
     }
+
+    public void writePV(int ply, short move) {
+        int len = pvLength[ply];
+        pvTable[ply][len] = move;
+        pvLength[ply]++;
+    }
 }
