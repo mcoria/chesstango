@@ -60,11 +60,16 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         int value = next.alphaBeta(currentPly, alpha, beta);
 
-        /**
-         * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
-         */
-
-        writeTransposition(hash, currentPly, draft, alpha, beta, value);
+        // Simple replacement schema
+        if (load) {
+            if (draft >= entryWorkspace.getDraft() && entryWorkspace.getBound() != EXACT) {
+                writeTransposition(hash, currentPly, draft, alpha, beta, value);
+            } else if (alpha < value && value < beta) {
+                writeTransposition(hash, currentPly, draft, alpha, beta, value);
+            }
+        } else {
+            writeTransposition(hash, currentPly, draft, alpha, beta, value);
+        }
 
         return value;
     }
