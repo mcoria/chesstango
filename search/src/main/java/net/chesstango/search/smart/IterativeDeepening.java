@@ -38,6 +38,12 @@ public class IterativeDeepening implements Search {
         this.searchListenerMediator = searchListenerMediator;
     }
 
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
     @Override
     public SearchResult startSearch(final Game game) {
         if (game.getStatus().isFinalStatus()) {
@@ -118,10 +124,5 @@ public class IterativeDeepening implements Search {
     @Override
     public void reset() {
         searchListenerMediator.triggerReset();
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 }

@@ -24,12 +24,11 @@ import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveC
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
-import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
@@ -735,8 +734,6 @@ public class ChainPrinterVisitor implements Visitor {
     private String printTTPVReader(PVCalculator ttPvReader) {
         if (ttPvReader instanceof PVCalculatorDebug ttPVReaderDebug) {
             return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
-        } else if (ttPvReader instanceof PVCalculatorTransposition ttpvReader) {
-            return objectText(ttpvReader);
         } else if (ttPvReader instanceof PVCalculatorTriangular PVCalculatorTriangular) {
             return objectText(PVCalculatorTriangular);
         }

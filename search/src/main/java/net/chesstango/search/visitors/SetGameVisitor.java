@@ -14,7 +14,6 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
@@ -116,11 +115,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(UpdatePV updatePV) {
         updatePV.setGame(game);
-    }
-
-    @Override
-    public void visit(PVCalculatorTransposition ttpvReader) {
-        ttpvReader.setGame(game);
     }
 
     @Override
