@@ -16,8 +16,8 @@ public class TTableCounters implements Acceptor, SearchByCycleListener {
     private long reads;
 
     private long overWrites;
-    private long writes;
     private long updates;
+    private long writes;
 
     @Setter
     private int mapFillPercentage;

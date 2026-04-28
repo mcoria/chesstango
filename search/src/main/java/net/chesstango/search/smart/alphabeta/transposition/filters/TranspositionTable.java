@@ -14,7 +14,7 @@ public class TranspositionTable extends TranspositionTableAbstract implements Ac
     }
 
     @Override
-    protected boolean isTranspositionEntryValid(int draft) {
+    protected boolean isDraftAcceptable(int draft) {
         return draft <= entryWorkspace.getDraft();
     }
 

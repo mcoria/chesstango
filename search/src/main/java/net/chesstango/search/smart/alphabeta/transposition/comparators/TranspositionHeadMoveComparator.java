@@ -43,7 +43,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
 
         boolean load = tTable.load(hash, entryWorkspace) ;
 
-        if (load) {
+        if (load && hash == entryWorkspace.getHash()) {
             bestMoveEncoded = entryWorkspace.getMove();
         } else {
             bestMoveEncoded = 0;

@@ -25,10 +25,7 @@ public class TTableArrayPrimitivesTest {
                 .setBound(EXACT);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(newEntry);
-
-        // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
+        tTableArray.save(newEntry);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -55,10 +52,8 @@ public class TTableArrayPrimitivesTest {
                 .setBound(LOWER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(newEntry);
+        tTableArray.save(newEntry);
 
-        // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -85,10 +80,8 @@ public class TTableArrayPrimitivesTest {
                 .setBound(UPPER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(newEntry);
+        tTableArray.save(newEntry);
 
-        // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -125,10 +118,7 @@ public class TTableArrayPrimitivesTest {
                 .setBound(LOWER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(updatedEntry);
-
-        // Assert
-        assertEquals(TTable.SaveResult.UPDATED, result);
+        tTableArray.save(updatedEntry);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -166,10 +156,7 @@ public class TTableArrayPrimitivesTest {
                 .setBound(UPPER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(conflictingEntry);
-
-        // Assert
-        assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
+        tTableArray.save(conflictingEntry);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -208,10 +195,7 @@ public class TTableArrayPrimitivesTest {
                 .setBound(LOWER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(entryInNewSession);
-
-        // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
+        tTableArray.save(entryInNewSession);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -224,8 +208,6 @@ public class TTableArrayPrimitivesTest {
 
         // Assert
         assertEquals(entryInNewSession, loadEntry);
-
-
     }
 
     @Test
@@ -240,10 +222,8 @@ public class TTableArrayPrimitivesTest {
                 .setBound(UPPER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(newEntry);
+        tTableArray.save(newEntry);
 
-        // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -295,10 +275,8 @@ public class TTableArrayPrimitivesTest {
                 .setBound(UPPER_BOUND);
 
         // Act
-        TTable.SaveResult result = tTableArray.save(newEntry);
+        tTableArray.save(newEntry);
 
-        // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
 
         // Load
         TranspositionEntry loadEntry = new TranspositionEntry();
@@ -334,5 +312,29 @@ public class TTableArrayPrimitivesTest {
 
         // Assert
         assertFalse(loaded);
+    }
+
+    @Test
+    public void testLoadCollision() {
+        // Arrange
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(16);
+
+        tTableArray.increaseAge();
+
+        TranspositionEntry saveEntry = new TranspositionEntry()
+                .setHash(1)
+                .setDraft((byte) 5)
+                .setMove((short) 1)
+                .setValue(100)
+                .setBound(EXACT);
+        tTableArray.save(saveEntry);
+
+        TranspositionEntry entry = new TranspositionEntry();
+
+        boolean loaded = tTableArray.load(1024 + 1, entry);
+
+        // Assert
+        assertTrue(loaded);
+        assertEquals(saveEntry, entry);
     }
 }

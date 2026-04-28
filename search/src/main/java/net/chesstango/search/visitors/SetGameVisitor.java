@@ -241,11 +241,6 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
-        transpositionTailMoveComparator.setGame(game);
-    }
-
-    @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
         gameEvaluatorCacheComparator.setGame(game);
     }

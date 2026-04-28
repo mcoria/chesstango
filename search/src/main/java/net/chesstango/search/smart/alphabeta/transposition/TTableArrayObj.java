@@ -41,30 +41,17 @@ public class TTableArrayObj implements TTable {
     }
 
     @Override
-    public SaveResult save(TranspositionEntry entry) {
+    public void save(TranspositionEntry entry) {
         int idx = (int) Math.abs(entry.hash % ARRAY_SIZE);
 
         TranspositionEntry storedEntry = transpositionArray[idx];
 
-        SaveResult result;
-        if (ageArray[idx] != currentAge) {
-            ageArray[idx] = currentAge;
-            result = SaveResult.INSERTED;
-        } else {
-            if (storedEntry.hash == entry.hash) {
-                result = SaveResult.UPDATED;
-            } else {
-                result = SaveResult.OVER_WRITTEN;
-            }
-        }
 
         storedEntry.hash = entry.hash;
         storedEntry.draft = entry.draft;
         storedEntry.move = entry.move;
         storedEntry.value = entry.value;
         storedEntry.bound = entry.bound;
-
-        return result;
     }
 
     @Override

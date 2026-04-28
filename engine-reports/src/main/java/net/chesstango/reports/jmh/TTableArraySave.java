@@ -72,6 +72,7 @@ public class TTableArraySave {
         transpositionWrite.setBound(BOUNDS[random.nextInt(BOUNDS_SIZE)]);
     }
 
+    /*
     @Benchmark
     public void benchmarkSaves(Blackhole blackhole) {
         TTable.SaveResult result = tTable.save(transpositionWrite);
@@ -86,6 +87,7 @@ public class TTableArraySave {
         // Pass the result to the blackhole to prevent dead code elimination
         blackhole.consume(result);
     }
+     */
 
     @TearDown(Level.Invocation)
     public void restoreBackup() {
