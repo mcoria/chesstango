@@ -3,7 +3,7 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsFillPercentageCollector;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
@@ -50,7 +50,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
      * Statistics model
      */
     private TTableCounters tTableCounters;
-    private TTableStatisticsListener tTableStatisticsListener;
+    private TTableStatisticsFillPercentageCollector tTableStatisticsFillPercentageCollector;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -117,7 +117,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
             tTableCounters = new TTableCounters();
             tTableNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
             tTableComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
-            tTableStatisticsListener = new TTableStatisticsListener(tTableCounters, tTableImp);
+            tTableStatisticsFillPercentageCollector = new TTableStatisticsFillPercentageCollector(tTableCounters, tTableImp);
         }
     }
 
@@ -141,8 +141,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         if (tTableComparatorCollector != null) {
             searchListenerMediator.add(tTableComparatorCollector);
         }
-        if (tTableStatisticsListener != null) {
-            searchListenerMediator.add(tTableStatisticsListener);
+        if (tTableStatisticsFillPercentageCollector != null) {
+            searchListenerMediator.add(tTableStatisticsFillPercentageCollector);
         }
     }
 

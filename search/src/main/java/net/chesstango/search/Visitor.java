@@ -43,7 +43,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsFillPercentageCollector;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
@@ -316,7 +316,7 @@ public interface Visitor {
     default void visit(TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
     }
 
-    default void visit(TTableStatisticsListener tTableStatisticsListener) {
+    default void visit(TTableStatisticsFillPercentageCollector tTableStatisticsFillPercentageCollector) {
     }
 
     default void visit(TTableCounters TTableCounters) {
