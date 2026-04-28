@@ -10,23 +10,29 @@ import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
  */
+@ExtendWith(MockitoExtension.class)
 public class IterativeDeepeningTest {
 
     private IterativeDeepening iterativeDeepening;
 
+    @Mock
     private SearchAlgorithm smart;
+
+    @Mock
+    private SearchListenerMediator searchListenerMediator;
 
     @BeforeEach
     public void setup() {
-        smart = new AlphaBetaFacade();
-
-        iterativeDeepening = new IterativeDeepening(smart, null);
+        iterativeDeepening = new IterativeDeepening(smart, searchListenerMediator);
     }
 
     @Test
@@ -41,6 +47,7 @@ public class IterativeDeepeningTest {
         Game game = Game.from(FEN.START_POSITION);
 
         SearchResult searchResult = iterativeDeepening.startSearch(game);
+
         Move bestMove = searchResult.getBestMove();
         assertEquals(Square.e2, bestMove.getFrom().square());
         assertEquals(Square.e4, bestMove.getTo().square());

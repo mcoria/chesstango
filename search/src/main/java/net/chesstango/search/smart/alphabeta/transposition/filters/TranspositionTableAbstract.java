@@ -35,7 +35,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         entryWorkspace = new TranspositionEntry();
     }
 
-    protected abstract boolean isTranspositionEntryValid(int draft);
+    protected abstract boolean isDraftAcceptable(int draft);
 
     @Override
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
@@ -45,7 +45,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         boolean load = tTable.load(hash, entryWorkspace);
 
-        if (load && isTranspositionEntryValid(draft)) {
+        if (load && hash == entryWorkspace.getHash() && isDraftAcceptable(draft)) {
             // Es un valor exacto
             if (entryWorkspace.getBound() == EXACT) {
                 int value = entryWorkspace.getValue();

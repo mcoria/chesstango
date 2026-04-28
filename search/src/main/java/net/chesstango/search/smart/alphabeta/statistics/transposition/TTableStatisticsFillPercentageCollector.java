@@ -11,12 +11,12 @@ import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives
  * @author Mauricio Coria
  */
 @Setter
-public class TTableStatisticsListener implements Acceptor, SearchByCycleListener {
+public class TTableStatisticsFillPercentageCollector implements Acceptor, SearchByCycleListener {
 
     private final TTableCounters tTableCounters;
     private final TTable tTable;
 
-    public TTableStatisticsListener(TTableCounters tTableCounters, TTable tTable) {
+    public TTableStatisticsFillPercentageCollector(TTableCounters tTableCounters, TTable tTable) {
         this.tTableCounters = tTableCounters;
         this.tTable = tTable;
     }

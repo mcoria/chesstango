@@ -4,12 +4,9 @@ import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCoun
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the TTableStatisticsCollector class.
@@ -17,108 +14,192 @@ import static org.mockito.Mockito.*;
  * This test class specifically targets the `save` method of the `TTableStatisticsCollector` class.
  * The `save` method tracks the number of table collisions when entries are replaced in the underlying TTable.
  */
-@ExtendWith(MockitoExtension.class)
 public class TTableStatisticsCollectorTest {
 
-    @Mock
-    private TTable mockTTable;
+    private TTableStatisticsNodeCollector collector;
 
-    private TTableCounters TTableCounters;
+    private TTableCounters tTableCounters;
+
+    private TranspositionEntry entry;
 
     @BeforeEach
     public void setUp() {
-        TTableCounters = new TTableCounters();
+        entry = new TranspositionEntry();
+        tTableCounters = new TTableCounters();
+
+        collector = new TTableStatisticsNodeCollector(tTableCounters);
     }
 
     @Test
     public void testSave_InsertResultInserted() {
-        // Arrange
-        TTableStatisticsNodeCollector collector = new TTableStatisticsNodeCollector(TTableCounters);
-        collector.setTTable(mockTTable);
+        collector.setTTable(new TTable() {
+            @Override
+            public boolean load(long hash, TranspositionEntry entry) {
+                return false;
+            }
 
-        TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.SaveResult.INSERTED);
+            @Override
+            public void save(TranspositionEntry entry) {
+
+            }
+
+            @Override
+            public void increaseAge() {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        });
 
         // Act
-        TTable.SaveResult result = collector.save(entry);
+        collector.save(entry);
 
         // Assert
-        assertEquals(TTable.SaveResult.INSERTED, result);
-        assertEquals(0, TTableCounters.getOverWrites());
-        verify(mockTTable, times(1)).save(entry);
+        assertEquals(1, tTableCounters.getWrites());
+        assertEquals(0, tTableCounters.getUpdates());
+        assertEquals(0, tTableCounters.getOverWrites());
     }
 
     @Test
     public void testSave_InsertResultUpdated() {
         // Arrange
-        TTableStatisticsNodeCollector collector = new TTableStatisticsNodeCollector(TTableCounters);
-        collector.setTTable(mockTTable);
+        collector.setTTable(new TTable() {
+            @Override
+            public boolean load(long hash, TranspositionEntry entry) {
+                entry.setHash(hash);
+                return true;
+            }
 
-        TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.SaveResult.UPDATED);
+            @Override
+            public void save(TranspositionEntry entry) {
+
+            }
+
+            @Override
+            public void increaseAge() {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        });
 
         // Act
-        TTable.SaveResult result = collector.save(entry);
+        collector.save(entry);
 
         // Assert
-        assertEquals(TTable.SaveResult.UPDATED, result);
-        assertEquals(0, TTableCounters.getOverWrites());
-        verify(mockTTable, times(1)).save(entry);
+        assertEquals(1, tTableCounters.getWrites());
+        assertEquals(1, tTableCounters.getUpdates());
+        assertEquals(0, tTableCounters.getOverWrites());
     }
 
     @Test
     public void testSave_InsertResultReplaced() {
         // Arrange
-        TTableStatisticsNodeCollector collector = new TTableStatisticsNodeCollector(TTableCounters);
-        collector.setTTable(mockTTable);
+        collector.setTTable(new TTable() {
+            @Override
+            public boolean load(long hash, TranspositionEntry entry) {
+                entry.setHash(1L);
+                return true;
+            }
 
-        TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.SaveResult.OVER_WRITTEN);
+            @Override
+            public void save(TranspositionEntry entry) {
+
+            }
+
+            @Override
+            public void increaseAge() {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        });
 
         // Act
-        TTable.SaveResult result = collector.save(entry);
+        collector.save(entry);
 
         // Assert
-        assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
-        assertEquals(1, TTableCounters.getOverWrites());
-        verify(mockTTable, times(1)).save(entry);
+        assertEquals(1, tTableCounters.getWrites());
+        assertEquals(0, tTableCounters.getUpdates());
+        assertEquals(1, tTableCounters.getOverWrites());
     }
 
     @Test
     public void testLoad_SuccessfulLoadIncrementsTableHits() {
         // Arrange
-        TTableStatisticsNodeCollector collector = new TTableStatisticsNodeCollector(TTableCounters);
-        collector.setTTable(mockTTable);
+        collector.setTTable(new TTable() {
+            @Override
+            public boolean load(long hash, TranspositionEntry entry) {
+                entry.setHash(hash);
+                return true;
+            }
 
-        TranspositionEntry entry = new TranspositionEntry();
-        long hash = 123L;
-        when(mockTTable.load(hash, entry)).thenReturn(true);
+            @Override
+            public void save(TranspositionEntry entry) {
+
+            }
+
+            @Override
+            public void increaseAge() {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        });
 
         // Act
-        boolean result = collector.load(hash, entry);
+        boolean result = collector.load(123L, entry);
 
         // Assert
         assertTrue(result);
-        assertEquals(1, TTableCounters.getReadNodeHits());
-        verify(mockTTable, times(1)).load(hash, entry);
+        assertEquals(1, tTableCounters.getReads());
+        assertEquals(1, tTableCounters.getReadNodeHits());
     }
 
     @Test
     public void testLoad_UnsuccessfulLoadDoesNotIncrementTableHits() {
         // Arrange
-        TTableStatisticsNodeCollector collector = new TTableStatisticsNodeCollector(TTableCounters);
-        collector.setTTable(mockTTable);
+        collector.setTTable(new TTable() {
+            @Override
+            public boolean load(long hash, TranspositionEntry entry) {
+                entry.setHash(1L);
+                return true;
+            }
 
-        TranspositionEntry entry = new TranspositionEntry();
-        long hash = 456L;
-        when(mockTTable.load(hash, entry)).thenReturn(false);
+            @Override
+            public void save(TranspositionEntry entry) {
+
+            }
+
+            @Override
+            public void increaseAge() {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        });
 
         // Act
-        boolean result = collector.load(hash, entry);
+        boolean result = collector.load(123L, entry);
 
         // Assert
-        assertFalse(result);
-        assertEquals(0, TTableCounters.getReadNodeHits());
-        verify(mockTTable, times(1)).load(hash, entry);
+        assertTrue(result);
+        assertEquals(1, tTableCounters.getReads());
+        assertEquals(0, tTableCounters.getReadNodeHits());
     }
 }

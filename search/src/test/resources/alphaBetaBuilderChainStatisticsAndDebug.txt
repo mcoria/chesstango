@@ -172,7 +172,7 @@ SearchByCycleListeners:
 	EvaluatorCacheListener @ 81
 	TTListener @ 82
 	TTableCounters @ 83
-	TTableStatisticsListener @ 84
+	TTableStatisticsFillPercentageCollector @ 84
 	SetSearchTimers @ 85
 	AlphaBetaFlowControl @ 20
 	NodeCounters @ 86
@@ -224,7 +224,7 @@ Acceptor:
 	TTableCounters @ 83
 	TTableStatisticsNodeCollector @ 12
 	TTableStatisticsComparatorCollector @ 53
-	TTableStatisticsListener @ 84
+	TTableStatisticsFillPercentageCollector @ 84
 	KillerMovesDebug @ 94
 	SetGameToEndGameTableBase @ 95
 	AlphaBetaFacade @ 2

@@ -19,23 +19,17 @@ package net.chesstango.search.smart.alphabeta.transposition;
  */
 public interface TTable {
 
-    enum SaveResult {
-        INSERTED, // The entry was not found in the table
-        UPDATED,  // The entry was found in the table and was updated
-        OVER_WRITTEN  // Another entry was found in the table and was replaced
-    }
-
     /**
      * Retrieves a transposition table entry for the given position hash.
      *
      * <p>This method searches for a previously stored evaluation of the chess position
-     * identified by the given hash. If found, it populates the provided entry object
-     * with the cached data, which may include the best move, evaluation value, search
-     * depth, and bound type.</p>
+     * identified by the given hash.
+     * It populates the provided entry object with the cached data, which may include the best move,
+     * evaluation value, search depth, and bound type.</p>
      *
      * @param hash  the Zobrist hash value of the chess position to look up
      * @param entry the TranspositionEntry object to populate with the cached data if found
-     * @return true if the entry was found, false otherwise
+     * @return true if there is an entry that maps to the given hash, false otherwise
      */
     boolean load(long hash, TranspositionEntry entry);
 
@@ -47,13 +41,20 @@ public interface TTable {
      * entry age, with deeper searches generally taking priority over shallower ones.</p>
      *
      * @param entry the TranspositionEntry containing the evaluation data to save
-     * @return an SaveResult indicating the outcome: INSERTED if a new entry was added,
-     *         UPDATED if an existing entry for the same position was modified, or
-     *         OVER_WRITTEN if a different position's entry was replaced
      */
-    SaveResult save(TranspositionEntry entry);
+    void save(TranspositionEntry entry);
 
-
+    /**
+     * Increments the age counter of the transposition table.
+     *
+     * <p>This method is used to implement an aging mechanism that helps manage entry
+     * replacement in the transposition table. By tracking the age of entries, the table
+     * can prioritize keeping more recent entries over older ones during replacement decisions.
+     * This is typically called at the beginning of each new search iteration or game move.</p>
+     *
+     * <p>The age information is used in conjunction with other factors (such as search depth)
+     * to determine which entries should be replaced when the table becomes full.</p>
+     */
     void increaseAge();
 
     /**

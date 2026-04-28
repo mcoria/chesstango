@@ -16,32 +16,42 @@ public class TTableStatisticsNodeCollector implements TTable, Acceptor {
 
     private final TTableCounters tTableCounters;
 
+    private final TranspositionEntry localEntry;
+
     private TTable tTable;
 
     public TTableStatisticsNodeCollector(TTableCounters tTableCounters) {
         this.tTableCounters = tTableCounters;
+        this.localEntry = new TranspositionEntry();
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
-        boolean result = tTable.load(hash, entry);
-        if (result) {
+        boolean loaded = tTable.load(hash, entry);
+        if (loaded && hash == entry.getHash()) {
             tTableCounters.increaseReadNodeHits();
         }
         tTableCounters.increaseReads();
-        return result;
+        return loaded;
     }
 
     @Override
-    public SaveResult save(TranspositionEntry entry) {
-        SaveResult result = tTable.save(entry);
-        if (result == SaveResult.OVER_WRITTEN) {
-            tTableCounters.increaseOverWrites();
-        } else if (result == SaveResult.UPDATED) {
-            tTableCounters.increaseUpdates();
+    public void save(TranspositionEntry entry) {
+        boolean loaded = tTable.load(entry.getHash(), localEntry);
+        if (loaded) {
+            if (localEntry.getHash() == entry.getHash()) {
+                tTableCounters.increaseUpdates();
+            } else {
+                tTableCounters.increaseOverWrites();
+            }
         }
         tTableCounters.increaseWrites();
-        return result;
+        tTable.save(entry);
     }
 
     @Override
@@ -52,11 +62,6 @@ public class TTableStatisticsNodeCollector implements TTable, Acceptor {
     @Override
     public void clear() {
         tTable.clear();
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
 }

@@ -24,12 +24,11 @@ import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
-import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
@@ -44,7 +43,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsListener;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsFillPercentageCollector;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
@@ -223,9 +222,6 @@ public interface Visitor {
     default void visit(KillerMovesDebug killerMovesDebug) {
     }
 
-    default void visit(PVCalculatorTransposition ttpvReader) {
-    }
-
     default void visit(PVCalculatorDebug ttpvReaderDebug) {
     }
 
@@ -320,7 +316,7 @@ public interface Visitor {
     default void visit(TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
     }
 
-    default void visit(TTableStatisticsListener tTableStatisticsListener) {
+    default void visit(TTableStatisticsFillPercentageCollector tTableStatisticsFillPercentageCollector) {
     }
 
     default void visit(TTableCounters TTableCounters) {

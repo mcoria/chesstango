@@ -3,7 +3,6 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTransposition;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
@@ -17,13 +16,6 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     public CollectSearchResultByDepthVisitor(SearchResultByDepth searchResultByDepth) {
         this.searchResultByDepth = searchResultByDepth;
-    }
-
-
-    @Override
-    public void visit(PVCalculatorTransposition transpositionPVReader) {
-        searchResultByDepth.setPrincipalVariation(transpositionPVReader.getPrincipalVariation());
-        searchResultByDepth.setPvComplete(transpositionPVReader.isPvComplete());
     }
 
     @Override

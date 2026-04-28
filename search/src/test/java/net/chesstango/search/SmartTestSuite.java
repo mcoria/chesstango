@@ -3,7 +3,6 @@ package net.chesstango.search;
 import net.chesstango.search.smart.IterativeDeepeningTest;
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.alphabeta.core.filters.TranspositionEntryTableTest;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTranspositionTest;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangularTest;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollectionTest;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindowsTest;
@@ -35,7 +34,6 @@ import org.junit.platform.suite.api.Suite;
         TranspositionEntryTest.class,
         TranspositionEntryTableTest.class,
 
-        PVCalculatorTranspositionTest.class,
         PVCalculatorTriangularTest.class,
 
         RootMoveEvaluationCollectionTest.class,

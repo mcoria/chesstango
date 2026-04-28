@@ -42,7 +42,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     }
 
     public void setupHashTable(int hashSize) {
-        this.arraySize = (hashSize / 16)  * 1024;
+        this.arraySize = (hashSize / 16) * 1024;
         if (arraySize < 1) {
             throw new IllegalArgumentException("Hash size must be greater than 0");
         }
@@ -60,10 +60,6 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     public boolean load(long hash, TranspositionEntry entry) {
         int idx = (int) Math.abs(hash % arraySize);
 
-        if (hashArray[idx] != hash) {
-            return false;
-        }
-
         long data = dataArray[idx];
 
         // Extract fields from the data
@@ -79,7 +75,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         int value = (int) (data & VALUE_MASK);
 
         // Copy stored entry fields to the output entry
-        entry.hash = hash;
+        entry.hash = hashArray[idx];
         entry.draft = draftByte;
         entry.move = move;
         entry.value = value;
@@ -89,26 +85,10 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     }
 
     @Override
-    public SaveResult save(TranspositionEntry entry) {
+    public void save(TranspositionEntry entry) {
         int idx = (int) Math.abs(entry.hash % arraySize);
 
-        long data = dataArray[idx];
-
-        // Extract fields from the data
-        int age = (int) ((data & AGE_MASK) >>> 58);
-
-        SaveResult result;
-        if (age != currentAge) {
-            hashArray[idx] = entry.hash;
-            result = SaveResult.INSERTED;
-        } else {
-            if (hashArray[idx] == entry.hash) {
-                result = SaveResult.UPDATED;
-            } else {
-                hashArray[idx] = entry.hash;
-                result = SaveResult.OVER_WRITTEN;
-            }
-        }
+        hashArray[idx] = entry.hash;
 
         long bound = entry.bound == EXACT ? EXACT_BOUND_VALUE : entry.bound == LOWER_BOUND ? LOWER_BOUND_VALUE : UPPER_BOUND_VALUE;
         byte draftByte = entry.draft;
@@ -116,8 +96,6 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         int value = entry.value;
 
         dataArray[idx] = ((currentAge & 0x3FL) << 58) | bound | ((draftByte & 0xFFL) << 48) | ((move & 0xFFFFL) << 32) | (value & 0xFFFFFFFFL);
-
-        return result;
     }
 
     @Override

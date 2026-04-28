@@ -15,7 +15,7 @@ public class TranspositionTableQ extends TranspositionTableAbstract implements A
 
 
     @Override
-    protected boolean isTranspositionEntryValid(int draft) {
+    protected boolean isDraftAcceptable(int draft) {
         return true;
     }
 

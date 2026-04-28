@@ -23,9 +23,14 @@ public class TTableStatisticsComparatorCollector implements TTable, Acceptor {
     }
 
     @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
-        if (result) {
+        if (result && hash == entry.getHash()) {
             tTableCounters.increaseReadComparatorHits();
         }
         tTableCounters.increaseReads();
@@ -33,7 +38,7 @@ public class TTableStatisticsComparatorCollector implements TTable, Acceptor {
     }
 
     @Override
-    public SaveResult save(TranspositionEntry entry) {
+    public void save(TranspositionEntry entry) {
         throw new RuntimeException("save() should not be called on a comparator");
     }
 
@@ -45,11 +50,6 @@ public class TTableStatisticsComparatorCollector implements TTable, Acceptor {
     @Override
     public void clear() {
         tTable.clear();
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
 }

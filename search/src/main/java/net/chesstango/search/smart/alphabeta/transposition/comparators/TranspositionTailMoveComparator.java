@@ -22,17 +22,12 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
     private MoveComparator next;
 
     @Setter
-    private Game game;
-
-    @Setter
     @Getter
     private TTable tTable;
 
     @Setter
     private MoveToHashMap moveToZobrist;
 
-
-    private Color currentTurn;
     private TTable currentMap;
 
     private final TranspositionEntry moveEntry1;
@@ -50,7 +45,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
 
     @Override
     public void beforeSort(final int currentPly) {
-        this.currentTurn = game.getPosition().getCurrentTurn();
         this.currentMap = tTable;
 
         next.beforeSort(currentPly);
@@ -65,8 +59,11 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        boolean load01 = currentMap.load(getZobristHashMove(o1), moveEntry1);
-        boolean load02 = currentMap.load(getZobristHashMove(o2), moveEntry2);
+        long o1Hash = getZobristHashMove(o1);
+        long o2Hash = getZobristHashMove(o2);
+
+        boolean load01 = currentMap.load(o1Hash, moveEntry1) && o1Hash == moveEntry1.getHash();
+        boolean load02 = currentMap.load(o2Hash, moveEntry2) && o2Hash == moveEntry2.getHash();
 
         if (load01 && load02) {
             result = -moveEntry1.compareTo(moveEntry2);
