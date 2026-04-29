@@ -55,7 +55,7 @@ public class SearchManagerBuilderTest {
     @BeforeEach
     public void setup() {
         builder = new SearchManagerBuilder(tangoFactory);
-        config = new Config();
+        config = Config.create();
     }
 
     @Test

@@ -25,9 +25,23 @@ public class Config {
 
     private String syzygyPath;
 
-    private Integer hashSize;
+    private Integer hashSizeMB;
+
+    private Integer staleAge;
 
     private Integer infiniteDepth;
+
+
+    public static Config create() {
+        return new Config()
+                .setSyncSearch(false)
+                .setInfiniteDepth(Tango.INFINITE_DEPTH)
+                .setHashSizeMB(Tango.HASH_SIZE_MB)
+                .setStaleAge(Tango.STALE_AGE);
+    }
+
+    private Config() {
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -35,12 +49,13 @@ public class Config {
         return Objects.equals(syncSearch, config.syncSearch)
                 && Objects.equals(polyglotFile, config.polyglotFile)
                 && Objects.equals(syzygyPath, config.syzygyPath)
-                && Objects.equals(hashSize, config.hashSize)
+                && Objects.equals(hashSizeMB, config.hashSizeMB)
+                && Objects.equals(staleAge, config.staleAge)
                 && Objects.equals(infiniteDepth, config.infiniteDepth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(syncSearch, polyglotFile, syzygyPath, hashSize, infiniteDepth);
+        return Objects.hash(syncSearch, polyglotFile, syzygyPath, hashSizeMB, staleAge, infiniteDepth);
     }
 }

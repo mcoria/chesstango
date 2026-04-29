@@ -147,7 +147,8 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCountersDepth1WithTT() {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withTranspositionTable(1024)
+                .withTranspositionTable()
+                .withTranspositionHashSize(1024)
                 .withStatistics()
                 .build();
 
@@ -195,7 +196,8 @@ public class AlphaBetaStatisticsTest {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
-                .withTranspositionTable(1024)
+                .withTranspositionTable()
+                .withTranspositionHashSize(1024)
                 .withStatistics()
                 .build();
 
@@ -218,7 +220,8 @@ public class AlphaBetaStatisticsTest {
     public void testSearch_05() {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withTranspositionTable(1024)
+                .withTranspositionTable()
+                .withTranspositionHashSize(1024)
                 .withIterativeDeepening()
                 .withStatistics()
                 .build();

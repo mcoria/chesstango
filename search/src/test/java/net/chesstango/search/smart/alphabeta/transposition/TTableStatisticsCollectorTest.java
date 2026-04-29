@@ -42,16 +42,6 @@ public class TTableStatisticsCollectorTest {
             public void save(TranspositionEntry entry) {
 
             }
-
-            @Override
-            public void increaseAge() {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
         });
 
         // Act
@@ -75,16 +65,6 @@ public class TTableStatisticsCollectorTest {
 
             @Override
             public void save(TranspositionEntry entry) {
-
-            }
-
-            @Override
-            public void increaseAge() {
-
-            }
-
-            @Override
-            public void clear() {
 
             }
         });
@@ -112,16 +92,6 @@ public class TTableStatisticsCollectorTest {
             public void save(TranspositionEntry entry) {
 
             }
-
-            @Override
-            public void increaseAge() {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
         });
 
         // Act
@@ -147,16 +117,6 @@ public class TTableStatisticsCollectorTest {
             public void save(TranspositionEntry entry) {
 
             }
-
-            @Override
-            public void increaseAge() {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
         });
 
         // Act
@@ -180,16 +140,6 @@ public class TTableStatisticsCollectorTest {
 
             @Override
             public void save(TranspositionEntry entry) {
-
-            }
-
-            @Override
-            public void increaseAge() {
-
-            }
-
-            @Override
-            public void clear() {
 
             }
         });

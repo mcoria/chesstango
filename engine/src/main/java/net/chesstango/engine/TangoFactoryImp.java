@@ -52,7 +52,7 @@ class TangoFactoryImp implements TangoFactory {
 
     @Override
     public SearchBuilder<?> createSearchBuilder(){
-        return Search
+        return SearchBuilder
                 .newSearchBuilder();
     }
 

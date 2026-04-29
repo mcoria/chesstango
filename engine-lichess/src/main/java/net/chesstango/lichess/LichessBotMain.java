@@ -35,7 +35,7 @@ public class LichessBotMain {
         if (clientAuth.scopes().stream().anyMatch(Client.Scope.bot_play::equals)) {
             log.info("Start playing as a bot");
 
-            Config config = new Config();
+            Config config = Config.create();
 
             String polyglotFile = (String) PROPERTIES.get(LichessBotMain.POLYGLOT_FILE);
             if (Objects.nonNull(polyglotFile)) {

@@ -40,7 +40,7 @@ public class SearchByTreeTest {
 
     @BeforeEach
     public void setup() {
-        config = new Config();
+        config = Config.create();
     }
 
     @Test

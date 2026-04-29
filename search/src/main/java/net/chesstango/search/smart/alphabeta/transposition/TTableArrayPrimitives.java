@@ -28,8 +28,8 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
     public static final int DEFAULT_HASH_SIZE_KB = 32 * 1024;
+    public static final int DEFAULT_STALE_AGE = 3;
 
-    static final int STALE_AGE = 3;
     static final int MAX_AGE = 0x3F;
 
     int arraySize;
@@ -37,18 +37,22 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     long[] dataArray;
     int currentAge;
 
-    public TTableArrayPrimitives(int hashSize) {
-        setupHashTable(hashSize);
+    private final int staleAge;
+
+    public TTableArrayPrimitives(int staleAge, int hashSizeKB) {
+        this.staleAge = staleAge;
+        this.setupHashTable(hashSizeKB);
     }
 
-    public void setupHashTable(int hashSize) {
-        this.arraySize = (hashSize / 16) * 1024;
-        if (arraySize < 1) {
+    public void setupHashTable(int hashSizeKB) {
+        // Suponiendo que el hashSizeKB es en KB, y se establece en DEFAULT_HASH_SIZE_KB, convertirlo a bytes
+        this.arraySize = (hashSizeKB / 16) * 1024;   // 2 tablas, 8 bytes por elemento
+        if (this.arraySize < 1) {
             throw new IllegalArgumentException("Hash size must be greater than 0");
         }
-        this.hashArray = new long[arraySize]; // 8 bytes * 2048 = 16MB table
-        this.dataArray = new long[arraySize]; // 8 bytes * 2048 = 16MB table
-        this.currentAge = STALE_AGE;
+        this.hashArray = new long[arraySize]; // 8 bytes * 2097152 elementos = 16MB table
+        this.dataArray = new long[arraySize]; // 8 bytes * 2097152 elementos = 16MB table
+        this.currentAge = staleAge;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         // Extract fields from the data
         int age = (int) ((data & AGE_MASK) >>> 58);
 
-        if (currentAge < age || currentAge - age > STALE_AGE) {
+        if (currentAge < age || currentAge - age > staleAge) {
             return false;
         }
 
@@ -98,7 +102,18 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         dataArray[idx] = ((currentAge & 0x3FL) << 58) | bound | ((draftByte & 0xFFL) << 48) | ((move & 0xFFFFL) << 32) | (value & 0xFFFFFFFFL);
     }
 
-    @Override
+
+    /**
+     * Increments the age counter of the transposition table.
+     *
+     * <p>This method is used to implement an aging mechanism that helps manage entry
+     * replacement in the transposition table. By tracking the age of entries, the table
+     * can prioritize keeping more recent entries over older ones during replacement decisions.
+     * This is typically called at the beginning of each new search iteration or game move.</p>
+     *
+     * <p>The age information is used in conjunction with other factors (such as search depth)
+     * to determine which entries should be replaced when the table becomes full.</p>
+     */
     public void increaseAge() {
         if (currentAge < MAX_AGE) {
             currentAge++;
@@ -109,13 +124,16 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     }
 
 
-    @Override
+    /**
+     * Removes all entries from the transposition table, resetting it to an empty state.
+     * This is typically called at the start of a new game or search session.
+     */
     public void clear() {
         for (int i = 0; i < arraySize; i++) {
             hashArray[i] = 0;
             dataArray[i] = 0;
         }
-        currentAge = STALE_AGE;
+        currentAge = staleAge;
     }
 
     public int getFillPercentage() {
@@ -123,7 +141,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         for (int i = 0; i < arraySize; i++) {
             long data = dataArray[i];
             int age = (int) ((data & AGE_MASK) >>> 58);
-            if (!(currentAge < age || currentAge - age > STALE_AGE)) {
+            if (!(currentAge < age || currentAge - age > staleAge)) {
                 filled++;
             }
         }

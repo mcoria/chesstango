@@ -3,7 +3,6 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
-import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
@@ -78,7 +77,7 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
 
     @Override
     public SearchBuilder<?> createSearchBuilder(){
-        return Search
+        return SearchBuilder
                 .newSearchBuilder();
     }
 

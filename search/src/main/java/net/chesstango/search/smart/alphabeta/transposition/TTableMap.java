@@ -38,12 +38,12 @@ public class TTableMap implements TTable {
         storedEntry.bound = entry.bound;
     }
 
-    @Override
+
     public void increaseAge() {
         table.clear();
     }
 
-    @Override
+
     public void clear() {
         table.clear();
     }

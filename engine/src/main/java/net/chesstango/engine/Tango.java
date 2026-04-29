@@ -15,19 +15,15 @@ public class Tango implements TangoOptions, AutoCloseable {
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
     public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
     public static final String ENGINE_AUTHOR = PROPERTIES.getProperty("engine_author");
-    public static final String INFINITE_DEPTH = PROPERTIES.getProperty("infinite_depth");
+    public static final int INFINITE_DEPTH = Integer.parseInt(PROPERTIES.getProperty("infinite_depth"));
+    public static final int HASH_SIZE_MB = Integer.parseInt(PROPERTIES.getProperty("hash_size"));
+    public static final int STALE_AGE = Integer.parseInt(PROPERTIES.getProperty("stale_age"));
 
 
     public static Tango open(Config config) {
         log.info("Opening Tango engine");
 
         TangoFactorySmart tangoFactorySmart = new TangoFactorySmart(new TangoFactoryImp());
-
-
-        // Set default values for config
-        if(config.getInfiniteDepth() == null) {
-            config.setInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
-        }
 
         // Configure search execution mode:
         // - Async mode: Executes search asynchronously
@@ -44,7 +40,7 @@ public class Tango implements TangoOptions, AutoCloseable {
     private final SearchManager searchManager;
 
     Tango(TangoFactorySmart tangoFactorySmart,
-                  SearchManager searchManager) {
+          SearchManager searchManager) {
         this.tangoFactorySmart = tangoFactorySmart;
         this.searchManager = searchManager;
     }

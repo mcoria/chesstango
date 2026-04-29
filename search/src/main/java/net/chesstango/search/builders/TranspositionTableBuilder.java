@@ -21,7 +21,7 @@ import java.util.Objects;
  * @author Mauricio Corias
  */
 public class TranspositionTableBuilder implements SearchObjectBuilder<TranspositionTableBuilder> {
-    private final TTListener transpositionTablesListener;
+    private TTListener ttListener;
 
     /**
      * Implementation TTable filters
@@ -57,11 +57,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
-    private int hashSize;
-
-    public TranspositionTableBuilder() {
-        transpositionTablesListener = new TTListener();
-    }
+    private int hashSizeKB;
+    private int staleAge;
 
     public TranspositionTableBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
@@ -73,14 +70,19 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         return this;
     }
 
-    @Override
-    public TranspositionTableBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public TranspositionTableBuilder withHashSize(int hashSizeKB) {
+        this.hashSizeKB = hashSizeKB;
         return this;
     }
 
-    public TranspositionTableBuilder withTranspositionTableSize(int hashSize) {
-        this.hashSize = hashSize;
+    public TranspositionTableBuilder withStaleAge(int staleAge) {
+        this.staleAge = staleAge;
+        return this;
+    }
+
+    @Override
+    public TranspositionTableBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -95,7 +97,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
     @Override
     public void link() {
-        transpositionTablesListener.setTTable(tTableImp);
+        ttListener.setTTable(tTableImp);
 
         searchListenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
 
@@ -106,7 +108,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     }
 
     private void buildObjects() {
-        tTableImp = new TTableArrayPrimitives(hashSize);
+        tTableImp = new TTableArrayPrimitives(staleAge, hashSizeKB);
+        ttListener = new TTListener();
 
         if (withDebugSearchTree) {
             tTableNodeDebug = new TTableDebug();
@@ -122,7 +125,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(transpositionTablesListener);
+        searchListenerMediator.add(ttListener);
 
         searchListenerMediator.add(tTableImp);
 

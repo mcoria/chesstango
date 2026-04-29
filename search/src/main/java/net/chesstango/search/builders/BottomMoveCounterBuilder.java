@@ -90,10 +90,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         return this;
     }
 
-    @Override
-    public SearchBuilder withTranspositionTable(int hashSize) {
-        return null;
-    }
 
     public BottomMoveCounterBuilder withGameEvaluatorCache() {
         withGameEvaluatorCache = true;
@@ -125,6 +121,16 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
         return this;
+    }
+
+    @Override
+    public BottomMoveCounterBuilder withTranspositionHashSize(int hashSize) {
+        return null;
+    }
+
+    @Override
+    public BottomMoveCounterBuilder withTranspositionStaleAge(int staleAge) {
+        return null;
     }
 
     public BottomMoveCounterBuilder withTranspositionMoveSorter() {

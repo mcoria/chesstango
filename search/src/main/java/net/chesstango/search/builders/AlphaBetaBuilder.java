@@ -159,18 +159,36 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     @Override
-    public AlphaBetaBuilder withTranspositionTable(int hashSize) {
+    public AlphaBetaBuilder withTranspositionTable() {
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
 
-        transpositionTableBuilder.withTranspositionTableSize(hashSize);
-
         withTranspositionTable = true;
         return this;
     }
+
+    @Override
+    public AlphaBetaBuilder withTranspositionHashSize(int hashSizeKB) {
+        if (!withTranspositionTable) {
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
+        transpositionTableBuilder.withHashSize(hashSizeKB);
+        return this;
+    }
+
+
+    @Override
+    public AlphaBetaBuilder withTranspositionStaleAge(int staleAge) {
+        if (!withTranspositionTable) {
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
+        transpositionTableBuilder.withStaleAge(staleAge);
+        return this;
+    }
+
 
     public AlphaBetaBuilder withTranspositionMoveSorter() {
         if (!withTranspositionTable) {
@@ -372,7 +390,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.accept(new LinkTranspositionTablePVUpdate(transpositionTablePVUpdate));
         }
 
-        if(withKillerMoveSorter) {
+        if (withKillerMoveSorter) {
             killerMoveBuilder.link();
         }
 
@@ -436,7 +454,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
                 .withQuiescence()
 
-                .withTranspositionTable(TTableArrayPrimitives.DEFAULT_HASH_SIZE_KB)
+                .withTranspositionTable()
+                .withTranspositionHashSize(TTableArrayPrimitives.DEFAULT_HASH_SIZE_KB)
+                .withTranspositionStaleAge(TTableArrayPrimitives.DEFAULT_STALE_AGE)
+
                 .withTranspositionMoveSorter()
 
                 .withKillerMoveSorter()

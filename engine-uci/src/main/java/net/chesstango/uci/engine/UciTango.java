@@ -42,7 +42,7 @@ public class UciTango extends AbstractUCIEngine {
     private volatile Session session;
 
     public UciTango() {
-        this(new Config().setSyncSearch(false), Tango::open);
+        this(Config.create(), Tango::open);
     }
 
     public UciTango(Config config) {

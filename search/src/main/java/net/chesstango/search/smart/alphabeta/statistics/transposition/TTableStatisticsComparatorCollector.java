@@ -42,14 +42,4 @@ public class TTableStatisticsComparatorCollector implements TTable, Acceptor {
         throw new RuntimeException("save() should not be called on a comparator");
     }
 
-    @Override
-    public void increaseAge() {
-        tTable.increaseAge();
-    }
-
-    @Override
-    public void clear() {
-        tTable.clear();
-    }
-
 }

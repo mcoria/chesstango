@@ -34,7 +34,8 @@ public class DetectCycleEnabledTest {
 
         this.search = new AlphaBetaBuilder()
                 .withGameEvaluator(evaluator)
-                .withTranspositionTable(1024)
+                .withTranspositionTable()
+                .withTranspositionHashSize(1024)
                 .withStatistics()
                 .build();
     }

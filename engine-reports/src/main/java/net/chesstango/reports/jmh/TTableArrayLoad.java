@@ -32,7 +32,7 @@ public class TTableArrayLoad {
     @Setup(Level.Trial)
     public void setUp() {
         random = new Random();
-        tTable = new TTableArrayPrimitives(1024);
+        tTable = new TTableArrayPrimitives(3, 1024);
         //tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transposition = new TranspositionEntry();
@@ -45,7 +45,7 @@ public class TTableArrayLoad {
     public void fillTranspositionTable() {
         loadCalls = 0;
         founds = 0;
-        tTable.clear();
+        //tTable.clear();
         for (int i = 0; i < ARRAY_SIZE; i += 2) {
             transposition.setHash(i);
             transposition.setDraft((byte) random.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE + 1));

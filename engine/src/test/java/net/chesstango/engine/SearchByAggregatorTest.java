@@ -41,7 +41,7 @@ public class SearchByAggregatorTest {
 
     @BeforeEach
     public void setup() {
-        config = new Config();
+        config = Config.create();
         when(tangoFactory.createSearchByProxy()).thenReturn(new SearchByProxy(), new SearchByProxy());
     }
 

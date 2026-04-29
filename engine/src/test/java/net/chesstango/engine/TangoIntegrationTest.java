@@ -24,7 +24,7 @@ public class TangoIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        config = new Config();
+        config = Config.create();
     }
 
     @Test

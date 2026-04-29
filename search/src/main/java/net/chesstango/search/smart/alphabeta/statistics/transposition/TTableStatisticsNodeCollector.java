@@ -54,14 +54,4 @@ public class TTableStatisticsNodeCollector implements TTable, Acceptor {
         tTable.save(entry);
     }
 
-    @Override
-    public void increaseAge() {
-        tTable.increaseAge();
-    }
-
-    @Override
-    public void clear() {
-        tTable.clear();
-    }
-
 }

@@ -54,7 +54,6 @@ public class TTableArrayObj implements TTable {
         storedEntry.bound = entry.bound;
     }
 
-    @Override
     public void increaseAge() {
         if (currentAge < Integer.MAX_VALUE) {
             currentAge++;
@@ -64,7 +63,6 @@ public class TTableArrayObj implements TTable {
     }
 
 
-    @Override
     public void clear() {
         for (int i = 0; i < ARRAY_SIZE; i++) {
             transpositionArray[i] = null;

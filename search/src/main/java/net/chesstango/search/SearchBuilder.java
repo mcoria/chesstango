@@ -1,6 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 
 /**
  * Builder interface for constructing Search instances using the builder pattern.
@@ -38,8 +39,24 @@ public interface SearchBuilder<T extends SearchBuilder<T>> {
      */
     T withGameEvaluator(Evaluator evaluator);
 
+    /**
+     * Configures the transposition table with the specified hash size.
+     * <p>
+     * The transposition table is used to store previously evaluated positions to avoid
+     * redundant calculations during search. A larger hash size allows storing more positions
+     * but requires more memory.
+     * </p>
+     *
+     * @return this builder instance for method chaining
+     */
 
-    T withTranspositionTable(int hashSize);
+    T withTranspositionTable();
+
+    T withTranspositionHashSize(int hashSizeKB);
+
+    T withTranspositionStaleAge(int staleAge);
+
+
 
     /**
      * Constructs and returns the configured Search instance.
@@ -51,4 +68,40 @@ public interface SearchBuilder<T extends SearchBuilder<T>> {
      * @return a fully configured Search instance of type T
      */
     Search build();
+
+
+    /**
+     * Creates a default Search instance using the default Evaluator.
+     * <p>
+     * This factory method returns a builder that can be used to configure and construct a Search instance.
+     * The default builder is configured with:
+     * </p>
+     * <ul>
+     *   <li>Alpha-beta pruning algorithm</li>
+     *   <li>Default evaluation function (material-based)</li>
+     *   <li>Standard move ordering</li>
+     * </ul>
+     * <p>
+     * Additional features such as transposition tables, iterative deepening, statistics collection,
+     * and aspiration windows can be added by calling methods on the returned builder before calling
+     * {@code build()}.
+     * </p>
+     * <p>
+     * <b>Example:</b>
+     * </p>
+     * <pre>{@code
+     * Search search = Search.newSearchBuilder()
+     *     .withGameEvaluator(new EvaluatorByMaterial())
+     *     .withTranspositionTable()
+     *     .withStatistics()
+     *     .build();
+     * }</pre>
+     *
+     * @return a new SearchBuilder instance configured with default settings
+     * @see SearchBuilder
+     * @see net.chesstango.search.builders.AlphaBetaBuilder
+     */
+    static SearchBuilder<?> newSearchBuilder() {
+        return AlphaBetaBuilder.createDefaultBuilderInstance();
+    }
 }

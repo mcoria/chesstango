@@ -41,16 +41,6 @@ public class TTableDebug implements TTable, Acceptor {
         trackWriteTranspositionEntry(entry);
     }
 
-    @Override
-    public void increaseAge() {
-        tTable.increaseAge();
-    }
-
-    @Override
-    public void clear() {
-        tTable.clear();
-    }
-
 
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = searchTracker.getCurrentNode();

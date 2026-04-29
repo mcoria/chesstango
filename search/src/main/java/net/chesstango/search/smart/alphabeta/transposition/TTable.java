@@ -43,23 +43,4 @@ public interface TTable {
      * @param entry the TranspositionEntry containing the evaluation data to save
      */
     void save(TranspositionEntry entry);
-
-    /**
-     * Increments the age counter of the transposition table.
-     *
-     * <p>This method is used to implement an aging mechanism that helps manage entry
-     * replacement in the transposition table. By tracking the age of entries, the table
-     * can prioritize keeping more recent entries over older ones during replacement decisions.
-     * This is typically called at the beginning of each new search iteration or game move.</p>
-     *
-     * <p>The age information is used in conjunction with other factors (such as search depth)
-     * to determine which entries should be replaced when the table becomes full.</p>
-     */
-    void increaseAge();
-
-    /**
-     * Removes all entries from the transposition table, resetting it to an empty state.
-     * This is typically called at the start of a new game or search session.
-     */
-    void clear();
 }

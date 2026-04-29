@@ -1,7 +1,6 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
 
 /**
@@ -114,40 +113,5 @@ public interface Search extends Acceptor {
      * @see TranspositionTable
      */
     void reset();
-
-    /**
-     * Creates a default Search instance using the default Evaluator.
-     * <p>
-     * This factory method returns a builder that can be used to configure and construct a Search instance.
-     * The default builder is configured with:
-     * </p>
-     * <ul>
-     *   <li>Alpha-beta pruning algorithm</li>
-     *   <li>Default evaluation function (material-based)</li>
-     *   <li>Standard move ordering</li>
-     * </ul>
-     * <p>
-     * Additional features such as transposition tables, iterative deepening, statistics collection,
-     * and aspiration windows can be added by calling methods on the returned builder before calling
-     * {@code build()}.
-     * </p>
-     * <p>
-     * <b>Example:</b>
-     * </p>
-     * <pre>{@code
-     * Search search = Search.newSearchBuilder()
-     *     .withGameEvaluator(new EvaluatorByMaterial())
-     *     .withTranspositionTable()
-     *     .withStatistics()
-     *     .build();
-     * }</pre>
-     *
-     * @return a new SearchBuilder instance configured with default settings
-     * @see SearchBuilder
-     * @see net.chesstango.search.builders.AlphaBetaBuilder
-     */
-    static SearchBuilder<?> newSearchBuilder() {
-        return AlphaBetaBuilder.createDefaultBuilderInstance();
-    }
 
 }

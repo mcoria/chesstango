@@ -16,7 +16,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveInsertsNewEntry() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(123456789L)
                 .setDraft((byte) 3)
@@ -43,7 +43,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveInsertsNewEntryNegatives() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(Long.MIN_VALUE)
                 .setDraft(Byte.MIN_VALUE)
@@ -71,7 +71,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveInsertsNewEntryPositives() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(Long.MAX_VALUE)
                 .setDraft(Byte.MAX_VALUE)
@@ -99,7 +99,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveUpdatesExistingEntrySameHash() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         long hash = 123456789L;
 
         TranspositionEntry initialEntry = new TranspositionEntry()
@@ -136,7 +136,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveReplacesEntryWithDifferentHash() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         long hash1 = 123456789L;
         long hash2 = 2 * 1024 * 512 + hash1;
 
@@ -174,7 +174,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveInsertsEntryInNewSession() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         long hash = -1123456789L;
 
         TranspositionEntry entryInOldSession = new TranspositionEntry()
@@ -213,7 +213,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveInsertsNewAge() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(Long.MAX_VALUE)
                 .setDraft(Byte.MAX_VALUE)
@@ -261,7 +261,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testSaveInsertsMaxAge() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
 
         while (tTableArray.currentAge != TTableArrayPrimitives.MAX_AGE) {
             tTableArray.increaseAge();
@@ -302,7 +302,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testLoad() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(1024);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(3, 1024);
 
         tTableArray.increaseAge();
 
@@ -317,7 +317,7 @@ public class TTableArrayPrimitivesTest {
     @Test
     public void testLoadCollision() {
         // Arrange
-        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(16);
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives(0, 16);
 
         tTableArray.increaseAge();
 

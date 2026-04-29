@@ -42,7 +42,8 @@ public class AlphaBetaStopTest {
 
                 .withQuiescence()
 
-                .withTranspositionTable(1024)
+                .withTranspositionTable()
+                .withTranspositionHashSize(1024)
 
                 .withTranspositionMoveSorter()
 
