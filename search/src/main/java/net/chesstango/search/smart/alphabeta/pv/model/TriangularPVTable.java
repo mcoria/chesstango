@@ -1,14 +1,16 @@
 package net.chesstango.search.smart.alphabeta.pv.model;
 
+import net.chesstango.search.smart.Constants;
+
+import static net.chesstango.search.smart.Constants.PV_MAX_DEPTH;
+
 /**
  *
  * @author Mauricio Coria
  */
 public class TriangularPVTable {
-    static final int MAX_DEPTH = 64;
-
-    short[][] pvTable = new short[MAX_DEPTH][MAX_DEPTH];
-    int[] pvLength = new int[MAX_DEPTH];
+    short[][] pvTable = new short[PV_MAX_DEPTH][PV_MAX_DEPTH];
+    int[] pvLength = new int[PV_MAX_DEPTH];
 
     public void clearPV(int ply) {
         pvLength[ply] = ply;

@@ -3,8 +3,11 @@ package net.chesstango.search.smart.alphabeta.statistics.node;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.Constants;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
+
+import static net.chesstango.search.smart.Constants.STATISTICS_MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
@@ -43,9 +46,9 @@ public class NodeCounters implements Acceptor, SearchByCycleListener, SearchByDe
         this.loopNodeCounter = 0;
         this.egtbCounter = 0;
 
-        this.regularNodeCounters = new long[NodeStatistics.MAX_DEPTH];
-        this.visitedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
-        this.expectedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.regularNodeCounters = new long[STATISTICS_MAX_DEPTH];
+        this.visitedNodesCounters = new long[STATISTICS_MAX_DEPTH];
+        this.expectedNodesCounters = new long[STATISTICS_MAX_DEPTH];
     }
 
     @Override

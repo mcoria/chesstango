@@ -7,6 +7,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
+import net.chesstango.search.smart.Constants;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -29,16 +30,18 @@ import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.smart.sorters.LinkMoveToHashMap;
 
+import static net.chesstango.search.smart.Constants.*;
+
 /**
  * @author Mauricio Corias
  */
 public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
+
     private final SetSearchTimers setSearchTimers;
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
@@ -409,7 +412,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
-        searchListenerMediator.accept(new LinkBestMovesArray(new Move[40]));
+        searchListenerMediator.accept(new LinkBestMovesArray(new Move[BEST_MOVE_ARRAY_SIZE]));
 
         evaluationBuilder.link();
     }
@@ -455,8 +458,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withTranspositionHashSize(TTableArrayPrimitives.DEFAULT_HASH_SIZE_KB)
-                .withTranspositionStaleAge(TTableArrayPrimitives.DEFAULT_STALE_AGE)
+                .withTranspositionHashSize(DEFAULT_HASH_SIZE_KB)
+                .withTranspositionStaleAge(DEFAULT_STALE_AGE)
 
                 .withTranspositionMoveSorter()
 

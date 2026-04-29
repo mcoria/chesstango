@@ -4,6 +4,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.smart.Constants;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
 
 import java.util.LinkedList;
@@ -69,11 +70,11 @@ public class EbfModel implements Model<List<SearchResult>> {
     }
 
     private void collectEbfStatistics(EbfModelDetail ebfModelDetail, NodeStatistics regularNodeStatistics) {
-        ebfModelDetail.ebf = new float[NodeStatistics.MAX_DEPTH];
+        ebfModelDetail.ebf = new float[Constants.STATISTICS_MAX_DEPTH];
 
         long[] regularNodeCounters = regularNodeStatistics.regularNodeCounters();
 
-        for (int i = 2; i < NodeStatistics.MAX_DEPTH; i++) {
+        for (int i = 2; i < Constants.STATISTICS_MAX_DEPTH; i++) {
             if (regularNodeCounters[i - 2] != 0) {
                 ebfModelDetail.ebf[i] = (float) Math.sqrt((double) regularNodeCounters[i] / regularNodeCounters[i - 2]);
             }

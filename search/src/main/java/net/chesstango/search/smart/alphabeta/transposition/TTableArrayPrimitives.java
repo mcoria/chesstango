@@ -27,9 +27,6 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
     static final long MOVE_MASK = 0b00000000_00000000_11111111_11111111_00000000_00000000_00000000_00000000L;
     static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
-    public static final int DEFAULT_HASH_SIZE_KB = 32 * 1024;
-    public static final int DEFAULT_STALE_AGE = 3;
-
     static final int MAX_AGE = 0x3F;
 
     int arraySize;
