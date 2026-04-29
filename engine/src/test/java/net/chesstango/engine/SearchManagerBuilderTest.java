@@ -68,8 +68,10 @@ public class SearchManagerBuilderTest {
         when(tangoFactory.createSearchManager(anyInt(), any(SearchByTree.class), any(SearchByAggregator.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
 
         SearchManager searchManager = builder
-                .withInfiniteDepth(100)
-                .withConfig(config.setSyncSearch(true))
+                .withConfig(config
+                        .setSyncSearch(true)
+                        .setInfiniteDepth(100)
+                )
                 .build();
 
         assertNotNull(searchManager);
@@ -93,8 +95,10 @@ public class SearchManagerBuilderTest {
         when(tangoFactory.createSearchManager(anyInt(), any(SearchByTree.class), any(SearchByAggregator.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
 
         SearchManager searchManager = builder
-                .withInfiniteDepth(100)
-                .withConfig(config.setSyncSearch(false))
+                .withConfig(config
+                        .setSyncSearch(false)
+                        .setInfiniteDepth(100)
+                )
                 .build();
 
         assertNotNull(searchManager);

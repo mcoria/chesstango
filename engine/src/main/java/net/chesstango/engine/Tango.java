@@ -23,12 +23,17 @@ public class Tango implements TangoOptions, AutoCloseable {
 
         TangoFactorySmart tangoFactorySmart = new TangoFactorySmart(new TangoFactoryImp());
 
+
+        // Set default values for config
+        if(config.getInfiniteDepth() == null) {
+            config.setInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
+        }
+
         // Configure search execution mode:
         // - Async mode: Executes search asynchronously
         // - Sync mode: Executes search synchronously in the calling thread
         SearchManager searchManager = new SearchManagerBuilder(tangoFactorySmart)
                 .withConfig(config)
-                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
                 .build();
 
         return new Tango(tangoFactorySmart, searchManager);

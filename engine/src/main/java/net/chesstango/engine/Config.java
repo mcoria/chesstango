@@ -27,17 +27,20 @@ public class Config {
 
     private Integer hashSize;
 
+    private Integer infiniteDepth;
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Config config)) return false;
         return Objects.equals(syncSearch, config.syncSearch)
                 && Objects.equals(polyglotFile, config.polyglotFile)
                 && Objects.equals(syzygyPath, config.syzygyPath)
-                && Objects.equals(hashSize, config.hashSize);
+                && Objects.equals(hashSize, config.hashSize)
+                && Objects.equals(infiniteDepth, config.infiniteDepth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(syncSearch, polyglotFile, syzygyPath);
+        return Objects.hash(syncSearch, polyglotFile, syzygyPath, hashSize, infiniteDepth);
     }
 }

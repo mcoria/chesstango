@@ -13,8 +13,6 @@ class SearchManagerBuilder {
 
     private Config config;
 
-    private int infiniteDepth;
-
 
     SearchManagerBuilder(TangoFactory tangoFactory) {
         this.tangoFactory = tangoFactory;
@@ -25,15 +23,10 @@ class SearchManagerBuilder {
         return this;
     }
 
-    public SearchManagerBuilder withInfiniteDepth(int infiniteDepth) {
-        this.infiniteDepth = infiniteDepth;
-        return this;
-    }
-
     public SearchManager build() {
         log.info("Building SearchManager");
 
-        if (infiniteDepth <= 0) {
+        if (config.getInfiniteDepth() <= 0) {
             throw new IllegalArgumentException("Infinite depth must be greater than 0");
         }
 
@@ -53,7 +46,7 @@ class SearchManagerBuilder {
 
         ScheduledExecutorService timeOutExecutor = tangoFactory.createScheduledExecutorService();
 
-        return tangoFactory.createSearchManager(infiniteDepth, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
+        return tangoFactory.createSearchManager(config.getInfiniteDepth(), searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
 
