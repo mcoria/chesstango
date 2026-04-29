@@ -7,7 +7,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
-import net.chesstango.search.smart.Constants;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -412,7 +411,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
-        searchListenerMediator.accept(new LinkBestMovesArray(new Move[BEST_MOVE_ARRAY_SIZE]));
+        searchListenerMediator.accept(new LinkBestMovesArray(new Move[MAX_DEPTH]));
 
         evaluationBuilder.link();
     }

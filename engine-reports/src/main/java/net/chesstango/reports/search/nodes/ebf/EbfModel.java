@@ -10,6 +10,8 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
 import java.util.LinkedList;
 import java.util.List;
 
+import static net.chesstango.search.smart.Constants.MAX_DEPTH;
+
 /**
  * @author Mauricio Coria
  */
@@ -70,11 +72,11 @@ public class EbfModel implements Model<List<SearchResult>> {
     }
 
     private void collectEbfStatistics(EbfModelDetail ebfModelDetail, NodeStatistics regularNodeStatistics) {
-        ebfModelDetail.ebf = new float[Constants.STATISTICS_MAX_DEPTH];
+        ebfModelDetail.ebf = new float[MAX_DEPTH];
 
         long[] regularNodeCounters = regularNodeStatistics.regularNodeCounters();
 
-        for (int i = 2; i < Constants.STATISTICS_MAX_DEPTH; i++) {
+        for (int i = 2; i < MAX_DEPTH; i++) {
             if (regularNodeCounters[i - 2] != 0) {
                 ebfModelDetail.ebf[i] = (float) Math.sqrt((double) regularNodeCounters[i] / regularNodeCounters[i - 2]);
             }

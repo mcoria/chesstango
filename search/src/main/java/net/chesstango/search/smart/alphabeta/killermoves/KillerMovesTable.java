@@ -1,11 +1,10 @@
 package net.chesstango.search.smart.alphabeta.killermoves;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.Constants;
 
 import java.util.Objects;
 
-import static net.chesstango.search.smart.Constants.KILLER_MOVES_TABLE_SIZE;
+import static net.chesstango.search.smart.Constants.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
@@ -15,8 +14,8 @@ public class KillerMovesTable implements KillerMoves {
     private final Move[] killerMovesTableB;
 
     public KillerMovesTable() {
-        this.killerMovesTableA = new Move[KILLER_MOVES_TABLE_SIZE];
-        this.killerMovesTableB = new Move[KILLER_MOVES_TABLE_SIZE];
+        this.killerMovesTableA = new Move[MAX_DEPTH];
+        this.killerMovesTableB = new Move[MAX_DEPTH];
     }
 
     @Override
@@ -38,7 +37,7 @@ public class KillerMovesTable implements KillerMoves {
 
     @Override
     public void reset() {
-        for (int i = 0; i < KILLER_MOVES_TABLE_SIZE; i++) {
+        for (int i = 0; i < MAX_DEPTH; i++) {
             killerMovesTableA[i] = null;
             killerMovesTableB[i] = null;
         }
