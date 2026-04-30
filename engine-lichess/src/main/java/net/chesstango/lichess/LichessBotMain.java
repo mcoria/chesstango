@@ -48,7 +48,7 @@ public class LichessBotMain {
             }
 
             // Durante la busqueda se bloquea el thread principal
-            config.setSyncSearch(true);
+            config.setAsyncSearch(false);
 
             try (Tango tango = Tango.open(config)) {
                 new LichessBot(lichessClient, tango)

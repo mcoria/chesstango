@@ -69,7 +69,7 @@ public class SearchManagerBuilderTest {
 
         SearchManager searchManager = builder
                 .withConfig(config
-                        .setSyncSearch(true)
+                        .setAsyncSearch(false)
                         .setInfiniteDepth(100)
                 )
                 .build();
@@ -96,7 +96,7 @@ public class SearchManagerBuilderTest {
 
         SearchManager searchManager = builder
                 .withConfig(config
-                        .setSyncSearch(false)
+                        .setAsyncSearch(true)
                         .setInfiniteDepth(100)
                 )
                 .build();

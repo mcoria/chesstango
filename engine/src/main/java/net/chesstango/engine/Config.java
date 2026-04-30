@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 @Accessors(chain = true)
 public class Config {
-    private Boolean syncSearch;
+    private Boolean asyncSearch;
 
     private Search search;
 
@@ -31,10 +31,14 @@ public class Config {
 
     private Integer infiniteDepth;
 
-
+    /**
+     * Creates a new Config instance with default values.
+     *
+     * @return
+     */
     public static Config create() {
         return new Config()
-                .setSyncSearch(false)
+                .setAsyncSearch(false)
                 .setInfiniteDepth(Tango.INFINITE_DEPTH)
                 .setHashSizeMB(Tango.HASH_SIZE_MB)
                 .setStaleAge(Tango.STALE_AGE);
@@ -46,7 +50,7 @@ public class Config {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Config config)) return false;
-        return Objects.equals(syncSearch, config.syncSearch)
+        return Objects.equals(asyncSearch, config.asyncSearch)
                 && Objects.equals(polyglotFile, config.polyglotFile)
                 && Objects.equals(syzygyPath, config.syzygyPath)
                 && Objects.equals(hashSizeMB, config.hashSizeMB)
@@ -56,6 +60,6 @@ public class Config {
 
     @Override
     public int hashCode() {
-        return Objects.hash(syncSearch, polyglotFile, syzygyPath, hashSizeMB, staleAge, infiniteDepth);
+        return Objects.hash(asyncSearch, polyglotFile, syzygyPath, hashSizeMB, staleAge, infiniteDepth);
     }
 }

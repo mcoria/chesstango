@@ -40,7 +40,8 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
 
             return searchResult;
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            log.error("Error during search", e);
+            throw e;
         }
     }
 

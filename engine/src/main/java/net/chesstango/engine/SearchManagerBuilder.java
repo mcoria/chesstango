@@ -26,6 +26,10 @@ class SearchManagerBuilder {
     public SearchManager build() {
         log.info("Building SearchManager");
 
+        if (config.getAsyncSearch() == null) {
+            throw new IllegalArgumentException("Async search must be set");
+        }
+
         if (config.getInfiniteDepth() <= 0) {
             throw new IllegalArgumentException("Infinite depth must be greater than 0");
         }
@@ -38,9 +42,9 @@ class SearchManagerBuilder {
 
         SearchByAggregator searchByAggregator = tangoFactory.createSearchByAggregator(config, searchByTree);
 
-        SearchInvoker searchInvoker = config.getSyncSearch()
-                ? tangoFactory.createSearchInvokerSync(searchByAggregator)
-                : tangoFactory.createSearchInvokerAsync(searchByAggregator, tangoFactory.createExecutorService());
+        SearchInvoker searchInvoker = config.getAsyncSearch()
+                ? tangoFactory.createSearchInvokerAsync(searchByAggregator, tangoFactory.createExecutorService())
+                : tangoFactory.createSearchInvokerSync(searchByAggregator);
 
         TimeMgmt timeMgmt = tangoFactory.createTimeMgmt();
 
