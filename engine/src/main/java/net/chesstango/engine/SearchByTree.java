@@ -30,13 +30,14 @@ class SearchByTree implements SearchByChain {
     SearchByTree(TangoFactory tangoFactory, Config config) {
         this.tangoFactory = tangoFactory;
 
+        if (config.getSearch() != null && config.getEvaluator() != null) {
+            log.warn("Search and evaluator are set. Evaluator will be ignored");
+        }
+
         if (config.getSearch() == null) {
             SearchBuilder<?> searchBuilder = tangoFactory.createSearchBuilder();
 
-            // Sobreescribir los valores de evaluador y hash size que vienen por defecto del default builder
-            if (config.getEvaluator() != null) {
-                searchBuilder.withGameEvaluator(config.getEvaluator());
-            }
+            searchBuilder.withGameEvaluator(config.getEvaluator());
 
             if (config.getHashSizeMB() != null) {
                 searchBuilder.withTranspositionHashSize(config.getHashSizeMB() * 1024);

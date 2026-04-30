@@ -39,6 +39,7 @@ public class Config {
     public static Config create() {
         return new Config()
                 .setAsyncSearch(false)
+                .setEvaluator(Evaluator.createInstance())
                 .setInfiniteDepth(Tango.INFINITE_DEPTH)
                 .setHashSizeMB(Tango.HASH_SIZE_MB)
                 .setStaleAge(Tango.STALE_AGE);

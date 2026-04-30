@@ -34,10 +34,6 @@ class SearchManagerBuilder {
             throw new IllegalArgumentException("Infinite depth must be greater than 0");
         }
 
-        if (config.getSearch() != null && config.getEvaluator() != null) {
-            log.warn("Both search and evaluator are set. Evaluator will be ignored");
-        }
-
         SearchByTree searchByTree = tangoFactory.createSearchByTree(config);
 
         SearchByAggregator searchByAggregator = tangoFactory.createSearchByAggregator(config, searchByTree);
