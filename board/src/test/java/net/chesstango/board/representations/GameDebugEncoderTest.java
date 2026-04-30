@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GameDebugEncoderTest {
 
     @Test
-    public void testEncode() throws IOException {
+    public void testToPGN() throws IOException {
         String lines = "[Event \"0f394c7e-70f6-4279-88c2-e6c3b67af09e\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2025.05.11\"]\n" +

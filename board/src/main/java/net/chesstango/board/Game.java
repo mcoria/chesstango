@@ -167,7 +167,7 @@ public interface Game {
      *
      * @return a {@code PGN} object representing the current state and history of the game
      */
-    default PGN encode() {
+    default PGN toPGN() {
         return new GameToPGN().decode(this);
     }
 

@@ -129,8 +129,8 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     public void searchByDepthCompleted(SearchResultByDepth result) {
         /*
         debugOut.print("Search by depth completed\n");
-        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
+        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.toPGN(result.getBestMove()), result.getBestEvaluation());
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.toPGN(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
          */
     }
 

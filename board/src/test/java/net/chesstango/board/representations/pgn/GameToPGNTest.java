@@ -28,7 +28,7 @@ public class GameToPGNTest {
     }
 
     @Test
-    public void test_encodeGame1() {
+    public void test_toPGNGame1() {
         Game game = Game.from(FEN.START_POSITION);
 
         game.executeMove(Square.e2, Square.e4)
@@ -67,7 +67,7 @@ public class GameToPGNTest {
         Game game = Game.from(FEN.START_POSITION);
         game.executeMove(a2, a4);
 
-        PGN pgn = game.encode();
+        PGN pgn = game.toPGN();
 
         List<EPD> pgnToEpd = pgn.toEPD().toList();
 

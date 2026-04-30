@@ -10,10 +10,7 @@ import net.chesstango.gardel.pgn.PGNDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -271,7 +268,7 @@ public class PGNToGameTest {
         Game game = Game.from(FEN.from("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
         game.executeMove(Square.a7, Square.a6);
 
-        PGN pgn = game.encode();
+        PGN pgn = game.toPGN();
 
         assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen().toString());
     }

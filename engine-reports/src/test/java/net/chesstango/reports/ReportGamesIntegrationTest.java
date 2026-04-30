@@ -131,7 +131,7 @@ public class ReportGamesIntegrationTest {
         String[] movesArray = moves.split(" ");
 
         //Game theGame = Game.from(FEN.START_POSITION, List.of(movesArray));
-        //System.out.println(theGame.encode().toString());
+        //System.out.println(theGame.toPGN().toString());
 
         try (Tango tango = Tango.open(config)) {
             Session session = tango.newSession();
@@ -153,7 +153,7 @@ public class ReportGamesIntegrationTest {
 
             searchResponses = session.getSearchResults();
 
-            //System.out.println(Game.from(FEN.START_POSITION, Arrays.stream(movesArray).toList()).encode().toString());
+            //System.out.println(Game.from(FEN.START_POSITION, Arrays.stream(movesArray).toList()).toPGN().toString());
         }
     }
 }

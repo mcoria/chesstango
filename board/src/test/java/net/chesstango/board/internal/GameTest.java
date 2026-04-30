@@ -913,7 +913,7 @@ public class GameTest {
     }
 
     @Test
-    public void test_encode_with_clocks1() {
+    public void test_toPGN_with_clocks1() {
         FENObjectBuilder coder = new FENObjectBuilder();
 
         Game game = Game.from(FEN.START_POSITION);
@@ -926,7 +926,7 @@ public class GameTest {
     }
 
     @Test
-    public void test_encode_with_clocks2() {
+    public void test_toPGN_with_clocks2() {
         FENObjectBuilder coder = new FENObjectBuilder();
 
         Game game = Game.from(FEN.START_POSITION);
@@ -942,7 +942,7 @@ public class GameTest {
 
 
     @Test
-    public void test_encode_with_clocks3() {
+    public void test_toPGN_with_clocks3() {
         FENObjectBuilder coder = new FENObjectBuilder();
 
         Game game = Game.from(FEN.START_POSITION);

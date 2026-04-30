@@ -54,7 +54,7 @@ public class SearchTest {
         assertTrue(searchResult.isPvComplete());
 
         /*
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::toPGN).toList();
         System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
         System.out.printf("PV moves %d: %s%n", pv.size(), Arrays.toString(pv.toArray()));
         System.out.printf("PV complete: %s", searchResult.isPvComplete());
