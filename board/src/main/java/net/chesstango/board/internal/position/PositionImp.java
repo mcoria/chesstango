@@ -8,7 +8,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.*;
 import net.chesstango.gardel.PositionBuilder;
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENObjectBuilder;
 
 import java.util.Iterator;
 
@@ -264,7 +264,7 @@ public class PositionImp implements Position {
 
     @Override
     public String toString() {
-        FENBuilder fenBuilder = new FENBuilder();
+        FENObjectBuilder fenBuilder = new FENObjectBuilder();
 
         export(fenBuilder);
 

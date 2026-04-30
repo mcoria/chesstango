@@ -1,6 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +15,11 @@ public class EvaluatorByFEN extends AbstractEvaluator {
 
     @Override
     protected int evaluateNonFinalStatus() {
-        FENBuilder fenBuilder = new FENBuilder();
+        FENStringBuilder fenBuilder = new FENStringBuilder();
 
         game.getPosition().export(fenBuilder);
 
-        String fen = fenBuilder.getPositionRepresentation().toString();
+        String fen = fenBuilder.getPositionRepresentation();
 
         return evaluations.getOrDefault(fen, defaultValue);
     }

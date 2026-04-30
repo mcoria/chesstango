@@ -53,7 +53,7 @@
         <jmh.version>1.37</jmh.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
-        <gardel.version>1.1.1</gardel.version>
+        <gardel.version>1.1.2-SNAPSHOT</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
         <piazzolla.version>1.1.2</piazzolla.version>

@@ -16,7 +16,7 @@ import net.chesstango.board.position.GameState;
 import net.chesstango.board.position.Position;
 import net.chesstango.gardel.MirrorPositionBuilder;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENObjectBuilder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -85,7 +85,7 @@ public class GameImp implements Game {
 
     @Override
     public FEN getCurrentFEN() {
-        FENBuilder builder = new FENBuilder();
+        FENObjectBuilder builder = new FENObjectBuilder();
         getPosition().export(builder);
         return builder.getPositionRepresentation();
     }
@@ -212,7 +212,7 @@ public class GameImp implements Game {
     }
 
     private void saveInitialFEN() {
-        FENBuilder builder = new FENBuilder();
+        FENObjectBuilder builder = new FENObjectBuilder();
 
         position.export(builder);
 

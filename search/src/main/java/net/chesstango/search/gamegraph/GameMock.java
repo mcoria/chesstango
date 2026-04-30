@@ -12,7 +12,7 @@ import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENObjectBuilder;
 
 /**
  * @author Mauricio Coria
@@ -106,7 +106,7 @@ public class GameMock implements Game {
 
     @Override
     public FEN getCurrentFEN() {
-        FENBuilder builder = new FENBuilder();
+        FENObjectBuilder builder = new FENObjectBuilder();
         getPosition().export(builder);
         return builder.getPositionRepresentation();
     }

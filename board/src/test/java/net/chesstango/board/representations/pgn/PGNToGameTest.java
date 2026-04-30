@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.Status;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.pgn.PGN;
-import net.chesstango.gardel.pgn.PGNStringDecoder;
+import net.chesstango.gardel.pgn.PGNDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +52,7 @@ public class PGNToGameTest {
                 "36. Nxe5 Bg3 37. Bxd6 Bxe5 38. Qe3+ Kf1 39. Qh3+ Ke1 40. Qh4+ Rf2\n" +
                 "41. Kxe5 Qe2+ 42. Kd5 Nc3+ 43. Kd4 Rc4# 1-0";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -84,7 +84,7 @@ public class PGNToGameTest {
                 "51. Rc8 Nb6 52. Rb8 Nd7 53. Rb7 Ke7 54. a8Q g5 55. Ke4 gxh4\n" +
                 "56. Qc8 Kf6 57. Qxd7 Kg5 58. Qg7 Kh5 59. Rb5 e5 60. Rxe5 1-0\n";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -117,7 +117,7 @@ public class PGNToGameTest {
                 "61. Kc7 Rh2 62. Rh8 a4 63. Rb8 Kc4 64. Ra8 Kb3 65. Rb8 Ka2\n" +
                 "66. h6 a3 67. h7 Rxh7 0-1\n";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -143,7 +143,7 @@ public class PGNToGameTest {
                 "26. Bh3 Red7 27. Qxc5 Qxa2 28. Rcd1 Nc4 29. Rxd7 Rxd7 30. g5 Rd2\n" +
                 "31. Bf5 Rxf2 32. Bxe4 Rf1+ 33. Rxf1 Qg2# 0-1\n";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -171,7 +171,7 @@ public class PGNToGameTest {
                 "36. Kg1 Qe1+ 37. Kh2 Qxa5 38. Kg1 Qe1+ 39. Kh2 a5 40. g4 a4\n" +
                 "41. Kg2 a3 42. Kh2 a2 43. Kg2 Qe2+ 44. Kh3 a1=Q 45. Kh4 Qh2# 0-1\n";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -199,7 +199,7 @@ public class PGNToGameTest {
                 "36. Kg1 Rxe7 37. f3 Qg5+ 38. Kh1 Rfxe4 39. Qxg5+ Kxg5 40. fxe4 c3\n" +
                 "41. h4+ Kxh4 42. Kg1 Rxe4 43. Kh2 c2 44. Kg1 c1=Q+ 45. Kh2 Re2# 0-1\n";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -223,7 +223,7 @@ public class PGNToGameTest {
                 "16. axb4 Bxb4 17. Rfc1 e6 18. Bd3 Bd6 19. g3 g6 20. Kg2 Kg7\n" +
                 "21. Kg1 Kg8 22. Kg2 Kg7 23. Kg1 Kg8 24. Kg2 Kg7 25. Kg1 Kg8 1/2-1/2";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -259,7 +259,7 @@ public class PGNToGameTest {
                 "81. b7 Kd7 82. Kd5 Ke8 83. Ke6 Kf8 84. Kf6 Kg8 85. b8=R+ Kh7\n" +
                 "86. Ra8 Kh6 87. Rh8# 1-0";
 
-        PGN pgn = new PGNStringDecoder().decodePGN(lines);
+        PGN pgn = PGN.from(lines);
 
         Game game = pgnToGame.encode(pgn);
 
@@ -278,7 +278,7 @@ public class PGNToGameTest {
 
     @Test
     public void testTranscoding01() throws IOException {
-        Stream<PGN> pgnStream = new PGNStringDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
+        Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
 
         List<FEN> fenPositions = pgnStream.map(Game::from).map(Game::getCurrentFEN).toList();
 

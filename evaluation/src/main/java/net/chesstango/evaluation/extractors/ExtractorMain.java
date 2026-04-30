@@ -9,6 +9,7 @@ import net.chesstango.gardel.epd.EPDDecoder;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -32,17 +33,17 @@ public class ExtractorMain {
         //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all-w.epd", "WHITE_WON");
         //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all-b.epd", "BLACK_WON");
 
-        extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-white.txt", "WHITE_WON");
-        extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-black.txt", "BLACK_WON");
-        extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-draw.txt", "DRAW");
+        //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-white.txt", "WHITE_WON");
+        //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-black.txt", "BLACK_WON");
+        //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-draw.txt", "DRAW");
 
         whiteToFile(featuresList);
     }
 
-    private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) {
+    private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) throws IOException {
         EPDDecoder EPDDecoder = new EPDDecoder();
 
-        List<EPD> epdList = EPDDecoder.readEpdFile(fileName);
+        Stream<EPD> epdList = EPDDecoder.decodeEPDs(Path.of(fileName));
 
         epdList.forEach(epdEntry -> {
             Map<String, Integer> features = new HashMap<>();

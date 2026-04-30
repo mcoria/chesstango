@@ -10,7 +10,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENObjectBuilder;
 import net.chesstango.piazzolla.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -914,7 +914,7 @@ public class GameTest {
 
     @Test
     public void test_encode_with_clocks1() {
-        FENBuilder coder = new FENBuilder();
+        FENObjectBuilder coder = new FENObjectBuilder();
 
         Game game = Game.from(FEN.START_POSITION);
 
@@ -927,7 +927,7 @@ public class GameTest {
 
     @Test
     public void test_encode_with_clocks2() {
-        FENBuilder coder = new FENBuilder();
+        FENObjectBuilder coder = new FENObjectBuilder();
 
         Game game = Game.from(FEN.START_POSITION);
 
@@ -943,7 +943,7 @@ public class GameTest {
 
     @Test
     public void test_encode_with_clocks3() {
-        FENBuilder coder = new FENBuilder();
+        FENObjectBuilder coder = new FENObjectBuilder();
 
         Game game = Game.from(FEN.START_POSITION);
 

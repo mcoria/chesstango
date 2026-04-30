@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENObjectBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,7 +91,7 @@ public class GameMockLoader {
                 node.gameState = game.getState();
             }
 
-            FENBuilder fenBuilder = new FENBuilder();
+            FENObjectBuilder fenBuilder = new FENObjectBuilder();
             node.position.export(fenBuilder);
             String fenFromPosition = fenBuilder.getPositionRepresentation().toString();
 

@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.pgn.PGN;
-import net.chesstango.gardel.pgn.PGNStringEncoder;
+import net.chesstango.gardel.pgn.PGNEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +57,7 @@ public class GameToPGNTest {
                 
                 1. e4 d5 2. Nf3 dxe4 *
                 """;
-        String encodedGame = new PGNStringEncoder().encode(pgn);
+        String encodedGame = new PGNEncoder().encode(pgn);
         assertEquals(expectedResult, encodedGame);
     }
 
@@ -104,7 +104,7 @@ public class GameToPGNTest {
                 """;
 
 
-        String encodedGame = new PGNStringEncoder().encode(pgn);
+        String encodedGame = new PGNEncoder().encode(pgn);
 
         assertEquals(expectedResult, encodedGame);
     }
@@ -131,7 +131,7 @@ public class GameToPGNTest {
                 """;
 
 
-        String encodedGame = new PGNStringEncoder().encode(pgn);
+        String encodedGame = new PGNEncoder().encode(pgn);
 
         assertEquals(expectedResult, encodedGame);
     }
@@ -161,7 +161,7 @@ public class GameToPGNTest {
                 "1. Qc6+ Kb8 2. Qd6+ Ka8 3. Qc7 1/2-1/2\n";
 
 
-        String encodedGame = new PGNStringEncoder().encode(pgn);
+        String encodedGame = new PGNEncoder().encode(pgn);
 
         assertEquals(expectedResult, encodedGame);
     }

@@ -5,7 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENObjectBuilder;
 
 /**
  * @author Mauricio Coria
@@ -43,7 +43,7 @@ public class GameDebugEncoder {
                 theGame.executeMove(move.getFrom().square(), move.getTo().square());
             }
 
-            FENBuilder fenBuilder = new FENBuilder();
+            FENObjectBuilder fenBuilder = new FENObjectBuilder();
             PositionReader theGamePositionReader = theGame.getPosition();
             theGamePositionReader.export(fenBuilder);
 
