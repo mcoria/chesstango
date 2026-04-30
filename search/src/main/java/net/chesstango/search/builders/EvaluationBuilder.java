@@ -82,6 +82,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     @Override
     public void build() {
+        if(evaluatorImp == null) {
+            throw new RuntimeException("You must set a game evaluator");
+        }
+
         buildObjects();
 
         setupListenerMediator();

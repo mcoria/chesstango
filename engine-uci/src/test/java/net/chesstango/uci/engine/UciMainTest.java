@@ -68,8 +68,11 @@ public class UciMainTest {
             out.println("isready");
             assertEquals("readyok", in.readLine());
 
-            // isrpositioneady command
+            // position command
             out.println("position startpos moves e2e4");
+
+            // go command
+            out.println("go depth 1");
 
             // quit command
             out.println("quit");
