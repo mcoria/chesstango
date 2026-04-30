@@ -226,6 +226,6 @@ public interface Game {
      * @return a new Game instance initialized using the FEN derived from the EPD
      */
     static Game from(EPD epd) {
-        return from(FEN.of(epd.getFenWithoutClocks() + " 0 1"));
+        return from(FEN.from(epd.getFenWithoutClocks() + " 0 1"));
     }
 }

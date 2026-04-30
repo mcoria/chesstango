@@ -77,7 +77,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCaptureMove() {
-        Position position = Position.from(FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2"));
+        Position position = Position.from(FEN.from("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -94,7 +94,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleWhiteKing() {
-        Position position = Position.from(FEN.of("8/8/8/8/8/8/8/4K2R w K - 0 1"));
+        Position position = Position.from(FEN.from("8/8/8/8/8/8/8/4K2R w K - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -116,7 +116,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleWhiteQueen() {
-        Position position = Position.from(FEN.of("8/8/8/8/8/8/8/R3K3 w Q - 0 1"));
+        Position position = Position.from(FEN.from("8/8/8/8/8/8/8/R3K3 w Q - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -138,7 +138,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleBlackKing() {
-        Position position = Position.from(FEN.of("4k2r/8/8/8/8/8/8/8 b k - 0 1"));
+        Position position = Position.from(FEN.from("4k2r/8/8/8/8/8/8/8 b k - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -160,7 +160,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleBlackQueen() {
-        Position position = Position.from(FEN.of("r3k3/8/8/8/8/8/8/8 b q - 0 1"));
+        Position position = Position.from(FEN.from("r3k3/8/8/8/8/8/8/8 b q - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -183,7 +183,7 @@ public class ZobristHashTest {
 
     private long getPolyglotKey(String fen) {
         PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
-        FEN.of(fen).export(polyglotKeyBuilder);
+        FEN.from(fen).export(polyglotKeyBuilder);
         return polyglotKeyBuilder.getPositionRepresentation();
     }
 

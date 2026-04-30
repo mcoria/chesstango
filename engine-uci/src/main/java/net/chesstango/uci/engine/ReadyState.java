@@ -57,7 +57,7 @@ class ReadyState implements UCIEngine {
     public void do_position(ReqPosition cmdPosition) {
         FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
                 ? FEN.START_POSITION
-                : FEN.of(cmdPosition.getFen());
+                : FEN.from(cmdPosition.getFen());
 
         uciTango.setSessionFEN(startPosition);
 

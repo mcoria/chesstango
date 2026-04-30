@@ -267,7 +267,7 @@ public class CastlingBlackKingTest {
 
     private long getPolyglotKey(String fen){
         PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
-        FEN.of(fen).export(polyglotKeyBuilder);
+        FEN.from(fen).export(polyglotKeyBuilder);
         return polyglotKeyBuilder.getPositionRepresentation();
     }
 }

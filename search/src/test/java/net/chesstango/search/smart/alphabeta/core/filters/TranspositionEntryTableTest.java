@@ -73,8 +73,8 @@ public class TranspositionEntryTableTest {
 
 
     public void executeTest(String fen, int depth) {
-        Game game01 = Game.from(FEN.of(fen));
-        Game game02 = Game.from(FEN.of(fen));
+        Game game01 = Game.from(FEN.from(fen));
+        Game game02 = Game.from(FEN.from(fen));
 
         searchWithoutTT.accept(new SetMaxDepthVisitor(depth));
         searchResultWithoutTT = searchWithoutTT.startSearch(game01);
@@ -92,9 +92,9 @@ public class TranspositionEntryTableTest {
     }
 
     private void debugTT(String fen, int evaluation, int depth, Search searchMethod1, Search searchMethod2) {
-        if (depth > 0 && Game.from(FEN.of(fen)).getStatus().isInProgress()) {
-            Game game01 = Game.from(FEN.of(fen));
-            Game game02 = Game.from(FEN.of(fen));
+        if (depth > 0 && Game.from(FEN.from(fen)).getStatus().isInProgress()) {
+            Game game01 = Game.from(FEN.from(fen));
+            Game game02 = Game.from(FEN.from(fen));
 
             SearchResult searchResult01 = searchMethod1.startSearch(game01);
 
@@ -104,7 +104,7 @@ public class TranspositionEntryTableTest {
 
             Move bestMove = searchResult01.getBestMove();
 
-            debugTT(Game.from(FEN.of(fen)).executeMove(bestMove.getFrom().square(), bestMove.getTo().square()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
+            debugTT(Game.from(FEN.from(fen)).executeMove(bestMove.getFrom().square(), bestMove.getTo().square()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
 
             assertEquals(searchResult01.getBestEvaluation(), searchResult02.getBestEvaluation());
 

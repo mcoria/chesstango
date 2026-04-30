@@ -63,12 +63,12 @@ public class EvaluatorImp03Test extends EvaluatorTestCollection {
         final int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
 
-        game = Game.from(FEN.of("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        game = Game.from(FEN.from("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         evaluator.setGame(game);
         final int evalWhite = evaluator.evaluateByMaterial();
         assertTrue(evalWhite > 0);
 
-        game = Game.from(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"));
+        game = Game.from(FEN.from("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"));
         evaluator.setGame(game);
         final int evalBlack = evaluator.evaluateByMaterial();
         assertTrue(evalBlack < 0);
@@ -89,13 +89,13 @@ public class EvaluatorImp03Test extends EvaluatorTestCollection {
         int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
 
-        game = Game.from(FEN.of("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        game = Game.from(FEN.from("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval > 0);
 
 
-        game = Game.from(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"));
+        game = Game.from(FEN.from("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"));
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval < 0);

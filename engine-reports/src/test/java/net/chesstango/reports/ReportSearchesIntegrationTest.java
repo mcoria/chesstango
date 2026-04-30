@@ -80,7 +80,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_01() {
-        Game game = Game.from(FEN.of("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22"));
+        Game game = Game.from(FEN.from("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22"));
 
         search.accept(new SetMaxDepthVisitor(8));
         searchResult = search.startSearch(game);
@@ -89,7 +89,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_02() {
-        Game game = Game.from(FEN.of("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1"));
+        Game game = Game.from(FEN.from("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(3));
         searchResult = search.startSearch(game);
@@ -99,7 +99,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_03() {
-        Game game = Game.from(FEN.of("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43"));
+        Game game = Game.from(FEN.from("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43"));
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
@@ -109,7 +109,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_04() {
-        Game game = Game.from(FEN.of("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39"));
+        Game game = Game.from(FEN.from("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39"));
 
         search.accept(new SetMaxDepthVisitor(9));
         searchResult = search.startSearch(game);
@@ -119,7 +119,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_06() {
-        Game game = Game.from(FEN.of("R7/P4k2/8/8/8/8/r7/6K1 w - - 0 1"));
+        Game game = Game.from(FEN.from("R7/P4k2/8/8/8/8/r7/6K1 w - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(9));
         searchResult = search.startSearch(game);
@@ -128,7 +128,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_07() {
-        Game game = Game.from(FEN.of("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22"));
+        Game game = Game.from(FEN.from("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22"));
 
         search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
@@ -137,7 +137,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_08() {
-        Game game = Game.from(FEN.of("7k/6p1/8/8/8/N7/8/K7 w - - 0 1"));
+        Game game = Game.from(FEN.from("7k/6p1/8/8/8/N7/8/K7 w - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(10));
         searchResult = search.startSearch(game);
@@ -147,7 +147,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_09() {
-        Game game = Game.from(FEN.of("rnb2rk1/pp3ppp/4pn2/2q5/1Q2P3/P1P2P2/3B2PP/R3KBNR b KQ - 4 12"));
+        Game game = Game.from(FEN.from("rnb2rk1/pp3ppp/4pn2/2q5/1Q2P3/P1P2P2/3B2PP/R3KBNR b KQ - 4 12"));
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
@@ -156,7 +156,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_11() {
-        Game game = Game.from(FEN.of("1r2r1k1/pp3p1p/3pb1pB/4b3/P2pQ3/1PqP2P1/2P2RBP/3R2K1 b - - 2 23"));
+        Game game = Game.from(FEN.from("1r2r1k1/pp3p1p/3pb1pB/4b3/P2pQ3/1PqP2P1/2P2RBP/3R2K1 b - - 2 23"));
 
         search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
@@ -166,7 +166,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_12() {
-        Game game = Game.from(FEN.of("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49"));
+        Game game = Game.from(FEN.from("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49"));
 
         search.accept(new SetMaxDepthVisitor(8));
         searchResult = search.startSearch(game);
@@ -175,7 +175,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_13() {
-        Game game = Game.from(FEN.of("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
+        Game game = Game.from(FEN.from("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(1));
         searchResult = search.startSearch(game);
@@ -184,7 +184,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_14() {
-        Game game = Game.from(FEN.of("rq3k2/1p3bp1/2p1pp1p/2P5/1P2PPP1/4Q2P/6BK/3R4 b - - 0 1"));
+        Game game = Game.from(FEN.from("rq3k2/1p3bp1/2p1pp1p/2P5/1P2PPP1/4Q2P/6BK/3R4 b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
@@ -196,7 +196,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_15() {
-        Game game = Game.from(FEN.of("r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - - 0 1"));
+        Game game = Game.from(FEN.from("r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
@@ -206,7 +206,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_16() {
-        Game game = Game.from(FEN.of("8/8/5k2/3BR3/5pP1/4P2P/8/6K1 w - - 0 50"));
+        Game game = Game.from(FEN.from("8/8/5k2/3BR3/5pP1/4P2P/8/6K1 w - - 0 50"));
 
         search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
@@ -215,7 +215,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_17() {
-        Game game = Game.from(FEN.of("rnb4k/pp3prp/2p2N2/3Ppp1Q/2B2q2/3P4/PPP4P/R5RK w - - 0 1"));
+        Game game = Game.from(FEN.from("rnb4k/pp3prp/2p2N2/3Ppp1Q/2B2q2/3P4/PPP4P/R5RK w - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(1));
         searchResult = search.startSearch(game);
@@ -224,7 +224,7 @@ public class ReportSearchesIntegrationTest {
     @Test
     @Disabled
     public void testSearch_18() {
-        Game game = Game.from(FEN.of("1r1qr1k1/p5b1/2p2ppp/3p4/1Pp5/P1Nn1Q2/3BN1PP/R4RK1 b - - 0 1"));
+        Game game = Game.from(FEN.from("1r1qr1k1/p5b1/2p2ppp/3p4/1Pp5/P1Nn1Q2/3BN1PP/R4RK1 b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);

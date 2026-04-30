@@ -25,7 +25,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_moveQueen() {
         // hay que sacar a la reina negra de donde esta, sino se la morfa el caballo
-        Game game = Game.from(FEN.of("r1b1kb1r/ppp1ppp1/n2q1n2/1N1P3p/3P4/5N2/PPP2PPP/R1BQKB1R b KQkq - 1 1"));
+        Game game = Game.from(FEN.from("r1b1kb1r/ppp1ppp1/n2q1n2/1N1P3p/3P4/5N2/PPP2PPP/R1BQKB1R b KQkq - 1 1"));
 
         search.accept(new SetMaxDepthVisitor(2));
         SearchResult searchResult = search.startSearch(game);
@@ -45,7 +45,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_imminentMateIn2Moves() {
         // Black will be in checkmate in the next 1 move
-        Game game = Game.from(FEN.of("8/2kQ2P1/8/1pP5/8/1B3P2/3R4/6K1 b - - 1 1"));
+        Game game = Game.from(FEN.from("8/2kQ2P1/8/1pP5/8/1B3P2/3R4/6K1 b - - 1 1"));
 
         search.accept(new SetMaxDepthVisitor(2));
         SearchResult searchResult = search.startSearch(game);
@@ -63,7 +63,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_imminentMateIn4Moves() {
         // Black will be in checkmate in the next 2 move
-        Game game = Game.from(FEN.of("8/2kQ4/6P1/1pP5/8/1B3P2/3R4/6K1 b - - 1 1"));
+        Game game = Game.from(FEN.from("8/2kQ4/6P1/1pP5/8/1B3P2/3R4/6K1 b - - 1 1"));
 
         search.accept(new SetMaxDepthVisitor(4));
         SearchResult searchResult = search.startSearch(game);
@@ -81,7 +81,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_Mate() {
         // Black can win the game in the next move
-        Game game = Game.from(FEN.of("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1"));
+        Game game = Game.from(FEN.from("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1"));
 
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
@@ -100,7 +100,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test //Max Walter vs. Emanuel Lasker
     public void test_MateInThree() {
 
-        Game game = Game.from(FEN.of("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1"));
+        Game game = Game.from(FEN.from("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);

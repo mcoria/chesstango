@@ -49,7 +49,7 @@ public interface Position extends PositionReader, PositionWriter {
      * @return a {@code Position} object representing the chessboard described by the FEN string
      */
     static Position fromFEN(String fen) {
-        return from(FEN.of(fen));
+        return from(FEN.from(fen));
     }
 
     /**

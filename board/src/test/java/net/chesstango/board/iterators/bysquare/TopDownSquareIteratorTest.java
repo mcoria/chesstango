@@ -30,7 +30,7 @@ public class TopDownSquareIteratorTest {
 
 	@Test
 	public void testTopDownSquareIterator() {
-		FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1").export(builder);
+		FEN.from("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1").export(builder);
 		
 		SquareBoard tablero =  builder.getPositionRepresentation();
 

@@ -54,7 +54,7 @@ public class PositionAnalyzerTest {
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FEN.of(string).export(builder);
+        FEN.from(string).export(builder);
 
         return builder.getPositionRepresentation();
     }

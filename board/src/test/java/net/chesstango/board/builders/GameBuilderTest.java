@@ -23,7 +23,7 @@ public class GameBuilderTest {
 
     @Test
     public void testBuildWithEnPassantSquare() {
-        FEN.of("rnbqkb1r/5ppp/p2ppn2/1p6/3NP3/2N1BP2/PPP3PP/R2QKB1R w KQkq b6 0 8").export(builder);
+        FEN.from("rnbqkb1r/5ppp/p2ppn2/1p6/3NP3/2N1BP2/PPP3PP/R2QKB1R w KQkq b6 0 8").export(builder);
 
         Game game = builder.getPositionRepresentation();
 

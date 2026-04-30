@@ -201,7 +201,7 @@ public class PVCalculatorTriangularTest {
 
     @Test
     public void test_calculatePrincipalVariation_depth01_EGTB() {
-        game = Game.from(FEN.of("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
+        game = Game.from(FEN.from("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
         pvCalculator.setGame(game);
         pvCalculator.beforeSearch();
 

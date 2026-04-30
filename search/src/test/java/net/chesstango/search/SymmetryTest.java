@@ -40,7 +40,7 @@ public class SymmetryTest {
                 .withGameEvaluator(new EvaluatorByMaterial())
                 //.withDebugSearchTree(true, false, true)
                 .build();
-        Game game1 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
+        Game game1 = Game.from(FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
         search1.accept(new SetMaxDepthVisitor(depthAnalysis));
         SearchResult searchResultBlack = search1.startSearch(game1);
 
@@ -51,7 +51,7 @@ public class SymmetryTest {
                 .withGameEvaluator(new EvaluatorByMaterial())
                 //.withDebugSearchTree(true, false, true)
                 .build();
-        Game game2 = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
+        Game game2 = Game.from(FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
         search2.accept(new SetMaxDepthVisitor(depthAnalysis));
         SearchResult searchResultWhite = search2.startSearch(game2);
 
@@ -89,7 +89,7 @@ public class SymmetryTest {
 
     @Test
     public void symmetry_Mate02() {
-        Game game = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1"));
+        Game game = Game.from(FEN.from("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1"));
 
         Search search = buildSearch();
 
@@ -107,7 +107,7 @@ public class SymmetryTest {
         /**
          * Testing mirror
          */
-        Game mirrorGame = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1")).mirror();
+        Game mirrorGame = Game.from(FEN.from("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - - 0 1")).mirror();
 
         Search searchMirror = buildSearch();
 

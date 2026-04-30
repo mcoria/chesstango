@@ -111,7 +111,7 @@ public class GameToPGNTest {
 
     @Test
     public void test_draw() {
-        Game game = Game.from(FEN.of("k7/7Q/K7/8/8/8/8/8 w - - 0 1"));
+        Game game = Game.from(FEN.from("k7/7Q/K7/8/8/8/8/8 w - - 0 1"));
         game.executeMove(Square.h7, Square.c7);
 
         PGN pgn = gameToPGN.decode(game);
@@ -138,7 +138,7 @@ public class GameToPGNTest {
 
     @Test
     public void test_check_draw() {
-        Game game = Game.from(FEN.of("k7/8/K7/2Q5/8/8/8/8 w - - 1 1"));
+        Game game = Game.from(FEN.from("k7/8/K7/2Q5/8/8/8/8 w - - 1 1"));
 
         game.executeMove(Square.c5, Square.c6);
         game.executeMove(Square.a8, Square.b8);

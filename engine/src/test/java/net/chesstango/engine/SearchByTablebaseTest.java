@@ -41,7 +41,7 @@ public class SearchByTablebaseTest {
         when(syzygy.tb_largest()).thenReturn(5);
         when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x2002D30);
 
-        Game game = Game.from(FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setStartSearchInstant(Instant.now())
                 .setGame(game);
@@ -59,7 +59,7 @@ public class SearchByTablebaseTest {
         when(syzygy.tb_largest()).thenReturn(5);
         when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x1B029A4);
 
-        Game game = Game.from(FEN.of("8/8/8/8/8/4k3/2R5/1K6 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/4k3/2R5/1K6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setStartSearchInstant(Instant.now())
                 .setGame(game);
@@ -77,7 +77,7 @@ public class SearchByTablebaseTest {
         when(syzygy.tb_largest()).thenReturn(5);
         when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x1DBE2);
 
-        Game game = Game.from(FEN.of("8/6P1/8/7K/3k4/8/8/1q6 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/6P1/8/7K/3k4/8/8/1q6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setStartSearchInstant(Instant.now())
                 .setGame(game);
@@ -93,7 +93,7 @@ public class SearchByTablebaseTest {
 
     @Test
     public void testBindSyzygyPosition01() {
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
 
         SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
         game.getPosition().export(positionBuilder);
@@ -106,7 +106,7 @@ public class SearchByTablebaseTest {
 
     @Test
     public void testBindSyzygyPosition02() {
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 3 10"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2R5/1K6 w - - 3 10"));
 
         SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
         game.getPosition().export(positionBuilder);
@@ -119,7 +119,7 @@ public class SearchByTablebaseTest {
 
     @Test
     public void testBindSyzygyPosition03() {
-        Game game = Game.from(FEN.of("8/5K2/5p2/5Pp1/8/8/3k4/8 w - g6 0 1"));
+        Game game = Game.from(FEN.from("8/5K2/5p2/5Pp1/8/8/3k4/8 w - g6 0 1"));
 
         SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
         game.getPosition().export(positionBuilder);

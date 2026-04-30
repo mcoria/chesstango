@@ -268,7 +268,7 @@ public class PGNToGameTest {
 
     @Test
     public void testOf01() throws IOException {
-        Game game = Game.from(FEN.of("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
+        Game game = Game.from(FEN.from("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
         game.executeMove(Square.a7, Square.a6);
 
         PGN pgn = game.encode();
@@ -293,7 +293,7 @@ public class PGNToGameTest {
                         "r1b1kb1r/pp1n1pp1/2p1pq1p/3p4/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQkq - 1 8",
                         "r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/2N1PN2/PPQ2PPP/R1B1KB1R w KQkq - 4 7",
                         "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6")
-                .map(FEN::of)
+                .map(FEN::from)
                 .toList();
 
         for (int i = 0; i < 10; i++) {

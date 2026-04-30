@@ -57,7 +57,7 @@ public class TangoIntegrationTest {
 
         try (Tango tango = Tango.open(config)) {
             Session session = tango.newSession();
-            session.setFen(FEN.of("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 1"));
+            session.setFen(FEN.from("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 1"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture = session.goDepth(1);
             SearchResponse searchResponse = searchResponseFuture.get();
@@ -82,7 +82,7 @@ public class TangoIntegrationTest {
 
         try (Tango tango = Tango.open(config)) {
             Session session = tango.newSession();
-            session.setFen(FEN.of("8/8/3P4/8/5k2/p2K1p2/P7/8 b - - 0 1"));
+            session.setFen(FEN.from("8/8/3P4/8/5k2/p2K1p2/P7/8 b - - 0 1"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture = session.goDepth(5);
             SearchResponse searchResponse = searchResponseFuture.get();
@@ -107,7 +107,7 @@ public class TangoIntegrationTest {
 
         try (Tango tango = Tango.open(config)) {
             Session session = tango.newSession();
-            session.setFen(FEN.of("8/8/8/8/8/2k2KNp/5P1r/2R5 b - - 6 69"));
+            session.setFen(FEN.from("8/8/8/8/8/2k2KNp/5P1r/2R5 b - - 6 69"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture = session.goDepth(4);
             SearchResponse searchResponse = searchResponseFuture.get();

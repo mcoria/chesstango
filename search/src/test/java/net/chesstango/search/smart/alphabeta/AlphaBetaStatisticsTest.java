@@ -226,7 +226,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1"));
+        Game game = Game.from(FEN.from("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1"));
 
         moveFinder.accept(new SetMaxDepthVisitor(7));
         searchResult = moveFinder.startSearch(game);
@@ -255,7 +255,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1"));
+        Game game = Game.from(FEN.from("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1"));
 
         moveFinder.accept(new SetMaxDepthVisitor(7));
         searchResult = moveFinder.startSearch(game);
@@ -289,14 +289,14 @@ public class AlphaBetaStatisticsTest {
                 .build();
 
 
-        Game game = Game.from(FEN.of("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - - 0 1"));
         moveFinder.accept(new SetMaxDepthVisitor(5));
         searchResult = moveFinder.startSearch(game);
 
         /**
          * Ahora se prueba el inverso
          */
-        Game game1 = Game.from(FEN.of("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - 0 1"));
+        Game game1 = Game.from(FEN.from("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - 0 1"));
         moveFinder.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult1 = moveFinder.startSearch(game1);
 

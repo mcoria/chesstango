@@ -98,7 +98,7 @@ public class LichessGame implements Runnable, SearchListener {
             this.startPosition = FEN.START_POSITION;
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
-            this.startPosition = FEN.of(someFen.get());
+            this.startPosition = FEN.from(someFen.get());
         } else {
             throw new RuntimeException("GameVariant not supported variant");
         }

@@ -16,7 +16,7 @@ public class GameDebugEncoder {
         StringBuilder sb = new StringBuilder();
 
         String initialFEN = game.getInitialFEN().toString();
-        Game theGame = Game.from(FEN.of(initialFEN));
+        Game theGame = Game.from(FEN.from(initialFEN));
         sb.append("Game game = getGame(\"")
                 .append(initialFEN)
                 .append("\")\n");

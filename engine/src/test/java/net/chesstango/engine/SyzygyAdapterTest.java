@@ -37,7 +37,7 @@ public class SyzygyAdapterTest {
     public void whiteTurn_win() {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_WIN);
 
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
         syzygyAdapter.setGame(game);
         assertTrue(syzygyAdapter.isProbeAvailable());
         assertEquals(Evaluator.WHITE_WON, syzygyAdapter.evaluate());
@@ -47,7 +47,7 @@ public class SyzygyAdapterTest {
     public void whiteTurn_loss() {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_LOSS);
 
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2r5/1K6 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2r5/1K6 w - - 0 1"));
         syzygyAdapter.setGame(game);
         assertTrue(syzygyAdapter.isProbeAvailable());
         assertEquals(Evaluator.WHITE_LOST, syzygyAdapter.evaluate());
@@ -57,7 +57,7 @@ public class SyzygyAdapterTest {
     public void blackTurn_win() {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_WIN);
 
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2r5/1K6 b - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2r5/1K6 b - - 0 1"));
         syzygyAdapter.setGame(game);
         assertTrue(syzygyAdapter.isProbeAvailable());
         assertEquals(Evaluator.BLACK_WON, syzygyAdapter.evaluate());
@@ -67,7 +67,7 @@ public class SyzygyAdapterTest {
     public void blackTurn_loss() {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_LOSS);
 
-        Game game = Game.from(FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
         syzygyAdapter.setGame(game);
         assertTrue(syzygyAdapter.isProbeAvailable());
         assertEquals(Evaluator.BLACK_LOST, syzygyAdapter.evaluate());
@@ -75,7 +75,7 @@ public class SyzygyAdapterTest {
 
     @Test
     public void testBindSyzygyPosition01() {
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
 
         SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
         game.getPosition().export(positionBuilder);
@@ -89,7 +89,7 @@ public class SyzygyAdapterTest {
 
     @Test
     public void testBindSyzygyPosition02() {
-        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 3 10"));
+        Game game = Game.from(FEN.from("8/8/8/8/8/3k4/2R5/1K6 w - - 3 10"));
 
         SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
         game.getPosition().export(positionBuilder);
@@ -103,7 +103,7 @@ public class SyzygyAdapterTest {
 
     @Test
     public void testBindSyzygyPosition03() {
-        Game game = Game.from(FEN.of("8/5K2/5p2/5Pp1/8/8/3k4/8 w - g6 0 1"));
+        Game game = Game.from(FEN.from("8/5K2/5p2/5Pp1/8/8/3k4/8 w - g6 0 1"));
 
         SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
         game.getPosition().export(positionBuilder);

@@ -86,7 +86,7 @@ public class GameMockLoader {
         @Override
         public void visit(Node node) {
             if (node.position == null) {
-                Game game = Game.from(FEN.of(node.fen));
+                Game game = Game.from(FEN.from(node.fen));
                 node.position = game.getPosition();
                 node.gameState = game.getState();
             }
@@ -107,7 +107,7 @@ public class GameMockLoader {
             Matcher moveMatcher = movePattern.matcher(nodeLink.moveStr);
             if (moveMatcher.matches()) {
 
-                Game game = Game.from(FEN.of(nodeLink.parent.fen));
+                Game game = Game.from(FEN.from(nodeLink.parent.fen));
 
                 Move selectedMove = selectMove(game, nodeLink.moveStr);
 

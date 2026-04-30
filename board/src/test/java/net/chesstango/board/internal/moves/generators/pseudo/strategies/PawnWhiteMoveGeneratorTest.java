@@ -243,7 +243,7 @@ public class PawnWhiteMoveGeneratorTest {
     private SquareBoard getTablero(String string) {
         SquareBoardBuilder builder = new SquareBoardBuilder();
 
-        FEN.of(string).export(builder);
+        FEN.from(string).export(builder);
 
         return builder.getPositionRepresentation();
     }

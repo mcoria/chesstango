@@ -38,7 +38,7 @@ public class SearchByOpenBookTest {
     public void testSearch_CastlingWhiteKing() {
         when(book.search(0xBB2451EF62DACE33L)).thenReturn(List.of(new PolyglotEntry(0xBB2451EF62DACE33L, 4, 0, 7, 0, 130)));
 
-        Game game = Game.from(FEN.of("r2qkbnr/pp1n1pp1/2p1p2p/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq - 0 7"));
+        Game game = Game.from(FEN.from("r2qkbnr/pp1n1pp1/2p1p2p/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq - 0 7"));
 
         SearchContext context = new SearchContext()
                 .setStartSearchInstant(Instant.now())
@@ -61,7 +61,7 @@ public class SearchByOpenBookTest {
 
     @Test
     public void testPolyglotEntry_CastlingWhiteKing() {
-        Game game = Game.from(FEN.of("r2qkbnr/pp1n1pp1/2p1p2p/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq - 0 7"));
+        Game game = Game.from(FEN.from("r2qkbnr/pp1n1pp1/2p1p2p/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq - 0 7"));
 
         Optional<Move> optMove = SearchByOpenBook.polyglotEntryToMove(game, new PolyglotEntry(0xBB2451EF62DACE33L, 4, 0, 7, 0, 130));
 
@@ -77,7 +77,7 @@ public class SearchByOpenBookTest {
 
     @Test
     public void testPolyglotEntry_CastlingWhiteQueen() {
-        Game game = Game.from(FEN.of("r6r/pN1nkpp1/2p1pn1p/7P/3q4/1Q6/PPPN1PP1/R3K2R w KQ - 0 18"));
+        Game game = Game.from(FEN.from("r6r/pN1nkpp1/2p1pn1p/7P/3q4/1Q6/PPPN1PP1/R3K2R w KQ - 0 18"));
 
         Optional<Move> optMove = SearchByOpenBook.polyglotEntryToMove(game, new PolyglotEntry(0xBB2451EF62DACE33L, 4, 0, 0, 0, 130));
 
@@ -94,7 +94,7 @@ public class SearchByOpenBookTest {
 
     @Test
     public void testPolyglotEntry_CastlingBlackKing() {
-        Game game = Game.from(FEN.of("r1bqk2r/5ppp/p1np1b2/1p1Np3/4P3/N1P5/PP3PPP/R2QKB1R b KQkq - 0 12"));
+        Game game = Game.from(FEN.from("r1bqk2r/5ppp/p1np1b2/1p1Np3/4P3/N1P5/PP3PPP/R2QKB1R b KQkq - 0 12"));
 
         Optional<Move> optMove = SearchByOpenBook.polyglotEntryToMove(game, new PolyglotEntry(0xBB2451EF62DACE33L, 4, 7, 7, 7, 130));
 
@@ -110,7 +110,7 @@ public class SearchByOpenBookTest {
 
     @Test
     public void testPolyglotEntry_CastlingBlackQueen() {
-        Game game = Game.from(FEN.of("r3k2r/4bp2/pqbppp2/1p3P1p/4P2Q/2N5/PPP3PP/1K1R1B1R b kq - 3 16"));
+        Game game = Game.from(FEN.from("r3k2r/4bp2/pqbppp2/1p3P1p/4P2Q/2N5/PPP3PP/1K1R1B1R b kq - 3 16"));
 
         Optional<Move> optMove = SearchByOpenBook.polyglotEntryToMove(game, new PolyglotEntry(0xBB2451EF62DACE33L, 4, 7, 0, 7, 130));
 

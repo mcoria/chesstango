@@ -103,7 +103,7 @@ public class UciTangoTest {
         }
 
         verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.of("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        verify(session, times(1)).setFen(FEN.from("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 

@@ -63,7 +63,7 @@ public class SearchTest {
 
     @Test
     public void test_40H_069() {
-        Game game = Game.from(FEN.of("1B1Q1R2/8/qNrn3p/2p1rp2/Rn3k1K/8/5P2/bbN4B w - - 0 1"));
+        Game game = Game.from(FEN.from("1B1Q1R2/8/qNrn3p/2p1rp2/Rn3k1K/8/5P2/bbN4B w - - 0 1"));
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
@@ -89,7 +89,7 @@ public class SearchTest {
 
     @Test
     public void test_40H_10021() {
-        Game game = Game.from(FEN.of("3k4/p2r4/1pR4p/4Q3/8/5P2/q5P1/6K1 w - - 0 1"));
+        Game game = Game.from(FEN.from("3k4/p2r4/1pR4p/4Q3/8/5P2/q5P1/6K1 w - - 0 1"));
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
@@ -115,7 +115,7 @@ public class SearchTest {
 
     @Test
     public void test_HashMismatch() {
-        Game game = Game.from(FEN.of("1Q1NR3/6pk/1r5p/3n1p1P/P2p4/1P1B4/1KP2q2/8 w - - 0 1"));
+        Game game = Game.from(FEN.from("1Q1NR3/6pk/1r5p/3n1p1P/P2p4/1P1B4/1KP2q2/8 w - - 0 1"));
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
@@ -141,7 +141,7 @@ public class SearchTest {
 
     @Test
     public void test_OutOfBound() {
-        Game game = Game.from(FEN.of("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 1 1"));
+        Game game = Game.from(FEN.from("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 1 1"));
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())

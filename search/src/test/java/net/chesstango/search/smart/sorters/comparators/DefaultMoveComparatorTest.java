@@ -353,8 +353,8 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void sort_Fried_Liver_Attack_Mirror() {
-        Game blackGame = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
-        Game whiteGame = Game.from(FEN.of("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
+        Game blackGame = Game.from(FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
+        Game whiteGame = Game.from(FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
 
         MoveContainerReader<Move> blackPossibleMoves = blackGame.getPossibleMoves();
         List<Move> blackPossibleMovesList = new ArrayList<>(blackPossibleMoves.size());
