@@ -53,9 +53,9 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, Acceptor, Searc
         if (epd.getBestMovesStr() != null) {
             String[] bestMoves = epd.getBestMovesStr().split(" ");
             String bestMoveStr = bestMoves[0];
-            this.targetMove = moveDecoder.decode(bestMoveStr, game.getCurrentFEN());
+            this.targetMove = moveDecoder.decode(bestMoveStr, game.toFEN());
         } else if (epd.getSuppliedMoveStr() != null) {
-            this.targetMove = moveDecoder.decode(epd.getSuppliedMoveStr(), game.getCurrentFEN());
+            this.targetMove = moveDecoder.decode(epd.getSuppliedMoveStr(), game.toFEN());
         }
 
         if (this.targetMove == null) {

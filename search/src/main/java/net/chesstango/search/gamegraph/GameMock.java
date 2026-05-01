@@ -105,7 +105,7 @@ public class GameMock implements Game {
     }
 
     @Override
-    public FEN getCurrentFEN() {
+    public FEN toFEN() {
         FENObjectBuilder builder = new FENObjectBuilder();
         getPosition().export(builder);
         return builder.getPositionRepresentation();

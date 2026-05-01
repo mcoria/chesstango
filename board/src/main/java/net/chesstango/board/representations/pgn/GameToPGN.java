@@ -39,7 +39,7 @@ public class GameToPGN {
 
             Move playedMove = currentStateHistory.playedMove();
 
-            String currentMoveStr = sanEncoder.encodeAlgebraicNotation(toMove(playedMove), theGame.getCurrentFEN());
+            String currentMoveStr = sanEncoder.encodeAlgebraicNotation(toMove(playedMove), theGame.toFEN());
 
             if (playedMove instanceof MovePromotion playedMovePromotion) {
                 theGame.executeMove(playedMovePromotion.getFrom().square(), playedMovePromotion.getTo().square(), playedMovePromotion.getPromotion());

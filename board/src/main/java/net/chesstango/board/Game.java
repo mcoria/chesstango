@@ -45,7 +45,7 @@ public interface Game {
      *
      * @return the current FEN
      */
-    FEN getCurrentFEN();
+    FEN toFEN();
 
     /**
      * Gets the current state of the game.
@@ -226,6 +226,6 @@ public interface Game {
      * @return a new Game instance initialized using the FEN derived from the EPD
      */
     static Game from(EPD epd) {
-        return from(FEN.from(epd.getFenWithoutClocks() + " 0 1"));
+        return from(epd.toFEN());
     }
 }

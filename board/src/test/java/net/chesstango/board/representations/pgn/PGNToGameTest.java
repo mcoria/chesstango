@@ -277,7 +277,7 @@ public class PGNToGameTest {
     public void testTranscoding01() throws IOException {
         Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
 
-        List<FEN> fenPositions = pgnStream.map(Game::from).map(Game::getCurrentFEN).toList();
+        List<FEN> fenPositions = pgnStream.map(Game::from).map(Game::toFEN).toList();
 
         List<FEN> expectedFenPositions = Stream.of(
                         "r2qkbnr/pp1n1ppp/2p1p3/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R b KQkq - 3 6",

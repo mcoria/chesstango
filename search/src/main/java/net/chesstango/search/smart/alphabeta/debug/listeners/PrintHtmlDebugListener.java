@@ -11,7 +11,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
@@ -64,7 +63,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     @Override
     public void beforeSearch() {
-        fen = game.getCurrentFEN();
+        fen = game.toFEN();
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.html", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);

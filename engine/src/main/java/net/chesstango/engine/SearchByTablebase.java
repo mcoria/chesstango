@@ -59,7 +59,7 @@ class SearchByTablebase implements SearchByChain {
             result = syzygy.tb_probe_root(syzygyPosition, results);
 
             if (result == TB_RESULT_FAILED) {
-                log.warn("Syzygy lookup failed: {}", game.getCurrentFEN());
+                log.warn("Syzygy lookup failed: {}", game.toFEN());
             }
         }
         return result;
@@ -88,7 +88,7 @@ class SearchByTablebase implements SearchByChain {
             log.debug("TableBase move found: {} - {}", simpleMoveEncoder.encode(move), SearchByTablebaseResult.wdlToString(syzygyResult));
             searchResponse = new SearchByTablebaseResult(move, syzygyResult, timeSearching);
         } else {
-            log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.getCurrentFEN());
+            log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.toFEN());
         }
 
         return searchResponse;

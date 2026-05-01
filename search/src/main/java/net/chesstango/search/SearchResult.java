@@ -22,6 +22,7 @@ import java.util.List;
 @Setter
 public class SearchResult implements Serializable {
 
+    // This id is used to identify the search result for reporting purposes.
     private String id;
 
     private EvaluationStatistics evaluationStatistics;

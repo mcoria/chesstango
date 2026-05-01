@@ -121,7 +121,7 @@ class SearchByOpenBook implements SearchByChain {
 
             return Optional.of(move);
         } else {
-            log.warn("Move not found fromIdx={} toIdx={} fen={}", from, to, game.getCurrentFEN());
+            log.warn("Move not found fromIdx={} toIdx={} fen={}", from, to, game.toFEN());
 
             return Optional.empty();
         }
