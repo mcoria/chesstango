@@ -52,7 +52,7 @@ public class GameToPGN {
             moveList.add(currentMoveStr);
         }
 
-        pgn.setMoveList(moveList);
+        pgn.setSanMoves(moveList);
 
         return pgn;
     }
@@ -85,9 +85,10 @@ public class GameToPGN {
 
     private PGN.Result encodeGameResult(Game game) {
         return switch (game.getStatus()) {
-                case NO_CHECK, CHECK -> PGN.Result.ONGOING;
-                case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> PGN.Result.DRAW;
-                case MATE -> Color.BLACK.equals(game.getPosition().getCurrentTurn()) ? PGN.Result.WHITE_WINS : PGN.Result.BLACK_WINS;
+            case NO_CHECK, CHECK -> PGN.Result.ONGOING;
+            case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> PGN.Result.DRAW;
+            case MATE ->
+                    Color.BLACK.equals(game.getPosition().getCurrentTurn()) ? PGN.Result.WHITE_WINS : PGN.Result.BLACK_WINS;
         };
     }
 }

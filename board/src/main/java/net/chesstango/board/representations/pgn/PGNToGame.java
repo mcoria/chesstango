@@ -16,7 +16,7 @@ public class PGNToGame {
         FEN fen = pgn.getFen() == null ? FEN.START_POSITION : pgn.getFen();
         Game game = Game.from(fen);
         SANDecoder<Move> sanDecoder = new SANDecoder<>(new TangoMoveSupplier(game));
-        pgn.getMoveList().forEach(moveStr -> {
+        pgn.getSanMoves().forEach(moveStr -> {
             if (game.getState().getStatus().isInProgress()) {
                 Move move = sanDecoder.decode(moveStr, game.toFEN());
                 if (move != null) {
