@@ -80,13 +80,6 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withEvaluationIterationReport) {
-            new EvaluationIterationReport()
-                    .setReportTitle(reportTitle)
-                    .withMoveResults(searchResultList)
-                    .printReport(out);
-        }
-
         if (withPrincipalVariationReport) {
             new PrincipalVariationReport()
                     .setReportTitle(reportTitle)
@@ -101,13 +94,6 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withTranspositionReport) {
-            new TranspositionReport()
-                    .setReportTitle(reportTitle)
-                    .withMoveResults(searchResultList)
-                    .printReport(out);
-        }
-
         if (withEvaluationReport) {
             new EvaluationReport()
                     .setReportTitle(reportTitle)
@@ -115,8 +101,22 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
+        if (withEvaluationIterationReport) {
+            new EvaluationIterationReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
         if (withEvaluationCacheReport) {
             new EvaluationCacheReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
+        if (withTranspositionReport) {
+            new TranspositionReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);
