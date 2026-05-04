@@ -38,7 +38,7 @@ public class GameToPGNTest {
 
         PGN pgn = gameToPGN.decode(game);
 
-        List<String> moves = pgn.getMoveList();
+        List<String> moves = pgn.getSanMoves();
         assertEquals("e4", moves.getFirst());
         assertEquals("d5", moves.get(1));
         assertEquals("Nf3", moves.get(2));
@@ -72,7 +72,7 @@ public class GameToPGNTest {
         List<EPD> pgnToEpd = pgn.toEPD().toList();
 
         assertEquals(1, pgnToEpd.size());
-        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"f1c2a586\";", pgnToEpd.getFirst().toString());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1; sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"1 w\";", pgnToEpd.getFirst().toString());
     }
 
 
