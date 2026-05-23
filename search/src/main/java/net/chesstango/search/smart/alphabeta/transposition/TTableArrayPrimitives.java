@@ -49,7 +49,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         }
         this.hashArray = new long[arraySize]; // 8 bytes * 2097152 elementos = 16MB table
         this.dataArray = new long[arraySize]; // 8 bytes * 2097152 elementos = 16MB table
-        this.currentAge = staleAge;
+        this.currentAge = staleAge + 1;
     }
 
     @Override
@@ -116,7 +116,6 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
             currentAge++;
         } else {
             clear();
-            currentAge++;
         }
     }
 
@@ -130,7 +129,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
             hashArray[i] = 0;
             dataArray[i] = 0;
         }
-        currentAge = staleAge;
+        currentAge = staleAge + 1;
     }
 
     public int getFillPercentage() {
