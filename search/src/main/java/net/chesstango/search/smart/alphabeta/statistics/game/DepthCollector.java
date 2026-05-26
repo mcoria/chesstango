@@ -18,6 +18,9 @@ public class DepthCollector implements Acceptor, SearchByCycleListener, SearchBy
     @Setter
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
+    @Setter
+    private int depth;
+
     @Getter
     private float exploredDepth;
 
@@ -40,7 +43,7 @@ public class DepthCollector implements Acceptor, SearchByCycleListener, SearchBy
     @Override
     public void afterSearchByDepth() {
         int evaluatedChild = rootMoveEvaluationCollection.getRootMoveEvaluations().size();
-        exploredDepth += (float) evaluatedChild / possibleMoves;
+        exploredDepth = (depth - 1) + (float) evaluatedChild / possibleMoves;
     }
 
     public void setGame(Game game) {

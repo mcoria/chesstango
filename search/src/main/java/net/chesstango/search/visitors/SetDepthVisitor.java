@@ -4,6 +4,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
+import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
@@ -87,6 +88,11 @@ public class SetDepthVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
         alphaBetaTerminalNodeStatistics.setDepth(depth);
+    }
+
+    @Override
+    public void visit(DepthCollector depthCollector) {
+        depthCollector.setDepth(depth);
     }
 
 }

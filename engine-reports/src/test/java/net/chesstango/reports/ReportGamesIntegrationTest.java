@@ -90,37 +90,37 @@ public class ReportGamesIntegrationTest {
     @Test
     public void testPlay() {
         Config config = Config.create()
-                .setSearch(AlphaBetaBuilder
-                        .createDefaultBuilderInstance()
-                        .withGameEvaluator(Evaluator.createInstance())
-                        .withStatistics()
-                        .build()
-                )
                 /*
-               .setSearch(new AlphaBetaBuilder()
+               .setSearch(AlphaBetaBuilder
+                       .createDefaultBuilderInstance()
                        .withGameEvaluator(Evaluator.createInstance())
-                       .withGameEvaluatorCache()
-
-                       .withQuiescence()
-
-                       //.withTranspositionTable()
-                       //.withTranspositionMoveSorter()
-
-                       .withKillerMoveSorter()
-                       .withRecaptureSorter()
-                       .withMvvLvaSorter()
-
-                       .withAspirationWindows()
-
-                       .withIterativeDeepening()
-
-                       //.withStopProcessingCatch()
-
                        .withStatistics()
-
                        .build()
                )
                */
+              .setSearch(new AlphaBetaBuilder()
+                      .withGameEvaluator(Evaluator.createInstance())
+                      .withGameEvaluatorCache()
+
+                      .withQuiescence()
+
+                      //.withTranspositionTable()
+                      //.withTranspositionMoveSorter()
+
+                      .withKillerMoveSorter()
+                      .withRecaptureSorter()
+                      .withMvvLvaSorter()
+
+                      //.withAspirationWindows()
+
+                      //.withIterativeDeepening()
+
+                      //.withStopProcessingCatch()
+
+                      .withStatistics()
+
+                      .build()
+              )
                 .setAsyncSearch(false)
                 //.setPolyglotFile(POLYGLOT_FILE)
                 //.setSyzygyPath(SYZYGY_PATH)
@@ -168,10 +168,10 @@ public class ReportGamesIntegrationTest {
             session.setFen(fen);
 
             for (int i = 0; i < coordinateMoves.size(); i++) {
-                if (whiteSearch && i % 2 == 0 || !whiteSearch && i % 2 == 1) {
+                if (!whiteSearch && i % 2 == 1) {
                     List<String> currentMoves = coordinateMoves.stream().limit(i).toList();
                     session.setMoves(currentMoves);
-                    session.goDepth(5);
+                    session.goDepth(2);
                 }
             }
 

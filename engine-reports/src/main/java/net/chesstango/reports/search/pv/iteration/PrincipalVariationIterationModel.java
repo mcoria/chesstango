@@ -58,7 +58,7 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
         Move bestMove = searchResult.getBestMove();
         modelDetail.id = searchResult.getId();
         modelDetail.move = SimpleMoveEncoder.INSTANCE.encode(bestMove);
-        modelDetail.maxIteration = searchResult.getMaxSearchDepth();
+        modelDetail.maxIteration = searchResult.getSearchResultByDepths().size();
 
         List<Boolean> completeList = searchResult.getSearchResultByDepths()
                 .stream()
