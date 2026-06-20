@@ -34,7 +34,7 @@ public class UciTangoTest {
 
 
     @Test
-    public void test1_setPolyglotFile() {
+    public void shouldSetPolyglotFileWhenOptionProvided() {
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
         try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
@@ -48,7 +48,7 @@ public class UciTangoTest {
 
 
     @Test
-    public void test1_setSyzygyPath() {
+    public void shouldSetSyzygyPathWhenOptionProvided() {
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
         try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
@@ -62,7 +62,7 @@ public class UciTangoTest {
 
 
     @Test
-    public void test1_setHash() {
+    public void shouldSetHashSizeWhenOptionProvided() {
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
         try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
@@ -75,7 +75,7 @@ public class UciTangoTest {
     }
 
     @Test
-    public void test1_execute_position_startpos_01() {
+    public void shouldExecutePositionWithSingleMove() {
         when(tango.newSession()).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
@@ -95,7 +95,7 @@ public class UciTangoTest {
     }
 
     @Test
-    public void test1_execute_position_startpos_02() {
+    public void shouldExecutePositionWithLongMoveSequence() {
         when(tango.newSession()).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
@@ -115,7 +115,7 @@ public class UciTangoTest {
     }
 
     @Test
-    public void test1_execute_position_startpos_03() {
+    public void shouldExecutePositionWithComplexGameMoves() {
         when(tango.newSession()).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
@@ -135,7 +135,7 @@ public class UciTangoTest {
     }
 
     @Test
-    public void test1_execute_position_fen() {
+    public void shouldExecutePositionWithCustomFen() {
         when(tango.newSession()).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
@@ -154,7 +154,7 @@ public class UciTangoTest {
 
 
     @Test
-    public void test_play() throws IOException, InterruptedException {
+    public void shouldTransitionThroughStatesCorrectly() throws IOException, InterruptedException {
         when(tango.newSession()).thenReturn(session);
 
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -202,5 +202,8 @@ public class UciTangoTest {
             // quit command
             engine.accept(UCIRequest.quit());
         }
+
+        verify(tango, times(1)).newSession();
+        verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 }
