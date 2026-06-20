@@ -200,6 +200,6 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void setHashSize(String hashSize) {
-        tango.setHashSize(Integer.getInteger(hashSize));
+        tango.setHashSize(Integer.parseInt(hashSize));
     }
 }
