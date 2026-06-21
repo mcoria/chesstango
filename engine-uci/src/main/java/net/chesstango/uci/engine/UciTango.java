@@ -184,7 +184,7 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void goFast(int wTime, int bTime, int wInc, int bInc) {
-        session.goFast(wTime, bTime, wInc, bInc);
+        session.goFast(wTime, wInc, bTime, bInc);
     }
 
     void setSessionSearchListener(SearchListener searchListener) {

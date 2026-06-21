@@ -72,8 +72,8 @@ public class Session {
         return searchManager.searchTime(getGame(), timeOut, sessionSearchListener);
     }
 
-    public Future<SearchResponse> goFast(int wTime, int bTime, int wInc, int bInc) {
-        return searchManager.searchFast(getGame(), wTime, bTime, wInc, bInc, sessionSearchListener);
+    public Future<SearchResponse> goFast(int wTime, int wInc, int bTime, int bInc) {
+        return searchManager.searchFast(getGame(), wTime, wInc, bTime, bInc, sessionSearchListener);
     }
 
     public void stopSearching() {

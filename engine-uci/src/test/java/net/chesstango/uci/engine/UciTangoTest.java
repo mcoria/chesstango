@@ -87,11 +87,13 @@ public class UciTangoTest {
             engine.accept(UCIRequest.uci());
             engine.accept(UCIRequest.ucinewgame());
             engine.accept(UCIRequest.position(moveList));
+            engine.accept(UCIRequest.goInfinite());
         }
 
         verify(tango, times(1)).newSession();
         verify(session, times(1)).setFen(FEN.START_POSITION);
         verify(session, times(1)).setMoves(moveList);
+        verify(session, times(1)).goInfinite();
     }
 
     @Test
@@ -107,11 +109,13 @@ public class UciTangoTest {
             engine.accept(UCIRequest.uci());
             engine.accept(UCIRequest.ucinewgame());
             engine.accept(UCIRequest.position(moveList));
+            engine.accept(UCIRequest.goDepth(5));
         }
 
         verify(tango, times(1)).newSession();
         verify(session, times(1)).setFen(FEN.START_POSITION);
         verify(session, times(1)).setMoves(moveList);
+        verify(session, times(1)).goDepth(5);
     }
 
     @Test
@@ -127,11 +131,13 @@ public class UciTangoTest {
             engine.accept(UCIRequest.uci());
             engine.accept(UCIRequest.ucinewgame());
             engine.accept(UCIRequest.position(moveList));
+            engine.accept(UCIRequest.goFast(1000, 10, 2000, 20));
         }
 
         verify(tango, times(1)).newSession();
         verify(session, times(1)).setFen(FEN.START_POSITION);
         verify(session, times(1)).setMoves(moveList);
+        verify(session, times(1)).goFast(1000, 10, 2000, 20);
     }
 
     @Test

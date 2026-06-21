@@ -144,7 +144,7 @@ public class LichessGame implements Runnable, SearchListener {
 
             try {
                 SearchResponse searchResponse = session
-                        .goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc)
+                        .goFast((int) wTime, (int) wInc, (int) bTime, (int) bInc)
                         .get();
 
                 String moveUci = simpleMoveEncoder.encode(searchResponse.move());
