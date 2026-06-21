@@ -209,7 +209,7 @@ public class UciTango extends AbstractUCIEngine {
             tango.setHashSize(hashSizeValue);
         } catch (NumberFormatException e) {
             log.error("Invalid hash size: " + hashSize, e);
-            reply(UCIResponse.info(String.format("string Invalid hash size '%s' - %s", hashSize, e.getMessage())));
+            reply(UCIResponse.info(String.format("string Invalid hash value '%s'. %s", hashSize, e.getMessage())));
         }
     }
 }
