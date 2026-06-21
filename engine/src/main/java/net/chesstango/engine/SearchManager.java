@@ -71,8 +71,8 @@ class SearchManager implements TangoOptions {
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        currentSearchManagerState.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        currentSearchManagerState.setHashSize(hashSizeMB);
     }
 
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {

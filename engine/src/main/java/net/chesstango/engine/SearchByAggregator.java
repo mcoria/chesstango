@@ -61,7 +61,7 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        searchByTree.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        searchByTree.setHashSize(hashSizeMB);
     }
 }

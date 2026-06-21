@@ -60,8 +60,8 @@ public class Tango implements TangoOptions, AutoCloseable {
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        searchManager.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        searchManager.setHashSize(hashSizeMB);
     }
 
     @Override

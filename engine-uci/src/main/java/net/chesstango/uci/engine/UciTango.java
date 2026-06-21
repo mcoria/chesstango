@@ -12,6 +12,7 @@ import net.chesstango.goyeneche.AbstractUCIEngine;
 import net.chesstango.goyeneche.UCICommand;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.responses.UCIResponse;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
 import java.util.List;
@@ -200,6 +201,15 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void setHashSize(String hashSize) {
-        tango.setHashSize(Integer.parseInt(hashSize));
+        try {
+            int hashSizeValue = Integer.parseInt(hashSize);
+            if (hashSizeValue < 1 || hashSizeValue > 1024) {
+                throw new NumberFormatException("Hash size must be between 1 and 1024");
+            }
+            tango.setHashSize(hashSizeValue);
+        } catch (NumberFormatException e) {
+            log.error("Invalid hash size: " + hashSize, e);
+            reply(UCIResponse.info(String.format("string Invalid hash value '%s'. %s", hashSize, e.getMessage())));
+        }
     }
 }
