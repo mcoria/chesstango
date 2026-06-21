@@ -11,7 +11,7 @@ The majority of these patterns have been extensively outlined in the GoF book, "
 
 It's important to note that while this project draws heavily from the patterns described in the GoF book, there are instances where unique patterns are employed. These exceptional cases are explicitly identified, along with references to external sources that elucidate their concepts.
 
-It's worth clarifying that the objective of this project isn't to incorporate every conceivable design pattern present within the domain. Rather, I've selectively adopted patterns that aptly address specific challenges posed by the task.
+It's worth clarifying that the goal of this project isn't to incorporate every conceivable design pattern present within the domain. Rather, I've selectively adopted patterns that aptly address specific challenges posed by the task.
 
 While I've certainly taken performance considerations into account, the predominant non-functional priority remains the precise and coherent implementation of design patterns.
 
@@ -34,6 +34,8 @@ While I've certainly taken performance considerations into account, the predomin
   - Piece-Square Tables
 - Engine
   - Polyglot Opening Books
+  - Syzygy endgame tablebases
+  - Time Management
 - Supported communication protocols
   - Universal Chess Interface (UCI)
   - [Lichess API](https://lichess.org/api)
@@ -43,6 +45,20 @@ While I've certainly taken performance considerations into account, the predomin
   - Extended Position Description (EPD)
   - Standard Algebraic Notation (SAN)
 - GraalVM for native image (.exe) packaging  
+
+# Building
+
+## Native Image
+
+To build a native executable using GraalVM:
+
+1. Install GraalVM and ensure `native-image` is available in your PATH
+2. Navigate to the project root directory
+3. Run the following command:
+   ```
+   mvn clean package -Pnative
+   ```
+4. The native executable will be generated in the `target` directory
 
 # Usage
 
