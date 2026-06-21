@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.nio.file.Path;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
@@ -72,7 +73,7 @@ class SearchManagerReady implements SearchManagerState {
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         tangoOptions.setPolyglotFile(polyglotFile);
     }
 

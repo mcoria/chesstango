@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 
+import java.nio.file.Path;
+
 /**
  * @author Mauricio Coria
  */
@@ -41,7 +43,7 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         PolyglotBook polyglotBook = tangoFactory.createPolyglotBook(polyglotFile);
         if (polyglotBook != null) {
             SearchByOpenBook searchByOpenBook = tangoFactory.createSearchByOpenBook(polyglotBook);

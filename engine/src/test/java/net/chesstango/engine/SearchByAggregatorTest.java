@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -62,8 +64,8 @@ public class SearchByAggregatorTest {
 
     @Test
     public void testBuildWithOpenBook() {
-        config.setPolyglotFile("test.bin");
-        when(tangoFactory.createPolyglotBook(any(String.class))).thenReturn(polyglotBook);
+        config.setPolyglotFile(Path.of("test.bin"));
+        when(tangoFactory.createPolyglotBook(any(Path.class))).thenReturn(polyglotBook);
         when(tangoFactory.createSearchByOpenBook(any(PolyglotBook.class))).thenReturn(searchByOpenBook);
 
         SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
@@ -71,7 +73,7 @@ public class SearchByAggregatorTest {
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createPolyglotBook(eq("test.bin"));
+        verify(tangoFactory).createPolyglotBook(eq(Path.of("test.bin")));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();
         assertEquals(searchByOpenBook, searchByOpenBookProxy.getImp());
@@ -104,10 +106,10 @@ public class SearchByAggregatorTest {
 
     @Test
     public void testBuildWithBookAndSyzygyDirectory() {
-        config.setPolyglotFile("test.bin");
+        config.setPolyglotFile(Path.of("test.bin"));
         config.setSyzygyPath("/mnt/syzygy");
 
-        when(tangoFactory.createPolyglotBook(any(String.class))).thenReturn(polyglotBook);
+        when(tangoFactory.createPolyglotBook(any(Path.class))).thenReturn(polyglotBook);
         when(tangoFactory.createSearchByOpenBook(any(PolyglotBook.class))).thenReturn(searchByOpenBook);
 
         when(tangoFactory.createSyzygy(any(String.class))).thenReturn(syzygy);
@@ -118,7 +120,7 @@ public class SearchByAggregatorTest {
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createPolyglotBook(eq("test.bin"));
+        verify(tangoFactory).createPolyglotBook(eq(Path.of("test.bin")));
 
         verify(tangoFactory).createSyzygy(eq("/mnt/syzygy"));
 

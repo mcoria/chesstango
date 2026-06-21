@@ -3,6 +3,7 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 
+import java.nio.file.Path;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -61,7 +62,7 @@ class SearchManager implements TangoOptions {
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         currentSearchManagerState.setPolyglotFile(polyglotFile);
     }
 

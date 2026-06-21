@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 
+import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ public class Config {
 
     private Evaluator evaluator;
 
-    private String polyglotFile;
+    private Path polyglotFile;
 
     private String syzygyPath;
 

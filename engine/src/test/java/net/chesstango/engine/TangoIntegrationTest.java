@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -30,7 +31,7 @@ public class TangoIntegrationTest {
     @Test
     @Disabled
     public void testOpenTango() {
-        config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
+        config.setPolyglotFile(Path.of("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin"));
         //config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         //config.setAsyncSearch(true);
 
@@ -132,6 +133,7 @@ public class TangoIntegrationTest {
                 session.goDepth(1);
             }
         });
-        assertEquals("java.lang.RuntimeException: Game is already finished", runtimeException.getMessage());
+
+        assertEquals("Game is already finished", runtimeException.getMessage());
     }
 }
