@@ -82,7 +82,7 @@ class SearchManagerReady implements SearchManagerState {
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        tangoOptions.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        tangoOptions.setHashSize(hashSizeMB);
     }
 }

@@ -41,7 +41,7 @@ class WaitCmdUciState implements UCIEngine {
 
         uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath()));
 
-        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), tangoConfig.getHashSizeMB().toString(), Integer.toString(1), Integer.toString(64)));
+        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), tangoConfig.getHashSizeMB().toString(), Integer.toString(1), Integer.toString(1024)));
 
         uciTango.reply(readyState, UCIResponse.uciok());
     }

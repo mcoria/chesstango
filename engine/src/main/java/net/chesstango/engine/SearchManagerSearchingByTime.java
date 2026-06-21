@@ -107,7 +107,7 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
     }
 
     @Override
-    public void setHashSize(int hashSize) {
+    public void setHashSize(int hashSizeMB) {
         log.warn("Search is in progress");
     }
 }

@@ -8,5 +8,5 @@ public interface TangoOptions {
 
     void setSyzygyPath(String syzygyPath);
 
-    void setHashSize(int hashSize);
+    void setHashSize(int hashSizeMB);
 }
