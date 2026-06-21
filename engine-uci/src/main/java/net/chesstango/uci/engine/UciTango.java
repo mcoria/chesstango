@@ -200,7 +200,7 @@ public class UciTango extends AbstractUCIEngine {
             tango.setPolyglotFile(polyglotFile);
         } catch (InvalidPathException e) {
             log.error("Invalid PolyglotFile value: " + polyglotFileStr, e);
-            reply(UCIResponse.info(String.format("string Invalid hash value '%s'. %s", polyglotFileStr, e.getMessage())));
+            reply(UCIResponse.info(String.format("string Invalid PolyglotFile value '%s'. %s", polyglotFileStr, e.getMessage())));
         }
     }
 
