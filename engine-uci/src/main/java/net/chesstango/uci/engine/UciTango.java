@@ -15,6 +15,8 @@ import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Function;
 
@@ -192,24 +194,30 @@ public class UciTango extends AbstractUCIEngine {
         session.setSearchListener(searchListener);
     }
 
-    void setPolyglotFile(String polyglotFile) {
-        tango.setPolyglotFile(polyglotFile);
-    }
-
-    void setSyzygyPath(String syzygyPath) {
-        tango.setSyzygyPath(syzygyPath);
-    }
-
-    void setHashSize(String hashSize) {
+    void setPolyglotFile(String polyglotFileStr) {
         try {
-            int hashSizeValue = Integer.parseInt(hashSize);
-            if (hashSizeValue < 1 || hashSizeValue > 1024) {
+            Path polyglotFile = Path.of(polyglotFileStr);
+            tango.setPolyglotFile(polyglotFile);
+        } catch (InvalidPathException e) {
+            log.error("Invalid PolyglotFile value: " + polyglotFileStr, e);
+            reply(UCIResponse.info(String.format("string Invalid hash value '%s'. %s", polyglotFileStr, e.getMessage())));
+        }
+    }
+
+    void setSyzygyPath(String syzygyPathStr) {
+        tango.setSyzygyPath(syzygyPathStr);
+    }
+
+    void setHashSize(String hashSizeStr) {
+        try {
+            int hashSize = Integer.parseInt(hashSizeStr);
+            if (hashSize < 1 || hashSize > 1024) {
                 throw new NumberFormatException("Hash size must be between 1 and 1024");
             }
-            tango.setHashSize(hashSizeValue);
+            tango.setHashSize(hashSize);
         } catch (NumberFormatException e) {
-            log.error("Invalid hash size: " + hashSize, e);
-            reply(UCIResponse.info(String.format("string Invalid hash value '%s'. %s", hashSize, e.getMessage())));
+            log.error("Invalid Hash value: " + hashSizeStr, e);
+            reply(UCIResponse.info(String.format("string Invalid Hash value '%s'. %s", hashSizeStr, e.getMessage())));
         }
     }
 }

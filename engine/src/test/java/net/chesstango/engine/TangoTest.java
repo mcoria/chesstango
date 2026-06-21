@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
@@ -49,7 +51,7 @@ class TangoTest {
     @Test
     void testSetPolyglotFile() {
         // Arrange
-        String polyglotFilePath = "/path/to/polyglot/book.bin";
+        Path polyglotFilePath = Path.of("/path/to/polyglot/book.bin");
 
         // Act
         tango.setPolyglotFile(polyglotFilePath);

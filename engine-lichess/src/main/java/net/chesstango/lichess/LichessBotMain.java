@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Tango;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class LichessBotMain {
 
             String polyglotFile = (String) PROPERTIES.get(LichessBotMain.POLYGLOT_FILE);
             if (Objects.nonNull(polyglotFile)) {
-                config.setPolyglotFile(polyglotFile);
+                config.setPolyglotFile(Path.of(polyglotFile));
             }
 
             String syzygyPath = (String) PROPERTIES.get(LichessBotMain.SYZYGY_PATH);

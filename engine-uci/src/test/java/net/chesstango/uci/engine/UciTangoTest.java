@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.List;
 
 import static net.chesstango.uci.engine.UciOption.*;
@@ -43,7 +44,20 @@ public class UciTangoTest {
             engine.accept(UCIRequest.setOption(POLYGLOT_FILE.getId(), "/mnt/PolyglotFile.bin"));
         }
 
-        verify(tango, times(1)).setPolyglotFile("/mnt/PolyglotFile.bin");
+        verify(tango, times(1)).setPolyglotFile(Path.of("/mnt/PolyglotFile.bin"));
+    }
+
+    @Test
+    public void shouldNotSetPolyglotFileWhenNoOptionProvided() {
+        UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
+
+        try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
+            engine.setUCIOutputStream(outputStream);
+            engine.accept(UCIRequest.uci());
+            engine.accept(UCIRequest.setOption(POLYGLOT_FILE.getId(), " "));
+        }
+
+        verify(tango, never()).setPolyglotFile(any(Path.class));
     }
 
 

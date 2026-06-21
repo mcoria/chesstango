@@ -6,6 +6,7 @@ import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
+import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -117,7 +118,7 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     }
 
     @Override
-    public PolyglotBook createPolyglotBook(String polyglotFile) {
+    public PolyglotBook createPolyglotBook(Path polyglotFile) {
         polyglotBook = imp.createPolyglotBook(polyglotFile);
         return imp.createPolyglotBook(polyglotFile);
     }

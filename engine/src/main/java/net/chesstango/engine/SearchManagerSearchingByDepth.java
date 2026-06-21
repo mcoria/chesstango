@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.nio.file.Path;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
@@ -78,7 +79,7 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         log.warn("Search is in progress");
     }
 

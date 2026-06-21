@@ -37,7 +37,7 @@ class WaitCmdUciState implements UCIEngine {
 
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
 
-        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile()));
+        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile() != null ? tangoConfig.getPolyglotFile().toString() : null));
 
         uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath()));
 
