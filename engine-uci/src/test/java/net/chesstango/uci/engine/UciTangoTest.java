@@ -89,7 +89,6 @@ public class UciTangoTest {
     }
 
 
-
     @Test
     public void shouldSetHashSizeWhenOptionProvided() {
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
@@ -189,7 +188,7 @@ public class UciTangoTest {
 
 
     @Test
-    public void shouldTransitionThroughStatesCorrectly() throws IOException, InterruptedException {
+    public void shouldTransitionThroughStatesCorrectly() throws IOException {
         when(tango.newSession()).thenReturn(session);
 
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -212,7 +211,7 @@ public class UciTangoTest {
             assertEquals("id author Mauricio Coria", in.readLine());
             assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
             assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
-            assertEquals("option name Hash type spin default 32 minValue 1 maxValue 1024", in.readLine());
+            assertEquals("option name Hash type spin default 32 min 1 max 1024", in.readLine());
             assertEquals("uciok", in.readLine());
             assertEquals(ReadyState.class, engine.getCurrentState().getClass());
 
