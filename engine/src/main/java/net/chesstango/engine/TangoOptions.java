@@ -8,7 +8,7 @@ import java.nio.file.Path;
 public interface TangoOptions {
     void setPolyglotFile(Path polyglotFile);
 
-    void setSyzygyPath(String syzygyPath);
+    void setSyzygyPath(Path syzygyPath);
 
     void setHashSize(int hashSizeMB);
 }

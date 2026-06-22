@@ -84,7 +84,7 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         log.warn("Search is in progress");
     }
 

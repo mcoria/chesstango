@@ -42,7 +42,7 @@ interface TangoFactory {
 
     PolyglotBook createPolyglotBook(Path polyglotFile);
 
-    Syzygy createSyzygy(String syzygyPath);
+    Syzygy createSyzygy(Path syzygyPath);
 
     ScheduledExecutorService createScheduledExecutorService();
 

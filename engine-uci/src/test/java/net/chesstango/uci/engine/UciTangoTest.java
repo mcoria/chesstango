@@ -71,7 +71,7 @@ public class UciTangoTest {
             engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), "/mnt/Syzygy"));
         }
 
-        verify(tango, times(1)).setSyzygyPath("/mnt/Syzygy");
+        verify(tango, times(1)).setSyzygyPath(Path.of("/mnt/Syzygy"));
     }
 
 

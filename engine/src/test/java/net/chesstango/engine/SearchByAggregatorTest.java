@@ -85,8 +85,8 @@ public class SearchByAggregatorTest {
 
     @Test
     public void testBuildWithSyzygyPath() {
-        config.setSyzygyPath("/mnt/syzygy");
-        when(tangoFactory.createSyzygy(any(String.class))).thenReturn(syzygy);
+        config.setSyzygyPath(Path.of("/mnt/syzygy"));
+        when(tangoFactory.createSyzygy(any(Path.class))).thenReturn(syzygy);
         when(tangoFactory.createSearchByTablebase(any(Syzygy.class))).thenReturn(searchByTablebase);
 
         SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
@@ -94,7 +94,7 @@ public class SearchByAggregatorTest {
         assertNotNull(searchByAggregator);
 
         verify(tangoFactory, times(2)).createSearchByProxy();
-        verify(tangoFactory).createSyzygy(eq("/mnt/syzygy"));
+        verify(tangoFactory).createSyzygy(eq(Path.of("/mnt/syzygy")));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();
         assertNull(searchByOpenBookProxy.getImp());
@@ -107,12 +107,12 @@ public class SearchByAggregatorTest {
     @Test
     public void testBuildWithBookAndSyzygyDirectory() {
         config.setPolyglotFile(Path.of("test.bin"));
-        config.setSyzygyPath("/mnt/syzygy");
+        config.setSyzygyPath(Path.of("/mnt/syzygy"));
 
         when(tangoFactory.createPolyglotBook(any(Path.class))).thenReturn(polyglotBook);
         when(tangoFactory.createSearchByOpenBook(any(PolyglotBook.class))).thenReturn(searchByOpenBook);
 
-        when(tangoFactory.createSyzygy(any(String.class))).thenReturn(syzygy);
+        when(tangoFactory.createSyzygy(any(Path.class))).thenReturn(syzygy);
         when(tangoFactory.createSearchByTablebase(any(Syzygy.class))).thenReturn(searchByTablebase);
 
         SearchByAggregator searchByAggregator = new SearchByAggregator(tangoFactory, config, searchByTree);
@@ -122,7 +122,7 @@ public class SearchByAggregatorTest {
         verify(tangoFactory, times(2)).createSearchByProxy();
         verify(tangoFactory).createPolyglotBook(eq(Path.of("test.bin")));
 
-        verify(tangoFactory).createSyzygy(eq("/mnt/syzygy"));
+        verify(tangoFactory).createSyzygy(eq(Path.of("/mnt/syzygy")));
 
         SearchByProxy searchByOpenBookProxy = searchByAggregator.getSearchByOpenBookProxy();
         assertEquals(searchByOpenBook, searchByOpenBookProxy.getImp());

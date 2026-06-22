@@ -44,8 +44,8 @@ public class LichessBotMain {
             }
 
             String syzygyPath = (String) PROPERTIES.get(LichessBotMain.SYZYGY_PATH);
-            if (Objects.nonNull(polyglotFile)) {
-                config.setSyzygyPath(syzygyPath);
+            if (Objects.nonNull(syzygyPath)) {
+                config.setSyzygyPath(Path.of(syzygyPath));
             }
 
             // Durante la busqueda se bloquea el thread principal
@@ -77,7 +77,7 @@ public class LichessBotMain {
         }
 
         String syzygyPath = System.getenv(SYZYGY_PATH);
-        if (Objects.nonNull(polyglotBookPath)) {
+        if (Objects.nonNull(syzygyPath)) {
             PROPERTIES.put(SYZYGY_PATH, syzygyPath);
         }
     }

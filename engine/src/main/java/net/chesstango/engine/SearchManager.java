@@ -67,7 +67,7 @@ class SearchManager implements TangoOptions {
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         currentSearchManagerState.setSyzygyPath(syzygyPath);
     }
 

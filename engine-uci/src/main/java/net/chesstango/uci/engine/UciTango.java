@@ -205,7 +205,13 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void setSyzygyPath(String syzygyPathStr) {
-        tango.setSyzygyPath(syzygyPathStr);
+        try {
+            Path syzygyPath = Path.of(syzygyPathStr);
+            tango.setSyzygyPath(syzygyPath);
+        } catch (InvalidPathException e) {
+            log.error("Invalid SyzygyPath value: " + syzygyPathStr, e);
+            reply(UCIResponse.info(String.format("string Invalid SyzygyPath value '%s'. %s", syzygyPathStr, e.getMessage())));
+        }
     }
 
     void setHashSize(String hashSizeStr) {

@@ -24,7 +24,7 @@ public class Config {
 
     private Path polyglotFile;
 
-    private String syzygyPath;
+    private Path syzygyPath;
 
     private Integer hashSizeMB;
 

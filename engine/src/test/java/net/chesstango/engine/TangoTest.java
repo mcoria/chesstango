@@ -63,7 +63,7 @@ class TangoTest {
     @Test
     void testSetSyzygyPath() {
         // Arrange
-        String syzygyPath = "/path/to/syzygy/tablebase";
+        Path syzygyPath = Path.of("/path/to/syzygy/tablebase");
 
         // Act
         tango.setSyzygyPath(syzygyPath);

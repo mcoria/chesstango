@@ -39,7 +39,7 @@ class WaitCmdUciState implements UCIEngine {
 
         uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile() != null ? tangoConfig.getPolyglotFile().toString() : null));
 
-        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath()));
+        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath() != null ? tangoConfig.getSyzygyPath().toString() : null));
 
         uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), tangoConfig.getHashSizeMB().toString(), Integer.toString(1), Integer.toString(1024)));
 

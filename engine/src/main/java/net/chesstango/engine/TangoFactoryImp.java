@@ -107,9 +107,9 @@ class TangoFactoryImp implements TangoFactory {
     }
 
     @Override
-    public Syzygy createSyzygy(String syzygyPath) {
+    public Syzygy createSyzygy(Path syzygyPath) {
         if (syzygyPath != null) {
-            return Syzygy.open(syzygyPath);
+            return Syzygy.open(syzygyPath.toString());
         }
         return null;
     }
