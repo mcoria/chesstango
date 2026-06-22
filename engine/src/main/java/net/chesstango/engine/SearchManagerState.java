@@ -1,6 +1,7 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.Future;
@@ -16,5 +17,5 @@ interface SearchManagerState extends TangoOptions {
 
     void stopSearchingImp();
 
-    Session newSessionImp();
+    Session newSessionImp(FEN fen);
 }

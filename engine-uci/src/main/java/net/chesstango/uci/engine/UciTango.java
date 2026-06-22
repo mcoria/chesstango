@@ -158,12 +158,12 @@ public class UciTango extends AbstractUCIEngine {
         currentState = newState;
     }
 
-    void newSession() {
-        session = tango.newSession();
+    void clearSession() {
+        session = null;
     }
 
-    void setSessionFEN(FEN fen) {
-        session.setFen(fen);
+    void newSession(FEN fen) {
+        session = tango.newSession(fen);
     }
 
     void setSessionMoves(List<String> moves) {

@@ -3,7 +3,6 @@ package net.chesstango.uci.engine;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
-import net.chesstango.gardel.fen.FEN;
 import net.chesstango.goyeneche.requests.UCIRequest;
 import net.chesstango.goyeneche.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.goyeneche.stream.strings.StringConsumer;
@@ -14,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 import static net.chesstango.uci.engine.UciOption.*;
@@ -104,7 +104,7 @@ public class UciTangoTest {
 
     @Test
     public void shouldExecutePositionWithSingleMove() {
-        when(tango.newSession()).thenReturn(session);
+        when(tango.newSession(any())).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
@@ -118,15 +118,14 @@ public class UciTangoTest {
             engine.accept(UCIRequest.goInfinite());
         }
 
-        verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.START_POSITION);
+        verify(tango, times(1)).newSession(any());
         verify(session, times(1)).setMoves(moveList);
         verify(session, times(1)).goInfinite();
     }
 
     @Test
     public void shouldExecutePositionWithLongMoveSequence() {
-        when(tango.newSession()).thenReturn(session);
+        when(tango.newSession(any())).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
@@ -140,15 +139,14 @@ public class UciTangoTest {
             engine.accept(UCIRequest.goDepth(5));
         }
 
-        verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.START_POSITION);
+        verify(tango, times(1)).newSession(any());
         verify(session, times(1)).setMoves(moveList);
         verify(session, times(1)).goDepth(5);
     }
 
     @Test
     public void shouldExecutePositionWithComplexGameMoves() {
-        when(tango.newSession()).thenReturn(session);
+        when(tango.newSession(any())).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
@@ -162,15 +160,14 @@ public class UciTangoTest {
             engine.accept(UCIRequest.goFast(1000, 10, 2000, 20));
         }
 
-        verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.START_POSITION);
+        verify(tango, times(1)).newSession(any());
         verify(session, times(1)).setMoves(moveList);
         verify(session, times(1)).goFast(1000, 10, 2000, 20);
     }
 
     @Test
     public void shouldExecutePositionWithCustomFen() {
-        when(tango.newSession()).thenReturn(session);
+        when(tango.newSession(any())).thenReturn(session);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
@@ -181,15 +178,32 @@ public class UciTangoTest {
             engine.accept(UCIRequest.position("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", List.of("e2e4")));
         }
 
-        verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.from("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        verify(tango, times(1)).newSession(any());
         verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 
+    @Test
+    public void shouldExecutePositionWithMultiplePositionCommands() {
+        when(tango.newSession(any())).thenReturn(session);
+
+        UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
+
+        try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
+            engine.setUCIOutputStream(outputStream);
+            engine.accept(UCIRequest.uci());
+            engine.accept(UCIRequest.ucinewgame());
+            engine.accept(UCIRequest.position("8/p5pp/1pk5/5p2/P1nn4/2NN3P/5PPK/8 w - - 0 1", Collections.emptyList()));
+            engine.accept(UCIRequest.position("8/p5pp/1pk5/5p2/P1nn4/2NN3P/5PPK/8 w - - 0 1", List.of("g2g3")));
+        }
+
+        verify(tango, times(1)).newSession(any());
+        verify(session).setMoves(Collections.emptyList());
+        verify(session).setMoves(List.of("g2g3"));
+    }
 
     @Test
     public void shouldTransitionThroughStatesCorrectly() throws IOException {
-        when(tango.newSession()).thenReturn(session);
+        when(tango.newSession(any())).thenReturn(session);
 
         PipedOutputStream posOutput = new PipedOutputStream();
         PipedInputStream pisOutput = new PipedInputStream(posOutput);
@@ -237,7 +251,7 @@ public class UciTangoTest {
             engine.accept(UCIRequest.quit());
         }
 
-        verify(tango, times(1)).newSession();
+        verify(tango, times(1)).newSession(any());
         verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 }

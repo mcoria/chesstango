@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import net.chesstango.gardel.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,15 +39,16 @@ class TangoTest {
     @Test
     void testNewSession() {
         // Arrange
-        when(searchManager.newSession()).thenReturn(session);
+        when(searchManager.newSession(any())).thenReturn(session);
 
         // Act
-        Session newSession = tango.newSession();
+        Session newSession = tango.newSession(FEN.START_POSITION);
 
-        // Assert
-        verify(searchManager).newSession();
         assertNotNull(session);
         assertEquals(session, newSession);
+
+        // Assert
+        verify(searchManager).newSession(FEN.START_POSITION);
     }
 
     @Test

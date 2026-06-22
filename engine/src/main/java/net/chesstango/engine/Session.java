@@ -23,17 +23,17 @@ public class Session {
 
     private final SearchListener sessionSearchListener;
 
+    private final FEN fen;
+
     @Setter
     private SearchListener searchListener;
 
     @Setter
-    private FEN fen;
-
-    @Setter
     private List<String> moves;
 
-    Session(SearchManager searchManager) {
+    Session(SearchManager searchManager, FEN fen) {
         this.searchManager = searchManager;
+        this.fen = fen;
 
         this.sessionSearchListener = new SearchListener() {
             @Override

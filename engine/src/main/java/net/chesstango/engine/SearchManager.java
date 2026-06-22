@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 
 import java.nio.file.Path;
 import java.util.concurrent.Future;
@@ -57,8 +58,8 @@ class SearchManager implements TangoOptions {
         currentSearchManagerState.stopSearchingImp();
     }
 
-    synchronized Session newSession() {
-        return currentSearchManagerState.newSessionImp();
+    synchronized Session newSession(FEN fen) {
+        return currentSearchManagerState.newSessionImp(fen);
     }
 
     @Override

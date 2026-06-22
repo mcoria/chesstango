@@ -161,11 +161,8 @@ public class ReportGamesIntegrationTest {
         boolean whiteSearch = false;
 
         try (Tango tango = Tango.open(config)) {
-            Session session = tango.newSession();
-
             FEN fen = pgn.getFen() == null ? FEN.START_POSITION : pgn.getFen();
-
-            session.setFen(fen);
+            Session session = tango.newSession(fen);
 
             for (int i = 0; i < coordinateMoves.size(); i++) {
                 if (!whiteSearch && i % 2 == 1) {
