@@ -89,7 +89,6 @@ public class UciTangoTest {
     }
 
 
-
     @Test
     public void shouldSetHashSizeWhenOptionProvided() {
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
@@ -189,7 +188,7 @@ public class UciTangoTest {
 
 
     @Test
-    public void shouldTransitionThroughStatesCorrectly() throws IOException, InterruptedException {
+    public void shouldTransitionThroughStatesCorrectly() throws IOException {
         when(tango.newSession()).thenReturn(session);
 
         PipedOutputStream posOutput = new PipedOutputStream();
