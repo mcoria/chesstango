@@ -76,6 +76,21 @@ public class UciTangoTest {
 
 
     @Test
+    public void shouldNotSyzygyPathWhenNoOptionProvided() {
+        UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
+
+        try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
+            engine.setUCIOutputStream(outputStream);
+            engine.accept(UCIRequest.uci());
+            engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), " "));
+        }
+
+        verify(tango, never()).setSyzygyPath(any(Path.class));
+    }
+
+
+
+    @Test
     public void shouldSetHashSizeWhenOptionProvided() {
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
