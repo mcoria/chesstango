@@ -53,7 +53,7 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
 
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         Syzygy syzygy = tangoFactory.createSyzygy(syzygyPath);
         if (syzygy != null) {
             SearchByTablebase searchByTablebase = tangoFactory.createSearchByTablebase(syzygy);

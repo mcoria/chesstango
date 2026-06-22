@@ -71,8 +71,23 @@ public class UciTangoTest {
             engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), "/mnt/Syzygy"));
         }
 
-        verify(tango, times(1)).setSyzygyPath("/mnt/Syzygy");
+        verify(tango, times(1)).setSyzygyPath(Path.of("/mnt/Syzygy"));
     }
+
+
+    @Test
+    public void shouldNotSyzygyPathWhenNoOptionProvided() {
+        UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
+
+        try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
+            engine.setUCIOutputStream(outputStream);
+            engine.accept(UCIRequest.uci());
+            engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), " "));
+        }
+
+        verify(tango, never()).setSyzygyPath(any(Path.class));
+    }
+
 
 
     @Test

@@ -124,7 +124,7 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     }
 
     @Override
-    public Syzygy createSyzygy(String syzygyPath) {
+    public Syzygy createSyzygy(Path syzygyPath) {
         syzygy = imp.createSyzygy(syzygyPath);
         return syzygy;
     }

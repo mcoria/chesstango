@@ -56,7 +56,7 @@ public class Tango implements TangoOptions, AutoCloseable {
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         searchManager.setSyzygyPath(syzygyPath);
     }
 
