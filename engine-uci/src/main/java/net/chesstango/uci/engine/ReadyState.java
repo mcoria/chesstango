@@ -29,12 +29,16 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        if (POLYGLOT_FILE.getId().equals(cmdSetOption.getId())) {
-            uciTango.setPolyglotFile(cmdSetOption.getValue());
-        } else if (SYZYGY_PATH.getId().equals(cmdSetOption.getId())) {
-            uciTango.setSyzygyPath(cmdSetOption.getValue());
-        } else if (HASH_SIZE.getId().equals(cmdSetOption.getId())) {
-            uciTango.setHashSize(cmdSetOption.getValue());
+        if (cmdSetOption.getValue() != null && !cmdSetOption.getValue().isEmpty()) {
+            if (POLYGLOT_FILE.getId().equals(cmdSetOption.getId())) {
+                uciTango.setPolyglotFile(cmdSetOption.getValue());
+            } else if (SYZYGY_PATH.getId().equals(cmdSetOption.getId())) {
+                uciTango.setSyzygyPath(cmdSetOption.getValue());
+            } else if (HASH_SIZE.getId().equals(cmdSetOption.getId())) {
+                uciTango.setHashSize(cmdSetOption.getValue());
+            }
+        } else {
+            uciTango.reply(this, UCIResponse.info(String.format("string Invalid value for option '%s'.", cmdSetOption.getId())));
         }
     }
 

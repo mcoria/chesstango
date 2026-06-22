@@ -54,7 +54,7 @@ public class UciTangoTest {
         try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
             engine.setUCIOutputStream(outputStream);
             engine.accept(UCIRequest.uci());
-            engine.accept(UCIRequest.setOption(POLYGLOT_FILE.getId(), " "));
+            engine.accept(UCIRequest.setOption(POLYGLOT_FILE.getId(), ""));
         }
 
         verify(tango, never()).setPolyglotFile(any(Path.class));
@@ -82,7 +82,7 @@ public class UciTangoTest {
         try (UciTango engine = new UciTango(Config.create(), _ -> tango)) {
             engine.setUCIOutputStream(outputStream);
             engine.accept(UCIRequest.uci());
-            engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), " "));
+            engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), ""));
         }
 
         verify(tango, never()).setSyzygyPath(any(Path.class));
