@@ -9,6 +9,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.SearchResponse;
 import net.chesstango.engine.Session;
+import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 
 import org.slf4j.MDC;
@@ -26,12 +27,13 @@ public class LichessGame implements Runnable, SearchListener {
 
     private final LichessClient client;
     private final String gameId;
-    private final Session session;
+    private final Tango tango;
     private final Color myColor;
 
+    private Session session;
     private FEN startPosition;
 
-    public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Session session) {
+    public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
         this.client = client;
         this.gameId = gameStartEvent.gameId();
 
@@ -44,8 +46,7 @@ public class LichessGame implements Runnable, SearchListener {
             this.myColor = Color.BLACK;
         }
 
-        this.session = session;
-        this.session.setSearchListener(this);
+        this.tango = tango;
     }
 
     @Override
@@ -103,7 +104,9 @@ public class LichessGame implements Runnable, SearchListener {
             throw new RuntimeException("GameVariant not supported variant");
         }
 
-        this.session.setFen(startPosition);
+        this.session = tango.newSession(startPosition);
+
+        this.session.setSearchListener(this);
 
         gameState(gameFullEvent.state());
     }

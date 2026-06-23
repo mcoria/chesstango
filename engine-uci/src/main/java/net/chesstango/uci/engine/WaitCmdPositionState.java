@@ -6,6 +6,8 @@ import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
+import java.util.Objects;
+
 import static net.chesstango.uci.engine.UciOption.*;
 
 
@@ -17,13 +19,13 @@ import static net.chesstango.uci.engine.UciOption.*;
  *
  * @author Mauricio Coria
  */
-class ReadyState implements UCIEngine {
+class WaitCmdPositionState implements UCIEngine {
     private final UciTango uciTango;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    ReadyState(UciTango uciTango) {
+    WaitCmdPositionState(UciTango uciTango) {
         this.uciTango = uciTango;
     }
 
@@ -49,7 +51,7 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
-        uciTango.newSession();
+        uciTango.clearSession();
     }
 
     @Override
@@ -63,7 +65,9 @@ class ReadyState implements UCIEngine {
                 ? FEN.START_POSITION
                 : FEN.from(cmdPosition.getFen());
 
-        uciTango.setSessionFEN(startPosition);
+        if (!uciTango.isSession(startPosition)) {
+            uciTango.newSession(startPosition);
+        }
 
         uciTango.setSessionMoves(cmdPosition.getMoves());
 

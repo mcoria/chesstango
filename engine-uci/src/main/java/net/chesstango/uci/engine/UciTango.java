@@ -18,6 +18,7 @@ import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -102,14 +103,18 @@ public class UciTango extends AbstractUCIEngine {
         // State pattern initialization: different state instances are created and linked with one another to
         // represent the allowable transitions within the state lifecycle of the engine.
         WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, config);
-        ReadyState readyState = new ReadyState(this);
+        WaitCmdPositionState waitCmdPositionState = new WaitCmdPositionState(this);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
-        waitCmdUciState.setReadyState(readyState);
-        readyState.setWaitCmdGoState(waitCmdGoState);
+        waitCmdUciState.setWaitCmdPositionState(waitCmdPositionState);
+
+        waitCmdPositionState.setWaitCmdGoState(waitCmdGoState);
+
         waitCmdGoState.setSearchingState(searchingState);
-        searchingState.setReadyState(readyState);
+        waitCmdGoState.setWaitCmdPositionState(waitCmdPositionState);
+
+        searchingState.setWaitCmdPositionState(waitCmdPositionState);
 
         // set the initial state to wait for the UCI command
         changeState(waitCmdUciState);
@@ -158,12 +163,16 @@ public class UciTango extends AbstractUCIEngine {
         currentState = newState;
     }
 
-    void newSession() {
-        session = tango.newSession();
+    void clearSession() {
+        session = null;
     }
 
-    void setSessionFEN(FEN fen) {
-        session.setFen(fen);
+    void newSession(FEN fen) {
+        session = tango.newSession(fen);
+    }
+
+    boolean isSession(FEN fen) {
+        return session != null && Objects.equals(session.getFen(), fen);
     }
 
     void setSessionMoves(List<String> moves) {

@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import net.chesstango.gardel.fen.FEN;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -46,8 +47,8 @@ public class Tango implements TangoOptions, AutoCloseable {
         this.searchManager = searchManager;
     }
 
-    public Session newSession() {
-        return searchManager.newSession();
+    public Session newSession(FEN fen) {
+        return searchManager.newSession(fen);
     }
 
     @Override

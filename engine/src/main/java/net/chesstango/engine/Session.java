@@ -13,6 +13,9 @@ import java.util.concurrent.Future;
  * @author Mauricio Coria
  */
 public class Session {
+    @Getter
+    private final FEN fen;
+
     /**
      * Resultado de las busquedas efectuadas durante el juego.
      */
@@ -27,13 +30,11 @@ public class Session {
     private SearchListener searchListener;
 
     @Setter
-    private FEN fen;
-
-    @Setter
     private List<String> moves;
 
-    Session(SearchManager searchManager) {
+    Session(SearchManager searchManager, FEN fen) {
         this.searchManager = searchManager;
+        this.fen = fen;
 
         this.sessionSearchListener = new SearchListener() {
             @Override

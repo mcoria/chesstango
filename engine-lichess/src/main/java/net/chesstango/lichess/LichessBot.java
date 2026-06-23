@@ -59,7 +59,7 @@ public class LichessBot implements Runnable {
         log.info("GameStartEvent {}", gameStartEvent.id());
 
         try {
-            LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango.newSession());
+            LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango);
 
             onlineGame.run();
 

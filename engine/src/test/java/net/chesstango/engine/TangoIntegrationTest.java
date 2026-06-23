@@ -35,8 +35,8 @@ public class TangoIntegrationTest {
         //config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         //config.setAsyncSearch(true);
 
-        try (Tango tango = Tango.open(config);) {
-            tango.newSession();
+        try (Tango tango = Tango.open(config)) {
+            tango.newSession(FEN.START_POSITION);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,8 +57,7 @@ public class TangoIntegrationTest {
         config.setAsyncSearch(false);
 
         try (Tango tango = Tango.open(config)) {
-            Session session = tango.newSession();
-            session.setFen(FEN.from("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 1"));
+            Session session = tango.newSession(FEN.from("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 1"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture = session.goDepth(1);
             SearchResponse searchResponse = searchResponseFuture.get();
@@ -82,8 +81,7 @@ public class TangoIntegrationTest {
         config.setAsyncSearch(false);
 
         try (Tango tango = Tango.open(config)) {
-            Session session = tango.newSession();
-            session.setFen(FEN.from("8/8/3P4/8/5k2/p2K1p2/P7/8 b - - 0 1"));
+            Session session = tango.newSession(FEN.from("8/8/3P4/8/5k2/p2K1p2/P7/8 b - - 0 1"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture = session.goDepth(5);
             SearchResponse searchResponse = searchResponseFuture.get();
@@ -107,8 +105,7 @@ public class TangoIntegrationTest {
         config.setAsyncSearch(false);
 
         try (Tango tango = Tango.open(config)) {
-            Session session = tango.newSession();
-            session.setFen(FEN.from("8/8/8/8/8/2k2KNp/5P1r/2R5 b - - 6 69"));
+            Session session = tango.newSession(FEN.from("8/8/8/8/8/2k2KNp/5P1r/2R5 b - - 6 69"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture = session.goDepth(4);
             SearchResponse searchResponse = searchResponseFuture.get();
@@ -127,8 +124,7 @@ public class TangoIntegrationTest {
             String[] movesArray = moves.split(" ");
 
             try (Tango tango = Tango.open(config)) {
-                Session session = tango.newSession();
-                session.setFen(FEN.START_POSITION);
+                Session session = tango.newSession(FEN.START_POSITION);
                 session.setMoves(Arrays.asList(movesArray));
                 session.goDepth(1);
             }

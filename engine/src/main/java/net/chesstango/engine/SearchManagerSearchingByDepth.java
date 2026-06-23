@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.nio.file.Path;
@@ -56,7 +57,7 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     }
 
     @Override
-    public Session newSessionImp() {
+    public Session newSessionImp(FEN fen) {
         log.warn("Search is in progress");
         return null;
     }
