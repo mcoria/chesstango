@@ -6,6 +6,7 @@ import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.gardel.pgn.PGNEncoder;
+import net.chesstango.gardel.pgn.PGNMove;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +39,12 @@ public class GameToPGNTest {
 
         PGN pgn = gameToPGN.decode(game);
 
-        List<String> moves = pgn.getSanMoves();
+        List<String> moves = pgn
+                .getPgnMoves()
+                .stream()
+                .map(PGNMove::getSanMove)
+                .toList();
+
         assertEquals("e4", moves.getFirst());
         assertEquals("d5", moves.get(1));
         assertEquals("Nf3", moves.get(2));

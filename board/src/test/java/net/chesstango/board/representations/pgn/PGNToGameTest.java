@@ -29,7 +29,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame01() throws IOException {
+    public void testToGame01() {
         String lines = "[Event \"Computer chess game\"]\n" +
                 "[Site \"KANO-LENOVO\"]\n" +
                 "[Date \"2023.03.03\"]\n" +
@@ -59,7 +59,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame02() throws IOException {
+    public void testToGame02()  {
         String lines = "[Event \"Testspel av Tony Hed\"]\n" +
                 "[Site \"?\"]\n" +
                 "[Date \"1991.01.01\"]\n" +
@@ -90,7 +90,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame03() throws IOException {
+    public void testToGame03()  {
         String lines = "[Event \"Testspel av Tony Hed\"]\n" +
                 "[Site \"?\"]\n" +
                 "[Date \"1996.01.01\"]\n" +
@@ -122,7 +122,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame04() throws IOException {
+    public void testToGame04()  {
         String lines = "[Event \"Tango v0.0.28-SNAPSHOT vs Spike 1.4 - Match\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -148,7 +148,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame05() throws IOException {
+    public void testToGame05()  {
         String lines = "[Event \"d72e3dd3-3eaf-43e6-8fce-83fe5dc79d2b\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -176,7 +176,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame06() throws IOException {
+    public void testToGame06()  {
         String lines = "[Event \"03e76304-8992-4db3-b638-d52d3f08c5f8\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -204,7 +204,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame07() throws IOException {
+    public void testToGame07()  {
         String lines = "[Event \"Freestyle Chess Grand Slam Tour 2025 - Paris | Round Robin\"]\n" +
                 "[Site \"?\"]\n" +
                 "[Date \"2025.04.08\"]\n" +
@@ -228,7 +228,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testToGame08() throws IOException {
+    public void testToGame08()  {
         String lines = "[Event \"British Rapidplay Championship 2025 | Boards 1-80\"]\n" +
                 "[Site \"?\"]\n" +
                 "[Date \"2025.03.01\"]\n" +
@@ -264,7 +264,7 @@ public class PGNToGameTest {
     }
 
     @Test
-    public void testOf01() throws IOException {
+    public void testOf01()  {
         Game game = Game.from(FEN.from("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
         game.executeMove(Square.a7, Square.a6);
 
