@@ -3,6 +3,7 @@ package net.chesstango.uci.engine;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.goyeneche.requests.UCIRequest;
 import net.chesstango.goyeneche.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.goyeneche.stream.strings.StringConsumer;
@@ -184,7 +185,10 @@ public class UciTangoTest {
 
     @Test
     public void shouldExecutePositionWithMultiplePositionCommands() {
-        when(tango.newSession(any())).thenReturn(session);
+        FEN fen = FEN.from("8/p5pp/1pk5/5p2/P1nn4/2NN3P/5PPK/8 w - - 0 1");
+
+        when(tango.newSession(fen)).thenReturn(session);
+        when(session.getFen()).thenReturn(fen);
 
         UCIOutputStreamToStringAdapter outputStream = new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out)));
 
@@ -192,11 +196,11 @@ public class UciTangoTest {
             engine.setUCIOutputStream(outputStream);
             engine.accept(UCIRequest.uci());
             engine.accept(UCIRequest.ucinewgame());
-            engine.accept(UCIRequest.position("8/p5pp/1pk5/5p2/P1nn4/2NN3P/5PPK/8 w - - 0 1", Collections.emptyList()));
-            engine.accept(UCIRequest.position("8/p5pp/1pk5/5p2/P1nn4/2NN3P/5PPK/8 w - - 0 1", List.of("g2g3")));
+            engine.accept(UCIRequest.position(fen.toString(), Collections.emptyList()));
+            engine.accept(UCIRequest.position(fen.toString(), List.of("g2g3")));
         }
 
-        verify(tango, times(1)).newSession(any());
+        verify(tango, times(1)).newSession(fen);
         verify(session).setMoves(Collections.emptyList());
         verify(session).setMoves(List.of("g2g3"));
     }
@@ -227,21 +231,21 @@ public class UciTangoTest {
             assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
             assertEquals("option name Hash type spin default 32 min 1 max 1024", in.readLine());
             assertEquals("uciok", in.readLine());
-            assertEquals(ReadyState.class, engine.getCurrentState().getClass());
+            assertEquals(WaitCmdPositionState.class, engine.getCurrentState().getClass());
 
             // isready command
             engine.accept(UCIRequest.isready());
             assertEquals("readyok", in.readLine());
-            assertEquals(ReadyState.class, engine.getCurrentState().getClass());
+            assertEquals(WaitCmdPositionState.class, engine.getCurrentState().getClass());
 
             // ucinewgame command
             engine.accept(UCIRequest.ucinewgame());
-            assertEquals(ReadyState.class, engine.getCurrentState().getClass());
+            assertEquals(WaitCmdPositionState.class, engine.getCurrentState().getClass());
 
             // isready command
             engine.accept(UCIRequest.isready());
             assertEquals("readyok", in.readLine());
-            assertEquals(ReadyState.class, engine.getCurrentState().getClass());
+            assertEquals(WaitCmdPositionState.class, engine.getCurrentState().getClass());
 
             // position command
             engine.accept(UCIRequest.position((List.of("e2e4"))));

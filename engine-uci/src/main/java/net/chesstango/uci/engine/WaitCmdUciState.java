@@ -23,7 +23,7 @@ class WaitCmdUciState implements UCIEngine {
     private final Config tangoConfig;
 
     @Setter
-    private ReadyState readyState;
+    private WaitCmdPositionState waitCmdPositionState;
 
     WaitCmdUciState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
@@ -43,6 +43,6 @@ class WaitCmdUciState implements UCIEngine {
 
         uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), tangoConfig.getHashSizeMB().toString(), Integer.toString(1), Integer.toString(1024)));
 
-        uciTango.reply(readyState, UCIResponse.uciok());
+        uciTango.reply(waitCmdPositionState, UCIResponse.uciok());
     }
 }

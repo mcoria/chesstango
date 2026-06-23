@@ -19,15 +19,13 @@ import static net.chesstango.uci.engine.UciOption.*;
  *
  * @author Mauricio Coria
  */
-class ReadyState implements UCIEngine {
+class WaitCmdPositionState implements UCIEngine {
     private final UciTango uciTango;
-
-    private FEN sessionPosition;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    ReadyState(UciTango uciTango) {
+    WaitCmdPositionState(UciTango uciTango) {
         this.uciTango = uciTango;
     }
 
@@ -54,7 +52,6 @@ class ReadyState implements UCIEngine {
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
         uciTango.clearSession();
-        sessionPosition = null;
     }
 
     @Override
@@ -68,9 +65,8 @@ class ReadyState implements UCIEngine {
                 ? FEN.START_POSITION
                 : FEN.from(cmdPosition.getFen());
 
-        if (!Objects.equals(this.sessionPosition, startPosition)) {
+        if (!uciTango.isSession(startPosition)) {
             uciTango.newSession(startPosition);
-            sessionPosition = startPosition;
         }
 
         uciTango.setSessionMoves(cmdPosition.getMoves());

@@ -13,6 +13,9 @@ import java.util.concurrent.Future;
  * @author Mauricio Coria
  */
 public class Session {
+    @Getter
+    private final FEN fen;
+
     /**
      * Resultado de las busquedas efectuadas durante el juego.
      */
@@ -22,8 +25,6 @@ public class Session {
     private final SearchManager searchManager;
 
     private final SearchListener sessionSearchListener;
-
-    private final FEN fen;
 
     @Setter
     private SearchListener searchListener;

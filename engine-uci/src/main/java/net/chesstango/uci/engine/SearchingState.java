@@ -25,7 +25,7 @@ class SearchingState implements UCIEngine, SearchListener {
     private final UciTango uciTango;
 
     @Setter
-    private ReadyState readyState;
+    private WaitCmdPositionState waitCmdPositionState;
 
     SearchingState(UciTango uciTango) {
         this.uciTango = uciTango;
@@ -77,6 +77,6 @@ class SearchingState implements UCIEngine, SearchListener {
     public void searchFinished(SearchResponse searchResult) {
         String selectedMoveStr = simpleMoveEncoder.encode(searchResult.move());
 
-        uciTango.reply(readyState, UCIResponse.bestMove(selectedMoveStr));
+        uciTango.reply(waitCmdPositionState, UCIResponse.bestMove(selectedMoveStr));
     }
 }
