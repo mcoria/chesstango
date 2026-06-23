@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
@@ -15,6 +16,9 @@ class WaitCmdGoState implements UCIEngine {
     private final ReqGoExecutor cmdGoExecutor;
 
     private final UciTango uciTango;
+
+    @Setter
+    private WaitCmdPositionState waitCmdPositionState;
 
     @Setter
     private SearchingState searchingState;
@@ -58,6 +62,25 @@ class WaitCmdGoState implements UCIEngine {
     @Override
     public void do_isReady(ReqIsReady cmdIsReady) {
         uciTango.reply(this, UCIResponse.readyok());
+    }
+
+    @Override
+    public void do_position(ReqPosition cmdPosition) {
+        FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
+                ? FEN.START_POSITION
+                : FEN.from(cmdPosition.getFen());
+
+        if (!uciTango.isSession(startPosition)) {
+            uciTango.newSession(startPosition);
+        }
+
+        uciTango.setSessionMoves(cmdPosition.getMoves());
+    }
+
+    @Override
+    public void do_newGame(ReqUciNewGame reqUciNewGame) {
+        uciTango.clearSession();
+        uciTango.changeState(waitCmdPositionState);
     }
 
     @Override

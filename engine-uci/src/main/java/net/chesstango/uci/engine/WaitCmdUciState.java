@@ -23,7 +23,7 @@ class WaitCmdUciState implements UCIEngine {
     private final Config tangoConfig;
 
     @Setter
-    private ReadyState readyState;
+    private WaitCmdPositionState waitCmdPositionState;
 
     WaitCmdUciState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
@@ -37,12 +37,12 @@ class WaitCmdUciState implements UCIEngine {
 
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
 
-        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile()));
+        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_FILE.getId(), tangoConfig.getPolyglotFile() != null ? tangoConfig.getPolyglotFile().toString() : null));
 
-        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath()));
+        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_PATH.getId(), tangoConfig.getSyzygyPath() != null ? tangoConfig.getSyzygyPath().toString() : null));
 
-        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), tangoConfig.getHashSizeMB().toString(), Integer.toString(1), Integer.toString(64)));
+        uciTango.reply(this, UCIResponse.createSpingOption(HASH_SIZE.getId(), tangoConfig.getHashSizeMB().toString(), Integer.toString(1), Integer.toString(1024)));
 
-        uciTango.reply(readyState, UCIResponse.uciok());
+        uciTango.reply(waitCmdPositionState, UCIResponse.uciok());
     }
 }

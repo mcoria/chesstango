@@ -3,7 +3,6 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
-import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
@@ -51,7 +50,7 @@ class TangoFactoryImp implements TangoFactory {
     }
 
     @Override
-    public SearchBuilder<?> createSearchBuilder(){
+    public SearchBuilder<?> createSearchBuilder() {
         return SearchBuilder
                 .newSearchBuilder();
     }
@@ -92,16 +91,15 @@ class TangoFactoryImp implements TangoFactory {
     }
 
     @Override
-    public PolyglotBook createPolyglotBook(String polyglotFile) {
+    public PolyglotBook createPolyglotBook(Path polyglotFile) {
         if (polyglotFile != null) {
             try {
-                Path polyglotFilePath = Path.of(polyglotFile);
-                if (Files.exists(polyglotFilePath)) {
-                    return PolyglotBook.open(polyglotFilePath);
+                if (Files.exists(polyglotFile)) {
+                    return PolyglotBook.open(polyglotFile);
                 } else {
                     log.warn("Book file '{}' not found", polyglotFile);
                 }
-            } catch (IOException e) {
+            } catch (IllegalArgumentException | IOException e) {
                 log.error("Error opening book file", e);
             }
         }
@@ -109,9 +107,9 @@ class TangoFactoryImp implements TangoFactory {
     }
 
     @Override
-    public Syzygy createSyzygy(String syzygyPath) {
+    public Syzygy createSyzygy(Path syzygyPath) {
         if (syzygyPath != null) {
-            return Syzygy.open(syzygyPath);
+            return Syzygy.open(syzygyPath.toString());
         }
         return null;
     }

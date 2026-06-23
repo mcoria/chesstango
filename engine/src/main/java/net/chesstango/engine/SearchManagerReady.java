@@ -2,8 +2,10 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.nio.file.Path;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
@@ -66,23 +68,23 @@ class SearchManagerReady implements SearchManagerState {
     }
 
     @Override
-    public Session newSessionImp() {
+    public Session newSessionImp(FEN fen) {
         searchByTree.reset();
-        return new Session(searchManager);
+        return new Session(searchManager, fen);
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         tangoOptions.setPolyglotFile(polyglotFile);
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         tangoOptions.setSyzygyPath(syzygyPath);
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        tangoOptions.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        tangoOptions.setHashSize(hashSizeMB);
     }
 }

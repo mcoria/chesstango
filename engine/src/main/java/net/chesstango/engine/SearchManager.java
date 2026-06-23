@@ -2,7 +2,9 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 
+import java.nio.file.Path;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -47,7 +49,7 @@ class SearchManager implements TangoOptions {
         return currentSearchManagerState.searchTimeOutImp(game, timeOut, _ -> true, searchListener);
     }
 
-    synchronized Future<SearchResponse> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
+    synchronized Future<SearchResponse> searchFast(Game game, int wTime, int wInc, int bTime, int bInc, SearchListener searchListener) {
         int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
         return currentSearchManagerState.searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
@@ -56,23 +58,23 @@ class SearchManager implements TangoOptions {
         currentSearchManagerState.stopSearchingImp();
     }
 
-    synchronized Session newSession() {
-        return currentSearchManagerState.newSessionImp();
+    synchronized Session newSession(FEN fen) {
+        return currentSearchManagerState.newSessionImp(fen);
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         currentSearchManagerState.setPolyglotFile(polyglotFile);
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         currentSearchManagerState.setSyzygyPath(syzygyPath);
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        currentSearchManagerState.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        currentSearchManagerState.setHashSize(hashSizeMB);
     }
 
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {

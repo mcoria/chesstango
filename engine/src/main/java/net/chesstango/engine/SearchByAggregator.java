@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 
+import java.nio.file.Path;
+
 /**
  * @author Mauricio Coria
  */
@@ -41,7 +43,7 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         PolyglotBook polyglotBook = tangoFactory.createPolyglotBook(polyglotFile);
         if (polyglotBook != null) {
             SearchByOpenBook searchByOpenBook = tangoFactory.createSearchByOpenBook(polyglotBook);
@@ -51,7 +53,7 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
 
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         Syzygy syzygy = tangoFactory.createSyzygy(syzygyPath);
         if (syzygy != null) {
             SearchByTablebase searchByTablebase = tangoFactory.createSearchByTablebase(syzygy);
@@ -61,7 +63,7 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        searchByTree.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        searchByTree.setHashSize(hashSizeMB);
     }
 }

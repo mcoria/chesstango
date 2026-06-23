@@ -54,7 +54,7 @@ public class UciMainTest {
             assertEquals("id author Mauricio Coria", in.readLine());
             assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
             assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
-            assertEquals("option name Hash type spin default 32 minValue 1 maxValue 64", in.readLine());
+            assertEquals("option name Hash type spin default 32 min 1 max 1024", in.readLine());
             assertEquals("uciok", in.readLine());
 
             // isready command
@@ -106,7 +106,7 @@ public class UciMainTest {
             assertEquals("id author Mauricio Coria", in.readLine());
             assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
             assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
-            assertEquals("option name Hash type spin default 32 minValue 1 maxValue 64", in.readLine());
+            assertEquals("option name Hash type spin default 32 min 1 max 1024", in.readLine());
             assertEquals("uciok", in.readLine());
 
             // setoption command

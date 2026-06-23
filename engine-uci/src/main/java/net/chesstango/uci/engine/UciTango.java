@@ -12,9 +12,13 @@ import net.chesstango.goyeneche.AbstractUCIEngine;
 import net.chesstango.goyeneche.UCICommand;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.responses.UCIResponse;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -99,14 +103,18 @@ public class UciTango extends AbstractUCIEngine {
         // State pattern initialization: different state instances are created and linked with one another to
         // represent the allowable transitions within the state lifecycle of the engine.
         WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, config);
-        ReadyState readyState = new ReadyState(this);
+        WaitCmdPositionState waitCmdPositionState = new WaitCmdPositionState(this);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
-        waitCmdUciState.setReadyState(readyState);
-        readyState.setWaitCmdGoState(waitCmdGoState);
+        waitCmdUciState.setWaitCmdPositionState(waitCmdPositionState);
+
+        waitCmdPositionState.setWaitCmdGoState(waitCmdGoState);
+
         waitCmdGoState.setSearchingState(searchingState);
-        searchingState.setReadyState(readyState);
+        waitCmdGoState.setWaitCmdPositionState(waitCmdPositionState);
+
+        searchingState.setWaitCmdPositionState(waitCmdPositionState);
 
         // set the initial state to wait for the UCI command
         changeState(waitCmdUciState);
@@ -155,12 +163,16 @@ public class UciTango extends AbstractUCIEngine {
         currentState = newState;
     }
 
-    void newSession() {
-        session = tango.newSession();
+    void clearSession() {
+        session = null;
     }
 
-    void setSessionFEN(FEN fen) {
-        session.setFen(fen);
+    void newSession(FEN fen) {
+        session = tango.newSession(fen);
+    }
+
+    boolean isSession(FEN fen) {
+        return session != null && Objects.equals(session.getFen(), fen);
     }
 
     void setSessionMoves(List<String> moves) {
@@ -184,22 +196,43 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void goFast(int wTime, int bTime, int wInc, int bInc) {
-        session.goFast(wTime, bTime, wInc, bInc);
+        session.goFast(wTime, wInc, bTime, bInc);
     }
 
     void setSessionSearchListener(SearchListener searchListener) {
         session.setSearchListener(searchListener);
     }
 
-    void setPolyglotFile(String polyglotFile) {
-        tango.setPolyglotFile(polyglotFile);
+    void setPolyglotFile(String polyglotFileStr) {
+        try {
+            Path polyglotFile = Path.of(polyglotFileStr);
+            tango.setPolyglotFile(polyglotFile);
+        } catch (InvalidPathException e) {
+            log.error("Invalid PolyglotFile value: " + polyglotFileStr, e);
+            reply(UCIResponse.info(String.format("string Invalid PolyglotFile value '%s'. %s", polyglotFileStr, e.getMessage())));
+        }
     }
 
-    void setSyzygyPath(String syzygyPath) {
-        tango.setSyzygyPath(syzygyPath);
+    void setSyzygyPath(String syzygyPathStr) {
+        try {
+            Path syzygyPath = Path.of(syzygyPathStr);
+            tango.setSyzygyPath(syzygyPath);
+        } catch (InvalidPathException e) {
+            log.error("Invalid SyzygyPath value: " + syzygyPathStr, e);
+            reply(UCIResponse.info(String.format("string Invalid SyzygyPath value '%s'. %s", syzygyPathStr, e.getMessage())));
+        }
     }
 
-    void setHashSize(String hashSize) {
-        tango.setHashSize(Integer.getInteger(hashSize));
+    void setHashSize(String hashSizeStr) {
+        try {
+            int hashSize = Integer.parseInt(hashSizeStr);
+            if (hashSize < 1 || hashSize > 1024) {
+                throw new NumberFormatException("Hash size must be between 1 and 1024");
+            }
+            tango.setHashSize(hashSize);
+        } catch (NumberFormatException e) {
+            log.error("Invalid Hash value: " + hashSizeStr, e);
+            reply(UCIResponse.info(String.format("string Invalid Hash value '%s'. %s", hashSizeStr, e.getMessage())));
+        }
     }
 }

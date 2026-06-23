@@ -2,8 +2,10 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.nio.file.Path;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
@@ -69,7 +71,7 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
     }
 
     @Override
-    public Session newSessionImp() {
+    public Session newSessionImp(FEN fen) {
         log.warn("Search is in progress");
         return null;
     }
@@ -97,17 +99,17 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         log.warn("Search is in progress");
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         log.warn("Search is in progress");
     }
 
     @Override
-    public void setHashSize(int hashSize) {
+    public void setHashSize(int hashSizeMB) {
         log.warn("Search is in progress");
     }
 }

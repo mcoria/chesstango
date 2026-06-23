@@ -1,9 +1,11 @@
 package net.chesstango.engine;
 
+import net.chesstango.gardel.fen.FEN;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.Properties;
 
 /**
@@ -45,23 +47,23 @@ public class Tango implements TangoOptions, AutoCloseable {
         this.searchManager = searchManager;
     }
 
-    public Session newSession() {
-        return searchManager.newSession();
+    public Session newSession(FEN fen) {
+        return searchManager.newSession(fen);
     }
 
     @Override
-    public void setPolyglotFile(String polyglotFile) {
+    public void setPolyglotFile(Path polyglotFile) {
         searchManager.setPolyglotFile(polyglotFile);
     }
 
     @Override
-    public void setSyzygyPath(String syzygyPath) {
+    public void setSyzygyPath(Path syzygyPath) {
         searchManager.setSyzygyPath(syzygyPath);
     }
 
     @Override
-    public void setHashSize(int hashSize) {
-        searchManager.setHashSize(hashSize);
+    public void setHashSize(int hashSizeMB) {
+        searchManager.setHashSize(hashSizeMB);
     }
 
     @Override

@@ -2,10 +2,10 @@ package net.chesstango.engine;
 
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
-import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
+import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -40,9 +40,9 @@ interface TangoFactory {
 
     TimeMgmt createTimeMgmt();
 
-    PolyglotBook createPolyglotBook(String polyglotFile);
+    PolyglotBook createPolyglotBook(Path polyglotFile);
 
-    Syzygy createSyzygy(String syzygyPath);
+    Syzygy createSyzygy(Path syzygyPath);
 
     ScheduledExecutorService createScheduledExecutorService();
 
