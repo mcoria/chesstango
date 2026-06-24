@@ -78,7 +78,7 @@ public class GameToPGNTest {
         List<EPD> pgnToEpd = pgn.toEPD().toList();
 
         assertEquals(1, pgnToEpd.size());
-        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1; sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"1 w\";", pgnToEpd.getFirst().toString());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1; sm a4; c5 \"result='*'\"; id \"1 w\";", pgnToEpd.getFirst().toString());
     }
 
 
