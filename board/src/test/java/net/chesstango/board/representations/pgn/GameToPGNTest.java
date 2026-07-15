@@ -6,6 +6,7 @@ import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.gardel.pgn.PGNEncoder;
+import net.chesstango.gardel.pgn.PGNMove;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +39,12 @@ public class GameToPGNTest {
 
         PGN pgn = gameToPGN.decode(game);
 
-        List<String> moves = pgn.getSanMoves();
+        List<String> moves = pgn
+                .getPgnMoves()
+                .stream()
+                .map(PGNMove::getSanMove)
+                .toList();
+
         assertEquals("e4", moves.getFirst());
         assertEquals("d5", moves.get(1));
         assertEquals("Nf3", moves.get(2));
@@ -72,7 +78,7 @@ public class GameToPGNTest {
         List<EPD> pgnToEpd = pgn.toEPD().toList();
 
         assertEquals(1, pgnToEpd.size());
-        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1; sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"1 w\";", pgnToEpd.getFirst().toString());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1; sm a4; c5 \"result='*'\"; id \"1 w\";", pgnToEpd.getFirst().toString());
     }
 
 

@@ -9,10 +9,9 @@ import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.move.SANEncoder;
 import net.chesstango.gardel.pgn.PGN;
+import net.chesstango.gardel.pgn.PGNMove;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -52,7 +51,13 @@ public class GameToPGN {
             moveList.add(currentMoveStr);
         }
 
-        pgn.setSanMoves(moveList);
+
+        List<PGNMove> pgnMoves = moveList
+                .stream()
+                .map(move -> new PGNMove(move, new TreeMap<>()))
+                .toList();
+
+        pgn.setPgnMoves(pgnMoves);
 
         return pgn;
     }

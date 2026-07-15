@@ -6,6 +6,7 @@ import net.chesstango.board.representations.move.TangoMoveSupplier;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.move.SANDecoder;
 import net.chesstango.gardel.pgn.PGN;
+import net.chesstango.gardel.pgn.PGNMove;
 
 /**
  * @author Mauricio Coria
@@ -16,16 +17,19 @@ public class PGNToGame {
         FEN fen = pgn.getFen() == null ? FEN.START_POSITION : pgn.getFen();
         Game game = Game.from(fen);
         SANDecoder<Move> sanDecoder = new SANDecoder<>(new TangoMoveSupplier(game));
-        pgn.getSanMoves().forEach(moveStr -> {
-            if (game.getState().getStatus().isInProgress()) {
-                Move move = sanDecoder.decode(moveStr, game.toFEN());
-                if (move != null) {
-                    move.executeMove();
-                } else {
-                    throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", pgn.getEvent(), moveStr, game.toFEN().toString()));
-                }
-            }
-        });
+        pgn.getPgnMoves()
+                .stream()
+                .map(PGNMove::getSanMove)
+                .forEach(moveStr -> {
+                    if (game.getState().getStatus().isInProgress()) {
+                        Move move = sanDecoder.decode(moveStr, game.toFEN());
+                        if (move != null) {
+                            move.executeMove();
+                        } else {
+                            throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", pgn.getEvent(), moveStr, game.toFEN().toString()));
+                        }
+                    }
+                });
         return game;
     }
 
