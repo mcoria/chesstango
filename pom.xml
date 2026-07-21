@@ -49,6 +49,7 @@
 
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <junit-platform-suite.version>1.13.4</junit-platform-suite.version>
+
         <mockito-junit-jupiter.version>5.18.0</mockito-junit-jupiter.version>
         <jmh.version>1.37</jmh.version>
 
@@ -219,6 +220,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
+                        <useModulePath>false</useModulePath>
                         <excludes>
                             <exclude>**/*IntegrationTest</exclude>
                         </excludes>
@@ -234,6 +236,7 @@
                                 <goal>integration-test</goal>
                             </goals>
                             <configuration>
+                                <useModulePath>false</useModulePath>
                                 <excludes>
                                     <exclude>none</exclude>
                                 </excludes>
