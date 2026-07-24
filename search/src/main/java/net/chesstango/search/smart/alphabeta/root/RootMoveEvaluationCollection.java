@@ -33,7 +33,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     @Getter
     private RootMoveEvaluation bestRootMoveEvaluation;
 
-
     /**
      * Constructs a new RootMoveEvaluationCollection.
      * Initializes the internal list of move evaluations and the comparator used for sorting.

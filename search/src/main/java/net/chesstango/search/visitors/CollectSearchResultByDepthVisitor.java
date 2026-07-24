@@ -25,9 +25,9 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(RootMoveEvaluationCollection moveEvaluations) {
-        searchResultByDepth.setBestRootMoveEvaluation(moveEvaluations.getBestRootMoveEvaluation());
-        searchResultByDepth.setRootMoveEvaluations(moveEvaluations.getRootMoveEvaluations());
+    public void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
+        searchResultByDepth.setBestRootMoveEvaluation(rootMoveEvaluationCollection.getBestRootMoveEvaluation());
+        searchResultByDepth.setRootMoveEvaluations(rootMoveEvaluationCollection.getRootMoveEvaluations());
     }
 
     @Override
