@@ -30,10 +30,7 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test01() {
-        Game game = Game.from(FEN.START_POSITION);
-        rootMoveEvaluationCollection.setGame(game);
         rootMoveEvaluationCollection.beforeSearch();
-
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
@@ -55,8 +52,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test02() {
-        Game game = Game.from(FEN.START_POSITION).mirror();
-        rootMoveEvaluationCollection.setGame(game);
         rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
@@ -79,8 +74,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test03() {
-        Game game = Game.from(FEN.START_POSITION);
-        rootMoveEvaluationCollection.setGame(game);
         rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
@@ -104,8 +97,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test04() {
-        Game game = Game.from(FEN.START_POSITION).mirror();
-        rootMoveEvaluationCollection.setGame(game);
         rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 

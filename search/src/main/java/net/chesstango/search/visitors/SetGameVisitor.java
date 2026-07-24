@@ -73,11 +73,6 @@ public class SetGameVisitor implements Visitor {
         alphaBetaFacade.setGame(game);
     }
 
-    @Override
-    public void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
-        rootMoveEvaluationCollection.setGame(game);
-    }
-
     /**
      * Alpha Beta filters
      *
