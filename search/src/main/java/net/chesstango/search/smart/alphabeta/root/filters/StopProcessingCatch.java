@@ -8,7 +8,6 @@ import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 /**
@@ -48,7 +47,7 @@ public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
             throw new RuntimeException("Stopped too early");
         }
 
-        return 0;
+        return bestRootMoveEvaluation.evaluation();
     }
 
     private void undoMoves(long startHash) {

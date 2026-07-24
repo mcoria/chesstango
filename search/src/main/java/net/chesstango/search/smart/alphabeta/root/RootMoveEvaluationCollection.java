@@ -117,6 +117,8 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
      */
     public void save(RootMoveEvaluation moveEvaluation) {
         rootMoveEvaluations.add(moveEvaluation);
+        rootMoveEvaluations.sort(rootMoveEvaluationComparator);
+        bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
     }
 
     /**
