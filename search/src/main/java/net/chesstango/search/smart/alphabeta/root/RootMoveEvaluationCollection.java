@@ -71,19 +71,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
         rootMoveEvaluations.clear();
     }
 
-    /**
-     * Called after completing a search at a specific depth.
-     * Sorts all collected move evaluations and updates the best move.
-     * Handles the case where search was stopped immediately after completing DEPTH = 1.
-     */
-    @Override
-    public void afterSearchByDepth() {
-        //En caso de stop inmediatamente se completó DEPTH = 1
-        if (!rootMoveEvaluations.isEmpty()) {
-            rootMoveEvaluations.sort(rootMoveEvaluationComparator);
-            bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
-        }
-    }
 
     /**
      * Called before searching within a new aspiration window.
