@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
@@ -58,10 +57,8 @@ public class IterativeDeepening implements Search {
 
         int currentSearchDepth = 1;
         SearchResult searchResult = new SearchResult();
-        SearchResultByDepth searchResultByDepth = null;
+        SearchResultByDepth searchResultByDepth;
         boolean continueDeepening;
-
-        Color currentTurn = game.getPosition().getCurrentTurn();
 
         // Performs iterative deepening loop until stop conditions met
         do {

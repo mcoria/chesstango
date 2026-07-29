@@ -66,14 +66,6 @@ public class SetGameVisitor implements Visitor {
     }
 
     /**
-     * Facades
-     */
-    @Override
-    public void visit(AlphaBetaFacade alphaBetaFacade) {
-        alphaBetaFacade.setGame(game);
-    }
-
-    /**
      * Alpha Beta filters
      *
      */
