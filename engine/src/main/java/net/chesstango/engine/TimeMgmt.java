@@ -16,12 +16,12 @@ interface TimeMgmt {
      *
      * @param game  Current game state
      * @param wTime Remaining time for white player in milliseconds
-     * @param bTime Remaining time for black player in milliseconds
      * @param wInc  Time increment for white player after each move in milliseconds
+     * @param bTime Remaining time for black player in milliseconds
      * @param bInc  Time increment for black player after each move in milliseconds
      * @return Allocated time for the search in milliseconds
      */
-    int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc);
+    int getTimeOut(Game game, int wTime, int wInc, int bTime, int bInc);
 
     /**
      * Determines whether to continue the search based on elapsed time and search progress.

@@ -50,8 +50,8 @@ class SearchManager implements TangoOptions {
     }
 
     synchronized Future<SearchResponse> searchFast(Game game, int wTime, int wInc, int bTime, int bInc, SearchListener searchListener) {
-        int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        return currentSearchManagerState.searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
+        int timeOut = timeMgmt.getTimeOut(game, wTime, wInc, bTime, bInc);
+        return currentSearchManagerState.searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, wInc, bTime, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
     synchronized void stopSearching() {
