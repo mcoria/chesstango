@@ -10,6 +10,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -166,6 +167,33 @@ public class SearchTest {
         assertTrue(searchResult.isPvComplete());
     }
 
+    @Test
+    @Disabled
+    public void test_1_7() {
+        Game game = Game.from(FEN.from("rnbqkb1r/p4p2/2p1p2p/1p1nP1p1/2pP4/2N2NB1/PP3PPP/R2QKB1R w KQkq - 1 10"));
+
+        Search search = defaultSearch()
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(5));
+        SearchResult searchResult = search.startSearch(game);
+
+        Move bm = searchResult.getBestMove();
+
+        assertNotNull(bm);
+
+        assertEquals(Piece.KING_BLACK, bm.getFrom().piece());
+        assertEquals(Square.c8, bm.getFrom().square());
+        assertEquals(Square.b8, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"c8b8", "e5e6", "g2f2", "e6e7", "c6e7", "a3e7"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
+    }
 
 
     private AlphaBetaBuilder defaultSearch() {

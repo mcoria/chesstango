@@ -5,6 +5,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 
 /**
  *
@@ -16,6 +17,11 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     public CollectSearchResultByDepthVisitor(SearchResultByDepth searchResultByDepth) {
         this.searchResultByDepth = searchResultByDepth;
+    }
+
+    @Override
+    public void visit(StopProcessingCatch stopProcessingCatch) {
+        searchResultByDepth.setSearchStopped(stopProcessingCatch.isSearchStopped());
     }
 
     @Override

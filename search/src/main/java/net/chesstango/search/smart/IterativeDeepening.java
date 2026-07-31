@@ -5,7 +5,10 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
-import net.chesstango.search.visitors.*;
+import net.chesstango.search.visitors.CollectSearchResultVisitor;
+import net.chesstango.search.visitors.DistributeSearchResultVisitor;
+import net.chesstango.search.visitors.SetDepthVisitor;
+import net.chesstango.search.visitors.SetGameVisitor;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -15,7 +18,6 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public class IterativeDeepening implements Search {
-    private volatile boolean keepProcessing;
 
     @Getter
     private final SearchAlgorithm searchAlgorithm;
@@ -49,32 +51,28 @@ public class IterativeDeepening implements Search {
             throw new RuntimeException("Game is already finished");
         }
 
-        keepProcessing = true;
-
         accept(new SetGameVisitor(game));
 
         searchListenerMediator.triggerBeforeSearch();
 
-        int currentSearchDepth = 1;
         SearchResult searchResult = new SearchResult();
-        SearchResultByDepth searchResultByDepth;
+
+        int currentSearchDepth = 1;
+
         boolean continueDeepening;
 
-        // Performs iterative deepening loop until stop conditions met
         do {
             searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
 
-            searchListenerMediator.triggerBeforeSearchByDepth();
+            SearchResultByDepth searchResultByDepth = searchAlgorithm.search();
 
-            searchAlgorithm.search();
-
-            searchListenerMediator.triggerAfterSearchByDepth();
-
-            searchResultByDepth = new SearchResultByDepth(currentSearchDepth);
-
-            searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
-
-            searchListenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
+            /**
+             * La busqueda en profundidad actual fué detenida prematuramente
+             * y no logró explorar ningun movimiento root
+             */
+            if (searchResultByDepth == null) {
+                break;
+            }
 
             searchResult.addSearchResultByDepth(searchResultByDepth);
 
@@ -82,21 +80,18 @@ public class IterativeDeepening implements Search {
                 searchResultByDepthListener.accept(searchResultByDepth);
             }
 
-            currentSearchDepth++;
-
             /**
              * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
              * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
              */
             RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
 
-            continueDeepening = bestRootMoveEvaluation.evaluation() < Evaluator.WON;
+            continueDeepening = !searchResultByDepth.isSearchStopped() &&
+                    bestRootMoveEvaluation.evaluation() < Evaluator.WON &&
+                    searchPredicateParameter.test(searchResultByDepth);
 
-        } while (keepProcessing &&
-                continueDeepening &&
-                currentSearchDepth <= maxDepth &&
-                searchPredicateParameter.test(searchResultByDepth)
-        );
+        } while (continueDeepening && ++currentSearchDepth <= maxDepth);
+
 
         searchListenerMediator.triggerAfterSearch();
 
@@ -114,7 +109,6 @@ public class IterativeDeepening implements Search {
      */
     @Override
     public void stopSearch() {
-        keepProcessing = false;
         searchListenerMediator.triggerStopSearching();
     }
 

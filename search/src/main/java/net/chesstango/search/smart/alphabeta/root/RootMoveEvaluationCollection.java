@@ -6,7 +6,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
@@ -24,11 +23,13 @@ import java.util.Optional;
  *
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationCollection implements Acceptor, SearchByDepthListener, SearchByWindowsListener {
 
     private final List<RootMoveEvaluation> rootMoveEvaluations;
 
     private final RootMoveEvaluationComparator rootMoveEvaluationComparator;
+
+    private boolean searchingByWindows;
 
     @Getter
     private RootMoveEvaluation bestRootMoveEvaluation;
@@ -52,15 +53,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
         visitor.visit(this);
     }
 
-    /**
-     * Called before a new search cycle begins.
-     * Clears all previously stored move evaluations and resets the best move.
-     */
-    @Override
-    public void beforeSearch() {
-        rootMoveEvaluations.clear();
-        bestRootMoveEvaluation = null;
-    }
 
     /**
      * Called before searching at a new depth level.
@@ -69,21 +61,19 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     @Override
     public void beforeSearchByDepth() {
         rootMoveEvaluations.clear();
+        bestRootMoveEvaluation = null;
+        searchingByWindows = false;
     }
 
-    /**
-     * Called after completing a search at a specific depth.
-     * Sorts all collected move evaluations and updates the best move.
-     * Handles the case where search was stopped immediately after completing DEPTH = 1.
-     */
+
     @Override
-    public void afterSearchByDepth() {
-        //En caso de stop inmediatamente se completó DEPTH = 1
-        if (!rootMoveEvaluations.isEmpty()) {
+    public void afterSearchByDepth(boolean searchStopped) {
+        if (!searchingByWindows && !rootMoveEvaluations.isEmpty()) {
             rootMoveEvaluations.sort(rootMoveEvaluationComparator);
             bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
         }
     }
+
 
     /**
      * Called before searching within a new aspiration window.
@@ -99,16 +89,31 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
      */
     @Override
     public void beforeSearchByWindows(int alpha, int beta, int searchByWindowsCycle) {
-        if (searchByWindowsCycle > 0) {
+        searchingByWindows = true;
+        /**
+         * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
+         * Dejo resultado exactos dado que no es necesario volver a explorarlos.
+         * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
+         */
+        rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alpha <= moveEvaluation.evaluation());
+        rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= beta);
+    }
+
+    @Override
+    public void afterSearchByWindows(boolean searchStopped) {
+        if (!rootMoveEvaluations.isEmpty()) {
+            rootMoveEvaluations.sort(rootMoveEvaluationComparator);
             /**
-             * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
-             * Dejo resultado exactos dado que no es necesario volver a explorarlos.
-             * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
+             * En caso de detenerse la busqueda, esta condicion garantiza el mejor resultado:
+             * - Del primer ciclo INCOMPLETO
+             * - Del ciclo anterior COMPLETO
              */
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alpha <= moveEvaluation.evaluation());
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= beta);
+            if (bestRootMoveEvaluation == null || !searchStopped) {
+                bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+            }
         }
     }
+
 
     /**
      * Saves a root move evaluation to the collection.
@@ -118,6 +123,7 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     public void save(RootMoveEvaluation moveEvaluation) {
         rootMoveEvaluations.add(moveEvaluation);
     }
+
 
     /**
      * Retrieves the evaluation for a specific move if it exists in the collection.

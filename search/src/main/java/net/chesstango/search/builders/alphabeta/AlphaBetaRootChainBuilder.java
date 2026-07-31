@@ -149,10 +149,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             pvCalculatorDebug = new PVCalculatorDebug();
         }
-
-        if (stopProcessingCatch != null) {
-            stopProcessingCatch.setRootMoveEvaluationCollection(moveEvaluations);
-        }
     }
 
 

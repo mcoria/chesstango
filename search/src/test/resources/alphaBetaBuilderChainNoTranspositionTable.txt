@@ -121,7 +121,7 @@ SearchByCycleListeners:
 	AlphaBetaFlowControl @ 12
 	PrincipalVariationComparator @ 27
 	PrincipalVariationComparator @ 39
-	RootMoveEvaluationCollection @ 47
+	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 6
 	RootMoveSorter @ 8

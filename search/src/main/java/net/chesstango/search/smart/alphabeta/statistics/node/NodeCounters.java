@@ -57,7 +57,7 @@ public class NodeCounters implements Acceptor, SearchByCycleListener, SearchByDe
 
 
     @Override
-    public void afterSearchByDepth() {
+    public void afterSearchByDepth(boolean searchStopped) {
         regularNodeCounters[depth - 1] = regularNodeCounter;
     }
 

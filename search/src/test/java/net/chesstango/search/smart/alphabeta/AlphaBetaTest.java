@@ -153,7 +153,7 @@ public class AlphaBetaTest {
 
         alphaBetaFacade.search();
 
-        searchListenerMediator.triggerAfterSearchByDepth();
+        searchListenerMediator.triggerAfterSearchByDepth(false);
 
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
