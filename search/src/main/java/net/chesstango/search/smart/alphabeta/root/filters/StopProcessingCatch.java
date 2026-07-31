@@ -4,26 +4,34 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 /**
  * @author Mauricio Coria
  */
-@Setter
-public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
+public class StopProcessingCatch implements AlphaBetaFilter, Acceptor, SearchByCycleListener {
 
     @Getter
+    @Setter
     private AlphaBetaFilter next;
 
+    @Setter
     private Game game;
+
+    @Getter
+    private boolean searchStopped;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearch() {
+        searchStopped = false;
     }
 
 
@@ -34,6 +42,7 @@ public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
             return next.alphaBeta(currentPly, alpha, beta);
         } catch (StopSearchingException stopSearchingException) {
             undoMoves(startHash);
+            searchStopped = true;
             throw stopSearchingException;
         }
     }

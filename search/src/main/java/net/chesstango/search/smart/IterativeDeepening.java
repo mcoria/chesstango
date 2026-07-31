@@ -18,7 +18,6 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public class IterativeDeepening implements Search {
-    private volatile boolean keepProcessing;
 
     @Getter
     private final SearchAlgorithm searchAlgorithm;
@@ -52,17 +51,18 @@ public class IterativeDeepening implements Search {
             throw new RuntimeException("Game is already finished");
         }
 
-        keepProcessing = true;
-
         accept(new SetGameVisitor(game));
 
         searchListenerMediator.triggerBeforeSearch();
 
-        int currentSearchDepth = 1;
-        boolean continueDeepening;
         SearchResult searchResult = new SearchResult();
 
         try {
+
+            int currentSearchDepth = 1;
+
+            boolean continueDeepening;
+
             // Performs iterative deepening loop until stop conditions met
             do {
                 searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
@@ -75,22 +75,20 @@ public class IterativeDeepening implements Search {
                     searchResultByDepthListener.accept(searchResultByDepth);
                 }
 
-                currentSearchDepth++;
-
                 /**
                  * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
                  * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
                  */
                 RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
 
-                continueDeepening = bestRootMoveEvaluation.evaluation() < Evaluator.WON && searchPredicateParameter.test(searchResultByDepth);
+                continueDeepening = !searchResultByDepth.isSearchStopped() &&
+                        bestRootMoveEvaluation.evaluation() < Evaluator.WON &&
+                        searchPredicateParameter.test(searchResultByDepth);
 
-            } while (keepProcessing &&
-                    continueDeepening &&
-                    currentSearchDepth <= maxDepth
-            );
+            } while (continueDeepening && ++currentSearchDepth <= maxDepth);
+
         } catch (StopSearchingException stopSearchingException) {
-            // Do nothing
+            // La profundidad actual no exploró ningun movimiento
         }
 
         searchListenerMediator.triggerAfterSearch();
@@ -109,7 +107,6 @@ public class IterativeDeepening implements Search {
      */
     @Override
     public void stopSearch() {
-        keepProcessing = false;
         searchListenerMediator.triggerStopSearching();
     }
 
