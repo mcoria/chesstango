@@ -6,7 +6,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
@@ -24,11 +23,13 @@ import java.util.Optional;
  *
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationCollection implements Acceptor, SearchByDepthListener, SearchByWindowsListener {
 
     private final List<RootMoveEvaluation> rootMoveEvaluations;
 
     private final RootMoveEvaluationComparator rootMoveEvaluationComparator;
+
+    private boolean searchingByWindows;
 
     @Getter
     private RootMoveEvaluation bestRootMoveEvaluation;
@@ -52,15 +53,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
         visitor.visit(this);
     }
 
-    /**
-     * Called before a new search cycle begins.
-     * Clears all previously stored move evaluations and resets the best move.
-     */
-    @Override
-    public void beforeSearch() {
-        rootMoveEvaluations.clear();
-        bestRootMoveEvaluation = null;
-    }
 
     /**
      * Called before searching at a new depth level.
@@ -69,6 +61,17 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
     @Override
     public void beforeSearchByDepth() {
         rootMoveEvaluations.clear();
+        bestRootMoveEvaluation = null;
+        searchingByWindows = false;
+    }
+
+
+    @Override
+    public void afterSearchByDepth(boolean searchStopped) {
+        if (!searchingByWindows && !rootMoveEvaluations.isEmpty()) {
+            rootMoveEvaluations.sort(rootMoveEvaluationComparator);
+            bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+        }
     }
 
 
@@ -86,16 +89,24 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
      */
     @Override
     public void beforeSearchByWindows(int alpha, int beta, int searchByWindowsCycle) {
-        if (searchByWindowsCycle > 0) {
-            /**
-             * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
-             * Dejo resultado exactos dado que no es necesario volver a explorarlos.
-             * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
-             */
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alpha <= moveEvaluation.evaluation());
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= beta);
+        searchingByWindows = true;
+        /**
+         * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
+         * Dejo resultado exactos dado que no es necesario volver a explorarlos.
+         * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
+         */
+        rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alpha <= moveEvaluation.evaluation());
+        rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= beta);
+    }
+
+    @Override
+    public void afterSearchByWindows(boolean searchStopped) {
+        if (!rootMoveEvaluations.isEmpty()) {
+            rootMoveEvaluations.sort(rootMoveEvaluationComparator);
+            bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
         }
     }
+
 
     /**
      * Saves a root move evaluation to the collection.
@@ -103,10 +114,13 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
      * @param moveEvaluation the move evaluation to save
      */
     public void save(RootMoveEvaluation moveEvaluation) {
+        /**
+         * El mejor resultado es el que se obtiene en el ultimo ciclo de busqueda por ventana.
+         * Observar que en beforeSearchByWindows() se eliminan los resultados Bound.LOWER_BOUND.
+         */
         rootMoveEvaluations.add(moveEvaluation);
-        rootMoveEvaluations.sort(rootMoveEvaluationComparator);
-        bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
     }
+
 
     /**
      * Retrieves the evaluation for a specific move if it exists in the collection.
@@ -129,6 +143,7 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
      * @return an immutable list containing all move evaluations
      */
     public List<RootMoveEvaluation> getRootMoveEvaluations() {
+        rootMoveEvaluations.sort(rootMoveEvaluationComparator);
         return List.copyOf(rootMoveEvaluations);
     }
 

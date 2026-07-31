@@ -41,7 +41,7 @@ public class DepthCollector implements Acceptor, SearchByCycleListener, SearchBy
     }
 
     @Override
-    public void afterSearchByDepth() {
+    public void afterSearchByDepth(boolean searchStopped) {
         int evaluatedChild = rootMoveEvaluationCollection.getRootMoveEvaluations().size();
         exploredDepth = (depth - 1) + (float) evaluatedChild / possibleMoves;
     }

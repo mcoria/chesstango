@@ -5,7 +5,10 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
-import net.chesstango.search.visitors.*;
+import net.chesstango.search.visitors.CollectSearchResultVisitor;
+import net.chesstango.search.visitors.DistributeSearchResultVisitor;
+import net.chesstango.search.visitors.SetDepthVisitor;
+import net.chesstango.search.visitors.SetGameVisitor;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -56,47 +59,39 @@ public class IterativeDeepening implements Search {
         searchListenerMediator.triggerBeforeSearch();
 
         int currentSearchDepth = 1;
-        SearchResult searchResult = new SearchResult();
-        SearchResultByDepth searchResultByDepth;
         boolean continueDeepening;
+        SearchResult searchResult = new SearchResult();
 
-        // Performs iterative deepening loop until stop conditions met
-        do {
-            searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
+        try {
+            // Performs iterative deepening loop until stop conditions met
+            do {
+                searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
 
-            searchListenerMediator.triggerBeforeSearchByDepth();
+                SearchResultByDepth searchResultByDepth = searchAlgorithm.search();
 
-            searchAlgorithm.search();
+                searchResult.addSearchResultByDepth(searchResultByDepth);
 
-            searchListenerMediator.triggerAfterSearchByDepth();
+                if (searchResultByDepthListener != null) {
+                    searchResultByDepthListener.accept(searchResultByDepth);
+                }
 
-            searchResultByDepth = new SearchResultByDepth(currentSearchDepth);
+                currentSearchDepth++;
 
-            searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
+                /**
+                 * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
+                 * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
+                 */
+                RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
 
-            searchListenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
+                continueDeepening = bestRootMoveEvaluation.evaluation() < Evaluator.WON && searchPredicateParameter.test(searchResultByDepth);
 
-            searchResult.addSearchResultByDepth(searchResultByDepth);
-
-            if (searchResultByDepthListener != null) {
-                searchResultByDepthListener.accept(searchResultByDepth);
-            }
-
-            currentSearchDepth++;
-
-            /**
-             * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-             * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
-             */
-            RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
-
-            continueDeepening = bestRootMoveEvaluation.evaluation() < Evaluator.WON;
-
-        } while (keepProcessing &&
-                continueDeepening &&
-                currentSearchDepth <= maxDepth &&
-                searchPredicateParameter.test(searchResultByDepth)
-        );
+            } while (keepProcessing &&
+                    continueDeepening &&
+                    currentSearchDepth <= maxDepth
+            );
+        } catch (StopSearchingException stopSearchingException) {
+            // Do nothing
+        }
 
         searchListenerMediator.triggerAfterSearch();
 

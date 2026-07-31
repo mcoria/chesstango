@@ -19,8 +19,6 @@ public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
     @Getter
     private AlphaBetaFilter next;
 
-    private RootMoveEvaluationCollection rootMoveEvaluationCollection;
-
     private Game game;
 
     @Override
@@ -32,22 +30,12 @@ public class StopProcessingCatch implements AlphaBetaFilter, Acceptor {
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
         final long startHash = game.getPosition().getZobristHash();
-
         try {
             return next.alphaBeta(currentPly, alpha, beta);
-        } catch (StopSearchingException re) {
+        } catch (StopSearchingException stopSearchingException) {
             undoMoves(startHash);
+            throw stopSearchingException;
         }
-
-        // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
-        RootMoveEvaluation bestRootMoveEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
-
-        // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior
-        if (bestRootMoveEvaluation == null) {
-            throw new RuntimeException("Stopped too early");
-        }
-
-        return bestRootMoveEvaluation.evaluation();
     }
 
     private void undoMoves(long startHash) {

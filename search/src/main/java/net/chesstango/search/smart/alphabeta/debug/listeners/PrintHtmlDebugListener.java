@@ -97,7 +97,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     @Override
-    public void afterSearchByDepth() {
+    public void afterSearchByDepth(boolean searchStopped) {
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
@@ -117,7 +117,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     @Override
-    public void afterSearchByWindows(boolean searchByWindowsFinished) {
+    public void afterSearchByWindows(boolean searchStopped) {
         dumpSearchTracker();
         debugOut.print("""
                 </ul>

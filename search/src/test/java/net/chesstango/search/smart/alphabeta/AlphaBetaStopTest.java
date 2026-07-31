@@ -1,20 +1,17 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -36,7 +33,7 @@ public class AlphaBetaStopTest {
     }
 
     @Test
-    public void testStop() throws InterruptedException {
+    public void testStop() {
         Search search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
 
@@ -57,11 +54,12 @@ public class AlphaBetaStopTest {
 
                 .build();
 
-
-        //Game game = FENDecoder.loadGame("r1bqkb1r/pppppppp/2n5/3nP3/2BP4/8/PPP2PPP/RNBQK1NR b KQkq - 2 4");
         Game game = Game.from(FEN.from("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22"));
 
-        //search.accept();
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        search.accept(new SetSearchByDepthListenerVisitor(_ -> latch.countDown()));
 
         Future<SearchResult> searchTask = singleThreadExecutor.submit(() -> {
             try {
@@ -73,18 +71,16 @@ public class AlphaBetaStopTest {
         });
 
 
-
-        Thread.sleep(500);
-
-        search.stopSearch();
-
-        SearchResult searchResult = null;
         try {
-            searchResult = searchTask.get();
-        } catch (ExecutionException e) {
+            latch.await();
+
+            search.stopSearch();
+
+            SearchResult searchResult = searchTask.get();
+
+            assertNotNull(searchResult);
+        } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        assertNotNull(searchResult);
     }
 }

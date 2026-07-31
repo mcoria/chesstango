@@ -1,12 +1,10 @@
 package net.chesstango.search.smart.alphabeta.root;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +28,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test01() {
-        rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
@@ -42,7 +39,7 @@ public class RootMoveEvaluationCollectionTest {
         final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move3, 3000, Bound.EXACT));
 
-        rootMoveEvaluationCollection.afterSearchByDepth();
+        rootMoveEvaluationCollection.afterSearchByDepth(false);
 
         RootMoveEvaluation maxEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
         assertEquals(move3, maxEvaluation.move());
@@ -52,7 +49,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test02() {
-        rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a7, Piece.PAWN_BLACK), PiecePositioned.of(Square.a6, null));
@@ -64,7 +60,7 @@ public class RootMoveEvaluationCollectionTest {
         final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c7, Piece.PAWN_BLACK), PiecePositioned.of(Square.c6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move3, 3000, Bound.EXACT));
 
-        rootMoveEvaluationCollection.afterSearchByDepth();
+        rootMoveEvaluationCollection.afterSearchByDepth(false);
 
         RootMoveEvaluation minEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
         assertEquals(move3, minEvaluation.move());
@@ -74,7 +70,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test03() {
-        rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
@@ -86,7 +81,7 @@ public class RootMoveEvaluationCollectionTest {
         final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move3, 1000, Bound.UPPER_BOUND));
 
-        rootMoveEvaluationCollection.afterSearchByDepth();
+        rootMoveEvaluationCollection.afterSearchByDepth(false);
 
         // Move1 es más prometedor que el resto, dado que maximizamos y es LOWER_BOUND, por lo que es el mejor
         RootMoveEvaluation maxEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
@@ -97,7 +92,6 @@ public class RootMoveEvaluationCollectionTest {
 
     @Test
     public void test04() {
-        rootMoveEvaluationCollection.beforeSearch();
         rootMoveEvaluationCollection.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a7, Piece.PAWN_BLACK), PiecePositioned.of(Square.a6, null));
@@ -109,7 +103,7 @@ public class RootMoveEvaluationCollectionTest {
         final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c7, Piece.PAWN_BLACK), PiecePositioned.of(Square.c6, null));
         rootMoveEvaluationCollection.save(new RootMoveEvaluation(move3, 1000, Bound.UPPER_BOUND));
 
-        rootMoveEvaluationCollection.afterSearchByDepth();
+        rootMoveEvaluationCollection.afterSearchByDepth(false);
 
         // Move1 es más prometedor que el resto, dado que minimizamos y es UPPER_BOUND, por lo que es el mejor
         RootMoveEvaluation minEvaluation = rootMoveEvaluationCollection.getBestRootMoveEvaluation();
