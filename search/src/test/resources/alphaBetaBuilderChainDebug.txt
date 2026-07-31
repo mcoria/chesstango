@@ -159,7 +159,7 @@ SearchByCycleListeners:
 	PrintHtmlDebugListener @ 73
 	PrincipalVariationComparator @ 41
 	PrincipalVariationComparator @ 60
-	RootMoveEvaluationCollection @ 74
+	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
 	RootMoveSorter @ 14

@@ -103,7 +103,14 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByDepthList
     public void afterSearchByWindows(boolean searchStopped) {
         if (!rootMoveEvaluations.isEmpty()) {
             rootMoveEvaluations.sort(rootMoveEvaluationComparator);
-            bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+            /**
+             * En caso de detenerse la busqueda, esta condicion garantiza el mejor resultado:
+             * - Del primer ciclo INCOMPLETO
+             * - Del ciclo anterior COMPLETO
+             */
+            if (bestRootMoveEvaluation == null || !searchStopped) {
+                bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+            }
         }
     }
 
@@ -114,10 +121,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByDepthList
      * @param moveEvaluation the move evaluation to save
      */
     public void save(RootMoveEvaluation moveEvaluation) {
-        /**
-         * El mejor resultado es el que se obtiene en el ultimo ciclo de busqueda por ventana.
-         * Observar que en beforeSearchByWindows() se eliminan los resultados Bound.LOWER_BOUND.
-         */
         rootMoveEvaluations.add(moveEvaluation);
     }
 
@@ -143,7 +146,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByDepthList
      * @return an immutable list containing all move evaluations
      */
     public List<RootMoveEvaluation> getRootMoveEvaluations() {
-        rootMoveEvaluations.sort(rootMoveEvaluationComparator);
         return List.copyOf(rootMoveEvaluations);
     }
 

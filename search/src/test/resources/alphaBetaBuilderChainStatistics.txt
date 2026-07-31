@@ -160,7 +160,7 @@ SearchByCycleListeners:
 	DepthCollector @ 73
 	PrincipalVariationComparator @ 39
 	PrincipalVariationComparator @ 57
-	RootMoveEvaluationCollection @ 74
+	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 6
 	RootMoveSorter @ 12

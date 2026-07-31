@@ -49,7 +49,7 @@ public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
             searchListenerMediator.triggerAfterSearchByDepth(true);
 
             if (rootMoveEvaluationCollection.getBestRootMoveEvaluation() == null) {
-                throw stopSearchingException;
+                return null;
             }
         }
 

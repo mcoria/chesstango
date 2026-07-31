@@ -76,7 +76,6 @@ AlphaBetaFlowControl @ 10
 SearchByCycleListeners:
 	SetSearchTimers @ 28
 	AlphaBetaFlowControl @ 10
-	RootMoveEvaluationCollection @ 29
 	PVCalculatorTriangular @ 4
 	RootMoveSorter @ 6
 

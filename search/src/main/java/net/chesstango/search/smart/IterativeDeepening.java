@@ -57,39 +57,41 @@ public class IterativeDeepening implements Search {
 
         SearchResult searchResult = new SearchResult();
 
-        try {
+        int currentSearchDepth = 1;
 
-            int currentSearchDepth = 1;
+        boolean continueDeepening;
 
-            boolean continueDeepening;
+        do {
+            searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
 
-            // Performs iterative deepening loop until stop conditions met
-            do {
-                searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
+            SearchResultByDepth searchResultByDepth = searchAlgorithm.search();
 
-                SearchResultByDepth searchResultByDepth = searchAlgorithm.search();
+            /**
+             * La busqueda en profundidad actual fué detenida prematuramente
+             * y no logró explorar ningun movimiento root
+             */
+            if (searchResultByDepth == null) {
+                break;
+            }
 
-                searchResult.addSearchResultByDepth(searchResultByDepth);
+            searchResult.addSearchResultByDepth(searchResultByDepth);
 
-                if (searchResultByDepthListener != null) {
-                    searchResultByDepthListener.accept(searchResultByDepth);
-                }
+            if (searchResultByDepthListener != null) {
+                searchResultByDepthListener.accept(searchResultByDepth);
+            }
 
-                /**
-                 * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-                 * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
-                 */
-                RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
+            /**
+             * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
+             * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
+             */
+            RootMoveEvaluation bestRootMoveEvaluation = searchResultByDepth.getBestRootMoveEvaluation();
 
-                continueDeepening = !searchResultByDepth.isSearchStopped() &&
-                        bestRootMoveEvaluation.evaluation() < Evaluator.WON &&
-                        searchPredicateParameter.test(searchResultByDepth);
+            continueDeepening = !searchResultByDepth.isSearchStopped() &&
+                    bestRootMoveEvaluation.evaluation() < Evaluator.WON &&
+                    searchPredicateParameter.test(searchResultByDepth);
 
-            } while (continueDeepening && ++currentSearchDepth <= maxDepth);
+        } while (continueDeepening && ++currentSearchDepth <= maxDepth);
 
-        } catch (StopSearchingException stopSearchingException) {
-            // La profundidad actual no exploró ningun movimiento
-        }
 
         searchListenerMediator.triggerAfterSearch();
 
