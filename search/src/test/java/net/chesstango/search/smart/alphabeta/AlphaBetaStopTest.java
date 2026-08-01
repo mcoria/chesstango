@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
@@ -34,30 +35,14 @@ public class AlphaBetaStopTest {
 
     @Test
     public void testStop() {
-        Search search = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterial())
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-                .withTranspositionHashSize(1024)
-
-                .withTranspositionMoveSorter()
-
-                .withStopProcessingCatch()
-
-                .withAspirationWindows()
-
-                .withIterativeDeepening()
-
-                .withStatistics()
-
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.createInstance())
                 .build();
 
-        Game game = Game.from(FEN.from("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22"));
+        Game game = Game.from(FEN.from("rnbqkb1r/p4p2/2p1p2p/1p1nP1p1/2pP4/2N2NB1/PP3PPP/R2QKB1R w KQkq - 1 10"));
 
-
-        CountDownLatch latch = new CountDownLatch(1);
+        CountDownLatch latch = new CountDownLatch(8);
 
         search.accept(new SetSearchByDepthListenerVisitor(_ -> latch.countDown()));
 
@@ -80,6 +65,7 @@ public class AlphaBetaStopTest {
 
             assertNotNull(searchResult);
         } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace(System.err);
             throw new RuntimeException(e);
         }
     }
