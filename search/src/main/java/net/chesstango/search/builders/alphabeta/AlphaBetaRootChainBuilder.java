@@ -202,7 +202,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected void linkObjects() {
+    public void link() {
         alphaBeta.setMoveSorter(moveSorterRootBuilder.build());
 
         if (withAspirationWindows) {

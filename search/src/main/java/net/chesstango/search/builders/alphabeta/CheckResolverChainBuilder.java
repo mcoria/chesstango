@@ -112,7 +112,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected void linkObjects() {
+    public void link() {
         alphaBeta.setMoveSorter(moveSorterBuilder.build());
     }
 

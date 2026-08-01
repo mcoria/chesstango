@@ -139,7 +139,7 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
     }
 
     @Override
-    protected void linkObjects() {
+    public void link() {
         catchAllGroup.setMoveComparator(defaultMoveComparator);
 
         noQuietBifurcation.setNoQuietGroup(catchAllGroup);

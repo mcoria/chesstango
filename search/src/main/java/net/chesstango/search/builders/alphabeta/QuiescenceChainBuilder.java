@@ -166,7 +166,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected void linkObjects() {
+    public void link() {
         quiescence.setMoveSorter(moveSorterBuilder.build());
 
         if (withDebugSearchTree) {

@@ -33,16 +33,17 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
 
         setupListenerMediator();
 
-        linkObjects();
+        link();
 
         return buildSorterChain();
+    }
+
+    public void link() {
     }
 
     protected abstract void buildObjects();
 
     protected abstract void setupListenerMediator();
-
-    protected abstract void linkObjects();
 
     protected abstract MoveSorter buildSorterChain();
 
