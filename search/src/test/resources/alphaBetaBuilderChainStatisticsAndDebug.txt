@@ -183,10 +183,10 @@ SearchByCycleListeners:
 	PrintHtmlDebugListener @ 91
 	PrincipalVariationComparator @ 50
 	PrincipalVariationComparator @ 72
+	RootMoveSorter @ 16
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
-	RootMoveSorter @ 16
 
 SearchByDepthListener:
 	SetSearchTimers @ 85
@@ -245,14 +245,6 @@ Acceptor:
 	AlphaBetaLeafNodeStatistics @ 40
 	DebugFilter @ 38
 	ClearPV @ 39
-	AlphaBeta @ 47
-	AlphaBetaInteriorNodeVisited @ 44
-	AlphaBetaInteriorNodeExpected @ 46
-	TranspositionTable @ 45
-	DebugFilter @ 42
-	ClearPV @ 43
-	UpdatePV @ 62
-	KillerMoveTracker @ 63
 	NodeMoveSorter @ 49
 	QuietComparator @ 55
 	TranspositionHeadMoveComparator @ 51
@@ -262,6 +254,14 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 59
 	MoveSorterDebug @ 48
 	KillerMoveComparator @ 61
+	AlphaBeta @ 47
+	AlphaBetaInteriorNodeVisited @ 44
+	AlphaBetaInteriorNodeExpected @ 46
+	TranspositionTable @ 45
+	DebugFilter @ 42
+	ClearPV @ 43
+	UpdatePV @ 62
+	KillerMoveTracker @ 63
 	ClearPV @ 35
 	AlphaBetaLoopNodeStatistics @ 36
 	DebugFilter @ 34
@@ -269,14 +269,6 @@ Acceptor:
 	ClearPV @ 30
 	AlphaBetaEgtbNodeStatistics @ 31
 	EgtbEvaluation @ 32
-	Quiescence @ 69
-	AlphaBetaQuiescenceNodeVisited @ 66
-	AlphaBetaQuiescenceNodeExpected @ 68
-	TranspositionTableQ @ 67
-	DebugFilter @ 64
-	EvaluatorDebug @ 97
-	ClearPV @ 65
-	UpdatePV @ 79
 	NodeMoveSorter @ 71
 	TranspositionHeadMoveComparator @ 73
 	TranspositionTailMoveComparator @ 74
@@ -284,6 +276,16 @@ Acceptor:
 	RecaptureMoveComparator @ 76
 	GameEvaluatorCacheComparator @ 78
 	MoveSorterDebug @ 70
+	Quiescence @ 69
+	AlphaBetaQuiescenceNodeVisited @ 66
+	AlphaBetaQuiescenceNodeExpected @ 68
+	TranspositionTableQ @ 67
+	DebugFilter @ 64
+	ClearPV @ 65
+	UpdatePV @ 79
+	MoveSorterDebug @ 15
+	RootMoveSorter @ 16
+	NodeGroupSorter @ 17
 	RootMoveEvaluationTracker @ 19
 	RootMoveEvaluationCollection @ 92
 	AlphaBeta @ 14
@@ -296,7 +298,4 @@ Acceptor:
 	UpdatePV @ 18
 	PVCalculatorTriangular @ 7
 	PVCalculatorDebug @ 6
-	MoveSorterDebug @ 15
-	RootMoveSorter @ 16
-	NodeGroupSorter @ 17
 

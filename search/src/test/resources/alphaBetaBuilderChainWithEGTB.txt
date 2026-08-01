@@ -136,10 +136,10 @@ SearchByCycleListeners:
 	AlphaBetaFlowControl @ 14
 	PrincipalVariationComparator @ 30
 	PrincipalVariationComparator @ 45
+	RootMoveSorter @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 6
-	RootMoveSorter @ 10
 
 SearchByDepthListener:
 	SetSearchTimers @ 55
@@ -169,11 +169,6 @@ Acceptor:
 	AlphaBetaEvaluation @ 16
 	AlphaBetaEvaluation @ 25
 	ClearPV @ 24
-	AlphaBeta @ 28
-	TranspositionTable @ 27
-	ClearPV @ 26
-	UpdatePV @ 39
-	KillerMoveTracker @ 40
 	NodeMoveSorter @ 29
 	QuietComparator @ 33
 	TranspositionHeadMoveComparator @ 31
@@ -182,19 +177,26 @@ Acceptor:
 	RecaptureMoveComparator @ 35
 	GameEvaluatorCacheComparator @ 37
 	KillerMoveComparator @ 38
+	AlphaBeta @ 28
+	TranspositionTable @ 27
+	ClearPV @ 26
+	UpdatePV @ 39
+	KillerMoveTracker @ 40
 	ClearPV @ 22
 	ClearPV @ 19
 	EgtbEvaluation @ 20
-	Quiescence @ 43
-	TranspositionTableQ @ 42
-	ClearPV @ 41
-	UpdatePV @ 52
 	NodeMoveSorter @ 44
 	TranspositionHeadMoveComparator @ 46
 	TranspositionTailMoveComparator @ 47
 	PrincipalVariationComparator @ 45
 	RecaptureMoveComparator @ 49
 	GameEvaluatorCacheComparator @ 51
+	Quiescence @ 43
+	TranspositionTableQ @ 42
+	ClearPV @ 41
+	UpdatePV @ 52
+	RootMoveSorter @ 10
+	NodeGroupSorter @ 11
 	RootMoveEvaluationTracker @ 13
 	RootMoveEvaluationCollection @ 56
 	AlphaBeta @ 9
@@ -204,6 +206,4 @@ Acceptor:
 	CalculatePV @ 5
 	UpdatePV @ 12
 	PVCalculatorTriangular @ 6
-	RootMoveSorter @ 10
-	NodeGroupSorter @ 11
 

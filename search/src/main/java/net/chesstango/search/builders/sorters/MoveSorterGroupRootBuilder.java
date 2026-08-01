@@ -70,7 +70,7 @@ public class MoveSorterGroupRootBuilder extends AbstractMoveSorterBuilder {
     }
 
     @Override
-    protected void linkObjects() {
+    protected void link() {
         catchAllSortGroup.setMoveComparator(defaultMoveComparator);
         nodeGroupSorter.setGroupSorter(createGroupSorterChain());
     }
