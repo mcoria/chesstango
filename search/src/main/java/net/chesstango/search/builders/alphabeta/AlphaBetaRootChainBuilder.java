@@ -1,7 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import lombok.Getter;
 import net.chesstango.search.builders.sorters.MoveSorterRootBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -17,6 +16,7 @@ import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.root.visitors.LinkRootMoveEvaluationCollectionVisitor;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
@@ -31,8 +31,7 @@ import java.util.List;
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final RootMoveEvaluationTracker moveEvaluationTracker;
 
-    @Getter
-    private final RootMoveEvaluationCollection moveEvaluations;
+    private final RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
     private final AlphaBeta alphaBeta;
 
@@ -65,7 +64,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         alphaBeta = new AlphaBeta();
         moveSorterRootBuilder = new MoveSorterRootBuilder();
         moveEvaluationTracker = new RootMoveEvaluationTracker();
-        moveEvaluations = new RootMoveEvaluationCollection();
+        rootMoveEvaluationCollection = new RootMoveEvaluationCollection();
     }
 
     public AlphaBetaRootChainBuilder withIterativeDeepening() {
@@ -120,7 +119,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void buildObjects() {
-        moveEvaluationTracker.setRootMoveEvaluationCollection(moveEvaluations);
+        moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
 
         calculatePV = new CalculatePV();
 
@@ -160,7 +159,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     protected void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
 
-        searchListenerMediator.add(moveEvaluations);
+        searchListenerMediator.add(rootMoveEvaluationCollection);
 
         searchListenerMediator.add(alphaBeta);
 
@@ -220,6 +219,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         } else {
             calculatePV.setPvCalculator(pvCalculatorTriangular);
         }
+
+        searchListenerMediator.accept(new LinkRootMoveEvaluationCollectionVisitor(rootMoveEvaluationCollection));
     }
 
     @Override

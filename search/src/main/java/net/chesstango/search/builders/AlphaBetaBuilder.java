@@ -279,7 +279,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public Search build() {
         buildObjects();
 
-        setupListenerMediatorBeforeChain();
+        setupListenerMediator();
 
         link();
 
@@ -315,7 +315,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             gameCounters = new GameCountersCollector();
 
             depthCollector = new DepthCollector();
-            depthCollector.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         }
 
         if (withZobristTracker) {
@@ -333,7 +332,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
 
-    private void setupListenerMediatorBeforeChain() {
+    private void setupListenerMediator() {
         searchListenerMediator.add(setGameToEndGameTableBase);
 
         searchListenerMediator.add(alphaBetaFacade);
@@ -381,7 +380,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private void link() {
         alphaBetaFacade.setNext(createChain());
-        alphaBetaFacade.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         alphaBetaFacade.setSearchListenerMediator(searchListenerMediator);
 
         if (withTranspositionTable) {
@@ -394,8 +392,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         if (withStatistics) {
-            depthCollector.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
-
             searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
         }
 
