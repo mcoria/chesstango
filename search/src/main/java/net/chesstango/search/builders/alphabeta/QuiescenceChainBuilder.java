@@ -32,7 +32,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private EvaluatorDebug gameEvaluatorDebug;
     private UpdatePV updatePV;
     private ClearPV clearPV;
     private MoveSorter moveSorter;
@@ -128,7 +127,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            gameEvaluatorDebug = new EvaluatorDebug();
         }
 
         moveSorter = moveSorterBuilder.build();
@@ -156,7 +154,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         if (withDebugSearchTree) {
             searchListenerMediator.add(debugFilter);
-            searchListenerMediator.add(gameEvaluatorDebug);
         }
 
         if (clearPV != null) {
@@ -171,10 +168,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     @Override
     public void link() {
         quiescence.setMoveSorter(moveSorter);
-
-        if (withDebugSearchTree) {
-            quiescence.setEvaluator(gameEvaluatorDebug);
-        }
     }
 
     @Override

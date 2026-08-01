@@ -29,7 +29,7 @@ public class ChainPrinterVisitorTest {
      * otherwise, chain-related output is suppressed.
      * Used for debugging purposes within the test class.
      */
-    private static final boolean PRINT_CHAIN = true;
+    private static final boolean PRINT_CHAIN = false;
 
     private ChainPrinterVisitor chainPrinterVisitor;
     private DebugNodeTrap debugNodeTrap;

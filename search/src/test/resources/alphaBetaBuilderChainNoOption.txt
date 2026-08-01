@@ -76,8 +76,8 @@ AlphaBetaFlowControl @ 10
 SearchByCycleListeners:
 	SetSearchTimers @ 28
 	AlphaBetaFlowControl @ 10
-	PVCalculatorTriangular @ 4
 	RootMoveSorter @ 6
+	PVCalculatorTriangular @ 4
 
 SearchByDepthListener:
 	SetSearchTimers @ 28
@@ -101,21 +101,21 @@ Acceptor:
 	AlphaBetaEvaluation @ 12
 	AlphaBetaEvaluation @ 20
 	ClearPV @ 19
-	AlphaBeta @ 22
-	ClearPV @ 21
-	UpdatePV @ 27
 	NodeMoveSorter @ 23
 	QuietComparator @ 24
 	RecaptureMoveComparator @ 26
+	AlphaBeta @ 22
+	ClearPV @ 21
+	UpdatePV @ 27
 	ClearPV @ 17
 	ClearPV @ 14
 	EgtbEvaluation @ 15
+	RootMoveSorter @ 6
+	NodeGroupSorter @ 7
 	RootMoveEvaluationTracker @ 9
 	RootMoveEvaluationCollection @ 29
 	AlphaBeta @ 5
 	CalculatePV @ 3
 	UpdatePV @ 8
 	PVCalculatorTriangular @ 4
-	RootMoveSorter @ 6
-	NodeGroupSorter @ 7
 

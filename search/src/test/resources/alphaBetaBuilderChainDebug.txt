@@ -159,10 +159,10 @@ SearchByCycleListeners:
 	PrintHtmlDebugListener @ 73
 	PrincipalVariationComparator @ 41
 	PrincipalVariationComparator @ 60
+	RootMoveSorter @ 14
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
-	RootMoveSorter @ 14
 
 SearchByDepthListener:
 	SetSearchTimers @ 70
@@ -208,12 +208,6 @@ Acceptor:
 	AlphaBetaEvaluation @ 34
 	DebugFilter @ 32
 	ClearPV @ 33
-	AlphaBeta @ 38
-	TranspositionTable @ 37
-	DebugFilter @ 35
-	ClearPV @ 36
-	UpdatePV @ 52
-	KillerMoveTracker @ 53
 	NodeMoveSorter @ 40
 	QuietComparator @ 45
 	TranspositionHeadMoveComparator @ 42
@@ -223,17 +217,17 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 49
 	MoveSorterDebug @ 39
 	KillerMoveComparator @ 51
+	AlphaBeta @ 38
+	TranspositionTable @ 37
+	DebugFilter @ 35
+	ClearPV @ 36
+	UpdatePV @ 52
+	KillerMoveTracker @ 53
 	ClearPV @ 30
 	DebugFilter @ 29
 	DebugFilter @ 25
 	ClearPV @ 26
 	EgtbEvaluation @ 27
-	Quiescence @ 57
-	TranspositionTableQ @ 56
-	DebugFilter @ 54
-	EvaluatorDebug @ 79
-	ClearPV @ 55
-	UpdatePV @ 67
 	NodeMoveSorter @ 59
 	TranspositionHeadMoveComparator @ 61
 	TranspositionTailMoveComparator @ 62
@@ -241,6 +235,14 @@ Acceptor:
 	RecaptureMoveComparator @ 64
 	GameEvaluatorCacheComparator @ 66
 	MoveSorterDebug @ 58
+	Quiescence @ 57
+	TranspositionTableQ @ 56
+	DebugFilter @ 54
+	ClearPV @ 55
+	UpdatePV @ 67
+	MoveSorterDebug @ 13
+	RootMoveSorter @ 14
+	NodeGroupSorter @ 15
 	RootMoveEvaluationTracker @ 17
 	RootMoveEvaluationCollection @ 74
 	AlphaBeta @ 12
@@ -252,7 +254,4 @@ Acceptor:
 	UpdatePV @ 16
 	PVCalculatorTriangular @ 7
 	PVCalculatorDebug @ 6
-	MoveSorterDebug @ 13
-	RootMoveSorter @ 14
-	NodeGroupSorter @ 15
 
