@@ -15,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQu
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private EvaluatorDebug gameEvaluatorDebug;
     private UpdatePV updatePV;
     private ClearPV clearPV;
+    private MoveSorter moveSorter;
 
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -129,6 +131,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             gameEvaluatorDebug = new EvaluatorDebug();
         }
 
+        moveSorter = moveSorterBuilder.build();
     }
 
     @Override
@@ -167,7 +170,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     public void link() {
-        quiescence.setMoveSorter(moveSorterBuilder.build());
+        quiescence.setMoveSorter(moveSorter);
 
         if (withDebugSearchTree) {
             quiescence.setEvaluator(gameEvaluatorDebug);

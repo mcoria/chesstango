@@ -20,6 +20,7 @@ import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     private AlphaBetaFilter alphaBetaFlowControl;
 
+    private MoveSorter moveSorter;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -149,6 +151,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             pvCalculatorDebug = new PVCalculatorDebug();
         }
+
+        moveSorter = moveSorterRootBuilder.build();
     }
 
 
@@ -203,7 +207,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Override
     public void link() {
-        alphaBeta.setMoveSorter(moveSorterRootBuilder.build());
+        alphaBeta.setMoveSorter(moveSorter);
 
         if (withAspirationWindows) {
             aspirationWindows.setSearchListenerMediator(searchListenerMediator);

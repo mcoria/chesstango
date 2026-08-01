@@ -15,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaIn
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private ClearPV clearPV;
     private UpdatePV updatePV;
     private KillerMoveTracker killerMoveTracker;
+    private MoveSorter moveSorter;
+
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -136,6 +139,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         if (withKillerMoveSorter) {
             killerMoveTracker = new KillerMoveTracker();
         }
+
+        moveSorter = moveSorterBuilder.build();
     }
 
     @Override
@@ -177,7 +182,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     @Override
     public void link() {
-        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+        alphaBeta.setMoveSorter(moveSorter);
     }
 
     @Override

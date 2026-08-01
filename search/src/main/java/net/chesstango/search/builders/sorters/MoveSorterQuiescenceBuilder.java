@@ -140,7 +140,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     }
 
     @Override
-    public void link() {
+    protected void link() {
         nodeMoveSorter.setMoveComparator(createComparatorChain());
     }
 
