@@ -30,8 +30,6 @@ public abstract class AbstractChainBuilder {
 
         setupListenerMediator();
 
-        link();
-
         return buildAlphaBetaChain();
     }
 

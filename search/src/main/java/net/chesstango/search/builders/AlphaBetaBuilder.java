@@ -384,13 +384,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaFacade.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         alphaBetaFacade.setSearchListenerMediator(searchListenerMediator);
 
-        searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
-
-        searchListenerMediator.accept(new LinkTrianglePVVisitor(new TriangularPVTable()));
-
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
-
             searchListenerMediator.accept(new LinkTranspositionTablePVUpdate(transpositionTablePVUpdate));
         }
 
@@ -411,11 +406,32 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.accept(new LinkSearchTrackerVisitor(searchTracker));
         }
 
+        /**
+         * Link Builders
+         */
+        evaluationBuilder.link();
+
+        terminalChainBuilder.link();
+        leafChainBuilder.link();
+        alphaBetaInteriorChainBuilder.link();
+        loopChainBuilder.link();
+        egtbChainBuilder.link();
+        if (withQuiescence) {
+            quiescenceChainBuilder.link();
+        }
+        alphaBetaRootChainBuilder.link();
+
+        /**
+         * Link through the mediator
+         */
+
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         searchListenerMediator.accept(new LinkBestMovesArray(new Move[MAX_DEPTH]));
 
-        evaluationBuilder.link();
+        searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
+
+        searchListenerMediator.accept(new LinkTrianglePVVisitor(new TriangularPVTable()));
     }
 
     private AlphaBetaFilter createChain() {
