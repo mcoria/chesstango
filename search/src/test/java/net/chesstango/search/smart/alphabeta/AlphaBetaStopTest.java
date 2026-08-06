@@ -42,7 +42,7 @@ public class AlphaBetaStopTest {
 
         Game game = Game.from(FEN.from("rnbqkb1r/p4p2/2p1p2p/1p1nP1p1/2pP4/2N2NB1/PP3PPP/R2QKB1R w KQkq - 1 10"));
 
-        CountDownLatch latch = new CountDownLatch(8);
+        CountDownLatch latch = new CountDownLatch(1);
 
         search.accept(new SetSearchByDepthListenerVisitor(_ -> latch.countDown()));
 

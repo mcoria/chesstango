@@ -169,8 +169,8 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByDepthList
         public RootMoveEvaluationComparator() {
             DefaultMoveComparator defaultMoveComparator = new DefaultMoveComparator();
             this.rootMoveEvaluationComparator = Comparator
-                    .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
-                    .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
+                    .comparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder()) // De mayor a menor
+                    .thenComparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
                     .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
 
         }
