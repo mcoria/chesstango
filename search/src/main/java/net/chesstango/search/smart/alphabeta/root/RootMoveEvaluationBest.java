@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.root;
 
 import lombok.Getter;
 import net.chesstango.search.Acceptor;
+import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -51,10 +52,12 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
      * @param moveEvaluation the move evaluation to save
      */
     public void save(RootMoveEvaluation moveEvaluation) {
-        if (bestRootMoveEvaluation == null ||
-                bestRootMoveEvaluation.move().equals(moveEvaluation.move()) ||
-                rootMoveEvaluationComparator.compare(moveEvaluation, bestRootMoveEvaluation) > 0) {
-            bestRootMoveEvaluation = moveEvaluation;
+        if (moveEvaluation.bound() != Bound.UPPER_BOUND) {
+            if (bestRootMoveEvaluation == null ||
+                    bestRootMoveEvaluation.move().equals(moveEvaluation.move()) ||
+                    rootMoveEvaluationComparator.compare(moveEvaluation, bestRootMoveEvaluation) > 0) {
+                bestRootMoveEvaluation = moveEvaluation;
+            }
         }
     }
 
