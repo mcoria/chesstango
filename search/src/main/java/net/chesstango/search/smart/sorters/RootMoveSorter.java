@@ -24,7 +24,7 @@ public class RootMoveSorter implements MoveSorter, Acceptor, SearchByCycleListen
     private Game game;
 
     @Setter
-    private List<RootMoveEvaluation> lastRootMoveEvaluations;
+    private List<RootMoveEvaluation> rootMoveEvaluationList;
 
     private int numberOfMove;
 
@@ -36,26 +36,26 @@ public class RootMoveSorter implements MoveSorter, Acceptor, SearchByCycleListen
     @Override
     public void beforeSearch() {
         this.numberOfMove = game.getPossibleMoves().size();
-        this.lastRootMoveEvaluations = null;
+        this.rootMoveEvaluationList = null;
     }
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
-        if (lastRootMoveEvaluations == null) {
+        if (rootMoveEvaluationList == null) {
             return next.getOrderedMoves(currentPly);
         } else {
 
             // Una vez ejecutadas la busqueda DEPTH N-1, la busqueda en DEPTH N:
 
-            if (lastRootMoveEvaluations.size() != numberOfMove) {
+            if (rootMoveEvaluationList.size() != numberOfMove) {
                 throw new RuntimeException("Not all move were explorer during last iteration");
             }
 
-            if (Bound.EXACT != lastRootMoveEvaluations.getFirst().bound()) {
+            if (Bound.EXACT != rootMoveEvaluationList.getFirst().bound()) {
                 throw new RuntimeException("First move bound is not exact after sorting");
             }
 
-            return lastRootMoveEvaluations.stream().map(RootMoveEvaluation::move).toList();
+            return rootMoveEvaluationList.stream().map(RootMoveEvaluation::move).toList();
         }
     }
 

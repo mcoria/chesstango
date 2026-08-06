@@ -20,11 +20,11 @@ import static org.mockito.Mockito.mock;
  */
 public class RootMoveEvaluationComparatorTest {
 
-    RootMoveEvaluationCollection.RootMoveEvaluationComparator rootMoveEvaluationComparator;
+    RootMoveEvaluationComparator rootMoveEvaluationComparator;
 
     @BeforeEach
     public void setup() {
-        rootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator();
+        rootMoveEvaluationComparator = new RootMoveEvaluationComparator();
     }
 
     /**
@@ -38,11 +38,13 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, -100, Bound.EXACT);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 100, Bound.EXACT);
 
-        /**
-         * Cuando ordenamos para Blancas: los valores mayores preceden a los menores
-         */
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
+
+        // La evaluacion1 es menor a la evaluacion2
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
+
+
+        // La evaluacion2 es mayor a la evaluacion1
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
     }
 
     @Test
@@ -53,8 +55,12 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 100, Bound.LOWER_BOUND);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 100, Bound.EXACT);
 
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
+        // La evaluacion es mayor a 100
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
+
+
+        // Solo evaluacion es 100
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
     }
 
     /**
@@ -79,8 +85,11 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 150, Bound.UPPER_BOUND);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 150, Bound.LOWER_BOUND);
 
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
+        // La evaluacion1 es menor a 150
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
+
+        // La evaluacion2 es mayor a 150
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
     }
 
     @Test
@@ -91,13 +100,17 @@ public class RootMoveEvaluationComparatorTest {
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 200, Bound.EXACT);
         RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 200, Bound.UPPER_BOUND);
 
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) < 0);
-        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) > 0);
+        // La evaluacion1 es 100
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
+
+        // La evaluacion2 es menor a 100
+        assertTrue(rootMoveEvaluationComparator.compare(evaluation2, evaluation1) < 0);
     }
 
     private Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
         return createMove(from, to);
     }
+
     private Move createMove(PiecePositioned from, PiecePositioned to) {
         return new Move() {
             @Override

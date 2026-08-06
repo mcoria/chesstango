@@ -160,6 +160,7 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 41
 	PrincipalVariationComparator @ 60
 	RootMoveSorter @ 14
+	RootMoveEvaluationCollection @ 74
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
@@ -169,13 +170,14 @@ SearchByDepthListener:
 	SearchTracker @ 71
 	PrintTxtDebugListener @ 72
 	PrintHtmlDebugListener @ 73
-	RootMoveEvaluationCollection @ 74
+	RootMoveEvaluationCache @ 75
+	RootMoveEvaluationBest @ 76
 
 SearchByWindowsListeners:
 	SearchTracker @ 71
 	PrintTxtDebugListener @ 72
 	PrintHtmlDebugListener @ 73
-	RootMoveEvaluationCollection @ 74
+	RootMoveEvaluationCache @ 75
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 18
@@ -185,7 +187,7 @@ ResetListener:
 	TTListener @ 69
 
 Acceptor:
-	SetGameToEvaluator @ 75
+	SetGameToEvaluator @ 77
 	EvaluatorCacheListener @ 68
 	EvaluatorCacheDebug @ 50
 	EvaluatorDebug @ 22
@@ -193,13 +195,13 @@ Acceptor:
 	TTableArrayPrimitives @ 11
 	TTableDebug @ 10
 	TTableDebug @ 43
-	KillerMovesDebug @ 76
-	SetGameToEndGameTableBase @ 77
+	KillerMovesDebug @ 78
+	SetGameToEndGameTableBase @ 79
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 70
 	AlphaBetaFlowControl @ 18
 	SearchTracker @ 71
-	TranspositionTablePVUpdate @ 78
+	TranspositionTablePVUpdate @ 80
 	PrintTxtDebugListener @ 72
 	PrintHtmlDebugListener @ 73
 	ClearPV @ 20
@@ -244,6 +246,8 @@ Acceptor:
 	RootMoveSorter @ 14
 	NodeGroupSorter @ 15
 	RootMoveEvaluationTracker @ 17
+	RootMoveEvaluationCache @ 75
+	RootMoveEvaluationBest @ 76
 	RootMoveEvaluationCollection @ 74
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3

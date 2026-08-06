@@ -77,14 +77,16 @@ SearchByCycleListeners:
 	SetSearchTimers @ 28
 	AlphaBetaFlowControl @ 10
 	RootMoveSorter @ 6
+	RootMoveEvaluationCollection @ 29
 	PVCalculatorTriangular @ 4
 
 SearchByDepthListener:
 	SetSearchTimers @ 28
-	RootMoveEvaluationCollection @ 29
+	RootMoveEvaluationCache @ 30
+	RootMoveEvaluationBest @ 31
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 29
+	RootMoveEvaluationCache @ 30
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 10
@@ -92,8 +94,8 @@ StopSearchingListener:
 ResetListener:
 
 Acceptor:
-	SetGameToEvaluator @ 30
-	SetGameToEndGameTableBase @ 31
+	SetGameToEvaluator @ 32
+	SetGameToEndGameTableBase @ 33
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 28
 	AlphaBetaFlowControl @ 10
@@ -113,6 +115,8 @@ Acceptor:
 	RootMoveSorter @ 6
 	NodeGroupSorter @ 7
 	RootMoveEvaluationTracker @ 9
+	RootMoveEvaluationCache @ 30
+	RootMoveEvaluationBest @ 31
 	RootMoveEvaluationCollection @ 29
 	AlphaBeta @ 5
 	CalculatePV @ 3

@@ -9,6 +9,8 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 import java.util.Optional;
@@ -24,9 +26,15 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     @Getter
     private AlphaBetaFilter next;
 
-    @Getter
+    @Setter
+    private RootMoveEvaluationCache rootMoveEvaluationCache;
+
+    @Setter
+    private RootMoveEvaluationBest rootMoveEvaluationBest;
+
     @Setter
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
+
 
     @Setter
     private Game game;
@@ -41,7 +49,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     public int alphaBeta(int currentPly, int alpha, int beta) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
-        Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCollection.get(currentMove);
+        Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCache.get(currentMove);
 
         if (moveEvaluation.isPresent()) {
             RootMoveEvaluation rootMoveEvaluation = moveEvaluation.get();
@@ -50,7 +58,11 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
-        rootMoveEvaluationCollection.save(createRootMoveEvaluation(currentMove, currentValue, alpha, beta));
+        RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
+
+        rootMoveEvaluationCache.save(rootMoveEvaluation);
+        rootMoveEvaluationBest.save(rootMoveEvaluation);
+        rootMoveEvaluationCollection.save(rootMoveEvaluation);
 
         return currentValue;
     }
