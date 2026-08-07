@@ -195,6 +195,34 @@ public class SearchTest {
         assertTrue(searchResult.isPvComplete());
     }
 
+    @Test
+    @Disabled
+    public void test_1_7_2() {
+        Game game = Game.from(FEN.from("R7/6p1/P1Bp4/3Pb3/1K3k2/8/8/1r6 w - - 1 59"));
+
+        Search search = defaultSearch()
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(5));
+        SearchResult searchResult = search.startSearch(game);
+
+        Move bm = searchResult.getBestMove();
+
+        assertNotNull(bm);
+
+        assertEquals(Piece.KING_WHITE, bm.getFrom().piece());
+        assertEquals(Square.b4, bm.getFrom().square());
+        assertEquals(Square.a5, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"b4a5", "b1a1", "a5b5", "a1b1", "b5c4"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
+    }
+
 
     private AlphaBetaBuilder defaultSearch() {
         return AlphaBetaBuilder.createDefaultBuilderInstance();
