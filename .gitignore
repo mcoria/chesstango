@@ -13,3 +13,5 @@ engine-tools/scripts/venv/
 /engine-reports/DebugSearchTree-*.txt
 /engine-reports/DebugSearchTree-*.html
 
+/search/DebugSearchTree-*.txt
+/search/DebugSearchTree-*.html
