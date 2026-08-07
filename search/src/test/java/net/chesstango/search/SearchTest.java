@@ -41,8 +41,10 @@ public class SearchTest {
         search.accept(new SetMaxDepthVisitor(9));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene en 0
+        assertEquals(0, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.KNIGHT_WHITE, bm.getFrom().piece());
@@ -75,8 +77,10 @@ public class SearchTest {
         search.accept(new SetMaxDepthVisitor(3));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
@@ -101,8 +105,10 @@ public class SearchTest {
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
@@ -127,8 +133,10 @@ public class SearchTest {
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.ROOK_WHITE, bm.getFrom().piece());
@@ -153,8 +161,10 @@ public class SearchTest {
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.QUEEN_BLACK, bm.getFrom().piece());
@@ -181,8 +191,10 @@ public class SearchTest {
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(45793, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.BISHOP_WHITE, bm.getFrom().piece());
