@@ -179,7 +179,7 @@ public class SearchTest {
 
     @Test
     @Disabled
-    public void test_1_7() {
+    public void test_1_7_0() {
         Game game = Game.from(FEN.from("rnbqkb1r/p4p2/2p1p2p/1p1nP1p1/2pP4/2N2NB1/PP3PPP/R2QKB1R w KQkq - 1 10"));
 
         Search search = defaultSearch()
@@ -209,20 +209,22 @@ public class SearchTest {
 
     @Test
     @Disabled
-    public void test_1_7_2() {
+    public void test_1_7_1() {
         Game game = Game.from(FEN.from("R7/6p1/P1Bp4/3Pb3/1K3k2/8/8/1r6 w - - 1 59"));
 
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, true, true)
+                .withDebugSearchTree(false, false, false)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
-        Move bm = searchResult.getBestMove();
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(69920, searchResult.getBestEvaluation());
 
+        Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
         assertEquals(Piece.KING_WHITE, bm.getFrom().piece());

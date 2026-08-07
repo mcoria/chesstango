@@ -106,6 +106,11 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
 
             Move currentMove = getMove(pvMoves[pvMoveCounter++]);
 
+            // ESTO ESTA MAL
+            if (currentMove == null) {
+                break;
+            }
+
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
 
             currentMove.executeMove();
@@ -121,6 +126,6 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
                 return posibleMove;
             }
         }
-        throw new RuntimeException("PV move not found");
+        return null;
     }
 }
