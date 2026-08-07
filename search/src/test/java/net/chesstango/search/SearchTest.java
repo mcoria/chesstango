@@ -175,7 +175,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, false, true)
+                .withDebugSearchTree(true, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -185,12 +185,12 @@ public class SearchTest {
 
         assertNotNull(bm);
 
-        assertEquals(Piece.KING_BLACK, bm.getFrom().piece());
-        assertEquals(Square.c8, bm.getFrom().square());
-        assertEquals(Square.b8, bm.getTo().square());
+        assertEquals(Piece.BISHOP_WHITE, bm.getFrom().piece());
+        assertEquals(Square.f1, bm.getFrom().square());
+        assertEquals(Square.e2, bm.getTo().square());
 
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
-        assertArrayEquals(new String[]{"c8b8", "e5e6", "g2f2", "e6e7", "c6e7", "a3e7"}, pv.toArray());
+        assertArrayEquals(new String[]{"f1e2", "g5g4", "f3d2", "d5c3", "b2c3"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
     }

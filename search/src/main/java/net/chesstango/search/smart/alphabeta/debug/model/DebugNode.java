@@ -19,6 +19,7 @@ import java.util.List;
 public class DebugNode {
 
     public enum NodeTopology {ROOT, INTERIOR, TERMINAL, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF, EGTB}
+    private NodeTopology topology;
 
     /**
      * PV-Node Knuth's Type 1
@@ -26,9 +27,6 @@ public class DebugNode {
      * All-Node Knuth's Type 3, also called fail-low node
      */
     public enum NodeType {PV, CUT, ALL}
-
-    private NodeTopology topology;
-
     private NodeType type;
 
     private Bound bound;
