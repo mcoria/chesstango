@@ -15,6 +15,7 @@ TranspositionTableRoot @ 7 [TTable: TTableArrayPrimitives @ 8]
 AlphaBeta @ 9
 |
  -> Sorter
+	|
 	RootMoveSorter @ 10
 |
 UpdatePV @ 11

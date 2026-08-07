@@ -19,6 +19,7 @@ AlphaBeta @ 12
  -> Sorter
 	|
 	MoveSorterDebug @ 13
+	|
 	RootMoveSorter @ 14
 |
 UpdatePV @ 15

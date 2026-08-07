@@ -17,6 +17,7 @@ TranspositionTableRoot @ 8 [TTable: TTableStatisticsNodeCollector @ 9 -> TTableA
 AlphaBeta @ 11
 |
  -> Sorter
+	|
 	RootMoveSorter @ 12
 |
 UpdatePV @ 13

@@ -13,6 +13,7 @@ CalculatePV @ 5 [PVCalculator: PVCalculatorTriangular @ 6]
 AlphaBeta @ 7
 |
  -> Sorter
+	|
 	RootMoveSorter @ 8
 |
 UpdatePV @ 9
