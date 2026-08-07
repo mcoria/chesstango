@@ -175,7 +175,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(true, true, true)
+                //.withDebugSearchTree(true, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -203,7 +203,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree(true, false, true)
+                //.withDebugSearchTree(true, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));

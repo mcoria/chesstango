@@ -103,6 +103,7 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
 
         while (pvMoveCounter < pvMoves.length) {
             long currentHash = game.getPosition().getZobristHash();
+
             Move currentMove = getMove(pvMoves[pvMoveCounter++]);
 
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
@@ -120,6 +121,6 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
                 return posibleMove;
             }
         }
-        return null;
+        throw new RuntimeException("PV move not found");
     }
 }
