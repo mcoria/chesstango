@@ -24,7 +24,6 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
         rootMoveEvaluationComparator = new RootMoveEvaluationComparator();
     }
 
-
     /**
      * Accepts a visitor for the visitor pattern implementation.
      *
@@ -52,10 +51,8 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
      * @param moveEvaluation the move evaluation to save
      */
     public void save(RootMoveEvaluation moveEvaluation) {
-        if (moveEvaluation.bound() != Bound.UPPER_BOUND) {
-            if (bestRootMoveEvaluation == null ||
-                    bestRootMoveEvaluation.move().equals(moveEvaluation.move()) ||
-                    rootMoveEvaluationComparator.compare(moveEvaluation, bestRootMoveEvaluation) > 0) {
+        if (moveEvaluation.bound() == Bound.EXACT) {
+            if (bestRootMoveEvaluation == null || moveEvaluation.evaluation() > bestRootMoveEvaluation.evaluation()) {
                 bestRootMoveEvaluation = moveEvaluation;
             }
         }

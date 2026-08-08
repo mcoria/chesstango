@@ -8,6 +8,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCache;
@@ -20,7 +22,7 @@ import java.util.Optional;
  *
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
+public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor, SearchByDepthListener, SearchByWindowsListener {
 
     @Setter
     @Getter
@@ -44,6 +46,15 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
         visitor.visit(this);
     }
 
+    @Override
+    public void beforeSearchByDepth() {
+        System.out.println("Starting search depth+1");
+    }
+
+    @Override
+    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+        System.out.println("Starting search windows: " + alphaBound + " - " + betaBound + " cycle: " + searchByWindowsCycle);
+    }
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
@@ -60,6 +71,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
         RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
 
+        System.out.println("Saving root move evaluation: " + rootMoveEvaluation);
         rootMoveEvaluationCache.save(rootMoveEvaluation);
         rootMoveEvaluationBest.save(rootMoveEvaluation);
         rootMoveEvaluationCollection.save(rootMoveEvaluation);

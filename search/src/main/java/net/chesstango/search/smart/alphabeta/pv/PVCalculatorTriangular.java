@@ -106,7 +106,7 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
 
             Move currentMove = getMove(pvMoves[pvMoveCounter++]);
 
-            // ESTO ESTA MAL
+            // CHT-668: siempre debiera retornar un movimiento
             if (currentMove == null) {
                 break;
             }
