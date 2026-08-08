@@ -22,7 +22,7 @@ import java.util.Optional;
  *
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor, SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
     @Setter
     @Getter
@@ -46,6 +46,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor, Sea
         visitor.visit(this);
     }
 
+    /*
     @Override
     public void beforeSearchByDepth() {
         System.out.println("Starting search depth+1");
@@ -55,6 +56,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor, Sea
     public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
         System.out.println("Starting search windows: " + alphaBound + " - " + betaBound + " cycle: " + searchByWindowsCycle);
     }
+     */
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
@@ -71,7 +73,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor, Sea
 
         RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
 
-        System.out.println("Saving root move evaluation: " + rootMoveEvaluation);
+        //System.out.println("Saving root move evaluation: " + rootMoveEvaluation);
         rootMoveEvaluationCache.save(rootMoveEvaluation);
         rootMoveEvaluationBest.save(rootMoveEvaluation);
         rootMoveEvaluationCollection.save(rootMoveEvaluation);
