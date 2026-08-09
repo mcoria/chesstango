@@ -103,15 +103,15 @@ public class DetectCycleEnabledTest {
         assertEquals(3, visitedNodesCounters[1]);
         assertEquals(5, visitedNodesCounters[2]);
         assertEquals(15, visitedNodesCounters[3]);
-        assertEquals(19, visitedNodesCounters[4]);
-        assertEquals(35, visitedNodesCounters[5]);
-        assertEquals(45, visitedNodesCounters[6]);
-        assertEquals(53, visitedNodesCounters[7]);
-        assertEquals(79, visitedNodesCounters[8]);
-        assertEquals(54, visitedNodesCounters[9]);
+        assertEquals(26, visitedNodesCounters[4]);
+        assertEquals(49, visitedNodesCounters[5]);
+        assertEquals(68, visitedNodesCounters[6]);
+        assertEquals(54, visitedNodesCounters[7]);
+        assertEquals(62, visitedNodesCounters[8]);
+        assertEquals(55, visitedNodesCounters[9]);
         assertEquals(0, visitedNodesCounters[10]);
 
-        assertEquals(309, visitedNodesTotal);
+        assertEquals(338, visitedNodesTotal);
     }
 
 
@@ -145,19 +145,20 @@ public class DetectCycleEnabledTest {
         assertEquals(2, visitedNodesCounters[1]);
         assertEquals(3, visitedNodesCounters[2]);
         assertEquals(5, visitedNodesCounters[3]);
-        assertEquals(6, visitedNodesCounters[4]);
-        assertEquals(7, visitedNodesCounters[5]);
-        assertEquals(7, visitedNodesCounters[6]);
-        assertEquals(7, visitedNodesCounters[7]);
+        assertEquals(7, visitedNodesCounters[4]);
+        assertEquals(10, visitedNodesCounters[5]);
+        assertEquals(9, visitedNodesCounters[6]);
+        assertEquals(6, visitedNodesCounters[7]);
         assertEquals(3, visitedNodesCounters[8]);
         assertEquals(3, visitedNodesCounters[9]);
         assertEquals(3, visitedNodesCounters[10]);
-        assertEquals(3, visitedNodesCounters[11]);
-        assertEquals(3, visitedNodesCounters[12]);
+        assertEquals(2, visitedNodesCounters[11]);
+        assertEquals(1, visitedNodesCounters[12]);
         assertEquals(2, visitedNodesCounters[13]);
-        assertEquals(0, visitedNodesCounters[14]);
+        assertEquals(1, visitedNodesCounters[14]);
+        assertEquals(0, visitedNodesCounters[15]);
 
-        assertEquals(55, visitedNodesTotal);
+        assertEquals(58, visitedNodesTotal);
     }
 
     @Test

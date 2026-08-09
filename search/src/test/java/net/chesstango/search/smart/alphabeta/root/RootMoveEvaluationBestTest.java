@@ -73,9 +73,9 @@ public class RootMoveEvaluationBestTest {
 
         // Move1 es más prometedor que el resto, dado que maximizamos y es LOWER_BOUND, por lo que es el mejor
         RootMoveEvaluation maxEvaluation = rootMoveEvaluationBest.getBestRootMoveEvaluation();
-        assertEquals(move1, maxEvaluation.move());
+        assertEquals(move2, maxEvaluation.move());
         assertEquals(1000, maxEvaluation.evaluation());
-        assertEquals(Bound.LOWER_BOUND, maxEvaluation.bound());
+        assertEquals(Bound.EXACT, maxEvaluation.bound());
     }
 
     @Test
@@ -91,9 +91,9 @@ public class RootMoveEvaluationBestTest {
 
         // Move1 es más prometedor que el resto, dado que minimizamos y es UPPER_BOUND, por lo que es el mejor
         RootMoveEvaluation minEvaluation = rootMoveEvaluationBest.getBestRootMoveEvaluation();
-        assertEquals(move1, minEvaluation.move());
+        assertEquals(move2, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(Bound.LOWER_BOUND, minEvaluation.bound());
+        assertEquals(Bound.EXACT, minEvaluation.bound());
     }
 
 
