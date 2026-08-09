@@ -10,4 +10,10 @@ import java.io.Serializable;
 public record RootMoveEvaluation(Move move,
                                  int evaluation,
                                  Bound bound) implements Serializable {
+
+    @Override
+    public String toString() {
+        return String.format("RootMoveEvaluation[move=%s, evaluation=%d, bound=%s]", move, evaluation, bound);
+    }
+
 }

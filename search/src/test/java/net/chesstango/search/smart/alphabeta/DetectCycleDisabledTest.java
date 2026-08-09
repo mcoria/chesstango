@@ -99,17 +99,17 @@ public class DetectCycleDisabledTest {
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(3, visitedNodesCounters[1]);
-        assertEquals(7, visitedNodesCounters[2]);
-        assertEquals(23, visitedNodesCounters[3]);
-        assertEquals(53, visitedNodesCounters[4]);
-        assertEquals(115, visitedNodesCounters[5]);
-        assertEquals(239, visitedNodesCounters[6]);
-        assertEquals(485, visitedNodesCounters[7]);
-        assertEquals(1159, visitedNodesCounters[8]);
-        assertEquals(1745, visitedNodesCounters[9]);
+        assertEquals(5, visitedNodesCounters[2]);
+        assertEquals(21, visitedNodesCounters[3]);
+        assertEquals(51, visitedNodesCounters[4]);
+        assertEquals(101, visitedNodesCounters[5]);
+        assertEquals(195, visitedNodesCounters[6]);
+        assertEquals(379, visitedNodesCounters[7]);
+        assertEquals(839, visitedNodesCounters[8]);
+        assertEquals(1417, visitedNodesCounters[9]);
         assertEquals(0, visitedNodesCounters[10]);
 
-        assertEquals(3830, visitedNodesTotal);
+        assertEquals(3012, visitedNodesTotal);
     }
 
 
@@ -145,14 +145,14 @@ public class DetectCycleDisabledTest {
         assertEquals(3, visitedNodesCounters[2]);
         assertEquals(5, visitedNodesCounters[3]);
         assertEquals(7, visitedNodesCounters[4]);
-        assertEquals(9, visitedNodesCounters[5]);
-        assertEquals(13, visitedNodesCounters[6]);
-        assertEquals(10, visitedNodesCounters[7]);
+        assertEquals(11, visitedNodesCounters[5]);
+        assertEquals(16, visitedNodesCounters[6]);
+        assertEquals(13, visitedNodesCounters[7]);
         assertEquals(10, visitedNodesCounters[8]);
         assertEquals(13, visitedNodesCounters[9]);
         assertEquals(0, visitedNodesCounters[10]);
 
-        assertEquals(73, visitedNodesTotal);
+        assertEquals(81, visitedNodesTotal);
     }
 
     @Test

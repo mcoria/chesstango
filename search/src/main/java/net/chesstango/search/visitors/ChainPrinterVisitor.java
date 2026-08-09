@@ -292,7 +292,8 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
-        print(rootMoveSorter, rootMoveSorter.getNext());
+        printChainDownLine();
+        printNodeObjectText(rootMoveSorter);
     }
 
     @Override

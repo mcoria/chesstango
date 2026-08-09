@@ -15,169 +15,168 @@ AlphaBeta @ 7
  -> Sorter
 	|
 	RootMoveSorter @ 8
-	|
-	NodeGroupSorter @ 9
-	|
-	 -> GroupSorter
 |
-UpdatePV @ 10
+UpdatePV @ 9
 |
-RootMoveEvaluationTracker @ 11
+RootMoveEvaluationTracker @ 10
 |
-AlphaBetaFlowControl @ 12
+AlphaBetaFlowControl @ 11
 |
  -> TerminalNode
 	|
-	ClearPV @ 13
+	ClearPV @ 12
 	|
-	AlphaBetaEvaluation @ 14 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
+	AlphaBetaEvaluation @ 13 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 
  -> EgtbNode
 	|
-	ClearPV @ 17
+	ClearPV @ 16
 	|
-	EgtbEvaluation @ 18 [EndGameTableBase: EndGameTableBaseNull @ 19]
+	EgtbEvaluation @ 17 [EndGameTableBase: EndGameTableBaseNull @ 18]
 
  -> LoopNode
 	|
-	ClearPV @ 20
+	ClearPV @ 19
 	|
-	LoopEvaluation @ 21
+	LoopEvaluation @ 20
 
  -> LeafNode
 	|
-	ClearPV @ 22
+	ClearPV @ 21
 	|
-	AlphaBetaEvaluation @ 23 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
+	AlphaBetaEvaluation @ 22 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 
  -> InteriorNode
 	|
-	ClearPV @ 24
+	ClearPV @ 23
 	|
-	AlphaBeta @ 25
+	AlphaBeta @ 24
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 26
+		NodeMoveSorter @ 25
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 27
+			PrincipalVariationComparator @ 26
 			|
-			QuietComparator @ 28
+			QuietComparator @ 27
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 29
+				PromotionComparator @ 28
 				|
-				RecaptureMoveComparator @ 30
+				RecaptureMoveComparator @ 29
 				|
-				MvvLvaComparator @ 31
+				MvvLvaComparator @ 30
 				|
-				GameEvaluatorCacheComparator @ 32 [EvaluatorCacheRead: EvaluatorCache @ 15]
+				GameEvaluatorCacheComparator @ 31 [EvaluatorCacheRead: EvaluatorCache @ 14]
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 33
+				KillerMoveComparator @ 32
 				|
-				GameEvaluatorCacheComparator @ 32 [EvaluatorCacheRead: EvaluatorCache @ 15]
+				GameEvaluatorCacheComparator @ 31 [EvaluatorCacheRead: EvaluatorCache @ 14]
 	|
-	UpdatePV @ 34
+	UpdatePV @ 33
 	|
-	KillerMoveTracker @ 35
+	KillerMoveTracker @ 34
 	|
-	AlphaBetaFlowControl @ 12 -> LOOP
+	AlphaBetaFlowControl @ 11 -> LOOP
 
  -> QuiescenceNode
 	|
-	ClearPV @ 36
+	ClearPV @ 35
 	|
-	Quiescence @ 37 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
+	Quiescence @ 36 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 38
+		NodeMoveSorter @ 37
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 39
+			PrincipalVariationComparator @ 38
 			|
-			PromotionComparator @ 40
+			PromotionComparator @ 39
 			|
-			RecaptureMoveComparator @ 41
+			RecaptureMoveComparator @ 40
 			|
-			MvvLvaComparator @ 42
+			MvvLvaComparator @ 41
 			|
-			GameEvaluatorCacheComparator @ 43 [EvaluatorCacheRead: EvaluatorCache @ 15]
+			GameEvaluatorCacheComparator @ 42 [EvaluatorCacheRead: EvaluatorCache @ 14]
 	|
-	UpdatePV @ 44
+	UpdatePV @ 43
 	|
-	AlphaBetaFlowControl @ 12 -> LOOP
+	AlphaBetaFlowControl @ 11 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 45
-	SetSearchTimers @ 46
-	AlphaBetaFlowControl @ 12
-	PrincipalVariationComparator @ 27
-	PrincipalVariationComparator @ 39
-	RootMoveSorter @ 8
+	EvaluatorCacheListener @ 44
+	SetSearchTimers @ 45
+	AlphaBetaFlowControl @ 11
+	PrincipalVariationComparator @ 26
+	PrincipalVariationComparator @ 38
+	RootMoveEvaluationCollection @ 46
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 6
 
 SearchByDepthListener:
-	SetSearchTimers @ 46
-	RootMoveEvaluationCollection @ 47
+	SetSearchTimers @ 45
+	RootMoveEvaluationCache @ 47
+	RootMoveEvaluationBest @ 48
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCollection @ 47
+	RootMoveEvaluationCache @ 47
 
 StopSearchingListener:
-	AlphaBetaFlowControl @ 12
+	AlphaBetaFlowControl @ 11
 
 ResetListener:
-	EvaluatorCacheListener @ 45
+	EvaluatorCacheListener @ 44
 
 Acceptor:
-	SetGameToEvaluator @ 48
-	EvaluatorCacheListener @ 45
-	SetGameToEndGameTableBase @ 49
+	SetGameToEvaluator @ 49
+	EvaluatorCacheListener @ 44
+	SetGameToEndGameTableBase @ 50
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 46
-	AlphaBetaFlowControl @ 12
-	ClearPV @ 13
-	AlphaBetaEvaluation @ 14
-	AlphaBetaEvaluation @ 23
-	ClearPV @ 22
-	NodeMoveSorter @ 26
-	QuietComparator @ 28
-	PrincipalVariationComparator @ 27
-	RecaptureMoveComparator @ 30
-	GameEvaluatorCacheComparator @ 32
-	KillerMoveComparator @ 33
-	AlphaBeta @ 25
-	ClearPV @ 24
-	UpdatePV @ 34
-	KillerMoveTracker @ 35
-	ClearPV @ 20
-	ClearPV @ 17
-	EgtbEvaluation @ 18
-	NodeMoveSorter @ 38
-	PrincipalVariationComparator @ 39
-	RecaptureMoveComparator @ 41
-	GameEvaluatorCacheComparator @ 43
-	Quiescence @ 37
-	ClearPV @ 36
-	UpdatePV @ 44
+	SetSearchTimers @ 45
+	AlphaBetaFlowControl @ 11
+	ClearPV @ 12
+	AlphaBetaEvaluation @ 13
+	AlphaBetaEvaluation @ 22
+	ClearPV @ 21
+	NodeMoveSorter @ 25
+	QuietComparator @ 27
+	PrincipalVariationComparator @ 26
+	RecaptureMoveComparator @ 29
+	GameEvaluatorCacheComparator @ 31
+	KillerMoveComparator @ 32
+	AlphaBeta @ 24
+	ClearPV @ 23
+	UpdatePV @ 33
+	KillerMoveTracker @ 34
+	ClearPV @ 19
+	ClearPV @ 16
+	EgtbEvaluation @ 17
+	NodeMoveSorter @ 37
+	PrincipalVariationComparator @ 38
+	RecaptureMoveComparator @ 40
+	GameEvaluatorCacheComparator @ 42
+	Quiescence @ 36
+	ClearPV @ 35
+	UpdatePV @ 43
 	RootMoveSorter @ 8
-	NodeGroupSorter @ 9
-	RootMoveEvaluationTracker @ 11
-	RootMoveEvaluationCollection @ 47
+	NodeGroupSorter @ 51
+	RootMoveEvaluationTracker @ 10
+	RootMoveEvaluationCache @ 47
+	RootMoveEvaluationBest @ 48
+	RootMoveEvaluationCollection @ 46
 	AlphaBeta @ 7
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	CalculatePV @ 5
-	UpdatePV @ 10
+	UpdatePV @ 9
 	PVCalculatorTriangular @ 6
 

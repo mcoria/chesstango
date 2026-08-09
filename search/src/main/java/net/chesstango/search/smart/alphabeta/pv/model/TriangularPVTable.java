@@ -11,6 +11,7 @@ public class TriangularPVTable {
     int[] pvLength = new int[MAX_DEPTH];
 
     public void clearPV(int ply) {
+        //System.out.printf("%sClearPV %d%n", "\t".repeat(ply), ply);
         pvLength[ply] = ply;
     }
 
@@ -18,12 +19,15 @@ public class TriangularPVTable {
      * Prepend best move at ply, then copy child's PV tail.
      */
     public void updatePV(int ply, short move) {
+        //System.out.printf("%sUpdatePV %d %s%n", "\t".repeat(ply), ply, move);
         pvTable[ply][ply] = move;
 
-        if (pvLength[ply + 1] - (ply + 1) > 0)
-            System.arraycopy(pvTable[ply + 1], ply + 1, pvTable[ply], ply + 1, pvLength[ply + 1] - (ply + 1));
+        final int nextPly = ply + 1;
+        if (pvLength[nextPly] - nextPly > 0) {
+            System.arraycopy(pvTable[nextPly], nextPly, pvTable[ply], nextPly, pvLength[nextPly] - nextPly);
+        }
 
-        pvLength[ply] = pvLength[ply + 1];
+        pvLength[ply] = pvLength[nextPly];
     }
 
     public short[] getRootPV() {

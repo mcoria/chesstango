@@ -47,14 +47,13 @@ public class SearchTest {
         Move bm = searchResult.getBestMove();
         assertNotNull(bm);
 
-        assertEquals(Piece.KNIGHT_WHITE, bm.getFrom().piece());
-        assertEquals(Square.g1, bm.getFrom().square());
-        assertEquals(Square.h3, bm.getTo().square());
+        assertEquals(Piece.PAWN_WHITE, bm.getFrom().piece());
+        assertEquals(Square.a2, bm.getFrom().square());
+        assertEquals(Square.a3, bm.getTo().square());
 
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
-        assertArrayEquals(new String[]{"g1h3", "g8h6", "h3g5", "h6g4", "g5e4", "g4e5", "e4g5", "e5g4"}, pv.toArray());
-        assertEquals(8, pv.size());     // Observar que PV size es menor que MaxDepth dado que entra en Loop
-
+        assertArrayEquals(new String[]{"a2a3", "g8h6", "g1h3", "h6g4", "h3g5", "g4e5", "g5e4", "e5g4", "e4g5"}, pv.toArray());
+        assertEquals(9, pv.size());     // Observar que PV size es menor que MaxDepth dado que entra en Loop
         assertTrue(searchResult.isPvComplete());
 
         /*
@@ -179,13 +178,13 @@ public class SearchTest {
 
     @Test
     @Disabled
-    public void test_1_7() {
+    public void test_1_7_0() {
         Game game = Game.from(FEN.from("rnbqkb1r/p4p2/2p1p2p/1p1nP1p1/2pP4/2N2NB1/PP3PPP/R2QKB1R w KQkq - 1 10"));
 
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(true, true, true)
+                //.withDebugSearchTree(true, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -203,6 +202,37 @@ public class SearchTest {
 
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"f1e2", "g5g4", "f3d2", "d5c3", "b2c3"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
+    }
+
+    @Test
+    @Disabled
+    public void test_1_7_1() {
+        Game game = Game.from(FEN.from("R7/6p1/P1Bp4/3Pb3/1K3k2/8/8/1r6 w - - 1 59"));
+
+        Search search = defaultSearch()
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
+                .withDebugSearchTree(false, false, false)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(5));
+        SearchResult searchResult = search.startSearch(game);
+
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        // Observar que ahora esta fallando y entregando un valor menor: 63030
+        assertEquals(69920, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.KING_WHITE, bm.getFrom().piece());
+        assertEquals(Square.b4, bm.getFrom().square());
+        assertEquals(Square.a5, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"b4a5", "b1a1", "a5b5", "a1b1", "b5c4"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
     }

@@ -32,6 +32,8 @@ import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.root.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
@@ -134,7 +136,14 @@ public interface Visitor {
     }
 
 
-    default void visit(RootMoveEvaluationCollection oveEvaluations) {
+    default void visit(RootMoveEvaluationBest rootMoveEvaluationBest) {
+    }
+
+    default void visit(RootMoveEvaluationCache rootMoveEvaluationCache) {
+    }
+
+
+    default void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
     }
 
     default void visit(CalculatePV calculatePV) {

@@ -3,14 +3,11 @@ package net.chesstango.search.smart.alphabeta.root.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.Visitor;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
 import net.chesstango.search.visitors.CollectSearchResultByDepthVisitor;
 import net.chesstango.search.visitors.DistributeSearchResultByDepthVisitor;
 
@@ -24,7 +21,7 @@ public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
     private AlphaBetaFilter next;
 
     @Setter
-    private RootMoveEvaluationCollection rootMoveEvaluationCollection;
+    private RootMoveEvaluationBest rootMoveEvaluationBest;
 
     @Setter
     private SearchListenerMediator searchListenerMediator;
@@ -42,13 +39,19 @@ public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
         try {
             searchListenerMediator.triggerBeforeSearchByDepth();
 
-            next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
+            int value = next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
+
+            RootMoveEvaluation bestRootMoveEvaluation = rootMoveEvaluationBest.getBestRootMoveEvaluation();
+
+            if (bestRootMoveEvaluation.evaluation() != value) {
+                throw new RuntimeException("Best root move evaluation value is not the same as the value returned by the search algorithm");
+            }
 
             searchListenerMediator.triggerAfterSearchByDepth(false);
         } catch (StopSearchingException stopSearchingException) {
             searchListenerMediator.triggerAfterSearchByDepth(true);
 
-            if (rootMoveEvaluationCollection.getBestRootMoveEvaluation() == null) {
+            if (rootMoveEvaluationBest.getBestRootMoveEvaluation() == null) {
                 return null;
             }
         }

@@ -20,7 +20,6 @@ import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
-import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -29,7 +28,6 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaIn
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeGroupSorter;
@@ -87,6 +85,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(RootMoveEvaluationTracker moveEvaluationTracker) {
         moveEvaluationTracker.setGame(game);
+    }
+
+    @Override
+    public void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
+        rootMoveEvaluationCollection.setGame(game);
     }
 
     @Override
@@ -192,11 +195,6 @@ public class SetGameVisitor implements Visitor {
      *
      * Sorter elements
      */
-
-    @Override
-    public void visit(RootMoveSorter rootMoveSorter) {
-        rootMoveSorter.setGame(game);
-    }
 
     @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {

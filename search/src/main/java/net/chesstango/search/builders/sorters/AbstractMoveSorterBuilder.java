@@ -54,7 +54,7 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
             switch (currentSorter) {
                 case MoveSorterDebug moveSorterDebug -> moveSorterDebug.setNext(next);
 
-                case RootMoveSorter rootMoveSorter -> rootMoveSorter.setNext(next);
+                case RootMoveSorter rootMoveSorter -> {}
 
                 case null -> throw new RuntimeException(String.format("MoveSorter %d is null", i));
 

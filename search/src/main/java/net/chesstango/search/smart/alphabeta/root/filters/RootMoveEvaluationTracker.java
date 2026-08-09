@@ -8,7 +8,11 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 import java.util.Optional;
@@ -24,9 +28,15 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     @Getter
     private AlphaBetaFilter next;
 
-    @Getter
+    @Setter
+    private RootMoveEvaluationCache rootMoveEvaluationCache;
+
+    @Setter
+    private RootMoveEvaluationBest rootMoveEvaluationBest;
+
     @Setter
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
+
 
     @Setter
     private Game game;
@@ -36,12 +46,23 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
         visitor.visit(this);
     }
 
+    /*
+    @Override
+    public void beforeSearchByDepth() {
+        System.out.println("Starting search depth+1");
+    }
+
+    @Override
+    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+        System.out.println("Starting search windows: " + alphaBound + " - " + betaBound + " cycle: " + searchByWindowsCycle);
+    }
+     */
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
-        Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCollection.get(currentMove);
+        Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCache.get(currentMove);
 
         if (moveEvaluation.isPresent()) {
             RootMoveEvaluation rootMoveEvaluation = moveEvaluation.get();
@@ -50,7 +71,12 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
-        rootMoveEvaluationCollection.save(createRootMoveEvaluation(currentMove, currentValue, alpha, beta));
+        RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
+
+        //System.out.println("Saving root move evaluation: " + rootMoveEvaluation);
+        rootMoveEvaluationCache.save(rootMoveEvaluation);
+        rootMoveEvaluationBest.save(rootMoveEvaluation);
+        rootMoveEvaluationCollection.save(rootMoveEvaluation);
 
         return currentValue;
     }
