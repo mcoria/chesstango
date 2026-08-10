@@ -15,7 +15,10 @@ class TimeFivePercentage implements TimeMgmt {
     }
 
     @Override
-    public boolean keepSearching(int timeOut, SearchResultByDepth searchResultByDepth) {
+    public boolean keepSearching(Game game, int timeOut, SearchResultByDepth searchResultByDepth) {
+        if (game.getPossibleMoves().size() == 1) {
+            return false;
+        }
         return timeOut - searchResultByDepth.getTimeSearching() >= searchResultByDepth.getTimeSearchingLastDepth() * 2;
     }
 

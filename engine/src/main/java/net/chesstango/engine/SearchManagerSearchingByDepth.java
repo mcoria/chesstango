@@ -30,7 +30,7 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     }
 
     @Override
-    public Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public Future<SearchResponse> searchTimeOutImp(Game game, int timeOutMs, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         log.warn("Search is in progress");
         return null;
     }
