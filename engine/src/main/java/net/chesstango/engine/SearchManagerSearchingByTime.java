@@ -24,6 +24,9 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
 
     private final SearchListener searchListener;
 
+    /**
+     * Tiempo en milisegundos
+     */
     private final int timeOut;
 
     private ScheduledFuture<?> stopTask;
@@ -33,18 +36,18 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
                                  Runnable stopFn,
                                  ScheduledExecutorService timeOutExecutor,
                                  SearchListener searchListener,
-                                 int timeOut) {
+                                 int timeOutMs) {
         this.searchManager = searchManager;
         this.stopFn = stopFn;
         this.timeOutExecutor = timeOutExecutor;
         this.searchListener = searchListener;
-        this.timeOut = timeOut;
+        this.timeOut = timeOutMs;
         this.countDownLatch = new CountDownLatch(1);
     }
 
 
     @Override
-    public Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public Future<SearchResponse> searchTimeOutImp(Game game, int timeOutMs, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         log.warn("Search is in progress");
         return null;
     }

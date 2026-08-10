@@ -26,9 +26,10 @@ interface TimeMgmt {
     /**
      * Determines whether to continue the search based on elapsed time and search progress.
      *
+     * @param game
      * @param timeOut             Maximum allocated time for the search in milliseconds
      * @param searchResultByDepth Current search results including evaluation and best moves
      * @return true if the search should continue, false if it should stop
      */
-    boolean keepSearching(int timeOut, SearchResultByDepth searchResultByDepth);
+    boolean keepSearching(Game game, int timeOut, SearchResultByDepth searchResultByDepth);
 }

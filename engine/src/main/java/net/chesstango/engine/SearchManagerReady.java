@@ -49,13 +49,13 @@ class SearchManagerReady implements SearchManagerState {
 
     @Override
     public Future<SearchResponse> searchTimeOutImp(Game game,
-                                                   int timeOut,
+                                                   int timeOutMs,
                                                    Predicate<SearchResultByDepth> searchResultByDepthPredicate,
                                                    SearchListener searchListener) {
 
-        log.debug("Searching by time {} ms", timeOut);
+        log.debug("Searching by time {} ms", timeOutMs);
 
-        SearchManagerSearchingByTime searchManagerSearchingByTime = searchManager.createSearchingByTimeState(timeOut, searchListener);
+        SearchManagerSearchingByTime searchManagerSearchingByTime = searchManager.createSearchingByTimeState(timeOutMs, searchListener);
 
         searchManager.setCurrentSearchManagerState(searchManagerSearchingByTime);
 
