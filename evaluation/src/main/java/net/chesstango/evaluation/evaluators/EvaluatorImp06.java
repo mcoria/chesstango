@@ -1,6 +1,5 @@
 package net.chesstango.evaluation.evaluators;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.*;
 import net.chesstango.board.position.PositionReader;
 
@@ -8,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
+
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Mauricio Coria
@@ -260,7 +262,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
 
     public static Tables readValues(InputStream inputStream) {
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
-            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper = JsonMapper.builder().build();
             return objectMapper.readValue(inputStreamReader, Tables.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -268,12 +270,8 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     }
 
     public static Tables readValues(String dump) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(dump, Tables.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ObjectMapper objectMapper = JsonMapper.builder().build();
+        return objectMapper.readValue(dump, Tables.class);
     }
 
 }

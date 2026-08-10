@@ -1,13 +1,11 @@
 package net.chesstango.search.gamegraph;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENObjectBuilder;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -15,6 +13,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Mauricio Coria
@@ -31,22 +32,18 @@ public class GameMockLoader {
     }
 
     public GameMock readGameMove(Reader reader) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
 
-            Node node = objectMapper.readValue(reader, Node.class);
+        Node node = objectMapper.readValue(reader, Node.class);
 
-            node.accept(new VerifyUniqueMovesStrings());
-            node.accept(new NodeFixParentLink());
-            node.accept(new CreatePositions());
+        node.accept(new VerifyUniqueMovesStrings());
+        node.accept(new NodeFixParentLink());
+        node.accept(new CreatePositions());
 
-            GameMock gameMock = new GameMock();
-            gameMock.currentMockNode = node;
+        GameMock gameMock = new GameMock();
+        gameMock.currentMockNode = node;
 
-            return gameMock;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return gameMock;
     }
 
     private static class VerifyUniqueMovesStrings implements NodeVisitor {
