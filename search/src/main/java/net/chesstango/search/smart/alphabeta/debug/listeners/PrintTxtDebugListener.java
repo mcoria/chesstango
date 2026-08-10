@@ -101,7 +101,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     @Override
-    public void afterSearchByWindows(boolean searchByWindowsFinished) {
+    public void afterSearchByWindows(boolean searchStopped) {
         dumpSearchTracker();
     }
 

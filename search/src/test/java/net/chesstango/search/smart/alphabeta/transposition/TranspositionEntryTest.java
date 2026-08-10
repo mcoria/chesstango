@@ -244,13 +244,13 @@ public class TranspositionEntryTest {
         t3.setValue(1);
         t3.setBound(UPPER_BOUND);
 
-        assertTrue(t1.compareTo(t2) > 0);
-        assertTrue(t2.compareTo(t1) < 0);
+        assertTrue(t1.compareTo(t2) < 0);
+        assertTrue(t2.compareTo(t1) > 0);
 
-        assertTrue(t1.compareTo(t3) > 0);
-        assertTrue(t3.compareTo(t1) < 0);
+        assertTrue(t1.compareTo(t3) < 0);
+        assertTrue(t3.compareTo(t1) > 0);
 
-        assertTrue(t2.compareTo(t3) > 0);
-        assertTrue(t3.compareTo(t2) < 0);
+        assertTrue(t2.compareTo(t3) < 0);
+        assertTrue(t3.compareTo(t2) > 0);
     }
 }

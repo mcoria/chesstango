@@ -55,6 +55,11 @@ public class SearchResultByDepth implements Serializable {
      */
     private long timeSearching;
 
+    /**
+     * Indicates if the search was stopped
+     */
+    private boolean searchStopped;
+
     public SearchResultByDepth(int depth) {
         this.depth = depth;
     }

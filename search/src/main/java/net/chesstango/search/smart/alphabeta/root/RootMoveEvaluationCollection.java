@@ -1,117 +1,62 @@
 package net.chesstango.search.smart.alphabeta.root;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 /**
+ *
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
-
-    private final List<RootMoveEvaluation> rootMoveEvaluations;
-
-    private final RootMoveEvaluationComparator rootMoveEvaluationComparator;
-
-    @Getter
-    private RootMoveEvaluation bestRootMoveEvaluation;
+public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleListener {
 
     @Setter
     private Game game;
 
+    @Setter
+    private List<RootMoveEvaluation> rootMoveEvaluationList;
 
-    public RootMoveEvaluationCollection() {
-        rootMoveEvaluations = new LinkedList<>();
-        rootMoveEvaluationComparator = new RootMoveEvaluationCollection.RootMoveEvaluationComparator();
-    }
-
+    /**
+     * Accepts a visitor for the visitor pattern implementation.
+     *
+     * @param visitor the visitor to accept
+     */
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+
     @Override
     public void beforeSearch() {
-        rootMoveEvaluations.clear();
-        bestRootMoveEvaluation = null;
-    }
-
-    @Override
-    public void beforeSearchByDepth() {
-        rootMoveEvaluations.clear();
-    }
-
-    @Override
-    public void afterSearchByDepth() {
-        //En caso de stop inmediatamente se completó DEPTH = 1
-        if (!rootMoveEvaluations.isEmpty()) {
-            rootMoveEvaluations.sort(rootMoveEvaluationComparator);
-            bestRootMoveEvaluation = rootMoveEvaluations.getFirst();
+        rootMoveEvaluationList.clear();
+        /**
+         * Fake values for all possible moves.
+         */
+        for (Move move : game.getPossibleMoves()) {
+            rootMoveEvaluationList.add(new RootMoveEvaluation(move, Evaluator.INFINITE_NEGATIVE, Bound.UPPER_BOUND));
         }
-    }
-
-    @Override
-    public void beforeSearchByWindows(int alpha, int beta, int searchByWindowsCycle) {
-        if (searchByWindowsCycle > 0) {
-            /**
-             * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
-             * Dejo resultado exactos dado que no es necesario volver a explorarlos.
-             * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
-             */
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alpha <= moveEvaluation.evaluation());
-            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= beta);
-        }
-    }
-
-    public void save(RootMoveEvaluation moveEvaluation) {
-        rootMoveEvaluations.add(moveEvaluation);
-    }
-
-    public Optional<RootMoveEvaluation> get(Move currentMove) {
-        for (RootMoveEvaluation evaluatedMove : rootMoveEvaluations) {
-            if (evaluatedMove.move().equals(currentMove)) {
-                return Optional.of(evaluatedMove);
-            }
-        }
-        return Optional.empty();
-    }
-
-    public List<RootMoveEvaluation> getRootMoveEvaluations() {
-        return List.copyOf(rootMoveEvaluations);
     }
 
     /**
-     * @author Mauricio Coria
+     * Saves a root move evaluation to the collection.
+     *
+     * @param moveEvaluation the move evaluation to save
      */
-    public static class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluation> {
-        private final Comparator<RootMoveEvaluation> rootMoveEvaluationComparator;
-
-        public RootMoveEvaluationComparator() {
-            DefaultMoveComparator defaultMoveComparator = new DefaultMoveComparator();
-            this.rootMoveEvaluationComparator = Comparator
-                    .comparing(RootMoveEvaluation::bound, Comparator.reverseOrder())
-                    .thenComparing(RootMoveEvaluation::evaluation, Comparator.reverseOrder())         // De mayor a menor
-                    .thenComparing((o1, o2) -> defaultMoveComparator.reversed().compare(o1.move(), o2.move()));
-
-        }
-
-        @Override
-        public int compare(RootMoveEvaluation o1, RootMoveEvaluation o2) {
-            return rootMoveEvaluationComparator.compare(o1, o2);
+    public void save(RootMoveEvaluation moveEvaluation) {
+        if (rootMoveEvaluationList.removeIf(rootMoveEvaluation -> rootMoveEvaluation.move().equals(moveEvaluation.move()))) {
+            rootMoveEvaluationList.add(moveEvaluation);
+        } else {
+            throw new RuntimeException("Move should exist in rootMoveEvaluationList.");
         }
     }
+
 }

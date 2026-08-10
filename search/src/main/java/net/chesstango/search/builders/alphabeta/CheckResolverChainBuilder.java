@@ -11,6 +11,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
     private UpdatePV updatePV;
+    private MoveSorter moveSorter;
+
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -73,7 +76,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected  void buildObjects() {
+    protected void buildObjects() {
         if (withStatistics) {
             alphaBetaNodeStatistics = new AlphaBetaInteriorNodeVisited();
         }
@@ -89,10 +92,11 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         if (!withTranspositionTable) {
             updatePV = new UpdatePV();
         }
+        moveSorter = moveSorterBuilder.build();
     }
 
     @Override
-    protected  void setupListenerMediator() {
+    protected void setupListenerMediator() {
         if (withStatistics) {
             searchListenerMediator.add(alphaBetaNodeStatistics);
         }
@@ -112,8 +116,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected void linkObjects() {
-        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+    public void link() {
+        alphaBeta.setMoveSorter(moveSorter);
     }
 
     @Override

@@ -74,11 +74,6 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected void linkObjects() {
-
-    }
-
-    @Override
     protected AlphaBetaFilter buildAlphaBetaChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 

@@ -58,11 +58,15 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         List<PrincipalVariation> principalVariationList = new ArrayList<>();
 
         // Cada vez que recalculamos Principal Variation
-        this.principalVariation = walkPrincipalVariation(principalVariationList, eval);
+        this.principalVariation = walkPrincipalVariation(principalVariationList);
         this.pvComplete = validatePrincipalVariation(eval);
 
         // Rewind game
-        principalVariationList.reversed().stream().map(PrincipalVariation::move).forEach(Move::undoMove);
+        principalVariationList
+                .reversed()
+                .stream()
+                .map(PrincipalVariation::move)
+                .forEach(Move::undoMove);
     }
 
 
@@ -90,26 +94,22 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         return isPVComplete;
     }
 
-    protected Move getMove(short moveEncoded) {
-        for (Move posibleMove : game.getPossibleMoves()) {
-            if (posibleMove.binaryEncoding() == moveEncoded) {
-                return posibleMove;
-            }
-        }
-        return null;
-    }
 
-
-    protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList, int eval) {
+    protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList) {
         int pvMoveCounter = 0;
         short[] pvMoves = trianglePV.getRootPV();
 
         // First PV move
 
         while (pvMoveCounter < pvMoves.length) {
-
             long currentHash = game.getPosition().getZobristHash();
+
             Move currentMove = getMove(pvMoves[pvMoveCounter++]);
+
+            // CHT-668: siempre debiera retornar un movimiento
+            if (currentMove == null) {
+                break;
+            }
 
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
 
@@ -117,5 +117,15 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         }
 
         return principalVariationList;
+    }
+
+
+    protected Move getMove(short moveEncoded) {
+        for (Move posibleMove : game.getPossibleMoves()) {
+            if (posibleMove.binaryEncoding() == moveEncoded) {
+                return posibleMove;
+            }
+        }
+        return null;
     }
 }

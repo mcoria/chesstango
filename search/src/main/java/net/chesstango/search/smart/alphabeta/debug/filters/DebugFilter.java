@@ -50,21 +50,14 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
         if (currentValue <= alpha) {
             debugNode.setBound(Bound.UPPER_BOUND);
+            debugNode.setType(DebugNode.NodeType.ALL);
         } else if (beta <= currentValue) {
             debugNode.setBound(Bound.LOWER_BOUND);
-        } else {
-            debugNode.setBound(Bound.EXACT);
-        }
-
-        /*
-        if (Bound.UPPER_BOUND.equals(debugNode.getBound())) {
-            debugNode.setType(DebugNode.NodeType.ALL);
-        } else if (Bound.LOWER_BOUND.equals(debugNode.getBound())) {
             debugNode.setType(DebugNode.NodeType.CUT);
         } else {
+            debugNode.setBound(Bound.EXACT);
             debugNode.setType(DebugNode.NodeType.PV);
         }
-         */
 
 
         searchTracker.save();

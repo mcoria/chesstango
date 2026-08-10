@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.RootMoveEvaluation;
+import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCyc
     private AlphaBetaFilter next;
 
     private SearchListenerMediator searchListenerMediator;
-    
+
     private RootMoveEvaluation lastRootMoveEvaluation;
 
     @Override
@@ -54,33 +54,41 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCyc
 
         int alphaCycle = 1;
         int betaCycle = 1;
-        do {
-            searchListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
-            bestValue = next.alphaBeta(currentPly, alphaBound, betaBound);
+        try {
+            do {
+                searchListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
-            if (bestValue <= alphaBound) {
-                if (alpha < bestValue) {
-                    alphaBound = bestValue - diffBound(alpha, bestValue, alphaCycle);
-                    alphaCycle++;
+                bestValue = next.alphaBeta(currentPly, alphaBound, betaBound);
+
+                if (bestValue <= alphaBound) {
+                    if (alpha < bestValue) {
+                        alphaBound = bestValue - diffBound(alpha, bestValue, alphaCycle);
+                        alphaCycle++;
+                    } else {
+                        search = false;
+                    }
+                } else if (betaBound <= bestValue) {
+                    if (bestValue < beta) {
+                        betaBound = bestValue + diffBound(beta, bestValue, betaCycle);
+                        betaCycle++;
+                    } else {
+                        search = false;
+                    }
                 } else {
                     search = false;
                 }
-            } else if (betaBound <= bestValue) {
-                if (bestValue < beta) {
-                    betaBound = bestValue + diffBound(beta, bestValue, betaCycle);
-                    betaCycle++;
-                } else {
-                    search = false;
-                }
-            } else {
-                search = false;
-            }
 
-            searchListenerMediator.triggerAfterSearchByWindows(!search);
-        } while (search);
+                searchListenerMediator.triggerAfterSearchByWindows(false);
 
-        return bestValue;
+            } while (search);
+
+            return bestValue;
+
+        } catch (StopSearchingException stopSearchingException) {
+            searchListenerMediator.triggerAfterSearchByWindows(true);
+            throw stopSearchingException;
+        }
     }
 
     protected int diffBound(int maxBound, int currentBound, int cycle) {

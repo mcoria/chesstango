@@ -7,7 +7,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCache;
 
 /**
  * @author Mauricio Coria
@@ -16,7 +16,7 @@ import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 public class DepthCollector implements Acceptor, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
-    private RootMoveEvaluationCollection rootMoveEvaluationCollection;
+    private RootMoveEvaluationCache rootMoveEvaluationCache;
 
     @Setter
     private int depth;
@@ -41,8 +41,8 @@ public class DepthCollector implements Acceptor, SearchByCycleListener, SearchBy
     }
 
     @Override
-    public void afterSearchByDepth() {
-        int evaluatedChild = rootMoveEvaluationCollection.getRootMoveEvaluations().size();
+    public void afterSearchByDepth(boolean searchStopped) {
+        int evaluatedChild = rootMoveEvaluationCache.getRootMoveEvaluations().size();
         exploredDepth = (depth - 1) + (float) evaluatedChild / possibleMoves;
     }
 

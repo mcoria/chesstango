@@ -15,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQu
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,9 +32,9 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private EvaluatorDebug gameEvaluatorDebug;
     private UpdatePV updatePV;
     private ClearPV clearPV;
+    private MoveSorter moveSorter;
 
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -126,9 +127,9 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            gameEvaluatorDebug = new EvaluatorDebug();
         }
 
+        moveSorter = moveSorterBuilder.build();
     }
 
     @Override
@@ -153,7 +154,6 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         if (withDebugSearchTree) {
             searchListenerMediator.add(debugFilter);
-            searchListenerMediator.add(gameEvaluatorDebug);
         }
 
         if (clearPV != null) {
@@ -166,12 +166,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected void linkObjects() {
-        quiescence.setMoveSorter(moveSorterBuilder.build());
-
-        if (withDebugSearchTree) {
-            quiescence.setEvaluator(gameEvaluatorDebug);
-        }
+    public void link() {
+        quiescence.setMoveSorter(moveSorter);
     }
 
     @Override

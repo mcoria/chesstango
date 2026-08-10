@@ -31,7 +31,12 @@ public class UpdatePV implements AlphaBetaFilter, Acceptor {
         int value = next.alphaBeta(currentPly, alpha, beta);
 
         if (alpha < value) {
-            short bestMove = game.getHistory().peekLastRecord().playedMove().binaryEncoding();
+            short bestMove = game
+                    .getHistory()
+                    .peekLastRecord()
+                    .playedMove()
+                    .binaryEncoding();
+
             trianglePV.updatePV(currentPly - 1, bestMove);
         }
 

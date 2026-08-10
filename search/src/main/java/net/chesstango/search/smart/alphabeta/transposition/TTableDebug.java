@@ -44,24 +44,22 @@ public class TTableDebug implements TTable, Acceptor {
 
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = searchTracker.getCurrentNode();
-        if (currentNode != null) {
-            if (entry != null) {
-                assert hashRequested == entry.hash;
+        if (currentNode != null && entry != null) {
 
-                TranspositionEntry entryRead = entry.clone();
+            TranspositionEntry entryRead = entry.clone();
 
-                List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();
+            List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();
 
-                Optional<DebugOperationTT> previousReadOpt = readList
-                        .stream()
-                        .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
-                        .findFirst();
+            Optional<DebugOperationTT> previousReadOpt = readList
+                    .stream()
+                    .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
+                    .findFirst();
 
-                if (previousReadOpt.isEmpty()) {
-                    readList.add(new DebugOperationTT()
-                            .setEntry(entryRead));
-                }
+            if (previousReadOpt.isEmpty()) {
+                readList.add(new DebugOperationTT()
+                        .setEntry(entryRead));
             }
+
         }
     }
 

@@ -30,16 +30,15 @@ public abstract class AbstractChainBuilder {
 
         setupListenerMediator();
 
-        linkObjects();
-
         return buildAlphaBetaChain();
+    }
+
+    public void link(){
     }
 
     protected abstract void buildObjects();
 
     protected abstract void setupListenerMediator();
-
-    protected abstract void linkObjects();
 
     protected abstract AlphaBetaFilter buildAlphaBetaChain();
 

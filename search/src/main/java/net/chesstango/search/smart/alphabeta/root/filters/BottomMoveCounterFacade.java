@@ -9,6 +9,7 @@ import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.Acceptor;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -70,13 +71,14 @@ public class BottomMoveCounterFacade implements SearchAlgorithm, Acceptor, Searc
     }
 
     @Override
-    public void search() {
+    public SearchResultByDepth search() {
         final Color currentTurn = game.getPosition().getCurrentTurn();
         if (Color.WHITE.equals(currentTurn)) {
             // maximize(targetMoveEvaluation(alphaBetaFilter::minimize));
         } else {
             //minimize(targetMoveEvaluation(alphaBetaFilter::alphaBeta));
         }
+        return null;
     }
 
     protected int targetMoveEvaluation(final AlphaBetaFunction alphaBetaFn) {
