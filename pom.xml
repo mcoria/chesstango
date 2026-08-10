@@ -121,11 +121,6 @@
                 <version>${piazzolla.version}</version>
             </dependency>
             <dependency>
-                <groupId>tools.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.github.tors42</groupId>
                 <artifactId>chariot</artifactId>
                 <version>${chariot.version}</version>
@@ -153,6 +148,13 @@
                 <version>${jmh.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>tools.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <dependency>
                 <groupId>org.junit</groupId>
