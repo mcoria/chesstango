@@ -55,11 +55,11 @@ public class NodeGroupSorterTest {
 
         when(mockGame.getPossibleMoves()).thenReturn(mockMoveContainer);
 
-        List<Move> collectedMoves = new ArrayList<>();
         doAnswer(invocation -> {
-            collectedMoves.add(mockMove1);
-            collectedMoves.add(mockMove2);
-            collectedMoves.add(mockMove3);
+            List<Move> movesListArg = invocation.getArgument(0);
+            movesListArg.add(mockMove1);
+            movesListArg.add(mockMove2);
+            movesListArg.add(mockMove3);
             return null;
         }).when(mockGroupSorter).collect(anyList());
 
