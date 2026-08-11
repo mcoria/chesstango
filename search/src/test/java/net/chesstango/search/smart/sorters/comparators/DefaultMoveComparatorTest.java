@@ -7,7 +7,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.gardel.fen.FEN;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,12 @@ public class DefaultMoveComparatorTest {
     @BeforeEach
     public void setUp() {
         defaultMoveComparator = new DefaultMoveComparator();
+        defaultMoveComparator.beforeSort(0);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        defaultMoveComparator.afterSort();
     }
 
     @Test
@@ -44,7 +52,7 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
-    public void testSimpleMove_CompareByPiece() {
+    public void testSimpleMoveCompareByPiece() {
         Move moveQueen = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
@@ -411,6 +419,46 @@ public class DefaultMoveComparatorTest {
         }
 
     }
+
+    @Test
+    public void sortGameMoves01() {
+        FEN fen = FEN.from("1R5r/1R2bpp1/2k1p2r/q3P3/b1P2P1p/PN1P2n1/5QPP/6K1 w - - 0 1");
+        String[] expectedOrderedMoves = new String[]{
+                "b3a5", "b8h8", "b7e7", "h2g3", "f2g3", "f2a7", "f2b6", "f2c5", "f2d4",
+                "f2f3", "f2e3", "f2e2", "f2d2", "f2c2", "f2b2", "f2a2", "f2f1", "f2e1",
+                "b3c5", "b3d4", "b3d2", "b3c1", "b3a1", "b8g8", "b8f8", "b8e8", "b8d8",
+                "b8c8", "b8a8", "b7d7", "b7c7", "b7a7", "b7b6", "b7b5", "b7b4", "f4f5",
+                "c4c5", "d3d4", "h2h3"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves);
+    }
+
+    void assertMoveContainer(FEN fen, String[] expectedOrderedMoves) {
+        Game game = Game.from(fen);
+
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
+        List<Move> possibleMovesList = new ArrayList<>(moves.size());
+        for (Move move : moves) {
+            possibleMovesList.add(move);
+        }
+
+        possibleMovesList.sort(defaultMoveComparator.reversed());
+
+        List<String> movesStr = possibleMovesList
+                .stream()
+                .map(SimpleMoveEncoder.INSTANCE::encode)
+                .toList();
+
+        /*
+        movesStr.stream()
+                .map(m -> String.format("\"%s\",", m))
+                .forEach(System.out::println);
+
+         */
+
+        assertArrayEquals(expectedOrderedMoves, movesStr.toArray());
+    }
+
 
     private Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
         return createMove(from, to);
