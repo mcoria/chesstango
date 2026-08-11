@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -390,8 +391,66 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void sort_Fried_Liver_Attack_Mirror() {
-        Game blackGame = Game.from(FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1"));
-        Game whiteGame = Game.from(FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1")).mirror();
+        FEN fen = FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1");
+        String[] expectedOrderedMoves = new String[]{
+                "e8f7", "d8h4", "d8g5", "d8f6", "d8d6", "d8e7", "d8d7", "d5e3", "d5c3",
+                "d5f4", "d5b4", "d5f6", "d5b6", "d5e7", "f8a3", "f8b4", "f8c5", "f8d6",
+                "f8e7", "c8h3", "c8g4", "c8f5", "c8e6", "c8d7", "h8g8", "a8b8", "h7h5",
+                "h7h6", "g7g5", "g7g6", "b7b5", "b7b6", "a7a5", "a7a6", "e8e7", "e8d7"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves, false);
+        assertSortingSymmetry(fen);
+    }
+
+    @Test
+    public void sortGameMoves01() {
+        FEN fen = FEN.from("1R5r/1R2bpp1/2k1p2r/q3P3/b1P2P1p/PN1P2n1/5QPP/6K1 w - - 0 1");
+        String[] expectedOrderedMoves = new String[]{
+                "b3a5", "b8h8", "b7e7", "h2g3", "f2g3", "f2a7", "f2b6", "f2c5", "f2d4",
+                "f2f3", "f2e3", "f2e2", "f2d2", "f2c2", "f2b2", "f2a2", "f2f1", "f2e1",
+                "b3c5", "b3d4", "b3d2", "b3c1", "b3a1", "b8g8", "b8f8", "b8e8", "b8d8",
+                "b8c8", "b8a8", "b7d7", "b7c7", "b7a7", "b7b6", "b7b5", "b7b4", "f4f5",
+                "c4c5", "d3d4", "h2h3"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves, false);
+        assertSortingSymmetry(fen);
+    }
+
+    void assertMoveContainer(FEN fen, String[] expectedOrderedMoves, boolean debug) {
+        Game game = Game.from(fen);
+
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
+        List<Move> possibleMovesList = new ArrayList<>(moves.size());
+        for (Move move : moves) {
+            possibleMovesList.add(move);
+        }
+
+        possibleMovesList.sort(defaultMoveComparator.reversed());
+
+        List<String> movesStr = possibleMovesList
+                .stream()
+                .map(SimpleMoveEncoder.INSTANCE::encode)
+                .toList();
+
+        if (debug) {
+            AtomicInteger moveIndex = new AtomicInteger(0);
+            movesStr.stream()
+                    .map(m -> String.format("\"%s\",", m))
+                    .forEach(m -> {
+                        if (moveIndex.incrementAndGet() % 9 == 0) {
+                            System.out.println(m);
+                        } else {
+                            System.out.print(m);
+                        }
+                    });
+        }
+
+        assertArrayEquals(expectedOrderedMoves, movesStr.toArray());
+    }
+
+    void assertSortingSymmetry(FEN fen) {
+        Game blackGame = Game.from(fen);
+        Game whiteGame = Game.from(fen).mirror();
 
         MoveContainerReader<Move> blackPossibleMoves = blackGame.getPossibleMoves();
         List<Move> blackPossibleMovesList = new ArrayList<>(blackPossibleMoves.size());
@@ -417,46 +476,6 @@ public class DefaultMoveComparatorTest {
             assertEquals(move1.getFrom().square(), move2.getFrom().square().mirror());
             assertEquals(move1.getTo().square(), move2.getTo().square().mirror());
         }
-
-    }
-
-    @Test
-    public void sortGameMoves01() {
-        FEN fen = FEN.from("1R5r/1R2bpp1/2k1p2r/q3P3/b1P2P1p/PN1P2n1/5QPP/6K1 w - - 0 1");
-        String[] expectedOrderedMoves = new String[]{
-                "b3a5", "b8h8", "b7e7", "h2g3", "f2g3", "f2a7", "f2b6", "f2c5", "f2d4",
-                "f2f3", "f2e3", "f2e2", "f2d2", "f2c2", "f2b2", "f2a2", "f2f1", "f2e1",
-                "b3c5", "b3d4", "b3d2", "b3c1", "b3a1", "b8g8", "b8f8", "b8e8", "b8d8",
-                "b8c8", "b8a8", "b7d7", "b7c7", "b7a7", "b7b6", "b7b5", "b7b4", "f4f5",
-                "c4c5", "d3d4", "h2h3"
-        };
-        assertMoveContainer(fen, expectedOrderedMoves);
-    }
-
-    void assertMoveContainer(FEN fen, String[] expectedOrderedMoves) {
-        Game game = Game.from(fen);
-
-        MoveContainerReader<Move> moves = game.getPossibleMoves();
-        List<Move> possibleMovesList = new ArrayList<>(moves.size());
-        for (Move move : moves) {
-            possibleMovesList.add(move);
-        }
-
-        possibleMovesList.sort(defaultMoveComparator.reversed());
-
-        List<String> movesStr = possibleMovesList
-                .stream()
-                .map(SimpleMoveEncoder.INSTANCE::encode)
-                .toList();
-
-        /*
-        movesStr.stream()
-                .map(m -> String.format("\"%s\",", m))
-                .forEach(System.out::println);
-
-         */
-
-        assertArrayEquals(expectedOrderedMoves, movesStr.toArray());
     }
 
 
