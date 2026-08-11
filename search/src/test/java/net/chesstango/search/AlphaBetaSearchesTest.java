@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -141,4 +142,33 @@ public class AlphaBetaSearchesTest {
         assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
     }
 
+    @Test
+    @Disabled
+    public void test_9482() {
+        Game game = Game.from(FEN.of("1Q4rr/1p1bkp2/pP6/2p1pP2/3nP1Bp/2P1q2P/7K/3R1R2 w - - 0 1"));
+
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                //.withDebugSearchTree(true, false, true)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(1));
+        SearchResult searchResult = search.startSearch(game);
+
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
+        assertEquals(Square.e5, bm.getFrom().square());
+        assertEquals(Square.f6, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
+    }
 }
