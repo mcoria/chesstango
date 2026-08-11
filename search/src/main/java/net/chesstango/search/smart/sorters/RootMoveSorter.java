@@ -27,9 +27,13 @@ public class RootMoveSorter implements MoveSorter, Acceptor {
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
+        // De mayor a menor
         rootMoveEvaluationList.sort(rootMoveEvaluationComparator.reversed());
 
-        return rootMoveEvaluationList.stream().map(RootMoveEvaluation::move).toList();
+        return rootMoveEvaluationList
+                .stream()
+                .map(RootMoveEvaluation::move)
+                .toList();
     }
 
 }

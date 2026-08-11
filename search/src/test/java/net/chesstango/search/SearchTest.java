@@ -98,7 +98,7 @@ public class SearchTest {
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                //.withDebugSearchTree(true, false, true)
+                .withDebugSearchTree(false, false, false)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -172,6 +172,34 @@ public class SearchTest {
 
         List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
         assertArrayEquals(new String[]{"d6d1", "c1d1", "d7g4", "d1e1", "d8d1"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
+    }
+
+    @Test
+    public void test_9482() {
+        Game game = Game.from(FEN.from("1Q4rr/1p1bkp2/pP6/2p1pP2/3nP1Bp/2P1q2P/7K/3R1R2 w - - 0 1"));
+
+        Search search = defaultSearch()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withDebugSearchTree(false, false, false)
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(1));
+        SearchResult searchResult = search.startSearch(game);
+
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
+        assertEquals(Square.e5, bm.getFrom().square());
+        assertEquals(Square.f6, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
     }

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,6 +29,18 @@ public class DefaultMoveComparatorTest {
     @BeforeEach
     public void setUp() {
         defaultMoveComparator = new DefaultMoveComparator();
+    }
+
+    @Test
+    public void testSimpleCompare() {
+        Comparator<Integer> integerComparator = Integer::compare;
+
+        List<Integer> list = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+
+        // De mayor a menor
+        list.sort(integerComparator.reversed());
+
+        assertEquals(List.of(10, 9, 8, 7, 6, 5, 4, 3, 2, 1), list);
     }
 
     @Test
@@ -85,6 +98,22 @@ public class DefaultMoveComparatorTest {
         assertTrue(defaultMoveComparator.compare(moveKing, moveBishop) < 0);
         assertTrue(defaultMoveComparator.compare(moveKing, moveRook) < 0);
         assertTrue(defaultMoveComparator.compare(moveKing, movePawn) < 0);
+
+
+        /**
+         * Esto demuestra como uitilizar el comparador de manera correcta para ordenar una lista de mayor a menor.
+         */
+        List<Move> moves = new ArrayList<>(List.of(moveKnight, moveKing, moveBishop, moveQueen, moveRook, movePawn));
+
+        // Ordenar de mayor a menor
+        moves.sort(defaultMoveComparator.reversed());
+
+        assertEquals(moveQueen, moves.get(0));
+        assertEquals(moveKnight, moves.get(1));
+        assertEquals(moveBishop, moves.get(2));
+        assertEquals(moveRook, moves.get(3));
+        assertEquals(movePawn, moves.get(4));
+        assertEquals(moveKing, moves.get(5));
     }
 
     @Test
