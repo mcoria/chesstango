@@ -191,7 +191,6 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
-    @Disabled
     public void sortMoveToEmptySquareWhite() {
         Move move = null;
 
@@ -215,7 +214,7 @@ public class DefaultMoveComparatorTest {
         moveList.add(createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.sort(defaultMoveComparator);
+        moveList.sort(defaultMoveComparator.reversed());
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
@@ -241,7 +240,6 @@ public class DefaultMoveComparatorTest {
 
 
     @Test
-    @Disabled
     public void sortMoveCaptureWhite() {
         Move move = null;
 
@@ -265,7 +263,7 @@ public class DefaultMoveComparatorTest {
         moveList.add(createCaptureKnightMove(PiecePositioned.of(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.of(Square.e3, Piece.PAWN_BLACK)));
 
-        moveList.sort(defaultMoveComparator);
+        moveList.sort(defaultMoveComparator.reversed());
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
@@ -290,7 +288,6 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
-    @Disabled
     public void sortMoveToEmptySquareBlack() {
         Move move = null;
 
@@ -315,7 +312,7 @@ public class DefaultMoveComparatorTest {
                 PiecePositioned.getPosition(Square.e6)));
 
 
-        moveList.sort(defaultMoveComparator);
+        moveList.sort(defaultMoveComparator.reversed());
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
@@ -340,7 +337,6 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
-    @Disabled
     public void sortMoveCaptureBlack() {
         Move move = null;
 
@@ -365,7 +361,7 @@ public class DefaultMoveComparatorTest {
                 PiecePositioned.of(Square.e6, Piece.PAWN_WHITE)));
 
 
-        moveList.sort(defaultMoveComparator);
+        moveList.sort(defaultMoveComparator.reversed());
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
@@ -390,7 +386,7 @@ public class DefaultMoveComparatorTest {
     }
 
     @Test
-    public void sort_Fried_Liver_Attack_Mirror() {
+    public void sortFriedLiverAttack() {
         FEN fen = FEN.from("r1bqkb1r/ppp2Npp/2n5/3np3/B1Q1P3/8/PPPP1PPP/RNB1K2R b KQkq - 0 1");
         String[] expectedOrderedMoves = new String[]{
                 "e8f7", "d8h4", "d8g5", "d8f6", "d8d6", "d8e7", "d8d7", "d5e3", "d5c3",
@@ -415,6 +411,36 @@ public class DefaultMoveComparatorTest {
         assertMoveContainer(fen, expectedOrderedMoves, false);
         assertSortingSymmetry(fen);
     }
+
+    @Test
+    public void sortKiwipeteTest() {
+        FEN fen = FEN.from("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
+        String[] expectedOrderedMoves = new String[]{
+                "e2a6", "f3f6", "d5e6", "g2h3", "e5f7", "e5d7", "e5g6", "f3h3", "f3h5",
+                "f3f5", "f3g4", "f3f4", "f3g3", "f3e3", "f3d3", "e5c6", "e5g4", "e5c4",
+                "e5d3", "c3b5", "c3a4", "c3d1", "c3b1", "e2b5", "e2c4", "e2d3", "e2f1",
+                "e2d1", "d2h6", "d2g5", "d2f4", "d2e3", "d2c1", "h1g1", "h1f1", "a1d1",
+                "a1c1", "a1b1", "d5d6", "g2g4", "g2g3", "b2b3", "a2a4", "a2a3", "e1g1",
+                "e1f1", "e1d1", "e1c1"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves, false);
+        assertSortingSymmetry(fen);
+    }
+
+    @Test
+    public void sortWithEnPassant() {
+        FEN fen = FEN.from("r3k2r/p1pp1pb1/bn1qpnpB/3PN3/1p2P3/2N2Q1p/PPP1BPPP/R2K3R b kq - 3 2");
+        String[] expectedOrderedMoves = new String[]{
+                "h8h6","a6e2","g7h6","b4c3","d6e5","h3g2","e6d5","f6e4","f6d5",
+                "b6d5","d6d5","d6c5","d6c6","d6e7","d6f8","f6g4","f6h5","f6h7",
+                "f6g8","b6c4","b6a4","b6c8","a6d3","a6c4","a6b5","a6b7","a6c8",
+                "g7f8","h8h7","h8g8","h8f8","a8d8","a8c8","a8b8","b4b3","g6g5",
+                "c7c5","c7c6","e8e7","e8g8","e8f8","e8d8","e8c8"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves, false);
+        assertSortingSymmetry(fen);
+    }
+
 
     void assertMoveContainer(FEN fen, String[] expectedOrderedMoves, boolean debug) {
         Game game = Game.from(fen);

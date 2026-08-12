@@ -5,12 +5,11 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
  * EL orden de movimientos es el natural, de menor a mayor, aplicando las siguientes reglas:
- *
+ * <p>
  * En movimiento simples, el orden lo determina la pieza que se mueve: KING_WHITE -> PAWN_WHITE -> ROOK_WHITE -> BISHOP_WHITE -> KNIGHT_WHITE -> QUEEN_WHITE
  *
  * @author Mauricio Coria
@@ -23,7 +22,7 @@ public class DefaultMoveComparator implements MoveComparator {
         return compareImp(move1, move2);
     }
 
-    public static int compareImp(Move move1, Move move2) {
+    static int compareImp(Move move1, Move move2) {
         PiecePositioned move1From = move1.getFrom();
         PiecePositioned move1To = move1.getTo();
         Piece move1PiecePromotion = move1 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
@@ -47,8 +46,8 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
 
-    private static int compare(final PiecePositioned move1From, final PiecePositioned move1To, final Piece move1PiecePromotion,
-                               final PiecePositioned move2From, final PiecePositioned move2To, final Piece move2PiecePromotion) {
+    static int compare(final PiecePositioned move1From, final PiecePositioned move1To, final Piece move1PiecePromotion,
+                       final PiecePositioned move2From, final PiecePositioned move2To, final Piece move2PiecePromotion) {
 
         int result = 0;
 
@@ -106,7 +105,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
 
-    private static boolean isCapture(PiecePositioned moveFrom, PiecePositioned moveTo) {
+    static boolean isCapture(PiecePositioned moveFrom, PiecePositioned moveTo) {
         if (moveTo.piece() != null) {
             return true;
         }
@@ -119,7 +118,7 @@ public class DefaultMoveComparator implements MoveComparator {
         return false;
     }
 
-    private static int pieceCaptureValue(Piece piece) {
+    static int pieceCaptureValue(Piece piece) {
         if (piece == null) {
             return 1; // Pawn Pasante
         }
@@ -133,7 +132,7 @@ public class DefaultMoveComparator implements MoveComparator {
         };
     }
 
-    private static int piecePromotionValue(Piece piece) {
+    static int piecePromotionValue(Piece piece) {
         return switch (piece) {
             case QUEEN_WHITE -> 5;
             case ROOK_WHITE -> 4;
@@ -144,7 +143,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
 
-    private static int getMovePieceValue(Piece piece) {
+    static int getMovePieceValue(Piece piece) {
         return switch (piece) {
             case QUEEN_WHITE -> 5;
             case KNIGHT_WHITE -> 4;
