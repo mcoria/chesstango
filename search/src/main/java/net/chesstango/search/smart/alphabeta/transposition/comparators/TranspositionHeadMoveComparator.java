@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.transposition.comparators;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
@@ -13,20 +14,24 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
-@Setter
 public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor {
 
+    private final TranspositionEntry entryWorkspace;
+
     @Getter
+    @Setter
     private MoveComparator next;
 
-    private Game game;
-
     @Getter
+    @Setter
     private TTable tTable;
 
-    private short bestMoveEncoded;
+    @Setter
+    private Game game;
 
-    private final TranspositionEntry entryWorkspace;
+    @Setter(AccessLevel.PACKAGE)
+    @Getter(AccessLevel.PACKAGE)
+    private short bestMoveEncoded;
 
     public TranspositionHeadMoveComparator() {
         entryWorkspace = new TranspositionEntry();
@@ -41,7 +46,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
     public void beforeSort(final int currentPly) {
         long hash = game.getPosition().getZobristHash();
 
-        boolean load = tTable.load(hash, entryWorkspace) ;
+        boolean load = tTable.load(hash, entryWorkspace);
 
         if (load && hash == entryWorkspace.getHash()) {
             bestMoveEncoded = entryWorkspace.getMove();
@@ -60,7 +65,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
 
     @Override
     public int compare(Move o1, Move o2) {
-        if (bestMoveEncoded != 0) {
+        if (bestMoveEncoded != 0 && o1.binaryEncoding() != o2.binaryEncoding()) {
             if (o1.binaryEncoding() == bestMoveEncoded) {
                 return 1;
             } else if (o2.binaryEncoding() == bestMoveEncoded) {
