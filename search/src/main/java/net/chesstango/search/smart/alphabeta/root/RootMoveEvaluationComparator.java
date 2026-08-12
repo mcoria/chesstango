@@ -25,7 +25,7 @@ public class RootMoveEvaluationComparator implements Comparator<RootMoveEvaluati
     public RootMoveEvaluationComparator() {
         DefaultMoveComparator defaultMoveComparator = new DefaultMoveComparator();
         this.rootMoveEvaluationComparator = Comparator
-                .comparing(RootMoveEvaluation::evaluation) // De mayor a menor
+                .comparing(RootMoveEvaluation::evaluation)
                 .thenComparing(RootMoveEvaluation::bound)
                 .thenComparing((o1, o2) -> defaultMoveComparator.compare(o1.move(), o2.move()));
 
