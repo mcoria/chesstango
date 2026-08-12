@@ -441,6 +441,35 @@ public class DefaultMoveComparatorTest {
         assertSortingSymmetry(fen);
     }
 
+    @Test
+    public void sortGameMoves02() {
+        FEN fen = FEN.from("rnbqk2r/p4pb1/2p1p2p/1p1nP1p1/PPpP4/2N2NB1/5PPP/R2QKB1R b KQkq b3 0 11");
+        String[] expectedOrderedMoves = new String[]{
+                "d5c3","c4b3","b5a4","g7e5","d5b4","d8a5","d8f6","d8d6","d8b6",
+                "d8e7","d8d7","d8c7","d5e3","d5f4","d5f6","d5b6","d5e7","d5c7",
+                "b8a6","b8d7","g7f6","g7f8","c8a6","c8d7","c8b7","h8h7","h8g8",
+                "h8f8","g5g4","h6h5","c6c5","f7f5","f7f6","a7a5","a7a6","e8e7",
+                "e8d7","e8g8","e8f8"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves, false);
+        assertSortingSymmetry(fen);
+    }
+
+    @Test
+    public void sortGameMoves03() {
+        FEN fen = FEN.from("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q2/PPPBBPpP/R3K2R b KQkq - 0 1");
+        String[] expectedOrderedMoves = new String[]{
+                "g2h1q","g2g1q","g2h1r","g2g1r","g2h1b","g2g1b","g2h1n","g2g1n","a6e2",
+                "b4c3","e6d5","h8h2","f6e4","f6d5","b6d5","e7c5","e7d6","e7f8",
+                "e7d8","f6g4","f6h5","f6h7","f6g8","b6c4","b6a4","b6c8","a6d3",
+                "a6c4","a6b5","a6b7","a6c8","g7h6","g7f8","h8h3","h8h4","h8h5",
+                "h8h6","h8h7","h8g8","h8f8","a8d8","a8c8","a8b8","b4b3","g6g5",
+                "d7d6","c7c5","c7c6","e8g8","e8f8","e8d8","e8c8"
+        };
+        assertMoveContainer(fen, expectedOrderedMoves, false);
+        assertSortingSymmetry(fen);
+    }
+
 
     void assertMoveContainer(FEN fen, String[] expectedOrderedMoves, boolean debug) {
         Game game = Game.from(fen);
