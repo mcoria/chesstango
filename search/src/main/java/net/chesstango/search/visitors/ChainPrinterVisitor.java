@@ -600,30 +600,40 @@ public class ChainPrinterVisitor implements Visitor {
     private void traverse(SearchAlgorithm searchAlgorithm) {
         if (searchAlgorithm instanceof Acceptor acceptor) {
             acceptor.accept(this);
+        } else {
+            throw new IllegalArgumentException("Unknown search algorithm: " + searchAlgorithm.getClass().getSimpleName());
         }
     }
 
     private void traverse(MoveSorter moveSorter) {
         if (moveSorter instanceof Acceptor acceptor) {
             acceptor.accept(this);
+        } else {
+            throw new IllegalArgumentException("Unknown move sorter: " + moveSorter.getClass().getSimpleName());
         }
     }
 
     private void traverse(MoveComparator moveComparator) {
         if (moveComparator instanceof Acceptor acceptor) {
             acceptor.accept(this);
+        } else {
+            throw new IllegalArgumentException("Unknown move comparator: " + moveComparator.getClass().getSimpleName());
         }
     }
 
     private void traverse(GroupSorter groupSorter) {
         if (groupSorter instanceof Acceptor acceptor) {
             acceptor.accept(this);
+        } else {
+            throw new IllegalArgumentException("Unknown group sorter: " + groupSorter.getClass().getSimpleName());
         }
     }
 
     private void traverse(AlphaBetaFilter filter) {
         if (filter instanceof Acceptor acceptor) {
             acceptor.accept(this);
+        } else {
+            throw new IllegalArgumentException("Unknown alpha beta filter: " + filter.getClass().getSimpleName());
         }
     }
 
