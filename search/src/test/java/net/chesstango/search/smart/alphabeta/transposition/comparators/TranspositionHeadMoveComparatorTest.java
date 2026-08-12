@@ -99,15 +99,15 @@ public class TranspositionHeadMoveComparatorTest {
 
         headMoveComparator.setBestMoveEncoded(move.binaryEncoding());
 
-        when(next.compare(move, move)).thenReturn(0);
+        when(next.compare(any(Move.class), any(Move.class))).thenReturn(0);
 
         /**
          * Assertions
          */
         game.getPossibleMoves().forEach(otherMove -> {
             if (move.equals(otherMove)) {
-                assertTrue(headMoveComparator.compare(move, otherMove) == 0);
-                assertTrue(headMoveComparator.compare(otherMove, move) == 0);
+                assertEquals(0, headMoveComparator.compare(move, otherMove));
+                assertEquals(0, headMoveComparator.compare(otherMove, move));
             } else {
                 assertTrue(headMoveComparator.compare(move, otherMove) > 0);
                 assertTrue(headMoveComparator.compare(otherMove, move) < 0);
