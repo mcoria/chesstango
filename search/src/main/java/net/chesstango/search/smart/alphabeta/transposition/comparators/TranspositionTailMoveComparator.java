@@ -60,7 +60,8 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
         boolean load02 = tTable.load(o2Hash, moveEntry2) && o2Hash == moveEntry2.getHash();
 
         if (load01 && load02) {
-            result = moveEntry1.compareTo(moveEntry2);
+            // No es bug, necesitamos invertir, de lo contrario ordenamos en preferencia del oponente
+            result = -moveEntry1.compareTo(moveEntry2);
         } else if (load01) {
             return 1;
         } else if (load02) {

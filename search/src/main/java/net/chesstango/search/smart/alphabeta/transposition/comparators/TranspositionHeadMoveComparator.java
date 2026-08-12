@@ -46,9 +46,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
     public void beforeSort(final int currentPly) {
         long hash = game.getPosition().getZobristHash();
 
-        boolean load = tTable.load(hash, entryWorkspace);
-
-        if (load && hash == entryWorkspace.getHash()) {
+        if (tTable.load(hash, entryWorkspace) && hash == entryWorkspace.getHash()) {
             bestMoveEncoded = entryWorkspace.getMove();
         } else {
             bestMoveEncoded = 0;

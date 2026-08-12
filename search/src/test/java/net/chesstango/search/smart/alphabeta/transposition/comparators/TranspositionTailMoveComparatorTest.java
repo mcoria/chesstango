@@ -129,15 +129,15 @@ public class TranspositionTailMoveComparatorTest {
                 assertEquals(0, tailMoveComparator.compare(move1, otherMove));
                 assertEquals(0, tailMoveComparator.compare(otherMove, move1));
 
-                // Si ambas entradas estan presentes en el tTable, compara Entry.compareTo
-                assertEquals(entry1.compareTo(entry2), tailMoveComparator.compare(move1, move2));
+                // Si ambas entradas estan presentes en el tTable, compara Entry.compareTo invertido
+                assertEquals(entry1.compareTo(entry2), -tailMoveComparator.compare(move1, move2));
 
             } else if (move2.equals(otherMove)) {
                 assertEquals(0, tailMoveComparator.compare(move2, otherMove));
                 assertEquals(0, tailMoveComparator.compare(otherMove, move2));
 
-                // Si ambas entradas estan presentes en el tTable, compara Entry.compareTo
-                assertEquals(entry2.compareTo(entry1), tailMoveComparator.compare(move2, move1));
+                // Si ambas entradas estan presentes en el tTable, compara Entry.compareTo invertido
+                assertEquals(entry2.compareTo(entry1), -tailMoveComparator.compare(move2, move1));
             } else {
                 assertTrue(tailMoveComparator.compare(move1, otherMove) > 0);
                 assertTrue(tailMoveComparator.compare(otherMove, move1) < 0);
