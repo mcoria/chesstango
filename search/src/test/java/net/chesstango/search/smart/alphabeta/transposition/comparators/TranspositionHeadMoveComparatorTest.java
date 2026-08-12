@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 /**
  * @author Mauricio Coria
  */
-
 @ExtendWith(MockitoExtension.class)
 public class TranspositionHeadMoveComparatorTest {
 
@@ -90,7 +89,7 @@ public class TranspositionHeadMoveComparatorTest {
 
 
     @Test
-    public void testInitial() {
+    public void testCompare01() {
         /**
          * Settup
          */
@@ -105,13 +104,13 @@ public class TranspositionHeadMoveComparatorTest {
         /**
          * Assertions
          */
-        game.getPossibleMoves().forEach(theMove -> {
-            if (move.equals(theMove)) {
-                assertTrue(headMoveComparator.compare(move, theMove) == 0);
-                assertTrue(headMoveComparator.compare(theMove, move) == 0);
+        game.getPossibleMoves().forEach(otherMove -> {
+            if (move.equals(otherMove)) {
+                assertTrue(headMoveComparator.compare(move, otherMove) == 0);
+                assertTrue(headMoveComparator.compare(otherMove, move) == 0);
             } else {
-                assertTrue(headMoveComparator.compare(move, theMove) > 0);
-                assertTrue(headMoveComparator.compare(theMove, move) < 0);
+                assertTrue(headMoveComparator.compare(move, otherMove) > 0);
+                assertTrue(headMoveComparator.compare(otherMove, move) < 0);
             }
         });
     }
