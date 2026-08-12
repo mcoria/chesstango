@@ -13,8 +13,6 @@ import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.stream.IntStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -99,17 +97,16 @@ public class DetectCycleDisabledTest {
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(3, visitedNodesCounters[1]);
-        assertEquals(5, visitedNodesCounters[2]);
-        assertEquals(21, visitedNodesCounters[3]);
-        assertEquals(51, visitedNodesCounters[4]);
-        assertEquals(101, visitedNodesCounters[5]);
-        assertEquals(195, visitedNodesCounters[6]);
-        assertEquals(379, visitedNodesCounters[7]);
-        assertEquals(839, visitedNodesCounters[8]);
-        assertEquals(1417, visitedNodesCounters[9]);
+        assertEquals(7, visitedNodesCounters[2]);
+        assertEquals(23, visitedNodesCounters[3]);
+        assertEquals(53, visitedNodesCounters[4]);
+        assertEquals(115, visitedNodesCounters[5]);
+        assertEquals(239, visitedNodesCounters[6]);
+        assertEquals(485, visitedNodesCounters[7]);
+        assertEquals(1159, visitedNodesCounters[8]);
+        assertEquals(1745, visitedNodesCounters[9]);
         assertEquals(0, visitedNodesCounters[10]);
-
-        assertEquals(3012, visitedNodesTotal);
+        assertEquals(3830, visitedNodesTotal);
     }
 
 
@@ -136,7 +133,7 @@ public class DetectCycleDisabledTest {
         assertEquals(0, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
@@ -145,14 +142,13 @@ public class DetectCycleDisabledTest {
         assertEquals(3, visitedNodesCounters[2]);
         assertEquals(5, visitedNodesCounters[3]);
         assertEquals(7, visitedNodesCounters[4]);
-        assertEquals(11, visitedNodesCounters[5]);
-        assertEquals(16, visitedNodesCounters[6]);
-        assertEquals(13, visitedNodesCounters[7]);
+        assertEquals(9, visitedNodesCounters[5]);
+        assertEquals(13, visitedNodesCounters[6]);
+        assertEquals(10, visitedNodesCounters[7]);
         assertEquals(10, visitedNodesCounters[8]);
         assertEquals(13, visitedNodesCounters[9]);
         assertEquals(0, visitedNodesCounters[10]);
-
-        assertEquals(81, visitedNodesTotal);
+        assertEquals(73, visitedNodesTotal);
     }
 
     @Test
@@ -220,23 +216,23 @@ public class DetectCycleDisabledTest {
         assertEquals(1, visitedNodesCounters[1]);
         assertEquals(1, visitedNodesCounters[2]);
         assertEquals(1, visitedNodesCounters[3]);
-        assertEquals(1, visitedNodesCounters[4]); // Esta posicion se repite
-
+        assertEquals(1, visitedNodesCounters[4]);
+        assertEquals(0, visitedNodesCounters[5]);
         assertEquals(5, visitedNodesTotal);
     }
 
-    private void debug(long visitedNodesTotal, int[] visitedNodesCounters) {
-        System.out.printf("Total visited Nodes = %d\n", visitedNodesTotal);
-        for (int i = 0; i < 30; i++) {
-            if (visitedNodesCounters[i] > 0) {
-                System.out.printf("Visited Nodes Level %2d = %10d\n", i + 1, visitedNodesCounters[i]);
-            }
-        }
-
+    private void debug(long visitedNodesTotal, long[] visitedNodesCounters) {
         for (int i = 0; i < 30; i++) {
             if (visitedNodesCounters[i] > 0) {
                 System.out.printf("assertEquals(%d, visitedNodesCounters[%d]);\n", visitedNodesCounters[i], i);
+            } else if(visitedNodesCounters[i] == 0) {
+                System.out.printf("assertEquals(%d, visitedNodesCounters[%d]);\n", 0, i);
+                break;
+            } else {
+                throw new RuntimeException("Invalid value");
             }
         }
+
+        System.out.printf("assertEquals(%d, visitedNodesTotal);\n", visitedNodesTotal);
     }
 }

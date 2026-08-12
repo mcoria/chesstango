@@ -13,8 +13,6 @@ import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.stream.IntStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -103,15 +101,14 @@ public class DetectCycleEnabledTest {
         assertEquals(3, visitedNodesCounters[1]);
         assertEquals(5, visitedNodesCounters[2]);
         assertEquals(15, visitedNodesCounters[3]);
-        assertEquals(26, visitedNodesCounters[4]);
-        assertEquals(49, visitedNodesCounters[5]);
-        assertEquals(68, visitedNodesCounters[6]);
-        assertEquals(54, visitedNodesCounters[7]);
-        assertEquals(62, visitedNodesCounters[8]);
-        assertEquals(55, visitedNodesCounters[9]);
+        assertEquals(19, visitedNodesCounters[4]);
+        assertEquals(35, visitedNodesCounters[5]);
+        assertEquals(45, visitedNodesCounters[6]);
+        assertEquals(53, visitedNodesCounters[7]);
+        assertEquals(79, visitedNodesCounters[8]);
+        assertEquals(54, visitedNodesCounters[9]);
         assertEquals(0, visitedNodesCounters[10]);
-
-        assertEquals(338, visitedNodesTotal);
+        assertEquals(309, visitedNodesTotal);
     }
 
 
@@ -145,20 +142,18 @@ public class DetectCycleEnabledTest {
         assertEquals(2, visitedNodesCounters[1]);
         assertEquals(3, visitedNodesCounters[2]);
         assertEquals(5, visitedNodesCounters[3]);
-        assertEquals(7, visitedNodesCounters[4]);
-        assertEquals(10, visitedNodesCounters[5]);
-        assertEquals(9, visitedNodesCounters[6]);
-        assertEquals(6, visitedNodesCounters[7]);
+        assertEquals(6, visitedNodesCounters[4]);
+        assertEquals(7, visitedNodesCounters[5]);
+        assertEquals(7, visitedNodesCounters[6]);
+        assertEquals(7, visitedNodesCounters[7]);
         assertEquals(3, visitedNodesCounters[8]);
         assertEquals(3, visitedNodesCounters[9]);
         assertEquals(3, visitedNodesCounters[10]);
-        assertEquals(2, visitedNodesCounters[11]);
-        assertEquals(1, visitedNodesCounters[12]);
+        assertEquals(3, visitedNodesCounters[11]);
+        assertEquals(3, visitedNodesCounters[12]);
         assertEquals(2, visitedNodesCounters[13]);
-        assertEquals(1, visitedNodesCounters[14]);
-        assertEquals(0, visitedNodesCounters[15]);
-
-        assertEquals(58, visitedNodesTotal);
+        assertEquals(0, visitedNodesCounters[14]);
+        assertEquals(55, visitedNodesTotal);
     }
 
     @Test
@@ -226,23 +221,23 @@ public class DetectCycleEnabledTest {
         assertEquals(1, visitedNodesCounters[1]);
         assertEquals(1, visitedNodesCounters[2]);
         assertEquals(1, visitedNodesCounters[3]);
-        assertEquals(1, visitedNodesCounters[4]); // Esta posicion se repite
-
+        assertEquals(1, visitedNodesCounters[4]);
+        assertEquals(0, visitedNodesCounters[5]);
         assertEquals(5, visitedNodesTotal);
     }
 
-    private void debug(long visitedNodesTotal, int[] visitedNodesCounters) {
-        System.out.printf("Total visited Nodes = %d\n", visitedNodesTotal);
-        for (int i = 0; i < 30; i++) {
-            if (visitedNodesCounters[i] > 0) {
-                System.out.printf("Visited Nodes Level %2d = %10d\n", i + 1, visitedNodesCounters[i]);
-            }
-        }
-
+    private void debug(long visitedNodesTotal, long[] visitedNodesCounters) {
         for (int i = 0; i < 30; i++) {
             if (visitedNodesCounters[i] > 0) {
                 System.out.printf("assertEquals(%d, visitedNodesCounters[%d]);\n", visitedNodesCounters[i], i);
+            } else if(visitedNodesCounters[i] == 0) {
+                System.out.printf("assertEquals(%d, visitedNodesCounters[%d]);\n", 0, i);
+                break;
+            } else {
+                throw new RuntimeException("Invalid value");
             }
         }
+
+        System.out.printf("assertEquals(%d, visitedNodesTotal);\n", visitedNodesTotal);
     }
 }
