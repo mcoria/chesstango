@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
  */
 public class RootMoveEvaluationComparatorTest {
 
-    RootMoveEvaluationComparator rootMoveEvaluationComparator;
+    private RootMoveEvaluationComparator rootMoveEvaluationComparator;
 
     @BeforeEach
     public void setup() {
