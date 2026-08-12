@@ -48,7 +48,7 @@ public class RootMoveEvaluationComparatorTest {
     }
 
     @Test
-    public void testCompareTo_EvaluationsEquals_BoundsDifferent() {
+    public void testCompareTo_EvaluationsEquals_BoundsDifferent02() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
@@ -78,7 +78,7 @@ public class RootMoveEvaluationComparatorTest {
     }
 
     @Test
-    public void testCompareTo_EvaluationsEquals_BoundDifferent() {
+    public void testCompareTo_EvaluationsEquals_BoundsDifferent01() {
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
 
@@ -98,7 +98,7 @@ public class RootMoveEvaluationComparatorTest {
         Move move2 = mock(Move.class);
 
         RootMoveEvaluation evaluation1 = new RootMoveEvaluation(move1, 200, Bound.EXACT);
-        RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, 200, Bound.UPPER_BOUND);
+        RootMoveEvaluation evaluation2 = new RootMoveEvaluation(move2, -200, Bound.UPPER_BOUND);
 
         // La evaluacion1 es 100
         assertTrue(rootMoveEvaluationComparator.compare(evaluation1, evaluation2) > 0);
