@@ -186,11 +186,6 @@ public class SetGameVisitor implements Visitor {
         maxRegularDepth.setGame(game);
     }
 
-    @Override
-    public void visit(SearchTracker searchTracker) {
-        searchTracker.setGame(game);
-    }
-
     /**
      *
      * Sorter elements

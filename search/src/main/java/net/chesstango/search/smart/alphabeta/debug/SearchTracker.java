@@ -21,15 +21,11 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private DebugNode rootNode;
 
     @Getter
     private DebugNode currentNode;
-
-    @Setter
-    private Game game;
 
     @Override
     public void accept(Visitor visitor) {
@@ -51,14 +47,13 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
         reset();
     }
 
-    public DebugNode newNode(NodeTopology topology, int currentPly) {
+    public DebugNode newNode(NodeTopology topology) {
         DebugNode newNode;
         if (NodeTopology.ROOT.equals(topology)) {
-            assert currentPly == 0;
             newNode = createRootNode();
             rootNode = newNode;
         } else {
-            newNode = createRegularNode(topology, currentPly);
+            newNode = createRegularNode(topology);
             currentNode.getChildNodes().add(newNode);
         }
 
@@ -71,23 +66,18 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
         assert currentNode == null;
         DebugNode newNode = new DebugNode();
         newNode.setTopology(NodeTopology.ROOT);
-        newNode.setPly(0);
-        newNode.setFen(game.getPosition().toString());
         newNode.setParent(null);    // El root no tiene padre
         return newNode;
     }
 
-    protected DebugNode createRegularNode(NodeTopology topology, int currentPly) {
+    protected DebugNode createRegularNode(NodeTopology topology) {
         DebugNode newNode = new DebugNode();
         newNode.setTopology(topology);
-        newNode.setPly(currentPly);
-        newNode.setFen(game.getPosition().toString());
         newNode.setParent(currentNode);
         return newNode;
     }
 
     public void save() {
-        trackTranspositionsAccess();
         currentNode.validate();
         currentNode = currentNode.getParent();
     }
@@ -106,37 +96,4 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
         return rootNode;
     }
 
-
-    void trackTranspositionsAccess() {
-        List<DebugOperationTT> entryReads = currentNode.getEntryRead();
-        List<DebugOperationTT> entryWrites = currentNode.getEntryWrite();
-
-        for (Move move : game.getPossibleMoves()) {
-            final String moveStr = simpleMoveEncoder.encode(move);
-            final short moveEncoded = move.binaryEncoding();
-
-            entryReads.stream()
-                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
-
-            entryWrites.stream()
-                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
-
-        }
-
-        /**
-         * Deberian ser escrituras de nodos HORIZON donde QS search arroja el Standing Pat como mejor evaluacion
-         */
-
-        entryReads
-                .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
-
-        entryWrites
-                .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
-    }
 }

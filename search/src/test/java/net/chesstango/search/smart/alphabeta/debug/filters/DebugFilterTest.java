@@ -54,7 +54,7 @@ public class DebugFilterTest {
         when(game.getPosition()).thenReturn(position);
         when(position.getCurrentTurn()).thenReturn(Color.WHITE);
 
-        when(searchTracker.newNode(topology, 0)).thenReturn(debugNode);
+        when(searchTracker.newNode(topology)).thenReturn(debugNode);
         when(pvTable.getPV(0)).thenReturn(new short[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(50);
 
@@ -74,7 +74,7 @@ public class DebugFilterTest {
         when(game.getPosition()).thenReturn(position);
         when(position.getCurrentTurn()).thenReturn(Color.BLACK);
 
-        when(searchTracker.newNode(topology, 0)).thenReturn(debugNode);
+        when(searchTracker.newNode(topology)).thenReturn(debugNode);
         when(pvTable.getPV(0)).thenReturn(new short[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(-150);
 
@@ -94,7 +94,7 @@ public class DebugFilterTest {
         when(game.getPosition()).thenReturn(position);
         when(position.getCurrentTurn().toString()).thenReturn("WHITE");
 
-        when(searchTracker.newNode(topology, 0)).thenReturn(debugNode);
+        when(searchTracker.newNode(topology)).thenReturn(debugNode);
         when(pvTable.getPV(0)).thenReturn(new short[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(150);
 
