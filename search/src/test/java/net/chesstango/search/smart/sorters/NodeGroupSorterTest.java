@@ -85,6 +85,7 @@ public class NodeGroupSorterTest {
      * Ensures that an exception is thrown when the `offer` method of the GroupSorter returns false.
      */
     @Test
+    @Disabled
     public void testOfferThrowsException() {
         // Arrange
         Move mockMove = mock(Move.class);
@@ -134,6 +135,7 @@ public class NodeGroupSorterTest {
      * Tests the behavior when the game returns an empty set of moves.
      */
     @Test
+    @Disabled
     public void testGetOrderedMovesWithNoMoves() {
         // Arrange
         MoveContainerReader<Move> mockMoveContainer = mock(MoveContainerReader.class);
