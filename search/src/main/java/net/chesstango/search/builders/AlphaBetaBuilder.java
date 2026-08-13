@@ -32,7 +32,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.visitors.LinkNodeCo
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
-import net.chesstango.search.smart.sorters.LinkMoveToHashMap;
+import net.chesstango.search.smart.sorters.visitors.LinkMoveToHashMap;
 
 import static net.chesstango.search.smart.Constants.*;
 

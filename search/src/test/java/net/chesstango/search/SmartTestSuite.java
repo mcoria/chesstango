@@ -17,6 +17,8 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
+        BoundTest.class,
+
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,
 

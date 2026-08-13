@@ -2,8 +2,6 @@ package net.chesstango.search.smart.alphabeta.transposition.comparators;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Acceptor;
@@ -28,8 +26,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
     @Setter
     private MoveToHashMap moveToZobrist;
 
-    private TTable currentMap;
-
     private final TranspositionEntry moveEntry1;
     private final TranspositionEntry moveEntry2;
 
@@ -45,8 +41,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
 
     @Override
     public void beforeSort(final int currentPly) {
-        this.currentMap = tTable;
-
         next.beforeSort(currentPly);
     }
 
@@ -62,10 +56,11 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
         long o1Hash = getZobristHashMove(o1);
         long o2Hash = getZobristHashMove(o2);
 
-        boolean load01 = currentMap.load(o1Hash, moveEntry1) && o1Hash == moveEntry1.getHash();
-        boolean load02 = currentMap.load(o2Hash, moveEntry2) && o2Hash == moveEntry2.getHash();
+        boolean load01 = tTable.load(o1Hash, moveEntry1) && o1Hash == moveEntry1.getHash();
+        boolean load02 = tTable.load(o2Hash, moveEntry2) && o2Hash == moveEntry2.getHash();
 
         if (load01 && load02) {
+            // No es bug, necesitamos invertir, de lo contrario ordenamos en preferencia del oponente
             result = -moveEntry1.compareTo(moveEntry2);
         } else if (load01) {
             return 1;

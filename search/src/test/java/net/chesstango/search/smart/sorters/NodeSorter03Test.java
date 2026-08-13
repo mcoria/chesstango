@@ -10,6 +10,7 @@ import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
+import net.chesstango.search.smart.sorters.visitors.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.Disabled;

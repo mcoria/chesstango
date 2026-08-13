@@ -58,6 +58,7 @@ module net.chesstango.search {
     exports net.chesstango.search.builders;
     exports net.chesstango.search.builders.sorters;
     exports net.chesstango.search.builders.alphabeta;
+    exports net.chesstango.search.smart.sorters.visitors;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;

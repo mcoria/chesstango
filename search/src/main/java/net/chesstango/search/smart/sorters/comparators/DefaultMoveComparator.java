@@ -5,6 +5,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
@@ -14,8 +16,12 @@ import net.chesstango.search.smart.sorters.MoveComparator;
  *
  * @author Mauricio Coria
  */
-public class DefaultMoveComparator implements MoveComparator {
+public class DefaultMoveComparator implements MoveComparator, Acceptor {
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public int compare(Move move1, Move move2) {

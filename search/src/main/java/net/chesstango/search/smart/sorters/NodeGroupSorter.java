@@ -31,7 +31,7 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
 
     @Override
     public Iterable<Move> getOrderedMoves(final int currentPly) {
-        MoveContainerReader<? extends Move> moves = game.getPossibleMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
         List<Move> moveList = new ArrayList<>(moves.size());
 
