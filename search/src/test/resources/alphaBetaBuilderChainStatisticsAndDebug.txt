@@ -180,7 +180,7 @@ SearchByCycleListeners:
 	NodeCounters @ 87
 	GameCountersCollector @ 88
 	DepthCollector @ 89
-	SearchTracker @ 90
+	DebugNodeTracker @ 90
 	PrintTxtDebugListener @ 91
 	PrintHtmlDebugListener @ 92
 	PrincipalVariationComparator @ 49
@@ -194,14 +194,14 @@ SearchByDepthListener:
 	SetSearchTimers @ 86
 	NodeCounters @ 87
 	DepthCollector @ 89
-	SearchTracker @ 90
+	DebugNodeTracker @ 90
 	PrintTxtDebugListener @ 91
 	PrintHtmlDebugListener @ 92
 	RootMoveEvaluationCache @ 94
 	RootMoveEvaluationBest @ 95
 
 SearchByWindowsListeners:
-	SearchTracker @ 90
+	DebugNodeTracker @ 90
 	PrintTxtDebugListener @ 91
 	PrintHtmlDebugListener @ 92
 	RootMoveEvaluationCache @ 94
@@ -247,7 +247,7 @@ Acceptor:
 	NodeCounters @ 87
 	GameCountersCollector @ 88
 	DepthCollector @ 89
-	SearchTracker @ 90
+	DebugNodeTracker @ 90
 	TranspositionTablePVUpdate @ 99
 	PrintTxtDebugListener @ 91
 	PrintHtmlDebugListener @ 92

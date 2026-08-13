@@ -11,7 +11,7 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
@@ -34,7 +34,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     private DebugNodeTrap debugNodeTrap;
 
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     private Game game;
 
@@ -51,7 +51,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = searchTracker.newNode(topology);
+        DebugNode debugNode = debugNodeTracker.newNode(topology);
 
         debugNode.setPly(currentPly);
 
@@ -83,7 +83,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
         trackTranspositionsAccess(debugNode);
 
-        searchTracker.save();
+        debugNodeTracker.save();
 
         if (debugNodeTrap != null && debugNodeTrap.test(debugNode)) {
             debugNodeTrap.debugAction(debugNode);

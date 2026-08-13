@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
@@ -27,7 +27,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     private MoveSorter next;
 
     @Setter
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     @Setter
     private Game game;
@@ -39,7 +39,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
 
     @Override
     public Iterable<Move> getOrderedMoves(final int currentPly) {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
         currentNode.sortingON();
 
@@ -67,7 +67,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     }
 
     void trackComparatorsEvalCacheReads() {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
@@ -82,7 +82,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     }
 
     void trackComparatorsTranspositionReads() {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
         List<DebugOperationTT> sorterReads = currentNode.getSorterReads();
 

@@ -156,7 +156,7 @@ SearchByCycleListeners:
 	TTListener @ 70
 	SetSearchTimers @ 71
 	AlphaBetaFlowControl @ 17
-	SearchTracker @ 72
+	DebugNodeTracker @ 72
 	PrintTxtDebugListener @ 73
 	PrintHtmlDebugListener @ 74
 	PrincipalVariationComparator @ 40
@@ -168,14 +168,14 @@ SearchByCycleListeners:
 
 SearchByDepthListener:
 	SetSearchTimers @ 71
-	SearchTracker @ 72
+	DebugNodeTracker @ 72
 	PrintTxtDebugListener @ 73
 	PrintHtmlDebugListener @ 74
 	RootMoveEvaluationCache @ 76
 	RootMoveEvaluationBest @ 77
 
 SearchByWindowsListeners:
-	SearchTracker @ 72
+	DebugNodeTracker @ 72
 	PrintTxtDebugListener @ 73
 	PrintHtmlDebugListener @ 74
 	RootMoveEvaluationCache @ 76
@@ -212,7 +212,7 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 71
 	AlphaBetaFlowControl @ 17
-	SearchTracker @ 72
+	DebugNodeTracker @ 72
 	TranspositionTablePVUpdate @ 81
 	PrintTxtDebugListener @ 73
 	PrintHtmlDebugListener @ 74

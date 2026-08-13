@@ -1,26 +1,18 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Getter;
-import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
-public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class DebugNodeTracker implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
 
     private DebugNode rootNode;
 

@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 
 /**
  * @author Mauricio Coria
@@ -17,7 +16,7 @@ public class PVCalculatorDebug implements PVCalculator, Acceptor {
     private PVCalculator imp;
 
     @Setter
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     @Override
     public void accept(Visitor visitor) {

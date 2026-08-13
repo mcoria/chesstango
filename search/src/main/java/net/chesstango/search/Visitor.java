@@ -6,7 +6,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
@@ -219,7 +219,7 @@ public interface Visitor {
     default void visit(NodeCounters nodeCounters) {
     }
 
-    default void visit(SearchTracker searchTracker) {
+    default void visit(DebugNodeTracker debugNodeTracker) {
     }
 
     default void visit(PrintTxtDebugListener printTxtDebugListener) {

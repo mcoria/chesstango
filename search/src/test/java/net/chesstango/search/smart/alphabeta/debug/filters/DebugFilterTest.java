@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.position.Position;
 import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
@@ -33,7 +33,7 @@ public class DebugFilterTest {
     private Game game;
 
     @Mock
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     @Mock
     private TriangularPVTable pvTable;
@@ -54,7 +54,7 @@ public class DebugFilterTest {
         when(game.getPosition()).thenReturn(position);
         when(position.getCurrentTurn()).thenReturn(Color.WHITE);
 
-        when(searchTracker.newNode(topology)).thenReturn(debugNode);
+        when(debugNodeTracker.newNode(topology)).thenReturn(debugNode);
         when(pvTable.getPV(0)).thenReturn(new short[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(50);
 
@@ -66,7 +66,7 @@ public class DebugFilterTest {
         verify(debugNode).setPv(any());
         verify(debugNode).setBound(Bound.EXACT);
         verify(debugNode).setType(DebugNode.NodeType.PV);
-        verify(searchTracker).save();
+        verify(debugNodeTracker).save();
     }
 
     @Test
@@ -74,7 +74,7 @@ public class DebugFilterTest {
         when(game.getPosition()).thenReturn(position);
         when(position.getCurrentTurn()).thenReturn(Color.BLACK);
 
-        when(searchTracker.newNode(topology)).thenReturn(debugNode);
+        when(debugNodeTracker.newNode(topology)).thenReturn(debugNode);
         when(pvTable.getPV(0)).thenReturn(new short[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(-150);
 
@@ -86,7 +86,7 @@ public class DebugFilterTest {
         verify(debugNode).setPv(any());
         verify(debugNode).setBound(Bound.UPPER_BOUND);
         verify(debugNode).setType(DebugNode.NodeType.ALL);
-        verify(searchTracker).save();
+        verify(debugNodeTracker).save();
     }
 
     @Test
@@ -94,7 +94,7 @@ public class DebugFilterTest {
         when(game.getPosition()).thenReturn(position);
         when(position.getCurrentTurn().toString()).thenReturn("WHITE");
 
-        when(searchTracker.newNode(topology)).thenReturn(debugNode);
+        when(debugNodeTracker.newNode(topology)).thenReturn(debugNode);
         when(pvTable.getPV(0)).thenReturn(new short[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(150);
 
@@ -106,6 +106,6 @@ public class DebugFilterTest {
         verify(debugNode).setPv(any());
         verify(debugNode).setBound(Bound.LOWER_BOUND);
         verify(debugNode).setType(DebugNode.NodeType.CUT);
-        verify(searchTracker).save();
+        verify(debugNodeTracker).save();
     }
 }

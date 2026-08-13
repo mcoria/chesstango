@@ -1,17 +1,15 @@
 package net.chesstango.search.smart.alphabeta.debug.listeners;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
@@ -43,7 +41,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private int depth;
 
     @Setter
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     private List<String> debugErrorMessages;
 
@@ -130,7 +128,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private void dumpSearchTracker() {
         debugErrorMessages = new LinkedList<>();
 
-        DebugNode rootNode = searchTracker.getRootNode();
+        DebugNode rootNode = debugNodeTracker.getRootNode();
 
         dumpNode(rootNode);
 
@@ -476,7 +474,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
 
     private void printTail() {
-        String fen = searchTracker.getRootNode().getFen();
+        String fen = debugNodeTracker.getRootNode().getFen();
         debugOut.printf("""
                     </ul>
                   </div>
