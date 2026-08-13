@@ -6,8 +6,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
-import java.io.PrintStream;
-
 /**
  * @author Mauricio Coria
  */
@@ -38,7 +36,7 @@ public class LeafNodeTrap implements DebugNodeTrap, Acceptor {
     }
 
     @Override
-    public void debugAction(DebugNode debugNode, PrintStream debugOut) {
-        debugOut.printf("%s %d POSIBLE NODO\n", ">\t".repeat(debugNode.getPly()), debugNode.getPly());
+    public void debugAction(DebugNode debugNode) {
+        System.out.printf("%s %d POSIBLE NODO\n", ">\t".repeat(debugNode.getPly()), debugNode.getPly());
     }
 }

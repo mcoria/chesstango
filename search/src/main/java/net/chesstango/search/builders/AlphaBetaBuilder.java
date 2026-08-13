@@ -18,6 +18,7 @@ import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
+import net.chesstango.search.smart.alphabeta.debug.visitors.LinkDebugNodeTrapVisitor;
 import net.chesstango.search.smart.alphabeta.debug.visitors.LinkSearchTrackerVisitor;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
@@ -397,7 +398,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withDebugSearchTree) {
             if (debugNodeTrap != null) {
-                printTxtDebugListener.setDebugNodeTrap(debugNodeTrap);
+                searchListenerMediator.accept(new LinkDebugNodeTrapVisitor(debugNodeTrap));
             }
             searchListenerMediator.accept(new LinkSearchTrackerVisitor(searchTracker));
         }

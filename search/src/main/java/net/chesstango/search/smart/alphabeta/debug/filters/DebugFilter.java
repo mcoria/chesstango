@@ -7,6 +7,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
@@ -21,6 +22,8 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;
+
+    private DebugNodeTrap debugNodeTrap;
 
     private SearchTracker searchTracker;
 
@@ -59,8 +62,12 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
             debugNode.setType(DebugNode.NodeType.PV);
         }
 
-
         searchTracker.save();
+
+        if (debugNodeTrap != null && debugNodeTrap.test(debugNode)) {
+            debugNodeTrap.debugAction(debugNode);
+        }
+
 
         return currentValue;
     }

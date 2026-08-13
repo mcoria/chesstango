@@ -2,17 +2,16 @@ package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
-import java.io.PrintStream;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
  */
-public class DefaultAction implements BiConsumer<DebugNode, PrintStream> {
+public class DefaultAction implements Consumer<DebugNode> {
 
     @Override
-    public void accept(DebugNode debugNode, PrintStream printStream) {
-        printStream.print("ACA HAY UNA ENTRADA\n");
+    public void accept(DebugNode debugNode) {
+        System.out.print("ACA HAY UNA ENTRADA\n");
     }
 }
 

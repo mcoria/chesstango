@@ -100,7 +100,7 @@ public class SearchTest {
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                //.withDebugSearchTree(false, false, false)
+                .withDebugSearchTree(false, false, false)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));

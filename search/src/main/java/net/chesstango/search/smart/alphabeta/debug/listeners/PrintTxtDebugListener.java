@@ -46,9 +46,6 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     @Setter
     private SearchTracker searchTracker;
 
-    @Setter
-    private DebugNodeTrap debugNodeTrap;
-
     private List<String> debugErrorMessages;
 
     public PrintTxtDebugListener(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
@@ -143,10 +140,6 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             if (showSorterOperations) {
                 dumpSorterOperations(currentNode);
             }
-        }
-
-        if (debugNodeTrap != null && debugNodeTrap.test(currentNode)) {
-            debugNodeTrap.debugAction(currentNode, debugOut);
         }
 
         for (DebugNode childNode : currentNode.getChildNodes()) {

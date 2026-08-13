@@ -44,7 +44,7 @@ public class ChainPrinterVisitorTest {
             }
 
             @Override
-            public void debugAction(DebugNode debugNode, PrintStream debugOut) {
+            public void debugAction(DebugNode debugNode) {
 
             }
         };
