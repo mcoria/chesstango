@@ -156,6 +156,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     @Override
     protected void link() {
         nodeMoveSorter.setMoveComparator(createComparatorChain());
+        nodeMoveSorter.setSearchListenerMediator(searchListenerMediator);
     }
 
     @Override
