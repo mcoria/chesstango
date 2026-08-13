@@ -10,7 +10,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
@@ -161,7 +160,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
+        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getTurn(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());

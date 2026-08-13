@@ -240,9 +240,4 @@ public class SetGameVisitor implements Visitor {
         principalVariationGroup.setGame(game);
     }
 
-    @Override
-    public void visit(PrintHtmlDebugListener printHtmlDebugListener) {
-        printHtmlDebugListener.setGame(game);
-    }
-
 }

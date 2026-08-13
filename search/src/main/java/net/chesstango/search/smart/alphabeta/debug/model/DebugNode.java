@@ -41,7 +41,7 @@ public class DebugNode {
 
     private Move selectedMove;
 
-    private String fnString;
+    private String turn;
 
     private int alpha;
 
@@ -85,7 +85,7 @@ public class DebugNode {
     private List<DebugOperationTT> currentEntryWrite = entryWrite;
 
     public void setDebugSearch(String fnString, int alpha, int beta) {
-        this.fnString = fnString;
+        this.turn = fnString;
         this.alpha = alpha;
         this.beta = beta;
     }

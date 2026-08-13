@@ -43,12 +43,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private int depth;
 
     @Setter
-    private Game game;
-
-    @Setter
     private SearchTracker searchTracker;
-
-    private FEN fen;
 
     private List<String> debugErrorMessages;
 
@@ -63,7 +58,6 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     @Override
     public void beforeSearch() {
-        fen = game.toFEN();
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.html", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
@@ -186,7 +180,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
             debugOut.printf("%s ", moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%12d beta=%12d value=%12d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
+        debugOut.printf("%s %s 0x%s alpha=%12d beta=%12d value=%12d", currentNode.getTurn(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
         debugOut.printf(" %s", currentNode.getBound());
 
@@ -482,6 +476,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
 
     private void printTail() {
+        String fen = searchTracker.getRootNode().getFen();
         debugOut.printf("""
                     </ul>
                   </div>
