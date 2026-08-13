@@ -11,6 +11,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 /**
@@ -19,7 +20,7 @@ import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 @Setter
 public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
-    private final DebugNode.NodeTopology topology;
+    private final NodeTopology topology;
 
     @Getter
     private AlphaBetaFilter next;
@@ -32,7 +33,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
     private TriangularPVTable trianglePV;
 
-    public DebugFilter(DebugNode.NodeTopology topology) {
+    public DebugFilter(NodeTopology topology) {
         this.topology = topology;
     }
 

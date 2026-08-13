@@ -7,6 +7,7 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class DebugFilterTest {
 
     @Mock
-    private DebugNode.NodeTopology topology;
+    private NodeTopology topology;
 
     @Mock
     private AlphaBetaFilter nextFilter;

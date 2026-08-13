@@ -18,7 +18,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class DebugNode {
 
-    public enum NodeTopology {ROOT, INTERIOR, TERMINAL, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF, EGTB}
     private NodeTopology topology;
 
     /**

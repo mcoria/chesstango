@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
@@ -13,6 +12,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,9 +51,10 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
         reset();
     }
 
-    public DebugNode newNode(DebugNode.NodeTopology topology, int currentPly) {
+    public DebugNode newNode(NodeTopology topology, int currentPly) {
         DebugNode newNode;
-        if (DebugNode.NodeTopology.ROOT.equals(topology)) {
+        if (NodeTopology.ROOT.equals(topology)) {
+            assert currentPly == 0;
             newNode = createRootNode();
             rootNode = newNode;
         } else {
@@ -69,13 +70,14 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
     protected DebugNode createRootNode() {
         assert currentNode == null;
         DebugNode newNode = new DebugNode();
-        newNode.setTopology(DebugNode.NodeTopology.ROOT);
+        newNode.setTopology(NodeTopology.ROOT);
         newNode.setPly(0);
         newNode.setFen(game.getPosition().toString());
+        newNode.setParent(null);    // El root no tiene padre
         return newNode;
     }
 
-    protected DebugNode createRegularNode(DebugNode.NodeTopology topology, int currentPly) {
+    protected DebugNode createRegularNode(NodeTopology topology, int currentPly) {
         DebugNode newNode = new DebugNode();
         newNode.setTopology(topology);
         newNode.setPly(currentPly);
