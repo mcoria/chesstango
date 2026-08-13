@@ -20,11 +20,4 @@ public class CatchAllNullGroup implements GroupSorter {
     public void collect(List<Move> moves) {
     }
 
-    @Override
-    public void beforeSort(int currentPly) {
-    }
-
-    @Override
-    public void afterSort() {
-    }
 }

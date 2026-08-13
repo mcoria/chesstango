@@ -32,12 +32,10 @@ public class DefaultMoveComparatorTest {
     @BeforeEach
     public void setUp() {
         defaultMoveComparator = new DefaultMoveComparator();
-        defaultMoveComparator.beforeSort(0);
     }
 
     @AfterEach
     public void tearDown() {
-        defaultMoveComparator.afterSort();
     }
 
     @Test

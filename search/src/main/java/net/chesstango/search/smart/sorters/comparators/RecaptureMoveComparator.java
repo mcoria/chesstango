@@ -9,13 +9,14 @@ import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.SortListener;
 
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
-public class RecaptureMoveComparator implements MoveComparator, Acceptor {
+public class RecaptureMoveComparator implements MoveComparator, Acceptor, SortListener {
 
     @Getter
     @Setter
@@ -40,13 +41,10 @@ public class RecaptureMoveComparator implements MoveComparator, Acceptor {
         } else {
             previousMoveToSquare = null;
         }
-
-        next.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
-        next.afterSort();
     }
 
     @Override

@@ -67,7 +67,6 @@ public class TranspositionHeadMoveComparatorTest {
 
         // Assert
         assertEquals(move.binaryEncoding(), headMoveComparator.getBestMoveEncoded());
-        verify(next, times(1)).beforeSort(0);
     }
 
     @Test
@@ -84,7 +83,6 @@ public class TranspositionHeadMoveComparatorTest {
 
         // Assert
         assertEquals(0, headMoveComparator.getBestMoveEncoded());
-        verify(next, times(1)).beforeSort(0);
     }
 
 

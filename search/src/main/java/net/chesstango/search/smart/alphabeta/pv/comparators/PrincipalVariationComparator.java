@@ -9,13 +9,14 @@ import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.SortListener;
 
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationComparator implements MoveComparator, Acceptor, SearchByCycleListener {
+public class PrincipalVariationComparator implements MoveComparator, Acceptor, SearchByCycleListener, SortListener {
 
     @Getter
     @Setter
@@ -41,7 +42,6 @@ public class PrincipalVariationComparator implements MoveComparator, Acceptor, S
 
     @Override
     public void beforeSort(int currentPly) {
-        this.next.beforeSort(currentPly);
         if (lastPrincipalVariations != null) {
             if (lastPrincipalVariations.size() > currentPly) {
                 long hash = game.getPosition().getZobristHash();
@@ -55,7 +55,6 @@ public class PrincipalVariationComparator implements MoveComparator, Acceptor, S
 
     @Override
     public void afterSort() {
-        this.next.afterSort();
         this.pvMove = null;
     }
 

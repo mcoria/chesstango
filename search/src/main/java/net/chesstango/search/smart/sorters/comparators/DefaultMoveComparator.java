@@ -160,14 +160,4 @@ public class DefaultMoveComparator implements MoveComparator, Acceptor {
             default -> throw new RuntimeException("Invalid promotion piece");
         };
     }
-
-    @Override
-    public void beforeSort(int currentPly) {
-
-    }
-
-    @Override
-    public void afterSort() {
-
-    }
 }

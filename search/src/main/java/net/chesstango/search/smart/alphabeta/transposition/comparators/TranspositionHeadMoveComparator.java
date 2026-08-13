@@ -10,11 +10,12 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.SortListener;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor {
+public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor, SortListener {
 
     private final TranspositionEntry entryWorkspace;
 
@@ -51,13 +52,10 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
         } else {
             bestMoveEncoded = 0;
         }
-
-        next.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
-        next.afterSort();
     }
 
 

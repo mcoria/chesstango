@@ -7,11 +7,12 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMoves;
 import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.SortListener;
 
 /**
  * @author Mauricio Coria
  */
-public class KillerMoveComparator implements MoveComparator, Acceptor {
+public class KillerMoveComparator implements MoveComparator, Acceptor, SortListener {
 
     @Getter
     @Setter
@@ -30,12 +31,10 @@ public class KillerMoveComparator implements MoveComparator, Acceptor {
     @Override
     public void beforeSort(int currentPly) {
         this.currentPly = currentPly;
-        this.next.beforeSort(currentPly);
     }
 
     @Override
     public void afterSort() {
-        this.next.afterSort();
     }
 
     @Override
