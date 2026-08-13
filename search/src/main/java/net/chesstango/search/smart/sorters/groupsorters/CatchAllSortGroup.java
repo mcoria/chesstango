@@ -2,10 +2,9 @@ package net.chesstango.search.smart.sorters.groupsorters;
 
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.GroupSorter;
 import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.SortListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class CatchAllSortGroup implements GroupSorter {
+public class CatchAllSortGroup implements GroupSorter, SortListener {
     private final List<Move> collectedMoves;
 
     @Setter
@@ -37,11 +36,6 @@ public class CatchAllSortGroup implements GroupSorter {
     @Override
     public void beforeSort(int currentPly) {
         collectedMoves.clear();
-        moveComparator.beforeSort(currentPly);
     }
 
-    @Override
-    public void afterSort() {
-        moveComparator.afterSort();
-    }
 }

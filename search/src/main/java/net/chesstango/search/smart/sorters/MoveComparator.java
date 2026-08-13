@@ -7,5 +7,5 @@ import java.util.Comparator;
 /**
  * @author Mauricio Coria
  */
-public interface MoveComparator extends Comparator<Move>, SortListener {
+public interface MoveComparator extends Comparator<Move> {
 }

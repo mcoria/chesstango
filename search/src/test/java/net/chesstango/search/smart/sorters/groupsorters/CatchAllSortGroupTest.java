@@ -79,14 +79,6 @@ public class CatchAllSortGroupTest {
             public int compare(Move o1, Move o2) {
                 return 0;
             }
-
-            @Override
-            public void beforeSort(int currentPly) {
-            }
-
-            @Override
-            public void afterSort() {
-            }
         });
         Move mockMove1 = mock(Move.class);
         Move mockMove2 = mock(Move.class);

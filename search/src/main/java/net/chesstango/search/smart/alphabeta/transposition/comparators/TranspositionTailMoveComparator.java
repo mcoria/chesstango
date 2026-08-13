@@ -40,16 +40,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
     }
 
     @Override
-    public void beforeSort(final int currentPly) {
-        next.beforeSort(currentPly);
-    }
-
-    @Override
-    public void afterSort() {
-        next.afterSort();
-    }
-
-    @Override
     public int compare(Move o1, Move o2) {
         int result = 0;
 

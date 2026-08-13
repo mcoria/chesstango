@@ -24,18 +24,6 @@ public class QuietComparator implements MoveComparator, Acceptor {
     }
 
     @Override
-    public void beforeSort(int currentPly) {
-        noQuietNext.beforeSort(currentPly);
-        quietNext.beforeSort(currentPly);
-    }
-
-    @Override
-    public void afterSort() {
-        noQuietNext.afterSort();
-        quietNext.afterSort();
-    }
-
-    @Override
     public int compare(Move o1, Move o2) {
         if (!o1.isQuiet() && o2.isQuiet()) {
             return 1;

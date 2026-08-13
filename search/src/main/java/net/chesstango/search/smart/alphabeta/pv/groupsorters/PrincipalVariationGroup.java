@@ -10,13 +10,14 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.sorters.GroupSorter;
+import net.chesstango.search.smart.sorters.SortListener;
 
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByCycleListener, SearchByDepthListener {
+public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByCycleListener, SearchByDepthListener, SortListener {
 
     private final PrincipalVariation[] principalVariations;
 
@@ -70,7 +71,6 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
                 throw new RuntimeException("Principal variation hash mismatch");
             }
         }
-        next.beforeSort(currentPly);
     }
 
     @Override
@@ -78,7 +78,6 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
         if (principalVariations[currentPly] != null) {
             principalVariations[currentPly] = null;
         }
-        next.afterSort();
     }
 
     @Override

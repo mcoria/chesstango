@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.GroupSorter;
+import net.chesstango.search.smart.sorters.SortListener;
 
 import java.util.List;
 
@@ -25,18 +26,6 @@ public class NoQuietBifurcation implements GroupSorter {
 
     public NoQuietBifurcation(boolean noQuietFirst) {
         this.noQuietFirst = noQuietFirst;
-    }
-
-    @Override
-    public void beforeSort(int currentPly) {
-        quietGroup.beforeSort(currentPly);
-        noQuietGroup.beforeSort(currentPly);
-    }
-
-    @Override
-    public void afterSort() {
-        quietGroup.afterSort();
-        noQuietGroup.afterSort();
     }
 
     @Override
