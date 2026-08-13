@@ -213,6 +213,17 @@ ResetListener:
 	EvaluatorCacheListener @ 82
 	TTListener @ 83
 
+SortListener:
+	TranspositionHeadMoveComparator @ 50
+	PrincipalVariationComparator @ 49
+	RecaptureMoveComparator @ 56
+	GameEvaluatorCacheComparator @ 58
+	KillerMoveComparator @ 61
+	TranspositionHeadMoveComparator @ 73
+	PrincipalVariationComparator @ 72
+	RecaptureMoveComparator @ 76
+	GameEvaluatorCacheComparator @ 78
+
 Acceptor:
 	SetGameToEvaluator @ 96
 	EvaluationCounters @ 81
