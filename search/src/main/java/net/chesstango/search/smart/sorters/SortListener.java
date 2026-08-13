@@ -8,5 +8,6 @@ import net.chesstango.search.smart.SearchListener;
 public interface SortListener extends SearchListener {
     void beforeSort(int currentPly);
 
-    void afterSort();
+    default void afterSort(){
+    }
 }

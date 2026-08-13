@@ -34,10 +34,6 @@ public class KillerMoveComparator implements MoveComparator, Acceptor, SortListe
     }
 
     @Override
-    public void afterSort() {
-    }
-
-    @Override
     public int compare(Move o1, Move o2) {
         boolean o1IsKiller = killerMoves.isKiller(o1, currentPly);
 

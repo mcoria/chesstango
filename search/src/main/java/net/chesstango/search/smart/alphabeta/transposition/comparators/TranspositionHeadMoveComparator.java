@@ -54,10 +54,6 @@ public class TranspositionHeadMoveComparator implements MoveComparator, Acceptor
         }
     }
 
-    @Override
-    public void afterSort() {
-    }
-
 
     @Override
     public int compare(Move o1, Move o2) {

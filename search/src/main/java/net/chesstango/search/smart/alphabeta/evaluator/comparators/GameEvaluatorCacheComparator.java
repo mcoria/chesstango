@@ -44,10 +44,6 @@ public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, S
     }
 
     @Override
-    public void afterSort() {
-    }
-
-    @Override
     public int compare(Move o1, Move o2) {
         int result = 0;
 

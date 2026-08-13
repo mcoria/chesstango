@@ -44,10 +44,6 @@ public class RecaptureMoveComparator implements MoveComparator, Acceptor, SortLi
     }
 
     @Override
-    public void afterSort() {
-    }
-
-    @Override
     public int compare(Move o1, Move o2) {
         if (previousMoveToSquare != null) {
             Square o1ToSquare = o1.getTo().square();

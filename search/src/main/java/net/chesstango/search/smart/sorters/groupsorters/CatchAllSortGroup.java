@@ -38,7 +38,4 @@ public class CatchAllSortGroup implements GroupSorter, SortListener {
         collectedMoves.clear();
     }
 
-    @Override
-    public void afterSort() {
-    }
 }
