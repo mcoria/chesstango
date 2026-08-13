@@ -49,7 +49,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         debugNode.setValue(currentValue);
-        debugNode.setPV(trianglePV.getPV(currentPly));
+        debugNode.setPv(trianglePV.getPV(currentPly));
 
         if (currentValue <= alpha) {
             debugNode.setBound(Bound.UPPER_BOUND);

@@ -55,7 +55,7 @@ public class DebugNode {
 
     private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
-    private short[] PV;
+    private short[] pv;
 
     /**
      * Cual de los movimientos de este nodo es promovido como KillerMove
@@ -84,8 +84,8 @@ public class DebugNode {
     private List<DebugOperationTT> currentEntryRead = entryRead;
     private List<DebugOperationTT> currentEntryWrite = entryWrite;
 
-    public void setDebugSearch(String fnString, int alpha, int beta) {
-        this.turn = fnString;
+    public void setDebugSearch(String turn, int alpha, int beta) {
+        this.turn = turn;
         this.alpha = alpha;
         this.beta = beta;
     }
