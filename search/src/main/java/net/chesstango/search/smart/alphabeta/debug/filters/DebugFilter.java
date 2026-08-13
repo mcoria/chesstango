@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
@@ -45,6 +46,12 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
         DebugNode debugNode = searchTracker.newNode(topology, currentPly);
 
         debugNode.setDebugSearch(game.getPosition().getCurrentTurn().toString(), alpha, beta);
+
+        debugNode.setZobristHash(game.getPosition().getZobristHash());
+        if (game.getHistory().peekLastRecord() != null) {
+            GameHistoryRecord gameHistoryRecord = game.getHistory().peekLastRecord();
+            debugNode.setSelectedMove(gameHistoryRecord.playedMove());
+        }
 
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 

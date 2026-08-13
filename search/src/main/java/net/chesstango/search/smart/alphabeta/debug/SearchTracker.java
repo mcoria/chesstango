@@ -61,12 +61,6 @@ public class SearchTracker implements Acceptor, SearchByCycleListener, SearchByD
             currentNode.getChildNodes().add(newNode);
         }
 
-        newNode.setZobristHash(game.getPosition().getZobristHash());
-        if (game.getHistory().peekLastRecord() != null) {
-            GameHistoryRecord gameHistoryRecord = game.getHistory().peekLastRecord();
-            newNode.setSelectedMove(gameHistoryRecord.playedMove());
-        }
-
         currentNode = newNode;
 
         return currentNode;

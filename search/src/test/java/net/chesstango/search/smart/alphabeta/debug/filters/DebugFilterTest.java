@@ -62,7 +62,7 @@ public class DebugFilterTest {
         assertEquals(50, result);
         verify(debugNode).setDebugSearch("WHITE", -100, 100);
         verify(debugNode).setValue(50);
-        verify(debugNode).setPV(any());
+        verify(debugNode).setPv(any());
         verify(debugNode).setBound(Bound.EXACT);
         verify(debugNode).setType(DebugNode.NodeType.PV);
         verify(searchTracker).save();
@@ -82,7 +82,7 @@ public class DebugFilterTest {
         assertEquals(-150, result);
         verify(debugNode).setDebugSearch("BLACK", -100, 100);
         verify(debugNode).setValue(-150);
-        verify(debugNode).setPV(any());
+        verify(debugNode).setPv(any());
         verify(debugNode).setBound(Bound.UPPER_BOUND);
         verify(debugNode).setType(DebugNode.NodeType.ALL);
         verify(searchTracker).save();
@@ -102,7 +102,7 @@ public class DebugFilterTest {
         assertEquals(150, result);
         verify(debugNode).setDebugSearch("WHITE", -100, 100);
         verify(debugNode).setValue(150);
-        verify(debugNode).setPV(any());
+        verify(debugNode).setPv(any());
         verify(debugNode).setBound(Bound.LOWER_BOUND);
         verify(debugNode).setType(DebugNode.NodeType.CUT);
         verify(searchTracker).save();
