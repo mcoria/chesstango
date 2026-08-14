@@ -7,7 +7,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
@@ -152,7 +152,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
+            debugFilter = new DebugFilter(NodeTopology.ROOT);
         }
 
         if (withDebugSearchTree) {

@@ -48,7 +48,7 @@ public class TangoIntegrationTest {
     public void testSearch01() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(false, false, false)
+                .withDebugSearchTree()
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
@@ -72,7 +72,7 @@ public class TangoIntegrationTest {
     public void testSearch02() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(false, false, false)
+                .withDebugSearchTree()
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
@@ -96,7 +96,7 @@ public class TangoIntegrationTest {
     public void testSearch03() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(true, false, false)
+                .withDebugSearchTree()
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");

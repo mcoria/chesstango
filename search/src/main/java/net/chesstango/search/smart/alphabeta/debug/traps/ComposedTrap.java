@@ -3,8 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
-import java.io.PrintStream;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -13,9 +12,9 @@ import java.util.function.Predicate;
 public class ComposedTrap implements DebugNodeTrap {
     private final Predicate<DebugNode> predicate;
 
-    private final BiConsumer<DebugNode, PrintStream> action;
+    private final Consumer<DebugNode> action;
 
-    public ComposedTrap(Predicate<DebugNode> predicate, BiConsumer<DebugNode, PrintStream> action) {
+    public ComposedTrap(Predicate<DebugNode> predicate, Consumer<DebugNode> action) {
         this.predicate = predicate;
         this.action = action;
     }
@@ -26,7 +25,7 @@ public class ComposedTrap implements DebugNodeTrap {
     }
 
     @Override
-    public void debugAction(DebugNode debugNode, PrintStream debugOut) {
-        action.accept(debugNode, debugOut);
+    public void debugAction(DebugNode debugNode) {
+        action.accept(debugNode);
     }
 }

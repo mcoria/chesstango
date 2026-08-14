@@ -26,16 +26,6 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PrintTxtDebugListener printTxtDebugListener) {
-        printTxtDebugListener.searchByDepthCompleted(searchResultByDepth);
-    }
-
-    @Override
-    public void visit(PrintHtmlDebugListener printHtmlDebugListener) {
-        printHtmlDebugListener.searchByDepthCompleted(searchResultByDepth);
-    }
-
-    @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
         principalVariationComparator.setLastPrincipalVariations(searchResultByDepth.getPrincipalVariation());
     }

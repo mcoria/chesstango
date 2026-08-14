@@ -10,8 +10,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
@@ -26,6 +25,7 @@ import java.util.*;
 /**
  * @author Mauricio Coria
  */
+@Deprecated
 public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
@@ -44,10 +44,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     private int depth;
 
     @Setter
-    private SearchTracker searchTracker;
-
-    @Setter
-    private DebugNodeTrap debugNodeTrap;
+    private DebugNodeTracker debugNodeTracker;
 
     private List<String> debugErrorMessages;
 
@@ -117,7 +114,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     private void dumpSearchTracker() {
         debugErrorMessages = new LinkedList<>();
 
-        DebugNode rootNode = searchTracker.getRootNode();
+        DebugNode rootNode = debugNodeTracker.getRootNode();
         dumpNode(rootNode);
         if (showNodeTranspositionAccess) {
             showNodePVTranspositionAccess(rootNode);
@@ -145,10 +142,6 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             }
         }
 
-        if (debugNodeTrap != null && debugNodeTrap.test(currentNode)) {
-            debugNodeTrap.debugAction(currentNode, debugOut);
-        }
-
         for (DebugNode childNode : currentNode.getChildNodes()) {
             if (showOnlyPV) {
                 if (childNode.getType().equals(DebugNode.NodeType.PV)) {
@@ -168,7 +161,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
+        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getTurn(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());
@@ -238,7 +231,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodePV(DebugNode currentNode) {
-        debugOut.printf("%s PV %s\n", ">\t".repeat(currentNode.getPly()), Arrays.toString(currentNode.getPV()));
+        debugOut.printf("%s PV %s\n", ">\t".repeat(currentNode.getPly()), Arrays.toString(currentNode.getPv()));
     }
 
     private void dumpSorterOperations(DebugNode currentNode) {

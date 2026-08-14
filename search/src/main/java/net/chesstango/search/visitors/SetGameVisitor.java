@@ -6,9 +6,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
@@ -32,7 +30,6 @@ import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeGroupSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
 
 /**
@@ -186,11 +183,6 @@ public class SetGameVisitor implements Visitor {
         maxRegularDepth.setGame(game);
     }
 
-    @Override
-    public void visit(SearchTracker searchTracker) {
-        searchTracker.setGame(game);
-    }
-
     /**
      *
      * Sorter elements
@@ -238,11 +230,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(PrincipalVariationGroup principalVariationGroup) {
         principalVariationGroup.setGame(game);
-    }
-
-    @Override
-    public void visit(PrintHtmlDebugListener printHtmlDebugListener) {
-        printHtmlDebugListener.setGame(game);
     }
 
 }

@@ -180,12 +180,9 @@ SearchByCycleListeners:
 	NodeCounters @ 87
 	GameCountersCollector @ 88
 	DepthCollector @ 89
-	SearchTracker @ 90
-	PrintTxtDebugListener @ 91
-	PrintHtmlDebugListener @ 92
 	PrincipalVariationComparator @ 49
 	PrincipalVariationComparator @ 72
-	RootMoveEvaluationCollection @ 93
+	RootMoveEvaluationCollection @ 90
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
@@ -194,17 +191,12 @@ SearchByDepthListener:
 	SetSearchTimers @ 86
 	NodeCounters @ 87
 	DepthCollector @ 89
-	SearchTracker @ 90
-	PrintTxtDebugListener @ 91
-	PrintHtmlDebugListener @ 92
-	RootMoveEvaluationCache @ 94
-	RootMoveEvaluationBest @ 95
+	DebugNodeTracker @ 91
+	RootMoveEvaluationCache @ 92
+	RootMoveEvaluationBest @ 93
 
 SearchByWindowsListeners:
-	SearchTracker @ 90
-	PrintTxtDebugListener @ 91
-	PrintHtmlDebugListener @ 92
-	RootMoveEvaluationCache @ 94
+	RootMoveEvaluationCache @ 92
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 19
@@ -225,7 +217,7 @@ SortListener:
 	GameEvaluatorCacheComparator @ 78
 
 Acceptor:
-	SetGameToEvaluator @ 96
+	SetGameToEvaluator @ 94
 	EvaluationCounters @ 81
 	EvaluatorStatisticsCollector @ 24
 	EvaluatorCacheListener @ 82
@@ -239,18 +231,17 @@ Acceptor:
 	TTableStatisticsNodeCollector @ 12
 	TTableStatisticsComparatorCollector @ 52
 	TTableStatisticsFillPercentageCollector @ 85
-	KillerMovesDebug @ 97
-	SetGameToEndGameTableBase @ 98
+	KillerMovesDebug @ 95
+	SetGameToEndGameTableBase @ 96
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 86
 	AlphaBetaFlowControl @ 19
 	NodeCounters @ 87
 	GameCountersCollector @ 88
 	DepthCollector @ 89
-	SearchTracker @ 90
-	TranspositionTablePVUpdate @ 99
-	PrintTxtDebugListener @ 91
-	PrintHtmlDebugListener @ 92
+	DebugNodeTracker @ 91
+	TranspositionTablePVUpdate @ 97
+	PrintHtmlDebugHandler @ 98
 	ClearPV @ 21
 	AlphaBetaEvaluation @ 23
 	AlphaBetaTerminalNodeStatistics @ 22
@@ -299,11 +290,11 @@ Acceptor:
 	UpdatePV @ 80
 	MoveSorterDebug @ 15
 	RootMoveSorter @ 16
-	NodeGroupSorter @ 100
+	NodeGroupSorter @ 99
 	RootMoveEvaluationTracker @ 18
-	RootMoveEvaluationCache @ 94
-	RootMoveEvaluationBest @ 95
-	RootMoveEvaluationCollection @ 93
+	RootMoveEvaluationCache @ 92
+	RootMoveEvaluationBest @ 93
+	RootMoveEvaluationCollection @ 90
 	AlphaBeta @ 14
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

@@ -18,7 +18,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class DebugNode {
 
-    public enum NodeTopology {ROOT, INTERIOR, TERMINAL, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF, EGTB}
     private NodeTopology topology;
 
     /**
@@ -27,6 +26,7 @@ public class DebugNode {
      * All-Node Knuth's Type 3, also called fail-low node
      */
     public enum NodeType {PV, CUT, ALL}
+
     private NodeType type;
 
     private Bound bound;
@@ -41,7 +41,7 @@ public class DebugNode {
 
     private Move selectedMove;
 
-    private String fnString;
+    private String turn;
 
     private int alpha;
 
@@ -55,7 +55,7 @@ public class DebugNode {
 
     private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
-    private short[] PV;
+    private short[] pv;
 
     /**
      * Cual de los movimientos de este nodo es promovido como KillerMove
@@ -84,15 +84,19 @@ public class DebugNode {
     private List<DebugOperationTT> currentEntryRead = entryRead;
     private List<DebugOperationTT> currentEntryWrite = entryWrite;
 
-    public void setDebugSearch(String fnString, int alpha, int beta) {
-        this.fnString = fnString;
+    public void setDebugSearch(String turn, int alpha, int beta) {
+        this.turn = turn;
         this.alpha = alpha;
         this.beta = beta;
     }
 
 
     public void validate() {
-        if (childNodes.stream().mapToLong(DebugNode::getZobristHash).distinct().count() != this.childNodes.size()) {
+        if (childNodes
+                .stream()
+                .mapToLong(DebugNode::getZobristHash)
+                .distinct()
+                .count() != this.childNodes.size()) {
             throw new RuntimeException("Duplicated Node");
         }
     }
@@ -115,5 +119,9 @@ public class DebugNode {
     public void readingPrincipalVariationOFF() {
         currentEntryRead = entryRead;
         currentEntryWrite = entryWrite;
+    }
+
+    public void addChild(DebugNode newNode) {
+        childNodes.add(newNode);
     }
 }

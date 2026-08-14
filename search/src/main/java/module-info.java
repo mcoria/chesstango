@@ -52,6 +52,7 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.debug.model;
     exports net.chesstango.search.smart.alphabeta.debug.listeners;
     exports net.chesstango.search.smart.alphabeta.debug.filters;
+    exports net.chesstango.search.smart.alphabeta.debug.iterators;
     exports net.chesstango.search.smart.alphabeta.core.listeners;
     exports net.chesstango.search.smart.alphabeta.core.filters;
     exports net.chesstango.search.dummy;

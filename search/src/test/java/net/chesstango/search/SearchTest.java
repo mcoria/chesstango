@@ -13,7 +13,6 @@ import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,10 +99,11 @@ public class SearchTest {
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                //.withDebugSearchTree(false, false, false)
+                .withDebugSearchTree()
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
+
         SearchResult searchResult = search.startSearch(game);
 
         // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene

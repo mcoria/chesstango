@@ -44,7 +44,7 @@ public class ChainPrinterVisitorTest {
             }
 
             @Override
-            public void debugAction(DebugNode debugNode, PrintStream debugOut) {
+            public void debugAction(DebugNode debugNode) {
 
             }
         };
@@ -124,7 +124,7 @@ public class ChainPrinterVisitorTest {
         AlphaBetaBuilder builder = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withDebugSearchTree(false, true, true);
+                .withDebugSearchTree();
 
         Search search = builder.build();
 
@@ -136,7 +136,7 @@ public class ChainPrinterVisitorTest {
         AlphaBetaBuilder builder = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withDebugSearchTree(false, true, true)
+                .withDebugSearchTree()
                 .withStatistics();
 
         Search search = builder.build();
