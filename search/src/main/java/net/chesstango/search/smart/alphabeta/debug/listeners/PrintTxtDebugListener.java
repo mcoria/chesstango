@@ -25,6 +25,7 @@ import java.util.*;
 /**
  * @author Mauricio Coria
  */
+@Deprecated
 public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;

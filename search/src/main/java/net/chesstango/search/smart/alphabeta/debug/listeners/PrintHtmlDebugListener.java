@@ -27,6 +27,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
+@Deprecated
 public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean withAspirationWindows;
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());

@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.iterators.PrintHtmlDebugHandler;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.alphabeta.debug.traps.LeafNodeTrap;
@@ -189,6 +190,9 @@ public interface Visitor {
     }
 
     default void visit(QuiescenceNull quiescenceNull) {
+    }
+
+    default void visit(PrintHtmlDebugHandler printHtmlDebugHandler) {
     }
 
     default void visit(DebugFilter debugFilter) {

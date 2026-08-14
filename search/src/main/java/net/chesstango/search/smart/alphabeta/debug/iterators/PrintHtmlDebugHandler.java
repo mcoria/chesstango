@@ -2,7 +2,11 @@ package net.chesstango.search.smart.alphabeta.debug.iterators;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.debug.DebugIterator;
 import net.chesstango.search.smart.alphabeta.debug.DebugIteratorHandler;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
@@ -21,7 +25,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrintHtmlDebugHandler implements DebugIteratorHandler {
+public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
@@ -33,6 +37,16 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler {
     private String fen;
 
     private List<String> debugErrorMessages;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    public void searchCompleted(SearchResult searchResult) {
+        new DebugIterator(searchResult)
+                .iterate(this);
+    }
 
     @Override
     public void startIteration() {
@@ -129,8 +143,18 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler {
         showNodeKillerMoves(node);
 
         showSortedMoves(node);
+    }
 
+    @Override
+    public void endRootNode() {
+        debugOut.print("""
+                </ul>
+                </li>
+                """);
+    }
 
+    @Override
+    public void endRegularNode() {
         debugOut.print("""
                 </ul>
                 </li>
