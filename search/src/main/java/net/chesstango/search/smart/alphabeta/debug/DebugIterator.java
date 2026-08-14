@@ -36,9 +36,11 @@ public class DebugIterator {
 
         debugIteratorHandler.visit(searchResultByDepth);
 
+        int windowsCycle = 0;
+
         for (DebugNode node : searchResultByDepth.getDebugNodes()) {
             if (withAspirationWindows) {
-                debugIteratorHandler.startWindows();
+                debugIteratorHandler.startWindows(node.getAlpha(), node.getBeta(), windowsCycle++);
             }
 
             debugIteratorHandler.startRootNode();

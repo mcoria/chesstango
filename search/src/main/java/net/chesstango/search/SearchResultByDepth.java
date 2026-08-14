@@ -9,7 +9,19 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import java.io.Serializable;
 import java.util.List;
 
+
 /**
+ * Represents the search result at a specific depth level in the chess engine's search tree.
+ * <p>
+ * This class encapsulates all information gathered during the search at a particular depth,
+ * including the best move found, evaluations of all candidate moves, principal variation,
+ * and timing information. It is used to track incremental deepening search results.
+ * </p>
+ * <p>
+ * The class supports debugging capabilities through the storage of debug nodes that
+ * represent the search tree structure.
+ * </p>
+ *
  * @author Mauricio Coria
  */
 @Accessors(chain = true)
@@ -64,14 +76,29 @@ public class SearchResultByDepth implements Serializable {
 
     private List<DebugNode> debugNodes;
 
+    /**
+     * Constructs a new SearchResultByDepth for the specified depth level.
+     *
+     * @param depth the depth level at which this search was performed
+     */
     public SearchResultByDepth(int depth) {
         this.depth = depth;
     }
 
+    /**
+     * Returns the best move found at this depth level.
+     *
+     * @return the best move, or null if no move has been evaluated yet
+     */
     public Move getBestMove() {
         return bestRootMoveEvaluation != null ? bestRootMoveEvaluation.move() : null;
     }
 
+    /**
+     * Returns the evaluation score of the best move found at this depth level.
+     *
+     * @return the evaluation score, or null if no move has been evaluated yet
+     */
     public Integer getBestEvaluation() {
         return bestRootMoveEvaluation != null ? bestRootMoveEvaluation.evaluation() : null;
     }

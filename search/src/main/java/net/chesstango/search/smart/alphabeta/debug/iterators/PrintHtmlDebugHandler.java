@@ -1,15 +1,9 @@
-package net.chesstango.search.smart.alphabeta.debug.listeners;
+package net.chesstango.search.smart.alphabeta.debug.iterators;
 
-import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugIteratorHandler;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
@@ -27,8 +21,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
-    private final boolean withAspirationWindows;
+public class PrintHtmlDebugHandler implements DebugIteratorHandler {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
@@ -37,27 +30,14 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     private BufferedOutputStream bos;
     private PrintStream debugOut;
 
-    @Setter
-    private int depth;
-
-    @Setter
-    private DebugNodeTracker debugNodeTracker;
+    private String fen;
 
     private List<String> debugErrorMessages;
 
-    public PrintHtmlDebugListener(boolean withAspirationWindows) {
-        this.withAspirationWindows = withAspirationWindows;
-    }
-
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch() {
+    public void startIteration() {
         try {
-            fos = new FileOutputStream(String.format("DebugSearchTree-%s.html", dtFormatter.format(Instant.now())));
+            fos = new FileOutputStream(String.format("DebugSearchTreeNew-%s.html", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
             debugOut = new PrintStream(bos);
             printHeader();
@@ -67,7 +47,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     @Override
-    public void afterSearch() {
+    public void endIteration() {
         try {
             printTail();
             debugOut.flush();
@@ -79,8 +59,9 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         }
     }
 
+
     @Override
-    public void beforeSearchByDepth() {
+    public void startDepth(int depth) {
         debugOut.printf("""
                 <li>
                 <span class="caret myText">Depth %d</span>
@@ -89,10 +70,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     @Override
-    public void afterSearchByDepth(boolean searchStopped) {
-        if (!withAspirationWindows) {
-            dumpSearchTracker();
-        }
+    public void endDepth() {
         debugOut.print("""
                 </ul>
                 </li>
@@ -100,68 +78,58 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
     }
 
     @Override
-    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+    public void startWindows(int alphaBound, int betaBound, int windowsCycle) {
         debugOut.printf("""
                 <li>
                 <span class="caret myText">WIN alpha=%12d beta=%12d cycle=%d</span>
                 <ul class="nested">
-                """, alphaBound, betaBound, searchByWindowsCycle);
+                """, alphaBound, betaBound, windowsCycle);
     }
 
     @Override
-    public void afterSearchByWindows(boolean searchStopped) {
-        dumpSearchTracker();
+    public void endWindows() {
         debugOut.print("""
                 </ul>
                 </li>
                 """);
     }
 
-    public void searchByDepthCompleted(SearchResultByDepth result) {
-        /*
-        debugOut.print("Search by depth completed\n");
-        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.toPGN(result.getBestMove()), result.getBestEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.toPGN(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
-         */
+    @Override
+    public void visit(SearchResultByDepth searchResultByDepth) {
+        if (fen == null) {
+            DebugNode debugRootNode = searchResultByDepth
+                    .getDebugNodes()
+                    .getFirst();
+            fen = debugRootNode.getFen();
+        }
     }
 
-    private void dumpSearchTracker() {
+    @Override
+    public void visit(DebugNode node) {
         debugErrorMessages = new LinkedList<>();
 
-        DebugNode rootNode = debugNodeTracker.getRootNode();
-
-        dumpNode(rootNode);
-
-        debugOut.flush();
-    }
-
-    private void dumpNode(DebugNode currentNode) {
         debugOut.print("""
                 <li>
                 <span class="caret myText"> \
                 """);
 
-        dumpNodeHeader(currentNode);
+        dumpNodeHeader(node);
 
         debugOut.print("""
                 </span>
                 <ul class="nested">
                 """);
 
-        showNodeFen(currentNode);
+        showNodeFen(node);
 
-        showStandingPat(currentNode);
+        showStandingPat(node);
 
-        showNodeTranspositionAccess(currentNode);
+        showNodeTranspositionAccess(node);
 
-        showNodeKillerMoves(currentNode);
+        showNodeKillerMoves(node);
 
-        showSortedMoves(currentNode);
+        showSortedMoves(node);
 
-
-        for (DebugNode childNode : currentNode.getChildNodes()) {
-            dumpNode(childNode);
-        }
 
         debugOut.print("""
                 </ul>
@@ -349,30 +317,6 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
 
     }
 
-    private void showNodePVTranspositionAccess(DebugNode currentNode) {
-        currentNode.getPvReads().forEach(readOp -> {
-            TranspositionEntry entry = readOp.getEntry();
-            debugOut.printf(" PV Read  TT[ 0x%s %s draft=%d move=0x%s value=%d ]\n",
-                    hexFormat.formatHex(longToByte(entry.getHash())),
-                    entry.getBound(),
-                    entry.getDraft(),
-                    hexFormat.toHexDigits(entry.getMove()),
-                    entry.getValue());
-        });
-    }
-
-    private byte[] longToByte(long lng) {
-        return new byte[]{
-                (byte) (lng >> 56),
-                (byte) (lng >> 48),
-                (byte) (lng >> 40),
-                (byte) (lng >> 32),
-                (byte) (lng >> 24),
-                (byte) (lng >> 16),
-                (byte) (lng >> 8),
-                (byte) lng
-        };
-    }
 
     private void printHeader() {
         debugOut.print("""
@@ -469,9 +413,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 """);
     }
 
-
     private void printTail() {
-        String fen = debugNodeTracker.getRootNode().getFen();
         debugOut.printf("""
                     </ul>
                   </div>
@@ -517,5 +459,18 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                 </body>
                 </html>
                 """, fen.toString());
+    }
+
+    private byte[] longToByte(long lng) {
+        return new byte[]{
+                (byte) (lng >> 56),
+                (byte) (lng >> 48),
+                (byte) (lng >> 40),
+                (byte) (lng >> 32),
+                (byte) (lng >> 24),
+                (byte) (lng >> 16),
+                (byte) (lng >> 8),
+                (byte) lng
+        };
     }
 }

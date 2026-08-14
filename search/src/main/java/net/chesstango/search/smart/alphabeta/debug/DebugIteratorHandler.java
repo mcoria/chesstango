@@ -8,33 +8,48 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
  * @author Mauricio Coria
  */
 public interface DebugIteratorHandler {
-    void startIteration();
+    default void startIteration() {
+    }
 
-    void endIteration();
+    default void endIteration() {
+    }
 
-    void startDepth(int depth);
+    default void startDepth(int depth) {
+    }
 
-    void endDepth();
+    default void endDepth() {
+    }
 
-    void startWindows();
+    default void startWindows(int alphaBound, int betaBound, int windowsCycle) {
+    }
 
-    void endWindows();
+    default void endWindows() {
+    }
 
-    void startRootNode();
+    default void startRootNode() {
+    }
 
-    void endRootNode();
+    default void endRootNode() {
+    }
 
-    void startChildNodes();
+    default void startChildNodes() {
+    }
 
-    void endChildNodes();
+    default void endChildNodes() {
+    }
 
-    void startRegularNode();
+    default void startRegularNode() {
+    }
 
-    void endRegularNode();
+    default void endRegularNode() {
+    }
 
-    void visit(SearchResult searchResult);
+    default void visit(SearchResult searchResult) {
+    }
 
-    void visit(SearchResultByDepth searchResultByDepth);
+    default void visit(SearchResultByDepth searchResultByDepth) {
+    }
 
-    void visit(DebugNode node);
+    default void visit(DebugNode node) {
+    }
 }
