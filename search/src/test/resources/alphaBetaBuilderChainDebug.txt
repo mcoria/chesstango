@@ -156,29 +156,21 @@ SearchByCycleListeners:
 	TTListener @ 70
 	SetSearchTimers @ 71
 	AlphaBetaFlowControl @ 17
-	DebugNodeTracker @ 72
-	PrintTxtDebugListener @ 73
-	PrintHtmlDebugListener @ 74
 	PrincipalVariationComparator @ 40
 	PrincipalVariationComparator @ 60
-	RootMoveEvaluationCollection @ 75
+	RootMoveEvaluationCollection @ 72
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 7
 
 SearchByDepthListener:
 	SetSearchTimers @ 71
-	DebugNodeTracker @ 72
-	PrintTxtDebugListener @ 73
-	PrintHtmlDebugListener @ 74
-	RootMoveEvaluationCache @ 76
-	RootMoveEvaluationBest @ 77
+	DebugNodeTracker @ 73
+	RootMoveEvaluationCache @ 74
+	RootMoveEvaluationBest @ 75
 
 SearchByWindowsListeners:
-	DebugNodeTracker @ 72
-	PrintTxtDebugListener @ 73
-	PrintHtmlDebugListener @ 74
-	RootMoveEvaluationCache @ 76
+	RootMoveEvaluationCache @ 74
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
@@ -199,7 +191,7 @@ SortListener:
 	GameEvaluatorCacheComparator @ 66
 
 Acceptor:
-	SetGameToEvaluator @ 78
+	SetGameToEvaluator @ 76
 	EvaluatorCacheListener @ 69
 	EvaluatorCacheDebug @ 49
 	EvaluatorDebug @ 21
@@ -207,15 +199,14 @@ Acceptor:
 	TTableArrayPrimitives @ 11
 	TTableDebug @ 10
 	TTableDebug @ 42
-	KillerMovesDebug @ 79
-	SetGameToEndGameTableBase @ 80
+	KillerMovesDebug @ 77
+	SetGameToEndGameTableBase @ 78
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 71
 	AlphaBetaFlowControl @ 17
-	DebugNodeTracker @ 72
-	TranspositionTablePVUpdate @ 81
-	PrintTxtDebugListener @ 73
-	PrintHtmlDebugListener @ 74
+	DebugNodeTracker @ 73
+	TranspositionTablePVUpdate @ 79
+	PrintHtmlDebugHandler @ 80
 	ClearPV @ 19
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 18
@@ -256,11 +247,11 @@ Acceptor:
 	UpdatePV @ 68
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
-	NodeGroupSorter @ 82
+	NodeGroupSorter @ 81
 	RootMoveEvaluationTracker @ 16
-	RootMoveEvaluationCache @ 76
-	RootMoveEvaluationBest @ 77
-	RootMoveEvaluationCollection @ 75
+	RootMoveEvaluationCache @ 74
+	RootMoveEvaluationBest @ 75
+	RootMoveEvaluationCollection @ 72
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

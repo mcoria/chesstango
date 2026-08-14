@@ -51,7 +51,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
     @Override
     public void startIteration() {
         try {
-            fos = new FileOutputStream(String.format("DebugSearchTreeNew-%s.html", dtFormatter.format(Instant.now())));
+            fos = new FileOutputStream(String.format("DebugSearchTree-%s.html", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
             debugOut = new PrintStream(bos);
             printHeader();

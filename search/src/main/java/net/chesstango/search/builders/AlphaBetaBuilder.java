@@ -245,6 +245,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withDebugNodeTrap(DebugNodeTrap debugNodeTrap) {
+        if (!withDebugSearchTree) {
+            throw new RuntimeException("You must enable DebugSearchTree first");
+        }
         this.debugNodeTrap = debugNodeTrap;
         return this;
     }
