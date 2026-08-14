@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Getter
 public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
 
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     private EvaluatorCacheRead evaluatorCacheRead;
 
@@ -39,7 +39,7 @@ public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
 
 
     public void trackReadFromCache(long hash, Integer evaluation) {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
         if (currentNode != null) {
             Optional<DebugOperationEval> previousReadOpt = currentNode.getEvalCacheReads().stream()
                     .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)

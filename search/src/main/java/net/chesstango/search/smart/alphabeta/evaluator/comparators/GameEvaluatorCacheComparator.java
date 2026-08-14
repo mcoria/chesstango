@@ -10,11 +10,12 @@ import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.SortListener;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor {
+public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, SortListener {
 
     @Getter
     @Setter
@@ -40,13 +41,6 @@ public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor {
     @Override
     public void beforeSort(final int currentPly) {
         this.currentTurn = game.getPosition().getCurrentTurn();
-
-        next.beforeSort(currentPly);
-    }
-
-    @Override
-    public void afterSort() {
-        next.afterSort();
     }
 
     @Override

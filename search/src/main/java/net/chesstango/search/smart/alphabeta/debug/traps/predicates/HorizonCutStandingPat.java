@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
 
          */
 
-        if (DebugNode.NodeTopology.INTERIOR.equals(debugNode.getTopology())
+        if (NodeTopology.INTERIOR.equals(debugNode.getTopology())
                 && debugNode.getChildNodes().size() > 1
                 && !debugNode.getEntryRead().isEmpty()) {
             Optional<DebugNode> candidateOpt = candidates.stream().filter(node -> node.getZobristHash() == debugNode.getZobristHash()).findFirst();

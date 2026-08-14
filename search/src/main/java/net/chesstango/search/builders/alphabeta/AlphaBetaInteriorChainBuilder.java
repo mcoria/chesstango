@@ -7,7 +7,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
@@ -133,7 +133,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.INTERIOR);
+            debugFilter = new DebugFilter(NodeTopology.INTERIOR);
         }
 
         if (withKillerMoveSorter) {

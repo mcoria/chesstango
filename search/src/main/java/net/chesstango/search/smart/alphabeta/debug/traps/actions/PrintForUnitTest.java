@@ -12,16 +12,18 @@ import java.util.HexFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
  */
-public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
+public class PrintForUnitTest implements Consumer<DebugNode> {
 
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
 
     @Override
-    public void accept(DebugNode debugNode, PrintStream printStream) {
+    public void accept(DebugNode debugNode) {
+        PrintStream printStream = System.out;
         printStream.println("=======================");
         printGame(debugNode, printStream);
         printTTContext(debugNode, printStream);

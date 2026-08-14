@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 public class KillerMovesDebug implements KillerMoves, Acceptor {
 
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     private KillerMoves imp;
 
@@ -29,7 +29,7 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
     @Override
     public boolean trackKillerMove(Move move, int currentPly) {
         if (imp.trackKillerMove(move, currentPly)) {
-            DebugNode currentNode = searchTracker.getCurrentNode();
+            DebugNode currentNode = debugNodeTracker.getCurrentNode();
             currentNode.setKillerMove(move);
             return true;
         } else {
@@ -40,7 +40,7 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
     @Override
     public boolean isKiller(Move move, int currentPly) {
         if (imp.isKiller(move, currentPly)) {
-            DebugNode currentNode = searchTracker.getCurrentNode();
+            DebugNode currentNode = debugNodeTracker.getCurrentNode();
             List<Move> sorterKms = currentNode.getSorterKm();
             if (!sorterKms.contains(move)) {
                 sorterKms.add(move);

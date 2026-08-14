@@ -55,16 +55,6 @@ public class MvvLvaComparator implements MoveComparator, Acceptor {
     }
 
     @Override
-    public void beforeSort(int currentPly) {
-        next.beforeSort(currentPly);
-    }
-
-    @Override
-    public void afterSort() {
-        next.afterSort();
-    }
-
-    @Override
     public int compare(Move o1, Move o2) {
         int value1 = getValue(o1);
         int value2 = getValue(o2);

@@ -7,8 +7,9 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +19,7 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 @Getter
 public class EvaluatorDebug implements Evaluator, Acceptor {
 
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     private Evaluator evaluator;
 
@@ -37,8 +38,8 @@ public class EvaluatorDebug implements Evaluator, Acceptor {
     }
 
     public void trackEvaluation(int evaluation) {
-        DebugNode currentNode = searchTracker.getCurrentNode();
-        if (currentNode != null && DebugNode.NodeTopology.QUIESCENCE.equals(currentNode.getTopology())) {
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
+        if (currentNode != null && NodeTopology.QUIESCENCE.equals(currentNode.getTopology())) {
             currentNode.setStandingPat(Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluation : -evaluation);
         }
     }

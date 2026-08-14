@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchListenerMediator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
     @Setter
     private GroupSorter groupSorter;
 
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
 
     @Override
     public void accept(Visitor visitor) {
@@ -35,7 +38,7 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
 
         List<Move> moveList = new ArrayList<>(moves.size());
 
-        groupSorter.beforeSort(currentPly);
+        searchListenerMediator.triggerBeforeSort(currentPly);
 
         for (Move move : moves) {
             if (!groupSorter.offer(move)) {
@@ -45,7 +48,7 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
 
         groupSorter.collect(moveList);
 
-        groupSorter.afterSort();
+        searchListenerMediator.triggerAfterSort();
 
         return moveList;
     }

@@ -3,7 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLoopNodeStatistics;
@@ -64,7 +64,7 @@ public class LoopChainBuilder extends AbstractChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.LOOP);
+            debugFilter = new DebugFilter(NodeTopology.LOOP);
         }
 
         if (clearPV != null) {

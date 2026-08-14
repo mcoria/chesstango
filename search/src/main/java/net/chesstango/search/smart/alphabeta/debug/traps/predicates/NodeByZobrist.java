@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 
 import java.util.function.Predicate;
 
@@ -13,7 +14,7 @@ import java.util.function.Predicate;
 @Setter
 public class NodeByZobrist implements Predicate<DebugNode> {
 
-    private DebugNode.NodeTopology topology;
+    private NodeTopology topology;
 
     private long zobristHash;
 

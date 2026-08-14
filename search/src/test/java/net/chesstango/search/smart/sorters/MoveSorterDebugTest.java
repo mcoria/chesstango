@@ -3,7 +3,7 @@ package net.chesstango.search.smart.sorters;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
@@ -31,7 +31,7 @@ class MoveSorterDebugTest {
     private MoveSorter nextMock;
 
     @Mock
-    private SearchTracker mockSearchTracker;
+    private DebugNodeTracker mockDebugNodeTracker;
 
     @Mock
     private DebugNode mockDebugNode;
@@ -71,7 +71,7 @@ class MoveSorterDebugTest {
         // Arrange
         Iterable<Move> mockSortedMoves = Arrays.asList(mockMove1, mockMove2);
         when(nextMock.getOrderedMoves(1)).thenReturn(mockSortedMoves);
-        when(mockSearchTracker.getCurrentNode()).thenReturn(mockDebugNode);
+        when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
 
         // Act
         Iterable<Move> resultMoves = moveSorterDebug.getOrderedMoves(1);
@@ -94,7 +94,7 @@ class MoveSorterDebugTest {
     @Disabled
     void testTrackComparatorsEvalCacheReads() {
         // Arrange
-        when(mockSearchTracker.getCurrentNode()).thenReturn(mockDebugNode);
+        when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
         //when(mockGame.getPossibleMoves()).thenReturn(List.of(mockMove1));
         when(mockMove1.getZobristHash()).thenReturn(123L);
 
@@ -119,7 +119,7 @@ class MoveSorterDebugTest {
     @Disabled
     void testTrackComparatorsTranspositionReads() {
         // Arrange
-        when(mockSearchTracker.getCurrentNode()).thenReturn(mockDebugNode);
+        when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
         //when(mockGame.getPossibleMoves()).thenReturn(List.of(mockMove1));
         when(mockGame.getPosition().getZobristHash()).thenReturn(456L);
         when(mockMove1.getZobristHash()).thenReturn(789L);

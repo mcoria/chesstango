@@ -2,6 +2,8 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.debug.iterators.PrintHtmlDebugHandler;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 
 /**
  *
@@ -14,4 +16,8 @@ public class DistributeSearchResultVisitor implements Visitor {
         this.searchResult = searchResult;
     }
 
+    @Override
+    public void visit(PrintHtmlDebugHandler printHtmlDebugHandler) {
+        printHtmlDebugHandler.searchCompleted(searchResult);
+    }
 }

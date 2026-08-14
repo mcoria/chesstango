@@ -1,9 +1,8 @@
 package net.chesstango.search.smart.alphabeta.debug.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
@@ -16,45 +15,45 @@ import net.chesstango.search.smart.sorters.MoveSorterDebug;
  * @author Mauricio Coria
  */
 public class LinkSearchTrackerVisitor implements Visitor {
-    private final SearchTracker searchTracker;
+    private final DebugNodeTracker debugNodeTracker;
 
-    public LinkSearchTrackerVisitor(SearchTracker searchTracker) {
-        this.searchTracker = searchTracker;
+    public LinkSearchTrackerVisitor(DebugNodeTracker debugNodeTracker) {
+        this.debugNodeTracker = debugNodeTracker;
     }
 
     @Override
     public void visit(DebugFilter debugFilter) {
-        debugFilter.setSearchTracker(searchTracker);
+        debugFilter.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override
     public void visit(MoveSorterDebug moveSorterDebug) {
-        moveSorterDebug.setSearchTracker(searchTracker);
+        moveSorterDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override
     public void visit(KillerMovesDebug killerMovesDebug) {
-        killerMovesDebug.setSearchTracker(searchTracker);
+        killerMovesDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override
     public void visit(TTableDebug tableDebug) {
-        tableDebug.setSearchTracker(searchTracker);
+        tableDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override
     public void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
-        evaluatorCacheDebug.setSearchTracker(searchTracker);
+        evaluatorCacheDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override
     public void visit(EvaluatorDebug evaluatorDebug) {
-        evaluatorDebug.setSearchTracker(searchTracker);
+        evaluatorDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override
     public void visit(PVCalculatorDebug pvCalculatorDebug) {
-        pvCalculatorDebug.setSearchTracker(searchTracker);
+        pvCalculatorDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
 }

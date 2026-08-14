@@ -6,8 +6,7 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
@@ -126,7 +125,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
+            debugFilter = new DebugFilter(NodeTopology.QUIESCENCE);
         }
 
         moveSorter = moveSorterBuilder.build();

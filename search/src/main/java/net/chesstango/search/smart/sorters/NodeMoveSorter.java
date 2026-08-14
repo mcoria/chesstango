@@ -8,6 +8,7 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchListenerMediator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,9 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
     @Getter
     @Setter
     private MoveComparator moveComparator;
+
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
 
     public NodeMoveSorter() {
         this(move -> true);
@@ -55,9 +59,11 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
 
         moveToZobrist.clear();
 
-        moveComparator.beforeSort(currentPly);
+        searchListenerMediator.triggerBeforeSort(currentPly);
+
         moveList.sort(moveComparator.reversed());
-        moveComparator.afterSort();
+
+        searchListenerMediator.triggerAfterSort();
 
         return moveList;
     }

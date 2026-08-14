@@ -3,6 +3,7 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
@@ -20,6 +21,11 @@ public class CollectSearchResultVisitor implements Visitor {
 
     public CollectSearchResultVisitor(SearchResult searchResult) {
         this.searchResult = searchResult;
+    }
+
+    @Override
+    public void visit(AspirationWindows aspirationWindows) {
+        searchResult.setWithAspirationWindows(true);
     }
 
     @Override

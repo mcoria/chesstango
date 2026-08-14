@@ -3,8 +3,6 @@ package net.chesstango.search.smart.alphabeta.debug.traps;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
-import java.io.PrintStream;
-
 /**
  * @author Mauricio Coria
  */
@@ -15,7 +13,7 @@ public class SampleTrap implements DebugNodeTrap {
     }
 
     @Override
-    public void debugAction(DebugNode debugNode, PrintStream debugOut) {
-        debugOut.printf("%s JAJAJEJEJIJI\n", ">\t".repeat(debugNode.getPly()));
+    public void debugAction(DebugNode debugNode) {
+        System.out.printf("%s JAJAJEJEJIJI\n", ">\t".repeat(debugNode.getPly()));
     }
 }

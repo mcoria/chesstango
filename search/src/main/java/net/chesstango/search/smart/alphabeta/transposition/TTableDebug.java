@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 
@@ -21,7 +21,7 @@ public class TTableDebug implements TTable, Acceptor {
     private TTable tTable;
 
     @Setter
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     @Override
     public void accept(Visitor visitor) {
@@ -43,7 +43,7 @@ public class TTableDebug implements TTable, Acceptor {
 
 
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
         if (currentNode != null && entry != null) {
 
             TranspositionEntry entryRead = entry.clone();
@@ -64,7 +64,7 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     void trackWriteTranspositionEntry(TranspositionEntry entry) {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
         if (currentNode != null) {
             // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
             TranspositionEntry entryWrite = entry.clone();

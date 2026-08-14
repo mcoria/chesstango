@@ -92,6 +92,9 @@ StopSearchingListener:
 
 ResetListener:
 
+SortListener:
+	RecaptureMoveComparator @ 25
+
 Acceptor:
 	SetGameToEvaluator @ 32
 	SetGameToEndGameTableBase @ 33

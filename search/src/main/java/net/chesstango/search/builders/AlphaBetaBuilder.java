@@ -14,10 +14,10 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.core.visitors.LinkBestMovesArray;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintHtmlDebugListener;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
+import net.chesstango.search.smart.alphabeta.debug.iterators.PrintHtmlDebugHandler;
+import net.chesstango.search.smart.alphabeta.debug.visitors.LinkDebugNodeTrapVisitor;
 import net.chesstango.search.smart.alphabeta.debug.visitors.LinkSearchTrackerVisitor;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
@@ -66,11 +66,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private GameCountersCollector gameCounters;
     private DepthCollector depthCollector;
     private SetZobristMemory setZobristMemory;
-    private PrintTxtDebugListener printTxtDebugListener;
-    private PrintHtmlDebugListener printHtmlDebugListener;
+    private PrintHtmlDebugHandler printHtmlDebugHandler;
 
     private DebugNodeTrap debugNodeTrap;
-    private SearchTracker searchTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -79,9 +78,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean withQuiescence;
     private boolean withExtensionCheckResolver;
     private boolean withDebugSearchTree;
-    private boolean showOnlyPV;
-    private boolean showNodeTranspositionAccess;
-    private boolean showSorterOperations;
     private boolean withAspirationWindows;
     private boolean withKillerMoveSorter;
 
@@ -249,11 +245,14 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withDebugNodeTrap(DebugNodeTrap debugNodeTrap) {
+        if (!withDebugSearchTree) {
+            throw new RuntimeException("You must enable DebugSearchTree first");
+        }
         this.debugNodeTrap = debugNodeTrap;
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public AlphaBetaBuilder withDebugSearchTree() {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         terminalChainBuilder.withDebugSearchTree();
@@ -269,9 +268,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         evaluationBuilder.withDebugSearchTree();
 
         this.withDebugSearchTree = true;
-        this.showOnlyPV = showOnlyPV;
-        this.showNodeTranspositionAccess = showNodeTranspositionAccess;
-        this.showSorterOperations = showSorterOperations;
         return this;
     }
 
@@ -322,12 +318,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         if (withDebugSearchTree) {
-            searchTracker = new SearchTracker();
-            printTxtDebugListener = new PrintTxtDebugListener(withAspirationWindows, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
-            printTxtDebugListener.setSearchTracker(searchTracker);
+            debugNodeTracker = new DebugNodeTracker();
 
-            printHtmlDebugListener = new PrintHtmlDebugListener(withAspirationWindows);
-            printHtmlDebugListener.setSearchTracker(searchTracker);
+            printHtmlDebugHandler = new PrintHtmlDebugHandler();
         }
     }
 
@@ -357,8 +350,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(depthCollector);
         }
 
-        if (searchTracker != null) {
-            searchListenerMediator.add(searchTracker);
+        if (debugNodeTracker != null) {
+            searchListenerMediator.add(debugNodeTracker);
         }
 
         if (debugNodeTrap != null) {
@@ -369,12 +362,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(transpositionTablePVUpdate);
         }
 
-        if (printTxtDebugListener != null) {
-            searchListenerMediator.add(printTxtDebugListener);
-        }
-
-        if (printHtmlDebugListener != null) {
-            searchListenerMediator.add(printHtmlDebugListener);
+        if (printHtmlDebugHandler != null) {
+            searchListenerMediator.add(printHtmlDebugHandler);
         }
     }
 
@@ -397,9 +386,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withDebugSearchTree) {
             if (debugNodeTrap != null) {
-                printTxtDebugListener.setDebugNodeTrap(debugNodeTrap);
+                searchListenerMediator.accept(new LinkDebugNodeTrapVisitor(debugNodeTrap));
             }
-            searchListenerMediator.accept(new LinkSearchTrackerVisitor(searchTracker));
+            searchListenerMediator.accept(new LinkSearchTrackerVisitor(debugNodeTracker));
         }
 
         /**

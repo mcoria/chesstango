@@ -6,7 +6,7 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
@@ -87,7 +87,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
+            debugFilter = new DebugFilter(NodeTopology.CHECK_EXTENSION);
         }
         if (!withTranspositionTable) {
             updatePV = new UpdatePV();
