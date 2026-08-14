@@ -41,15 +41,15 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     public Iterable<Move> getOrderedMoves(final int currentPly) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
+        currentNode.setSortedPly(currentPly);
+
         currentNode.sortingON();
 
         Iterable<Move> sortedMoves = next.getOrderedMoves(currentPly);
 
-        currentNode.setSortedPly(currentPly);
+        currentNode.sortingOFF();
 
         currentNode.setSortedMoves(convertMoveListToStringList(sortedMoves));
-
-        currentNode.sortingOFF();
 
         trackComparatorsEvalCacheReads();
 

@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -12,6 +13,7 @@ import java.util.function.Predicate;
  */
 @Accessors(chain = true)
 @Setter
+@AllArgsConstructor
 public class NodeByZobrist implements Predicate<DebugNode> {
 
     private NodeTopology topology;
@@ -22,11 +24,14 @@ public class NodeByZobrist implements Predicate<DebugNode> {
 
     private int beta;
 
+    private int ply;
+
     @Override
     public boolean test(DebugNode debugNode) {
         return debugNode.getTopology() == topology &&
                 debugNode.getZobristHash() == zobristHash &&
                 debugNode.getAlpha() == alpha &&
-                debugNode.getBeta() == beta;
+                debugNode.getBeta() == beta &&
+                debugNode.getPly() == ply;
     }
 }

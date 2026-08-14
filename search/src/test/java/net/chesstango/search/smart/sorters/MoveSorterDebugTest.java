@@ -2,6 +2,8 @@ package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -14,8 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,14 +39,6 @@ class MoveSorterDebugTest {
     @Mock
     private DebugNode mockDebugNode;
 
-    @Mock
-    private Game mockGame;
-
-    @Mock
-    private Move mockMove1;
-
-    @Mock
-    private Move mockMove2;
 
     /**
      * Tests the accept() method of the MoveSorterDebug class.
@@ -66,24 +61,32 @@ class MoveSorterDebugTest {
      * Ensures that this method delegates sorting to the next MoveSorter and tracks debugging operations.
      */
     @Test
-    @Disabled
     void testGetOrderedMoves() {
+        Game game = Game.from(FEN.START_POSITION);
+        List<Move> theMoves = new LinkedList<>();
+        for (Move move : game.getPossibleMoves()) {
+            theMoves.add(move);
+        }
+        theMoves.sort(Comparator.comparing(SimpleMoveEncoder.INSTANCE::encode));
+
         // Arrange
-        Iterable<Move> mockSortedMoves = Arrays.asList(mockMove1, mockMove2);
-        when(nextMock.getOrderedMoves(1)).thenReturn(mockSortedMoves);
+        moveSorterDebug.setGame(game);
+        when(nextMock.getOrderedMoves(1)).thenReturn(theMoves);
         when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
 
         // Act
         Iterable<Move> resultMoves = moveSorterDebug.getOrderedMoves(1);
 
         // Assert
-        assertEquals(mockSortedMoves, resultMoves);
+        assertEquals(theMoves, resultMoves);
+
+        verify(mockDebugNode).setSortedPly(1);
 
         verify(mockDebugNode).sortingON();
         verify(nextMock).getOrderedMoves(1);
-        verify(mockDebugNode).setSortedPly(1);
-        verify(mockDebugNode).setSortedMoves(List.of("")); // Placeholder for move string via SimpleMoveEncoder
         verify(mockDebugNode).sortingOFF();
+
+        verify(mockDebugNode).setSortedMoves(List.of("a2a3", "a2a4", "b1a3", "b1c3", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4", "e2e3", "e2e4", "f2f3", "f2f4", "g1f3", "g1h3", "g2g3", "g2g4", "h2h3", "h2h4")); // Placeholder for move string via SimpleMoveEncoder
     }
 
     /**
@@ -93,10 +96,12 @@ class MoveSorterDebugTest {
     @Test
     @Disabled
     void testTrackComparatorsEvalCacheReads() {
+
+
         // Arrange
         when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
         //when(mockGame.getPossibleMoves()).thenReturn(List.of(mockMove1));
-        when(mockMove1.getZobristHash()).thenReturn(123L);
+        //when(mockMove1.getZobristHash()).thenReturn(123L);
 
         DebugOperationEval mockDebugOperation = mock(DebugOperationEval.class);
         when(mockDebugOperation.getHashRequested()).thenReturn(123L);
@@ -121,8 +126,8 @@ class MoveSorterDebugTest {
         // Arrange
         when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
         //when(mockGame.getPossibleMoves()).thenReturn(List.of(mockMove1));
-        when(mockGame.getPosition().getZobristHash()).thenReturn(456L);
-        when(mockMove1.getZobristHash()).thenReturn(789L);
+        //when(mockGame.getPosition().getZobristHash()).thenReturn(456L);
+        //when(mockMove1.getZobristHash()).thenReturn(789L);
 
         DebugOperationTT mockDebugOperationTT = mock(DebugOperationTT.class);
         when(mockDebugOperationTT.getEntry()).thenReturn(null);
