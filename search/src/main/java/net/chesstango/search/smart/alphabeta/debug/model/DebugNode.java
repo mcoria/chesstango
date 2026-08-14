@@ -26,6 +26,7 @@ public class DebugNode {
      * All-Node Knuth's Type 3, also called fail-low node
      */
     public enum NodeType {PV, CUT, ALL}
+
     private NodeType type;
 
     private Bound bound;
@@ -114,5 +115,9 @@ public class DebugNode {
     public void readingPrincipalVariationOFF() {
         currentEntryRead = entryRead;
         currentEntryWrite = entryWrite;
+    }
+
+    public void addChild(DebugNode newNode) {
+        childNodes.add(newNode);
     }
 }

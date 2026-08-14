@@ -3,18 +3,20 @@ package net.chesstango.search.smart.alphabeta.debug;
 import lombok.Getter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Mauricio Coria
  */
-public class DebugNodeTracker implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class DebugNodeTracker implements Acceptor, SearchByDepthListener {
 
-    private DebugNode rootNode;
+    private List<DebugNode> rootNodes;
 
     @Getter
     private DebugNode currentNode;
@@ -25,28 +27,21 @@ public class DebugNodeTracker implements Acceptor, SearchByCycleListener, Search
     }
 
     @Override
-    public void beforeSearch() {
-        reset();
-    }
-
-    @Override
     public void beforeSearchByDepth() {
-        reset();
-    }
-
-    @Override
-    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
-        reset();
+        rootNodes = new LinkedList<>();
     }
 
     public DebugNode newNode(NodeTopology topology) {
         DebugNode newNode;
         if (NodeTopology.ROOT.equals(topology)) {
+            if (currentNode != null) {
+                throw new RuntimeException("Still searching?");
+            }
             newNode = createRootNode();
-            rootNode = newNode;
+            rootNodes.add(newNode);
         } else {
             newNode = createRegularNode(topology);
-            currentNode.getChildNodes().add(newNode);
+            currentNode.addChild(newNode);
         }
 
         currentNode = newNode;
@@ -74,18 +69,11 @@ public class DebugNodeTracker implements Acceptor, SearchByCycleListener, Search
         currentNode = currentNode.getParent();
     }
 
-    public void reset() {
-        if (currentNode != null) {
-            throw new RuntimeException("Still searching?");
-        }
-        rootNode = null;
-    }
-
     public DebugNode getRootNode() {
         if (currentNode != null) {
             throw new RuntimeException("Still searching?");
         }
-        return rootNode;
+        return rootNodes.getLast();
     }
 
 }
