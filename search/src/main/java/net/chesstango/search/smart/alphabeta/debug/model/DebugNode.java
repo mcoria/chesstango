@@ -92,7 +92,11 @@ public class DebugNode {
 
 
     public void validate() {
-        if (childNodes.stream().mapToLong(DebugNode::getZobristHash).distinct().count() != this.childNodes.size()) {
+        if (childNodes
+                .stream()
+                .mapToLong(DebugNode::getZobristHash)
+                .distinct()
+                .count() != this.childNodes.size()) {
             throw new RuntimeException("Duplicated Node");
         }
     }

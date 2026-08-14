@@ -39,7 +39,8 @@ public class SearchResult implements Serializable {
 
     private int bottomMoveCounter;
 
-    @Setter(AccessLevel.NONE)
+    private boolean withAspirationWindows;
+
     private List<SearchResultByDepth> searchResultByDepths = new ArrayList<>();
 
     public Move getBestMove() {
