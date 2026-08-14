@@ -31,7 +31,7 @@ public class ReportSearchesIntegrationTest {
 
         search = defaultSearch()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree(false, false, false)
+                .withDebugSearchTree()
                 .withStatistics()
                 .build();
     }
