@@ -4,7 +4,6 @@ import lombok.Getter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 
@@ -16,7 +15,8 @@ import java.util.List;
  */
 public class DebugNodeTracker implements Acceptor, SearchByDepthListener {
 
-    private List<DebugNode> rootNodes;
+    @Getter
+    private List<DebugNode> debugNodes;
 
     @Getter
     private DebugNode currentNode;
@@ -28,7 +28,7 @@ public class DebugNodeTracker implements Acceptor, SearchByDepthListener {
 
     @Override
     public void beforeSearchByDepth() {
-        rootNodes = new LinkedList<>();
+        debugNodes = new LinkedList<>();
     }
 
     public DebugNode newNode(NodeTopology topology) {
@@ -38,7 +38,7 @@ public class DebugNodeTracker implements Acceptor, SearchByDepthListener {
                 throw new RuntimeException("Still searching?");
             }
             newNode = createRootNode();
-            rootNodes.add(newNode);
+            debugNodes.add(newNode);
         } else {
             newNode = createRegularNode(topology);
             currentNode.addChild(newNode);
@@ -73,7 +73,7 @@ public class DebugNodeTracker implements Acceptor, SearchByDepthListener {
         if (currentNode != null) {
             throw new RuntimeException("Still searching?");
         }
-        return rootNodes.getLast();
+        return debugNodes.getLast();
     }
 
 }

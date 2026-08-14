@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -59,6 +60,9 @@ public class SearchResultByDepth implements Serializable {
      * Indicates if the search was stopped
      */
     private boolean searchStopped;
+
+
+    private List<DebugNode> debugNodes;
 
     public SearchResultByDepth(int depth) {
         this.depth = depth;
