@@ -212,7 +212,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
-                    readOp.getMove(),
+                    readOp.getSortingMove(),
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
@@ -229,7 +229,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
-                    writeOp.getMove(),
+                    writeOp.getSortingMove(),
                     ttValue);
 
             if (currentNode.getZobristHash() != entry.getHash()) {
@@ -290,7 +290,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
         sortedMoves.forEach(moveStr -> {
             sortedReads
                     .stream()
-                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
+                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getSortingMove()))
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
@@ -335,7 +335,7 @@ public class PrintHtmlDebugListener implements Acceptor, SearchByCycleListener, 
          */
         sortedReads
                 .stream()
-                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getMove()))
+                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getSortingMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();

@@ -103,11 +103,11 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
             entryReads.stream()
                     .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
 
             entryWrites.stream()
                     .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
 
         }
 
@@ -117,12 +117,12 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
 
         entryReads
                 .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
 
         entryWrites
                 .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
     }
 }

@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.HexFormat;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -61,7 +60,7 @@ public class PrintForUnitTest implements Consumer<DebugNode> {
                             entry.getMove(),
                             entry.getValue(),
                             entry.getBound(),
-                            ttOperation.getMove()
+                            ttOperation.getSortingMove()
                     );
 
                 });

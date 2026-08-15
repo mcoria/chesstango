@@ -20,5 +20,5 @@ public class DebugOperationTT {
     /**
      * En caso de sorting cual es el movimiento por el cual llegamos a esta entrada
      */
-    private String move;
+    private String sortingMove;
 }

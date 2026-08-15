@@ -91,12 +91,12 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
             sorterReads.stream()
                     .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
                     .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
 
             // Transposition Tail Access
             sorterReads.stream()
                     .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getEntry().getHash())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
         }
 
         /**
@@ -105,15 +105,15 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
         sorterReads
                 .stream()
                 .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setSortingMove("NO_MOVE"));
 
         /**
          * INVESTIGAR
          */
         sorterReads
                 .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setSortingMove("UNKNOWN"));
     }
 }

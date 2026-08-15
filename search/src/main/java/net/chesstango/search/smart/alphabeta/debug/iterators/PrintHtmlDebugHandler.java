@@ -203,7 +203,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     entry.getDraft(),
-                    readOp.getMove(),
+                    readOp.getSortingMove(),
                     entry.getBound()
             );
             if (currentNode.getZobristHash() != entry.getHash()) {
@@ -221,7 +221,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     entry.getDraft(),
-                    writeOp.getMove(),
+                    writeOp.getSortingMove(),
                     entry.getBound()
             );
 
@@ -283,7 +283,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
         sortedMoves.forEach(moveStr -> {
             sortedReads
                     .stream()
-                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
+                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getSortingMove()))
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
@@ -329,7 +329,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
          */
         sortedReads
                 .stream()
-                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getMove()))
+                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getSortingMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();

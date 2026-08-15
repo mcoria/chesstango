@@ -141,7 +141,7 @@ class MoveSorterDebugTest {
         moveSorterDebug.trackComparatorsTranspositionReads(mockDebugNode);
 
         // Assert
-        assertEquals("e2e4", mockDebugOperationTT.getMove());
+        assertEquals("e2e4", mockDebugOperationTT.getSortingMove());
     }
 
     @Test
@@ -165,6 +165,6 @@ class MoveSorterDebugTest {
         moveSorterDebug.trackComparatorsTranspositionReads(mockDebugNode);
 
         // Assert
-        assertEquals("e2e4", mockDebugOperationTT.getMove());
+        assertEquals("e2e4", mockDebugOperationTT.getSortingMove());
     }
 }
