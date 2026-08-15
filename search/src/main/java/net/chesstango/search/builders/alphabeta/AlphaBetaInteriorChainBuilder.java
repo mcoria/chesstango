@@ -105,7 +105,7 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withRecaptureSorter() {
-        moveSorterBuilder.withKillerMoveSorter();
+        moveSorterBuilder.withRecaptureSorter();
         return this;
     }
 

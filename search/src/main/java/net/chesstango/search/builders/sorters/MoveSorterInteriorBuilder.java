@@ -42,7 +42,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     public MoveSorterInteriorBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter();
         this.quietComparator = new QuietComparator();
-        this.recaptureMoveComparator = new RecaptureMoveComparator();
         this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
