@@ -199,12 +199,13 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("Read  TT[ 0x%s value=%d draft=%d move=%s %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
-                    entry.getBound(),
+                    ttValue,
                     entry.getDraft(),
                     readOp.getMove(),
-                    ttValue);
+                    entry.getBound()
+            );
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
                 debugErrorMessages.add(String.format("WRONG TT_READ ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
@@ -216,12 +217,13 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("Write TT[ 0x%s value=%d draft=%d move=%s %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
-                    entry.getBound(),
+                    ttValue,
                     entry.getDraft(),
                     writeOp.getMove(),
-                    ttValue);
+                    entry.getBound()
+            );
 
             if (currentNode.getZobristHash() != entry.getHash()) {
                 String message = String.format(" WRONG TT_WRITE_HASH_REQUESTED ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
@@ -286,12 +288,13 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
                         debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("Sorter %s ReadTT[ %s 0x%s draft=%d move=? value=%d ]%n",
+                        debugOut.printf("%s ReadTT[ 0x%s value=%d draft=%d %11s ]%n",
                                 moveStr,
-                                entry.getBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
+                                entry.getValue(),
                                 entry.getDraft(),
-                                entry.getValue());
+                                entry.getBound()
+                        );
                         debugOut.println("</li>");
                     });
 
@@ -301,7 +304,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     .forEach(debugOperationEval ->
                     {
                         debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("Sorter %s CacheRead[ 0x%s value=%d ]%n",
+                        debugOut.printf("%s Cache [ 0x%s value=%d ]%n",
                                 moveStr,
                                 hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
                                 debugOperationEval.getEvaluation());
@@ -314,7 +317,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     .forEach(kmStr ->
                     {
                         debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("Sorter %s KillerMove%n",
+                        debugOut.printf("%s Killer%n",
                                 moveStr);
                         debugOut.println("</li>");
                     });
@@ -331,11 +334,11 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
                     debugOut.print("<li class=\"myText\">");
-                    debugOut.printf("Sorter NO_MOVE ReadTT[ %s 0x%s draft=%d move=? value=%d ]",
-                            entry.getBound(),
+                    debugOut.printf("NO_MOVE ReadTT[ 0x%s value=%d draft=%d %11s ]",
                             hexFormat.formatHex(longToByte(entry.getHash())),
+                            ttValue,
                             entry.getDraft(),
-                            ttValue);
+                            entry.getBound());
                     debugOut.println("</li>");
                 });
 
