@@ -22,6 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.NO_MOVE;
+import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.UNKNOWN;
+
 /**
  * @author Mauricio Coria
  */
@@ -167,9 +170,15 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             debugOut.printf("%s ", moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%12d beta=%12d value=%12d", currentNode.getTurn(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
-
-        debugOut.printf(" %s", currentNode.getBound());
+        debugOut.printf("%s %10s 0x%s alpha=%12d beta=%12d value=%12d %11s",
+                currentNode.getTurn(),
+                currentNode.getTopology(),
+                hexFormat.formatHex(longToByte(currentNode.getZobristHash())),
+                currentNode.getAlpha(),
+                currentNode.getBeta(),
+                currentNode.getValue(),
+                currentNode.getBound()
+        );
 
         if (Objects.nonNull(currentNode.getParent()) &&
                 currentNode.getParent().getChildNodes().stream()
@@ -199,7 +208,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("Read  TT[ 0x%s value=%d draft=%d move=%s %11s ]",
+            debugOut.printf("Read  TT[ 0x%s value=%12d draft=%d move=%s %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     entry.getDraft(),
@@ -217,7 +226,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("Write TT[ 0x%s value=%d draft=%d move=%s %11s ]",
+            debugOut.printf("Write TT[ 0x%s value=%12d draft=%d move=%s %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     entry.getDraft(),
@@ -288,7 +297,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
                         debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("%s ReadTT[ 0x%s value=%d draft=%d %11s ]%n",
+                        debugOut.printf("%s ReadTT[ 0x%s value=%12d draft=%d %11s ]%n",
                                 moveStr,
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getValue(),
@@ -304,7 +313,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     .forEach(debugOperationEval ->
                     {
                         debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("%s Cache [ 0x%s value=%d ]%n",
+                        debugOut.printf("%s Cache [ 0x%s value=%12d ]%n",
                                 moveStr,
                                 hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
                                 debugOperationEval.getEvaluation());
@@ -329,12 +338,13 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
          */
         sortedReads
                 .stream()
-                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getSortingMove()))
+                .filter(ttOperation -> NO_MOVE.equals(ttOperation.getSortingMove()) || UNKNOWN.equals(ttOperation.getSortingMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
                     debugOut.print("<li class=\"myText\">");
-                    debugOut.printf("NO_MOVE ReadTT[ 0x%s value=%d draft=%d %11s ]",
+                    debugOut.printf("%s ReadTT[ 0x%s value=%12d draft=%d %11s ]",
+                            ttOperation.getSortingMove(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             ttValue,
                             entry.getDraft(),

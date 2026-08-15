@@ -10,8 +10,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
@@ -19,6 +19,9 @@ import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 import java.util.List;
 import java.util.Objects;
+
+import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.NO_MOVE;
+import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.UNKNOWN;
 
 /**
  * @author Mauricio Coria
@@ -118,11 +121,11 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
         entryReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? NO_MOVE : UNKNOWN));
 
         entryWrites
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? NO_MOVE : UNKNOWN));
     }
 }

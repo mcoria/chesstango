@@ -12,6 +12,9 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 @Setter
 @Accessors(chain = true)
 public class DebugOperationTT {
+    public static final String NO_MOVE = "NO_MOVE";
+    public static final String UNKNOWN = "UNKNOWN";
+
     /**
      * Este field es clonado del TranspositionEntry original
      */
