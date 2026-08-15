@@ -199,13 +199,13 @@ Acceptor:
 	TTableArrayPrimitives @ 11
 	TTableDebug @ 10
 	TTableDebug @ 42
-	KillerMovesDebug @ 77
-	SetGameToEndGameTableBase @ 78
+	TranspositionTablePVUpdate @ 77
+	KillerMovesDebug @ 78
+	SetGameToEndGameTableBase @ 79
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 71
 	AlphaBetaFlowControl @ 17
 	DebugNodeTracker @ 73
-	TranspositionTablePVUpdate @ 79
 	PrintHtmlDebugHandler @ 80
 	ClearPV @ 19
 	AlphaBetaEvaluation @ 20

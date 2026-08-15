@@ -174,11 +174,11 @@ Acceptor:
 	EvaluatorCacheListener @ 54
 	TTListener @ 55
 	TTableArrayPrimitives @ 8
-	SetGameToEndGameTableBase @ 61
+	TranspositionTablePVUpdate @ 61
+	SetGameToEndGameTableBase @ 62
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 56
 	AlphaBetaFlowControl @ 13
-	TranspositionTablePVUpdate @ 62
 	ClearPV @ 14
 	AlphaBetaEvaluation @ 15
 	AlphaBetaEvaluation @ 24

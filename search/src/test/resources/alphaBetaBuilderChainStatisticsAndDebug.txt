@@ -231,8 +231,9 @@ Acceptor:
 	TTableStatisticsNodeCollector @ 12
 	TTableStatisticsComparatorCollector @ 52
 	TTableStatisticsFillPercentageCollector @ 85
-	KillerMovesDebug @ 95
-	SetGameToEndGameTableBase @ 96
+	TranspositionTablePVUpdate @ 95
+	KillerMovesDebug @ 96
+	SetGameToEndGameTableBase @ 97
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 86
 	AlphaBetaFlowControl @ 19
@@ -240,7 +241,6 @@ Acceptor:
 	GameCountersCollector @ 88
 	DepthCollector @ 89
 	DebugNodeTracker @ 91
-	TranspositionTablePVUpdate @ 97
 	PrintHtmlDebugHandler @ 98
 	ClearPV @ 21
 	AlphaBetaEvaluation @ 23

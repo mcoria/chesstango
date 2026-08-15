@@ -61,7 +61,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
         moveSorterBuilder
                 .withTranspositionTable()
-                .withKillerMoveSorter()
+                .withKillerMove()
                 .withGameEvaluatorCache();
 
         MoveSorter moveSorter = moveSorterBuilder.build();

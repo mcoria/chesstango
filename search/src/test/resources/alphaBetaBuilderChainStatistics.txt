@@ -206,14 +206,14 @@ Acceptor:
 	TTableStatisticsNodeCollector @ 9
 	TTableStatisticsComparatorCollector @ 40
 	TTableStatisticsFillPercentageCollector @ 70
-	SetGameToEndGameTableBase @ 79
+	TranspositionTablePVUpdate @ 79
+	SetGameToEndGameTableBase @ 80
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 71
 	AlphaBetaFlowControl @ 15
 	NodeCounters @ 72
 	GameCountersCollector @ 73
 	DepthCollector @ 74
-	TranspositionTablePVUpdate @ 80
 	ClearPV @ 16
 	AlphaBetaEvaluation @ 18
 	AlphaBetaTerminalNodeStatistics @ 17

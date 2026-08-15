@@ -100,12 +100,12 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaInteriorChainBuilder withKillerMoveSorter() {
         withKillerMoveSorter = true;
-        moveSorterBuilder.withKillerMoveSorter();
+        moveSorterBuilder.withKillerMove();
         return this;
     }
 
     public AlphaBetaInteriorChainBuilder withRecaptureSorter() {
-        moveSorterBuilder.withRecaptureSorter();
+        moveSorterBuilder.withRecapture();
         return this;
     }
 

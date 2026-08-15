@@ -8,10 +8,12 @@ import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStat
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableNodeVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTranspositionTablePVUpdate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,6 +53,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
      */
     private TTableCounters tTableCounters;
     private TTableStatisticsFillPercentageCollector tTableStatisticsFillPercentageCollector;
+
+    private TranspositionTablePVUpdate transpositionTablePVUpdate;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -105,11 +109,14 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
         // TTPVReader will not be considering for statistics purposes.
         searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
+
+        searchListenerMediator.accept(new LinkTranspositionTablePVUpdate(transpositionTablePVUpdate));
     }
 
     private void buildObjects() {
         tTableImp = new TTableArrayPrimitives(staleAge, hashSizeKB);
         ttListener = new TTListener();
+        transpositionTablePVUpdate = new TranspositionTablePVUpdate();
 
         if (withDebugSearchTree) {
             tTableNodeDebug = new TTableDebug();
@@ -146,6 +153,9 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         }
         if (tTableStatisticsFillPercentageCollector != null) {
             searchListenerMediator.add(tTableStatisticsFillPercentageCollector);
+        }
+        if (transpositionTablePVUpdate != null) {
+            searchListenerMediator.add(transpositionTablePVUpdate);
         }
     }
 

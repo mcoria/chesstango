@@ -34,8 +34,8 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
-    private boolean withKillerMoveSorter;
-    private boolean withRecaptureSorter;
+    private boolean withKillerMove;
+    private boolean withRecapture;
     private boolean withMvvLva;
     private boolean withGameEvaluatorCache;
 
@@ -48,7 +48,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     @Override
     public MoveSorterInteriorBuilder withIterativeDeepening() {
         this.withIterativeDeepening = true;
-        return null;
+        return this;
     }
 
     @Override
@@ -67,13 +67,13 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         return this;
     }
 
-    public MoveSorterInteriorBuilder withKillerMoveSorter() {
-        this.withKillerMoveSorter = true;
+    public MoveSorterInteriorBuilder withKillerMove() {
+        this.withKillerMove = true;
         return this;
     }
 
-    public MoveSorterInteriorBuilder withRecaptureSorter() {
-        this.withRecaptureSorter = true;
+    public MoveSorterInteriorBuilder withRecapture() {
+        this.withRecapture = true;
         return this;
     }
 
@@ -103,11 +103,11 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
             gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
         }
 
-        if (withKillerMoveSorter) {
+        if (withKillerMove) {
             killerMoveComparator = new KillerMoveComparator();
         }
 
-        if (withRecaptureSorter) {
+        if (withRecapture) {
             recaptureMoveComparator = new RecaptureMoveComparator();
         }
 
