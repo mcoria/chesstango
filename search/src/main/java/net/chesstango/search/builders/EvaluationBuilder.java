@@ -1,5 +1,6 @@
 package net.chesstango.search.builders;
 
+import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
@@ -25,6 +26,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private EvaluatorDebug evaluatorDebug;
     private SetGameToEvaluator setGameToEvaluator;
 
+    @Getter
     private EvaluatorCache evaluatorCache;
     private EvaluatorCacheDebug evaluatorCacheDebug;
     private EvaluatorCacheListener evaluatorCacheListener;

@@ -11,14 +11,12 @@ import net.chesstango.board.Game;
  */
 public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
-    private static final int ARRAY_SIZE = 1024 * 512;
+    public static final int ARRAY_SIZE = 1024 * 512;
 
-    private static final int STALE_AGE = 3;
+    public static final int STALE_AGE = 3;
 
-    private int currentAge;
-
-
-    private static class GameEvaluatorCacheEntry {
+    @Setter
+    public static class GameEvaluatorCacheEntry {
         long hash;
         int evaluation;
         int age;
@@ -30,7 +28,11 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
         }
     }
 
+    @Getter
     private final GameEvaluatorCacheEntry[] cache;
+
+    @Getter
+    private int currentAge;
 
     @Getter
     @Setter

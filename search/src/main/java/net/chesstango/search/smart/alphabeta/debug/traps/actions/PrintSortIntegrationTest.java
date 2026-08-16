@@ -50,10 +50,10 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
         tree.forEach(node -> {
             Move move = node.getSelectedMove();
             if (move != null) {
-                printStream.printf("\t.executeMove(Square." + move.getFrom().square().toString() + ", Square." + move.getTo().square().toString() + ")");
+                printStream.printf("\t.executeMove(Square.%s,Square.%s)%n", move.getFrom().square(), move.getTo().square());
             }
         });
-        printStream.println(";\n");
+        printStream.println();
     }
 
     private void printTTContext(DebugNode debugNode, PrintStream printStream) {
@@ -69,26 +69,28 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
                             ttOperation.getSortingMove()
                     );
                 });
-        printStream.println("\n");
+        printStream.println();
     }
 
     private void printCacheContext(DebugNode debugNode, PrintStream printStream) {
         debugNode.getEvalCacheReads()
-                .forEach(cacheRead -> printStream.printf("cacheEvaluation.put(0x%sL, %d); // %s \n",
+                .forEach(cacheRead -> printStream.printf("cacheEvaluationWrite(0x%sL, %d); // %s \n",
                         hexFormat.formatHex(longToByte(cacheRead.getHashRequested())),
                         cacheRead.getEvaluation(),
                         cacheRead.getMove()));
+
+        printStream.println();
     }
 
     private void printKmContext(DebugNode debugNode, PrintStream printStream) {
         if (debugNode.getKillerMovesTableA() != null) {
             String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableA());
-            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d) // %s;%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
+            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
         }
 
         if (debugNode.getKillerMovesTableB() != null) {
             String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableB());
-            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d) // %s;%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
+            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
         }
         printStream.println();
     }
@@ -102,6 +104,8 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
                         .map(moveStr -> "\"" + moveStr + "\"")
                         .reduce((a, b) -> a + ", " + b).orElse("")
         );
+
+        printStream.println();
     }
 
     private byte[] longToByte(long lng) {
