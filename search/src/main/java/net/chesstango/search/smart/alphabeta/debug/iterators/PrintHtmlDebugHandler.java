@@ -170,13 +170,14 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             debugOut.printf("%s ", moveStr);
         }
 
-        debugOut.printf("%s %10s 0x%s alpha=%12d beta=%12d value=%12d %11s",
+        debugOut.printf("%s %10s 0x%s alpha=%12d beta=%12d value=%12d ply=%2d %11s",
                 currentNode.getTurn(),
                 currentNode.getTopology(),
                 hexFormat.formatHex(longToByte(currentNode.getZobristHash())),
                 currentNode.getAlpha(),
                 currentNode.getBeta(),
                 currentNode.getValue(),
+                currentNode.getPly(),
                 currentNode.getBound()
         );
 

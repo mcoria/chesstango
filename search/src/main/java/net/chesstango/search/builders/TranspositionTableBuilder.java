@@ -1,5 +1,6 @@
 package net.chesstango.search.builders;
 
+import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
@@ -28,6 +29,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     /**
      * Implementation TTable filters
      */
+    @Getter
     private TTableArrayPrimitives tTableImp;
 
     /**

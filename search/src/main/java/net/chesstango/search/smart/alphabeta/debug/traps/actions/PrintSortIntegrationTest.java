@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 /**
  * @author Mauricio Coria
  */
-public class PrintForUnitTest implements Consumer<DebugNode> {
+public class PrintSortIntegrationTest implements Consumer<DebugNode> {
 
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
 
@@ -31,11 +31,49 @@ public class PrintForUnitTest implements Consumer<DebugNode> {
         printStream.println("=======================");
     }
 
+    private void printGame(DebugNode debugNode, PrintStream printStream) {
+        List<DebugNode> tree = new LinkedList<>();
+        tree.add(debugNode);
+
+        DebugNode parentNode = debugNode.getParent();
+        while (parentNode != null) {
+            tree.add(parentNode);
+            parentNode = parentNode.getParent();
+        }
+
+        Collections.reverse(tree);
+
+        printStream.printf("Game game = Game.from(FEN.from(\"" + tree.getFirst().getFen() + "\"))%n");
+        tree.forEach(node -> {
+            Move move = node.getSelectedMove();
+            if (move != null) {
+                printStream.printf("\t.executeMove(Square." + move.getFrom().square().toString() + ", Square." + move.getTo().square().toString() + ")");
+            }
+        });
+        printStream.println(";\n");
+    }
+
+    private void printTTContext(DebugNode debugNode, PrintStream printStream) {
+        debugNode.getSorterReads()
+                .forEach(ttOperation -> {
+                    TranspositionEntry entry = ttOperation.getEntry();
+                    printStream.printf("ttWrite(0x%sL, (byte) %d, (short) %d, %d, %s); // %s \n",
+                            hexFormat.formatHex(longToByte(entry.getHash())),
+                            entry.getDraft(),
+                            entry.getMove(),
+                            entry.getValue(),
+                            entry.getBound(),
+                            ttOperation.getSortingMove()
+                    );
+                });
+        printStream.println("\n");
+    }
+
     private void printKmContext(DebugNode debugNode, PrintStream printStream) {
         List<Move> sorterKms = debugNode.getSorterKm();
 
         for (Move move : sorterKms) {
-            printStream.printf("killerMovesTable[%d] = %s", debugNode.getSortedPly() - 1, killerMoveFactory(move));
+            printStream.printf("killerMovesTable[%d] = %s%n", debugNode.getSortedPly() - 1, killerMoveFactory(move));
         }
 
         printStream.println("\n");
@@ -49,23 +87,6 @@ public class PrintForUnitTest implements Consumer<DebugNode> {
         }
     }
 
-    private void printTTContext(DebugNode debugNode, PrintStream printStream) {
-        debugNode.getSorterReads()
-                .forEach(ttOperation -> {
-                    TranspositionEntry entry = ttOperation.getEntry();
-
-                    printStream.printf("tTable.write(0x%sL, %d, %d, %d, TranspositionBound.%s); // %s \n",
-                            hexFormat.formatHex(longToByte(entry.getHash())),
-                            entry.getDraft(),
-                            entry.getMove(),
-                            entry.getValue(),
-                            entry.getBound(),
-                            ttOperation.getSortingMove()
-                    );
-
-                });
-        printStream.println("\n");
-    }
 
     private void printCacheContext(DebugNode debugNode, PrintStream printStream) {
         debugNode.getEvalCacheReads()
@@ -74,28 +95,6 @@ public class PrintForUnitTest implements Consumer<DebugNode> {
                         cacheRead.getEvaluation(),
                         cacheRead.getMove()));
         printStream.println("\n");
-    }
-
-    private void printGame(DebugNode debugNode, PrintStream printStream) {
-        List<DebugNode> tree = new LinkedList<>();
-        tree.add(debugNode);
-
-        DebugNode parentNode = debugNode.getParent();
-        while (parentNode != null) {
-            tree.add(parentNode);
-            parentNode = parentNode.getParent();
-        }
-
-        Collections.reverse(tree);
-
-        printStream.printf("game = FENDecoder.loadGame(\"" + tree.getFirst().getFen() + "\")");
-        tree.forEach(node -> {
-            Move move = node.getSelectedMove();
-            if (move != null) {
-                printStream.printf("\n.executeMove(Square." + move.getFrom().square().toString() + ", Square." + move.getTo().square().toString() + ")");
-            }
-        });
-        printStream.println(";\n");
     }
 
     private byte[] longToByte(long lng) {
