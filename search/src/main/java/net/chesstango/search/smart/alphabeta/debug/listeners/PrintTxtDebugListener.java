@@ -241,8 +241,6 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        List<Move> sorterKms = currentNode.getSorterKm();
-
         debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
 
         sortedMoves.forEach(moveStr -> {
@@ -273,15 +271,13 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                                 debugOperationEval.getEvaluation());
                     });
 
-            sorterKms.stream()
-                    .map(simpleMoveEncoder::encode)
-                    .filter(kmStr -> Objects.equals(kmStr, moveStr))
-                    .forEach(kmStr ->
-                    {
-                        debugOut.printf("%s Sorter %s KillerMove\n",
-                                ">\t".repeat(currentNode.getPly()),
-                                moveStr);
-                    });
+
+            if (currentNode.getKillerMovesTableA() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableA())) ||
+                    currentNode.getKillerMovesTableB() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableB()))) {
+                debugOut.printf("%s Sorter %s KillerMove\n",
+                        ">\t".repeat(currentNode.getPly()),
+                        moveStr);
+            }
         });
 
 

@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -18,6 +18,8 @@ import java.util.function.Consumer;
  */
 public class PrintSortIntegrationTest implements Consumer<DebugNode> {
 
+    private final SimpleMoveEncoder simpleMoveEncoder = SimpleMoveEncoder.INSTANCE;
+
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
 
     @Override
@@ -28,6 +30,7 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
         printTTContext(debugNode, printStream);
         printCacheContext(debugNode, printStream);
         printKmContext(debugNode, printStream);
+        printSortedMoves(debugNode, printStream);
         printStream.println("=======================");
     }
 
@@ -69,32 +72,36 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
         printStream.println("\n");
     }
 
-    private void printKmContext(DebugNode debugNode, PrintStream printStream) {
-        List<Move> sorterKms = debugNode.getSorterKm();
-
-        for (Move move : sorterKms) {
-            printStream.printf("killerMovesTable[%d] = %s%n", debugNode.getSortedPly() - 1, killerMoveFactory(move));
-        }
-
-        printStream.println("\n");
-    }
-
-    private String killerMoveFactory(Move move) {
-        if (move instanceof MovePromotion movePromotion) {
-            return String.format("factory[%s]", movePromotion);
-        } else {
-            return String.format("factory[%s]", move);
-        }
-    }
-
-
     private void printCacheContext(DebugNode debugNode, PrintStream printStream) {
         debugNode.getEvalCacheReads()
                 .forEach(cacheRead -> printStream.printf("cacheEvaluation.put(0x%sL, %d); // %s \n",
                         hexFormat.formatHex(longToByte(cacheRead.getHashRequested())),
                         cacheRead.getEvaluation(),
                         cacheRead.getMove()));
-        printStream.println("\n");
+    }
+
+    private void printKmContext(DebugNode debugNode, PrintStream printStream) {
+        if (debugNode.getKillerMovesTableA() != null) {
+            String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableA());
+            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d) // %s;%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
+        }
+
+        if (debugNode.getKillerMovesTableB() != null) {
+            String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableB());
+            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d) // %s;%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
+        }
+        printStream.println();
+    }
+
+    private void printSortedMoves(DebugNode debugNode, PrintStream printStream) {
+        printStream.printf("List<String> actualSort = toMoveStrList(moveSorterInterior.getOrderedMoves(%d));%n", debugNode.getSortedPly());
+
+        printStream.printf("assertEquals(List.of(%s), actualSort);%n",
+                debugNode.getSortedMoves()
+                        .stream()
+                        .map(moveStr -> "\"" + moveStr + "\"")
+                        .reduce((a, b) -> a + ", " + b).orElse("")
+        );
     }
 
     private byte[] longToByte(long lng) {

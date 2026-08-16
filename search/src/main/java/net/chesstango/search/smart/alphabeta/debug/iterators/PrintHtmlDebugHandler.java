@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.alphabeta.debug.iterators;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
@@ -284,8 +283,6 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
 
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        List<Move> sorterKms = currentNode.getSorterKm();
-
         debugOut.print("<li class=\"myText\">");
         debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n", sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
         debugOut.println("</li>");
@@ -321,16 +318,13 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                         debugOut.println("</li>");
                     });
 
-            sorterKms.stream()
-                    .map(simpleMoveEncoder::encode)
-                    .filter(kmStr -> Objects.equals(kmStr, moveStr))
-                    .forEach(kmStr ->
-                    {
-                        debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("%s Killer%n",
-                                moveStr);
-                        debugOut.println("</li>");
-                    });
+            if (currentNode.getKillerMovesTableA() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableA())) ||
+                    currentNode.getKillerMovesTableB() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableB()))) {
+                debugOut.print("<li class=\"myText\">");
+                debugOut.printf("%s Killer%n",
+                        moveStr);
+                debugOut.println("</li>");
+            }
         });
 
 

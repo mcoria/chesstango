@@ -32,23 +32,24 @@ public class KillerMovesDebug implements KillerMoves, Acceptor {
             DebugNode currentNode = debugNodeTracker.getCurrentNode();
             currentNode.setKillerMove(move);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
     public boolean isKiller(Move move, int currentPly) {
-        if (imp.isKiller(move, currentPly)) {
+        boolean result = imp.isKiller(move, currentPly);
+        if (result) {
             DebugNode currentNode = debugNodeTracker.getCurrentNode();
-            List<Move> sorterKms = currentNode.getSorterKm();
-            if (!sorterKms.contains(move)) {
-                sorterKms.add(move);
+            if (currentNode.getKillerMovesTableA() == null || move.equals(currentNode.getKillerMovesTableA())) {
+                currentNode.setKillerMovesTableA(move);
+            } else if (currentNode.getKillerMovesTableB() == null|| move.equals(currentNode.getKillerMovesTableB())) {
+                currentNode.setKillerMovesTableB(move);
+            } else if (!move.equals(currentNode.getKillerMovesTableA()) && !move.equals(currentNode.getKillerMovesTableB())) {
+                throw new RuntimeException("Ya se encuentran 2 movimientos presentes en la tabla killermoves");
             }
-            return true;
-        } else {
-            return false;
         }
+        return result;
     }
 
     @Override

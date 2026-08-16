@@ -196,7 +196,14 @@ SearchByDepthListener:
 	RootMoveEvaluationBest @ 93
 
 SearchByWindowsListeners:
+	DebugFilter @ 20
+	DebugFilter @ 37
+	DebugFilter @ 41
+	DebugFilter @ 33
+	DebugFilter @ 28
+	DebugFilter @ 64
 	RootMoveEvaluationCache @ 92
+	DebugFilter @ 8
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 19

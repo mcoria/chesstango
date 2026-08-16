@@ -66,6 +66,9 @@ public class DebugNode {
      */
     private Move killerMove;
 
+    private Move killerMovesTableA;
+
+    private Move killerMovesTableB;
 
     /**
      * Debug operaciones de ordenamiento
@@ -77,9 +80,6 @@ public class DebugNode {
     private List<DebugOperationTT> sorterReads = new ArrayList<>();
 
     private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
-
-    // Movimientos que estan presentes en KM table
-    private List<Move> sorterKm = new ArrayList<>();
 
     private List<DebugNode> childNodes = new LinkedList<>();
 

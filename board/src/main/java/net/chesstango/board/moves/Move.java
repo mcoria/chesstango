@@ -122,8 +122,7 @@ public interface Move extends Serializable {
      * @return a string representing the move in coordinate notation
      */
     default String coordinateEncoding() {
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-        return simpleMoveEncoder.encode(this);
+        return SimpleMoveEncoder.INSTANCE.encode(this);
     }
 
     /**

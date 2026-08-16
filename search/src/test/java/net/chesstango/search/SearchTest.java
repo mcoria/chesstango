@@ -9,6 +9,10 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
+import net.chesstango.search.smart.alphabeta.debug.traps.ComposedTrap;
+import net.chesstango.search.smart.alphabeta.debug.traps.actions.PrintSortIntegrationTest;
+import net.chesstango.search.smart.alphabeta.debug.traps.predicates.NodeByZobrist;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -99,7 +103,13 @@ public class SearchTest {
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
+                /*
                 .withDebugSearchTree()
+                .withDebugNodeTrap(new ComposedTrap(
+                        new NodeByZobrist(NodeTopology.INTERIOR, 4, 0, 0x13A63803694AEEE9L, 1),
+                        new PrintSortIntegrationTest())
+                )
+                 */
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));

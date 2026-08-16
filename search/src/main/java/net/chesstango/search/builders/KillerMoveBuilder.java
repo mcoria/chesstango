@@ -1,5 +1,6 @@
 package net.chesstango.search.builders;
 
+import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMoves;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
@@ -14,6 +15,7 @@ public class KillerMoveBuilder implements SearchObjectBuilder<KillerMoveBuilder>
     /**
      * Back-end killer moves
      */
+    @Getter
     private final KillerMovesTable killerMovesTableImp;
 
     private KillerMovesDebug killerMovesDebug;
