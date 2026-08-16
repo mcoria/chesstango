@@ -9,6 +9,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
@@ -27,7 +28,7 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
  * @author Mauricio Coria
  */
 @Setter
-public class DebugFilter implements AlphaBetaFilter, Acceptor {
+public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsListener {
     private final SimpleMoveEncoder simpleMoveEncoder = SimpleMoveEncoder.INSTANCE;
 
     private final NodeTopology topology;
@@ -38,6 +39,10 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
     private DebugNodeTrap debugNodeTrap;
 
     private DebugNodeTracker debugNodeTracker;
+
+    private int depth;
+
+    private int searchByWindowsCycle;
 
     private Game game;
 
@@ -53,8 +58,17 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
+    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+        this.searchByWindowsCycle = searchByWindowsCycle;
+    }
+
+    @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
         DebugNode debugNode = debugNodeTracker.newNode(topology);
+
+        debugNode.setDepth(depth);
+
+        debugNode.setSearchByWindowsCycle(searchByWindowsCycle);
 
         debugNode.setPly(currentPly);
 
@@ -91,7 +105,6 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor {
         if (debugNodeTrap != null && debugNodeTrap.test(debugNode)) {
             debugNodeTrap.debugAction(debugNode);
         }
-
 
         return currentValue;
     }

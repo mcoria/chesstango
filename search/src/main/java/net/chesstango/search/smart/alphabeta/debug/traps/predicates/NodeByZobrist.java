@@ -18,11 +18,11 @@ public class NodeByZobrist implements Predicate<DebugNode> {
 
     private NodeTopology topology;
 
+    private int depth;
+
+    private int searchByWindowsCycle;
+
     private long zobristHash;
-
-    private int alpha;
-
-    private int beta;
 
     private int ply;
 
@@ -30,8 +30,8 @@ public class NodeByZobrist implements Predicate<DebugNode> {
     public boolean test(DebugNode debugNode) {
         return debugNode.getTopology() == topology &&
                 debugNode.getZobristHash() == zobristHash &&
-                debugNode.getAlpha() == alpha &&
-                debugNode.getBeta() == beta &&
+                debugNode.getDepth() == depth &&
+                debugNode.getSearchByWindowsCycle() == searchByWindowsCycle &&
                 debugNode.getPly() == ply;
     }
 }

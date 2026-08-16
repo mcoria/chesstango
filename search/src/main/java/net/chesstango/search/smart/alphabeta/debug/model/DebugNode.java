@@ -29,6 +29,10 @@ public class DebugNode {
 
     private NodeType type;
 
+    private int depth;
+
+    private int searchByWindowsCycle;
+
     private Bound bound;
 
     private String fen;
