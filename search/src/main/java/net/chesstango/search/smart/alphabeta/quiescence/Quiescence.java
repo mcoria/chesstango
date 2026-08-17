@@ -53,7 +53,7 @@ public class Quiescence implements AlphaBetaFilter, Acceptor {
             if (!move.isQuiet()) {
                 move.executeMove();
 
-                int currentValue = next.alphaBeta(currentPly + 1, Math.max(maxValue, alpha), beta);
+                int currentValue = next.alphaBeta(currentPly, Math.max(maxValue, alpha), beta);
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMoves[currentPly] = move;

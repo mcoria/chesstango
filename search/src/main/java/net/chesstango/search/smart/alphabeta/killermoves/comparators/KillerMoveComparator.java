@@ -18,10 +18,10 @@ public class KillerMoveComparator implements MoveComparator, Acceptor, SortListe
     @Setter
     private MoveComparator next;
 
-    private int currentPly;
-
     @Setter
     private KillerMoves killerMoves;
+
+    private int currentPly;
 
     @Override
     public void accept(Visitor visitor) {

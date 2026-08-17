@@ -112,8 +112,8 @@ public class NodeMoveSorterInteriorTest {
         ttWrite(0x13A63803694AEEE9L, (byte) 2, (short) 513, 1, LOWER_BOUND); // a2b1
         ttWrite(0x0AC497FAE0E135CEL, (byte) 0, (short) 1422, 7, EXACT);      // a2g2
 
-        killerMoves.trackKillerMove(getMove(game, "a2a1"), 2);
-        killerMoves.trackKillerMove(getMove(game, "a2d2"), 2);
+        killerMoves.trackKillerMove(getMove(game, "a2a1"), 1);
+        killerMoves.trackKillerMove(getMove(game, "a2d2"), 1);
 
         /**
          * Execute

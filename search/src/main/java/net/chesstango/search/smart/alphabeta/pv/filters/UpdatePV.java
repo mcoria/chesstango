@@ -37,7 +37,7 @@ public class UpdatePV implements AlphaBetaFilter, Acceptor {
                     .playedMove()
                     .binaryEncoding();
 
-            trianglePV.updatePV(currentPly - 1, bestMove);
+            trianglePV.updatePV(currentPly, bestMove);
         }
 
         return value;
