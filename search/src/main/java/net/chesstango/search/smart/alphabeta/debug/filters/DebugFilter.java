@@ -77,6 +77,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
         debugNode.setDebugSearch(game.getPosition().getCurrentTurn().toString(), alpha, beta);
 
         debugNode.setZobristHash(game.getPosition().getZobristHash());
+
         if (game.getHistory().peekLastRecord() != null) {
             GameHistoryRecord gameHistoryRecord = game.getHistory().peekLastRecord();
             debugNode.setSelectedMove(gameHistoryRecord.playedMove());
@@ -85,6 +86,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         debugNode.setValue(currentValue);
+
         debugNode.setPv(trianglePV.getPV(currentPly));
 
         if (currentValue <= alpha) {
@@ -98,18 +100,18 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
             debugNode.setType(DebugNode.NodeType.PV);
         }
 
-        trackTranspositionsAccess(debugNode);
-
-        debugNodeTracker.save();
+        trackNodeTranspositionsAccess(debugNode);
 
         if (debugNodeTrap != null && debugNodeTrap.test(debugNode)) {
             debugNodeTrap.debugAction(debugNode);
         }
 
+        debugNodeTracker.save();
+
         return currentValue;
     }
 
-    void trackTranspositionsAccess(DebugNode debugNode) {
+    void trackNodeTranspositionsAccess(DebugNode debugNode) {
         List<DebugOperationTT> entryReads = debugNode.getEntryRead();
         List<DebugOperationTT> entryWrites = debugNode.getEntryWrite();
 

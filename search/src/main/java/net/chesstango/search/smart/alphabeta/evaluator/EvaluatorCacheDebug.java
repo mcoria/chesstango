@@ -38,10 +38,12 @@ public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
     }
 
 
-    public void trackReadFromCache(long hash, Integer evaluation) {
+    public void trackReadFromCache(long hash, int evaluation) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
         if (currentNode != null) {
-            Optional<DebugOperationEval> previousReadOpt = currentNode.getEvalCacheReads().stream()
+            Optional<DebugOperationEval> previousReadOpt = currentNode
+                    .getEvalCacheReads()
+                    .stream()
                     .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)
                     .findFirst();
 

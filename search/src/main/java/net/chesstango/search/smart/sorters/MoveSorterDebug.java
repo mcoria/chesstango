@@ -66,8 +66,8 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
         return sortedMovesStr;
     }
 
-    void trackComparatorsEvalCacheReads(DebugNode currentNode) {
-        List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
+    void trackComparatorsEvalCacheReads(DebugNode debugNode) {
+        List<DebugOperationEval> evalCacheReads = debugNode.getEvalCacheReads();
 
         for (Move move : game.getPossibleMoves()) {
             long zobristHashMove = move.getZobristHash();
@@ -78,8 +78,8 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
         }
     }
 
-    void trackComparatorsTranspositionReads(DebugNode currentNode) {
-        List<DebugOperationTT> sorterReads = currentNode.getSorterReads();
+    void trackComparatorsTranspositionReads(DebugNode debugNode) {
+        List<DebugOperationTT> sorterReads = debugNode.getSorterReads();
 
         final long positionHash = game.getPosition().getZobristHash();
         for (Move move : game.getPossibleMoves()) {

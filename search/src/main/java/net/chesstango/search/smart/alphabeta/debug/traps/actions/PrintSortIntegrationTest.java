@@ -24,14 +24,16 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
 
     @Override
     public void accept(DebugNode debugNode) {
-        PrintStream printStream = System.out;
-        printStream.println("=======================");
-        printGame(debugNode, printStream);
-        printTTContext(debugNode, printStream);
-        printCacheContext(debugNode, printStream);
-        printKmContext(debugNode, printStream);
-        printSortedMoves(debugNode, printStream);
-        printStream.println("=======================");
+        if (debugNode.getSortedMoves() != null) {
+            PrintStream printStream = System.out;
+            printStream.println("=======================");
+            printGame(debugNode, printStream);
+            printTTContext(debugNode, printStream);
+            printCacheContext(debugNode, printStream);
+            printKmContext(debugNode, printStream);
+            printSortedMoves(debugNode, printStream);
+            printStream.println("=======================");
+        }
     }
 
     private void printGame(DebugNode debugNode, PrintStream printStream) {
