@@ -19,8 +19,6 @@ public class UpdatePV implements AlphaBetaFilter, Acceptor {
 
     private TriangularPVTable trianglePV;
 
-    private Game game;
-
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -31,13 +29,7 @@ public class UpdatePV implements AlphaBetaFilter, Acceptor {
         int value = next.alphaBeta(currentPly, alpha, beta);
 
         if (alpha < value) {
-            short bestMove = game
-                    .getHistory()
-                    .peekLastRecord()
-                    .playedMove()
-                    .binaryEncoding();
-
-            trianglePV.updatePV(currentPly, bestMove);
+            trianglePV.updatePV(currentPly);
         }
 
         return value;

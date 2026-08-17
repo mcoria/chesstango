@@ -95,11 +95,12 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
 
 
     protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList) {
-        int pvMoveCounter = 0;
+        // Comenzar de ROOT + 1
+        int pvMoveCounter = 1;
+
         short[] pvMoves = trianglePV.getRootPV();
 
         // First PV move
-
         while (pvMoveCounter < pvMoves.length) {
             long currentHash = game.getPosition().getZobristHash();
 
