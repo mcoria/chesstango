@@ -90,8 +90,6 @@ StopSearchingListener:
 
 ResetListener:
 
-SortListener:
-
 Acceptor:
 	SetGameToEvaluator @ 31
 	SetGameToEndGameTableBase @ 32

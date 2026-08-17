@@ -10,12 +10,14 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchListenerMediator;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
 public class NodeGroupSorter implements MoveSorter, Acceptor {
+    private final List<SortListener> sortListeners = new LinkedList<>();
 
     @Setter
     private Game game;
@@ -23,9 +25,6 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
     @Getter
     @Setter
     private GroupSorter groupSorter;
-
-    @Setter
-    private SearchListenerMediator searchListenerMediator;
 
     @Override
     public void accept(Visitor visitor) {
@@ -38,7 +37,7 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
 
         List<Move> moveList = new ArrayList<>(moves.size());
 
-        searchListenerMediator.triggerBeforeSort(currentPly);
+        triggerBeforeSort(currentPly);
 
         for (Move move : moves) {
             if (!groupSorter.offer(move)) {
@@ -48,8 +47,16 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
 
         groupSorter.collect(moveList);
 
-        searchListenerMediator.triggerAfterSort();
+        triggerAfterSort();
 
         return moveList;
+    }
+
+    public void triggerBeforeSort(int currentPly) {
+        sortListeners.forEach(sortListener -> sortListener.beforeSort(currentPly));
+    }
+
+    public void triggerAfterSort() {
+        sortListeners.forEach(SortListener::afterSort);
     }
 }
