@@ -8,9 +8,9 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchListenerMediator;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -18,6 +18,8 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public class NodeMoveSorter implements MoveSorter, Acceptor {
+    private final List<SortListener> sortListeners = new LinkedList<>();
+
     private final Predicate<Move> filter;
 
     @Setter
@@ -29,9 +31,6 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
     @Getter
     @Setter
     private MoveComparator moveComparator;
-
-    @Setter
-    private SearchListenerMediator searchListenerMediator;
 
     public NodeMoveSorter() {
         this(move -> true);
@@ -59,12 +58,24 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
 
         moveToZobrist.clear();
 
-        searchListenerMediator.triggerBeforeSort(currentPly);
+        triggerBeforeSort(currentPly);
 
         moveList.sort(moveComparator.reversed());
 
-        searchListenerMediator.triggerAfterSort();
+        triggerAfterSort();
 
         return moveList;
+    }
+
+    public void triggerBeforeSort(int currentPly) {
+        sortListeners.forEach(sortListener -> sortListener.beforeSort(currentPly));
+    }
+
+    public void triggerAfterSort() {
+        sortListeners.forEach(SortListener::afterSort);
+    }
+
+    public void addSortListener(SortListener sortListener) {
+        sortListeners.add(sortListener);
     }
 }

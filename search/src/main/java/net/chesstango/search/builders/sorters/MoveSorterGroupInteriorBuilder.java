@@ -118,7 +118,7 @@ public class MoveSorterGroupInteriorBuilder extends AbstractMoveSorterBuilder {
     }
 
     @Override
-    protected void setupListenerMediator() {
+    protected void setupListeners() {
         searchListenerMediator.add(nodeGroupSorter);
 
         searchListenerMediator.add(quietComparator);

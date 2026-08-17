@@ -142,15 +142,6 @@ StopSearchingListener:
 ResetListener:
 	EvaluatorCacheListener @ 46
 
-SortListener:
-	PrincipalVariationComparator @ 26
-	RecaptureMoveComparator @ 29
-	GameEvaluatorCacheComparator @ 31
-	KillerMoveComparator @ 33
-	PrincipalVariationComparator @ 39
-	RecaptureMoveComparator @ 41
-	GameEvaluatorCacheComparator @ 43
-
 Acceptor:
 	SetGameToEvaluator @ 51
 	EvaluatorCacheListener @ 46

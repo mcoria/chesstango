@@ -110,7 +110,7 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
     }
 
     @Override
-    protected void setupListenerMediator() {
+    protected void setupListeners() {
         searchListenerMediator.add(nodeGroupSorter);
 
         if (transpositionHeadMoveComparator != null) {

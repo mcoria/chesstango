@@ -38,7 +38,6 @@ public class NodeMoveSorterTest {
     public void testCapture01() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         Move move = null;
 
@@ -65,7 +64,6 @@ public class NodeMoveSorterTest {
     public void testCapture01Mirror() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         Move move = null;
 
@@ -98,7 +96,6 @@ public class NodeMoveSorterTest {
     public void testCapture02() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         Move move = null;
 
@@ -135,7 +132,6 @@ public class NodeMoveSorterTest {
     public void testCapture02Mirror() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         Move move = null;
 
@@ -172,7 +168,6 @@ public class NodeMoveSorterTest {
     public void testInitial() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         Game game = Game.from(FEN.START_POSITION);
 
@@ -192,7 +187,6 @@ public class NodeMoveSorterTest {
     public void testGamesMirror() {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         testMirror(Game.from(FEN.START_POSITION));
         testMirror(Game.from(FEN.from("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14")));
@@ -207,14 +201,12 @@ public class NodeMoveSorterTest {
     private void testMirror(Game game) {
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
-        nodeMoveSorter.setSearchListenerMediator(new SearchListenerMediator());
 
         Game gameMirror = game.mirror();
 
         NodeMoveSorter moveSorterMirror = new NodeMoveSorter();
         moveSorterMirror.setMoveComparator(new DefaultMoveComparator());
         moveSorterMirror.setMoveToZobrist(new MoveToHashMap());
-        moveSorterMirror.setSearchListenerMediator(new SearchListenerMediator());
 
         initMoveSorter(nodeMoveSorter, game);
         initMoveSorter(moveSorterMirror, gameMirror);

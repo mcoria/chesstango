@@ -24,8 +24,6 @@ public class SearchListenerMediator implements Acceptor {
 
     private final List<ResetListener> resetListeners = new LinkedList<>();
 
-    private final List<SortListener> sortListeners = new LinkedList<>();
-
     private final List<Acceptor> acceptors = new LinkedList<>();
 
     @Override
@@ -64,14 +62,6 @@ public class SearchListenerMediator implements Acceptor {
 
     public void triggerReset() {
         resetListeners.forEach(ResetListener::reset);
-    }
-
-    public void triggerBeforeSort(int currentPly) {
-        sortListeners.forEach(sortListener -> sortListener.beforeSort(currentPly));
-    }
-
-    public void triggerAfterSort() {
-        sortListeners.forEach(SortListener::afterSort);
     }
 
     public void add(Object object) {
@@ -125,13 +115,6 @@ public class SearchListenerMediator implements Acceptor {
                 throw new RuntimeException(String.format("ResetListener already added %s", resetListener));
             }
             resetListeners.add(resetListener);
-        }
-
-        if (searchListener instanceof SortListener sortListener) {
-            if (sortListeners.contains(sortListener)) {
-                throw new RuntimeException(String.format("SortListener already added %s", sortListener));
-            }
-            sortListeners.add(sortListener);
         }
     }
 

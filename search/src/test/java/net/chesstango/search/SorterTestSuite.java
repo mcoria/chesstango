@@ -13,19 +13,26 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
+        /**
+         * Comparators
+         */
         DefaultMoveComparatorTest.class,
         TranspositionHeadMoveComparatorTest.class,
+        RootMoveEvaluationComparatorTest.class,
 
+        /**
+         * Sorters
+         */
         NodeMoveSorterTest.class,
         NodeSorter01Test.class,
         NodeSorter02Test.class,
         NodeSorter03Test.class,
 
-        RootMoveEvaluationComparatorTest.class,
-
         CatchAllSortGroupTest.class,
 
-        NodeGroupSorterTest.class
+        NodeGroupSorterTest.class,
+
+        NodeMoveSorterInteriorTest.class
 })
 public class SorterTestSuite {
 
