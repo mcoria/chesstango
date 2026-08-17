@@ -6,7 +6,7 @@ import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 

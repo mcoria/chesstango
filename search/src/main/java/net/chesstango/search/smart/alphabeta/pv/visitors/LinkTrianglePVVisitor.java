@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.pv.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;

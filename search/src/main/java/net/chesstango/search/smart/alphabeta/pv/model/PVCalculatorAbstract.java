@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.pv;
+package net.chesstango.search.smart.alphabeta.pv.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;

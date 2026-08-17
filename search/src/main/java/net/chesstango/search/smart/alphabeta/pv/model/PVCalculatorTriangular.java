@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.pv;
+package net.chesstango.search.smart.alphabeta.pv.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +12,6 @@ import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 import java.util.ArrayList;
 import java.util.List;

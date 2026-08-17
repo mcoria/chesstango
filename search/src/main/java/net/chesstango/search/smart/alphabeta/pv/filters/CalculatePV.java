@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 /**

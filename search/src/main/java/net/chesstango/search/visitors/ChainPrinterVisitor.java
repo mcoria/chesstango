@@ -22,9 +22,9 @@ import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluati
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculator;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;

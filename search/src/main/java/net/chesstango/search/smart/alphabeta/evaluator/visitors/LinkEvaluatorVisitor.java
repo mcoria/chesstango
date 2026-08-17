@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.evaluator.visitors;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 
 /**

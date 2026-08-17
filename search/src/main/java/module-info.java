@@ -24,7 +24,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.root;
     exports net.chesstango.search.smart.alphabeta.root.filters;
     exports net.chesstango.search.smart.alphabeta.quiescence;
-    exports net.chesstango.search.smart.alphabeta.pv;
     exports net.chesstango.search.smart.alphabeta.pv.visitors;
     exports net.chesstango.search.smart.alphabeta.pv.groupsorters;
     exports net.chesstango.search.smart.alphabeta.pv.filters;

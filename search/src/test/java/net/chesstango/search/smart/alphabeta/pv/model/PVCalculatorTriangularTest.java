@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.pv;
+package net.chesstango.search.smart.alphabeta.pv.model;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
@@ -9,7 +9,6 @@ import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluator
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
