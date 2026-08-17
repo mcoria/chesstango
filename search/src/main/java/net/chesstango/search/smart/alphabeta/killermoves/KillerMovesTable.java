@@ -21,9 +21,9 @@ public class KillerMovesTable implements KillerMoves {
     @Override
     public boolean trackKillerMove(Move move, int currentPly) {
         if (move.isQuiet()) {
-            if (!Objects.equals(move, killerMovesTableA[currentPly - 2]) && !Objects.equals(move, killerMovesTableB[currentPly - 2])) {
-                killerMovesTableB[currentPly - 2] = killerMovesTableA[currentPly - 2];
-                killerMovesTableA[currentPly - 2] = move;
+            if (!Objects.equals(move, killerMovesTableA[currentPly - 1]) && !Objects.equals(move, killerMovesTableB[currentPly - 1])) {
+                killerMovesTableB[currentPly - 1] = killerMovesTableA[currentPly - 1];
+                killerMovesTableA[currentPly - 1] = move;
                 return true;
             }
         }

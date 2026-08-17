@@ -74,24 +74,24 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchBy
         }
 
         if (game.getStatus().isFinalStatus()) {
-            return -terminalNode.alphaBeta(currentPly, -beta, -alpha);
+            return -terminalNode.alphaBeta(currentPly + 1, -beta, -alpha);
         }
 
         if (endGameTableBase.isProbeAvailable()) {
-            return -egtbNode.alphaBeta(currentPly, -beta, -alpha);
+            return -egtbNode.alphaBeta(currentPly + 1, -beta, -alpha);
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return -loopNode.alphaBeta(currentPly, -beta, -alpha);
+            return -loopNode.alphaBeta(currentPly + 1, -beta, -alpha);
         }
 
-        if (currentPly < depth) {
-            return -interiorNode.alphaBeta(currentPly, -beta, -alpha);
+        if (currentPly + 1 < depth) {
+            return -interiorNode.alphaBeta(currentPly + 1, -beta, -alpha);
         } else {
             if (quiescenceNode == null || isCurrentPositionQuiet()) {
-                return -leafNode.alphaBeta(currentPly, -beta, -alpha);
+                return -leafNode.alphaBeta(currentPly + 1, -beta, -alpha);
             } else {
-                return -quiescenceNode.alphaBeta(currentPly, -beta, -alpha);
+                return -quiescenceNode.alphaBeta(currentPly + 1, -beta, -alpha);
             }
         }
     }
