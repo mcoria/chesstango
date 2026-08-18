@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.transposition.filters;
+package net.chesstango.search.smart.alphabeta.pv.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -36,18 +35,18 @@ public class TranspositionTablePVUpdate implements Acceptor {
         visitor.visit(this);
     }
 
-    void walkPrincipalVariation(int currentPly, int eval) {
+    public void walkPrincipalVariation(int currentPly, int eval) {
         long currentHash = game.getPosition().getZobristHash();
         Move currentMove = readMoveFromTT(currentHash, eval);
 
         boolean keepSign = false;
         int executeMoves = 0;
+
         while (currentMove != null) {
-
-            trianglePV.writePV(currentPly, currentMove.binaryEncoding());
-
             currentMove.executeMove();
+
             executeMoves++;
+            trianglePV.clearPV(currentPly + executeMoves, currentMove.binaryEncoding());
 
             currentHash = game.getPosition().getZobristHash();
             currentMove = readMoveFromTT(currentHash, keepSign ? eval : -eval);
@@ -55,6 +54,7 @@ public class TranspositionTablePVUpdate implements Acceptor {
         }
 
         for (int i = 0; i < executeMoves; i++) {
+            trianglePV.updatePV(currentPly + executeMoves - i - 1);
             game.undoMove();
         }
     }

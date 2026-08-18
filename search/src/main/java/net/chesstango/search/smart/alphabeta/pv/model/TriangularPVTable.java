@@ -52,10 +52,4 @@ public class TriangularPVTable {
         );
         return pv;
     }
-
-    public void writePV(int ply, short move) {
-        int len = pvLength[ply];
-        pvTable[ply][len] = move;
-        pvLength[ply]++;
-    }
 }

@@ -30,6 +30,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.alphabeta.pv.model.TranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;

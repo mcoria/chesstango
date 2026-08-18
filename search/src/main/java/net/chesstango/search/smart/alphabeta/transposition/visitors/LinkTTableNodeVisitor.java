@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.transposition.visitors;
 
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.pv.model.TranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 
