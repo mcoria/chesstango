@@ -54,20 +54,46 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
 
     @Override
     public void calculatePrincipalVariation(int eval) {
-        List<PrincipalVariation> principalVariationList = new ArrayList<>();
-
         // Cada vez que recalculamos Principal Variation
-        this.principalVariation = walkPrincipalVariation(principalVariationList);
+        this.principalVariation = walkPrincipalVariation();
+
         this.pvComplete = validatePrincipalVariation(eval);
 
         // Rewind game
-        principalVariationList
+        principalVariation
                 .reversed()
                 .stream()
                 .map(PrincipalVariation::move)
                 .forEach(Move::undoMove);
     }
 
+
+    protected List<PrincipalVariation> walkPrincipalVariation() {
+        // Comenzar de ROOT + 1
+        int pvMoveCounter = 1;
+
+        short[] pvMoves = trianglePV.getRootPV();
+
+        List<PrincipalVariation> principalVariationList = new ArrayList<>(pvMoves.length);
+
+        // First PV move
+        while (pvMoveCounter < pvMoves.length) {
+            long currentHash = game.getPosition().getZobristHash();
+
+            Move currentMove = getMove(pvMoves[pvMoveCounter++]);
+
+            // CHT-668: siempre debiera retornar un movimiento
+            if (currentMove == null) {
+                break;
+            }
+
+            principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
+
+            currentMove.executeMove();
+        }
+
+        return principalVariationList;
+    }
 
     protected boolean validatePrincipalVariation(int eval) {
         boolean isPVComplete = false;
@@ -91,32 +117,6 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         }
 
         return isPVComplete;
-    }
-
-
-    protected List<PrincipalVariation> walkPrincipalVariation(List<PrincipalVariation> principalVariationList) {
-        // Comenzar de ROOT + 1
-        int pvMoveCounter = 1;
-
-        short[] pvMoves = trianglePV.getRootPV();
-
-        // First PV move
-        while (pvMoveCounter < pvMoves.length) {
-            long currentHash = game.getPosition().getZobristHash();
-
-            Move currentMove = getMove(pvMoves[pvMoveCounter++]);
-
-            // CHT-668: siempre debiera retornar un movimiento
-            if (currentMove == null) {
-                break;
-            }
-
-            principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
-
-            currentMove.executeMove();
-        }
-
-        return principalVariationList;
     }
 
 

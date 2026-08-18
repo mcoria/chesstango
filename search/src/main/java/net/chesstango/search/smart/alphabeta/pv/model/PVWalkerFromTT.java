@@ -16,7 +16,7 @@ import static net.chesstango.search.Bound.EXACT;
  */
 @Setter
 @Getter
-public class TranspositionTablePVUpdate implements Acceptor {
+public class PVWalkerFromTT implements Acceptor {
 
     private final TranspositionEntry entryWorkspace;
 
@@ -26,7 +26,7 @@ public class TranspositionTablePVUpdate implements Acceptor {
 
     private TTable tTable;
 
-    public TranspositionTablePVUpdate() {
+    public PVWalkerFromTT() {
         entryWorkspace = new TranspositionEntry();
     }
 

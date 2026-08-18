@@ -30,7 +30,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.alphabeta.pv.model.TranspositionTablePVUpdate;
+import net.chesstango.search.smart.alphabeta.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
@@ -183,7 +183,7 @@ public interface Visitor {
     default void visit(TranspositionTableQ transpositionTableQ) {
     }
 
-    default void visit(TranspositionTablePVUpdate transpositionTablePVUpdate) {
+    default void visit(PVWalkerFromTT pvWalkerFromTT) {
     }
 
     default void visit(Quiescence quiescence) {

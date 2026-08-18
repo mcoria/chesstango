@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.pv.model.TranspositionTablePVUpdate;
+import net.chesstango.search.smart.alphabeta.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -28,7 +28,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
     private Move[] bestMoves;
 
-    private TranspositionTablePVUpdate transpositionTablePVUpdate;
+    private PVWalkerFromTT pvWalkerFromTT;
 
     protected final TranspositionEntry entryWorkspace;
 
@@ -50,7 +50,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             // Es un valor exacto
             if (entryWorkspace.getBound() == EXACT) {
                 int value = entryWorkspace.getValue();
-                transpositionTablePVUpdate.walkPrincipalVariation(currentPly, value);
+                pvWalkerFromTT.walkPrincipalVariation(currentPly, value);
                 return entryWorkspace.getValue();
             } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
                 return entryWorkspace.getValue();

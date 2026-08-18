@@ -195,7 +195,7 @@ Acceptor:
 	TTableStatisticsNodeCollector @ 9
 	TTableStatisticsComparatorCollector @ 40
 	TTableStatisticsFillPercentageCollector @ 70
-	TranspositionTablePVUpdate @ 79
+	PVWalkerFromTT @ 79
 	SetGameToEndGameTableBase @ 80
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 71

@@ -195,7 +195,7 @@ Acceptor:
 	TTableArrayPrimitives @ 11
 	TTableDebug @ 10
 	TTableDebug @ 42
-	TranspositionTablePVUpdate @ 77
+	PVWalkerFromTT @ 77
 	KillerMovesDebug @ 78
 	SetGameToEndGameTableBase @ 79
 	AlphaBetaFacade @ 2
