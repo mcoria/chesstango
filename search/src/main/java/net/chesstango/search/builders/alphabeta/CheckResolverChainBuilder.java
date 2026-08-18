@@ -7,7 +7,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
-import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
@@ -26,7 +26,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private UpdatePV updatePV;
+    private PropagatePV propagatePV;
     private MoveSorter moveSorter;
 
     private boolean withStatistics;
@@ -90,7 +90,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(NodeTopology.CHECK_EXTENSION);
         }
         if (!withTranspositionTable) {
-            updatePV = new UpdatePV();
+            propagatePV = new PropagatePV();
         }
         moveSorter = moveSorterBuilder.build();
     }
@@ -109,8 +109,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         if (debugFilter != null) {
             searchListenerMediator.add(debugFilter);
         }
-        if (updatePV != null) {
-            searchListenerMediator.add(updatePV);
+        if (propagatePV != null) {
+            searchListenerMediator.add(propagatePV);
         }
         searchListenerMediator.add(alphaBeta);
     }
@@ -142,8 +142,8 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
 
         chain.add(alphaBeta);
 
-        if (updatePV != null) {
-            chain.add(updatePV);
+        if (propagatePV != null) {
+            chain.add(propagatePV);
         }
 
         //chain.save(extensionFlowControl);

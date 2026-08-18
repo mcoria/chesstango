@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.pv;
+package net.chesstango.search.smart.alphabeta.pv.model;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
@@ -9,7 +9,6 @@ import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
-import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -83,9 +82,9 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.clearPV(0);
-        pvTable.clearPV(1);
-        pvTable.updatePV(0, (short) 0x0195);
+        pvTable.extendLine(0, (short) 0);
+        pvTable.extendLine(1, game.getMove(Square.g1, Square.f3).binaryEncoding());
+        pvTable.propagateLine(0);
 
         /**
          * Execute
@@ -125,11 +124,11 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.clearPV(0);
-        pvTable.clearPV(1);
-        pvTable.clearPV(2);
-        pvTable.updatePV(1, (short) 0x0FAD);
-        pvTable.updatePV(0, (short) 0x0195);
+        pvTable.extendLine(0, (short) 0);
+        pvTable.extendLine(1, (short) 0x0195);
+        pvTable.extendLine(2, (short) 0x0FAD);
+        pvTable.propagateLine(1);
+        pvTable.propagateLine(0);
 
         /**
          * Execute
@@ -169,13 +168,13 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.clearPV(0);
-        pvTable.clearPV(1);
-        pvTable.clearPV(2);
-        pvTable.clearPV(3);
-        pvTable.updatePV(2, (short) 0x02DB);
-        pvTable.updatePV(1, (short) 0x0FAD);
-        pvTable.updatePV(0, (short) 0x0195);
+        pvTable.extendLine(0, (short) 0);
+        pvTable.extendLine(1, (short) 0x0195);
+        pvTable.extendLine(2, (short) 0x0FAD);
+        pvTable.extendLine(3, (short) 0x02DB);
+        pvTable.propagateLine(2);
+        pvTable.propagateLine(1);
+        pvTable.propagateLine(0);
 
         /**
          * Execute
@@ -212,9 +211,9 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.clearPV(0);
-        pvTable.clearPV(1);
-        pvTable.updatePV(0, (short) 0x07A5);
+        pvTable.extendLine(0, (short) 0);
+        pvTable.extendLine(1, (short) 0x07A5);
+        pvTable.propagateLine(0);
 
         /**
          * Execute

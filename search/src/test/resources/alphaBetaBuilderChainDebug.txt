@@ -22,7 +22,7 @@ AlphaBeta @ 12
 	|
 	RootMoveSorter @ 14
 |
-UpdatePV @ 15
+PropagatePV @ 15
 |
 RootMoveEvaluationTracker @ 16
 |
@@ -32,7 +32,7 @@ AlphaBetaFlowControl @ 17
 	|
 	DebugFilter @ 18
 	|
-	ClearPV @ 19
+	ExtendPV @ 19
 	|
 	AlphaBetaEvaluation @ 20 [Evaluator: EvaluatorDebug @ 21 -> EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
 
@@ -40,7 +40,7 @@ AlphaBetaFlowControl @ 17
 	|
 	DebugFilter @ 24
 	|
-	ClearPV @ 25
+	ExtendPV @ 25
 	|
 	EgtbEvaluation @ 26 [EndGameTableBase: EndGameTableBaseNull @ 27]
 
@@ -48,7 +48,7 @@ AlphaBetaFlowControl @ 17
 	|
 	DebugFilter @ 28
 	|
-	ClearPV @ 29
+	ExtendPV @ 29
 	|
 	LoopEvaluation @ 30
 
@@ -56,7 +56,7 @@ AlphaBetaFlowControl @ 17
 	|
 	DebugFilter @ 31
 	|
-	ClearPV @ 32
+	ExtendPV @ 32
 	|
 	AlphaBetaEvaluation @ 33 [Evaluator: EvaluatorDebug @ 21 -> EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
 
@@ -64,7 +64,7 @@ AlphaBetaFlowControl @ 17
 	|
 	DebugFilter @ 34
 	|
-	ClearPV @ 35
+	ExtendPV @ 35
 	|
 	TranspositionTable @ 36 [TTable: TTableDebug @ 10 -> TTableArrayPrimitives @ 11]
 	|
@@ -106,7 +106,7 @@ AlphaBetaFlowControl @ 17
 				|
 				DefaultMoveComparator @ 50
 	|
-	UpdatePV @ 52
+	PropagatePV @ 52
 	|
 	KillerMoveTracker @ 53
 	|
@@ -116,7 +116,7 @@ AlphaBetaFlowControl @ 17
 	|
 	DebugFilter @ 54
 	|
-	ClearPV @ 55
+	ExtendPV @ 55
 	|
 	TranspositionTableQ @ 56 [TTable: TTableDebug @ 10 -> TTableArrayPrimitives @ 11]
 	|
@@ -146,7 +146,7 @@ AlphaBetaFlowControl @ 17
 			|
 			DefaultMoveComparator @ 67
 	|
-	UpdatePV @ 68
+	PropagatePV @ 68
 	|
 	AlphaBetaFlowControl @ 17 -> LOOP
 
@@ -203,12 +203,12 @@ Acceptor:
 	AlphaBetaFlowControl @ 17
 	DebugNodeTracker @ 73
 	PrintHtmlDebugHandler @ 80
-	ClearPV @ 19
+	ExtendPV @ 19
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 18
 	AlphaBetaEvaluation @ 33
 	DebugFilter @ 31
-	ClearPV @ 32
+	ExtendPV @ 32
 	NodeMoveSorter @ 39
 	QuietComparator @ 44
 	TranspositionHeadMoveComparator @ 41
@@ -221,13 +221,13 @@ Acceptor:
 	AlphaBeta @ 37
 	TranspositionTable @ 36
 	DebugFilter @ 34
-	ClearPV @ 35
-	UpdatePV @ 52
+	ExtendPV @ 35
+	PropagatePV @ 52
 	KillerMoveTracker @ 53
-	ClearPV @ 29
+	ExtendPV @ 29
 	DebugFilter @ 28
 	DebugFilter @ 24
-	ClearPV @ 25
+	ExtendPV @ 25
 	EgtbEvaluation @ 26
 	NodeMoveSorter @ 59
 	TranspositionHeadMoveComparator @ 61
@@ -239,8 +239,8 @@ Acceptor:
 	Quiescence @ 57
 	TranspositionTableQ @ 56
 	DebugFilter @ 54
-	ClearPV @ 55
-	UpdatePV @ 68
+	ExtendPV @ 55
+	PropagatePV @ 68
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
 	NodeGroupSorter @ 81
@@ -254,7 +254,7 @@ Acceptor:
 	DebugFilter @ 8
 	TranspositionTableRoot @ 9
 	CalculatePV @ 5
-	UpdatePV @ 15
+	PropagatePV @ 15
 	PVCalculatorTriangular @ 7
 	PVCalculatorDebug @ 6
 

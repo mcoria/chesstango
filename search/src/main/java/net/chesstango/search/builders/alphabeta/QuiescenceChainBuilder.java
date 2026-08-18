@@ -7,8 +7,8 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
-import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.ExtendPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
@@ -31,8 +31,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private UpdatePV updatePV;
-    private ClearPV clearPV;
+    private PropagatePV propagatePV;
+    private ExtendPV extendPV;
     private MoveSorter moveSorter;
 
     private boolean withStatistics;
@@ -108,8 +108,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void buildObjects() {
-        clearPV = new ClearPV();
-        updatePV = new UpdatePV();
+        extendPV = new ExtendPV();
+        propagatePV = new PropagatePV();
 
         if (withStatistics) {
             alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
@@ -155,12 +155,12 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(debugFilter);
         }
 
-        if (clearPV != null) {
-            searchListenerMediator.add(clearPV);
+        if (extendPV != null) {
+            searchListenerMediator.add(extendPV);
         }
 
-        if (updatePV != null) {
-            searchListenerMediator.add(updatePV);
+        if (propagatePV != null) {
+            searchListenerMediator.add(propagatePV);
         }
     }
 
@@ -177,8 +177,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(debugFilter);
         }
 
-        if (clearPV != null) {
-            chain.add(clearPV);
+        if (extendPV != null) {
+            chain.add(extendPV);
         }
 
         if (zobristQTracker != null) {
@@ -199,8 +199,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
         chain.add(quiescence);
 
-        if (updatePV != null) {
-            chain.add(updatePV);
+        if (propagatePV != null) {
+            chain.add(propagatePV);
         }
 
         chain.add(alphaBetaFlowControl);

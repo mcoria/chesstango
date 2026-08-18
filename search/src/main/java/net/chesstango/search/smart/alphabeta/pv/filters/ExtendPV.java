@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
  * @author Mauricio Coria
  */
 @Setter
-public class UpdatePV implements AlphaBetaFilter, Acceptor {
+public class ExtendPV implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;
@@ -28,19 +28,15 @@ public class UpdatePV implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        int value = next.alphaBeta(currentPly, alpha, beta);
+        short lastMove = game
+                .getHistory()
+                .peekLastRecord()
+                .playedMove()
+                .binaryEncoding();
 
-        if (alpha < value) {
-            short bestMove = game
-                    .getHistory()
-                    .peekLastRecord()
-                    .playedMove()
-                    .binaryEncoding();
 
-            trianglePV.updatePV(currentPly, bestMove);
-        }
+        trianglePV.extendLine(currentPly, lastMove);
 
-        return value;
+        return next.alphaBeta(currentPly, alpha, beta);
     }
-
 }

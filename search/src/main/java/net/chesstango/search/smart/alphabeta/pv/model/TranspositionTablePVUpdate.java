@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.transposition.filters;
+package net.chesstango.search.smart.alphabeta.pv.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -36,27 +35,33 @@ public class TranspositionTablePVUpdate implements Acceptor {
         visitor.visit(this);
     }
 
-    void walkPrincipalVariation(int currentPly, int eval) {
+
+    public void walkPrincipalVariation(int currentPly, int eval) {
+        if (walkPrincipalVariationInternal(currentPly + 1, eval)) {
+            trianglePV.propagateLine(currentPly);
+        }
+    }
+
+    boolean walkPrincipalVariationInternal(int currentPly, int eval) {
         long currentHash = game.getPosition().getZobristHash();
+
         Move currentMove = readMoveFromTT(currentHash, eval);
 
-        boolean keepSign = false;
-        int executeMoves = 0;
-        while (currentMove != null) {
-
-            trianglePV.writePV(currentPly, currentMove.binaryEncoding());
-
+        if (currentMove != null) {
             currentMove.executeMove();
-            executeMoves++;
 
-            currentHash = game.getPosition().getZobristHash();
-            currentMove = readMoveFromTT(currentHash, keepSign ? eval : -eval);
-            keepSign = !keepSign;
+            trianglePV.extendLine(currentPly, currentMove.binaryEncoding());
+
+            if (walkPrincipalVariationInternal(currentPly + 1, -eval)) {
+                trianglePV.propagateLine(currentPly);
+            }
+
+            currentMove.undoMove();
+
+            return true;
         }
 
-        for (int i = 0; i < executeMoves; i++) {
-            game.undoMove();
-        }
+        return false;
     }
 
     Move readMoveFromTT(long hash, int eval) {

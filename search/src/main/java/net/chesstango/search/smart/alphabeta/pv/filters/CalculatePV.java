@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.pv.PVCalculator;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
 
 /**
@@ -32,7 +32,7 @@ public class CalculatePV implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        trianglePV.clearPV(currentPly);
+        trianglePV.extendLine(0, (short) 0);
 
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 

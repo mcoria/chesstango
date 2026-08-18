@@ -9,7 +9,7 @@ import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStat
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTablePVUpdate;
+import net.chesstango.search.smart.alphabeta.pv.model.TranspositionTablePVUpdate;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;

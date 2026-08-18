@@ -20,7 +20,7 @@ AlphaBeta @ 11
 	|
 	RootMoveSorter @ 12
 |
-UpdatePV @ 13
+PropagatePV @ 13
 |
 RootMoveEvaluationTracker @ 14
 |
@@ -28,7 +28,7 @@ AlphaBetaFlowControl @ 15
 |
  -> TerminalNode
 	|
-	ClearPV @ 16
+	ExtendPV @ 16
 	|
 	AlphaBetaTerminalNodeStatistics @ 17
 	|
@@ -36,7 +36,7 @@ AlphaBetaFlowControl @ 15
 
  -> EgtbNode
 	|
-	ClearPV @ 22
+	ExtendPV @ 22
 	|
 	AlphaBetaEgtbNodeStatistics @ 23
 	|
@@ -44,7 +44,7 @@ AlphaBetaFlowControl @ 15
 
  -> LoopNode
 	|
-	ClearPV @ 26
+	ExtendPV @ 26
 	|
 	AlphaBetaLoopNodeStatistics @ 27
 	|
@@ -52,7 +52,7 @@ AlphaBetaFlowControl @ 15
 
  -> LeafNode
 	|
-	ClearPV @ 29
+	ExtendPV @ 29
 	|
 	AlphaBetaLeafNodeStatistics @ 30
 	|
@@ -60,7 +60,7 @@ AlphaBetaFlowControl @ 15
 
  -> InteriorNode
 	|
-	ClearPV @ 32
+	ExtendPV @ 32
 	|
 	AlphaBetaInteriorNodeVisited @ 33
 	|
@@ -104,7 +104,7 @@ AlphaBetaFlowControl @ 15
 				|
 				DefaultMoveComparator @ 47
 	|
-	UpdatePV @ 49
+	PropagatePV @ 49
 	|
 	KillerMoveTracker @ 50
 	|
@@ -112,7 +112,7 @@ AlphaBetaFlowControl @ 15
 
  -> QuiescenceNode
 	|
-	ClearPV @ 51
+	ExtendPV @ 51
 	|
 	AlphaBetaQuiescenceNodeVisited @ 52
 	|
@@ -144,7 +144,7 @@ AlphaBetaFlowControl @ 15
 			|
 			DefaultMoveComparator @ 64
 	|
-	UpdatePV @ 65
+	PropagatePV @ 65
 	|
 	AlphaBetaFlowControl @ 15 -> LOOP
 
@@ -203,12 +203,12 @@ Acceptor:
 	NodeCounters @ 72
 	GameCountersCollector @ 73
 	DepthCollector @ 74
-	ClearPV @ 16
+	ExtendPV @ 16
 	AlphaBetaEvaluation @ 18
 	AlphaBetaTerminalNodeStatistics @ 17
 	AlphaBetaEvaluation @ 31
 	AlphaBetaLeafNodeStatistics @ 30
-	ClearPV @ 29
+	ExtendPV @ 29
 	NodeMoveSorter @ 37
 	QuietComparator @ 42
 	TranspositionHeadMoveComparator @ 39
@@ -221,12 +221,12 @@ Acceptor:
 	AlphaBetaInteriorNodeVisited @ 33
 	AlphaBetaInteriorNodeExpected @ 35
 	TranspositionTable @ 34
-	ClearPV @ 32
-	UpdatePV @ 49
+	ExtendPV @ 32
+	PropagatePV @ 49
 	KillerMoveTracker @ 50
-	ClearPV @ 26
+	ExtendPV @ 26
 	AlphaBetaLoopNodeStatistics @ 27
-	ClearPV @ 22
+	ExtendPV @ 22
 	AlphaBetaEgtbNodeStatistics @ 23
 	EgtbEvaluation @ 24
 	NodeMoveSorter @ 56
@@ -239,8 +239,8 @@ Acceptor:
 	AlphaBetaQuiescenceNodeVisited @ 52
 	AlphaBetaQuiescenceNodeExpected @ 54
 	TranspositionTableQ @ 53
-	ClearPV @ 51
-	UpdatePV @ 65
+	ExtendPV @ 51
+	PropagatePV @ 65
 	RootMoveSorter @ 12
 	NodeGroupSorter @ 81
 	RootMoveEvaluationTracker @ 14
@@ -253,6 +253,6 @@ Acceptor:
 	AlphaBetaRootNodeStatistics @ 7
 	TranspositionTableRoot @ 8
 	CalculatePV @ 5
-	UpdatePV @ 13
+	PropagatePV @ 13
 	PVCalculatorTriangular @ 6
 

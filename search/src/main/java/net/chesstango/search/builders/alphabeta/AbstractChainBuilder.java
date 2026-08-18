@@ -6,8 +6,8 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
-import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.ExtendPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
@@ -82,8 +82,8 @@ public abstract class AbstractChainBuilder {
                 case ZobristTracker zobristTracker -> zobristTracker.setNext(next);
 
                 case CalculatePV calculatePV -> calculatePV.setNext(next);
-                case ClearPV clearPV -> clearPV.setNext(next);
-                case UpdatePV updatePV -> updatePV.setNext(next);
+                case ExtendPV extendPV -> extendPV.setNext(next);
+                case PropagatePV propagatePV -> propagatePV.setNext(next);
 
                 case KillerMoveTracker killerMoveTracker -> killerMoveTracker.setNext(next);
 

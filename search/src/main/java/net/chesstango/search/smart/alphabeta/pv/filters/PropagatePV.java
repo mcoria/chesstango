@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.pv.model.TriangularPVTable;
  * @author Mauricio Coria
  */
 @Setter
-public class ClearPV implements AlphaBetaFilter, Acceptor {
+public class PropagatePV implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;
@@ -25,8 +25,13 @@ public class ClearPV implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        trianglePV.clearPV(currentPly);
+        int value = next.alphaBeta(currentPly, alpha, beta);
 
-        return next.alphaBeta(currentPly, alpha, beta);
+        if (alpha < value) {
+            trianglePV.propagateLine(currentPly);
+        }
+
+        return value;
     }
+
 }
