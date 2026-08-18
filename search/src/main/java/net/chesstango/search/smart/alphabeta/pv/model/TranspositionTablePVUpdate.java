@@ -35,28 +35,33 @@ public class TranspositionTablePVUpdate implements Acceptor {
         visitor.visit(this);
     }
 
+
     public void walkPrincipalVariation(int currentPly, int eval) {
+        if (walkPrincipalVariationInternal(currentPly + 1, eval)) {
+            trianglePV.updatePV(currentPly);
+        }
+    }
+
+    boolean walkPrincipalVariationInternal(int currentPly, int eval) {
         long currentHash = game.getPosition().getZobristHash();
+
         Move currentMove = readMoveFromTT(currentHash, eval);
 
-        boolean keepSign = false;
-        int executeMoves = 0;
-
-        while (currentMove != null) {
+        if (currentMove != null) {
             currentMove.executeMove();
 
-            executeMoves++;
-            trianglePV.clearPV(currentPly + executeMoves, currentMove.binaryEncoding());
+            trianglePV.clearPV(currentPly, currentMove.binaryEncoding());
 
-            currentHash = game.getPosition().getZobristHash();
-            currentMove = readMoveFromTT(currentHash, keepSign ? eval : -eval);
-            keepSign = !keepSign;
+            if (walkPrincipalVariationInternal(currentPly + 1, -eval)) {
+                trianglePV.updatePV(currentPly);
+            }
+
+            currentMove.undoMove();
+
+            return true;
         }
 
-        for (int i = 0; i < executeMoves; i++) {
-            trianglePV.updatePV(currentPly + executeMoves - i - 1);
-            game.undoMove();
-        }
+        return false;
     }
 
     Move readMoveFromTT(long hash, int eval) {
