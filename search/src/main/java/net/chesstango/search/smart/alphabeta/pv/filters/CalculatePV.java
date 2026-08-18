@@ -32,7 +32,7 @@ public class CalculatePV implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        trianglePV.extendLine(0, (short) 0);
+        trianglePV.extendLine(0, null);
 
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 

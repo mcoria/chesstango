@@ -72,7 +72,7 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         // Comenzar de ROOT + 1
         int pvMoveCounter = 1;
 
-        short[] pvMoves = trianglePV.getRootPV();
+        Move[] pvMoves = trianglePV.getRootPV();
 
         List<PrincipalVariation> principalVariationList = new ArrayList<>(pvMoves.length);
 
@@ -80,12 +80,7 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         while (pvMoveCounter < pvMoves.length) {
             long currentHash = game.getPosition().getZobristHash();
 
-            Move currentMove = getMove(pvMoves[pvMoveCounter++]);
-
-            // CHT-668: siempre debiera retornar un movimiento
-            if (currentMove == null) {
-                break;
-            }
+            Move currentMove = pvMoves[pvMoveCounter++];
 
             principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
 
@@ -119,13 +114,4 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
         return isPVComplete;
     }
 
-
-    protected Move getMove(short moveEncoded) {
-        for (Move posibleMove : game.getPossibleMoves()) {
-            if (posibleMove.binaryEncoding() == moveEncoded) {
-                return posibleMove;
-            }
-        }
-        return null;
-    }
 }

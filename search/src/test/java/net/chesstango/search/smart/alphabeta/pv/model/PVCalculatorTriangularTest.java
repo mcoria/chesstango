@@ -82,8 +82,8 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.extendLine(0, (short) 0);
-        pvTable.extendLine(1, game.getMove(Square.g1, Square.f3).binaryEncoding());
+        pvTable.extendLine(0, null);
+        pvTable.extendLine(1, game.getMove(Square.g1, Square.f3));
         pvTable.propagateLine(0);
 
         /**
@@ -124,10 +124,20 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.extendLine(0, (short) 0);
-        pvTable.extendLine(1, (short) 0x0195);
-        pvTable.extendLine(2, (short) 0x0FAD);
+        pvTable.extendLine(0, null);
+
+        Move pvMove = game.getMove(Square.g1, Square.f3);
+        pvMove.executeMove();
+        pvTable.extendLine(1, pvMove);
+
+        pvMove = game.getMove(Square.g8, Square.f6);
+        pvMove.executeMove();
+        pvTable.extendLine(2, pvMove);
+
+        game.undoMove();
         pvTable.propagateLine(1);
+
+        game.undoMove();
         pvTable.propagateLine(0);
 
         /**
@@ -168,12 +178,28 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.extendLine(0, (short) 0);
-        pvTable.extendLine(1, (short) 0x0195);
-        pvTable.extendLine(2, (short) 0x0FAD);
-        pvTable.extendLine(3, (short) 0x02DB);
+        pvTable.extendLine(0, null);
+
+        Move pvMove = game.getMove(Square.g1, Square.f3);
+        pvMove.executeMove();
+        pvTable.extendLine(1, pvMove);
+
+        pvMove = game.getMove(Square.g8, Square.f6);
+        pvMove.executeMove();
+        pvTable.extendLine(2, pvMove);
+
+        pvMove = game.getMove(Square.d2, Square.d4);
+        pvMove.executeMove();
+        pvTable.extendLine(3, pvMove);
+
+
+        game.undoMove();
         pvTable.propagateLine(2);
+
+        game.undoMove();
         pvTable.propagateLine(1);
+
+        game.undoMove();
         pvTable.propagateLine(0);
 
         /**
@@ -211,8 +237,14 @@ public class PVCalculatorTriangularTest {
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
-        pvTable.extendLine(0, (short) 0);
-        pvTable.extendLine(1, (short) 0x07A5);
+        pvTable.extendLine(0, null);
+
+        Move pvMove = game.getMove(Square.g4, Square.f5);
+        pvMove.executeMove();
+        pvTable.extendLine(1, pvMove);
+
+
+        game.undoMove();
         pvTable.propagateLine(0);
 
         /**

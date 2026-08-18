@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.alphabeta.pv.model;
 
+import net.chesstango.board.moves.Move;
+
 import static net.chesstango.search.smart.Constants.MAX_DEPTH;
 
 /**
@@ -7,10 +9,10 @@ import static net.chesstango.search.smart.Constants.MAX_DEPTH;
  * @author Mauricio Coria
  */
 public class TriangularPVTable {
-    short[][] pvTable = new short[MAX_DEPTH][MAX_DEPTH];
+    Move[][] pvTable = new Move[MAX_DEPTH][MAX_DEPTH];
     int[] pvLength = new int[MAX_DEPTH];
 
-    public void extendLine(int ply, short move) {
+    public void extendLine(int ply, Move move) {
         //System.out.printf("%sClearPV  %d%n", "\t".repeat(ply), ply);
         pvLength[ply] = ply;
         pvTable[ply][ply] = move;
@@ -36,13 +38,13 @@ public class TriangularPVTable {
         pvLength[ply] = pvLength[nextPly];
     }
 
-    public short[] getRootPV() {
+    public Move[] getRootPV() {
         return getPV(0);
     }
 
-    public short[] getPV(int ply) {
+    public Move[] getPV(int ply) {
         int length = pvLength[ply] + 1;
-        short[] pv = new short[length];
+        Move[] pv = new Move[length];
         System.arraycopy(
                 pvTable[ply],       // src
                 ply,                // srcPos
