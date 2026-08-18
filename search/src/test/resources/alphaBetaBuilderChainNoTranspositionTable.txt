@@ -16,7 +16,7 @@ AlphaBeta @ 7
 	|
 	RootMoveSorter @ 8
 |
-UpdatePV @ 9
+PropagatePV @ 9
 |
 RootMoveEvaluationTracker @ 10
 |
@@ -24,31 +24,31 @@ AlphaBetaFlowControl @ 11
 |
  -> TerminalNode
 	|
-	ClearPV @ 12
+	ExtendPV @ 12
 	|
 	AlphaBetaEvaluation @ 13 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 
  -> EgtbNode
 	|
-	ClearPV @ 16
+	ExtendPV @ 16
 	|
 	EgtbEvaluation @ 17 [EndGameTableBase: EndGameTableBaseNull @ 18]
 
  -> LoopNode
 	|
-	ClearPV @ 19
+	ExtendPV @ 19
 	|
 	LoopEvaluation @ 20
 
  -> LeafNode
 	|
-	ClearPV @ 21
+	ExtendPV @ 21
 	|
 	AlphaBetaEvaluation @ 22 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 
  -> InteriorNode
 	|
-	ClearPV @ 23
+	ExtendPV @ 23
 	|
 	AlphaBeta @ 24
 	|
@@ -82,7 +82,7 @@ AlphaBetaFlowControl @ 11
 				|
 				DefaultMoveComparator @ 32
 	|
-	UpdatePV @ 34
+	PropagatePV @ 34
 	|
 	KillerMoveTracker @ 35
 	|
@@ -90,7 +90,7 @@ AlphaBetaFlowControl @ 11
 
  -> QuiescenceNode
 	|
-	ClearPV @ 36
+	ExtendPV @ 36
 	|
 	Quiescence @ 37 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 	|
@@ -112,7 +112,7 @@ AlphaBetaFlowControl @ 11
 			|
 			DefaultMoveComparator @ 44
 	|
-	UpdatePV @ 45
+	PropagatePV @ 45
 	|
 	AlphaBetaFlowControl @ 11 -> LOOP
 
@@ -149,10 +149,10 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 47
 	AlphaBetaFlowControl @ 11
-	ClearPV @ 12
+	ExtendPV @ 12
 	AlphaBetaEvaluation @ 13
 	AlphaBetaEvaluation @ 22
-	ClearPV @ 21
+	ExtendPV @ 21
 	NodeMoveSorter @ 25
 	QuietComparator @ 27
 	PrincipalVariationComparator @ 26
@@ -160,19 +160,19 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 31
 	KillerMoveComparator @ 33
 	AlphaBeta @ 24
-	ClearPV @ 23
-	UpdatePV @ 34
+	ExtendPV @ 23
+	PropagatePV @ 34
 	KillerMoveTracker @ 35
-	ClearPV @ 19
-	ClearPV @ 16
+	ExtendPV @ 19
+	ExtendPV @ 16
 	EgtbEvaluation @ 17
 	NodeMoveSorter @ 38
 	PrincipalVariationComparator @ 39
 	RecaptureMoveComparator @ 41
 	GameEvaluatorCacheComparator @ 43
 	Quiescence @ 37
-	ClearPV @ 36
-	UpdatePV @ 45
+	ExtendPV @ 36
+	PropagatePV @ 45
 	RootMoveSorter @ 8
 	NodeGroupSorter @ 53
 	RootMoveEvaluationTracker @ 10
@@ -183,6 +183,6 @@ Acceptor:
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	CalculatePV @ 5
-	UpdatePV @ 9
+	PropagatePV @ 9
 	PVCalculatorTriangular @ 6
 

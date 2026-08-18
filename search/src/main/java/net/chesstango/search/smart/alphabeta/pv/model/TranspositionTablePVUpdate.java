@@ -38,7 +38,7 @@ public class TranspositionTablePVUpdate implements Acceptor {
 
     public void walkPrincipalVariation(int currentPly, int eval) {
         if (walkPrincipalVariationInternal(currentPly + 1, eval)) {
-            trianglePV.updatePV(currentPly);
+            trianglePV.propagateLine(currentPly);
         }
     }
 
@@ -50,10 +50,10 @@ public class TranspositionTablePVUpdate implements Acceptor {
         if (currentMove != null) {
             currentMove.executeMove();
 
-            trianglePV.clearPV(currentPly, currentMove.binaryEncoding());
+            trianglePV.extendLine(currentPly, currentMove.binaryEncoding());
 
             if (walkPrincipalVariationInternal(currentPly + 1, -eval)) {
-                trianglePV.updatePV(currentPly);
+                trianglePV.propagateLine(currentPly);
             }
 
             currentMove.undoMove();

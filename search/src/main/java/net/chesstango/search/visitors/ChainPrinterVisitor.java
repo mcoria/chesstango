@@ -27,8 +27,8 @@ import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
-import net.chesstango.search.smart.alphabeta.pv.filters.ClearPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.ExtendPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
@@ -230,13 +230,13 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(UpdatePV updatePV) {
-        print(updatePV, updatePV.getNext());
+    public void visit(PropagatePV propagatePV) {
+        print(propagatePV, propagatePV.getNext());
     }
 
     @Override
-    public void visit(ClearPV clearPV) {
-        print(clearPV, clearPV.getNext());
+    public void visit(ExtendPV extendPV) {
+        print(extendPV, extendPV.getNext());
     }
 
     @Override

@@ -12,7 +12,7 @@ AlphaBeta @ 5
 	|
 	RootMoveSorter @ 6
 |
-UpdatePV @ 7
+PropagatePV @ 7
 |
 RootMoveEvaluationTracker @ 8
 |
@@ -20,31 +20,31 @@ AlphaBetaFlowControl @ 9
 |
  -> TerminalNode
 	|
-	ClearPV @ 10
+	ExtendPV @ 10
 	|
 	AlphaBetaEvaluation @ 11 [Evaluator: EvaluatorByMaterial @ 12]
 
  -> EgtbNode
 	|
-	ClearPV @ 13
+	ExtendPV @ 13
 	|
 	EgtbEvaluation @ 14 [EndGameTableBase: EndGameTableBaseNull @ 15]
 
  -> LoopNode
 	|
-	ClearPV @ 16
+	ExtendPV @ 16
 	|
 	LoopEvaluation @ 17
 
  -> LeafNode
 	|
-	ClearPV @ 18
+	ExtendPV @ 18
 	|
 	AlphaBetaEvaluation @ 19 [Evaluator: EvaluatorByMaterial @ 12]
 
  -> InteriorNode
 	|
-	ClearPV @ 20
+	ExtendPV @ 20
 	|
 	AlphaBeta @ 21
 	|
@@ -66,7 +66,7 @@ AlphaBetaFlowControl @ 9
 				|
 				DefaultMoveComparator @ 25
 	|
-	UpdatePV @ 26
+	PropagatePV @ 26
 	|
 	AlphaBetaFlowControl @ 9 -> LOOP
 
@@ -96,17 +96,17 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 27
 	AlphaBetaFlowControl @ 9
-	ClearPV @ 10
+	ExtendPV @ 10
 	AlphaBetaEvaluation @ 11
 	AlphaBetaEvaluation @ 19
-	ClearPV @ 18
+	ExtendPV @ 18
 	NodeMoveSorter @ 22
 	QuietComparator @ 23
 	AlphaBeta @ 21
-	ClearPV @ 20
-	UpdatePV @ 26
-	ClearPV @ 16
-	ClearPV @ 13
+	ExtendPV @ 20
+	PropagatePV @ 26
+	ExtendPV @ 16
+	ExtendPV @ 13
 	EgtbEvaluation @ 14
 	RootMoveSorter @ 6
 	NodeGroupSorter @ 33
@@ -116,6 +116,6 @@ Acceptor:
 	RootMoveEvaluationCollection @ 28
 	AlphaBeta @ 5
 	CalculatePV @ 3
-	UpdatePV @ 7
+	PropagatePV @ 7
 	PVCalculatorTriangular @ 4
 

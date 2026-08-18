@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
-import net.chesstango.search.smart.alphabeta.pv.filters.UpdatePV;
+import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
@@ -48,7 +48,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
 
-    private UpdatePV updatePV;
+    private PropagatePV propagatePV;
     private CalculatePV calculatePV;
     private PVCalculatorTriangular pvCalculatorTriangular;
     private PVCalculatorDebug pvCalculatorDebug;
@@ -133,7 +133,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         pvCalculatorTriangular = new PVCalculatorTriangular();
 
-        updatePV = new UpdatePV();
+        propagatePV = new PropagatePV();
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
@@ -203,8 +203,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(calculatePV);
         }
 
-        if (updatePV != null) {
-            searchListenerMediator.add(updatePV);
+        if (propagatePV != null) {
+            searchListenerMediator.add(propagatePV);
         }
 
         if (pvCalculatorTriangular != null) {
@@ -269,8 +269,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         chain.add(alphaBeta);
 
-        if (updatePV != null) {
-            chain.add(updatePV);
+        if (propagatePV != null) {
+            chain.add(propagatePV);
         }
 
         chain.add(moveEvaluationTracker);

@@ -24,7 +24,7 @@ AlphaBeta @ 14
 	|
 	RootMoveSorter @ 16
 |
-UpdatePV @ 17
+PropagatePV @ 17
 |
 RootMoveEvaluationTracker @ 18
 |
@@ -34,7 +34,7 @@ AlphaBetaFlowControl @ 19
 	|
 	DebugFilter @ 20
 	|
-	ClearPV @ 21
+	ExtendPV @ 21
 	|
 	AlphaBetaTerminalNodeStatistics @ 22
 	|
@@ -44,7 +44,7 @@ AlphaBetaFlowControl @ 19
 	|
 	DebugFilter @ 28
 	|
-	ClearPV @ 29
+	ExtendPV @ 29
 	|
 	AlphaBetaEgtbNodeStatistics @ 30
 	|
@@ -54,7 +54,7 @@ AlphaBetaFlowControl @ 19
 	|
 	DebugFilter @ 33
 	|
-	ClearPV @ 34
+	ExtendPV @ 34
 	|
 	AlphaBetaLoopNodeStatistics @ 35
 	|
@@ -64,7 +64,7 @@ AlphaBetaFlowControl @ 19
 	|
 	DebugFilter @ 37
 	|
-	ClearPV @ 38
+	ExtendPV @ 38
 	|
 	AlphaBetaLeafNodeStatistics @ 39
 	|
@@ -74,7 +74,7 @@ AlphaBetaFlowControl @ 19
 	|
 	DebugFilter @ 41
 	|
-	ClearPV @ 42
+	ExtendPV @ 42
 	|
 	AlphaBetaInteriorNodeVisited @ 43
 	|
@@ -120,7 +120,7 @@ AlphaBetaFlowControl @ 19
 				|
 				DefaultMoveComparator @ 60
 	|
-	UpdatePV @ 62
+	PropagatePV @ 62
 	|
 	KillerMoveTracker @ 63
 	|
@@ -130,7 +130,7 @@ AlphaBetaFlowControl @ 19
 	|
 	DebugFilter @ 64
 	|
-	ClearPV @ 65
+	ExtendPV @ 65
 	|
 	AlphaBetaQuiescenceNodeVisited @ 66
 	|
@@ -164,7 +164,7 @@ AlphaBetaFlowControl @ 19
 			|
 			DefaultMoveComparator @ 79
 	|
-	UpdatePV @ 80
+	PropagatePV @ 80
 	|
 	AlphaBetaFlowControl @ 19 -> LOOP
 
@@ -238,14 +238,14 @@ Acceptor:
 	DepthCollector @ 89
 	DebugNodeTracker @ 91
 	PrintHtmlDebugHandler @ 98
-	ClearPV @ 21
+	ExtendPV @ 21
 	AlphaBetaEvaluation @ 23
 	AlphaBetaTerminalNodeStatistics @ 22
 	DebugFilter @ 20
 	AlphaBetaEvaluation @ 40
 	AlphaBetaLeafNodeStatistics @ 39
 	DebugFilter @ 37
-	ClearPV @ 38
+	ExtendPV @ 38
 	NodeMoveSorter @ 48
 	QuietComparator @ 54
 	TranspositionHeadMoveComparator @ 50
@@ -260,14 +260,14 @@ Acceptor:
 	AlphaBetaInteriorNodeExpected @ 45
 	TranspositionTable @ 44
 	DebugFilter @ 41
-	ClearPV @ 42
-	UpdatePV @ 62
+	ExtendPV @ 42
+	PropagatePV @ 62
 	KillerMoveTracker @ 63
-	ClearPV @ 34
+	ExtendPV @ 34
 	AlphaBetaLoopNodeStatistics @ 35
 	DebugFilter @ 33
 	DebugFilter @ 28
-	ClearPV @ 29
+	ExtendPV @ 29
 	AlphaBetaEgtbNodeStatistics @ 30
 	EgtbEvaluation @ 31
 	NodeMoveSorter @ 71
@@ -282,8 +282,8 @@ Acceptor:
 	AlphaBetaQuiescenceNodeExpected @ 68
 	TranspositionTableQ @ 67
 	DebugFilter @ 64
-	ClearPV @ 65
-	UpdatePV @ 80
+	ExtendPV @ 65
+	PropagatePV @ 80
 	MoveSorterDebug @ 15
 	RootMoveSorter @ 16
 	NodeGroupSorter @ 99
@@ -298,7 +298,7 @@ Acceptor:
 	AlphaBetaRootNodeStatistics @ 9
 	TranspositionTableRoot @ 10
 	CalculatePV @ 5
-	UpdatePV @ 17
+	PropagatePV @ 17
 	PVCalculatorTriangular @ 7
 	PVCalculatorDebug @ 6
 
