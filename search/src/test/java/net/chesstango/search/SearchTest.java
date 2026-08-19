@@ -289,6 +289,38 @@ public class SearchTest {
         assertTrue(searchResult.isPvComplete());
     }
 
+    @Test
+    @Disabled
+    public void test_1_8_0() {
+        Game game = Game.from(FEN.from("8/1p3p2/p1b1p1k1/P1R1P1p1/8/1P4KP/6P1/8 w - - 5 38"));
+
+        Search search = noTransposition()
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
+                //.withTranspositionHashSize(64 * 1024)
+                .withDebugSearchTree()
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(5));
+        SearchResult searchResult = search.startSearch(game);
+
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        // Observar que ahora esta fallando y entregando un valor menor: 63030
+        assertEquals(178430, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.ROOK_WHITE, bm.getFrom().piece());
+        assertEquals(Square.c5, bm.getFrom().square());
+        assertEquals(Square.c1, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        assertArrayEquals(new String[]{"b4a5", "b1a1", "a5b5", "a1b1", "b5c4"}, pv.toArray());
+
+        assertTrue(searchResult.isPvComplete());
+    }
+
 
     private AlphaBetaBuilder defaultSearch() {
         return AlphaBetaBuilder.createDefaultBuilderInstance();
