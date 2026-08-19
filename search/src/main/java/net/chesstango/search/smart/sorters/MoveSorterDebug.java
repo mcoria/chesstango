@@ -43,11 +43,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
 
         currentNode.setSortedPly(currentPly);
 
-        currentNode.sortingON();
-
         Iterable<Move> sortedMoves = next.getOrderedMoves(currentPly);
-
-        currentNode.sortingOFF();
 
         currentNode.setSortedMoves(convertMoveListToStringList(sortedMoves));
 

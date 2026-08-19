@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * @author Mauricio Coria
  */
-public class TTableDebug implements TTable, Acceptor {
+public class TTableNodeDebug implements TTable, Acceptor {
 
     @Setter
     @Getter
@@ -31,7 +31,9 @@ public class TTableDebug implements TTable, Acceptor {
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean load = tTable.load(hash, entry);
-        trackReadTranspositionEntry(hash, load ? entry : null);
+        if (load) {
+            trackReadTranspositionEntry(hash, entry);
+        }
         return load;
     }
 
@@ -44,36 +46,32 @@ public class TTableDebug implements TTable, Acceptor {
 
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
-        if (currentNode != null && entry != null) {
+
+        List<DebugOperationTT> readList = currentNode.getNodeReads();
+
+        Optional<DebugOperationTT> previousReadOpt = readList
+                .stream()
+                .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
+                .findFirst();
+
+        if (previousReadOpt.isEmpty()) {
 
             TranspositionEntry entryRead = entry.clone();
 
-            List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();
-
-            Optional<DebugOperationTT> previousReadOpt = readList
-                    .stream()
-                    .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
-                    .findFirst();
-
-            if (previousReadOpt.isEmpty()) {
-                readList.add(new DebugOperationTT()
-                        .setEntry(entryRead));
-            }
-
+            readList.add(new DebugOperationTT()
+                    .setEntry(entryRead));
         }
     }
 
     void trackWriteTranspositionEntry(TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
-        if (currentNode != null) {
-            // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
-            TranspositionEntry entryWrite = entry.clone();
 
-            List<DebugOperationTT> writeList = currentNode.getCurrentEntryWrite();
+        TranspositionEntry entryWrite = entry.clone();
 
-            writeList.add(new DebugOperationTT()
-                    .setEntry(entryWrite));
+        List<DebugOperationTT> writeList = currentNode.getNodeWrites();
 
-        }
+        writeList.add(new DebugOperationTT()
+                .setEntry(entryWrite));
+
     }
 }

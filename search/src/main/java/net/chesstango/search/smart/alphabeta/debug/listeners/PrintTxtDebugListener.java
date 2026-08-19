@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.alphabeta.debug.listeners;
 
 import lombok.Setter;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.PrincipalVariation;
@@ -181,7 +180,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
-        currentNode.getEntryRead().forEach(readOp -> {
+        currentNode.getNodeReads().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
             debugOut.printf("%s Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
@@ -198,7 +197,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             debugOut.print("\n");
         });
 
-        currentNode.getEntryWrite().forEach(writeOp -> {
+        currentNode.getNodeWrites().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
             debugOut.printf("%s Write TT[ 0x%s %s draft=%d move=%s value=%d ]",

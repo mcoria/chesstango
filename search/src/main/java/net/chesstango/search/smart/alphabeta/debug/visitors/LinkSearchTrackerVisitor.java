@@ -7,7 +7,9 @@ import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
+import net.chesstango.search.smart.alphabeta.transposition.TTableComparatorDebug;
+import net.chesstango.search.smart.alphabeta.transposition.TTableNodeDebug;
+import net.chesstango.search.smart.alphabeta.transposition.TTablePVDebug;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 
 /**
@@ -37,8 +39,18 @@ public class LinkSearchTrackerVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTableDebug tableDebug) {
-        tableDebug.setDebugNodeTracker(debugNodeTracker);
+    public void visit(TTableNodeDebug tTableNodeDebug) {
+        tTableNodeDebug.setDebugNodeTracker(debugNodeTracker);
+    }
+
+    @Override
+    public void visit(TTableComparatorDebug tTableComparatorDebug) {
+        tTableComparatorDebug.setDebugNodeTracker(debugNodeTracker);
+    }
+
+    @Override
+    public void visit(TTablePVDebug tTablePVDebug) {
+        tTablePVDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
     @Override

@@ -112,8 +112,8 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
     }
 
     void trackNodeTranspositionsAccess(DebugNode debugNode) {
-        List<DebugOperationTT> entryReads = debugNode.getEntryRead();
-        List<DebugOperationTT> entryWrites = debugNode.getEntryWrite();
+        List<DebugOperationTT> entryReads = debugNode.getNodeReads();
+        List<DebugOperationTT> entryWrites = debugNode.getNodeWrites();
 
         for (Move move : game.getPossibleMoves()) {
             final String moveStr = simpleMoveEncoder.encode(move);

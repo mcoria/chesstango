@@ -9,10 +9,10 @@ import net.chesstango.search.smart.alphabeta.transposition.filters.Transposition
  *
  * @author Mauricio Coria
  */
-public class LinkTranspositionTablePVUpdate implements Visitor {
+public class LinkPVWalkerFromTTVisitor implements Visitor {
     private final PVWalkerFromTT pvWalkerFromTT;
 
-    public LinkTranspositionTablePVUpdate(PVWalkerFromTT pvWalkerFromTT) {
+    public LinkPVWalkerFromTTVisitor(PVWalkerFromTT pvWalkerFromTT) {
         this.pvWalkerFromTT = pvWalkerFromTT;
     }
 
