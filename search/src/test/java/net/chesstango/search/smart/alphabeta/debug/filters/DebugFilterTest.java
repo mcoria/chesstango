@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.filters;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.Position;
 import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -55,7 +56,7 @@ public class DebugFilterTest {
         when(position.getCurrentTurn()).thenReturn(Color.WHITE);
 
         when(debugNodeTracker.newNode(topology)).thenReturn(debugNode);
-        when(pvTable.getPV(0)).thenReturn(new short[]{});
+        when(pvTable.getPV(0)).thenReturn(new Move[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(50);
 
         int result = debugFilter.alphaBeta(0, -100, 100);
@@ -75,7 +76,7 @@ public class DebugFilterTest {
         when(position.getCurrentTurn()).thenReturn(Color.BLACK);
 
         when(debugNodeTracker.newNode(topology)).thenReturn(debugNode);
-        when(pvTable.getPV(0)).thenReturn(new short[]{});
+        when(pvTable.getPV(0)).thenReturn(new Move[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(-150);
 
         int result = debugFilter.alphaBeta(0, -100, 100);
@@ -95,7 +96,7 @@ public class DebugFilterTest {
         when(position.getCurrentTurn().toString()).thenReturn("WHITE");
 
         when(debugNodeTracker.newNode(topology)).thenReturn(debugNode);
-        when(pvTable.getPV(0)).thenReturn(new short[]{});
+        when(pvTable.getPV(0)).thenReturn(new Move[]{});
         when(nextFilter.alphaBeta(0, -100, 100)).thenReturn(150);
 
         int result = debugFilter.alphaBeta(0, -100, 100);

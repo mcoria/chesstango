@@ -59,7 +59,7 @@ public class DebugNode {
 
     private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
-    private short[] pv;
+    private Move[] pv;
 
     /**
      * Cual de los movimientos de este nodo es promovido como KillerMove

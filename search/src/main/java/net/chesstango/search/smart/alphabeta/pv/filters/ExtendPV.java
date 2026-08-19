@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.pv.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -28,11 +29,10 @@ public class ExtendPV implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        short lastMove = game
+        Move lastMove = game
                 .getHistory()
                 .peekLastRecord()
-                .playedMove()
-                .binaryEncoding();
+                .playedMove();
 
 
         trianglePV.extendLine(currentPly, lastMove);

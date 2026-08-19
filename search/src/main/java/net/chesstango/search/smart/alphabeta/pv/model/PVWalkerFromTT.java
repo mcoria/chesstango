@@ -50,7 +50,7 @@ public class PVWalkerFromTT implements Acceptor {
         if (currentMove != null) {
             currentMove.executeMove();
 
-            trianglePV.extendLine(currentPly, currentMove.binaryEncoding());
+            trianglePV.extendLine(currentPly, currentMove);
 
             if (walkPrincipalVariationInternal(currentPly + 1, -eval)) {
                 trianglePV.propagateLine(currentPly);
