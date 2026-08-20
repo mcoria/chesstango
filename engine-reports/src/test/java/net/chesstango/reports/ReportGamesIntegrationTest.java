@@ -60,6 +60,7 @@ public class ReportGamesIntegrationTest {
 
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
+                /*
                 .withBoardStatistics()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
@@ -67,12 +68,14 @@ public class ReportGamesIntegrationTest {
                 .withEvaluationStatistics()
                 .withEvaluationCacheStatistics()
                 .withTranspositionStatistics()
+                */
                 .withPrincipalVariationStatistics()
                 .printReport(System.out);
 
         detailsReport
                 .setReportTitle("TangoGame01")
                 .withMoveResults(searchResults)
+                /*
                 .withBoardReport()
                 .withNodesDepthStatistics()
                 .withNodesTypesStatistics()
@@ -81,6 +84,7 @@ public class ReportGamesIntegrationTest {
                 .withEvaluationCacheReport()
                 .withTranspositionReport()
                 .withEvaluationIterationReport()
+                 */
                 .withPrincipalVariationReport()
                 .withPrincipalVariationIterationReport()
                 //.withEbf()
@@ -90,37 +94,37 @@ public class ReportGamesIntegrationTest {
     @Test
     public void testPlay() {
         Config config = Config.create()
+                .setSearch(AlphaBetaBuilder
+                        .createDefaultBuilderInstance()
+                        .withGameEvaluator(Evaluator.createInstance())
+                        .withStatistics()
+                        .build()
+                )
                 /*
-               .setSearch(AlphaBetaBuilder
-                       .createDefaultBuilderInstance()
+               .setSearch(new AlphaBetaBuilder()
                        .withGameEvaluator(Evaluator.createInstance())
+                       .withGameEvaluatorCache()
+
+                       .withQuiescence()
+
+                       //.withTranspositionTable()
+                       //.withTranspositionMoveSorter()
+
+                       .withKillerMoveSorter()
+                       .withRecaptureSorter()
+                       .withMvvLvaSorter()
+
+                       //.withAspirationWindows()
+
+                       //.withIterativeDeepening()
+
+                       //.withStopProcessingCatch()
+
                        .withStatistics()
+
                        .build()
                )
-               */
-              .setSearch(new AlphaBetaBuilder()
-                      .withGameEvaluator(Evaluator.createInstance())
-                      .withGameEvaluatorCache()
-
-                      .withQuiescence()
-
-                      //.withTranspositionTable()
-                      //.withTranspositionMoveSorter()
-
-                      .withKillerMoveSorter()
-                      .withRecaptureSorter()
-                      .withMvvLvaSorter()
-
-                      //.withAspirationWindows()
-
-                      //.withIterativeDeepening()
-
-                      //.withStopProcessingCatch()
-
-                      .withStatistics()
-
-                      .build()
-              )
+                 */
                 .setAsyncSearch(false)
                 //.setPolyglotFile(POLYGLOT_FILE)
                 //.setSyzygyPath(SYZYGY_PATH)
