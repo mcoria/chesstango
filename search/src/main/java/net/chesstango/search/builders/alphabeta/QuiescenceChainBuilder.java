@@ -4,12 +4,13 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
-import net.chesstango.search.smart.quiescence.Quiescence;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
 import net.chesstango.search.smart.transposition.filters.TranspositionTableQ;
@@ -23,7 +24,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class QuiescenceChainBuilder extends AbstractChainBuilder {
-    private final Quiescence quiescence;
+    private final QuiescenceStandingPat quiescenceStandingPat;
+    private final AlphaBeta alphaBeta;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited;
@@ -42,7 +44,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
 
     public QuiescenceChainBuilder() {
-        quiescence = new Quiescence();
+        quiescenceStandingPat = new QuiescenceStandingPat();
+        alphaBeta = new AlphaBeta();
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
@@ -133,7 +136,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
-        searchListenerMediator.add(quiescence);
+        searchListenerMediator.add(quiescenceStandingPat);
+        searchListenerMediator.add(alphaBeta);
 
         if (alphaBetaQuiescenceNodeVisited != null) {
             searchListenerMediator.add(alphaBetaQuiescenceNodeVisited);
@@ -166,7 +170,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     public void link() {
-        quiescence.setMoveSorter(moveSorter);
+        alphaBeta.setMoveSorter(moveSorter);
     }
 
     @Override
@@ -197,14 +201,15 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(alphaBetaQuiescenceNodeExpected);
         }
 
-        chain.add(quiescence);
+        chain.add(quiescenceStandingPat);
+
+        chain.add(alphaBeta);
 
         if (propagatePV != null) {
             chain.add(propagatePV);
         }
 
         chain.add(alphaBetaFlowControl);
-
 
         return createChain(chain);
     }

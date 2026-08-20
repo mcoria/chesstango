@@ -6,13 +6,10 @@ import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
@@ -209,6 +206,15 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
 
         traverse(quiescence.getNext());
+    }
+
+    @Override
+    public void visit(QuiescenceStandingPat quiescenceStandingPat) {
+        printChainDownLine();
+
+        printChainText(String.format("%s [Evaluator: %s]", objectText(quiescenceStandingPat), printGameEvaluator(quiescenceStandingPat.getEvaluator())));
+
+        traverse(quiescenceStandingPat.getNext());
     }
 
     @Override

@@ -6,6 +6,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -73,6 +74,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(Quiescence quiescence) {
         quiescence.setGame(game);
+    }
+
+    @Override
+    public void visit(QuiescenceStandingPat quiescenceStandingPat) {
+        quiescenceStandingPat.setGame(game);
     }
 
     @Override
