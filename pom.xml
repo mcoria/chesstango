@@ -43,10 +43,10 @@
 
         <!-- Dependencies -->
         <lombok.version>1.18.40</lombok.version>
-        <slf4j.version>2.0.17</slf4j.version>
-        <logback.version>1.5.32</logback.version>
+        <slf4j.version>2.0.18</slf4j.version>
+        <logback.version>1.6.3</logback.version>
         <jackson.version>3.2.1</jackson.version>
-        <commons-cli.version>1.8.0</commons-cli.version>
+        <commons-cli.version>1.11.0</commons-cli.version>
 
         <junit-bom.version>6.1.3</junit-bom.version>
 
