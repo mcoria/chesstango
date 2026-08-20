@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
@@ -23,7 +22,6 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public abstract class AbstractNodeSorterTest {
-    protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     protected SearchListenerMediator searchListenerMediator;
     protected MoveSorterInteriorBuilder moveSorterBuilder;
@@ -52,7 +50,7 @@ public abstract class AbstractNodeSorterTest {
     protected List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();
         for (Move move : moves) {
-            sortedMovesStr.add(simpleMoveEncoder.encode(move));
+            sortedMovesStr.add(move.coordinateEncoding());
         }
         return sortedMovesStr;
     }

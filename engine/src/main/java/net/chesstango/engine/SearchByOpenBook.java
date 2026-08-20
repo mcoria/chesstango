@@ -8,7 +8,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 
@@ -117,7 +116,7 @@ class SearchByOpenBook implements SearchByChain {
         Move move = possibleMoves.getMove(from, to);
 
         if (move != null) {
-            log.debug("OpenBook move found: {}; weight: {}", SimpleMoveEncoder.INSTANCE.encode(move), polyglotEntry.weight());
+            log.debug("OpenBook move found: {}; weight: {}", move.coordinateEncoding(), polyglotEntry.weight());
 
             return Optional.of(move);
         } else {

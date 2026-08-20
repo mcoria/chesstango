@@ -3,7 +3,6 @@ package net.chesstango.engine;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
@@ -69,7 +68,7 @@ class SearchByTree implements SearchByChain {
 
         SearchResult searchResult = search.startSearch(context.getGame());
 
-        log.debug("Tree search move found: {}", SimpleMoveEncoder.INSTANCE.encode(searchResult.getBestMove()));
+        log.debug("Tree search move found: {}", searchResult.getBestMove().coordinateEncoding());
 
         long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
 

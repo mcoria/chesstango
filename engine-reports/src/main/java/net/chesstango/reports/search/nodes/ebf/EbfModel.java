@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.nodes.ebf;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.Constants;
@@ -56,7 +55,7 @@ public class EbfModel implements Model<List<SearchResult>> {
 
         Move bestMove = searchResult.getBestMove();
         ebfModelDetail.id = searchResult.getId();
-        ebfModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
+        ebfModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
 
         ebfModelDetail.maxIteration = searchResult.getSearchResultByDepths().size();
 

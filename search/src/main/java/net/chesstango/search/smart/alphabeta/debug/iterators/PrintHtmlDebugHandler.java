@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.alphabeta.debug.iterators;
 
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -30,7 +29,6 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
 public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private FileOutputStream fos;
     private BufferedOutputStream bos;
@@ -165,7 +163,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
 
     private void dumpNodeHeader(DebugNode currentNode) {
         if (currentNode.getPly() > 0) {
-            String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
+            String moveStr = currentNode.getSelectedMove().coordinateEncoding();
             debugOut.printf("%s ", moveStr);
         }
 
@@ -263,7 +261,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
     private void showNodeKillerMoves(DebugNode currentNode) {
         if (currentNode.getKillerMove() != null) {
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("Write KM %s%n", simpleMoveEncoder.encode(currentNode.getKillerMove()));
+            debugOut.printf("Write KM %s%n", currentNode.getKillerMove().coordinateEncoding());
             debugOut.println("</li>");
         }
     }
@@ -329,8 +327,8 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                         debugOut.println("</li>");
                     });
 
-            if (currentNode.getKillerMovesTableA() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableA())) ||
-                    currentNode.getKillerMovesTableB() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableB()))) {
+            if (currentNode.getKillerMovesTableA() != null && moveStr.equals(currentNode.getKillerMovesTableA().coordinateEncoding()) ||
+                    currentNode.getKillerMovesTableB() != null && moveStr.equals(currentNode.getKillerMovesTableB().coordinateEncoding())) {
                 debugOut.print("<li class=\"myText\">");
                 debugOut.printf("%s Killer%n",
                         moveStr);

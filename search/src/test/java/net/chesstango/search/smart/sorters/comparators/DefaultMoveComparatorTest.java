@@ -7,7 +7,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.gardel.fen.FEN;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -482,7 +481,7 @@ public class DefaultMoveComparatorTest {
 
         List<String> movesStr = possibleMovesList
                 .stream()
-                .map(SimpleMoveEncoder.INSTANCE::encode)
+                .map(Move::coordinateEncoding)
                 .toList();
 
         if (debug) {

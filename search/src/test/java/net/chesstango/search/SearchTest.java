@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
@@ -55,7 +54,7 @@ public class SearchTest {
         assertEquals(Square.g1, bm.getFrom().square());
         assertEquals(Square.h3, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1h3", "g8h6", "h3g5", "h6g4", "g5e4", "g4e5", "e4g5", "e5g4"}, pv.toArray());
         assertEquals(8, pv.size());     // Observar que PV size es menor que MaxDepth dado que entra en Loop
 
@@ -91,7 +90,7 @@ public class SearchTest {
         assertEquals(Square.d8, bm.getFrom().square());
         assertEquals(Square.f6, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"d8f6", "d6c4", "c1e2"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -126,7 +125,7 @@ public class SearchTest {
         assertEquals(Square.e5, bm.getFrom().square());
         assertEquals(Square.f6, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"e5f6", "d7e7", "f6f8", "e7e8", "f8d6"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -154,7 +153,7 @@ public class SearchTest {
         assertEquals(Square.e8, bm.getFrom().square());
         assertEquals(Square.h8, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"e8h8", "h7h8", "d8f7", "h8h7", "b8h8"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -182,7 +181,7 @@ public class SearchTest {
         assertEquals(Square.d6, bm.getFrom().square());
         assertEquals(Square.d1, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"d6d1", "c1d1", "d7g4", "d1e1", "d8d1"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -211,7 +210,7 @@ public class SearchTest {
         assertEquals(Square.b3, bm.getFrom().square());
         assertEquals(Square.a5, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"b3a5"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -220,7 +219,7 @@ public class SearchTest {
         List<String> thePV = searchResult.getPrincipalVariation()
                 .stream()
                 .map(PrincipalVariation::move)
-                .map(SimpleMoveEncoder.INSTANCE::encode)
+                .map(Move::coordinateEncoding)
                 .toList();
         System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
         System.out.printf("PV moves %d: %s%n", thePV.size(), Arrays.toString(thePV.toArray()));
@@ -252,7 +251,7 @@ public class SearchTest {
         assertEquals(Square.f1, bm.getFrom().square());
         assertEquals(Square.e2, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"f1e2", "g5g4", "f3d2", "d5c3", "b2c3"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -283,7 +282,7 @@ public class SearchTest {
         assertEquals(Square.b4, bm.getFrom().square());
         assertEquals(Square.a5, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"b4a5", "b1a1", "a5b5", "a1b1", "b5c4"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());
@@ -315,7 +314,7 @@ public class SearchTest {
         assertEquals(Square.c5, bm.getFrom().square());
         assertEquals(Square.c1, bm.getTo().square());
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"b4a5", "b1a1", "a5b5", "a1b1", "b5c4"}, pv.toArray());
 
         assertTrue(searchResult.isPvComplete());

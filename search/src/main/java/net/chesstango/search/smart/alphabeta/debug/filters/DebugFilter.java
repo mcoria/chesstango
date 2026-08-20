@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
@@ -29,7 +28,6 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
  */
 @Setter
 public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsListener {
-    private final SimpleMoveEncoder simpleMoveEncoder = SimpleMoveEncoder.INSTANCE;
 
     private final NodeTopology topology;
 

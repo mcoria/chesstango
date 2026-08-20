@@ -106,7 +106,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             dumpSearchTracker();
         }
         debugOut.print("Search by depth completed\n");
-        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
+        debugOut.printf("bestMove=%s; evaluation=%d; ", result.getBestMove().coordinateEncoding(), result.getBestEvaluation());
         debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
     }
 
@@ -156,7 +156,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
     private void dumpNodeHeader(DebugNode currentNode) {
         if (currentNode.getPly() > 0) {
-            String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
+            String moveStr = currentNode.getSelectedMove().coordinateEncoding();
             debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
         }
 
@@ -221,7 +221,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
     private void showNodeKillerMoves(DebugNode currentNode) {
         if (currentNode.getKillerMove() != null) {
-            debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), simpleMoveEncoder.encode(currentNode.getKillerMove()));
+            debugOut.printf("%s Write KM %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getKillerMove().coordinateEncoding());
         }
     }
 
@@ -267,8 +267,8 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                     });
 
 
-            if (currentNode.getKillerMovesTableA() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableA())) ||
-                    currentNode.getKillerMovesTableB() != null && moveStr.equals(simpleMoveEncoder.encode(currentNode.getKillerMovesTableB()))) {
+            if (currentNode.getKillerMovesTableA() != null && moveStr.equals(currentNode.getKillerMovesTableA().coordinateEncoding()) ||
+                    currentNode.getKillerMovesTableB() != null && moveStr.equals(currentNode.getKillerMovesTableB().coordinateEncoding())) {
                 debugOut.printf("%s Sorter %s KillerMove\n",
                         ">\t".repeat(currentNode.getPly()),
                         moveStr);

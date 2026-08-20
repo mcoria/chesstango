@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.board;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 
@@ -53,7 +52,7 @@ public class BoardModel implements Model<List<SearchResult>> {
 
         Move bestMove = searchResult.getBestMove();
         boardModelModelDetail.id = searchResult.getId();
-        boardModelModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
+        boardModelModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
         boardModelModelDetail.executedMoves = searchResult.getExecutedMoves();
         boardModelModelDetail.exploredDepth = searchResult.getExploredDepth();
         boardModelModelDetail.searchTime = searchResult.getTimeSearching();

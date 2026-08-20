@@ -8,11 +8,9 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
  */
 public class SimpleMoveDecoder {
 
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
     public Move decode(MoveContainerReader<? extends Move> possibleMoves, String moveStr) {
         for (Move move : possibleMoves) {
-            String encodedMoveStr = simpleMoveEncoder.encode(move);
+            String encodedMoveStr = move.coordinateEncoding();
             if (encodedMoveStr.equals(moveStr.toLowerCase())) {
                 return move;
             }

@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -17,8 +16,6 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  */
 public class PrintSortIntegrationTest implements Consumer<DebugNode> {
-
-    private final SimpleMoveEncoder simpleMoveEncoder = SimpleMoveEncoder.INSTANCE;
 
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
 
@@ -86,12 +83,12 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
 
     private void printKmContext(DebugNode debugNode, PrintStream printStream) {
         if (debugNode.getKillerMovesTableA() != null) {
-            String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableA());
+            String moveStr = debugNode.getKillerMovesTableA().coordinateEncoding();
             printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getPly() + 1, moveStr);
         }
 
         if (debugNode.getKillerMovesTableB() != null) {
-            String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableB());
+            String moveStr = debugNode.getKillerMovesTableB().coordinateEncoding();
             printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getPly() + 1, moveStr);
         }
         printStream.println();

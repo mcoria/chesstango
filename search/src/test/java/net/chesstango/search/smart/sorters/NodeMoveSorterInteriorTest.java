@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.gardel.fen.FEN;
@@ -36,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Mauricio Coria
  */
 public class NodeMoveSorterInteriorTest {
-    private final SimpleMoveEncoder simpleMoveEncoder = SimpleMoveEncoder.INSTANCE;
 
     private MoveSorter moveSorterInterior;
 
@@ -199,7 +197,7 @@ public class NodeMoveSorterInteriorTest {
 
     private Move getMove(Game game, String moveStr) {
         for (Move move : game.getPossibleMoves()) {
-            if (moveStr.equals(simpleMoveEncoder.encode(move))) {
+            if (moveStr.equals(move.coordinateEncoding())) {
                 return move;
             }
         }
@@ -209,7 +207,7 @@ public class NodeMoveSorterInteriorTest {
     private List<String> toMoveStrList(Iterable<Move> orderedMoves) {
         List<String> result = new ArrayList<>();
         for (Move move : orderedMoves) {
-            result.add(simpleMoveEncoder.encode(move));
+            result.add(move.coordinateEncoding());
         }
         return result;
     }
