@@ -13,12 +13,11 @@ import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheCompa
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.pv.filters.ExtendPV;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.quiescence.Quiescence;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
@@ -69,11 +68,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         alphaBetaEvaluation.setGame(game);
-    }
-
-    @Override
-    public void visit(Quiescence quiescence) {
-        quiescence.setGame(game);
     }
 
     @Override
