@@ -104,7 +104,7 @@ AlphaBetaFlowControl @ 13
 	TranspositionTableQ @ 43 [TTable: TTableArrayPrimitives @ 8]
 	|	 PVWalkerFromTT @ 27 [TTable: TTableArrayPrimitives @ 8]
 	|
-	QuiescenceStandingPat @ 44
+	QuiescenceStandingPat @ 44 [Evaluator: EvaluatorCache @ 16 -> EvaluatorByMaterial @ 17]
 	|
 	AlphaBeta @ 45
 	|

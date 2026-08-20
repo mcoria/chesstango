@@ -92,7 +92,7 @@ AlphaBetaFlowControl @ 11
 	|
 	ExtendPV @ 36
 	|
-	QuiescenceStandingPat @ 37
+	QuiescenceStandingPat @ 37 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
 	|
 	AlphaBeta @ 38
 	|

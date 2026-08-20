@@ -122,7 +122,7 @@ AlphaBetaFlowControl @ 15
 	|
 	AlphaBetaQuiescenceNodeExpected @ 56
 	|
-	QuiescenceStandingPat @ 57
+	QuiescenceStandingPat @ 57 [Evaluator: EvaluatorStatisticsCollector @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
 	|
 	AlphaBeta @ 58
 	|
