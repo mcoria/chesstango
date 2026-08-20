@@ -1,12 +1,10 @@
 {
   "reflection": [
     {
-      "name": "java.util.logging.FileHandler",
+      "type": "java.util.logging.FileHandler",
+      "allDeclaredConstructors": true,
       "methods": [
-        {
-          "name": "<init>",
-          "parameterTypes": []
-        }
+        { "name": "<init>", "parameterTypes": [] }
       ]
     },
     {
