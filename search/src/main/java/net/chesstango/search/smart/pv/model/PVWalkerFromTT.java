@@ -67,8 +67,9 @@ public class PVWalkerFromTT implements Acceptor {
     Move readMoveFromTT(long hash, int eval) {
         Move result = null;
         boolean load = tTable.load(hash, entryWorkspace);
-        if (load && hash == entryWorkspace.getHash() &&
-                EXACT.equals(entryWorkspace.getBound()) &&
+        if (load &&
+                entryWorkspace.getHash() == hash &&
+                entryWorkspace.getBound() == EXACT &&
                 entryWorkspace.getValue() == eval) {
             short bestMoveEncoded = entryWorkspace.getMove();
             result = bestMoveEncoded != 0 ? getMove(bestMoveEncoded) : null;

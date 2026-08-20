@@ -18,6 +18,8 @@ import static net.chesstango.search.Bound.*;
 @Getter
 public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
+    protected final TranspositionEntry entryWorkspace;
+
     private AlphaBetaFilter next;
 
     private Game game;
@@ -29,8 +31,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     private Move[] bestMoves;
 
     private PVWalkerFromTT pvWalkerFromTT;
-
-    protected final TranspositionEntry entryWorkspace;
 
     public TranspositionTableAbstract() {
         entryWorkspace = new TranspositionEntry();
