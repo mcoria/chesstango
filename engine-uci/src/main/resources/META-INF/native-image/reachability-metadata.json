@@ -1,6 +1,15 @@
 {
   "reflection": [
     {
+      "name": "java.util.logging.FileHandler",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "java.lang.Boolean",
       "jniAccessible": true,
       "methods": [
@@ -56,15 +65,6 @@
     },
     {
       "type": "sun.text.resources.cldr.FormatData_en_US"
-    },
-    {
-      "name": "java.util.logging.FileHandler",
-      "methods": [
-        {
-          "name": "<init>",
-          "parameterTypes": []
-        }
-      ]
     }
   ],
   "resources": [
