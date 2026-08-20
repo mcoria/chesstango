@@ -41,33 +41,31 @@ public class Quiescence implements AlphaBetaFilter, Acceptor {
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
-        int maxValue = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
-        if (maxValue >= beta) {
-            return maxValue;
+        int bestValue = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
+        if (bestValue >= beta) {
+            return bestValue;
         }
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-            if (!move.isQuiet()) {
-                move.executeMove();
+            move.executeMove();
 
-                int currentValue = next.alphaBeta(currentPly, Math.max(maxValue, alpha), beta);
-                if (currentValue > maxValue) {
-                    maxValue = currentValue;
-                    bestMoves[currentPly] = move;
-                    if (maxValue >= beta) {
-                        search = false;
-                    } else if (maxValue == Evaluator.WON) {
-                        search = false;
-                    }
+            int currentValue = next.alphaBeta(currentPly, Math.max(bestValue, alpha), beta);
+            if (currentValue > bestValue) {
+                bestValue = currentValue;
+                bestMoves[currentPly] = move;
+                if (bestValue >= beta) {
+                    search = false;
+                } else if (bestValue == Evaluator.WON) {
+                    search = false;
                 }
-
-                move.undoMove();
             }
+
+            move.undoMove();
         }
-        return maxValue;
+        return bestValue;
     }
 
 }
