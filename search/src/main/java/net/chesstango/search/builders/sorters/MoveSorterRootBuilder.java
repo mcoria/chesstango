@@ -1,11 +1,11 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeGroupSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
+import net.chesstango.search.sorters.MoveSorter;
+import net.chesstango.search.sorters.MoveSorterDebug;
+import net.chesstango.search.sorters.NodeGroupSorter;
+import net.chesstango.search.sorters.RootMoveSorter;
+import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
 import java.util.List;

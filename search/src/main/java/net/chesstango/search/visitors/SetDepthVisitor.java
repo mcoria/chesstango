@@ -1,16 +1,16 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
-import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.debug.filters.DebugFilter;
+import net.chesstango.search.smart.debug.listeners.PrintTxtDebugListener;
+import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
+import net.chesstango.search.smart.statistics.game.DepthCollector;
+import net.chesstango.search.smart.statistics.node.NodeCounters;
+import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.transposition.filters.TranspositionTableRoot;
 
 
 /**

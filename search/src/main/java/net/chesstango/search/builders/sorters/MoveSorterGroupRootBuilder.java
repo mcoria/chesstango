@@ -1,9 +1,9 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.sorters.*;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
+import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.sorters.*;
+import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
 import java.util.List;

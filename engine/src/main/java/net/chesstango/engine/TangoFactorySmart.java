@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.SearchBuilder;
-import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
+import net.chesstango.search.smart.egtb.EndGameTableBase;
 
 import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;

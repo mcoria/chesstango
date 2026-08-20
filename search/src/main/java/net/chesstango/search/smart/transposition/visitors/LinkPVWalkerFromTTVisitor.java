@@ -1,0 +1,28 @@
+package net.chesstango.search.smart.transposition.visitors;
+
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
+import net.chesstango.search.smart.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.transposition.filters.TranspositionTableQ;
+
+/**
+ *
+ * @author Mauricio Coria
+ */
+public class LinkPVWalkerFromTTVisitor implements Visitor {
+    private final PVWalkerFromTT pvWalkerFromTT;
+
+    public LinkPVWalkerFromTTVisitor(PVWalkerFromTT pvWalkerFromTT) {
+        this.pvWalkerFromTT = pvWalkerFromTT;
+    }
+
+    @Override
+    public void visit(TranspositionTable transpositionTable) {
+        transpositionTable.setPvWalkerFromTT(pvWalkerFromTT);
+    }
+
+    @Override
+    public void visit(TranspositionTableQ transpositionTableQ) {
+        transpositionTableQ.setPvWalkerFromTT(pvWalkerFromTT);
+    }
+}

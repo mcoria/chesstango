@@ -1,7 +1,7 @@
 package net.chesstango.reports.search.transposition;
 
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatistics;
+import net.chesstango.search.smart.statistics.transposition.TTableStatistics;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

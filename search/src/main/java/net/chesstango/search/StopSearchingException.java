@@ -1,6 +1,6 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 
 /**
  * A runtime exception used to immediately terminate an ongoing search operation in the chess engine.

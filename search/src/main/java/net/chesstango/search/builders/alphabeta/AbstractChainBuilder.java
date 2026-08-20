@@ -1,20 +1,20 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
-import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
-import net.chesstango.search.smart.alphabeta.pv.filters.ExtendPV;
-import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
-import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
-import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
-import net.chesstango.search.smart.alphabeta.transposition.filters.*;
-import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.core.filters.AlphaBeta;
+import net.chesstango.search.smart.debug.filters.DebugFilter;
+import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.pv.filters.CalculatePV;
+import net.chesstango.search.smart.pv.filters.ExtendPV;
+import net.chesstango.search.smart.pv.filters.PropagatePV;
+import net.chesstango.search.smart.quiescence.Quiescence;
+import net.chesstango.search.smart.root.filters.AspirationWindows;
+import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.transposition.filters.*;
+import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 
 import java.util.List;
 

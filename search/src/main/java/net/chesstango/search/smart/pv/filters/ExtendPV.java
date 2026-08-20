@@ -1,0 +1,42 @@
+package net.chesstango.search.smart.pv.filters;
+
+import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.pv.model.TriangularPVTable;
+
+/**
+ * @author Mauricio Coria
+ */
+@Setter
+public class ExtendPV implements AlphaBetaFilter, Acceptor {
+
+    @Getter
+    private AlphaBetaFilter next;
+
+    private TriangularPVTable trianglePV;
+
+    private Game game;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public int alphaBeta(int currentPly, int alpha, int beta) {
+        Move lastMove = game
+                .getHistory()
+                .peekLastRecord()
+                .playedMove();
+
+
+        trianglePV.extendLine(currentPly, lastMove);
+
+        return next.alphaBeta(currentPly, alpha, beta);
+    }
+}

@@ -9,16 +9,16 @@ import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.listeners.PrintTxtDebugListener;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.alphabeta.root.filters.BottomMoveCounterFacade;
-import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
+import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.debug.DebugNodeTrap;
+import net.chesstango.search.smart.debug.listeners.PrintTxtDebugListener;
+import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
+import net.chesstango.search.smart.root.filters.BottomMoveCounterFacade;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.statistics.node.NodeCounters;
+import net.chesstango.search.smart.transposition.listeners.TTListener;
 
 /**
  * @author Mauricio Corias
