@@ -56,6 +56,15 @@
     },
     {
       "type": "sun.text.resources.cldr.FormatData_en_US"
+    },
+    {
+      "name": "java.util.logging.FileHandler",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
     }
   ],
   "resources": [
