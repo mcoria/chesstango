@@ -36,8 +36,6 @@ public class SearchResult implements Serializable {
 
     private long timeSearching;
 
-    private int bottomMoveCounter;
-
     private boolean withAspirationWindows;
 
     private List<SearchResultByDepth> searchResultByDepths = new ArrayList<>();

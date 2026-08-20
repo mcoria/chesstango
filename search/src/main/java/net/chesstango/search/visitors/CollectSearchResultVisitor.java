@@ -4,7 +4,6 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
-import net.chesstango.search.smart.root.filters.BottomMoveCounterFacade;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
@@ -51,11 +50,6 @@ public class CollectSearchResultVisitor implements Visitor {
     @Override
     public void visit(SetSearchTimers setSearchTimers) {
         searchResult.setTimeSearching(setSearchTimers.getTimeSearching());
-    }
-
-    @Override
-    public void visit(BottomMoveCounterFacade bottomMoveCounterFacade) {
-        searchResult.setBottomMoveCounter(bottomMoveCounterFacade.getBottomMoveCounter());
     }
 
     @Override

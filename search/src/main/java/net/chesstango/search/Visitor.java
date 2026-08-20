@@ -85,9 +85,6 @@ public interface Visitor {
     default void visit(AlphaBetaFacade alphaBetaFacade) {
     }
 
-    default void visit(BottomMoveCounterFacade bottomMoveCounterFacade) {
-    }
-
     /**
      * Alpha Beta filters
      *
