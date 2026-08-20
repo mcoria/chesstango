@@ -3,8 +3,7 @@ package net.chesstango.reports.search.nodes.ebf;
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.Constants;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.statistics.node.NodeStatistics;
 
 import java.util.LinkedList;
 import java.util.List;

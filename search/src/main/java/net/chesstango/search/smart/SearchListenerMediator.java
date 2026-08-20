@@ -3,7 +3,6 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.sorters.SortListener;
 
 import java.util.LinkedList;
 import java.util.List;

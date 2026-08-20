@@ -1,9 +1,8 @@
 package net.chesstango.reports.jmh;
 
 import net.chesstango.search.Bound;
-import net.chesstango.search.smart.alphabeta.transposition.*;
+import net.chesstango.search.smart.transposition.*;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;

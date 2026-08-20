@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.transposition.filters.TranspositionTable;
 
 /**
  * Represents a chess search algorithm that finds the best move for a given position.

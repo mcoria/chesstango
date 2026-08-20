@@ -1,18 +1,18 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
-import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.sorters.GroupSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeGroupSorter;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.smart.sorters.comparators.QuietComparator;
-import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
-import net.chesstango.search.smart.sorters.groupsorters.CatchAllSortGroup;
+import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.sorters.GroupSorter;
+import net.chesstango.search.sorters.MoveSorter;
+import net.chesstango.search.sorters.MoveSorterDebug;
+import net.chesstango.search.sorters.NodeGroupSorter;
+import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.sorters.comparators.QuietComparator;
+import net.chesstango.search.sorters.comparators.RecaptureMoveComparator;
+import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
 import java.util.List;

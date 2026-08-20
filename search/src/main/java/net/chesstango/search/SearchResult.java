@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatistics;
+import net.chesstango.search.smart.statistics.evaluation.EvaluationStatistics;
+import net.chesstango.search.smart.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.statistics.transposition.TTableStatistics;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,8 +35,6 @@ public class SearchResult implements Serializable {
     private long executedMoves;
 
     private long timeSearching;
-
-    private int bottomMoveCounter;
 
     private boolean withAspirationWindows;
 

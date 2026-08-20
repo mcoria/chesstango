@@ -1,15 +1,15 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
-import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.sorters.MoveComparator;
+import net.chesstango.search.sorters.MoveSorter;
+import net.chesstango.search.sorters.MoveSorterDebug;
+import net.chesstango.search.sorters.NodeMoveSorter;
+import net.chesstango.search.sorters.comparators.*;
 
 import java.util.LinkedList;
 import java.util.List;

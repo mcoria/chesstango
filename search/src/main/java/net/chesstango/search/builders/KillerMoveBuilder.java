@@ -2,10 +2,10 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.killermoves.KillerMoves;
-import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
-import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesTable;
-import net.chesstango.search.smart.alphabeta.killermoves.visitors.LinkKillerMovesVisitor;
+import net.chesstango.search.smart.killermoves.KillerMoves;
+import net.chesstango.search.smart.killermoves.KillerMovesDebug;
+import net.chesstango.search.smart.killermoves.KillerMovesTable;
+import net.chesstango.search.smart.killermoves.visitors.LinkKillerMovesVisitor;
 
 /**
  * @author Mauricio Corias

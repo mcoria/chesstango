@@ -1,13 +1,12 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.IterativeDeepeningTest;
-import net.chesstango.search.smart.alphabeta.*;
-import net.chesstango.search.smart.alphabeta.core.filters.TranspositionEntryTableTest;
-import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangularTest;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationBestTest;
-import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindowsTest;
-import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTrackerTest;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntryTest;
+import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.core.filters.TranspositionEntryTableTest;
+import net.chesstango.search.smart.pv.model.PVCalculatorTriangularTest;
+import net.chesstango.search.smart.root.RootMoveEvaluationBestTest;
+import net.chesstango.search.smart.root.filters.AspirationWindowsTest;
+import net.chesstango.search.smart.root.filters.RootMoveEvaluationTrackerTest;
+import net.chesstango.search.smart.transposition.TranspositionEntryTest;
 import net.chesstango.search.visitors.ChainPrinterVisitorTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;

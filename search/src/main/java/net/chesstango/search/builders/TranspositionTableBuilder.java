@@ -2,14 +2,14 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.*;
-import net.chesstango.search.smart.alphabeta.transposition.*;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
-import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkPVWalkerFromTTVisitor;
-import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
-import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;
-import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableNodeVisitor;
+import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
+import net.chesstango.search.smart.statistics.transposition.*;
+import net.chesstango.search.smart.transposition.*;
+import net.chesstango.search.smart.transposition.listeners.TTListener;
+import net.chesstango.search.smart.transposition.visitors.LinkPVWalkerFromTTVisitor;
+import net.chesstango.search.smart.transposition.visitors.LinkTTableComparatorVisitor;
+import net.chesstango.search.smart.transposition.visitors.LinkTTableImpVisitor;
+import net.chesstango.search.smart.transposition.visitors.LinkTTableNodeVisitor;
 
 import java.util.Arrays;
 import java.util.List;
