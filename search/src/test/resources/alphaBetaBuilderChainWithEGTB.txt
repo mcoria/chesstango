@@ -53,157 +53,159 @@ AlphaBetaFlowControl @ 13
 	ExtendPV @ 25
 	|
 	TranspositionTable @ 26 [TTable: TTableArrayPrimitives @ 8]
+	|	 PVWalkerFromTT @ 27 [TTable: TTableArrayPrimitives @ 8]
 	|
-	AlphaBeta @ 27
+	AlphaBeta @ 28
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 28
+		NodeMoveSorter @ 29
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 29
+			PrincipalVariationComparator @ 30
 			|
-			TranspositionHeadMoveComparator @ 30 [TTable: TTableArrayPrimitives @ 8]
+			TranspositionHeadMoveComparator @ 31 [TTable: TTableArrayPrimitives @ 8]
 			|
-			TranspositionTailMoveComparator @ 31 [TTable: TTableArrayPrimitives @ 8]
+			TranspositionTailMoveComparator @ 32 [TTable: TTableArrayPrimitives @ 8]
 			|
-			QuietComparator @ 32
+			QuietComparator @ 33
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 33
+				PromotionComparator @ 34
 				|
-				RecaptureMoveComparator @ 34
+				RecaptureMoveComparator @ 35
 				|
-				MvvLvaComparator @ 35
+				MvvLvaComparator @ 36
 				|
-				GameEvaluatorCacheComparator @ 36 [EvaluatorCacheRead: EvaluatorCache @ 16]
+				GameEvaluatorCacheComparator @ 37 [EvaluatorCacheRead: EvaluatorCache @ 16]
 				|
-				DefaultMoveComparator @ 37
+				DefaultMoveComparator @ 38
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 38
+				KillerMoveComparator @ 39
 				|
-				GameEvaluatorCacheComparator @ 36 [EvaluatorCacheRead: EvaluatorCache @ 16]
+				GameEvaluatorCacheComparator @ 37 [EvaluatorCacheRead: EvaluatorCache @ 16]
 				|
-				DefaultMoveComparator @ 37
+				DefaultMoveComparator @ 38
 	|
-	PropagatePV @ 39
+	PropagatePV @ 40
 	|
-	KillerMoveTracker @ 40
+	KillerMoveTracker @ 41
 	|
 	AlphaBetaFlowControl @ 13 -> LOOP
 
  -> QuiescenceNode
 	|
-	ExtendPV @ 41
+	ExtendPV @ 42
 	|
-	TranspositionTableQ @ 42 [TTable: TTableArrayPrimitives @ 8]
+	TranspositionTableQ @ 43 [TTable: TTableArrayPrimitives @ 8]
+	|	 PVWalkerFromTT @ 27 [TTable: TTableArrayPrimitives @ 8]
 	|
-	Quiescence @ 43 [Evaluator: EvaluatorCache @ 16 -> EvaluatorByMaterial @ 17]
+	Quiescence @ 44 [Evaluator: EvaluatorCache @ 16 -> EvaluatorByMaterial @ 17]
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 44
+		NodeMoveSorter @ 45
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 45
+			PrincipalVariationComparator @ 46
 			|
-			TranspositionHeadMoveComparator @ 46 [TTable: TTableArrayPrimitives @ 8]
+			TranspositionHeadMoveComparator @ 47 [TTable: TTableArrayPrimitives @ 8]
 			|
-			TranspositionTailMoveComparator @ 47 [TTable: TTableArrayPrimitives @ 8]
+			TranspositionTailMoveComparator @ 48 [TTable: TTableArrayPrimitives @ 8]
 			|
-			PromotionComparator @ 48
+			PromotionComparator @ 49
 			|
-			RecaptureMoveComparator @ 49
+			RecaptureMoveComparator @ 50
 			|
-			MvvLvaComparator @ 50
+			MvvLvaComparator @ 51
 			|
-			GameEvaluatorCacheComparator @ 51 [EvaluatorCacheRead: EvaluatorCache @ 16]
+			GameEvaluatorCacheComparator @ 52 [EvaluatorCacheRead: EvaluatorCache @ 16]
 			|
-			DefaultMoveComparator @ 52
+			DefaultMoveComparator @ 53
 	|
-	PropagatePV @ 53
+	PropagatePV @ 54
 	|
 	AlphaBetaFlowControl @ 13 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 54
-	TTListener @ 55
-	SetSearchTimers @ 56
+	EvaluatorCacheListener @ 55
+	TTListener @ 56
+	SetSearchTimers @ 57
 	AlphaBetaFlowControl @ 13
-	PrincipalVariationComparator @ 29
-	PrincipalVariationComparator @ 45
-	RootMoveEvaluationCollection @ 57
+	PrincipalVariationComparator @ 30
+	PrincipalVariationComparator @ 46
+	RootMoveEvaluationCollection @ 58
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 6
 
 SearchByDepthListener:
-	SetSearchTimers @ 56
-	RootMoveEvaluationCache @ 58
-	RootMoveEvaluationBest @ 59
+	SetSearchTimers @ 57
+	RootMoveEvaluationCache @ 59
+	RootMoveEvaluationBest @ 60
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCache @ 58
+	RootMoveEvaluationCache @ 59
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 13
 
 ResetListener:
-	EvaluatorCacheListener @ 54
-	TTListener @ 55
+	EvaluatorCacheListener @ 55
+	TTListener @ 56
 
 Acceptor:
-	SetGameToEvaluator @ 60
-	EvaluatorCacheListener @ 54
-	TTListener @ 55
+	SetGameToEvaluator @ 61
+	EvaluatorCacheListener @ 55
+	TTListener @ 56
 	TTableArrayPrimitives @ 8
-	PVWalkerFromTT @ 61
+	PVWalkerFromTT @ 27
 	SetGameToEndGameTableBase @ 62
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 56
+	SetSearchTimers @ 57
 	AlphaBetaFlowControl @ 13
 	ExtendPV @ 14
 	AlphaBetaEvaluation @ 15
 	AlphaBetaEvaluation @ 24
 	ExtendPV @ 23
-	NodeMoveSorter @ 28
-	QuietComparator @ 32
-	TranspositionHeadMoveComparator @ 30
-	TranspositionTailMoveComparator @ 31
-	PrincipalVariationComparator @ 29
-	RecaptureMoveComparator @ 34
-	GameEvaluatorCacheComparator @ 36
-	KillerMoveComparator @ 38
-	AlphaBeta @ 27
+	NodeMoveSorter @ 29
+	QuietComparator @ 33
+	TranspositionHeadMoveComparator @ 31
+	TranspositionTailMoveComparator @ 32
+	PrincipalVariationComparator @ 30
+	RecaptureMoveComparator @ 35
+	GameEvaluatorCacheComparator @ 37
+	KillerMoveComparator @ 39
+	AlphaBeta @ 28
 	TranspositionTable @ 26
 	ExtendPV @ 25
-	PropagatePV @ 39
-	KillerMoveTracker @ 40
+	PropagatePV @ 40
+	KillerMoveTracker @ 41
 	ExtendPV @ 21
 	ExtendPV @ 18
 	EgtbEvaluation @ 19
-	NodeMoveSorter @ 44
-	TranspositionHeadMoveComparator @ 46
-	TranspositionTailMoveComparator @ 47
-	PrincipalVariationComparator @ 45
-	RecaptureMoveComparator @ 49
-	GameEvaluatorCacheComparator @ 51
-	Quiescence @ 43
-	TranspositionTableQ @ 42
-	ExtendPV @ 41
-	PropagatePV @ 53
+	NodeMoveSorter @ 45
+	TranspositionHeadMoveComparator @ 47
+	TranspositionTailMoveComparator @ 48
+	PrincipalVariationComparator @ 46
+	RecaptureMoveComparator @ 50
+	GameEvaluatorCacheComparator @ 52
+	Quiescence @ 44
+	TranspositionTableQ @ 43
+	ExtendPV @ 42
+	PropagatePV @ 54
 	RootMoveSorter @ 10
 	NodeGroupSorter @ 63
 	RootMoveEvaluationTracker @ 12
-	RootMoveEvaluationCache @ 58
-	RootMoveEvaluationBest @ 59
-	RootMoveEvaluationCollection @ 57
+	RootMoveEvaluationCache @ 59
+	RootMoveEvaluationBest @ 60
+	RootMoveEvaluationCollection @ 58
 	AlphaBeta @ 9
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

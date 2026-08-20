@@ -6,7 +6,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,26 +38,25 @@ public class TTablePVDebug implements TTable, Acceptor {
 
     @Override
     public void save(TranspositionEntry entry) {
-        throw new RuntimeException("Save shold not be called on TTableComparatorDebug");
+        throw new RuntimeException("Save shold not be called on TTablePVDebug");
     }
 
 
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugOperationTT> readList = currentNode.getPvReads();
+        List<TranspositionEntry> readList = currentNode.getPvReads();
 
-        Optional<DebugOperationTT> previousReadOpt = readList
+        Optional<TranspositionEntry> previousReadOpt = readList
                 .stream()
-                .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
+                .filter(entryRead -> entryRead.getHash() == hashRequested)
                 .findFirst();
 
         if (previousReadOpt.isEmpty()) {
 
             TranspositionEntry entryRead = entry.clone();
 
-            readList.add(new DebugOperationTT()
-                    .setEntry(entryRead));
+            readList.add(entryRead);
         }
     }
 }

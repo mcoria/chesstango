@@ -180,15 +180,13 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
-        currentNode.getNodeReads().forEach(readOp -> {
-            TranspositionEntry entry = readOp.getEntry();
+        currentNode.getNodeReads().forEach(entry -> {
             int ttValue = entry.getValue();
-            debugOut.printf("%s Read  TT[ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Read  TT[ 0x%s %s draft=%d value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
-                    readOp.getSortingMove(),
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
@@ -197,15 +195,13 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             debugOut.print("\n");
         });
 
-        currentNode.getNodeWrites().forEach(writeOp -> {
-            TranspositionEntry entry = writeOp.getEntry();
+        currentNode.getNodeWrites().forEach(entry -> {
             int ttValue = entry.getValue();
-            debugOut.printf("%s Write TT[ 0x%s %s draft=%d move=%s value=%d ]",
+            debugOut.printf("%s Write TT[ 0x%s %s draft=%d value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),
                     entry.getDraft(),
-                    writeOp.getSortingMove(),
                     ttValue);
 
             if (currentNode.getZobristHash() != entry.getHash()) {
@@ -240,7 +236,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
+        debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getPly());
 
         sortedMoves.forEach(moveStr -> {
             sortedReads
@@ -301,8 +297,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
-        currentNode.getPvReads().forEach(readOp -> {
-            TranspositionEntry entry = readOp.getEntry();
+        currentNode.getPvReads().forEach(entry -> {
             debugOut.printf(" PV Read  TT[ 0x%s %s draft=%d move=0x%s value=%d ]\n",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getBound(),

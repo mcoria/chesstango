@@ -259,27 +259,25 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(TranspositionTable transpositionTable) {
         printChainDownLine();
 
-        printChainText(String.format("%s", objectText(transpositionTable)));
-        printChainText(String.format("|\t TTable: %s", printTTable(transpositionTable.getTTable())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getTTable())));
         printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTable.getPvWalkerFromTT())));
 
         traverse(transpositionTable.getNext());
     }
 
     @Override
-    public void visit(KillerMoveTracker killerMoveTracker) {
-        print(killerMoveTracker, killerMoveTracker.getNext());
-    }
-
-    @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
         printChainDownLine();
 
-        printChainText(String.format("%s", objectText(transpositionTableQ)));
-        printChainText(String.format("|\t TTable: %s", printTTable(transpositionTableQ.getTTable())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getTTable())));
         printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTableQ.getPvWalkerFromTT())));
 
         traverse(transpositionTableQ.getNext());
+    }
+
+    @Override
+    public void visit(KillerMoveTracker killerMoveTracker) {
+        print(killerMoveTracker, killerMoveTracker.getNext());
     }
 
     @Override

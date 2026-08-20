@@ -47,19 +47,18 @@ public class TTableNodeDebug implements TTable, Acceptor {
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugOperationTT> readList = currentNode.getNodeReads();
+        List<TranspositionEntry> readList = currentNode.getNodeReads();
 
-        Optional<DebugOperationTT> previousReadOpt = readList
+        Optional<TranspositionEntry> previousReadOpt = readList
                 .stream()
-                .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
+                .filter(entryRead -> entryRead.getHash() == hashRequested)
                 .findFirst();
 
         if (previousReadOpt.isEmpty()) {
 
             TranspositionEntry entryRead = entry.clone();
 
-            readList.add(new DebugOperationTT()
-                    .setEntry(entryRead));
+            readList.add(entryRead);
         }
     }
 
@@ -68,10 +67,9 @@ public class TTableNodeDebug implements TTable, Acceptor {
 
         TranspositionEntry entryWrite = entry.clone();
 
-        List<DebugOperationTT> writeList = currentNode.getNodeWrites();
+        List<TranspositionEntry> writeList = currentNode.getNodeWrites();
 
-        writeList.add(new DebugOperationTT()
-                .setEntry(entryWrite));
+        writeList.add(entryWrite);
 
     }
 }

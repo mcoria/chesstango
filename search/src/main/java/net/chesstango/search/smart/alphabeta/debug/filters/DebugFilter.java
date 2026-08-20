@@ -100,8 +100,6 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
             debugNode.setType(DebugNode.NodeType.PV);
         }
 
-        trackNodeTranspositionsAccess(debugNode);
-
         if (debugNodeTrap != null && debugNodeTrap.test(debugNode)) {
             debugNodeTrap.debugAction(debugNode);
         }
@@ -109,38 +107,5 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
         debugNodeTracker.save();
 
         return currentValue;
-    }
-
-    void trackNodeTranspositionsAccess(DebugNode debugNode) {
-        List<DebugOperationTT> entryReads = debugNode.getNodeReads();
-        List<DebugOperationTT> entryWrites = debugNode.getNodeWrites();
-
-        for (Move move : game.getPossibleMoves()) {
-            final String moveStr = simpleMoveEncoder.encode(move);
-            final short moveEncoded = move.binaryEncoding();
-
-            entryReads.stream()
-                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
-
-            entryWrites.stream()
-                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
-
-        }
-
-        /**
-         * Deberian ser escrituras de nodos HORIZON donde QS search arroja el Standing Pat como mejor evaluacion
-         */
-
-        entryReads
-                .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? NO_MOVE : UNKNOWN));
-
-        entryWrites
-                .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setSortingMove(debugNodeTT.getEntry().getMove() == 0 ? NO_MOVE : UNKNOWN));
     }
 }

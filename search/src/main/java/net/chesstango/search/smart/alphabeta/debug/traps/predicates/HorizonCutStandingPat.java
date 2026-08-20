@@ -30,7 +30,7 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
             }
         } else
 
-         */
+
 
         if (NodeTopology.INTERIOR.equals(debugNode.getTopology())
                 && debugNode.getChildNodes().size() > 1
@@ -53,6 +53,8 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
                 }
             }
         }
+
+         */
         return false;
     }
 }
