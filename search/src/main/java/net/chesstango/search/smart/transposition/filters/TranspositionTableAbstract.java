@@ -47,15 +47,15 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         boolean load = tTable.load(hash, entryWorkspace);
 
         if (load && hash == entryWorkspace.getHash() && isDraftAcceptable(draft)) {
+            int value = entryWorkspace.getValue();
             // Es un valor exacto
             if (entryWorkspace.getBound() == EXACT) {
-                int value = entryWorkspace.getValue();
                 pvWalkerFromTT.walkPrincipalVariation(currentPly, value);
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= entryWorkspace.getValue()) {
-                return entryWorkspace.getValue();
-            } else if (entryWorkspace.getBound() == UPPER_BOUND && entryWorkspace.getValue() <= alpha) {
-                return entryWorkspace.getValue();
+                return value;
+            } else if (entryWorkspace.getBound() == LOWER_BOUND && beta <= value) {
+                return value;
+            } else if (entryWorkspace.getBound() == UPPER_BOUND && value <= alpha) {
+                return value;
             }
         }
 
