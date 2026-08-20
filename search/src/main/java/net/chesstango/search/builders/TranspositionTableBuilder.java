@@ -2,19 +2,14 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsFillPercentageCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
-import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
-import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.pv.model.PVWalkerFromTT;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.*;
+import net.chesstango.search.smart.alphabeta.transposition.*;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTListener;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkPVWalkerFromTTVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableNodeVisitor;
-import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTranspositionTablePVUpdate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,18 +32,21 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
      */
     private TTable tTableNode;
     private TTable tTableComparator;
+    private TTable tTablePV;
 
     /**
      * Debug operations filters
      */
-    private TTableDebug tTableNodeDebug;
-    private TTableDebug tTableComparatorDebug;
+    private TTableNodeDebug tTableNodeDebug;
+    private TTableComparatorDebug tTableComparatorDebug;
+    private TTablePVDebug tTablePVDebug;
 
     /**
      * Statistics operations filters
      */
     private TTableStatisticsNodeCollector tTableNodeCollector;
     private TTableStatisticsComparatorCollector tTableComparatorCollector;
+    private TTableStatisticsPVCollector tTablePVCollector;
 
     /**
      * Statistics model
@@ -109,10 +107,9 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
         searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTableComparator));
 
-        // TTPVReader will not be considering for statistics purposes.
         searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
 
-        searchListenerMediator.accept(new LinkTranspositionTablePVUpdate(pvWalkerFromTT));
+        searchListenerMediator.accept(new LinkPVWalkerFromTTVisitor(pvWalkerFromTT));
     }
 
     private void buildObjects() {
@@ -121,14 +118,16 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         pvWalkerFromTT = new PVWalkerFromTT();
 
         if (withDebugSearchTree) {
-            tTableNodeDebug = new TTableDebug();
-            tTableComparatorDebug = new TTableDebug();
+            tTableNodeDebug = new TTableNodeDebug();
+            tTableComparatorDebug = new TTableComparatorDebug();
+            tTablePVDebug = new TTablePVDebug();
         }
 
         if (withStatistics) {
             tTableCounters = new TTableCounters();
             tTableNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
             tTableComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+            tTablePVCollector = new TTableStatisticsPVCollector(tTableCounters);
             tTableStatisticsFillPercentageCollector = new TTableStatisticsFillPercentageCollector(tTableCounters, tTableImp);
         }
     }
@@ -144,6 +143,9 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         if (tTableComparatorDebug != null) {
             searchListenerMediator.add(tTableComparatorDebug);
         }
+        if(tTablePVDebug!=null){
+            searchListenerMediator.add(tTablePVDebug);
+        }
         if (tTableCounters != null) {
             searchListenerMediator.add(tTableCounters);
         }
@@ -152,6 +154,9 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         }
         if (tTableComparatorCollector != null) {
             searchListenerMediator.add(tTableComparatorCollector);
+        }
+        if (tTablePVCollector != null) {
+            searchListenerMediator.add(tTablePVCollector);
         }
         if (tTableStatisticsFillPercentageCollector != null) {
             searchListenerMediator.add(tTableStatisticsFillPercentageCollector);
@@ -164,22 +169,37 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     private void createChains() {
         tTableNode = linkChain(tTableNodeDebug, tTableNodeCollector, tTableImp);
         tTableComparator = linkChain(tTableComparatorDebug, tTableComparatorCollector, tTableImp);
+        tTablePV = linkChain(tTablePVDebug, tTablePVCollector, tTableImp);
+
+        if (pvWalkerFromTT != null) {
+            pvWalkerFromTT.setTTable(tTablePV);
+        }
     }
 
     private TTable linkChain(TTable... tTables) {
-        List<TTable> chain = Arrays.stream(tTables).filter(Objects::nonNull).toList();
+        List<TTable> chain = Arrays
+                .stream(tTables)
+                .filter(Objects::nonNull)
+                .toList();
 
         for (int i = 0; i < chain.size() - 1; i++) {
             TTable currentFilter = chain.get(i);
             TTable next = chain.get(i + 1);
 
             switch (currentFilter) {
-                case TTableDebug tableDebug -> tableDebug.setTTable(next);
+                case TTableNodeDebug tableDebug -> tableDebug.setTTable(next);
+
+                case TTableComparatorDebug tableDebug -> tableDebug.setTTable(next);
+
+                case TTablePVDebug tableDebug -> tableDebug.setTTable(next);
 
                 case TTableStatisticsNodeCollector tableStatisticsCollector -> tableStatisticsCollector.setTTable(next);
 
                 case TTableStatisticsComparatorCollector tableStatisticsComparatorCollector ->
                         tableStatisticsComparatorCollector.setTTable(next);
+
+                case TTableStatisticsPVCollector tableStatisticsPVCollector ->
+                        tableStatisticsPVCollector.setTTable(next);
 
                 case null -> throw new RuntimeException(String.format("filter %d is null", i));
 

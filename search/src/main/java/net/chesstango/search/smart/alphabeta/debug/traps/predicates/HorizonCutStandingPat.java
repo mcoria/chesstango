@@ -30,17 +30,17 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
             }
         } else
 
-         */
+
 
         if (NodeTopology.INTERIOR.equals(debugNode.getTopology())
                 && debugNode.getChildNodes().size() > 1
-                && !debugNode.getEntryRead().isEmpty()) {
+                && !debugNode.getNodeReads().isEmpty()) {
             Optional<DebugNode> candidateOpt = candidates.stream().filter(node -> node.getZobristHash() == debugNode.getZobristHash()).findFirst();
             if (candidateOpt.isPresent()) {
                 DebugNode candidate = candidateOpt.get();
-                if (!candidate.getEntryWrite().isEmpty()) {
-                    DebugOperationTT candidateWriteTT = candidate.getEntryWrite().getFirst();
-                    DebugOperationTT debugNodeReadTT = debugNode.getEntryRead().getFirst();
+                if (!candidate.getNodeWrites().isEmpty()) {
+                    DebugOperationTT candidateWriteTT = candidate.getNodeWrites().getFirst();
+                    DebugOperationTT debugNodeReadTT = debugNode.getNodeReads().getFirst();
                     if (candidateWriteTT.getEntry().getMove() == debugNodeReadTT.getEntry().getMove() &&
                             candidateWriteTT.getEntry().getValue() == debugNodeReadTT.getEntry().getValue()) {
                         DebugNode qNode = candidate.getChildNodes().getFirst();
@@ -53,6 +53,8 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
                 }
             }
         }
+
+         */
         return false;
     }
 }

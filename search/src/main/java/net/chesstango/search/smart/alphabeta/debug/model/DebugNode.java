@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Bound;
+import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -55,9 +56,9 @@ public class DebugNode {
 
     private Integer standingPat;
 
-    private List<DebugOperationTT> entryRead = new ArrayList<>();
+    private List<TranspositionEntry> nodeReads = new ArrayList<>();
 
-    private List<DebugOperationTT> entryWrite = new ArrayList<>();
+    private List<TranspositionEntry> nodeWrites = new ArrayList<>();
 
     private Move[] pv;
 
@@ -73,20 +74,15 @@ public class DebugNode {
     /**
      * Debug operaciones de ordenamiento
      */
-    private int sortedPly; //Debiera ser igual a ply
-
     private List<String> sortedMoves;
 
     private List<DebugOperationTT> sorterReads = new ArrayList<>();
 
     private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
 
+    private List<TranspositionEntry> pvReads = new ArrayList<>();
+
     private List<DebugNode> childNodes = new LinkedList<>();
-
-    private List<DebugOperationTT> pvReads = new ArrayList<>();
-
-    private List<DebugOperationTT> currentEntryRead = entryRead;
-    private List<DebugOperationTT> currentEntryWrite = entryWrite;
 
     public void setDebugSearch(String turn, int alpha, int beta) {
         this.turn = turn;
@@ -103,26 +99,6 @@ public class DebugNode {
                 .count() != this.childNodes.size()) {
             throw new RuntimeException("Duplicated Node");
         }
-    }
-
-    public void sortingON() {
-        currentEntryRead = sorterReads;
-        currentEntryWrite = null;
-    }
-
-    public void sortingOFF() {
-        currentEntryRead = entryRead;
-        currentEntryWrite = entryWrite;
-    }
-
-    public void readingPrincipalVariationON() {
-        currentEntryRead = pvReads;
-        currentEntryWrite = null;
-    }
-
-    public void readingPrincipalVariationOFF() {
-        currentEntryRead = entryRead;
-        currentEntryWrite = entryWrite;
     }
 
     public void addChild(DebugNode newNode) {

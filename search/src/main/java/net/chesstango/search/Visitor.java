@@ -44,12 +44,11 @@ import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsFillPercentageCollector;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.*;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
-import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
+import net.chesstango.search.smart.alphabeta.transposition.TTableComparatorDebug;
+import net.chesstango.search.smart.alphabeta.transposition.TTableNodeDebug;
+import net.chesstango.search.smart.alphabeta.transposition.TTablePVDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
@@ -235,7 +234,14 @@ public interface Visitor {
     default void visit(PVCalculatorDebug ttpvReaderDebug) {
     }
 
-    default void visit(TTableDebug tableDebug) {
+    default void visit(TTableNodeDebug tTableNodeDebug) {
+    }
+
+
+    default void visit(TTablePVDebug tTablePVDebug) {
+    }
+
+    default void visit(TTableComparatorDebug tTableComparatorDebug) {
     }
 
     default void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
@@ -324,6 +330,9 @@ public interface Visitor {
     }
 
     default void visit(TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
+    }
+
+    default void visit(TTableStatisticsPVCollector tTableStatisticsPVCollector) {
     }
 
     default void visit(TTableStatisticsFillPercentageCollector tTableStatisticsFillPercentageCollector) {

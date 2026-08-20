@@ -22,14 +22,15 @@ import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluati
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.alphabeta.pv.model.PVCalculator;
-import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
-import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.CalculatePV;
 import net.chesstango.search.smart.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.smart.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculator;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorDebug;
+import net.chesstango.search.smart.alphabeta.pv.model.PVCalculatorTriangular;
+import net.chesstango.search.smart.alphabeta.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
@@ -39,9 +40,8 @@ import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStat
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
-import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
-import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsPVCollector;
+import net.chesstango.search.smart.alphabeta.transposition.*;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
@@ -224,7 +224,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(CalculatePV calculatePV) {
         printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(calculatePV), printTTPVReader(calculatePV.getPvCalculator())));
+        printChainText(String.format("%s [PVCalculator: %s]", objectText(calculatePV), printPVCalculator(calculatePV.getPvCalculator())));
 
         traverse(calculatePV.getNext());
     }
@@ -258,22 +258,26 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionTable transpositionTable) {
         printChainDownLine();
+
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getTTable())));
+        printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTable.getPvWalkerFromTT())));
 
         traverse(transpositionTable.getNext());
     }
 
     @Override
-    public void visit(KillerMoveTracker killerMoveTracker) {
-        print(killerMoveTracker, killerMoveTracker.getNext());
+    public void visit(TranspositionTableQ transpositionTableQ) {
+        printChainDownLine();
+
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getTTable())));
+        printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTableQ.getPvWalkerFromTT())));
+
+        traverse(transpositionTableQ.getNext());
     }
 
     @Override
-    public void visit(TranspositionTableQ transpositionTableQ) {
-        printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getTTable())));
-
-        traverse(transpositionTableQ.getNext());
+    public void visit(KillerMoveTracker killerMoveTracker) {
+        print(killerMoveTracker, killerMoveTracker.getNext());
     }
 
     @Override
@@ -729,12 +733,18 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     private String printTTable(TTable ttable) {
-        if (ttable instanceof TTableDebug ttableDebug) {
-            return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
+        if (ttable instanceof TTableNodeDebug ttableNodeDebug) {
+            return String.format("%s -> %s", objectText(ttableNodeDebug), printTTable(ttableNodeDebug.getTTable()));
         } else if (ttable instanceof TTableStatisticsNodeCollector tTableStatisticsNodeCollector) {
             return String.format("%s -> %s", objectText(tTableStatisticsNodeCollector), printTTable(tTableStatisticsNodeCollector.getTTable()));
         } else if (ttable instanceof TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
             return String.format("%s -> %s", objectText(tTableStatisticsComparatorCollector), printTTable(tTableStatisticsComparatorCollector.getTTable()));
+        } else if (ttable instanceof TTableStatisticsPVCollector tTableStatisticsPVCollector) {
+            return String.format("%s -> %s", objectText(tTableStatisticsPVCollector), printTTable(tTableStatisticsPVCollector.getTTable()));
+        } else if (ttable instanceof TTableComparatorDebug tTableComparatorDebug) {
+            return String.format("%s -> %s", objectText(tTableComparatorDebug), printTTable(tTableComparatorDebug.getTTable()));
+        } else if (ttable instanceof TTablePVDebug tTablePVDebug) {
+            return String.format("%s -> %s", objectText(tTablePVDebug), printTTable(tTablePVDebug.getTTable()));
         } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);
         }
@@ -742,13 +752,17 @@ public class ChainPrinterVisitor implements Visitor {
         throw new IllegalArgumentException("Unknown TTable: " + ttable.getClass().getSimpleName());
     }
 
-    private String printTTPVReader(PVCalculator ttPvReader) {
+    private String printPVCalculator(PVCalculator ttPvReader) {
         if (ttPvReader instanceof PVCalculatorDebug ttPVReaderDebug) {
-            return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
+            return String.format("%s -> %s", objectText(ttPvReader), printPVCalculator(ttPVReaderDebug.getImp()));
         } else if (ttPvReader instanceof PVCalculatorTriangular PVCalculatorTriangular) {
             return objectText(PVCalculatorTriangular);
         }
-        throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());
+        throw new IllegalArgumentException("Unknown PVCalculator: " + ttPvReader.getClass().getSimpleName());
+    }
+
+    private String printPVWalkerFromTT(PVWalkerFromTT pvWalkerFromTT) {
+        return String.format("%s [TTable: %s]", objectText(pvWalkerFromTT), printTTable(pvWalkerFromTT.getTTable()));
     }
 
 }

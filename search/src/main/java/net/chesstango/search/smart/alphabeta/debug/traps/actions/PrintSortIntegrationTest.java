@@ -87,18 +87,18 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
     private void printKmContext(DebugNode debugNode, PrintStream printStream) {
         if (debugNode.getKillerMovesTableA() != null) {
             String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableA());
-            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
+            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getPly() + 1, moveStr);
         }
 
         if (debugNode.getKillerMovesTableB() != null) {
             String moveStr = simpleMoveEncoder.encode(debugNode.getKillerMovesTableB());
-            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getSortedPly() + 1, moveStr);
+            printStream.printf("killerMoves.trackKillerMove(getMove(game, \"%s\"), %d); // %s%n", moveStr, debugNode.getPly() + 1, moveStr);
         }
         printStream.println();
     }
 
     private void printSortedMoves(DebugNode debugNode, PrintStream printStream) {
-        printStream.printf("List<String> actualSort = toMoveStrList(moveSorterInterior.getOrderedMoves(%d));%n", debugNode.getSortedPly());
+        printStream.printf("List<String> actualSort = toMoveStrList(moveSorterInterior.getOrderedMoves(%d));%n", debugNode.getPly());
 
         printStream.printf("assertEquals(List.of(%s), actualSort);%n",
                 debugNode.getSortedMoves()

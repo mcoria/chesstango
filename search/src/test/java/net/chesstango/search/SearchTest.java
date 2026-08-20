@@ -294,7 +294,7 @@ public class SearchTest {
     public void test_1_8_0() {
         Game game = Game.from(FEN.from("8/1p3p2/p1b1p1k1/P1R1P1p1/8/1P4KP/6P1/8 w - - 5 38"));
 
-        Search search = noTransposition()
+        Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
                 //.withTranspositionHashSize(64 * 1024)
