@@ -28,7 +28,6 @@ import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.quiescence.Quiescence;
 import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
@@ -191,21 +190,6 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
 
         traverse(alphaBeta.getNext());
-    }
-
-    @Override
-    public void visit(Quiescence quiescence) {
-        printChainDownLine();
-        printChainText(String.format("%s [Evaluator: %s]", objectText(quiescence), printGameEvaluator(quiescence.getEvaluator())));
-
-        MoveSorter moveSorter = quiescence.getMoveSorter();
-        printChainDownLine();
-        printChainText(" -> Sorter");
-        nestedChain++;
-        traverse(moveSorter);
-        nestedChain--;
-
-        traverse(quiescence.getNext());
     }
 
     @Override

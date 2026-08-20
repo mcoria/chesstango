@@ -5,7 +5,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
-import net.chesstango.search.smart.quiescence.Quiescence;
 
 /**
  * @author Mauricio Coria
@@ -16,11 +15,6 @@ public class LinkEvaluatorVisitor implements Visitor {
 
     public LinkEvaluatorVisitor(Evaluator evaluator) {
         this.evaluator = evaluator;
-    }
-
-    @Override
-    public void visit(Quiescence quiescence) {
-        quiescence.setEvaluator(evaluator);
     }
 
     @Override

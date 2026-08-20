@@ -4,7 +4,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
-import net.chesstango.search.smart.quiescence.Quiescence;
 import net.chesstango.search.smart.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.transposition.filters.TranspositionTableRoot;
@@ -24,11 +23,6 @@ public class LinkBestMovesArray implements Visitor {
     @Override
     public void visit(AlphaBeta alphaBeta) {
         alphaBeta.setBestMoves(bestMoves);
-    }
-
-    @Override
-    public void visit(Quiescence quiescence) {
-        quiescence.setBestMoves(bestMoves);
     }
 
     @Override

@@ -24,20 +24,22 @@ import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
+import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.quiescence.Quiescence;
 import net.chesstango.search.smart.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
-import net.chesstango.search.smart.root.filters.*;
+import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
+import net.chesstango.search.smart.root.filters.AspirationWindows;
+import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.statistics.evaluation.listeners.EvaluatorCacheListener;
@@ -181,9 +183,6 @@ public interface Visitor {
     }
 
     default void visit(PVWalkerFromTT pvWalkerFromTT) {
-    }
-
-    default void visit(Quiescence quiescence) {
     }
 
     default void visit(QuiescenceStandingPat quiescenceStandingPat) {
