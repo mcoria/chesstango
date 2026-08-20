@@ -92,62 +92,64 @@ AlphaBetaFlowControl @ 11
 	|
 	ExtendPV @ 36
 	|
-	Quiescence @ 37 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
+	QuiescenceStandingPat @ 37 [Evaluator: EvaluatorCache @ 14 -> EvaluatorByMaterial @ 15]
+	|
+	AlphaBeta @ 38
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 38
+		NodeMoveSorter @ 39
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 39
+			PrincipalVariationComparator @ 40
 			|
-			PromotionComparator @ 40
+			PromotionComparator @ 41
 			|
-			RecaptureMoveComparator @ 41
+			RecaptureMoveComparator @ 42
 			|
-			MvvLvaComparator @ 42
+			MvvLvaComparator @ 43
 			|
-			GameEvaluatorCacheComparator @ 43 [EvaluatorCacheRead: EvaluatorCache @ 14]
+			GameEvaluatorCacheComparator @ 44 [EvaluatorCacheRead: EvaluatorCache @ 14]
 			|
-			DefaultMoveComparator @ 44
+			DefaultMoveComparator @ 45
 	|
-	PropagatePV @ 45
+	PropagatePV @ 46
 	|
 	AlphaBetaFlowControl @ 11 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 46
-	SetSearchTimers @ 47
+	EvaluatorCacheListener @ 47
+	SetSearchTimers @ 48
 	AlphaBetaFlowControl @ 11
 	PrincipalVariationComparator @ 26
-	PrincipalVariationComparator @ 39
-	RootMoveEvaluationCollection @ 48
+	PrincipalVariationComparator @ 40
+	RootMoveEvaluationCollection @ 49
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	PVCalculatorTriangular @ 6
 
 SearchByDepthListener:
-	SetSearchTimers @ 47
-	RootMoveEvaluationCache @ 49
-	RootMoveEvaluationBest @ 50
+	SetSearchTimers @ 48
+	RootMoveEvaluationCache @ 50
+	RootMoveEvaluationBest @ 51
 
 SearchByWindowsListeners:
-	RootMoveEvaluationCache @ 49
+	RootMoveEvaluationCache @ 50
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 11
 
 ResetListener:
-	EvaluatorCacheListener @ 46
+	EvaluatorCacheListener @ 47
 
 Acceptor:
-	SetGameToEvaluator @ 51
-	EvaluatorCacheListener @ 46
-	SetGameToEndGameTableBase @ 52
+	SetGameToEvaluator @ 52
+	EvaluatorCacheListener @ 47
+	SetGameToEndGameTableBase @ 53
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 47
+	SetSearchTimers @ 48
 	AlphaBetaFlowControl @ 11
 	ExtendPV @ 12
 	AlphaBetaEvaluation @ 13
@@ -166,19 +168,20 @@ Acceptor:
 	ExtendPV @ 19
 	ExtendPV @ 16
 	EgtbEvaluation @ 17
-	NodeMoveSorter @ 38
-	PrincipalVariationComparator @ 39
-	RecaptureMoveComparator @ 41
-	GameEvaluatorCacheComparator @ 43
-	Quiescence @ 37
+	NodeMoveSorter @ 39
+	PrincipalVariationComparator @ 40
+	RecaptureMoveComparator @ 42
+	GameEvaluatorCacheComparator @ 44
+	QuiescenceStandingPat @ 37
+	AlphaBeta @ 38
 	ExtendPV @ 36
-	PropagatePV @ 45
+	PropagatePV @ 46
 	RootMoveSorter @ 8
-	NodeGroupSorter @ 53
+	NodeGroupSorter @ 54
 	RootMoveEvaluationTracker @ 10
-	RootMoveEvaluationCache @ 49
-	RootMoveEvaluationBest @ 50
-	RootMoveEvaluationCollection @ 48
+	RootMoveEvaluationCache @ 50
+	RootMoveEvaluationBest @ 51
+	RootMoveEvaluationCollection @ 49
 	AlphaBeta @ 7
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

@@ -5,6 +5,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
@@ -183,6 +184,9 @@ public interface Visitor {
     }
 
     default void visit(Quiescence quiescence) {
+    }
+
+    default void visit(QuiescenceStandingPat quiescenceStandingPat) {
     }
 
     default void visit(QuiescenceNull quiescenceNull) {

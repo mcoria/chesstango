@@ -34,7 +34,7 @@ public class AlphaBeta implements AlphaBetaFilter, Acceptor {
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         bestMoves[currentPly] = null;
-        int maxValue = Evaluator.INFINITE_NEGATIVE;
+        int bestValue = Evaluator.INFINITE_NEGATIVE;
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -42,20 +42,19 @@ public class AlphaBeta implements AlphaBetaFilter, Acceptor {
             Move move = moveIterator.next();
             move.executeMove();
 
-            int currentValue = next.alphaBeta(currentPly, Math.max(maxValue, alpha), beta);
-            if (currentValue > maxValue) {
-                maxValue = currentValue;
+            int currentValue = next.alphaBeta(currentPly, Math.max(bestValue, alpha), beta);
+            if (currentValue > bestValue) {
+                bestValue = currentValue;
                 bestMoves[currentPly] = move;
-                if (maxValue >= beta) {
-                    search = false;
-                } else if (maxValue == Evaluator.WON) {
+                if (bestValue >= beta || bestValue == Evaluator.WON) {
                     search = false;
                 }
             }
+
             move.undoMove();
         }
 
-        return maxValue;
+        return bestValue;
     }
 
 }
