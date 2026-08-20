@@ -1,6 +1,13 @@
 {
   "reflection": [
     {
+      "type": "java.util.logging.FileHandler",
+      "allDeclaredConstructors": true,
+      "methods": [
+        { "name": "<init>", "parameterTypes": [] }
+      ]
+    },
+    {
       "type": "java.lang.Boolean",
       "jniAccessible": true,
       "methods": [
@@ -60,10 +67,24 @@
   ],
   "resources": [
     {
+      "glob": "META-INF/services/java.time.zone.ZoneRulesProvider"
+    },
+    {
       "glob": "META-INF/services/org.slf4j.spi.SLF4JServiceProvider"
     },
     {
       "glob": "chesstango.properties"
+    },
+    {
+      "module": "java.logging",
+      "glob": "sun/util/logging/resources/logging_en.properties"
+    },
+    {
+      "module": "java.logging",
+      "glob": "sun/util/logging/resources/logging_en_US.properties"
+    },
+    {
+      "bundle": "sun.util.logging.resources.logging"
     }
   ]
 }
