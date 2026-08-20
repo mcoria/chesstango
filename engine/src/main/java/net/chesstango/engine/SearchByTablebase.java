@@ -7,7 +7,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 
@@ -22,8 +21,6 @@ import static net.chesstango.piazzolla.syzygy.Syzygy.*;
  */
 @Slf4j
 class SearchByTablebase implements SearchByChain {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
     private final SyzygyPosition syzygyPosition;
     private final Syzygy syzygy;
 
@@ -85,7 +82,7 @@ class SearchByTablebase implements SearchByChain {
         Move move = promotionPiece == null ? game.getMove(from, to) : game.getMove(from, to, promotionPiece);
 
         if (move != null) {
-            log.debug("TableBase move found: {} - {}", simpleMoveEncoder.encode(move), SearchByTablebaseResult.wdlToString(syzygyResult));
+            log.debug("TableBase move found: {} - {}", move.coordinateEncoding(), SearchByTablebaseResult.wdlToString(syzygyResult));
             searchResponse = new SearchByTablebaseResult(move, syzygyResult, timeSearching);
         } else {
             log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.toFEN());

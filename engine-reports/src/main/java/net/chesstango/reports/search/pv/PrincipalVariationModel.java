@@ -69,7 +69,7 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
 
         Move bestMove = searchResult.getBestMove();
         reportModelDetail.id = searchResult.getId();
-        reportModelDetail.move = SimpleMoveEncoder.INSTANCE.encode(bestMove);
+        reportModelDetail.move = bestMove.coordinateEncoding();
         reportModelDetail.evaluation = searchResult.getBestEvaluation();
 
         List<Move> pvMoves = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList();

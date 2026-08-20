@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.evaluation.cache;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationStatistics;
@@ -75,11 +74,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
     private void loadModelDetail(SearchResult searchResult) {
         Move bestMove = searchResult.getBestMove();
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         EvaluationCacheModelDetail reportModelDetail = new EvaluationCacheModelDetail();
         reportModelDetail.id = searchResult.getId();
-        reportModelDetail.move = bestMove != null ? simpleMoveEncoder.encode(bestMove) : "";
+        reportModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
         reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
 
         if (searchResult.getEvaluationStatistics() != null) {

@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.evaluation.iteration;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -56,7 +55,7 @@ public class EvaluationIterationModel implements Model<List<SearchResult>> {
 
         Move bestMove = searchResult.getBestMove();
         boardModelModelDetail.id = searchResult.getId();
-        boardModelModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
+        boardModelModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
 
         boardModelModelDetail.maxIteration = searchResult.getSearchResultByDepths().size();
         boardModelModelDetail.evaluations = searchResult.getSearchResultByDepths()

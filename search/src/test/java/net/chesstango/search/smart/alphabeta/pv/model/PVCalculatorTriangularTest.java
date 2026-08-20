@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.pv.model;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.gardel.fen.FEN;
@@ -99,7 +98,7 @@ public class PVCalculatorTriangularTest {
 
         assertEquals(1, pv.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1f3"}, pvString.toArray());
 
         assertTrue(pvCalculator.isPvComplete());
@@ -153,7 +152,7 @@ public class PVCalculatorTriangularTest {
 
         assertEquals(2, pv.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1f3", "g8f6"}, pvString.toArray());
 
         assertTrue(pvCalculator.isPvComplete());
@@ -215,7 +214,7 @@ public class PVCalculatorTriangularTest {
 
         assertEquals(3, pv.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1f3", "g8f6", "d2d4"}, pvString.toArray());
 
         assertTrue(pvCalculator.isPvComplete());
@@ -260,7 +259,7 @@ public class PVCalculatorTriangularTest {
 
         assertEquals(1, pv.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g4f5"}, pvString.toArray());
 
         assertTrue(pvCalculator.isPvComplete());

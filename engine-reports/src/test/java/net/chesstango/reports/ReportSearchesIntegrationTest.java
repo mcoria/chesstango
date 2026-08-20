@@ -1,7 +1,7 @@
 package net.chesstango.reports;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.reports.search.DetailsReport;
@@ -229,7 +229,7 @@ public class ReportSearchesIntegrationTest {
         search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(SimpleMoveEncoder.INSTANCE::encode).toList();
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
         System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
         System.out.printf("PV moves %d: %s%n", pv.size(), Arrays.toString(pv.toArray()));
         System.out.printf("PV complete: %s%n", searchResult.isPvComplete());

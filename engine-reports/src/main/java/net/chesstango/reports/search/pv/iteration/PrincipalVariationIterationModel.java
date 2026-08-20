@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.pv.iteration;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -57,7 +56,7 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
 
         Move bestMove = searchResult.getBestMove();
         modelDetail.id = searchResult.getId();
-        modelDetail.move = SimpleMoveEncoder.INSTANCE.encode(bestMove);
+        modelDetail.move = bestMove.coordinateEncoding();
         modelDetail.maxIteration = searchResult.getSearchResultByDepths().size();
 
         List<Boolean> completeList = searchResult.getSearchResultByDepths()

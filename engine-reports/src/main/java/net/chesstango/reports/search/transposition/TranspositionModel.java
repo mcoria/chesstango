@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.transposition;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatistics;
@@ -99,7 +98,7 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
             Move bestMove = searchResult.getBestMove();
             transpositionModelDetail.id = searchResult.getId();
-            transpositionModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
+            transpositionModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
 
             transpositionModelDetail.reads = ttableStatistics.reads();
             transpositionModelDetail.readNodeHits = ttableStatistics.readNodeHits();

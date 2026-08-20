@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.SearchResponse;
 import net.chesstango.engine.Session;
@@ -23,8 +22,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class LichessGame implements Runnable, SearchListener {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
@@ -150,7 +147,7 @@ public class LichessGame implements Runnable, SearchListener {
                         .goFast((int) wTime, (int) wInc, (int) bTime, (int) bInc)
                         .get();
 
-                String moveUci = simpleMoveEncoder.encode(searchResponse.move());
+                String moveUci = searchResponse.move().coordinateEncoding();
 
                 client.gameMove(gameId, moveUci);
 

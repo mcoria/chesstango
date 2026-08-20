@@ -1,6 +1,5 @@
 package net.chesstango.reports.engine;
 
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchByOpenBookResult;
 import net.chesstango.engine.SearchByTablebaseResult;
 import net.chesstango.engine.SearchByTreeResult;
@@ -47,8 +46,6 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
     public SearchManagerModel collectStatistics(String reportTitle, List<SearchResponse> searchResponses) {
         this.searchesName = reportTitle;
 
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
         searchResponses.forEach(searchResponse -> {
 
             SearchManagerModelDetail searchManagerModelDetail = new SearchManagerModelDetail();
@@ -69,7 +66,7 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
             }
 
 
-            searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.move());
+            searchManagerModelDetail.move = searchResponse.move().coordinateEncoding();
             searchManagerModelDetail.searchTime = searchResponse.getTimeSearching();
 
             this.searchTimeTotal += searchManagerModelDetail.searchTime;

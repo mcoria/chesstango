@@ -1,7 +1,6 @@
 package net.chesstango.reports.search.nodes.types;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
@@ -77,7 +76,7 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
 
         Move bestMove = searchResult.getBestMove();
         reportModelDetail.id = searchResult.getId();
-        reportModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
+        reportModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
 
         if (searchResult.getNodeStatistics() != null) {
             collectRegularNodeStatistics(reportModelDetail, searchResult.getNodeStatistics());

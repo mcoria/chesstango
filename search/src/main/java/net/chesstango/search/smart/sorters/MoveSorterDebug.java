@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
@@ -20,7 +19,6 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 public class MoveSorterDebug implements MoveSorter, Acceptor {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter
     @Getter
@@ -55,7 +53,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     private List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();
         for (Move move : moves) {
-            sortedMovesStr.add(simpleMoveEncoder.encode(move));
+            sortedMovesStr.add(move.coordinateEncoding());
         }
         return sortedMovesStr;
     }
@@ -68,7 +66,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
             evalCacheReads
                     .stream()
                     .filter(debugOperationEval -> zobristHashMove == debugOperationEval.getHashRequested())
-                    .forEach(debugOperationEval -> debugOperationEval.setMove(simpleMoveEncoder.encode(move)));
+                    .forEach(debugOperationEval -> debugOperationEval.setMove(move.coordinateEncoding()));
         }
     }
 
@@ -77,7 +75,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
 
         final long positionHash = game.getPosition().getZobristHash();
         for (Move move : game.getPossibleMoves()) {
-            final String moveStr = simpleMoveEncoder.encode(move);
+            final String moveStr = move.coordinateEncoding();
             final long zobristHashMove = move.getZobristHash();
             final short moveEncoded = move.binaryEncoding();
 

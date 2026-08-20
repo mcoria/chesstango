@@ -3,7 +3,6 @@ package net.chesstango.search.smart.sorters;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTracker;
@@ -68,7 +67,7 @@ class MoveSorterDebugTest {
         for (Move move : game.getPossibleMoves()) {
             theMoves.add(move);
         }
-        theMoves.sort(Comparator.comparing(SimpleMoveEncoder.INSTANCE::encode));
+        theMoves.sort(Comparator.comparing(Move::coordinateEncoding));
 
         // Arrange
         moveSorterDebug.setGame(game);

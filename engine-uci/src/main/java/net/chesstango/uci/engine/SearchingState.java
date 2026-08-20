@@ -2,7 +2,6 @@ package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.SearchResponse;
 import net.chesstango.goyeneche.UCIEngine;
@@ -20,8 +19,6 @@ import net.chesstango.goyeneche.responses.UCIResponse;
  */
 @Slf4j
 class SearchingState implements UCIEngine, SearchListener {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
     private final UciTango uciTango;
 
     @Setter
@@ -75,7 +72,7 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.move());
+        String selectedMoveStr = searchResult.move().coordinateEncoding();
 
         uciTango.reply(waitCmdPositionState, UCIResponse.bestMove(selectedMoveStr));
     }
