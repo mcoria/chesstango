@@ -20,7 +20,6 @@ public class RootMoveEvaluationCache implements Acceptor, SearchByDepthListener,
 
     private List<RootMoveEvaluation> rootMoveEvaluations;
 
-
     /**
      * Accepts a visitor for the visitor pattern implementation.
      *

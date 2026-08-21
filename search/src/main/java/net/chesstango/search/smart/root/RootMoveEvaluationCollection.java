@@ -34,7 +34,6 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
         visitor.visit(this);
     }
 
-
     @Override
     public void beforeSearch() {
         rootMoveEvaluationList.clear();
@@ -59,4 +58,7 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleList
         }
     }
 
+    public List<RootMoveEvaluation> getRootMoveEvaluationListCopy() {
+        return List.copyOf(rootMoveEvaluationList);
+    }
 }
