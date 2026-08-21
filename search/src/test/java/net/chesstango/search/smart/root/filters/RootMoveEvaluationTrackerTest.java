@@ -8,15 +8,12 @@ import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -29,9 +26,6 @@ public class RootMoveEvaluationTrackerTest {
     private RootMoveEvaluationTracker moveEvaluationTracker;
 
     @Mock
-    private RootMoveEvaluationCache rootMoveEvaluationCache;
-
-    @Mock
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
     @Mock
@@ -40,11 +34,9 @@ public class RootMoveEvaluationTrackerTest {
     @BeforeEach
     public void setup() {
         moveEvaluationTracker = new RootMoveEvaluationTracker();
-        moveEvaluationTracker.setRootMoveEvaluationCache(rootMoveEvaluationCache);
         moveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
         moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
     }
-
 
 
     /**
@@ -57,7 +49,6 @@ public class RootMoveEvaluationTrackerTest {
         AlphaBeta fn = mock(AlphaBeta.class);
         when(fn.alphaBeta(0, -500, 500))
                 .thenReturn(-1000);
-        when(rootMoveEvaluationCache.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);
         moveEvaluationTracker.setGame(game);
@@ -68,8 +59,6 @@ public class RootMoveEvaluationTrackerTest {
         moveEvaluationTracker.alphaBeta(0, -500, 500);
         game.undoMove();
 
-        verify(rootMoveEvaluationCache, times(1)).get(move);
-        verify(rootMoveEvaluationCache, times(1)).save(any(RootMoveEvaluation.class));
         verify(rootMoveEvaluationCollection, times(1)).save(any(RootMoveEvaluation.class));
         verify(rootMoveEvaluationBest, times(1)).save(any(RootMoveEvaluation.class));
     }
@@ -79,7 +68,6 @@ public class RootMoveEvaluationTrackerTest {
         AlphaBeta fn = mock(AlphaBeta.class);
         when(fn.alphaBeta(0, -500, 500))
                 .thenReturn(1000);
-        when(rootMoveEvaluationCache.get(any(Move.class))).thenReturn(Optional.empty());
 
         Game game = Game.from(FEN.START_POSITION);
         moveEvaluationTracker.setGame(game);
@@ -90,8 +78,6 @@ public class RootMoveEvaluationTrackerTest {
         moveEvaluationTracker.alphaBeta(0, -500, 500);
         game.undoMove();
 
-        verify(rootMoveEvaluationCache, times(1)).get(move);
-        verify(rootMoveEvaluationCache, times(1)).save(any(RootMoveEvaluation.class));
         verify(rootMoveEvaluationCollection, times(1)).save(any(RootMoveEvaluation.class));
         verify(rootMoveEvaluationBest, times(1)).save(any(RootMoveEvaluation.class));
     }

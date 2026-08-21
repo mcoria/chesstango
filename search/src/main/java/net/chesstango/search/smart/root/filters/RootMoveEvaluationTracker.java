@@ -10,10 +10,7 @@ import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
-
-import java.util.Optional;
 
 /**
  * Actualiza RootMoveEvaluationCollection a medida que se obtienen resultados de los movimientos de root node
@@ -25,9 +22,6 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     @Setter
     @Getter
     private AlphaBetaFilter next;
-
-    @Setter
-    private RootMoveEvaluationCache rootMoveEvaluationCache;
 
     @Setter
     private RootMoveEvaluationBest rootMoveEvaluationBest;
@@ -44,35 +38,14 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
         visitor.visit(this);
     }
 
-    /*
-    @Override
-    public void beforeSearchByDepth() {
-        System.out.println("Starting search depth+1");
-    }
-
-    @Override
-    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
-        System.out.println("Starting search windows: " + alphaBound + " - " + betaBound + " cycle: " + searchByWindowsCycle);
-    }
-     */
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
-        Optional<RootMoveEvaluation> moveEvaluation = rootMoveEvaluationCache.get(currentMove);
-
-        if (moveEvaluation.isPresent()) {
-            RootMoveEvaluation rootMoveEvaluation = moveEvaluation.get();
-            return rootMoveEvaluation.evaluation();
-        }
-
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
-
-        //System.out.println("Saving root move evaluation: " + rootMoveEvaluation);
-        rootMoveEvaluationCache.save(rootMoveEvaluation);
         rootMoveEvaluationBest.save(rootMoveEvaluation);
         rootMoveEvaluationCollection.save(rootMoveEvaluation);
 

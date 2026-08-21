@@ -29,12 +29,10 @@ import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
@@ -139,9 +137,6 @@ public interface Visitor {
     default void visit(RootMoveEvaluationBest rootMoveEvaluationBest) {
     }
 
-    default void visit(RootMoveEvaluationCache rootMoveEvaluationCache) {
-    }
-
 
     default void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
     }
@@ -229,9 +224,6 @@ public interface Visitor {
     }
 
     default void visit(KillerMovesDebug killerMovesDebug) {
-    }
-
-    default void visit(PVCalculatorDebug ttpvReaderDebug) {
     }
 
     default void visit(TTableNodeDebug tTableNodeDebug) {

@@ -6,7 +6,7 @@ import net.chesstango.search.smart.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
+import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 
 /**
@@ -33,8 +33,8 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(RootMoveEvaluationCache rootMoveEvaluationCache) {
-        searchResultByDepth.setRootMoveEvaluations(rootMoveEvaluationCache.getRootMoveEvaluations());
+    public void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
+        searchResultByDepth.setRootMoveEvaluations(rootMoveEvaluationCollection.getRootMoveEvaluationListCopy());
     }
 
     @Override

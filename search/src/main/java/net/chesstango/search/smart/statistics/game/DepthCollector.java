@@ -3,11 +3,15 @@ package net.chesstango.search.smart.statistics.game;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
+import net.chesstango.search.Bound;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -16,10 +20,10 @@ import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 public class DepthCollector implements Acceptor, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
-    private RootMoveEvaluationCache rootMoveEvaluationCache;
+    private int depth;
 
     @Setter
-    private int depth;
+    private List<RootMoveEvaluation> rootMoveEvaluationList;
 
     @Getter
     private float exploredDepth;
@@ -42,7 +46,10 @@ public class DepthCollector implements Acceptor, SearchByCycleListener, SearchBy
 
     @Override
     public void afterSearchByDepth(boolean searchStopped) {
-        int evaluatedChild = rootMoveEvaluationCache.getRootMoveEvaluations().size();
+        long evaluatedChild = rootMoveEvaluationList
+                .stream()
+                .filter(rootEval -> !(rootEval.evaluation() == Evaluator.INFINITE_NEGATIVE && rootEval.bound() == Bound.UPPER_BOUND))
+                .count();
         exploredDepth = (depth - 1) + (float) evaluatedChild / possibleMoves;
     }
 

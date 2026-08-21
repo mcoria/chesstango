@@ -15,14 +15,8 @@ import java.util.Comparator;
  */
 public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
 
-    private final Comparator<RootMoveEvaluation> rootMoveEvaluationComparator;
-
     @Getter
     private RootMoveEvaluation bestRootMoveEvaluation;
-
-    public RootMoveEvaluationBest() {
-        rootMoveEvaluationComparator = new RootMoveEvaluationComparator();
-    }
 
     /**
      * Accepts a visitor for the visitor pattern implementation.

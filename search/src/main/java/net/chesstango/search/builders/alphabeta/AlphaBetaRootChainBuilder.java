@@ -8,12 +8,10 @@ import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
@@ -33,7 +31,6 @@ import java.util.List;
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final RootMoveEvaluationTracker moveEvaluationTracker;
 
-    private final RootMoveEvaluationCache rootMoveEvaluationCache;
     private final RootMoveEvaluationBest rootMoveEvaluationBest;
     private final RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
@@ -51,7 +48,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private PropagatePV propagatePV;
     private CalculatePV calculatePV;
     private PVCalculatorTriangular pvCalculatorTriangular;
-    private PVCalculatorDebug pvCalculatorDebug;
 
     private AlphaBetaFilter alphaBetaFlowControl;
 
@@ -68,7 +64,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         alphaBeta = new AlphaBeta();
         moveSorterRootBuilder = new MoveSorterRootBuilder();
         moveEvaluationTracker = new RootMoveEvaluationTracker();
-        rootMoveEvaluationCache = new RootMoveEvaluationCache();
         rootMoveEvaluationBest = new RootMoveEvaluationBest();
         rootMoveEvaluationCollection = new RootMoveEvaluationCollection();
     }
@@ -126,7 +121,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     @Override
     protected void buildObjects() {
         moveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
-        moveEvaluationTracker.setRootMoveEvaluationCache(rootMoveEvaluationCache);
         moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
 
         calculatePV = new CalculatePV();
@@ -155,10 +149,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(NodeTopology.ROOT);
         }
 
-        if (withDebugSearchTree) {
-            pvCalculatorDebug = new PVCalculatorDebug();
-        }
-
         moveSorter = moveSorterRootBuilder.build();
     }
 
@@ -166,8 +156,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     @Override
     protected void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
-
-        searchListenerMediator.add(rootMoveEvaluationCache);
 
         searchListenerMediator.add(rootMoveEvaluationBest);
 
@@ -210,10 +198,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (pvCalculatorTriangular != null) {
             searchListenerMediator.add(pvCalculatorTriangular);
         }
-
-        if (pvCalculatorDebug != null) {
-            searchListenerMediator.add(pvCalculatorDebug);
-        }
     }
 
     @Override
@@ -224,15 +208,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             aspirationWindows.setSearchListenerMediator(searchListenerMediator);
         }
 
-        if (withDebugSearchTree) {
-            pvCalculatorDebug.setImp(pvCalculatorTriangular);
+        calculatePV.setPvCalculator(pvCalculatorTriangular);
 
-            calculatePV.setPvCalculator(pvCalculatorDebug);
-        } else {
-            calculatePV.setPvCalculator(pvCalculatorTriangular);
-        }
-
-        searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationCache, rootMoveEvaluationBest, new LinkedList<>()));
+        searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationBest, new LinkedList<>()));
     }
 
     @Override
