@@ -12,7 +12,6 @@ import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
@@ -32,7 +31,6 @@ import java.util.List;
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final RootMoveEvaluationTracker moveEvaluationTracker;
 
-    private final RootMoveEvaluationCache rootMoveEvaluationCache;
     private final RootMoveEvaluationBest rootMoveEvaluationBest;
     private final RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
@@ -66,7 +64,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         alphaBeta = new AlphaBeta();
         moveSorterRootBuilder = new MoveSorterRootBuilder();
         moveEvaluationTracker = new RootMoveEvaluationTracker();
-        rootMoveEvaluationCache = new RootMoveEvaluationCache();
         rootMoveEvaluationBest = new RootMoveEvaluationBest();
         rootMoveEvaluationCollection = new RootMoveEvaluationCollection();
     }
@@ -124,7 +121,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     @Override
     protected void buildObjects() {
         moveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
-        moveEvaluationTracker.setRootMoveEvaluationCache(rootMoveEvaluationCache);
         moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
 
         calculatePV = new CalculatePV();
@@ -160,8 +156,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     @Override
     protected void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
-
-        searchListenerMediator.add(rootMoveEvaluationCache);
 
         searchListenerMediator.add(rootMoveEvaluationBest);
 
@@ -216,7 +210,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         calculatePV.setPvCalculator(pvCalculatorTriangular);
 
-        searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationCache, rootMoveEvaluationBest, new LinkedList<>()));
+        searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationBest, new LinkedList<>()));
     }
 
     @Override

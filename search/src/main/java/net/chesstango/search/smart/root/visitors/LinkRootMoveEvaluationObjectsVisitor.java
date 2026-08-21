@@ -3,7 +3,6 @@ package net.chesstango.search.smart.root.visitors;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
@@ -16,14 +15,11 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class LinkRootMoveEvaluationObjectsVisitor implements Visitor {
-    private final RootMoveEvaluationCache rootMoveEvaluationCache;
     private final RootMoveEvaluationBest rootMoveEvaluationBest;
     private final List<RootMoveEvaluation> rootMoveEvaluationList;
 
-    public LinkRootMoveEvaluationObjectsVisitor(RootMoveEvaluationCache rootMoveEvaluationCache,
-                                                RootMoveEvaluationBest rootMoveEvaluationBest,
+    public LinkRootMoveEvaluationObjectsVisitor(RootMoveEvaluationBest rootMoveEvaluationBest,
                                                 List<RootMoveEvaluation> rootMoveEvaluationList) {
-        this.rootMoveEvaluationCache = rootMoveEvaluationCache;
         this.rootMoveEvaluationBest = rootMoveEvaluationBest;
         this.rootMoveEvaluationList = rootMoveEvaluationList;
     }
@@ -41,7 +37,7 @@ public class LinkRootMoveEvaluationObjectsVisitor implements Visitor {
 
     @Override
     public void visit(DepthCollector depthCollector) {
-        depthCollector.setRootMoveEvaluationCache(rootMoveEvaluationCache);
+        depthCollector.setRootMoveEvaluationList(rootMoveEvaluationList);
     }
 
     @Override

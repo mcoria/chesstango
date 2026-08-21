@@ -10,7 +10,6 @@ import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCache;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 
 /**
@@ -23,9 +22,6 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     @Setter
     @Getter
     private AlphaBetaFilter next;
-
-    @Setter
-    private RootMoveEvaluationCache rootMoveEvaluationCache;
 
     @Setter
     private RootMoveEvaluationBest rootMoveEvaluationBest;
@@ -50,8 +46,6 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
         RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
-
-        //rootMoveEvaluationCache.save(rootMoveEvaluation);
         rootMoveEvaluationBest.save(rootMoveEvaluation);
         rootMoveEvaluationCollection.save(rootMoveEvaluation);
 
