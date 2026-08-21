@@ -8,7 +8,6 @@ import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
@@ -51,7 +50,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private PropagatePV propagatePV;
     private CalculatePV calculatePV;
     private PVCalculatorTriangular pvCalculatorTriangular;
-    private PVCalculatorDebug pvCalculatorDebug;
 
     private AlphaBetaFilter alphaBetaFlowControl;
 
@@ -155,10 +153,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(NodeTopology.ROOT);
         }
 
-        if (withDebugSearchTree) {
-            pvCalculatorDebug = new PVCalculatorDebug();
-        }
-
         moveSorter = moveSorterRootBuilder.build();
     }
 
@@ -210,10 +204,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (pvCalculatorTriangular != null) {
             searchListenerMediator.add(pvCalculatorTriangular);
         }
-
-        if (pvCalculatorDebug != null) {
-            searchListenerMediator.add(pvCalculatorDebug);
-        }
     }
 
     @Override
@@ -224,13 +214,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             aspirationWindows.setSearchListenerMediator(searchListenerMediator);
         }
 
-        if (withDebugSearchTree) {
-            pvCalculatorDebug.setImp(pvCalculatorTriangular);
-
-            calculatePV.setPvCalculator(pvCalculatorDebug);
-        } else {
-            calculatePV.setPvCalculator(pvCalculatorTriangular);
-        }
+        calculatePV.setPvCalculator(pvCalculatorTriangular);
 
         searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationCache, rootMoveEvaluationBest, new LinkedList<>()));
     }

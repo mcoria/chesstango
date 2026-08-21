@@ -29,7 +29,6 @@ import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.quiescence.QuiescenceNull;
@@ -229,9 +228,6 @@ public interface Visitor {
     }
 
     default void visit(KillerMovesDebug killerMovesDebug) {
-    }
-
-    default void visit(PVCalculatorDebug ttpvReaderDebug) {
     }
 
     default void visit(TTableNodeDebug tTableNodeDebug) {

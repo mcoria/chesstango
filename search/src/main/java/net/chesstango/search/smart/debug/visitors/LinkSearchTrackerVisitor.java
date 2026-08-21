@@ -6,7 +6,6 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.killermoves.KillerMovesDebug;
-import net.chesstango.search.smart.pv.model.PVCalculatorDebug;
 import net.chesstango.search.smart.transposition.TTableComparatorDebug;
 import net.chesstango.search.smart.transposition.TTableNodeDebug;
 import net.chesstango.search.smart.transposition.TTablePVDebug;
@@ -61,11 +60,6 @@ public class LinkSearchTrackerVisitor implements Visitor {
     @Override
     public void visit(EvaluatorDebug evaluatorDebug) {
         evaluatorDebug.setDebugNodeTracker(debugNodeTracker);
-    }
-
-    @Override
-    public void visit(PVCalculatorDebug pvCalculatorDebug) {
-        pvCalculatorDebug.setDebugNodeTracker(debugNodeTracker);
     }
 
 }
