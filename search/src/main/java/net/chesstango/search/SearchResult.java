@@ -48,12 +48,8 @@ public class SearchResult implements Serializable {
         return !searchResultByDepths.isEmpty() ? searchResultByDepths.getLast().getBestEvaluation() : null;
     }
 
-    public List<PrincipalVariation> getPrincipalVariation() {
+    public PrincipalVariation getPrincipalVariation() {
         return !searchResultByDepths.isEmpty() ? searchResultByDepths.getLast().getPrincipalVariation() : null;
-    }
-
-    public boolean isPvComplete() {
-        return !searchResultByDepths.isEmpty() && searchResultByDepths.getLast().isPvComplete();
     }
 
     public SearchResult addSearchResultByDepth(SearchResultByDepth searchResultByDepth) {

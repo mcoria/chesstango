@@ -2,15 +2,15 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.search.builders.sorters.MoveSorterRootBuilder;
-import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
-import net.chesstango.search.smart.pv.filters.CalculatePV;
+import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
+import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
@@ -29,10 +29,13 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
-    private final RootMoveEvaluationTracker moveEvaluationTracker;
-
+    private final RootMoveEvaluationTracker rootMoveEvaluationTracker;
     private final RootMoveEvaluationBest rootMoveEvaluationBest;
     private final RootMoveEvaluationCollection rootMoveEvaluationCollection;
+
+    private final ExtendPV extendPV;
+    private final PropagatePV propagatePV;
+    private final PVCalculatorTriangular pvCalculatorTriangular;
 
     private final AlphaBeta alphaBeta;
 
@@ -44,10 +47,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private TranspositionTableRoot transpositionTableRoot;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-
-    private PropagatePV propagatePV;
-    private CalculatePV calculatePV;
-    private PVCalculatorTriangular pvCalculatorTriangular;
 
     private AlphaBetaFilter alphaBetaFlowControl;
 
@@ -63,9 +62,14 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     public AlphaBetaRootChainBuilder() {
         alphaBeta = new AlphaBeta();
         moveSorterRootBuilder = new MoveSorterRootBuilder();
-        moveEvaluationTracker = new RootMoveEvaluationTracker();
+
+        rootMoveEvaluationTracker = new RootMoveEvaluationTracker();
         rootMoveEvaluationBest = new RootMoveEvaluationBest();
         rootMoveEvaluationCollection = new RootMoveEvaluationCollection();
+
+        extendPV = new ExtendPV();
+        propagatePV = new PropagatePV();
+        pvCalculatorTriangular = new PVCalculatorTriangular();
     }
 
     public AlphaBetaRootChainBuilder withIterativeDeepening() {
@@ -120,14 +124,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void buildObjects() {
-        moveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
-        moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
-
-        calculatePV = new CalculatePV();
-
-        pvCalculatorTriangular = new PVCalculatorTriangular();
-
-        propagatePV = new PropagatePV();
+        rootMoveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
+        rootMoveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
@@ -155,11 +153,17 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
-        searchListenerMediator.add(moveEvaluationTracker);
+        searchListenerMediator.add(rootMoveEvaluationTracker);
 
         searchListenerMediator.add(rootMoveEvaluationBest);
 
         searchListenerMediator.add(rootMoveEvaluationCollection);
+
+        searchListenerMediator.add(extendPV);
+
+        searchListenerMediator.add(propagatePV);
+
+        searchListenerMediator.add(pvCalculatorTriangular);
 
         searchListenerMediator.add(alphaBeta);
 
@@ -186,29 +190,17 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (transpositionTableRoot != null) {
             searchListenerMediator.add(transpositionTableRoot);
         }
-
-        if (calculatePV != null) {
-            searchListenerMediator.add(calculatePV);
-        }
-
-        if (propagatePV != null) {
-            searchListenerMediator.add(propagatePV);
-        }
-
-        if (pvCalculatorTriangular != null) {
-            searchListenerMediator.add(pvCalculatorTriangular);
-        }
     }
 
     @Override
     public void link() {
         alphaBeta.setMoveSorter(moveSorter);
 
+        rootMoveEvaluationTracker.setPvCalculator(pvCalculatorTriangular);
+
         if (withAspirationWindows) {
             aspirationWindows.setSearchListenerMediator(searchListenerMediator);
         }
-
-        calculatePV.setPvCalculator(pvCalculatorTriangular);
 
         searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationBest, new LinkedList<>()));
     }
@@ -229,9 +221,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             chain.add(aspirationWindows);
         }
 
-        if (calculatePV != null) {
-            chain.add(calculatePV);
-        }
+        chain.add(extendPV);
 
         if (debugFilter != null) {
             chain.add(debugFilter);
@@ -247,11 +237,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         chain.add(alphaBeta);
 
-        if (propagatePV != null) {
-            chain.add(propagatePV);
-        }
+        chain.add(rootMoveEvaluationTracker);
 
-        chain.add(moveEvaluationTracker);
+        chain.add(propagatePV);
 
         chain.add(alphaBetaFlowControl);
 

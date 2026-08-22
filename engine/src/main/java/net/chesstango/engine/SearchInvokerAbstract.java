@@ -3,7 +3,7 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.time.Instant;
@@ -50,11 +50,12 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
             String pv = simpleMoveEncoder
                     .encode(searchResultByDepth
                             .getPrincipalVariation()
+                            .pvMoves()
                             .stream()
-                            .map(PrincipalVariation::move)
+                            .map(PVMove::move)
                             .toList()
                     );
-            String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
+            String infoStr = String.format("depth %d seldepth %d pvMoves %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
 
             searchListener.searchInfo(infoStr);
         };

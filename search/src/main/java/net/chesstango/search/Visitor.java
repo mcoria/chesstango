@@ -25,7 +25,6 @@ import net.chesstango.search.smart.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
@@ -139,9 +138,6 @@ public interface Visitor {
 
 
     default void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
-    }
-
-    default void visit(CalculatePV calculatePV) {
     }
 
     default void visit(ExtendPV extendPV) {

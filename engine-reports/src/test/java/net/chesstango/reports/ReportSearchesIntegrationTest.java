@@ -1,19 +1,16 @@
 package net.chesstango.reports;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.reports.search.DetailsReport;
 import net.chesstango.reports.search.SummaryReport;
-import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -229,10 +226,12 @@ public class ReportSearchesIntegrationTest {
         search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);
 
-        List<String> pv = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
+        /*
+        List<String> pv = searchResult.getPrincipalVariation().stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
         System.out.printf("Evaluation: %d%n", searchResult.getBestEvaluation());
         System.out.printf("PV moves %d: %s%n", pv.size(), Arrays.toString(pv.toArray()));
         System.out.printf("PV complete: %s%n", searchResult.isPvComplete());
+         */
     }
 
     private AlphaBetaBuilder defaultSearch() {

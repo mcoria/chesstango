@@ -140,7 +140,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(21, executedMoves);
+        assertEquals(20, executedMoves);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(21, executedMoves);
+        assertEquals(20, executedMoves);
 
     }
 
@@ -188,7 +188,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(21, executedMoves);
+        assertEquals(20, executedMoves);
     }
 
     @Test
@@ -213,7 +213,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCounters[1]);
         assertEquals(21, visitedNodesCountersTotal);
-        assertEquals(21, executedMoves);            // Root cuenta como visited pero no ejecutado
+        assertEquals(20, executedMoves);            // Root cuenta como visited pero no ejecutado
     }
 
     @Test
@@ -243,7 +243,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[5]);
 
         assertEquals(29, visitedNodesCountersTotal);
-        assertEquals(44, executedMoves);
+        assertEquals(37, executedMoves);
     }
 
 
@@ -274,7 +274,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[7]);
 
         assertEquals(29, visitedNodesCountersTotal);
-        assertEquals(44, executedMoves);
+        assertEquals(37, executedMoves);
     }
 
 

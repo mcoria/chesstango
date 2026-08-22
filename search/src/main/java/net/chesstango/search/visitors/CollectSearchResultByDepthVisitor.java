@@ -27,12 +27,6 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PVCalculatorTriangular trianglePVReader) {
-        searchResultByDepth.setPrincipalVariation(trianglePVReader.getPrincipalVariation());
-        searchResultByDepth.setPvComplete(trianglePVReader.isPvComplete());
-    }
-
-    @Override
     public void visit(RootMoveEvaluationCollection rootMoveEvaluationCollection) {
         searchResultByDepth.setRootMoveEvaluations(rootMoveEvaluationCollection.getRootMoveEvaluationListCopy());
     }

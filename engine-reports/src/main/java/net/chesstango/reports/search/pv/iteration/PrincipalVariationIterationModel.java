@@ -2,6 +2,7 @@ package net.chesstango.reports.search.pv.iteration;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
@@ -61,7 +62,8 @@ public class PrincipalVariationIterationModel implements Model<List<SearchResult
 
         List<Boolean> completeList = searchResult.getSearchResultByDepths()
                 .stream()
-                .map(SearchResultByDepth::isPvComplete)
+                .map(SearchResultByDepth::getPrincipalVariation)
+                .map(PrincipalVariation::pvComplete)
                 .toList();
         modelDetail.pvComplete = new boolean[completeList.size()];
         for (int i = 0; i < completeList.size(); i++) {

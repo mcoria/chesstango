@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import org.junit.jupiter.api.Test;
@@ -88,10 +88,10 @@ public abstract class MateIn1Test {
 
         assertEquals(Evaluator.WON, searchResult.getBestEvaluation());
 
-        List<PrincipalVariation> pvMoves = searchResult.getPrincipalVariation();
+        List<PVMove> pvMoves = searchResult.getPrincipalVariation().pvMoves();
         assertEquals(1, pvMoves.size());
 
-        PrincipalVariation firstPV = pvMoves.getFirst();
+        PVMove firstPV = pvMoves.getFirst();
         assertEquals(hash, firstPV.hash());
         assertEquals(smartMove, firstPV.move());
     }

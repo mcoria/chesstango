@@ -20,7 +20,6 @@ import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.pv.filters.CalculatePV;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
@@ -208,14 +207,6 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(RootMoveEvaluationTracker moveEvaluationTracker) {
         print(moveEvaluationTracker, moveEvaluationTracker.getNext());
-    }
-
-    @Override
-    public void visit(CalculatePV calculatePV) {
-        printChainDownLine();
-        printChainText(String.format("%s [PVCalculator: %s]", objectText(calculatePV), printPVCalculator(calculatePV.getPvCalculator())));
-
-        traverse(calculatePV.getNext());
     }
 
     @Override
