@@ -111,8 +111,9 @@ public class PVCalculatorTriangularTest {
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", 10);
 
-        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-
+        /**
+         * Secuencia de ejecucion
+         */
         pvTable.extendLine(0, null);
 
         Move pvMove = game.getMove(Square.g1, Square.f3);
@@ -126,8 +127,9 @@ public class PVCalculatorTriangularTest {
         game.undoMove();
         pvTable.propagateLine(1);
 
-        game.undoMove();
         pvTable.propagateLine(0);
+
+        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
         /**
          * Execute
@@ -164,22 +166,22 @@ public class PVCalculatorTriangularTest {
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
 
-        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-
         pvTable.extendLine(0, null);
 
         Move pvMove = game.getMove(Square.g1, Square.f3);
         pvMove.executeMove();
+
         pvTable.extendLine(1, pvMove);
 
         pvMove = game.getMove(Square.g8, Square.f6);
         pvMove.executeMove();
+
         pvTable.extendLine(2, pvMove);
 
         pvMove = game.getMove(Square.d2, Square.d4);
         pvMove.executeMove();
-        pvTable.extendLine(3, pvMove);
 
+        pvTable.extendLine(3, pvMove);
 
         game.undoMove();
         pvTable.propagateLine(2);
@@ -187,8 +189,9 @@ public class PVCalculatorTriangularTest {
         game.undoMove();
         pvTable.propagateLine(1);
 
-        game.undoMove();
         pvTable.propagateLine(0);
+
+        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
         /**
          * Execute
@@ -222,18 +225,19 @@ public class PVCalculatorTriangularTest {
         when(endGameTableBase.isProbeAvailable()).thenReturn(true);
         when(endGameTableBase.evaluate()).thenReturn(Evaluator.WHITE_WON);
 
-        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-
+        /**
+         * Secuencia de ejecucion
+         */
         pvTable.extendLine(0, null);
 
         Move pvMove = game.getMove(Square.g4, Square.f5);
         pvMove.executeMove();
+
         pvTable.extendLine(1, pvMove);
 
-
-        game.undoMove();
         pvTable.propagateLine(0);
 
+        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
         /**
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()

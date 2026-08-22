@@ -213,14 +213,3 @@ Acceptor:
 	AspirationWindows @ 4
 	TranspositionTableRoot @ 6
 
-
-org.opentest4j.AssertionFailedError:
-Expected :229
-Actual   :215
-<Click to see difference>
-
-
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:569)
-	at net.chesstango.search.visitors.ChainPrinterVisitorTest.assertSearchTree(ChainPrinterVisitorTest.java:161)
-	at net.chesstango.search.visitors.ChainPrinterVisitorTest.alphaBetaBuilderChainDefault(ChainPrinterVisitorTest.java:61)
-
