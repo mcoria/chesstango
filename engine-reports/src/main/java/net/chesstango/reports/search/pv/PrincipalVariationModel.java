@@ -3,7 +3,7 @@ package net.chesstango.reports.search.pv;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
-import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
@@ -72,10 +72,15 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
         reportModelDetail.move = bestMove.coordinateEncoding();
         reportModelDetail.evaluation = searchResult.getBestEvaluation();
 
-        List<Move> pvMoves = searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList();
-        reportModelDetail.principalVariation = String.format("%s%s", SimpleMoveEncoder.INSTANCE.encode(pvMoves), searchResult.isPvComplete() ? "" : " truncated");
+        List<Move> pvMoves = searchResult.getPrincipalVariation()
+                .pvMoves()
+                .stream()
+                .map(PVMove::move)
+                .toList();
 
-        reportModelDetail.pvComplete = searchResult.isPvComplete();
+        reportModelDetail.principalVariation = String.format("%s%s", SimpleMoveEncoder.INSTANCE.encode(pvMoves), searchResult.getPrincipalVariation().pvComplete() ? "" : " truncated");
+
+        reportModelDetail.pvComplete = searchResult.getPrincipalVariation().pvComplete();
 
         reportModelDetail.maxDepth = lastSearchResultByDepth.getDepth();
 

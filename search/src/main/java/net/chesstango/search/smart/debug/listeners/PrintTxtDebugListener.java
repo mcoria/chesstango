@@ -3,7 +3,7 @@ package net.chesstango.search.smart.debug.listeners;
 import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -107,7 +107,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", result.getBestMove().coordinateEncoding(), result.getBestEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
+        //debugOut.printf("depth %d seldepth %d pvMoves %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPvMove().stream().map(PVMove::move).toList()));
     }
 
     private void dumpSearchTracker() {

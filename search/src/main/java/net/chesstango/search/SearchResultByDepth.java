@@ -47,18 +47,6 @@ public class SearchResultByDepth implements Serializable {
     private List<RootMoveEvaluation> rootMoveEvaluations;
 
     /**
-     * List of principal variations found during the search.
-     * A principal variation is the sequence of moves that are considered best by the search algorithm.
-     */
-    private List<PrincipalVariation> principalVariation;
-
-    /**
-     * Indicates if the Principal Variation (PV) is complete.
-     * When true, we reached the same evaluation by executing the moves in the PV.
-     */
-    private boolean pvComplete;
-
-    /**
      * Time spent searching at the last depth level in milliseconds.
      */
     private long timeSearchingLastDepth;
@@ -101,5 +89,9 @@ public class SearchResultByDepth implements Serializable {
      */
     public Integer getBestEvaluation() {
         return bestRootMoveEvaluation != null ? bestRootMoveEvaluation.evaluation() : null;
+    }
+
+    public PrincipalVariation getPrincipalVariation() {
+        return bestRootMoveEvaluation != null ? bestRootMoveEvaluation.pv() : null;
     }
 }

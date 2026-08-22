@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -19,14 +19,14 @@ import java.util.List;
  */
 public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByCycleListener, SearchByDepthListener, SortListener {
 
-    private final PrincipalVariation[] principalVariations;
+    private final PVMove[] pvMoves;
 
     @Setter
     @Getter
     private GroupSorter next;
 
     @Setter
-    private List<PrincipalVariation> lastPrincipalVariations;
+    private List<PVMove> lastPVMoves;
 
     @Setter
     private Game game;
@@ -34,7 +34,7 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
     private int currentPly;
 
     public PrincipalVariationGroup() {
-        principalVariations = new PrincipalVariation[40];
+        pvMoves = new PVMove[40];
     }
 
     @Override
@@ -44,18 +44,18 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
 
     @Override
     public void beforeSearch() {
-        lastPrincipalVariations = null;
+        lastPVMoves = null;
         for (int i = 0; i < 40; i++) {
-            principalVariations[i] = null;
+            pvMoves[i] = null;
         }
     }
 
     @Override
     public void beforeSearchByDepth() {
-        if (lastPrincipalVariations != null) {
+        if (lastPVMoves != null) {
             int i = 0;
-            for (PrincipalVariation pv : lastPrincipalVariations) {
-                principalVariations[i] = pv;
+            for (PVMove pv : lastPVMoves) {
+                pvMoves[i] = pv;
                 i++;
             }
         }
@@ -64,10 +64,10 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
     @Override
     public void beforeSort(int currentPly) {
         this.currentPly = currentPly;
-        if (lastPrincipalVariations != null && currentPly < lastPrincipalVariations.size() && principalVariations[currentPly] != null) {
+        if (lastPVMoves != null && currentPly < lastPVMoves.size() && pvMoves[currentPly] != null) {
             long hash = game.getPosition().getZobristHash();
-            PrincipalVariation principalVariation = lastPrincipalVariations.get(currentPly);
-            if (principalVariation.hash() != hash) {
+            PVMove pvMove = lastPVMoves.get(currentPly);
+            if (pvMove.hash() != hash) {
                 throw new RuntimeException("Principal variation hash mismatch");
             }
         }
@@ -75,16 +75,16 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
 
     @Override
     public void afterSort() {
-        if (principalVariations[currentPly] != null) {
-            principalVariations[currentPly] = null;
+        if (pvMoves[currentPly] != null) {
+            pvMoves[currentPly] = null;
         }
     }
 
     @Override
     public boolean offer(Move move) {
         boolean result = false;
-        if (principalVariations[currentPly] != null) {
-            Move pvMove = principalVariations[currentPly].move();
+        if (pvMoves[currentPly] != null) {
+            Move pvMove = pvMoves[currentPly].move();
             result = move.binaryEncoding() == pvMove.binaryEncoding();
         }
         return result ? result : next.offer(move);
@@ -92,8 +92,8 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByC
 
     @Override
     public void collect(List<Move> moves) {
-        if (principalVariations[currentPly] != null) {
-            moves.add(principalVariations[currentPly].move());
+        if (pvMoves[currentPly] != null) {
+            moves.add(pvMoves[currentPly].move());
         }
         next.collect(moves);
     }

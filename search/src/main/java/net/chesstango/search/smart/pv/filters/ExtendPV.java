@@ -29,10 +29,12 @@ public class ExtendPV implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        Move lastMove = game
-                .getHistory()
-                .peekLastRecord()
-                .playedMove();
+
+        Move lastMove = currentPly == 0 ?
+                null :
+                game.getHistory()
+                        .peekLastRecord()
+                        .playedMove();
 
 
         trianglePV.extendLine(currentPly, lastMove);

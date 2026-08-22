@@ -21,8 +21,6 @@ public class AlphaBetaRootNodeStatistics implements AlphaBetaFilter, Acceptor {
 
     private Game game;
 
-    private int depth;
-
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);

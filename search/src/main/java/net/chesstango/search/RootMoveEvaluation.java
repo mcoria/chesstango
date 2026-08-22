@@ -9,7 +9,8 @@ import java.io.Serializable;
  */
 public record RootMoveEvaluation(Move move,
                                  int evaluation,
-                                 Bound bound) implements Serializable {
+                                 Bound bound,
+                                 PrincipalVariation pv) implements Serializable {
 
     @Override
     public String toString() {

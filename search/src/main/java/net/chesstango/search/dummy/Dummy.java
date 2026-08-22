@@ -32,7 +32,7 @@ public class Dummy implements Search {
 
         List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-        RootMoveEvaluation bestMove = new RootMoveEvaluation(selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), 0, Bound.EXACT);
+        RootMoveEvaluation bestMove = new RootMoveEvaluation(selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), 0, Bound.EXACT, null);
 
         return new SearchResult().addSearchResultByDepth(new SearchResultByDepth(1).setBestRootMoveEvaluation(bestMove));
     }

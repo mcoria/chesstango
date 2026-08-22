@@ -1,16 +1,15 @@
 package net.chesstango.search.smart.pv.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.ZobristHashReader;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListener, Acceptor {
+public class PVCalculatorTriangular implements PVCalculator, Acceptor {
 
     @Setter
     protected Evaluator evaluator;
@@ -30,14 +29,6 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
     @Setter
     protected Game game;
 
-    @Getter
-    @Setter(AccessLevel.PACKAGE)
-    protected boolean pvComplete;
-
-    @Getter
-    @Setter(AccessLevel.PACKAGE)
-    protected List<PrincipalVariation> principalVariation;
-
     @Setter
     private TriangularPVTable trianglePV;
 
@@ -47,53 +38,56 @@ public class PVCalculatorTriangular implements PVCalculator, SearchByCycleListen
     }
 
     @Override
-    public void beforeSearch() {
-        principalVariation = null;
-        pvComplete = false;
-    }
-
-    @Override
-    public void calculatePrincipalVariation(int eval) {
+    public PrincipalVariation calculatePrincipalVariation(int eval) {
         // Cada vez que recalculamos Principal Variation
-        this.principalVariation = walkPrincipalVariation();
+        List<PVMove> pvMoves = walkPrincipalVariation();
 
-        this.pvComplete = validatePrincipalVariation(eval);
+        boolean pvComplete = validatePrincipalVariation(pvMoves, eval);
 
         // Rewind game
-        principalVariation
-                .reversed()
+        pvMoves
                 .stream()
-                .map(PrincipalVariation::move)
+                .skip(1)
+                .map(PVMove::move)
+                .toList()
+                .reversed()
                 .forEach(Move::undoMove);
+
+
+        return new PrincipalVariation(pvMoves, pvComplete);
     }
 
 
-    protected List<PrincipalVariation> walkPrincipalVariation() {
-        // Comenzar de ROOT + 1
-        int pvMoveCounter = 1;
+    protected List<PVMove> walkPrincipalVariation() {
+        // Comenzar de ROOT + 2
+        int pvMoveCounter = 2;
 
         Move[] pvMoves = trianglePV.getRootPV();
-
-        List<PrincipalVariation> principalVariationList = new ArrayList<>(pvMoves.length);
+        List<PVMove> pvMoveList = new ArrayList<>(pvMoves.length);
 
         // First PV move
+        Move lastMove = game.getHistory().peekLastRecord().playedMove();
+        long lastHash = game.getHistory().peekLastRecord().zobristHash().getZobristHash();
+        pvMoveList.add(new PVMove(lastHash, lastMove));
+
+        // Second PV move
         while (pvMoveCounter < pvMoves.length) {
             long currentHash = game.getPosition().getZobristHash();
 
             Move currentMove = pvMoves[pvMoveCounter++];
 
-            principalVariationList.add(new PrincipalVariation(currentHash, currentMove));
+            pvMoveList.add(new PVMove(currentHash, currentMove));
 
             currentMove.executeMove();
         }
 
-        return principalVariationList;
+        return pvMoveList;
     }
 
-    protected boolean validatePrincipalVariation(int eval) {
+    protected boolean validatePrincipalVariation(List<PVMove> pvMoves, int eval) {
         boolean isPVComplete = false;
 
-        int sign = principalVariation.size() % 2 == 0 ? 1 : -1;
+        int sign = pvMoves.size() % 2 == 0 ? 1 : -1;
 
         int pvEvaluation = 0;
 

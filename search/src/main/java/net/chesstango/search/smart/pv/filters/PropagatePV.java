@@ -27,7 +27,7 @@ public class PropagatePV implements AlphaBetaFilter, Acceptor {
     public int alphaBeta(int currentPly, int alpha, int beta) {
         int value = next.alphaBeta(currentPly, alpha, beta);
 
-        if (alpha < value) {
+        if (alpha < value && value < beta) {
             trianglePV.propagateLine(currentPly);
         }
 

@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.sorters.MoveComparator;
@@ -23,7 +23,7 @@ public class PrincipalVariationComparator implements MoveComparator, Acceptor, S
     private MoveComparator next;
 
     @Setter
-    private List<PrincipalVariation> lastPrincipalVariations;
+    private List<PVMove> lastPVMoves;
 
     @Setter
     private Game game;
@@ -37,17 +37,17 @@ public class PrincipalVariationComparator implements MoveComparator, Acceptor, S
 
     @Override
     public void beforeSearch() {
-        lastPrincipalVariations = null;
+        lastPVMoves = null;
     }
 
     @Override
     public void beforeSort(int currentPly) {
-        if (lastPrincipalVariations != null) {
-            if (lastPrincipalVariations.size() > currentPly) {
+        if (lastPVMoves != null) {
+            if (lastPVMoves.size() > currentPly) {
                 long hash = game.getPosition().getZobristHash();
-                PrincipalVariation principalVariation = lastPrincipalVariations.get(currentPly);
-                if (principalVariation.hash() == hash) {
-                    pvMove = principalVariation.move();
+                PVMove pvMove = lastPVMoves.get(currentPly);
+                if (pvMove.hash() == hash) {
+                    this.pvMove = pvMove.move();
                 }
             }
         }

@@ -24,11 +24,11 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
-        principalVariationComparator.setLastPrincipalVariations(searchResultByDepth.getPrincipalVariation());
+        principalVariationComparator.setLastPVMoves(searchResultByDepth.getPrincipalVariation().pvMoves());
     }
     @Override
     public void visit(PrincipalVariationGroup principalVariationGroup) {
-        principalVariationGroup.setLastPrincipalVariations(searchResultByDepth.getPrincipalVariation());
+        principalVariationGroup.setLastPVMoves(searchResultByDepth.getPrincipalVariation().pvMoves());
     }
 
 }

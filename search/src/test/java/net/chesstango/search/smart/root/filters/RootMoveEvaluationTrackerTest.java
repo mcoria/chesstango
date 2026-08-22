@@ -7,6 +7,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Mauricio Coria
@@ -31,11 +33,15 @@ public class RootMoveEvaluationTrackerTest {
     @Mock
     private RootMoveEvaluationBest rootMoveEvaluationBest;
 
+    @Mock
+    private PVCalculator pvCalculator;
+
     @BeforeEach
     public void setup() {
         moveEvaluationTracker = new RootMoveEvaluationTracker();
         moveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
         moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
+        moveEvaluationTracker.setPvCalculator(pvCalculator);
     }
 
 
@@ -90,6 +96,7 @@ public class RootMoveEvaluationTrackerTest {
         assertEquals(move, result.move());
         assertEquals(0, result.evaluation());
         assertEquals(Bound.EXACT, result.bound());
+        verify(pvCalculator, times(1)).calculatePrincipalVariation(0);
     }
 
     @Test

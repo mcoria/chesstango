@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.pv.model;
 
+import net.chesstango.search.PrincipalVariation;
+
 /**
  * @author Mauricio Coria
  */
@@ -9,5 +11,5 @@ public interface PVCalculator {
      *
      * @param eval
      */
-    void calculatePrincipalVariation(int eval);
+    PrincipalVariation calculatePrincipalVariation(int eval);
 }

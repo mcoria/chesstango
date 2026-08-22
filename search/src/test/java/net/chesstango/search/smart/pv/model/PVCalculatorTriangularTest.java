@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.PVMove;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,23 +48,6 @@ public class PVCalculatorTriangularTest {
         pvCalculator.setTrianglePV(pvTable);
     }
 
-    @Test
-    public void test_beforeSearch() {
-        game = Game.from(FEN.START_POSITION);
-        pvCalculator.setGame(game);
-
-        // Supongamos que se ejecutó walkPrincipalVariation
-        final long startZobrist = game.getPosition().getZobristHash();
-        final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
-        pvCalculator.setPrincipalVariation(List.of(new PrincipalVariation(startZobrist, startExecutedMove)));
-        pvCalculator.setPvComplete(true);
-
-        // Y continuamos con la siguiente busqueda
-        pvCalculator.beforeSearch();
-
-        assertFalse(pvCalculator.isPvComplete());
-        assertNull(pvCalculator.getPrincipalVariation());
-    }
 
     /**
      * Este es el test mas simple de todos.
@@ -74,34 +58,41 @@ public class PVCalculatorTriangularTest {
     public void test_calculatePrincipalVariation_depth01() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", 10);
 
-        final long zobristBeforeCalculate = game.getPosition().getZobristHash();
-
+        /**
+         * Secuencia de ejecucion
+         */
         pvTable.extendLine(0, null);
-        pvTable.extendLine(1, game.getMove(Square.g1, Square.f3));
+
+        Move move = game.getMove(Square.g1, Square.f3);
+        move.executeMove();
+
+        pvTable.extendLine(1, move);
+
         pvTable.propagateLine(0);
 
+        long zobristBeforeCalculate = game.getPosition().getZobristHash();
         /**
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
          */
-        pvCalculator.calculatePrincipalVariation(10);
+
+        PrincipalVariation pv = pvCalculator.calculatePrincipalVariation(10);
 
         /**
          * Assertions
          */
-        List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
+        List<PVMove> pvMoves = pv.pvMoves();
 
-        assertEquals(1, pv.size());
+        assertEquals(1, pvMoves.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
+        List<String> pvString = pvMoves.stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1f3"}, pvString.toArray());
 
-        assertTrue(pvCalculator.isPvComplete());
+        assertTrue(pv.pvComplete());
 
         // Verifica que el undo fué correcto
         assertEquals(zobristBeforeCalculate, game.getPosition().getZobristHash());
@@ -116,7 +107,6 @@ public class PVCalculatorTriangularTest {
     public void test_calculatePrincipalVariation_depth02() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", 10);
@@ -143,19 +133,19 @@ public class PVCalculatorTriangularTest {
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
          */
-        pvCalculator.calculatePrincipalVariation(10);
+        PrincipalVariation pv = pvCalculator.calculatePrincipalVariation(10);
 
         /**
          * Assertions
          */
-        List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
+        List<PVMove> pvMoves = pv.pvMoves();
 
-        assertEquals(2, pv.size());
+        assertEquals(2, pvMoves.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
+        List<String> pvString = pvMoves.stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1f3", "g8f6"}, pvString.toArray());
 
-        assertTrue(pvCalculator.isPvComplete());
+        assertTrue(pv.pvComplete());
 
         // Verifica que el undo fué correcto
         assertEquals(zobristBeforeCalculate, game.getPosition().getZobristHash());
@@ -170,7 +160,6 @@ public class PVCalculatorTriangularTest {
     public void test_calculatePrincipalVariation_depth03() {
         game = Game.from(FEN.START_POSITION);
         pvCalculator.setGame(game);
-        pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
         evaluator.addEvaluation("rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2", 10);
@@ -205,19 +194,19 @@ public class PVCalculatorTriangularTest {
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
          */
-        pvCalculator.calculatePrincipalVariation(10);
+        PrincipalVariation pv = pvCalculator.calculatePrincipalVariation(10);
 
         /**
          * Assertions
          */
-        List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
+        List<PVMove> pvMoves = pv.pvMoves();
 
-        assertEquals(3, pv.size());
+        assertEquals(3, pvMoves.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
+        List<String> pvString = pvMoves.stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g1f3", "g8f6", "d2d4"}, pvString.toArray());
 
-        assertTrue(pvCalculator.isPvComplete());
+        assertTrue(pv.pvComplete());
 
         // Verifica que el undo fué correcto
         assertEquals(zobristBeforeCalculate, game.getPosition().getZobristHash());
@@ -227,7 +216,6 @@ public class PVCalculatorTriangularTest {
     public void test_calculatePrincipalVariation_depth01_EGTB() {
         game = Game.from(FEN.from("4k3/8/8/5p2/6P1/2N5/8/4K3 w - - 0 1"));
         pvCalculator.setGame(game);
-        pvCalculator.beforeSearch();
 
         evaluator.setGame(game);
 
@@ -250,19 +238,19 @@ public class PVCalculatorTriangularTest {
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
          */
-        pvCalculator.calculatePrincipalVariation(Evaluator.WON);
+        PrincipalVariation pv = pvCalculator.calculatePrincipalVariation(Evaluator.WON);
 
         /**
          * Assertions
          */
-        List<PrincipalVariation> pv = pvCalculator.getPrincipalVariation();
+        List<PVMove> pvMoves = pv.pvMoves();
 
-        assertEquals(1, pv.size());
+        assertEquals(1, pvMoves.size());
 
-        List<String> pvString = pv.stream().map(PrincipalVariation::move).map(Move::coordinateEncoding).toList();
+        List<String> pvString = pvMoves.stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"g4f5"}, pvString.toArray());
 
-        assertTrue(pvCalculator.isPvComplete());
+        assertTrue(pv.pvComplete());
 
         // Verifica que el undo fué correcto
         assertEquals(zobristBeforeCalculate, game.getPosition().getZobristHash());

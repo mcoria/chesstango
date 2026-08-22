@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.Bound;
-import net.chesstango.search.RootMoveEvaluation;
-import net.chesstango.search.Visitor;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 
@@ -29,6 +27,8 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     @Setter
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
+    @Setter
+    private PVCalculator pvCalculator;
 
     @Setter
     private Game game;
@@ -55,6 +55,7 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
     final RootMoveEvaluation createRootMoveEvaluation(Move currentMove, int currentValue, int alpha, int beta) {
         Bound moveEvaluationType = null;
+        PrincipalVariation principalVariation = null;
 
         if (currentValue <= alpha) {
             moveEvaluationType = Bound.UPPER_BOUND;
@@ -62,8 +63,9 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
             moveEvaluationType = Bound.LOWER_BOUND;
         } else {
             moveEvaluationType = Bound.EXACT;
+            principalVariation = pvCalculator.calculatePrincipalVariation(currentValue);
         }
 
-        return new RootMoveEvaluation(currentMove, currentValue, moveEvaluationType);
+        return new RootMoveEvaluation(currentMove, currentValue, moveEvaluationType, principalVariation);
     }
 }
