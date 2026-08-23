@@ -206,7 +206,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = ttOperation.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("TT %s[ 0x%s value=%12d move=%s draft=%d %11s ]",
+            debugOut.printf("TT %5s[ 0x%s value=%12d move=%s draft=%d %11s ]",
                     ttOperation.getOperation(),
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
@@ -229,10 +229,6 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                     entry.getDraft(),
                     entry.getBound()
             );
-            if (currentNode.getZobristHash() != entry.getHash()) {
-                debugOut.print(" WRONG TT_READ ENTRY");
-                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
-            }
             debugOut.println("</li>");
         });
     }
