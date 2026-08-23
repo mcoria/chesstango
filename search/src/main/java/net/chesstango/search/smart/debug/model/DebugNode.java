@@ -56,9 +56,7 @@ public class DebugNode {
 
     private Integer standingPat;
 
-    private List<TranspositionEntry> nodeReads = new ArrayList<>();
-
-    private List<TranspositionEntry> nodeWrites = new ArrayList<>();
+    private List<DebugNodeTT> transpositionOperations = new ArrayList<>();
 
     private Move[] pv;
 
@@ -76,9 +74,9 @@ public class DebugNode {
      */
     private List<String> sortedMoves;
 
-    private List<DebugOperationTT> sorterReads = new ArrayList<>();
+    private List<DebugSortTT> sorterReads = new ArrayList<>();
 
-    private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
+    private List<DebugCacheRead> evalCacheReads = new ArrayList<>();
 
     private List<TranspositionEntry> pvReads = new ArrayList<>();
 

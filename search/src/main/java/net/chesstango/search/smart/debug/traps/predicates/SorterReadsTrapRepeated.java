@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.debug.traps.predicates;
 
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.debug.model.DebugSortTT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,19 +19,19 @@ import static net.chesstango.search.Bound.EXACT;
 public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
     @Override
     public boolean test(DebugNode debugNode) {
-        List<DebugOperationTT> sorterReads = debugNode.getSorterReads();
+        List<DebugSortTT> sorterReads = debugNode.getSorterReads();
 
-        Map<Integer, List<DebugOperationTT>> valueToDebugNodeTTMap = new HashMap<>();
+        Map<Integer, List<DebugSortTT>> valueToDebugNodeTTMap = new HashMap<>();
 
         sorterReads.forEach(debugNodeTT -> {
             int ttValue = debugNodeTT.getEntry().getValue();
-            List<DebugOperationTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
+            List<DebugSortTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
             list.add(debugNodeTT);
         });
 
 
-        for (Map.Entry<Integer, List<DebugOperationTT>> entry : valueToDebugNodeTTMap.entrySet()) {
-            List<DebugOperationTT> entryList = entry.getValue();
+        for (Map.Entry<Integer, List<DebugSortTT>> entry : valueToDebugNodeTTMap.entrySet()) {
+            List<DebugSortTT> entryList = entry.getValue();
             if (entryList.size() > 1 &&
                     entryList.stream().anyMatch(debugNodeTT -> EXACT.equals(debugNodeTT.getEntry().getBound()))) {
                 return true;

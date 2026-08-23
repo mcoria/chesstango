@@ -65,7 +65,7 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
                             entry.getMove(),
                             entry.getValue(),
                             entry.getBound(),
-                            ttOperation.getSortingMove()
+                            ttOperation.getMove()
                     );
                 });
         printStream.println();

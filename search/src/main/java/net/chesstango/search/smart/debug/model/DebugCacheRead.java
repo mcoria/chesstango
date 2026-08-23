@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class DebugOperationEval {
+public class DebugCacheRead {
     private long hashRequested;
     private int evaluation;
 

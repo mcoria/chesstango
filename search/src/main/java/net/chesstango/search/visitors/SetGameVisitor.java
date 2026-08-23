@@ -26,6 +26,7 @@ import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaInteriorNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaRootNodeStatistics;
+import net.chesstango.search.smart.transposition.TTableNodeDebug;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.transposition.filters.*;
 import net.chesstango.search.sorters.MoveSorterDebug;
@@ -78,6 +79,12 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(DebugFilter debugFilter) {
         debugFilter.setGame(game);
+    }
+
+
+    @Override
+    public void visit(TTableNodeDebug tTableNodeDebug) {
+        tTableNodeDebug.setGame(game);
     }
 
     @Override
