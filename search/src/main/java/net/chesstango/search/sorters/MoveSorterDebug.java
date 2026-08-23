@@ -8,8 +8,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugOperationEval;
-import net.chesstango.search.smart.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.debug.model.DebugCacheRead;
+import net.chesstango.search.smart.debug.model.DebugSortTT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     }
 
     void trackComparatorsEvalCacheReads(DebugNode debugNode) {
-        List<DebugOperationEval> evalCacheReads = debugNode.getEvalCacheReads();
+        List<DebugCacheRead> evalCacheReads = debugNode.getEvalCacheReads();
 
         for (Move move : game.getPossibleMoves()) {
             long zobristHashMove = move.getZobristHash();
@@ -71,7 +71,7 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
     }
 
     void trackComparatorsTranspositionReads(DebugNode debugNode) {
-        List<DebugOperationTT> sorterReads = debugNode.getSorterReads();
+        List<DebugSortTT> sorterReads = debugNode.getSorterReads();
 
         final long positionHash = game.getPosition().getZobristHash();
         for (Move move : game.getPossibleMoves()) {
@@ -83,12 +83,12 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
             sorterReads.stream()
                     .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
                     .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
-                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             // Transposition Tail Access
             sorterReads.stream()
                     .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getEntry().getHash())
-                    .forEach(debugNodeTT -> debugNodeTT.setSortingMove(moveStr));
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
         }
 
         /**
@@ -97,15 +97,15 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
         sorterReads
                 .stream()
                 .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setSortingMove("NO_MOVE"));
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
 
         /**
          * INVESTIGAR
          */
         sorterReads
                 .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getSortingMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setSortingMove("UNKNOWN"));
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
     }
 }

@@ -6,7 +6,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.debug.model.DebugSortTT;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,9 +46,9 @@ public class TTableComparatorDebug implements TTable, Acceptor {
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugOperationTT> readList = currentNode.getSorterReads();
+        List<DebugSortTT> readList = currentNode.getSorterReads();
 
-        Optional<DebugOperationTT> previousReadOpt = readList
+        Optional<DebugSortTT> previousReadOpt = readList
                 .stream()
                 .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
                 .findFirst();
@@ -57,7 +57,7 @@ public class TTableComparatorDebug implements TTable, Acceptor {
 
             TranspositionEntry entryRead = entry.clone();
 
-            readList.add(new DebugOperationTT()
+            readList.add(new DebugSortTT()
                     .setEntry(entryRead));
         }
     }

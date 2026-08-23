@@ -3,7 +3,6 @@ package net.chesstango.search.smart.debug.listeners;
 import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.PVMove;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -11,8 +10,8 @@ import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugOperationEval;
-import net.chesstango.search.smart.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.debug.model.DebugCacheRead;
+import net.chesstango.search.smart.debug.model.DebugSortTT;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -180,6 +179,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
+        /*
         currentNode.getNodeReads().forEach(entry -> {
             int ttValue = entry.getValue();
             debugOut.printf("%s Read  TT[ 0x%s %s draft=%d value=%d ]",
@@ -217,6 +217,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             }
             debugOut.print("\n");
         });
+         */
     }
 
     private void showNodeKillerMoves(DebugNode currentNode) {
@@ -232,16 +233,16 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     private void dumpSorterOperations(DebugNode currentNode) {
         List<String> sortedMoves = currentNode.getSortedMoves();
 
-        List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
+        List<DebugSortTT> sortedReads = currentNode.getSorterReads();
 
-        List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
+        List<DebugCacheRead> evalCacheReads = currentNode.getEvalCacheReads();
 
         debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getPly());
 
         sortedMoves.forEach(moveStr -> {
             sortedReads
                     .stream()
-                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getSortingMove()))
+                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
@@ -281,7 +282,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
          */
         sortedReads
                 .stream()
-                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getSortingMove()))
+                .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();

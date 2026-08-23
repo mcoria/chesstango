@@ -7,7 +7,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugOperationEval;
+import net.chesstango.search.smart.debug.model.DebugCacheRead;
 
 import java.util.Optional;
 
@@ -41,19 +41,19 @@ public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
     public void trackReadFromCache(long hash, int evaluation) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
         if (currentNode != null) {
-            Optional<DebugOperationEval> previousReadOpt = currentNode
+            Optional<DebugCacheRead> previousReadOpt = currentNode
                     .getEvalCacheReads()
                     .stream()
                     .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)
                     .findFirst();
 
             if (previousReadOpt.isPresent()) {
-                DebugOperationEval previousReadOpEval = previousReadOpt.get();
+                DebugCacheRead previousReadOpEval = previousReadOpt.get();
                 if (previousReadOpEval.getEvaluation() != evaluation) {
                     throw new RuntimeException("Lectura repetida pero distinto valor retornado");
                 }
             } else {
-                currentNode.getEvalCacheReads().add(new DebugOperationEval()
+                currentNode.getEvalCacheReads().add(new DebugCacheRead()
                         .setHashRequested(hash)
                         .setEvaluation(evaluation)
                 );
