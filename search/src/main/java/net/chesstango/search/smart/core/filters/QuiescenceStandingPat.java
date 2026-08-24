@@ -34,14 +34,19 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
     @Override
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         bestMoves[currentPly] = null;
-        int bestValue = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
-        if (bestValue >= beta) {
-            return bestValue;
+        int standingPat = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
+        if (standingPat >= beta) {
+            return standingPat;
         }
 
-        int currentValue =  next.alphaBeta(currentPly, Math.max(bestValue, alpha), beta);
+        int currentValue =  next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
 
-        return Math.max(bestValue, currentValue);
+        if(standingPat >= currentValue) {
+            bestMoves[currentPly] = null;
+            return standingPat;
+        }
+
+        return currentValue;
     }
 
 }
