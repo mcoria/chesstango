@@ -1,6 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.core.filters.QuiescenceStandingPatTest;
 import net.chesstango.search.smart.core.filters.TranspositionEntryTableTest;
 import net.chesstango.search.smart.pv.model.PVCalculatorTriangularTest;
 import net.chesstango.search.smart.root.RootMoveEvaluationBestTest;
@@ -17,6 +18,8 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({
         BoundTest.class,
+
+        QuiescenceStandingPatTest.class,
 
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,
