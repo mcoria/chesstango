@@ -16,7 +16,7 @@ import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
@@ -177,7 +177,7 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PVCalculatorTriangular setTrianglePV) {
+    public void visit(PVCalculator setTrianglePV) {
         setTrianglePV.setGame(game);
     }
 

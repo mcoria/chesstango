@@ -112,6 +112,6 @@ Acceptor:
 	RootMoveEvaluationCollection @ 27
 	ExtendPV @ 3
 	PropagatePV @ 7
-	PVCalculatorTriangular @ 32
+	PVCalculator @ 32
 	AlphaBeta @ 4
 

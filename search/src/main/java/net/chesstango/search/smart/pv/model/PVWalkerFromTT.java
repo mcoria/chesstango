@@ -20,7 +20,7 @@ public class PVWalkerFromTT implements Acceptor {
 
     private final TranspositionEntry entryWorkspace;
 
-    private TriangularPVTable trianglePV;
+    private PVTable trianglePV;
 
     private Game game;
 
@@ -38,7 +38,7 @@ public class PVWalkerFromTT implements Acceptor {
 
     public void walkPrincipalVariation(int currentPly, int eval) {
         if (walkPrincipalVariationInternal(currentPly + 1, eval)) {
-            trianglePV.propagateLine(currentPly);
+            trianglePV.propagatePrincipalVariation(currentPly);
         }
     }
 
@@ -53,7 +53,7 @@ public class PVWalkerFromTT implements Acceptor {
             trianglePV.extendLine(currentPly, currentMove);
 
             if (walkPrincipalVariationInternal(currentPly + 1, -eval)) {
-                trianglePV.propagateLine(currentPly);
+                trianglePV.propagatePrincipalVariation(currentPly);
             }
 
             currentMove.undoMove();

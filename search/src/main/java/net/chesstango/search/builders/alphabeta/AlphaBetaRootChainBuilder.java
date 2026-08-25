@@ -10,7 +10,7 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
@@ -35,7 +35,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     private final ExtendPV extendPV;
     private final PropagatePV propagatePV;
-    private final PVCalculatorTriangular pvCalculatorTriangular;
+    private final PVCalculator pvCalculator;
 
     private final AlphaBeta alphaBeta;
 
@@ -69,7 +69,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         extendPV = new ExtendPV();
         propagatePV = new PropagatePV();
-        pvCalculatorTriangular = new PVCalculatorTriangular();
+        pvCalculator = new PVCalculator();
     }
 
     public AlphaBetaRootChainBuilder withIterativeDeepening() {
@@ -163,7 +163,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         searchListenerMediator.add(propagatePV);
 
-        searchListenerMediator.add(pvCalculatorTriangular);
+        searchListenerMediator.add(pvCalculator);
 
         searchListenerMediator.add(alphaBeta);
 
@@ -196,7 +196,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     public void link() {
         alphaBeta.setMoveSorter(moveSorter);
 
-        rootMoveEvaluationTracker.setPvCalculator(pvCalculatorTriangular);
+        rootMoveEvaluationTracker.setPvCalculator(pvCalculator);
 
         if (withAspirationWindows) {
             aspirationWindows.setSearchListenerMediator(searchListenerMediator);

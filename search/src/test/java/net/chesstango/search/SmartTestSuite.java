@@ -3,7 +3,7 @@ package net.chesstango.search;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPatTest;
 import net.chesstango.search.smart.core.filters.TranspositionEntryTableTest;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangularTest;
+import net.chesstango.search.smart.pv.model.PVCalculatorTest;
 import net.chesstango.search.smart.root.RootMoveEvaluationBestTest;
 import net.chesstango.search.smart.root.filters.AspirationWindowsTest;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTrackerTest;
@@ -38,7 +38,7 @@ import org.junit.platform.suite.api.Suite;
         TranspositionEntryTest.class,
         TranspositionEntryTableTest.class,
 
-        PVCalculatorTriangularTest.class,
+        PVCalculatorTest.class,
 
         RootMoveEvaluationBestTest.class,
         RootMoveEvaluationTrackerTest.class,

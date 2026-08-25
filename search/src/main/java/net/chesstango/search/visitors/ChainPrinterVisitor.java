@@ -24,7 +24,6 @@ import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.pv.model.PVCalculator;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
@@ -733,8 +732,8 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     private String printPVCalculator(PVCalculator ttPvReader) {
-        if (ttPvReader instanceof PVCalculatorTriangular PVCalculatorTriangular) {
-            return objectText(PVCalculatorTriangular);
+        if (ttPvReader instanceof PVCalculator PVCalculator) {
+            return objectText(PVCalculator);
         }
         throw new IllegalArgumentException("Unknown PVCalculator: " + ttPvReader.getClass().getSimpleName());
     }

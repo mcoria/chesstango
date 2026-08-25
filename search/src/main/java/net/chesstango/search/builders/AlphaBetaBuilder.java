@@ -22,7 +22,7 @@ import net.chesstango.search.smart.debug.visitors.LinkSearchTrackerVisitor;
 import net.chesstango.search.smart.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.egtb.visitors.LinkEndGameTableBaseVisitor;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
 import net.chesstango.search.smart.pv.visitors.LinkTrianglePVVisitor;
 import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
@@ -406,7 +406,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
-        searchListenerMediator.accept(new LinkTrianglePVVisitor(new TriangularPVTable()));
+        searchListenerMediator.accept(new LinkTrianglePVVisitor(new PVTable()));
     }
 
     private AlphaBetaFilter createChain() {

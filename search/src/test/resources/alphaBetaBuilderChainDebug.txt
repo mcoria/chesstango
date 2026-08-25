@@ -252,7 +252,7 @@ Acceptor:
 	RootMoveEvaluationCollection @ 73
 	ExtendPV @ 6
 	PropagatePV @ 14
-	PVCalculatorTriangular @ 81
+	PVCalculator @ 81
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

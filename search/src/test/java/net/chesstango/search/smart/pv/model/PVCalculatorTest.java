@@ -24,25 +24,25 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class PVCalculatorTriangularTest {
+public class PVCalculatorTest {
 
     private EvaluatorByFEN evaluator;
 
     @Mock
     private EndGameTableBase endGameTableBase;
 
-    private PVCalculatorTriangular pvCalculator;
+    private PVCalculator pvCalculator;
 
-    private TriangularPVTable pvTable;
+    private PVTable pvTable;
 
     private Game game;
 
     @BeforeEach
     public void setup() {
         evaluator = new EvaluatorByFEN();
-        pvTable = new TriangularPVTable();
+        pvTable = new PVTable();
 
-        pvCalculator = new PVCalculatorTriangular();
+        pvCalculator = new PVCalculator();
         pvCalculator.setEvaluator(evaluator);
         pvCalculator.setEndGameTableBase(endGameTableBase);
         pvCalculator.setTrianglePV(pvTable);
@@ -72,7 +72,7 @@ public class PVCalculatorTriangularTest {
 
         pvTable.extendLine(1, move);
 
-        pvTable.propagateLine(0);
+        pvTable.propagatePrincipalVariation(0);
 
         long zobristBeforeCalculate = game.getPosition().getZobristHash();
         /**
@@ -125,9 +125,9 @@ public class PVCalculatorTriangularTest {
         pvTable.extendLine(2, pvMove);
 
         game.undoMove();
-        pvTable.propagateLine(1);
+        pvTable.propagatePrincipalVariation(1);
 
-        pvTable.propagateLine(0);
+        pvTable.propagatePrincipalVariation(0);
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
@@ -184,12 +184,12 @@ public class PVCalculatorTriangularTest {
         pvTable.extendLine(3, pvMove);
 
         game.undoMove();
-        pvTable.propagateLine(2);
+        pvTable.propagatePrincipalVariation(2);
 
         game.undoMove();
-        pvTable.propagateLine(1);
+        pvTable.propagatePrincipalVariation(1);
 
-        pvTable.propagateLine(0);
+        pvTable.propagatePrincipalVariation(0);
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
@@ -235,7 +235,7 @@ public class PVCalculatorTriangularTest {
 
         pvTable.extendLine(1, pvMove);
 
-        pvTable.propagateLine(0);
+        pvTable.propagatePrincipalVariation(0);
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
         /**

@@ -14,7 +14,7 @@ import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.DebugNodeTrap;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +42,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
 
     private Game game;
 
-    private TriangularPVTable trianglePV;
+    private PVTable trianglePV;
 
     public DebugFilter(NodeTopology topology) {
         this.topology = topology;

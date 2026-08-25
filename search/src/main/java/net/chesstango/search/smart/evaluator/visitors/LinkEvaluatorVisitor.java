@@ -4,7 +4,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 
 /**
  * @author Mauricio Coria
@@ -28,7 +28,7 @@ public class LinkEvaluatorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PVCalculatorTriangular setTrianglePV) {
+    public void visit(PVCalculator setTrianglePV) {
         setTrianglePV.setEvaluator(evaluator);
     }
 }

@@ -2,11 +2,11 @@ package net.chesstango.search.smart.pv.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
 
 /**
  *
@@ -17,14 +17,14 @@ public class LinkTrianglePVVisitor implements Visitor {
     /**
      * Se utiliza para el calculo de PV
      */
-    private final TriangularPVTable trianglePV;
+    private final PVTable trianglePV;
 
-    public LinkTrianglePVVisitor(TriangularPVTable trianglePV) {
+    public LinkTrianglePVVisitor(PVTable trianglePV) {
         this.trianglePV = trianglePV;
     }
 
     @Override
-    public void visit(PVCalculatorTriangular setTrianglePV) {
+    public void visit(PVCalculator setTrianglePV) {
         setTrianglePV.setTrianglePV(trianglePV);
     }
 

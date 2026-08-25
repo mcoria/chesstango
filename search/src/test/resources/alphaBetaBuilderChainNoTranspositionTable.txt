@@ -180,7 +180,7 @@ Acceptor:
 	RootMoveEvaluationCollection @ 48
 	ExtendPV @ 5
 	PropagatePV @ 9
-	PVCalculatorTriangular @ 53
+	PVCalculator @ 53
 	AlphaBeta @ 6
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
