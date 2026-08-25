@@ -316,6 +316,38 @@ public class SearchTest {
         assertTrue(searchResult.getPrincipalVariation().pvComplete());
     }
 
+
+
+    @Test
+    @Disabled
+    public void test_Undermine_094() {
+        Game game = Game.from(FEN.from("r4rk1/2qnb1pp/4p3/ppPb1p2/3Pp3/1PB3P1/R1QNPPBP/R5K1 b - - 1 1"));
+
+        Search search = defaultSearch()
+                .withGameEvaluator(Evaluator.createInstance())
+                .withDebugSearchTree()
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(5));
+        SearchResult searchResult = search.startSearch(game);
+
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        // Observar que ahora esta fallando y entregando un valor menor: 63030
+        assertEquals(178430, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.ROOK_WHITE, bm.getFrom().piece());
+        assertEquals(Square.c5, bm.getFrom().square());
+        assertEquals(Square.c1, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().pvMoves().stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
+        assertArrayEquals(new String[]{"b4a5", "b1a1", "a5b5", "a1b1", "b5c4"}, pv.toArray());
+
+        assertTrue(searchResult.getPrincipalVariation().pvComplete());
+    }
+
     private AlphaBetaBuilder defaultSearch() {
         return AlphaBetaBuilder.createDefaultBuilderInstance();
     }

@@ -6,6 +6,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
+import net.chesstango.search.smart.debug.model.DebugPVReadTT;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,18 +46,19 @@ public class TTablePVDebug implements TTable, Acceptor {
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<TranspositionEntry> readList = currentNode.getPvReads();
+        List<DebugPVReadTT> readList = currentNode.getPvReads();
 
-        Optional<TranspositionEntry> previousReadOpt = readList
+        Optional<DebugPVReadTT> previousReadOpt = readList
                 .stream()
-                .filter(entryRead -> entryRead.getHash() == hashRequested)
+                .filter(entryRead -> entryRead.getHashRequested() == hashRequested)
                 .findFirst();
 
         if (previousReadOpt.isEmpty()) {
+            DebugPVReadTT debugPVReadTT = new DebugPVReadTT()
+                    .setHashRequested(hashRequested)
+                    .setEntry(entry.clone());
 
-            TranspositionEntry entryRead = entry.clone();
-
-            readList.add(entryRead);
+            readList.add(debugPVReadTT);
         }
     }
 }

@@ -206,33 +206,49 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
     }
 
     private void showNodeTranspositionAccess(DebugNode currentNode) {
-        currentNode.getTranspositionOperations().forEach(ttOperation -> {
+        currentNode.getTranspositionNodeReads().forEach(ttOperation -> {
             TranspositionEntry entry = ttOperation.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("TT %5s[ 0x%s value=%12d move=%s draft=%d %11s ]",
-                    ttOperation.getOperation(),
+            debugOut.printf("ReadTT  [ 0x%s value=%12d move=%s draft=%3d %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     ttOperation.getMove(),
                     entry.getDraft(),
                     entry.getBound()
             );
-            if (currentNode.getZobristHash() != entry.getHash()) {
-                debugOut.print(" WRONG TT_READ ENTRY");
-                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
+            if (ttOperation.getHashRequested() != entry.getHash()) {
+                debugOut.printf(" requested=0x%s ", hexFormat.formatHex(longToByte(ttOperation.getHashRequested())));
             }
             debugOut.println("</li>");
         });
 
-        currentNode.getPvReads().forEach(entry -> {
+        currentNode.getTranspositionNodeWrites().forEach(ttOperation -> {
+            TranspositionEntry entry = ttOperation.getEntry();
+            int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("ReadPV    TT[ 0x%s value=%12d draft=%d %11s ]",
+            debugOut.printf("WriteTT [ 0x%s value=%12d move=%s draft=%3d %11s ]",
+                    hexFormat.formatHex(longToByte(entry.getHash())),
+                    ttValue,
+                    ttOperation.getMove(),
+                    entry.getDraft(),
+                    entry.getBound()
+            );
+            debugOut.println("</li>");
+        });
+
+        currentNode.getPvReads().forEach(debugPVReadTT -> {
+            TranspositionEntry entry = debugPVReadTT.getEntry();
+            debugOut.print("<li class=\"myText\">");
+            debugOut.printf("ReadTT pv[ 0x%s value=%12d draft=%3d %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getValue(),
                     entry.getDraft(),
                     entry.getBound()
             );
+            if (debugPVReadTT.getHashRequested() != entry.getHash()) {
+                debugOut.printf(" requested=0x%s ", hexFormat.formatHex(longToByte(debugPVReadTT.getHashRequested())));
+            }
             debugOut.println("</li>");
         });
     }

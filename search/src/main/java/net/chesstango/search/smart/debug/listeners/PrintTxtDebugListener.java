@@ -298,6 +298,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
+        /*
         currentNode.getPvReads().forEach(entry -> {
             debugOut.printf(" PV Read  TT[ 0x%s %s draft=%d move=0x%s value=%d ]\n",
                     hexFormat.formatHex(longToByte(entry.getHash())),
@@ -306,6 +307,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                     hexFormat.toHexDigits(entry.getMove()),
                     entry.getValue());
         });
+         */
     }
 
     private byte[] longToByte(long lng) {
