@@ -1,9 +1,6 @@
 package net.chesstango.search.smart.debug.iterators;
 
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.Visitor;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.debug.DebugIterator;
 import net.chesstango.search.smart.debug.DebugIteratorHandler;
 import net.chesstango.search.smart.debug.model.DebugCacheRead;
@@ -15,10 +12,7 @@ import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HexFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static net.chesstango.search.smart.debug.model.DebugSortTT.NO_MOVE;
 import static net.chesstango.search.smart.debug.model.DebugSortTT.UNKNOWN;
@@ -136,6 +130,8 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
 
         showNodeFen(node);
 
+        showNodePV(node);
+
         showStandingPat(node);
 
         showNodeTranspositionAccess(node);
@@ -191,6 +187,14 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
         debugOut.print("<li>");
         debugOut.printf("<span class=\"caret-board myText\">%s</span>", currentNode.getFen());
         debugOut.println("</li>");
+    }
+
+    private void showNodePV(DebugNode currentNode) {
+        if (currentNode.getBound() == Bound.EXACT) {
+            debugOut.print("<li>");
+            debugOut.printf("<span class=\"myText\">pv=%s</span>", Arrays.toString(currentNode.getPv().toArray()));
+            debugOut.println("</li>");
+        }
     }
 
     private void showStandingPat(DebugNode currentNode) {

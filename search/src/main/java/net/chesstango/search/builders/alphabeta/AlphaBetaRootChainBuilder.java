@@ -221,11 +221,11 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             chain.add(aspirationWindows);
         }
 
-        chain.add(extendPV);
-
         if (debugFilter != null) {
             chain.add(debugFilter);
         }
+
+        chain.add(extendPV);
 
         if (alphaBetaRootNodeStatistics != null) {
             chain.add(alphaBetaRootNodeStatistics);

@@ -43,7 +43,7 @@ public class TriangularPVTable {
     }
 
     public Move[] getPV(int ply) {
-        int length = pvLength[ply] + 1;
+        int length = pvLength[ply] + 1 - ply;
         Move[] pv = new Move[length];
         System.arraycopy(
                 pvTable[ply],       // src
