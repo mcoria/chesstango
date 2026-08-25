@@ -8,9 +8,9 @@ StopProcessingCatch @ 3
 |
 AspirationWindows @ 4
 |
-ExtendPV @ 5
+DebugFilter @ 5
 |
-DebugFilter @ 6
+ExtendPV @ 6
 |
 AlphaBetaRootNodeStatistics @ 7
 |
@@ -204,7 +204,7 @@ SearchByWindowsListeners:
 	DebugFilter @ 31
 	DebugFilter @ 26
 	DebugFilter @ 65
-	DebugFilter @ 6
+	DebugFilter @ 5
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
@@ -294,13 +294,13 @@ Acceptor:
 	RootMoveEvaluationTracker @ 15
 	RootMoveEvaluationBest @ 94
 	RootMoveEvaluationCollection @ 92
-	ExtendPV @ 5
+	ExtendPV @ 6
 	PropagatePV @ 16
-	PVCalculatorTriangular @ 100
+	PVCalculator @ 100
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
-	DebugFilter @ 6
+	DebugFilter @ 5
 	AlphaBetaRootNodeStatistics @ 7
 	TranspositionTableRoot @ 8
 

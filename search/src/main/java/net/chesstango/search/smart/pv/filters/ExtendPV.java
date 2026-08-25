@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +18,7 @@ public class ExtendPV implements AlphaBetaFilter, Acceptor {
     @Getter
     private AlphaBetaFilter next;
 
-    private TriangularPVTable trianglePV;
+    private PVTable trianglePV;
 
     private Game game;
 

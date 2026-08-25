@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
 
 /**
  * @author Mauricio Coria
@@ -16,7 +16,7 @@ public class PropagatePV implements AlphaBetaFilter, Acceptor {
     @Getter
     private AlphaBetaFilter next;
 
-    private TriangularPVTable trianglePV;
+    private PVTable trianglePV;
 
     @Override
     public void accept(Visitor visitor) {
@@ -28,7 +28,7 @@ public class PropagatePV implements AlphaBetaFilter, Acceptor {
         int value = next.alphaBeta(currentPly, alpha, beta);
 
         if (alpha < value && value < beta) {
-            trianglePV.propagateLine(currentPly);
+            trianglePV.propagatePrincipalVariation(currentPly);
         }
 
         return value;

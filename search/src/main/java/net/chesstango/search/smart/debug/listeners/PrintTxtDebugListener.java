@@ -227,7 +227,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodePV(DebugNode currentNode) {
-        debugOut.printf("%s PV %s\n", ">\t".repeat(currentNode.getPly()), Arrays.toString(currentNode.getPv()));
+        debugOut.printf("%s PV %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getPv());
     }
 
     private void dumpSorterOperations(DebugNode currentNode) {

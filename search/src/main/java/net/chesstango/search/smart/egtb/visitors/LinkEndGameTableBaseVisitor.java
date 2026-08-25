@@ -8,7 +8,7 @@ import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.pv.model.PVCalculatorTriangular;
+import net.chesstango.search.smart.pv.model.PVCalculator;
 
 /**
  *
@@ -49,7 +49,7 @@ public class LinkEndGameTableBaseVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PVCalculatorTriangular setTrianglePV) {
+    public void visit(PVCalculator setTrianglePV) {
         setTrianglePV.setEndGameTableBase(endGameTableBase);
     }
 

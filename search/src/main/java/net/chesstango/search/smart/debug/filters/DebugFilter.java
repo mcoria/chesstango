@@ -3,17 +3,23 @@ package net.chesstango.search.smart.debug.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.DebugNodeTrap;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -36,7 +42,7 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
 
     private Game game;
 
-    private TriangularPVTable trianglePV;
+    private PVTable trianglePV;
 
     public DebugFilter(NodeTopology topology) {
         this.topology = topology;
@@ -77,8 +83,6 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
 
         debugNode.setValue(currentValue);
 
-        debugNode.setPv(trianglePV.getPV(currentPly));
-
         if (currentValue <= alpha) {
             debugNode.setBound(Bound.UPPER_BOUND);
             debugNode.setType(DebugNode.NodeType.ALL);
@@ -88,6 +92,20 @@ public class DebugFilter implements AlphaBetaFilter, Acceptor, SearchByWindowsLi
         } else {
             debugNode.setBound(Bound.EXACT);
             debugNode.setType(DebugNode.NodeType.PV);
+
+            Move[] pvList = trianglePV.getPV(currentPly);
+
+            if (pvList.length > 0) {
+                List<String> pv = Arrays
+                        .stream(pvList)
+                        .filter(Objects::nonNull)
+                        .map(Move::coordinateEncoding)
+                        .toList();
+
+                debugNode.setPv(pv);
+            } else {
+                debugNode.setPv(Collections.emptyList());
+            }
         }
 
         if (debugNodeTrap != null && debugNodeTrap.test(debugNode)) {

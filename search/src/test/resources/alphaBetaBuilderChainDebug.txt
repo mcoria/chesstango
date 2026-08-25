@@ -8,9 +8,9 @@ StopProcessingCatch @ 3
 |
 AspirationWindows @ 4
 |
-ExtendPV @ 5
+DebugFilter @ 5
 |
-DebugFilter @ 6
+ExtendPV @ 6
 |
 TranspositionTableRoot @ 7 [TTable: TTableNodeDebug @ 8 -> TTableArrayPrimitives @ 9]
 |
@@ -178,7 +178,7 @@ SearchByWindowsListeners:
 	DebugFilter @ 26
 	DebugFilter @ 22
 	DebugFilter @ 54
-	DebugFilter @ 6
+	DebugFilter @ 5
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 15
@@ -250,12 +250,12 @@ Acceptor:
 	RootMoveEvaluationTracker @ 13
 	RootMoveEvaluationBest @ 75
 	RootMoveEvaluationCollection @ 73
-	ExtendPV @ 5
+	ExtendPV @ 6
 	PropagatePV @ 14
-	PVCalculatorTriangular @ 81
+	PVCalculator @ 81
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
-	DebugFilter @ 6
+	DebugFilter @ 5
 	TranspositionTableRoot @ 7
 

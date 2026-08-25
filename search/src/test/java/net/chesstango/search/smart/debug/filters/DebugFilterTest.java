@@ -9,7 +9,7 @@ import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.model.TriangularPVTable;
+import net.chesstango.search.smart.pv.model.PVTable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +37,7 @@ public class DebugFilterTest {
     private DebugNodeTracker debugNodeTracker;
 
     @Mock
-    private TriangularPVTable pvTable;
+    private PVTable pvTable;
 
     @Mock
     private DebugNode debugNode;

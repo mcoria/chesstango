@@ -24,25 +24,25 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class PVCalculatorTriangularTest {
+public class PVCalculatorTest {
 
     private EvaluatorByFEN evaluator;
 
     @Mock
     private EndGameTableBase endGameTableBase;
 
-    private PVCalculatorTriangular pvCalculator;
+    @Mock
+    private PVTable pvTable;
 
-    private TriangularPVTable pvTable;
+    private PVCalculator pvCalculator;
 
     private Game game;
 
     @BeforeEach
     public void setup() {
         evaluator = new EvaluatorByFEN();
-        pvTable = new TriangularPVTable();
 
-        pvCalculator = new PVCalculatorTriangular();
+        pvCalculator = new PVCalculator();
         pvCalculator.setEvaluator(evaluator);
         pvCalculator.setEndGameTableBase(endGameTableBase);
         pvCalculator.setTrianglePV(pvTable);
@@ -65,16 +65,12 @@ public class PVCalculatorTriangularTest {
         /**
          * Secuencia de ejecucion
          */
-        pvTable.extendLine(0, null);
-
         Move move = game.getMove(Square.g1, Square.f3);
         move.executeMove();
 
-        pvTable.extendLine(1, move);
-
-        pvTable.propagateLine(0);
-
         long zobristBeforeCalculate = game.getPosition().getZobristHash();
+
+        when(pvTable.getRootPV()).thenReturn(new Move[]{null, move});
         /**
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
@@ -116,21 +112,18 @@ public class PVCalculatorTriangularTest {
          */
         pvTable.extendLine(0, null);
 
-        Move pvMove = game.getMove(Square.g1, Square.f3);
-        pvMove.executeMove();
-        pvTable.extendLine(1, pvMove);
+        Move pvMove1 = game.getMove(Square.g1, Square.f3);
+        pvMove1.executeMove();
 
-        pvMove = game.getMove(Square.g8, Square.f6);
-        pvMove.executeMove();
-        pvTable.extendLine(2, pvMove);
+        Move pvMove2 = game.getMove(Square.g8, Square.f6);
+        pvMove2.executeMove();
 
         game.undoMove();
-        pvTable.propagateLine(1);
-
-        pvTable.propagateLine(0);
+        ;
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
+        when(pvTable.getRootPV()).thenReturn(new Move[]{null, pvMove1, pvMove2});
         /**
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
@@ -168,31 +161,23 @@ public class PVCalculatorTriangularTest {
 
         pvTable.extendLine(0, null);
 
-        Move pvMove = game.getMove(Square.g1, Square.f3);
-        pvMove.executeMove();
+        Move pvMove1 = game.getMove(Square.g1, Square.f3);
+        pvMove1.executeMove();
 
-        pvTable.extendLine(1, pvMove);
+        Move pvMove2 = game.getMove(Square.g8, Square.f6);
+        pvMove2.executeMove();
 
-        pvMove = game.getMove(Square.g8, Square.f6);
-        pvMove.executeMove();
-
-        pvTable.extendLine(2, pvMove);
-
-        pvMove = game.getMove(Square.d2, Square.d4);
-        pvMove.executeMove();
-
-        pvTable.extendLine(3, pvMove);
+        Move pvMove3 = game.getMove(Square.d2, Square.d4);
+        pvMove3.executeMove();
 
         game.undoMove();
-        pvTable.propagateLine(2);
 
         game.undoMove();
-        pvTable.propagateLine(1);
-
-        pvTable.propagateLine(0);
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
 
+
+        when(pvTable.getRootPV()).thenReturn(new Move[]{null, pvMove1, pvMove2, pvMove3});
         /**
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()
@@ -233,11 +218,10 @@ public class PVCalculatorTriangularTest {
         Move pvMove = game.getMove(Square.g4, Square.f5);
         pvMove.executeMove();
 
-        pvTable.extendLine(1, pvMove);
-
-        pvTable.propagateLine(0);
 
         final long zobristBeforeCalculate = game.getPosition().getZobristHash();
+
+        when(pvTable.getRootPV()).thenReturn(new Move[]{null, pvMove});
         /**
          * Execute
          * Llegamos a este punto antes de llamar a TranspositionPV.walkPrincipalVariation()

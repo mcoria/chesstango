@@ -58,7 +58,7 @@ public class DebugNode {
 
     private List<DebugNodeTT> transpositionOperations = new ArrayList<>();
 
-    private Move[] pv;
+    private List<String> pv;
 
     /**
      * Cual de los movimientos de este nodo es promovido como KillerMove
