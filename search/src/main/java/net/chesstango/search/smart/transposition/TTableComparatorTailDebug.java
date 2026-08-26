@@ -9,7 +9,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.debug.model.DebugReadTT;
-import net.chesstango.search.smart.debug.model.DebugWriteTT;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,7 @@ import java.util.Optional;
 /**
  * @author Mauricio Coria
  */
-public class TTableNodeDebug implements TTable, Acceptor {
+public class TTableComparatorTailDebug implements TTable, Acceptor {
 
     @Setter
     @Getter
@@ -45,61 +44,40 @@ public class TTableNodeDebug implements TTable, Acceptor {
 
     @Override
     public void save(TranspositionEntry entry) {
-        tTable.save(entry);
-        trackWriteTranspositionEntry(entry);
+        throw new RuntimeException("Save shold not be called on TTableComparatorDebug");
     }
 
 
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugReadTT> debugReadTTOps = currentNode.getTranspositionNodeReads();
+        List<DebugReadTT> readList = currentNode.getSorterTailReads();
 
-        Optional<DebugReadTT> previousReadOpt = debugReadTTOps
+        Optional<DebugReadTT> previousReadOpt = readList
                 .stream()
-                .filter(debugReadTT -> debugReadTT.getHashRequested() == hashRequested)
+                .filter(debugOperation -> debugOperation.getHashRequested() == hashRequested)
                 .findFirst();
 
         if (previousReadOpt.isEmpty()) {
-            DebugReadTT debugReadTT = new DebugReadTT()
+
+            TranspositionEntry entryRead = entry.clone();
+
+            readList.add(new DebugReadTT()
                     .setHashRequested(hashRequested)
-                    .setEntry(entry.clone())
-                    .setMove(hashRequested == entry.getHash() ? readMove(entry) : DebugReadTT.UNKNOWN);
-
-            debugReadTTOps.add(debugReadTT);
+                    .setEntry(entryRead)
+                    .setMove(hashRequested == entry.getHash() ? readMove(entry) : DebugReadTT.UNKNOWN));
         }
-    }
-
-    void trackWriteTranspositionEntry(TranspositionEntry entry) {
-        DebugNode currentNode = debugNodeTracker.getCurrentNode();
-
-        List<DebugWriteTT> debugNodeReadTTOps = currentNode.getTranspositionNodeWrites();
-
-        TranspositionEntry entryWrite = entry.clone();
-
-        String moveStr = readMove(entry);
-
-        DebugWriteTT debugNodeReadTT = new DebugWriteTT();
-
-        debugNodeReadTT.setEntry(entryWrite);
-
-        debugNodeReadTT.setMove(moveStr);
-
-        debugNodeReadTTOps.add(debugNodeReadTT);
-
     }
 
     String readMove(TranspositionEntry entry) {
         if (entry.getMove() == 0) {
             return DebugReadTT.NO_MOVE;
         }
-
         for (Move move : game.getPossibleMoves()) {
-            if (move.binaryEncoding() == entry.getMove()) {
+            if (move.getZobristHash() == entry.getMove()) {
                 return move.coordinateEncoding();
             }
         }
-
         return DebugReadTT.UNKNOWN;
     }
 }

@@ -11,7 +11,10 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class DebugNodeWriteTT {
+public class DebugReadTT {
+    public static final String NO_MOVE = "NO_MOVE";
+    public static final String UNKNOWN = "UNKNOWN";
+
 
     /**
      * Este field es clonado del TranspositionEntry original
@@ -19,7 +22,12 @@ public class DebugNodeWriteTT {
     private TranspositionEntry entry;
 
     /**
-     * A que movimiento pertenece la operacion de escritura
+     * Hash solicitado
+     */
+    private long hashRequested;
+
+    /**
+     * A que movimiento pertenece la operacion de lectura
      */
     private String move;
 }

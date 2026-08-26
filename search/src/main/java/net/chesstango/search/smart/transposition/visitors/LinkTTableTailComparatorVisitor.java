@@ -9,16 +9,11 @@ import net.chesstango.search.smart.transposition.comparators.TranspositionTailMo
  *
  * @author Mauricio Coria
  */
-public class LinkTTableComparatorVisitor implements Visitor {
+public class LinkTTableTailComparatorVisitor implements Visitor {
     private final TTable tTable;
 
-    public LinkTTableComparatorVisitor(TTable tTable) {
+    public LinkTTableTailComparatorVisitor(TTable tTable) {
         this.tTable = tTable;
-    }
-
-    @Override
-    public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
-        transpositionHeadMoveComparator.setTTable(tTable);
     }
 
     @Override

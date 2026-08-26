@@ -5,7 +5,8 @@ import net.chesstango.search.smart.debug.DebugIterator;
 import net.chesstango.search.smart.debug.DebugIteratorHandler;
 import net.chesstango.search.smart.debug.model.DebugCacheRead;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugSortTT;
+
+import net.chesstango.search.smart.debug.model.DebugReadTT;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -14,8 +15,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static net.chesstango.search.smart.debug.model.DebugSortTT.NO_MOVE;
-import static net.chesstango.search.smart.debug.model.DebugSortTT.UNKNOWN;
+import static net.chesstango.search.smart.debug.model.DebugReadTT.NO_MOVE;
+import static net.chesstango.search.smart.debug.model.DebugReadTT.UNKNOWN;
+
 
 /**
  * @author Mauricio Coria
@@ -30,7 +32,6 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
 
     private String fen;
 
-    private List<String> debugErrorMessages;
 
     @Override
     public void accept(Visitor visitor) {
@@ -114,8 +115,6 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
 
     @Override
     public void visit(DebugNode node) {
-        debugErrorMessages = new LinkedList<>();
-
         debugOut.print("""
                 <li>
                 <span class="caret myText"> \
@@ -179,7 +178,6 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
                         .filter(otherNode -> otherNode.getZobristHash() == currentNode.getZobristHash())
                         .count() > 1) {
             debugOut.print(" DUPLICATED CHILD NODE");
-            debugErrorMessages.add(String.format("DUPLICATED CHILD NODE %s", currentNode.getZobristHash()));
         }
     }
 
@@ -210,7 +208,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = ttOperation.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("ReadTT  [ 0x%s value=%12d move=%s draft=%3d %11s ]",
+            debugOut.printf("ReadTT  nd[ 0x%s value=%12d move=%s draft=%3d %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     ttOperation.getMove(),
@@ -227,7 +225,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
             TranspositionEntry entry = ttOperation.getEntry();
             int ttValue = entry.getValue();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("WriteTT [ 0x%s value=%12d move=%s draft=%3d %11s ]",
+            debugOut.printf("WriteTT nd[ 0x%s value=%12d move=%s draft=%3d %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     ttValue,
                     ttOperation.getMove(),
@@ -240,7 +238,7 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
         currentNode.getPvReads().forEach(debugPVReadTT -> {
             TranspositionEntry entry = debugPVReadTT.getEntry();
             debugOut.print("<li class=\"myText\">");
-            debugOut.printf("ReadTT pv[ 0x%s value=%12d draft=%3d %11s ]",
+            debugOut.printf("ReadTT  pv[ 0x%s value=%12d draft=%3d %11s ]",
                     hexFormat.formatHex(longToByte(entry.getHash())),
                     entry.getValue(),
                     entry.getDraft(),
@@ -283,23 +281,42 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
     private void dumpSorterOperations(DebugNode currentNode) {
         List<String> sortedMoves = currentNode.getSortedMoves();
 
-        List<DebugSortTT> sortedReads = currentNode.getSorterReads();
+        List<DebugReadTT> sortedHeadReads = currentNode.getSorterHeadReads();
+
+        List<DebugReadTT> sortedTailReads = currentNode.getSorterTailReads();
 
         List<DebugCacheRead> evalCacheReads = currentNode.getEvalCacheReads();
 
         debugOut.print("<li class=\"myText\">");
-        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n", sortedReads.size(), evalCacheReads.size(), currentNode.getPly());
+        debugOut.printf("Sorter transpositions=%d cache=%d ply=%d%n", sortedHeadReads.size(), evalCacheReads.size(), currentNode.getPly());
         debugOut.println("</li>");
 
         sortedMoves.forEach(moveStr -> {
-            sortedReads
+            sortedHeadReads
                     .stream()
                     .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
                         debugOut.print("<li class=\"myText\">");
-                        debugOut.printf("%s ReadTT[ 0x%s value=%12d draft=%d %11s ]%n",
+                        debugOut.printf("%s ReadTT HEAD[ 0x%s value=%12d draft=%d %11s ]%n",
+                                moveStr,
+                                hexFormat.formatHex(longToByte(entry.getHash())),
+                                entry.getValue(),
+                                entry.getDraft(),
+                                entry.getBound()
+                        );
+                        debugOut.println("</li>");
+                    });
+
+            sortedTailReads
+                    .stream()
+                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
+                    .forEach(ttOperation ->
+                    {
+                        TranspositionEntry entry = ttOperation.getEntry();
+                        debugOut.print("<li class=\"myText\">");
+                        debugOut.printf("%s ReadTT TAIL[ 0x%s value=%12d draft=%d %11s ]%n",
                                 moveStr,
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getValue(),
@@ -335,14 +352,30 @@ public class PrintHtmlDebugHandler implements DebugIteratorHandler, Acceptor {
         /**
          * NO ME QUEDA CLARO PARA QUE MOVIMIENTO LEEMOS EN ESTE CASO
          */
-        sortedReads
+        sortedHeadReads
                 .stream()
                 .filter(ttOperation -> NO_MOVE.equals(ttOperation.getMove()) || UNKNOWN.equals(ttOperation.getMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
                     debugOut.print("<li class=\"myText\">");
-                    debugOut.printf("%s ReadTT[ 0x%s value=%12d draft=%d %11s ]",
+                    debugOut.printf("%s ReadTT HEAD[ 0x%s value=%12d draft=%d %11s ]",
+                            ttOperation.getMove(),
+                            hexFormat.formatHex(longToByte(entry.getHash())),
+                            ttValue,
+                            entry.getDraft(),
+                            entry.getBound());
+                    debugOut.println("</li>");
+                });
+
+        sortedTailReads
+                .stream()
+                .filter(ttOperation -> NO_MOVE.equals(ttOperation.getMove()) || UNKNOWN.equals(ttOperation.getMove()))
+                .forEach(ttOperation -> {
+                    TranspositionEntry entry = ttOperation.getEntry();
+                    int ttValue = entry.getValue();
+                    debugOut.print("<li class=\"myText\">");
+                    debugOut.printf("%s ReadTT TAIL[ 0x%s value=%12d draft=%d %11s ]",
                             ttOperation.getMove(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             ttValue,
