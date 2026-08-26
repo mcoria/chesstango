@@ -6,10 +6,7 @@ import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.statistics.transposition.*;
 import net.chesstango.search.smart.transposition.*;
 import net.chesstango.search.smart.transposition.listeners.TTListener;
-import net.chesstango.search.smart.transposition.visitors.LinkPVWalkerFromTTVisitor;
-import net.chesstango.search.smart.transposition.visitors.LinkTTableComparatorVisitor;
-import net.chesstango.search.smart.transposition.visitors.LinkTTableImpVisitor;
-import net.chesstango.search.smart.transposition.visitors.LinkTTableNodeVisitor;
+import net.chesstango.search.smart.transposition.visitors.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,14 +28,16 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
      * Front-end TTable filters
      */
     private TTable tTableNode;
-    private TTable tTableComparator;
+    private TTable tTableHeadComparator;
+    private TTable tTableTailComparator;
     private TTable tTablePV;
 
     /**
      * Debug operations filters
      */
     private TTableNodeDebug tTableNodeDebug;
-    private TTableComparatorDebug tTableComparatorDebug;
+    private TTableComparatorHeadDebug tTableComparatorHeadDebug;
+    private TTableComparatorTailDebug tTableComparatorTailDebug;
     private TTablePVDebug tTablePVDebug;
 
     /**
@@ -105,7 +104,9 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
         searchListenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
 
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTableComparator));
+        searchListenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTableHeadComparator));
+
+        searchListenerMediator.accept(new LinkTTableTailComparatorVisitor(tTableTailComparator));
 
         searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
 
@@ -119,7 +120,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
         if (withDebugSearchTree) {
             tTableNodeDebug = new TTableNodeDebug();
-            tTableComparatorDebug = new TTableComparatorDebug();
+            tTableComparatorHeadDebug = new TTableComparatorHeadDebug();
+            tTableComparatorTailDebug = new TTableComparatorTailDebug();
             tTablePVDebug = new TTablePVDebug();
         }
 
@@ -140,8 +142,11 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         if (tTableNodeDebug != null) {
             searchListenerMediator.add(tTableNodeDebug);
         }
-        if (tTableComparatorDebug != null) {
-            searchListenerMediator.add(tTableComparatorDebug);
+        if (tTableComparatorHeadDebug != null) {
+            searchListenerMediator.add(tTableComparatorHeadDebug);
+        }
+        if(tTableComparatorTailDebug!=null){
+            searchListenerMediator.add(tTableComparatorTailDebug);
         }
         if(tTablePVDebug!=null){
             searchListenerMediator.add(tTablePVDebug);
@@ -168,7 +173,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
     private void createChains() {
         tTableNode = linkChain(tTableNodeDebug, tTableNodeCollector, tTableImp);
-        tTableComparator = linkChain(tTableComparatorDebug, tTableComparatorCollector, tTableImp);
+        tTableHeadComparator = linkChain(tTableComparatorHeadDebug, tTableComparatorCollector, tTableImp);
+        tTableTailComparator = linkChain(tTableComparatorTailDebug, tTableComparatorCollector, tTableImp);
         tTablePV = linkChain(tTablePVDebug, tTablePVCollector, tTableImp);
 
         if (pvWalkerFromTT != null) {
@@ -189,7 +195,9 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
             switch (currentFilter) {
                 case TTableNodeDebug tableDebug -> tableDebug.setTTable(next);
 
-                case TTableComparatorDebug tableDebug -> tableDebug.setTTable(next);
+                case TTableComparatorHeadDebug tableDebug -> tableDebug.setTTable(next);
+
+                case TTableComparatorTailDebug tableDebug -> tableDebug.setTTable(next);
 
                 case TTablePVDebug tableDebug -> tableDebug.setTTable(next);
 

@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Bound;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -56,7 +55,8 @@ public class DebugNode {
 
     private Integer standingPat;
 
-    private List<DebugNodeTT> transpositionOperations = new ArrayList<>();
+    private List<DebugReadTT> transpositionNodeReads = new ArrayList<>();
+    private List<DebugWriteTT> transpositionNodeWrites = new ArrayList<>();
 
     private List<String> pv;
 
@@ -74,11 +74,13 @@ public class DebugNode {
      */
     private List<String> sortedMoves;
 
-    private List<DebugSortTT> sorterReads = new ArrayList<>();
+    private List<DebugReadTT> sorterHeadReads = new ArrayList<>();
+
+    private List<DebugReadTT> sorterTailReads = new ArrayList<>();
 
     private List<DebugCacheRead> evalCacheReads = new ArrayList<>();
 
-    private List<TranspositionEntry> pvReads = new ArrayList<>();
+    private List<DebugPVReadTT> pvReads = new ArrayList<>();
 
     private List<DebugNode> childNodes = new LinkedList<>();
 

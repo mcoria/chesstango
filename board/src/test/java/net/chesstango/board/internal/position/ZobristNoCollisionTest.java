@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 /**
@@ -22,7 +23,7 @@ public class ZobristNoCollisionTest {
     public void testNoCollisions() {
         Set<Long> hashes = new HashSet<>();
 
-        Game game01 = getGame("2r3k1/p4p2/3Rp2p/1p2P1pK/8/1P4P1/P3Q2P/1q6 b - - 0 1");
+        Game game01 = Game.from(FEN.from("2r3k1/p4p2/3Rp2p/1p2P1pK/8/1P4P1/P3Q2P/1q6 b - - 0 1"));
         game01.executeMove(Square.b1, Square.f5);
         hashes.add(game01.getPosition().getZobristHash());
 
@@ -40,7 +41,7 @@ public class ZobristNoCollisionTest {
 
 
         // Segundo Juego
-        Game game02 = getGame("2r3k1/p4p2/3Rp2p/1p2P1pK/8/1P4P1/P3Q2P/1q6 b - - 0 1");
+        Game game02 = Game.from(FEN.from(("2r3k1/p4p2/3Rp2p/1p2P1pK/8/1P4P1/P3Q2P/1q6 b - - 0 1")));
         game02.executeMove(Square.b1, Square.g6);
         hashes.add(game02.getPosition().getZobristHash());
         //System.out.println(game02.getChessPosition().getPositionHash());
@@ -65,14 +66,16 @@ public class ZobristNoCollisionTest {
     }
 
 
-    private Game getGame(String string) {
-        GameBuilder builder = new GameBuilderDebug();
+    @Test
+    public void testCollision() {
+        Game game01 = Game.from(FEN.from("r4rk1/2q1b1pp/1P2p3/pp1b4/3Ppp2/1PB3P1/R1QNPPBP/R5K1 w - - 0 3"));
 
-        FEN.from(string).export(builder);
+        Game game02 = Game.from(FEN.from("r4rk1/2qnb1pp/8/p1Pb1p2/1pNpp3/1P4P1/RBQ1PPBP/R5K1 w - - 0 4"));
+        game02.executeMove(Square.b2, Square.d4);
+        game02.executeMove(Square.e7, Square.c5);
 
-        return builder.getPositionRepresentation();
+        assertNotEquals(game01.getPosition().getZobristHash(), game02.getPosition().getZobristHash());
     }
-
 
 }
 

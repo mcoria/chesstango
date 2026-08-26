@@ -2,11 +2,13 @@ package net.chesstango.search.smart.transposition;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugSortTT;
+import net.chesstango.search.smart.debug.model.DebugReadTT;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +16,14 @@ import java.util.Optional;
 /**
  * @author Mauricio Coria
  */
-public class TTableComparatorDebug implements TTable, Acceptor {
+public class TTableComparatorTailDebug implements TTable, Acceptor {
 
     @Setter
     @Getter
     private TTable tTable;
+
+    @Setter
+    private Game game;
 
     @Setter
     private DebugNodeTracker debugNodeTracker;
@@ -46,19 +51,31 @@ public class TTableComparatorDebug implements TTable, Acceptor {
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugSortTT> readList = currentNode.getSorterReads();
+        List<DebugReadTT> readList = currentNode.getSorterTailReads();
 
-        Optional<DebugSortTT> previousReadOpt = readList
+        Optional<DebugReadTT> previousReadOpt = readList
                 .stream()
-                .filter(debugOperation -> debugOperation.getEntry().getHash() == hashRequested)
+                .filter(debugOperation -> debugOperation.getHashRequested() == hashRequested)
                 .findFirst();
 
         if (previousReadOpt.isEmpty()) {
 
             TranspositionEntry entryRead = entry.clone();
 
-            readList.add(new DebugSortTT()
-                    .setEntry(entryRead));
+            readList.add(new DebugReadTT()
+                    .setHashRequested(hashRequested)
+                    .setEntry(entryRead)
+                    .setMove(hashRequested == entry.getHash() ? readMove(hashRequested) : DebugReadTT.HASH_FAILS)
+            );
         }
+    }
+
+    String readMove(long hashRequested) {
+        for (Move move : game.getPossibleMoves()) {
+            if (move.getZobristHash() == hashRequested) {
+                return move.coordinateEncoding();
+            }
+        }
+        return DebugReadTT.UNKNOWN;
     }
 }

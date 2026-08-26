@@ -56,7 +56,7 @@ public class PrintSortIntegrationTest implements Consumer<DebugNode> {
     }
 
     private void printTTContext(DebugNode debugNode, PrintStream printStream) {
-        debugNode.getSorterReads()
+        debugNode.getSorterHeadReads()
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     printStream.printf("ttWrite(0x%sL, (byte) %d, (short) %d, %d, %s); // %s \n",

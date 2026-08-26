@@ -11,7 +11,6 @@ import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.debug.model.DebugCacheRead;
-import net.chesstango.search.smart.debug.model.DebugSortTT;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -115,7 +114,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
         DebugNode rootNode = debugNodeTracker.getRootNode();
         dumpNode(rootNode);
         if (showNodeTranspositionAccess) {
-            showNodePVTranspositionAccess(rootNode);
+            //showNodePVTranspositionAccess(rootNode);
         }
 
         debugErrorMessages.forEach(debugOut::println);
@@ -136,7 +135,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
         if (currentNode.getSortedMoves() != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
             if (showSorterOperations) {
-                dumpSorterOperations(currentNode);
+                //dumpSorterOperations(currentNode);
             }
         }
 
@@ -159,7 +158,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
             debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getTurn(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
+        //debugOut.printf("%s %s 0x%s alpha=%d beta=%d value=%d", currentNode.getTurn(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta(), currentNode.getValue());
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());
@@ -230,10 +229,11 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
         debugOut.printf("%s PV %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getPv());
     }
 
+    /*
     private void dumpSorterOperations(DebugNode currentNode) {
         List<String> sortedMoves = currentNode.getSortedMoves();
 
-        List<DebugSortTT> sortedReads = currentNode.getSorterReads();
+        List<DebugSortTT> sortedReads = currentNode.getSorterHeadReads();
 
         List<DebugCacheRead> evalCacheReads = currentNode.getEvalCacheReads();
 
@@ -279,7 +279,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
 
         /**
          * NO ME QUEDA CLARO PARA QUE MOVIMIENTO LEEMOS EN ESTE CASO
-         */
+
         sortedReads
                 .stream()
                 .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getMove()))
@@ -298,6 +298,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
     }
 
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
+
         currentNode.getPvReads().forEach(entry -> {
             debugOut.printf(" PV Read  TT[ 0x%s %s draft=%d move=0x%s value=%d ]\n",
                     hexFormat.formatHex(longToByte(entry.getHash())),
@@ -306,6 +307,7 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                     hexFormat.toHexDigits(entry.getMove()),
                     entry.getValue());
         });
+
     }
 
     private byte[] longToByte(long lng) {
@@ -320,4 +322,5 @@ public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, S
                 (byte) lng
         };
     }
+     */
 }

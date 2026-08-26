@@ -11,9 +11,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class DebugSortTT {
-    public static final String NO_MOVE = "NO_MOVE";
-    public static final String UNKNOWN = "UNKNOWN";
+public class DebugWriteTT {
 
     /**
      * Este field es clonado del TranspositionEntry original
@@ -21,7 +19,7 @@ public class DebugSortTT {
     private TranspositionEntry entry;
 
     /**
-     * En caso de sorting cual es el movimiento por el cual llegamos a esta entrada
+     * A que movimiento pertenece la operacion de escritura
      */
     private String move;
 }

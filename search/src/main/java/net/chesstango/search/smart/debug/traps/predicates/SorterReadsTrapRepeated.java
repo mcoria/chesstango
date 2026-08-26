@@ -1,15 +1,8 @@
 package net.chesstango.search.smart.debug.traps.predicates;
 
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugSortTT;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
-
-import static net.chesstango.search.Bound.EXACT;
 
 /**
  * Captura Nodos con lecturas para ordenar; que coincidan en valor y al menos una de ellas sea EXACT
@@ -19,7 +12,8 @@ import static net.chesstango.search.Bound.EXACT;
 public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
     @Override
     public boolean test(DebugNode debugNode) {
-        List<DebugSortTT> sorterReads = debugNode.getSorterReads();
+        /*
+        List<DebugSortTT> sorterReads = debugNode.getSorterHeadReads();
 
         Map<Integer, List<DebugSortTT>> valueToDebugNodeTTMap = new HashMap<>();
 
@@ -37,6 +31,8 @@ public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
                 return true;
             }
         }
+
+         */
 
         return false;
     }

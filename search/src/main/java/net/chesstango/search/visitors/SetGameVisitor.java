@@ -9,6 +9,7 @@ import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
@@ -26,6 +27,8 @@ import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaInteriorNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaRootNodeStatistics;
+import net.chesstango.search.smart.transposition.TTableComparatorHeadDebug;
+import net.chesstango.search.smart.transposition.TTableComparatorTailDebug;
 import net.chesstango.search.smart.transposition.TTableNodeDebug;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.transposition.filters.*;
@@ -81,11 +84,27 @@ public class SetGameVisitor implements Visitor {
         debugFilter.setGame(game);
     }
 
-
     @Override
     public void visit(TTableNodeDebug tTableNodeDebug) {
         tTableNodeDebug.setGame(game);
     }
+
+
+    @Override
+    public void visit(TTableComparatorHeadDebug tTableComparatorHeadDebug) {
+        tTableComparatorHeadDebug.setGame(game);
+    }
+
+    @Override
+    public void visit(TTableComparatorTailDebug tTableComparatorTailDebug) {
+        tTableComparatorTailDebug.setGame(game);
+    }
+
+    @Override
+    public void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
+        evaluatorCacheDebug.setGame(game);
+    }
+
 
     @Override
     public void visit(RootMoveEvaluationTracker moveEvaluationTracker) {

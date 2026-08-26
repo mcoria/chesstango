@@ -8,7 +8,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
-import net.chesstango.search.smart.transposition.visitors.LinkTTableComparatorVisitor;
+import net.chesstango.search.smart.transposition.visitors.LinkTTableHeadComparatorVisitor;
+import net.chesstango.search.smart.transposition.visitors.LinkTTableTailComparatorVisitor;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.smart.killermoves.visitors.LinkKillerMovesVisitor;
@@ -39,7 +40,8 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTable));
+        searchListenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
+        searchListenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
@@ -67,7 +69,8 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new LinkTTableComparatorVisitor(tTable));
+        searchListenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
+        searchListenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
         searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
         searchListenerMediator.accept(new LinkKillerMovesVisitor(killerMovesTable));
         searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));

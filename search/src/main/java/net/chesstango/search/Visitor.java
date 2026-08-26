@@ -45,10 +45,7 @@ import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
 import net.chesstango.search.smart.statistics.node.filters.*;
 import net.chesstango.search.smart.statistics.transposition.*;
-import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
-import net.chesstango.search.smart.transposition.TTableComparatorDebug;
-import net.chesstango.search.smart.transposition.TTableNodeDebug;
-import net.chesstango.search.smart.transposition.TTablePVDebug;
+import net.chesstango.search.smart.transposition.*;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.transposition.filters.*;
@@ -229,8 +226,12 @@ public interface Visitor {
     default void visit(TTablePVDebug tTablePVDebug) {
     }
 
-    default void visit(TTableComparatorDebug tTableComparatorDebug) {
+    default void visit(TTableComparatorHeadDebug tTableComparatorHeadDebug) {
     }
+
+    default void visit(TTableComparatorTailDebug tTableComparatorTailDebug) {
+    }
+
 
     default void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
     }

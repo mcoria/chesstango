@@ -8,7 +8,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugNodeTT;
+import net.chesstango.search.smart.debug.model.DebugReadTT;
+import net.chesstango.search.smart.debug.model.DebugWriteTT;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,54 +53,45 @@ public class TTableNodeDebug implements TTable, Acceptor {
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugNodeTT> debugNodeTTOps = currentNode.getTranspositionOperations();
+        List<DebugReadTT> debugReadTTOps = currentNode.getTranspositionNodeReads();
 
-        Optional<DebugNodeTT> previousReadOpt = debugNodeTTOps
+        Optional<DebugReadTT> previousReadOpt = debugReadTTOps
                 .stream()
-                .filter(debugNodeTT -> debugNodeTT.getEntry().getHash() == hashRequested)
+                .filter(debugReadTT -> debugReadTT.getHashRequested() == hashRequested)
                 .findFirst();
 
         if (previousReadOpt.isEmpty()) {
-            TranspositionEntry entryRead = entry.clone();
+            DebugReadTT debugReadTT = new DebugReadTT()
+                    .setHashRequested(hashRequested)
+                    .setEntry(entry.clone())
+                    .setMove(hashRequested == entry.getHash() ? readMove(entry) : DebugReadTT.UNKNOWN);
 
-            String moveStr = readMove(entry);
-
-            DebugNodeTT debugNodeTT = new DebugNodeTT();
-
-            debugNodeTT.setOperation(DebugNodeTT.Operation.READ);
-
-            debugNodeTT.setEntry(entryRead);
-
-            debugNodeTT.setMove(moveStr);
-
-            debugNodeTTOps.add(debugNodeTT);
+            debugReadTTOps.add(debugReadTT);
         }
     }
 
     void trackWriteTranspositionEntry(TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugNodeTT> debugNodeTTOps = currentNode.getTranspositionOperations();
+        List<DebugWriteTT> debugNodeReadTTOps = currentNode.getTranspositionNodeWrites();
 
         TranspositionEntry entryWrite = entry.clone();
 
         String moveStr = readMove(entry);
 
-        DebugNodeTT debugNodeTT = new DebugNodeTT();
+        DebugWriteTT debugNodeReadTT = new DebugWriteTT();
 
-        debugNodeTT.setOperation(DebugNodeTT.Operation.WRITE);
+        debugNodeReadTT.setEntry(entryWrite);
 
-        debugNodeTT.setEntry(entryWrite);
+        debugNodeReadTT.setMove(moveStr);
 
-        debugNodeTT.setMove(moveStr);
-
-        debugNodeTTOps.add(debugNodeTT);
+        debugNodeReadTTOps.add(debugNodeReadTT);
 
     }
 
     String readMove(TranspositionEntry entry) {
         if (entry.getMove() == 0) {
-            return DebugNodeTT.NO_MOVE;
+            return DebugReadTT.NO_MOVE;
         }
 
         for (Move move : game.getPossibleMoves()) {
@@ -108,6 +100,6 @@ public class TTableNodeDebug implements TTable, Acceptor {
             }
         }
 
-        return DebugNodeTT.UNKNOWN;
+        return DebugReadTT.UNKNOWN;
     }
 }
