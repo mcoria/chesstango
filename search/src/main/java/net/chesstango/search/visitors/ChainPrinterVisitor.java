@@ -722,7 +722,9 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(tTableStatisticsPVCollector), printTTable(tTableStatisticsPVCollector.getTTable()));
         } else if (ttable instanceof TTableComparatorHeadDebug tTableComparatorHeadDebug) {
             return String.format("%s -> %s", objectText(tTableComparatorHeadDebug), printTTable(tTableComparatorHeadDebug.getTTable()));
-        } else if (ttable instanceof TTablePVDebug tTablePVDebug) {
+        } else if (ttable instanceof TTableComparatorTailDebug tTableComparatorTailDebug) {
+            return String.format("%s -> %s", objectText(tTableComparatorTailDebug), printTTable(tTableComparatorTailDebug.getTTable()));
+        }else if (ttable instanceof TTablePVDebug tTablePVDebug) {
             return String.format("%s -> %s", objectText(tTablePVDebug), printTTable(tTablePVDebug.getTTable()));
         } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);

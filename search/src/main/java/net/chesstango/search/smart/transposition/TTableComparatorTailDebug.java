@@ -65,16 +65,14 @@ public class TTableComparatorTailDebug implements TTable, Acceptor {
             readList.add(new DebugReadTT()
                     .setHashRequested(hashRequested)
                     .setEntry(entryRead)
-                    .setMove(hashRequested == entry.getHash() ? readMove(entry) : DebugReadTT.UNKNOWN));
+                    .setMove(hashRequested == entry.getHash() ? readMove(hashRequested) : DebugReadTT.HASH_FAILS)
+            );
         }
     }
 
-    String readMove(TranspositionEntry entry) {
-        if (entry.getMove() == 0) {
-            return DebugReadTT.NO_MOVE;
-        }
+    String readMove(long hashRequested) {
         for (Move move : game.getPossibleMoves()) {
-            if (move.getZobristHash() == entry.getMove()) {
+            if (move.getZobristHash() == hashRequested) {
                 return move.coordinateEncoding();
             }
         }

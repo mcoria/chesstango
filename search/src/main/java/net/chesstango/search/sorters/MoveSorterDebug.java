@@ -38,17 +38,16 @@ public class MoveSorterDebug implements MoveSorter, Acceptor {
 
         Iterable<Move> sortedMoves = next.getOrderedMoves(currentPly);
 
-        currentNode.setSortedMoves(convertMoveListToStringList(sortedMoves));
+        currentNode.setSortedMoves(getSorterMovesStingList(sortedMoves));
 
         return sortedMoves;
     }
 
-    private List<String> convertMoveListToStringList(Iterable<Move> moves) {
+    private List<String> getSorterMovesStingList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();
-        for (Move move : moves) {
-            sortedMovesStr.add(move.coordinateEncoding());
-        }
+        moves.forEach(move -> sortedMovesStr.add(move.coordinateEncoding()));
         return sortedMovesStr;
     }
+
 
 }

@@ -14,6 +14,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class DebugReadTT {
     public static final String NO_MOVE = "NO_MOVE";
     public static final String UNKNOWN = "UNKNOWN";
+    public static final String HASH_FAILS = "HASH_FAILS";
 
 
     /**

@@ -51,9 +51,9 @@ public class TTableComparatorHeadDebug implements TTable, Acceptor {
     void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
-        List<DebugReadTT> readList = currentNode.getSorterHeadReads();
+        List<DebugReadTT> sorterHeadReads = currentNode.getSorterHeadReads();
 
-        Optional<DebugReadTT> previousReadOpt = readList
+        Optional<DebugReadTT> previousReadOpt = sorterHeadReads
                 .stream()
                 .filter(debugOperation -> debugOperation.getHashRequested() == hashRequested)
                 .findFirst();
@@ -62,10 +62,10 @@ public class TTableComparatorHeadDebug implements TTable, Acceptor {
 
             TranspositionEntry entryRead = entry.clone();
 
-            readList.add(new DebugReadTT()
+            sorterHeadReads.add(new DebugReadTT()
                     .setHashRequested(hashRequested)
                     .setEntry(entryRead)
-                    .setMove(hashRequested == entry.getHash() ? readMove(entry) : DebugReadTT.UNKNOWN));
+                    .setMove(hashRequested == entry.getHash() ? readMove(entry) : DebugReadTT.HASH_FAILS));
         }
     }
 
