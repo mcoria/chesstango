@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
@@ -31,7 +32,7 @@ public class TimeFivePercentageTest {
         while (time > TIME_OUT) {
             int moveTime = timeFivePercentage.calculateTimeOut(time, 0);
             time -= moveTime;
-            System.out.println(String.format("Move %d, timeToMove = %d; time left = %d", moveNumber, moveTime, time));
+            System.out.printf("Move %d, timeToMove = %d; time left = %d%n", moveNumber, moveTime, time);
             moveNumber++;
         }
     }
@@ -45,7 +46,7 @@ public class TimeFivePercentageTest {
         while (time > TIME_OUT) {
             int moveTime = timeFivePercentage.calculateTimeOut(time, 0);
             time -= moveTime;
-            System.out.println(String.format("Move %d, timeToMove = %d; time left = %d", moveNumber, moveTime, time));
+            System.out.printf("Move %d, timeToMove = %d; time left = %d%n", moveNumber, moveTime, time);
             moveNumber++;
         }
     }
@@ -60,7 +61,7 @@ public class TimeFivePercentageTest {
         while (time > TIME_OUT) {
             int moveTime = timeFivePercentage.calculateTimeOut(time, 0);
             time -= moveTime;
-            System.out.println(String.format("Move %d, timeToMove = %d; time left = %d", moveNumber, moveTime, time));
+            System.out.printf("Move %d, timeToMove = %d; time left = %d%n", moveNumber, moveTime, time);
             moveNumber++;
         }
     }
@@ -70,5 +71,14 @@ public class TimeFivePercentageTest {
         Game game = Game.from(FEN.from("K1k5/8/8/8/8/8/8/8 w - - 1 1"));
 
         assertFalse(timeFivePercentage.keepSearching(game, 100000, null));
+    }
+
+    @Test
+    public void test_CHT_705() {
+        Game game = Game.from(FEN.from("8/5pk1/7p/5Pp1/1p4P1/1P5P/5K2/8 w - - 0 51"));
+
+        int timeOut = timeFivePercentage.getTimeOut(game, 29482, 0, 34819, 0);
+
+        assertEquals(1474, timeOut);
     }
 }
