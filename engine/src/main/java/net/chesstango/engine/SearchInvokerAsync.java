@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
 /**
@@ -21,10 +21,7 @@ class SearchInvokerAsync extends SearchInvokerAbstract {
     }
 
     @Override
-    public Future<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        return searchExecutor.submit(() -> {
-            // Submits search task; handles exceptions; returns search response
-            return search(game, depth, searchPredicate, searchListener);
-        });
+    public CompletableFuture<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+        return CompletableFuture.supplyAsync(() -> search(game, depth, searchPredicate, searchListener), searchExecutor);
     }
 }

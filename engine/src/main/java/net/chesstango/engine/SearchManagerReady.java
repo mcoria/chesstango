@@ -6,6 +6,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.nio.file.Path;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
@@ -33,10 +34,10 @@ class SearchManagerReady implements SearchManagerState {
     }
 
     @Override
-    public Future<SearchResponse> searchDepthImp(Game game,
-                                                 int depth,
-                                                 Predicate<SearchResultByDepth> searchResultByDepthPredicate,
-                                                 SearchListener searchListener) {
+    public CompletableFuture<SearchResponse> searchDepthImp(Game game,
+                                                            int depth,
+                                                            Predicate<SearchResultByDepth> searchResultByDepthPredicate,
+                                                            SearchListener searchListener) {
 
         log.debug("Searching by depth {}", depth);
 
@@ -48,7 +49,7 @@ class SearchManagerReady implements SearchManagerState {
     }
 
     @Override
-    public Future<SearchResponse> searchTimeOutImp(Game game,
+    public CompletableFuture<SearchResponse> searchTimeOutImp(Game game,
                                                    int timeOutMs,
                                                    Predicate<SearchResultByDepth> searchResultByDepthPredicate,
                                                    SearchListener searchListener) {

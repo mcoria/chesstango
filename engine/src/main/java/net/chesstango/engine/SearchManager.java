@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.gardel.fen.FEN;
 
 import java.nio.file.Path;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -40,22 +41,22 @@ class SearchManager implements TangoOptions {
         setCurrentSearchManagerState(createReadyState());
     }
 
-    synchronized Future<SearchResponse> searchInfinite(Game game, SearchListener searchListener) {
+    synchronized CompletableFuture<SearchResponse> searchInfinite(Game game, SearchListener searchListener) {
         return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
     }
 
-    synchronized Future<SearchResponse> searchDepth(Game game, int depth, SearchListener searchListener) {
+    synchronized CompletableFuture<SearchResponse> searchDepth(Game game, int depth, SearchListener searchListener) {
         return currentSearchManagerState.searchDepthImp(game, depth, _ -> true, searchListener);
     }
 
-    synchronized Future<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
+    synchronized CompletableFuture<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
         if (timeOut <= 0) {
             return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
         }
         return currentSearchManagerState.searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(game, timeOut, searchInfo), searchListener);
     }
 
-    synchronized Future<SearchResponse> searchFast(Game game, int wTime, int wInc, int bTime, int bInc, SearchListener searchListener) {
+    synchronized CompletableFuture<SearchResponse> searchFast(Game game, int wTime, int wInc, int bTime, int bInc, SearchListener searchListener) {
         if (WHITE.equals(game.getPosition().getCurrentTurn()) && (wTime <= 0 || wInc <= 0)) {
             return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
         } else if (BLACK.equals(game.getPosition().getCurrentTurn()) && (bTime <= 0 || bInc <= 0)) {
