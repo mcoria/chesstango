@@ -62,19 +62,19 @@ public class Session {
         };
     }
 
-    public Future<SearchResponse> goInfinite() {
+    public CompletableFuture<SearchResponse> goInfinite() {
         return searchManager.searchInfinite(getGame(), sessionSearchListener);
     }
 
-    public Future<SearchResponse> goDepth(int depth) {
+    public CompletableFuture<SearchResponse> goDepth(int depth) {
         return searchManager.searchDepth(getGame(), depth, sessionSearchListener);
     }
 
-    public Future<SearchResponse> goTime(int timeOut) {
+    public CompletableFuture<SearchResponse> goTime(int timeOut) {
         return searchManager.searchTime(getGame(), timeOut, sessionSearchListener);
     }
 
-    public Future<SearchResponse> goFast(int wTime, int wInc, int bTime, int bInc) {
+    public CompletableFuture<SearchResponse> goFast(int wTime, int wInc, int bTime, int bInc) {
         return searchManager.searchFast(getGame(), wTime, wInc, bTime, bInc, sessionSearchListener);
     }
 

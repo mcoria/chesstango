@@ -22,6 +22,6 @@ class SearchInvokerAsync extends SearchInvokerAbstract {
 
     @Override
     public CompletableFuture<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        return CompletableFuture.supplyAsync(() -> search(game, depth, searchPredicate, searchListener));
+        return CompletableFuture.supplyAsync(() -> search(game, depth, searchPredicate, searchListener), searchExecutor);
     }
 }
