@@ -2,7 +2,7 @@ ROOT
 |
 IterativeDeepening @ 1
 |
-AlphaBetaFacade @ 2
+SearchByDepthImp @ 2
 |
 StopProcessingCatch @ 3
 |
@@ -199,7 +199,7 @@ Acceptor:
 	TTableStatisticsFillPercentageCollector @ 72
 	PVWalkerFromTT @ 34
 	SetGameToEndGameTableBase @ 80
-	AlphaBetaFacade @ 2
+	SearchByDepthImp @ 2
 	SetSearchTimers @ 73
 	AlphaBetaFlowControl @ 14
 	NodeCounters @ 74

@@ -24,7 +24,7 @@ import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.egtb.visitors.LinkEndGameTableBaseVisitor;
 import net.chesstango.search.smart.pv.model.PVTable;
 import net.chesstango.search.smart.pv.visitors.LinkTrianglePVVisitor;
-import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
@@ -55,7 +55,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
-    private final AlphaBetaFacade alphaBetaFacade;
+    private final SearchByDepthImp searchByDepthImp;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
 
@@ -90,7 +90,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         killerMoveBuilder = new KillerMoveBuilder();
         evaluationBuilder = new EvaluationBuilder();
 
-        alphaBetaFacade = new AlphaBetaFacade();
+        searchByDepthImp = new SearchByDepthImp();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
 
@@ -286,9 +286,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
 
         if (withIterativeDeepening) {
-            search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
+            search = new IterativeDeepening(searchByDepthImp, searchListenerMediator);
         } else {
-            search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
+            search = new NoIterativeDeepening(searchByDepthImp, searchListenerMediator);
         }
 
         if (withTranspositionTable) {
@@ -323,7 +323,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private void setupListenerMediator() {
         searchListenerMediator.add(setGameToEndGameTableBase);
 
-        searchListenerMediator.add(alphaBetaFacade);
+        searchListenerMediator.add(searchByDepthImp);
 
         searchListenerMediator.add(setSearchTimers);
 
@@ -359,8 +359,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void link() {
-        alphaBetaFacade.setNext(createChain());
-        alphaBetaFacade.setSearchListenerMediator(searchListenerMediator);
+        searchByDepthImp.setNext(createChain());
+        searchByDepthImp.setSearchListenerMediator(searchListenerMediator);
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();

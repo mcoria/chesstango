@@ -2,7 +2,7 @@ ROOT
 |
 IterativeDeepening @ 1
 |
-AlphaBetaFacade @ 2
+SearchByDepthImp @ 2
 |
 StopProcessingCatch @ 3
 |
@@ -234,7 +234,7 @@ Acceptor:
 	PVWalkerFromTT @ 43
 	KillerMovesDebug @ 97
 	SetGameToEndGameTableBase @ 98
-	AlphaBetaFacade @ 2
+	SearchByDepthImp @ 2
 	SetSearchTimers @ 89
 	AlphaBetaFlowControl @ 17
 	NodeCounters @ 90
