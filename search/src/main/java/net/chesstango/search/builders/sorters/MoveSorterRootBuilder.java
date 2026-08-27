@@ -53,12 +53,12 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     @Override
     protected void setupListeners() {
         if (moveSorterDebug != null) {
-            searchListenerMediator.add(moveSorterDebug);
+            listenerMediator.add(moveSorterDebug);
         }
 
-        searchListenerMediator.add(rootMoveSorter);
+        listenerMediator.add(rootMoveSorter);
 
-        searchListenerMediator.add(nodeGroupSorter);
+        listenerMediator.add(nodeGroupSorter);
     }
 
     @Override

@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
@@ -58,9 +58,9 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
-        this.searchListenerMediator = searchListenerMediator;
+    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.moveSorterBuilder.withSmartListenerMediator(listenerMediator);
+        this.listenerMediator = listenerMediator;
         return this;
     }
 
@@ -145,38 +145,38 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
-        searchListenerMediator.add(alphaBeta);
+        listenerMediator.add(alphaBeta);
 
         if (alphaBetaInteriorNodeVisited != null) {
-            searchListenerMediator.add(alphaBetaInteriorNodeVisited);
+            listenerMediator.add(alphaBetaInteriorNodeVisited);
         }
 
         if (alphaBetaInteriorNodeExpected != null) {
-            searchListenerMediator.add(alphaBetaInteriorNodeExpected);
+            listenerMediator.add(alphaBetaInteriorNodeExpected);
         }
 
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            listenerMediator.add(zobristTracker);
         }
 
         if (transpositionTable != null) {
-            searchListenerMediator.add(transpositionTable);
+            listenerMediator.add(transpositionTable);
         }
 
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            listenerMediator.add(debugFilter);
         }
 
         if (extendPV != null) {
-            searchListenerMediator.add(extendPV);
+            listenerMediator.add(extendPV);
         }
 
         if (propagatePV != null) {
-            searchListenerMediator.add(propagatePV);
+            listenerMediator.add(propagatePV);
         }
 
         if (killerMoveTracker != null) {
-            searchListenerMediator.add(killerMoveTracker);
+            listenerMediator.add(killerMoveTracker);
         }
     }
 

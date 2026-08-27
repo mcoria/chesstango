@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
@@ -34,7 +34,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private EvaluationCounters evaluationCounters;
     private EvaluatorStatisticsCollector evaluatorStatisticsCollector;
 
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     private boolean withDebugSearchTree;
     private boolean withTrackEvaluations;
@@ -77,8 +77,8 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     }
 
     @Override
-    public EvaluationBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public EvaluationBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
         return this;
     }
 
@@ -97,10 +97,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     @Override
     public void link() {
-        searchListenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
+        listenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
 
         if (evaluatorCacheRead != null) {
-            searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCacheRead));
+            listenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCacheRead));
         }
     }
 
@@ -130,22 +130,22 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     private void setupListenerMediator() {
         if (setGameToEvaluator != null) {
-            searchListenerMediator.add(setGameToEvaluator);
+            listenerMediator.add(setGameToEvaluator);
         }
         if (evaluationCounters != null) {
-            searchListenerMediator.add(evaluationCounters);
+            listenerMediator.add(evaluationCounters);
         }
         if (evaluatorStatisticsCollector != null) {
-            searchListenerMediator.add(evaluatorStatisticsCollector);
+            listenerMediator.add(evaluatorStatisticsCollector);
         }
         if (evaluatorCacheListener != null) {
-            searchListenerMediator.add(evaluatorCacheListener);
+            listenerMediator.add(evaluatorCacheListener);
         }
         if (evaluatorCacheDebug != null) {
-            searchListenerMediator.add(evaluatorCacheDebug);
+            listenerMediator.add(evaluatorCacheDebug);
         }
         if (evaluatorDebug != null) {
-            searchListenerMediator.add(evaluatorDebug);
+            listenerMediator.add(evaluatorDebug);
         }
     }
 

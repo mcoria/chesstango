@@ -112,34 +112,34 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void setupListeners() {
-        searchListenerMediator.add(nodeMoveSorter);
+        listenerMediator.add(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
-            searchListenerMediator.add(transpositionHeadMoveComparator);
+            listenerMediator.add(transpositionHeadMoveComparator);
             nodeMoveSorter.addSortListener(transpositionHeadMoveComparator);
         }
 
         if (transpositionTailMoveComparator != null) {
-            searchListenerMediator.add(transpositionTailMoveComparator);
+            listenerMediator.add(transpositionTailMoveComparator);
         }
 
         if (principalVariationComparator != null) {
-            searchListenerMediator.add(principalVariationComparator);
+            listenerMediator.add(principalVariationComparator);
             nodeMoveSorter.addSortListener(principalVariationComparator);
         }
 
         if (recaptureMoveComparator != null) {
-            searchListenerMediator.add(recaptureMoveComparator);
+            listenerMediator.add(recaptureMoveComparator);
             nodeMoveSorter.addSortListener(recaptureMoveComparator);
         }
 
         if (gameEvaluatorCacheComparator != null) {
-            searchListenerMediator.add(gameEvaluatorCacheComparator);
+            listenerMediator.add(gameEvaluatorCacheComparator);
             nodeMoveSorter.addSortListener(gameEvaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {
-            searchListenerMediator.add(moveSorterDebug);
+            listenerMediator.add(moveSorterDebug);
         }
     }
 

@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorTrackers implements Evaluator, SearchByCycleListener {
+public class EvaluatorTrackers implements Evaluator, SearchListener {
     @Setter
     @Getter
     @Accessors(chain = true)

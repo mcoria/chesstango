@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
@@ -38,8 +38,8 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public EgtbChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public EgtbChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
         return this;
     }
 
@@ -59,18 +59,18 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
     @Override
     protected  void setupListenerMediator() {
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            listenerMediator.add(debugFilter);
         }
 
         if (extendPV != null) {
-            searchListenerMediator.add(extendPV);
+            listenerMediator.add(extendPV);
         }
 
         if (alphaBetaEgtbNodeStatistics != null) {
-            searchListenerMediator.add(alphaBetaEgtbNodeStatistics);
+            listenerMediator.add(alphaBetaEgtbNodeStatistics);
         }
 
-        searchListenerMediator.add(egtbEvaluation);
+        listenerMediator.add(egtbEvaluation);
     }
 
     @Override

@@ -6,13 +6,13 @@ import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.smart.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class StopProcessingCatch implements AlphaBetaFilter, Acceptor, SearchByCycleListener {
+public class StopProcessingCatch implements AlphaBetaFilter, Acceptor, SearchListener {
 
     @Getter
     @Setter

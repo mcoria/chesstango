@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 
 /**
  * @author Mauricio Coria
  */
 @Getter
-public class TTableCounters implements Acceptor, SearchByCycleListener {
+public class TTableCounters implements Acceptor, SearchListener {
     private long readNodeHits;
     private long readComparatorHits;
     private long reads;

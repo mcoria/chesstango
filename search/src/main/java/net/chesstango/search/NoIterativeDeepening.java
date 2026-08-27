@@ -15,14 +15,14 @@ public class NoIterativeDeepening implements Search {
     private final SearchByDepth searchByDepth;
 
     @Getter
-    private final SearchListenerMediator searchListenerMediator;
+    private final ListenerMediator listenerMediator;
 
     @Setter
     private int maxDepth = Integer.MAX_VALUE;
 
-    public NoIterativeDeepening(SearchByDepth searchByDepth, SearchListenerMediator searchListenerMediator) {
+    public NoIterativeDeepening(SearchByDepth searchByDepth, ListenerMediator listenerMediator) {
         this.searchByDepth = searchByDepth;
-        this.searchListenerMediator = searchListenerMediator;
+        this.listenerMediator = listenerMediator;
     }
 
     @Override
@@ -33,31 +33,31 @@ public class NoIterativeDeepening implements Search {
 
         accept(new SetGameVisitor(game));
 
-        searchListenerMediator.triggerBeforeSearch();
+        listenerMediator.triggerBeforeSearch();
 
         SearchResultByDepth searchResultByDepth  = searchByDepth.search(maxDepth);
 
-        searchListenerMediator.triggerAfterSearch();
+        listenerMediator.triggerAfterSearch();
 
         SearchResult searchResult = new SearchResult();
 
         searchResult.addSearchResultByDepth(searchResultByDepth);
 
-        searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
+        listenerMediator.accept(new CollectSearchResultVisitor(searchResult));
 
-        searchListenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
+        listenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
 
         return searchResult;
     }
 
     @Override
     public void stopSearch() {
-        this.searchListenerMediator.triggerStopSearching();
+        this.listenerMediator.triggerStopSearching();
     }
 
     @Override
     public void reset() {
-        this.searchListenerMediator.triggerReset();
+        this.listenerMediator.triggerReset();
     }
 
     @Override

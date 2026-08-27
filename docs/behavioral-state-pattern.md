@@ -98,7 +98,7 @@ Below is an outline of how states interact and transition:
 
 ### **4. State-Specific Dependencies**
 - `ReadyState` and `WaitCmdGoState` reference each other to manage transitions.
-- Searching-related states like `SearchingState` set up listeners (`SearchListener`) to handle search events.
+- Searching-related states like `SearchingState` set up listeners (`Listener`) to handle search events.
 
 ---
 

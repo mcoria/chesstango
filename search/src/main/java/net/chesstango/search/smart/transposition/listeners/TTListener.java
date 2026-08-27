@@ -4,14 +4,14 @@ import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.ResetListener;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
 
 /**
  * @author Mauricio Coria
  */
 @Setter
-public class TTListener implements Acceptor, SearchByCycleListener, ResetListener {
+public class TTListener implements Acceptor, SearchListener, ResetListener {
     private TTableArrayPrimitives tTable;
 
     @Override

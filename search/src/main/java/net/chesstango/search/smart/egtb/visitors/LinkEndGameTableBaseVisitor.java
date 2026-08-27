@@ -3,7 +3,7 @@ package net.chesstango.search.smart.egtb.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.IterativeDeepening;
 import net.chesstango.search.NoIterativeDeepening;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
@@ -23,14 +23,14 @@ public class LinkEndGameTableBaseVisitor implements Visitor {
 
     @Override
     public void visit(IterativeDeepening iterativeDeepening) {
-        SearchListenerMediator searchListenerMediator = iterativeDeepening.getSearchListenerMediator();
-        searchListenerMediator.accept(this);
+        ListenerMediator listenerMediator = iterativeDeepening.getListenerMediator();
+        listenerMediator.accept(this);
     }
 
     @Override
     public void visit(NoIterativeDeepening noIterativeDeepening) {
-        SearchListenerMediator searchListenerMediator = noIterativeDeepening.getSearchListenerMediator();
-        searchListenerMediator.accept(this);
+        ListenerMediator listenerMediator = noIterativeDeepening.getListenerMediator();
+        listenerMediator.accept(this);
     }
 
     @Override

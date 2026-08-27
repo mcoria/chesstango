@@ -2,8 +2,8 @@ package net.chesstango.search.smart.zobrist.listeners;
 
 import lombok.Setter;
 import net.chesstango.search.ResetListener;
-import net.chesstango.search.SearchByCycleListener;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.zobrist.visitors.SetZobristMemoryVisitor;
 
 import java.util.HashMap;
@@ -14,18 +14,18 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class SetZobristMemory implements SearchByCycleListener, ResetListener {
+public class SetZobristMemory implements SearchListener, ResetListener {
 
     private final Map<Long, String> zobristMap = new HashMap<>();
     private final List<String> zobristCollisions = new LinkedList<>();
 
     @Setter
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
 
     @Override
     public void beforeSearch() {
-        searchListenerMediator.accept(new SetZobristMemoryVisitor(zobristMap, zobristCollisions));
+        listenerMediator.accept(new SetZobristMemoryVisitor(zobristMap, zobristCollisions));
     }
 
     @Override

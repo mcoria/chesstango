@@ -21,7 +21,7 @@ public class IterativeDeepening implements Search {
     private final SearchByDepth searchByDepth;
 
     @Getter
-    private final SearchListenerMediator searchListenerMediator;
+    private final ListenerMediator listenerMediator;
 
     @Setter
     private int maxDepth = Integer.MAX_VALUE;
@@ -32,9 +32,9 @@ public class IterativeDeepening implements Search {
     @Setter
     private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
-    public IterativeDeepening(SearchByDepth searchByDepth, SearchListenerMediator searchListenerMediator) {
+    public IterativeDeepening(SearchByDepth searchByDepth, ListenerMediator listenerMediator) {
         this.searchByDepth = searchByDepth;
-        this.searchListenerMediator = searchListenerMediator;
+        this.listenerMediator = listenerMediator;
     }
 
 
@@ -51,7 +51,7 @@ public class IterativeDeepening implements Search {
 
         accept(new SetGameVisitor(game));
 
-        searchListenerMediator.triggerBeforeSearch();
+        listenerMediator.triggerBeforeSearch();
 
         SearchResult searchResult = new SearchResult();
 
@@ -89,11 +89,11 @@ public class IterativeDeepening implements Search {
         } while (continueDeepening && ++currentSearchDepth <= maxDepth);
 
 
-        searchListenerMediator.triggerAfterSearch();
+        listenerMediator.triggerAfterSearch();
 
-        searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
+        listenerMediator.accept(new CollectSearchResultVisitor(searchResult));
 
-        searchListenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
+        listenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
 
         return searchResult;
     }
@@ -105,11 +105,11 @@ public class IterativeDeepening implements Search {
      */
     @Override
     public void stopSearch() {
-        searchListenerMediator.triggerStopSearching();
+        listenerMediator.triggerStopSearching();
     }
 
     @Override
     public void reset() {
-        searchListenerMediator.triggerReset();
+        listenerMediator.triggerReset();
     }
 }

@@ -2,6 +2,7 @@ package net.chesstango.search;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,19 +10,19 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Getter
-public class SearchListenerMediator implements Acceptor {
+public class ListenerMediator implements Acceptor {
 
-    private final List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
+    private final List<SearchListener> searchListeners = new ArrayList<>();
 
-    private final List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
+    private final List<SearchByDepthListener> searchByDepthListeners = new ArrayList<>();
 
-    private final List<SearchByWindowsListener> searchByWindowsListeners = new LinkedList<>();
+    private final List<SearchByWindowsListener> searchByWindowsListeners = new ArrayList<>();
 
-    private final List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
+    private final List<StopSearchingListener> stopSearchingListeners = new ArrayList<>();
 
-    private final List<ResetListener> resetListeners = new LinkedList<>();
+    private final List<ResetListener> resetListeners = new ArrayList<>();
 
-    private final List<Acceptor> acceptors = new LinkedList<>();
+    private final List<Acceptor> acceptors = new ArrayList<>();
 
     @Override
     public void accept(Visitor visitor) {
@@ -29,11 +30,11 @@ public class SearchListenerMediator implements Acceptor {
     }
 
     public void triggerBeforeSearch() {
-        searchByCycleListeners.forEach(SearchByCycleListener::beforeSearch);
+        searchListeners.forEach(SearchListener::beforeSearch);
     }
 
     public void triggerAfterSearch() {
-        searchByCycleListeners.forEach(SearchByCycleListener::afterSearch);
+        searchListeners.forEach(SearchListener::afterSearch);
     }
 
 
@@ -65,8 +66,8 @@ public class SearchListenerMediator implements Acceptor {
         if (object instanceof Acceptor acceptor) {
             addAcceptor(acceptor);
         }
-        if (object instanceof SearchListener searchListener) {
-            addSearchListener(searchListener);
+        if (object instanceof Listener listener) {
+            addSearchListener(listener);
         }
     }
 
@@ -78,36 +79,36 @@ public class SearchListenerMediator implements Acceptor {
         acceptors.add(acceptor);
     }
 
-    private void addSearchListener(SearchListener searchListener) {
-        if (searchListener instanceof SearchByCycleListener searchByCycleListener) {
-            if (searchByCycleListeners.contains(searchByCycleListener)) {
-                throw new RuntimeException(String.format("SearchByCycleListener already added %s", searchByCycleListener));
+    private void addSearchListener(Listener listener) {
+        if (listener instanceof SearchListener searchListener) {
+            if (searchListeners.contains(searchListener)) {
+                throw new RuntimeException(String.format("SearchByCycleListener already added %s", searchListener));
             }
-            searchByCycleListeners.add(searchByCycleListener);
+            searchListeners.add(searchListener);
         }
 
-        if (searchListener instanceof SearchByDepthListener searchByDepthListener) {
+        if (listener instanceof SearchByDepthListener searchByDepthListener) {
             if (searchByDepthListeners.contains(searchByDepthListener)) {
                 throw new RuntimeException(String.format("SearchByDepthListener already added %s", searchByDepthListener));
             }
             searchByDepthListeners.add(searchByDepthListener);
         }
 
-        if (searchListener instanceof SearchByWindowsListener searchByWindowsListener) {
+        if (listener instanceof SearchByWindowsListener searchByWindowsListener) {
             if (searchByWindowsListeners.contains(searchByWindowsListener)) {
                 throw new RuntimeException(String.format("SearchByWindowsListener already added %s", searchByWindowsListener));
             }
             searchByWindowsListeners.add(searchByWindowsListener);
         }
 
-        if (searchListener instanceof StopSearchingListener stopSearchingListener) {
+        if (listener instanceof StopSearchingListener stopSearchingListener) {
             if (stopSearchingListeners.contains(stopSearchingListener)) {
                 throw new RuntimeException(String.format("StopSearchingListener already added %s", stopSearchingListener));
             }
             stopSearchingListeners.add(stopSearchingListener);
         }
 
-        if (searchListener instanceof ResetListener resetListener) {
+        if (listener instanceof ResetListener resetListener) {
             if (resetListeners.contains(resetListener)) {
                 throw new RuntimeException(String.format("ResetListener already added %s", resetListener));
             }

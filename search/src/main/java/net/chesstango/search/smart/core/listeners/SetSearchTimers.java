@@ -2,7 +2,7 @@ package net.chesstango.search.smart.core.listeners;
 
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchByDepthListener;
 
 import java.time.Duration;
@@ -11,7 +11,7 @@ import java.time.Instant;
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTimers implements Acceptor, SearchByCycleListener, SearchByDepthListener {
+public class SetSearchTimers implements Acceptor, SearchListener, SearchByDepthListener {
     private Instant startInstant;
     private Instant startDepthInstant;
 

@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
@@ -59,9 +59,9 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
-        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
+    public QuiescenceChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
+        this.moveSorterBuilder.withSmartListenerMediator(listenerMediator);
         return this;
     }
 
@@ -136,35 +136,35 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
-        searchListenerMediator.add(quiescenceStandingPat);
-        searchListenerMediator.add(alphaBeta);
+        listenerMediator.add(quiescenceStandingPat);
+        listenerMediator.add(alphaBeta);
 
         if (alphaBetaQuiescenceNodeVisited != null) {
-            searchListenerMediator.add(alphaBetaQuiescenceNodeVisited);
+            listenerMediator.add(alphaBetaQuiescenceNodeVisited);
         }
 
         if (alphaBetaQuiescenceNodeExpected != null) {
-            searchListenerMediator.add(alphaBetaQuiescenceNodeExpected);
+            listenerMediator.add(alphaBetaQuiescenceNodeExpected);
         }
 
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            listenerMediator.add(zobristQTracker);
         }
 
         if (transpositionTableQ != null) {
-            searchListenerMediator.add(transpositionTableQ);
+            listenerMediator.add(transpositionTableQ);
         }
 
         if (withDebugSearchTree) {
-            searchListenerMediator.add(debugFilter);
+            listenerMediator.add(debugFilter);
         }
 
         if (extendPV != null) {
-            searchListenerMediator.add(extendPV);
+            listenerMediator.add(extendPV);
         }
 
         if (propagatePV != null) {
-            searchListenerMediator.add(propagatePV);
+            listenerMediator.add(propagatePV);
         }
     }
 

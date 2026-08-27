@@ -5,7 +5,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchByDepthListener;
 import net.chesstango.search.SearchByWindowsListener;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
@@ -21,7 +21,7 @@ import java.util.*;
  * @author Mauricio Coria
  */
 @Deprecated
-public class PrintTxtDebugListener implements Acceptor, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class PrintTxtDebugListener implements Acceptor, SearchListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;

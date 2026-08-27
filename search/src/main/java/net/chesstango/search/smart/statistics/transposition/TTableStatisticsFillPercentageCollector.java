@@ -3,7 +3,7 @@ package net.chesstango.search.smart.statistics.transposition;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
 
@@ -11,7 +11,7 @@ import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
  * @author Mauricio Coria
  */
 @Setter
-public class TTableStatisticsFillPercentageCollector implements Acceptor, SearchByCycleListener {
+public class TTableStatisticsFillPercentageCollector implements Acceptor, SearchListener {
 
     private final TTableCounters tTableCounters;
     private final TTable tTable;

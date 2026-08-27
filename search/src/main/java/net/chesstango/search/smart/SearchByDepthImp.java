@@ -22,7 +22,7 @@ public class SearchByDepthImp implements SearchByDepth, Acceptor {
     private RootMoveEvaluationBest rootMoveEvaluationBest;
 
     @Setter
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     @Override
     public void accept(Visitor visitor) {
@@ -33,9 +33,9 @@ public class SearchByDepthImp implements SearchByDepth, Acceptor {
     @Override
     public SearchResultByDepth search(int depth) {
         try {
-            searchListenerMediator.accept(new SetDepthVisitor(depth));
+            listenerMediator.accept(new SetDepthVisitor(depth));
 
-            searchListenerMediator.triggerBeforeSearchByDepth();
+            listenerMediator.triggerBeforeSearchByDepth();
 
             int value = next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
@@ -45,9 +45,9 @@ public class SearchByDepthImp implements SearchByDepth, Acceptor {
                 throw new RuntimeException("Best root move evaluation value is not the same as the value returned by the search algorithm");
             }
 
-            searchListenerMediator.triggerAfterSearchByDepth(false);
+            listenerMediator.triggerAfterSearchByDepth(false);
         } catch (StopSearchingException stopSearchingException) {
-            searchListenerMediator.triggerAfterSearchByDepth(true);
+            listenerMediator.triggerAfterSearchByDepth(true);
 
             if (rootMoveEvaluationBest.getBestRootMoveEvaluation() == null) {
                 return null;
@@ -57,9 +57,9 @@ public class SearchByDepthImp implements SearchByDepth, Acceptor {
         // Prepare search result
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
-        searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
+        listenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
 
-        searchListenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
+        listenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
 
         return searchResultByDepth;
     }

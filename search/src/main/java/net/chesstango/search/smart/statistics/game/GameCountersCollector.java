@@ -4,12 +4,12 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 
 /**
  * @author Mauricio Coria
  */
-public class GameCountersCollector implements Acceptor, SearchByCycleListener {
+public class GameCountersCollector implements Acceptor, SearchListener {
 
     @Setter
     private Game game;

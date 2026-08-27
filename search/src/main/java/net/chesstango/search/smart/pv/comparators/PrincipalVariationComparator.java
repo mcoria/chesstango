@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.PVMove;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.sorters.MoveComparator;
 import net.chesstango.search.sorters.SortListener;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationComparator implements MoveComparator, Acceptor, SearchByCycleListener, SortListener {
+public class PrincipalVariationComparator implements MoveComparator, Acceptor, SearchListener, SortListener {
 
     @Getter
     @Setter

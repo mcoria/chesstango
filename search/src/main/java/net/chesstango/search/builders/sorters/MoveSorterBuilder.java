@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.sorters.MoveSorter;
 
 /**
@@ -13,5 +13,5 @@ public interface MoveSorterBuilder {
 
     MoveSorterBuilder withDebugSearchTree();
 
-    MoveSorterBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator);
+    MoveSorterBuilder withSmartListenerMediator(ListenerMediator listenerMediator);
 }

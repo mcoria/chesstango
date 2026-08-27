@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 
 import java.util.Set;
 
@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author Mauricio Coria
  */
-public class EvaluationCounters implements Acceptor, SearchByCycleListener {
+public class EvaluationCounters implements Acceptor, SearchListener {
     private long evaluationsCounter;
 
     @Setter

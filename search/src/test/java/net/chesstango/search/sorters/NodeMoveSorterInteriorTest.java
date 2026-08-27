@@ -13,7 +13,7 @@ import net.chesstango.search.builders.KillerMoveBuilder;
 import net.chesstango.search.builders.TranspositionTableBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -38,7 +38,7 @@ public class NodeMoveSorterInteriorTest {
 
     private MoveSorter moveSorterInterior;
 
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     private TTable tTable;
     private TranspositionEntry transpositionEntry;
@@ -50,7 +50,7 @@ public class NodeMoveSorterInteriorTest {
 
     @BeforeEach
     public void setUp() {
-        searchListenerMediator = new SearchListenerMediator();
+        listenerMediator = new ListenerMediator();
 
         MoveSorterBuilder moveSorterBuilder = new MoveSorterInteriorBuilder()
                 .withIterativeDeepening()
@@ -59,20 +59,20 @@ public class NodeMoveSorterInteriorTest {
                 .withKillerMove()
                 .withRecapture()
                 .withMvvLva()
-                .withSmartListenerMediator(searchListenerMediator);
+                .withSmartListenerMediator(listenerMediator);
 
         TranspositionTableBuilder transpositionTableBuilder = new TranspositionTableBuilder()
                 .withHashSize(16)
                 .withStaleAge(DEFAULT_STALE_AGE)
-                .withSmartListenerMediator(searchListenerMediator);
+                .withSmartListenerMediator(listenerMediator);
 
         KillerMoveBuilder killerMoveBuilder = new KillerMoveBuilder()
-                .withSmartListenerMediator(searchListenerMediator);
+                .withSmartListenerMediator(listenerMediator);
 
         EvaluationBuilder evaluationBuilder = new EvaluationBuilder()
                 .withGameEvaluator(Evaluator.createInstance())
                 .withGameEvaluatorCache()
-                .withSmartListenerMediator(searchListenerMediator);
+                .withSmartListenerMediator(listenerMediator);
 
         moveSorterInterior = moveSorterBuilder.build();
         transpositionTableBuilder.build();
@@ -83,7 +83,7 @@ public class NodeMoveSorterInteriorTest {
         killerMoveBuilder.link();
         evaluationBuilder.link();
 
-        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+        listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         tTable = transpositionTableBuilder.getTTableImp();
         transpositionEntry = new TranspositionEntry();
@@ -102,7 +102,7 @@ public class NodeMoveSorterInteriorTest {
         Game game = Game.from(FEN.from("3k4/p2r4/1pR4p/4Q3/8/5P2/q5P1/6K1 w - - 0 1"))
                 .executeMove(Square.e5, Square.g3);
 
-        searchListenerMediator.accept(new SetGameVisitor(game));
+        listenerMediator.accept(new SetGameVisitor(game));
 
         /**
          * Settup
@@ -132,7 +132,7 @@ public class NodeMoveSorterInteriorTest {
                 .executeMove(Square.e5,Square.f6)
                 .executeMove(Square.d8,Square.e8);
 
-        searchListenerMediator.accept(new SetGameVisitor(game));
+        listenerMediator.accept(new SetGameVisitor(game));
 
         ttWrite(0xF672025378084819L, (byte) 3, (short) 2746, 2147483646, LOWER_BOUND); // c6c8
         ttWrite(0xD7D72C3F2D3A8E1DL, (byte) 2, (short) 3316, -124724, LOWER_BOUND); // g1f1

@@ -3,7 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.builders.sorters.MoveSorterRootBuilder;
 import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
@@ -82,9 +82,9 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
-        this.moveSorterRootBuilder.withSmartListenerMediator(searchListenerMediator);
+    public AlphaBetaRootChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
+        this.moveSorterRootBuilder.withSmartListenerMediator(listenerMediator);
         return this;
     }
 
@@ -153,42 +153,42 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
-        searchListenerMediator.add(rootMoveEvaluationTracker);
+        listenerMediator.add(rootMoveEvaluationTracker);
 
-        searchListenerMediator.add(rootMoveEvaluationBest);
+        listenerMediator.add(rootMoveEvaluationBest);
 
-        searchListenerMediator.add(rootMoveEvaluationCollection);
+        listenerMediator.add(rootMoveEvaluationCollection);
 
-        searchListenerMediator.add(extendPV);
+        listenerMediator.add(extendPV);
 
-        searchListenerMediator.add(propagatePV);
+        listenerMediator.add(propagatePV);
 
-        searchListenerMediator.add(pvCalculator);
+        listenerMediator.add(pvCalculator);
 
-        searchListenerMediator.add(alphaBeta);
+        listenerMediator.add(alphaBeta);
 
         if (stopProcessingCatch != null) {
-            searchListenerMediator.add(stopProcessingCatch);
+            listenerMediator.add(stopProcessingCatch);
         }
 
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            listenerMediator.add(zobristTracker);
         }
 
         if (aspirationWindows != null) {
-            searchListenerMediator.add(aspirationWindows);
+            listenerMediator.add(aspirationWindows);
         }
 
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            listenerMediator.add(debugFilter);
         }
 
         if (alphaBetaRootNodeStatistics != null) {
-            searchListenerMediator.add(alphaBetaRootNodeStatistics);
+            listenerMediator.add(alphaBetaRootNodeStatistics);
         }
 
         if (transpositionTableRoot != null) {
-            searchListenerMediator.add(transpositionTableRoot);
+            listenerMediator.add(transpositionTableRoot);
         }
     }
 
@@ -199,10 +199,10 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         rootMoveEvaluationTracker.setPvCalculator(pvCalculator);
 
         if (withAspirationWindows) {
-            aspirationWindows.setSearchListenerMediator(searchListenerMediator);
+            aspirationWindows.setListenerMediator(listenerMediator);
         }
 
-        searchListenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationBest, new LinkedList<>()));
+        listenerMediator.accept(new LinkRootMoveEvaluationObjectsVisitor(rootMoveEvaluationBest, new LinkedList<>()));
     }
 
     @Override

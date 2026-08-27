@@ -6,8 +6,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 
 import java.util.Objects;
@@ -16,14 +16,14 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 @Setter
-public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCycleListener {
+public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListener {
 
     private static final int OFFSET = 64;
 
     @Getter
     private AlphaBetaFilter next;
 
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     private RootMoveEvaluation lastRootMoveEvaluation;
 
@@ -57,7 +57,7 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCyc
 
         try {
             do {
-                searchListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
+                listenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
                 bestValue = next.alphaBeta(currentPly, alphaBound, betaBound);
 
@@ -79,14 +79,14 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchByCyc
                     search = false;
                 }
 
-                searchListenerMediator.triggerAfterSearchByWindows(false);
+                listenerMediator.triggerAfterSearchByWindows(false);
 
             } while (search);
 
             return bestValue;
 
         } catch (StopSearchingException stopSearchingException) {
-            searchListenerMediator.triggerAfterSearchByWindows(true);
+            listenerMediator.triggerAfterSearchByWindows(true);
             throw stopSearchingException;
         }
     }

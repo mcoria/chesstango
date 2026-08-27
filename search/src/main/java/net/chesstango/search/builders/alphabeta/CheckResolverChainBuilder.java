@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
@@ -40,9 +40,9 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
         moveSorterBuilder = new MoveSorterInteriorBuilder();
     }
 
-    public CheckResolverChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
-        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
+    public CheckResolverChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
+        this.moveSorterBuilder.withSmartListenerMediator(listenerMediator);
         return this;
     }
 
@@ -98,21 +98,21 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
     @Override
     protected void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.add(alphaBetaNodeStatistics);
+            listenerMediator.add(alphaBetaNodeStatistics);
         }
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            listenerMediator.add(zobristQTracker);
         }
         if (transpositionTableQ != null) {
-            searchListenerMediator.add(transpositionTableQ);
+            listenerMediator.add(transpositionTableQ);
         }
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            listenerMediator.add(debugFilter);
         }
         if (propagatePV != null) {
-            searchListenerMediator.add(propagatePV);
+            listenerMediator.add(propagatePV);
         }
-        searchListenerMediator.add(alphaBeta);
+        listenerMediator.add(alphaBeta);
     }
 
     @Override

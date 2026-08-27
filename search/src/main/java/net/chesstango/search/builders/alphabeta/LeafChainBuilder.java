@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
@@ -51,8 +51,8 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public LeafChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public LeafChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
         return this;
     }
 
@@ -76,22 +76,22 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected  void setupListenerMediator() {
-        searchListenerMediator.add(leaf);
+        listenerMediator.add(leaf);
 
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            listenerMediator.add(zobristTracker);
         }
 
         if (alphaBetaLeafNodeStatistics != null) {
-            searchListenerMediator.add(alphaBetaLeafNodeStatistics);
+            listenerMediator.add(alphaBetaLeafNodeStatistics);
         }
 
         if (debugSearchTree != null) {
-            searchListenerMediator.add(debugSearchTree);
+            listenerMediator.add(debugSearchTree);
         }
 
         if (extendPV != null) {
-            searchListenerMediator.add(extendPV);
+            listenerMediator.add(extendPV);
         }
     }
 

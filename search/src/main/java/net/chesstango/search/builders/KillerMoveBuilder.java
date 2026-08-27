@@ -1,7 +1,7 @@
 package net.chesstango.search.builders;
 
 import lombok.Getter;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.killermoves.KillerMovesTable;
@@ -25,7 +25,7 @@ public class KillerMoveBuilder implements SearchObjectBuilder<KillerMoveBuilder>
      */
     private KillerMoves killerMoves;
 
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     private boolean withDebugSearchTree;
 
@@ -39,8 +39,8 @@ public class KillerMoveBuilder implements SearchObjectBuilder<KillerMoveBuilder>
     }
 
     @Override
-    public KillerMoveBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public KillerMoveBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
         return this;
     }
 
@@ -55,7 +55,7 @@ public class KillerMoveBuilder implements SearchObjectBuilder<KillerMoveBuilder>
 
     @Override
     public void link() {
-        searchListenerMediator.accept(new LinkKillerMovesVisitor(killerMoves));
+        listenerMediator.accept(new LinkKillerMovesVisitor(killerMoves));
     }
 
     private void buildObjects() {
@@ -65,10 +65,10 @@ public class KillerMoveBuilder implements SearchObjectBuilder<KillerMoveBuilder>
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(killerMovesTableImp);
+        listenerMediator.add(killerMovesTableImp);
 
         if (killerMovesDebug != null) {
-            searchListenerMediator.add(killerMovesDebug);
+            listenerMediator.add(killerMovesDebug);
         }
     }
 

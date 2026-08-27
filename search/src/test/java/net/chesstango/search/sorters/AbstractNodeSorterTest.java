@@ -8,7 +8,7 @@ import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.AlphaBetaHelper;
 import net.chesstango.search.smart.killermoves.KillerMovesTable;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.transposition.TTableMap;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.Bound;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public abstract class AbstractNodeSorterTest {
 
-    protected SearchListenerMediator searchListenerMediator;
+    protected ListenerMediator listenerMediator;
     protected MoveSorterInteriorBuilder moveSorterBuilder;
     protected TTable tTable;
     protected KillerMovesTable killerMovesTable;
@@ -34,14 +34,14 @@ public abstract class AbstractNodeSorterTest {
     public void setup() {
         game = createGame();
 
-        searchListenerMediator = new SearchListenerMediator();
+        listenerMediator = new ListenerMediator();
 
         tTable = new TTableMap();
 
         killerMovesTable = new KillerMovesTable();
 
         moveSorterBuilder = new MoveSorterInteriorBuilder();
-        moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
+        moveSorterBuilder.withSmartListenerMediator(listenerMediator);
     }
 
     protected abstract Game createGame();

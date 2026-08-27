@@ -3,7 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
@@ -36,7 +36,7 @@ public class AlphaBetaTest {
 
     private SearchByDepthImp searchByDepthImp;
 
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     private List<Acceptor> acceptors;
 
@@ -67,12 +67,12 @@ public class AlphaBetaTest {
 
         setGameToEvaluator.setEvaluator(evaluator);
 
-        this.searchListenerMediator = new SearchListenerMediator();
+        this.listenerMediator = new ListenerMediator();
 
         this.searchByDepthImp = new SearchByDepthImp();
         this.searchByDepthImp.setNext(alphaBeta);
 
-        this.searchListenerMediator.addAll(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameToEvaluator, searchByDepthImp));
+        this.listenerMediator.addAll(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameToEvaluator, searchByDepthImp));
         this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameToEvaluator, searchByDepthImp);
     }
 
@@ -144,21 +144,21 @@ public class AlphaBetaTest {
         SetGameVisitor setGameVisitor = new SetGameVisitor(game);
         acceptors.forEach(acceptor -> acceptor.accept(setGameVisitor));
 
-        searchListenerMediator.triggerBeforeSearch();
+        listenerMediator.triggerBeforeSearch();
 
         SearchResultByDepth searchResultByDepth =  searchByDepthImp.search(depth);
 
-        searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
+        listenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
 
-        searchListenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
+        listenerMediator.accept(new DistributeSearchResultByDepthVisitor(searchResultByDepth));
 
-        searchListenerMediator.triggerAfterSearch();
+        listenerMediator.triggerAfterSearch();
 
         SearchResult searchResult = new SearchResult().addSearchResultByDepth(searchResultByDepth);
 
-        searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
+        listenerMediator.accept(new CollectSearchResultVisitor(searchResult));
 
-        searchListenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
+        listenerMediator.accept(new DistributeSearchResultVisitor(searchResult));
 
         return searchResult;
     }

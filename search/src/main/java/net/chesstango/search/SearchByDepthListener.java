@@ -3,7 +3,7 @@ package net.chesstango.search;
 /**
  * @author Mauricio Coria
  */
-public interface SearchByDepthListener extends SearchListener {
+public interface SearchByDepthListener extends Listener {
 
     /**
      * Invoked once per search depth

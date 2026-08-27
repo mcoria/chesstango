@@ -36,16 +36,16 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
-        searchListenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
-        searchListenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
-        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+        listenerMediator.accept(new SetGameVisitor(game));
+        listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
+        listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
+        listenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
-        searchListenerMediator.triggerBeforeSearch();
+        listenerMediator.triggerBeforeSearch();
 
-        searchListenerMediator.accept(new SetDepthVisitor(3));
-        searchListenerMediator.triggerBeforeSearchByDepth();
+        listenerMediator.accept(new SetDepthVisitor(3));
+        listenerMediator.triggerBeforeSearchByDepth();
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);
 

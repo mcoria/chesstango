@@ -8,7 +8,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchByDepthListener;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 
-public class DepthCollector implements Acceptor, SearchByCycleListener, SearchByDepthListener {
+public class DepthCollector implements Acceptor, SearchListener, SearchByDepthListener {
 
     @Setter
     private int depth;

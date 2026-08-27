@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.PVMove;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchByDepthListener;
 import net.chesstango.search.sorters.GroupSorter;
 import net.chesstango.search.sorters.SortListener;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchByCycleListener, SearchByDepthListener, SortListener {
+public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchListener, SearchByDepthListener, SortListener {
 
     private final PVMove[] pvMoves;
 

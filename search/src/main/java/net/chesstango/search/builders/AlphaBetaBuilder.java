@@ -9,7 +9,7 @@ import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.IterativeDeepening;
 import net.chesstango.search.NoIterativeDeepening;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.listeners.SetSearchTimers;
@@ -56,7 +56,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
     private final SearchByDepthImp searchByDepthImp;
-    private final SearchListenerMediator searchListenerMediator;
+    private final ListenerMediator listenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
 
     private NodeCounters nodeCounters;
@@ -91,7 +91,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         evaluationBuilder = new EvaluationBuilder();
 
         searchByDepthImp = new SearchByDepthImp();
-        searchListenerMediator = new SearchListenerMediator();
+        listenerMediator = new ListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         setSearchTimers = new SetSearchTimers();
@@ -281,23 +281,23 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private void buildObjects() {
         evaluationBuilder
-                .withSmartListenerMediator(searchListenerMediator)
+                .withSmartListenerMediator(listenerMediator)
                 .build();
 
 
         if (withIterativeDeepening) {
-            search = new IterativeDeepening(searchByDepthImp, searchListenerMediator);
+            search = new IterativeDeepening(searchByDepthImp, listenerMediator);
         } else {
-            search = new NoIterativeDeepening(searchByDepthImp, searchListenerMediator);
+            search = new NoIterativeDeepening(searchByDepthImp, listenerMediator);
         }
 
         if (withTranspositionTable) {
-            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
+            transpositionTableBuilder.withSmartListenerMediator(listenerMediator);
             transpositionTableBuilder.build();
         }
 
         if (withKillerMoveSorter) {
-            killerMoveBuilder.withSmartListenerMediator(searchListenerMediator);
+            killerMoveBuilder.withSmartListenerMediator(listenerMediator);
             killerMoveBuilder.build();
         }
 
@@ -321,46 +321,46 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(setGameToEndGameTableBase);
+        listenerMediator.add(setGameToEndGameTableBase);
 
-        searchListenerMediator.add(searchByDepthImp);
+        listenerMediator.add(searchByDepthImp);
 
-        searchListenerMediator.add(setSearchTimers);
+        listenerMediator.add(setSearchTimers);
 
-        searchListenerMediator.add(alphaBetaFlowControl);
+        listenerMediator.add(alphaBetaFlowControl);
 
         if (setZobristMemory != null) {
-            searchListenerMediator.add(setZobristMemory);
+            listenerMediator.add(setZobristMemory);
         }
 
         if (nodeCounters != null) {
-            searchListenerMediator.add(nodeCounters);
+            listenerMediator.add(nodeCounters);
         }
 
         if (gameCounters != null) {
-            searchListenerMediator.add(gameCounters);
+            listenerMediator.add(gameCounters);
         }
 
         if (depthCollector != null) {
-            searchListenerMediator.add(depthCollector);
+            listenerMediator.add(depthCollector);
         }
 
         if (debugNodeTracker != null) {
-            searchListenerMediator.add(debugNodeTracker);
+            listenerMediator.add(debugNodeTracker);
         }
 
         if (debugNodeTrap != null) {
-            searchListenerMediator.add(debugNodeTrap);
+            listenerMediator.add(debugNodeTrap);
         }
 
         if (printHtmlDebugHandler != null) {
-            searchListenerMediator.add(printHtmlDebugHandler);
+            listenerMediator.add(printHtmlDebugHandler);
         }
     }
 
     private void link() {
         searchByDepthImp.setNext(createChain());
-        searchByDepthImp.setSearchListenerMediator(searchListenerMediator);
+        searchByDepthImp.setListenerMediator(listenerMediator);
 
         if (withTranspositionTable) {
             transpositionTableBuilder.link();
@@ -371,14 +371,14 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         if (withStatistics) {
-            searchListenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
+            listenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
         }
 
         if (withDebugSearchTree) {
             if (debugNodeTrap != null) {
-                searchListenerMediator.accept(new LinkDebugNodeTrapVisitor(debugNodeTrap));
+                listenerMediator.accept(new LinkDebugNodeTrapVisitor(debugNodeTrap));
             }
-            searchListenerMediator.accept(new LinkSearchTrackerVisitor(debugNodeTracker));
+            listenerMediator.accept(new LinkSearchTrackerVisitor(debugNodeTracker));
         }
 
         /**
@@ -400,34 +400,34 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
          * Link through the mediator
          */
 
-        searchListenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+        listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
-        searchListenerMediator.accept(new LinkBestMovesArray(new Move[MAX_DEPTH]));
+        listenerMediator.accept(new LinkBestMovesArray(new Move[MAX_DEPTH]));
 
-        searchListenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
+        listenerMediator.accept(new LinkEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
-        searchListenerMediator.accept(new LinkTrianglePVVisitor(new PVTable()));
+        listenerMediator.accept(new LinkTrianglePVVisitor(new PVTable()));
     }
 
     private AlphaBetaFilter createChain() {
-        terminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        terminalChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter terminalChain = terminalChainBuilder.build();
 
-        leafChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        leafChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter leafChain = leafChainBuilder.build();
 
-        alphaBetaInteriorChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        alphaBetaInteriorChainBuilder.withSmartListenerMediator(listenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
-        loopChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        loopChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter loopChain = loopChainBuilder.build();
 
-        egtbChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        egtbChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter egtbChain = egtbChainBuilder.build();
 
         quiescenceChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        quiescenceChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter quiescenceChain = withQuiescence ? quiescenceChainBuilder.build() : null;
 
         alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);
@@ -437,7 +437,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaFlowControl.setLeafNode(leafChain);
         alphaBetaFlowControl.setEgtbNode(egtbChain);
 
-        alphaBetaRootChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        alphaBetaRootChainBuilder.withSmartListenerMediator(listenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         return alphaBetaRootChainBuilder.build();
     }

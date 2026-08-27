@@ -26,11 +26,11 @@ public class IterativeDeepeningTest {
     private SearchByDepth smart;
 
     @Mock
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     @BeforeEach
     public void setup() {
-        iterativeDeepening = new IterativeDeepening(smart, searchListenerMediator);
+        iterativeDeepening = new IterativeDeepening(smart, listenerMediator);
     }
 
     @Test

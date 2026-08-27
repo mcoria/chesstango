@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public abstract class AbstractChainBuilder {
 
-    protected SearchListenerMediator searchListenerMediator;
+    protected ListenerMediator listenerMediator;
 
     public AlphaBetaFilter build() {
         buildObjects();

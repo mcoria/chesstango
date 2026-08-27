@@ -3,7 +3,7 @@ package net.chesstango.search.smart.statistics.node;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchByDepthListener;
 
 import static net.chesstango.search.smart.Constants.MAX_DEPTH;
@@ -11,7 +11,7 @@ import static net.chesstango.search.smart.Constants.MAX_DEPTH;
 /**
  * @author Mauricio Coria
  */
-public class NodeCounters implements Acceptor, SearchByCycleListener, SearchByDepthListener {
+public class NodeCounters implements Acceptor, SearchListener, SearchByDepthListener {
 
     private long rootNodeCounter;
     private long interiorNodeCounter;

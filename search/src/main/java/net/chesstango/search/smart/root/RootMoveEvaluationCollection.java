@@ -8,7 +8,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class RootMoveEvaluationCollection implements Acceptor, SearchByCycleListener {
+public class RootMoveEvaluationCollection implements Acceptor, SearchListener {
 
     @Setter
     private Game game;

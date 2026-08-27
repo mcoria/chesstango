@@ -92,7 +92,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         printChainText("");
         printChainText("");
-        printChainSmartListenerMediator(iterativeDeepening.getSearchListenerMediator());
+        printChainSmartListenerMediator(iterativeDeepening.getListenerMediator());
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         printChainText("");
         printChainText("");
-        printChainSmartListenerMediator(noIterativeDeepening.getSearchListenerMediator());
+        printChainSmartListenerMediator(noIterativeDeepening.getListenerMediator());
     }
 
     @Override
@@ -511,18 +511,18 @@ public class ChainPrinterVisitor implements Visitor {
      * Private methods
      */
 
-    private void printChainSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+    private void printChainSmartListenerMediator(ListenerMediator listenerMediator) {
         printChainText("SearchByCycleListeners:");
         nestedChain++;
-        searchListenerMediator
-                .getSearchByCycleListeners()
+        listenerMediator
+                .getSearchListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
 
         printChainText("SearchByDepthListener:");
         nestedChain++;
-        searchListenerMediator
+        listenerMediator
                 .getSearchByDepthListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
@@ -530,7 +530,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         printChainText("SearchByWindowsListeners:");
         nestedChain++;
-        searchListenerMediator
+        listenerMediator
                 .getSearchByWindowsListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
@@ -538,7 +538,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         printChainText("StopSearchingListener:");
         nestedChain++;
-        searchListenerMediator
+        listenerMediator
                 .getStopSearchingListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
@@ -546,7 +546,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         printChainText("ResetListener:");
         nestedChain++;
-        searchListenerMediator
+        listenerMediator
                 .getResetListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
@@ -554,7 +554,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         printChainText("Acceptor:");
         nestedChain++;
-        searchListenerMediator
+        listenerMediator
                 .getAcceptors()
                 .forEach(this::printNodeObjectText);
         out.println();

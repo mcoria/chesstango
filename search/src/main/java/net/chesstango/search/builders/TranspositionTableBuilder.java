@@ -1,7 +1,7 @@
 package net.chesstango.search.builders;
 
 import lombok.Getter;
-import net.chesstango.search.SearchListenerMediator;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.statistics.transposition.*;
 import net.chesstango.search.smart.transposition.*;
@@ -55,7 +55,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
 
     private PVWalkerFromTT pvWalkerFromTT;
 
-    private SearchListenerMediator searchListenerMediator;
+    private ListenerMediator listenerMediator;
 
     private boolean withDebugSearchTree;
     private boolean withStatistics;
@@ -84,8 +84,8 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     }
 
     @Override
-    public TranspositionTableBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public TranspositionTableBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+        this.listenerMediator = listenerMediator;
         return this;
     }
 
@@ -102,15 +102,15 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     public void link() {
         ttListener.setTTable(tTableImp);
 
-        searchListenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
+        listenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
 
-        searchListenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTableHeadComparator));
+        listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTableHeadComparator));
 
-        searchListenerMediator.accept(new LinkTTableTailComparatorVisitor(tTableTailComparator));
+        listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTableTailComparator));
 
-        searchListenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
+        listenerMediator.accept(new LinkTTableImpVisitor(tTableImp));
 
-        searchListenerMediator.accept(new LinkPVWalkerFromTTVisitor(pvWalkerFromTT));
+        listenerMediator.accept(new LinkPVWalkerFromTTVisitor(pvWalkerFromTT));
     }
 
     private void buildObjects() {
@@ -135,39 +135,39 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(ttListener);
+        listenerMediator.add(ttListener);
 
-        searchListenerMediator.add(tTableImp);
+        listenerMediator.add(tTableImp);
 
         if (tTableNodeDebug != null) {
-            searchListenerMediator.add(tTableNodeDebug);
+            listenerMediator.add(tTableNodeDebug);
         }
         if (tTableComparatorHeadDebug != null) {
-            searchListenerMediator.add(tTableComparatorHeadDebug);
+            listenerMediator.add(tTableComparatorHeadDebug);
         }
         if(tTableComparatorTailDebug!=null){
-            searchListenerMediator.add(tTableComparatorTailDebug);
+            listenerMediator.add(tTableComparatorTailDebug);
         }
         if(tTablePVDebug!=null){
-            searchListenerMediator.add(tTablePVDebug);
+            listenerMediator.add(tTablePVDebug);
         }
         if (tTableCounters != null) {
-            searchListenerMediator.add(tTableCounters);
+            listenerMediator.add(tTableCounters);
         }
         if (tTableNodeCollector != null) {
-            searchListenerMediator.add(tTableNodeCollector);
+            listenerMediator.add(tTableNodeCollector);
         }
         if (tTableComparatorCollector != null) {
-            searchListenerMediator.add(tTableComparatorCollector);
+            listenerMediator.add(tTableComparatorCollector);
         }
         if (tTablePVCollector != null) {
-            searchListenerMediator.add(tTablePVCollector);
+            listenerMediator.add(tTablePVCollector);
         }
         if (tTableStatisticsFillPercentageCollector != null) {
-            searchListenerMediator.add(tTableStatisticsFillPercentageCollector);
+            listenerMediator.add(tTableStatisticsFillPercentageCollector);
         }
         if (pvWalkerFromTT != null) {
-            searchListenerMediator.add(pvWalkerFromTT);
+            listenerMediator.add(pvWalkerFromTT);
         }
     }
 

@@ -8,7 +8,7 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.StopSearchingListener;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
@@ -16,7 +16,7 @@ import net.chesstango.search.smart.egtb.EndGameTableBase;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchByCycleListener, StopSearchingListener {
+public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter
