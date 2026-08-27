@@ -4,15 +4,20 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.debug.model.DebugCacheRead;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TTableMap;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 import net.chesstango.search.sorters.MoveComparator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.chesstango.search.Bound.EXACT;
 import static org.junit.jupiter.api.Assertions.assertEquals;

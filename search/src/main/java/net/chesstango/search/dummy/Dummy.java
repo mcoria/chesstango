@@ -26,7 +26,7 @@ public class Dummy implements Search {
 
         Set<PiecePositioned> fromPieces = moveMap.keySet();
 
-        PiecePositioned[] pieces = fromPieces.toArray(new PiecePositioned[moveMap.keySet().size()]);
+        PiecePositioned[] pieces = fromPieces.toArray(new PiecePositioned[moveMap.size()]);
 
         PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
 

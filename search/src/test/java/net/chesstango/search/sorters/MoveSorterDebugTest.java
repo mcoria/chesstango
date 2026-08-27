@@ -6,7 +6,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
-import net.chesstango.search.smart.debug.model.DebugCacheRead;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.Disabled;
@@ -16,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class MoveSorterDebugTest {
+public class MoveSorterDebugTest {
 
     @InjectMocks
     private MoveSorterDebug moveSorterDebug;
@@ -34,10 +32,10 @@ class MoveSorterDebugTest {
     private MoveSorter nextMock;
 
     @Mock
-    private DebugNodeTracker mockDebugNodeTracker;
+    private DebugNodeTracker debugNodeTracker;
 
     @Mock
-    private DebugNode mockDebugNode;
+    private DebugNode debugNode;
 
 
     /**
@@ -72,7 +70,7 @@ class MoveSorterDebugTest {
         // Arrange
         moveSorterDebug.setGame(game);
         when(nextMock.getOrderedMoves(1)).thenReturn(theMoves);
-        when(mockDebugNodeTracker.getCurrentNode()).thenReturn(mockDebugNode);
+        when(debugNodeTracker.getCurrentNode()).thenReturn(debugNode);
 
         // Act
         Iterable<Move> resultMoves = moveSorterDebug.getOrderedMoves(1);
@@ -82,87 +80,6 @@ class MoveSorterDebugTest {
 
         verify(nextMock).getOrderedMoves(1);
 
-        verify(mockDebugNode).setSortedMoves(List.of("a2a3", "a2a4", "b1a3", "b1c3", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4", "e2e3", "e2e4", "f2f3", "f2f4", "g1f3", "g1h3", "g2g3", "g2g4", "h2h3", "h2h4")); // Placeholder for move string via SimpleMoveEncoder
-    }
-
-    /**
-     * Tests the trackComparatorsEvalCacheReads() method of MoveSorterDebug class.
-     * Ensures that the evaluation cache reads are populated properly.
-     */
-    @Test
-    @Disabled
-    void testTrackComparatorsEvalCacheReads() {
-        Game game = Game.from(FEN.START_POSITION);
-        Move move = game.getMove(Square.e2, Square.e4);
-
-        // Arrange
-        moveSorterDebug.setGame(game);
-
-        DebugCacheRead mockDebugOperation = new DebugCacheRead()
-                .setHashRequested(move.getZobristHash());
-
-        List<DebugCacheRead> evalCacheReads = Collections.singletonList(mockDebugOperation);
-        when(mockDebugNode.getEvalCacheReads()).thenReturn(evalCacheReads);
-
-        // Act
-        //moveSorterDebug.trackComparatorsEvalCacheReads(mockDebugNode);
-
-        // Assert
-        assertEquals("e2e4", mockDebugOperation.getMove());
-    }
-
-    /**
-     * Tests the trackComparatorsTranspositionReads() method of MoveSorterDebug class.
-     * Ensures that the transposition reads are populated correctly.
-     */
-    @Test
-    @Disabled
-    void testTrackComparatorsTranspositionReads_PV() {
-        Game game = Game.from(FEN.START_POSITION);
-        Move pvMove = game.getMove(Square.e2, Square.e4);
-
-        // Arrange
-        moveSorterDebug.setGame(game);
-
-        TranspositionEntry pvTranspositionEntry = new TranspositionEntry()
-                .setHash(game.getPosition().getZobristHash())
-                .setMove(pvMove.binaryEncoding());
-
-        //DebugSortTT mockDebugSortTT = new DebugSortTT()
-        //        .setEntry(pvTranspositionEntry);
-
-        //List<DebugSortTT> sorterReads = Collections.singletonList(mockDebugSortTT);
-        //when(mockDebugNode.getSorterHeadReads()).thenReturn(sorterReads);
-
-        // Act
-        //moveSorterDebug.trackComparatorsTranspositionReads(mockDebugNode);
-
-        // Assert
-        //assertEquals("e2e4", mockDebugSortTT.getMove());
-    }
-
-    @Test
-    @Disabled
-    void testTrackComparatorsTranspositionReads_Tail() {
-        Game game = Game.from(FEN.START_POSITION);
-        Move move = game.getMove(Square.e2, Square.e4);
-
-        // Arrange
-        moveSorterDebug.setGame(game);
-
-        TranspositionEntry transpositionEntry = new TranspositionEntry()
-                .setHash(move.getZobristHash());
-
-        //DebugSortTT mockDebugSortTT = new DebugSortTT()
-        //        .setEntry(transpositionEntry);
-
-        //List<DebugSortTT> sorterReads = Collections.singletonList(mockDebugSortTT);
-        //when(mockDebugNode.getSorterHeadReads()).thenReturn(sorterReads);
-
-        // Act
-        //moveSorterDebug.trackComparatorsTranspositionReads(mockDebugNode);
-
-        // Assert
-        //assertEquals("e2e4", mockDebugSortTT.getMove());
+        verify(debugNode).setSortedMoves(List.of("a2a3", "a2a4", "b1a3", "b1c3", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4", "e2e3", "e2e4", "f2f3", "f2f4", "g1f3", "g1h3", "g2g3", "g2g4", "h2h3", "h2h4")); // Placeholder for move string via SimpleMoveEncoder
     }
 }
