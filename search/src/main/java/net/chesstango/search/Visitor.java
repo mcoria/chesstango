@@ -33,7 +33,7 @@ import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
-import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
@@ -79,7 +79,7 @@ public interface Visitor {
     /**
      * Facades
      */
-    default void visit(AlphaBetaFacade alphaBetaFacade) {
+    default void visit(SearchByDepthImp searchByDepthImp) {
     }
 
     /**

@@ -13,7 +13,6 @@ import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.sorters.NodeMoveSorter;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.visitors.*;
@@ -34,7 +33,7 @@ public class AlphaBetaTest {
 
     private MockEvaluator evaluator;
 
-    private AlphaBetaFacade alphaBetaFacade;
+    private SearchByDepthImp searchByDepthImp;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -69,11 +68,11 @@ public class AlphaBetaTest {
 
         this.searchListenerMediator = new SearchListenerMediator();
 
-        this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setNext(alphaBeta);
+        this.searchByDepthImp = new SearchByDepthImp();
+        this.searchByDepthImp.setNext(alphaBeta);
 
-        this.searchListenerMediator.addAll(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameToEvaluator, alphaBetaFacade));
-        this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameToEvaluator, alphaBetaFacade);
+        this.searchListenerMediator.addAll(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameToEvaluator, searchByDepthImp));
+        this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameToEvaluator, searchByDepthImp);
     }
 
     @Test
@@ -146,15 +145,7 @@ public class AlphaBetaTest {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        searchListenerMediator.accept(new SetDepthVisitor(depth));
-
-        searchListenerMediator.triggerBeforeSearchByDepth();
-
-        alphaBetaFacade.search();
-
-        searchListenerMediator.triggerAfterSearchByDepth(false);
-
-        SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
+        SearchResultByDepth searchResultByDepth =  searchByDepthImp.search(depth);
 
         searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
 

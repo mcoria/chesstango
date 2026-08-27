@@ -2,7 +2,7 @@ ROOT
 |
 IterativeDeepening @ 1
 |
-AlphaBetaFacade @ 2
+SearchByDepthImp @ 2
 |
 StopProcessingCatch @ 3
 |
@@ -145,7 +145,7 @@ Acceptor:
 	SetGameToEvaluator @ 50
 	EvaluatorCacheListener @ 46
 	SetGameToEndGameTableBase @ 51
-	AlphaBetaFacade @ 2
+	SearchByDepthImp @ 2
 	SetSearchTimers @ 47
 	AlphaBetaFlowControl @ 10
 	ExtendPV @ 11

@@ -2,7 +2,7 @@ ROOT
 |
 NoIterativeDeepening @ 1
 |
-AlphaBetaFacade @ 2
+SearchByDepthImp @ 2
 |
 ExtendPV @ 3
 |
@@ -90,7 +90,7 @@ ResetListener:
 Acceptor:
 	SetGameToEvaluator @ 29
 	SetGameToEndGameTableBase @ 30
-	AlphaBetaFacade @ 2
+	SearchByDepthImp @ 2
 	SetSearchTimers @ 26
 	AlphaBetaFlowControl @ 8
 	ExtendPV @ 9

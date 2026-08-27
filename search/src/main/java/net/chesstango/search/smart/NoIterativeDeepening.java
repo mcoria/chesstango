@@ -16,7 +16,7 @@ import net.chesstango.search.visitors.*;
 public class NoIterativeDeepening implements Search {
 
     @Getter
-    private final SearchAlgorithm searchAlgorithm;
+    private final SearchByDepth searchByDepth;
 
     @Getter
     private final SearchListenerMediator searchListenerMediator;
@@ -24,8 +24,8 @@ public class NoIterativeDeepening implements Search {
     @Setter
     private int maxDepth = Integer.MAX_VALUE;
 
-    public NoIterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
-        this.searchAlgorithm = searchAlgorithm;
+    public NoIterativeDeepening(SearchByDepth searchByDepth, SearchListenerMediator searchListenerMediator) {
+        this.searchByDepth = searchByDepth;
         this.searchListenerMediator = searchListenerMediator;
     }
 
@@ -39,9 +39,7 @@ public class NoIterativeDeepening implements Search {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        searchListenerMediator.accept(new SetDepthVisitor(maxDepth));
-
-        SearchResultByDepth searchResultByDepth  = searchAlgorithm.search();
+        SearchResultByDepth searchResultByDepth  = searchByDepth.search(maxDepth);
 
         searchListenerMediator.triggerAfterSearch();
 

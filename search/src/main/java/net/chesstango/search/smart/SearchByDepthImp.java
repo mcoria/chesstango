@@ -1,20 +1,18 @@
-package net.chesstango.search.smart.root.filters;
+package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
-import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.visitors.CollectSearchResultByDepthVisitor;
 import net.chesstango.search.visitors.DistributeSearchResultByDepthVisitor;
+import net.chesstango.search.visitors.SetDepthVisitor;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
+public class SearchByDepthImp implements SearchByDepth, Acceptor {
 
     @Setter
     @Getter
@@ -26,17 +24,17 @@ public class AlphaBetaFacade implements SearchAlgorithm, Acceptor {
     @Setter
     private SearchListenerMediator searchListenerMediator;
 
-    @Setter
-    protected int depth;
-
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+
     @Override
-    public SearchResultByDepth search() {
+    public SearchResultByDepth search(int depth) {
         try {
+            searchListenerMediator.accept(new SetDepthVisitor(depth));
+
             searchListenerMediator.triggerBeforeSearchByDepth();
 
             int value = next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);

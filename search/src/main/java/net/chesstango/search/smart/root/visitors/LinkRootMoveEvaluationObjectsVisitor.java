@@ -4,7 +4,7 @@ import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.root.RootMoveEvaluationBest;
 import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
-import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.sorters.RootMoveSorter;
 
@@ -26,8 +26,8 @@ public class LinkRootMoveEvaluationObjectsVisitor implements Visitor {
 
 
     @Override
-    public void visit(AlphaBetaFacade alphaBetaFacade) {
-        alphaBetaFacade.setRootMoveEvaluationBest(rootMoveEvaluationBest);
+    public void visit(SearchByDepthImp searchByDepthImp) {
+        searchByDepthImp.setRootMoveEvaluationBest(rootMoveEvaluationBest);
     }
 
     @Override

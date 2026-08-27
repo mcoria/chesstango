@@ -25,7 +25,7 @@ import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
@@ -89,7 +89,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printNodeObjectText(iterativeDeepening);
 
-        SearchAlgorithm algorithm = iterativeDeepening.getSearchAlgorithm();
+        SearchByDepth algorithm = iterativeDeepening.getSearchByDepth();
         traverse(algorithm);
 
         printChainText("");
@@ -102,7 +102,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printNodeObjectText(noIterativeDeepening);
 
-        SearchAlgorithm algorithm = noIterativeDeepening.getSearchAlgorithm();
+        SearchByDepth algorithm = noIterativeDeepening.getSearchByDepth();
         traverse(algorithm);
 
         printChainText("");
@@ -111,8 +111,8 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaFacade alphaBetaFacade) {
-        print(alphaBetaFacade, alphaBetaFacade.getNext());
+    public void visit(SearchByDepthImp searchByDepthImp) {
+        print(searchByDepthImp, searchByDepthImp.getNext());
     }
 
     @Override
@@ -580,11 +580,11 @@ public class ChainPrinterVisitor implements Visitor {
     ///
     ///
 
-    private void traverse(SearchAlgorithm searchAlgorithm) {
-        if (searchAlgorithm instanceof Acceptor acceptor) {
+    private void traverse(SearchByDepth searchByDepth) {
+        if (searchByDepth instanceof Acceptor acceptor) {
             acceptor.accept(this);
         } else {
-            throw new IllegalArgumentException("Unknown search algorithm: " + searchAlgorithm.getClass().getSimpleName());
+            throw new IllegalArgumentException("Unknown search algorithm: " + searchByDepth.getClass().getSimpleName());
         }
     }
 

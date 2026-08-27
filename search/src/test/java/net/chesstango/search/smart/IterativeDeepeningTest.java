@@ -24,7 +24,7 @@ public class IterativeDeepeningTest {
     private IterativeDeepening iterativeDeepening;
 
     @Mock
-    private SearchAlgorithm smart;
+    private SearchByDepth smart;
 
     @Mock
     private SearchListenerMediator searchListenerMediator;

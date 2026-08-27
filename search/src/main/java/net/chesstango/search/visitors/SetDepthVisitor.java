@@ -4,7 +4,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.listeners.PrintTxtDebugListener;
-import net.chesstango.search.smart.root.filters.AlphaBetaFacade;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
 import net.chesstango.search.smart.statistics.node.filters.*;
@@ -28,12 +27,6 @@ public class SetDepthVisitor implements Visitor {
 
     public SetDepthVisitor(int depth) {
         this.depth = depth;
-    }
-
-
-    @Override
-    public void visit(AlphaBetaFacade alphaBetaFacade) {
-        alphaBetaFacade.setDepth(depth);
     }
 
     @Override

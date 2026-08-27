@@ -20,13 +20,13 @@ import java.util.function.Predicate;
 public class IterativeDeepening implements Search {
 
     @Getter
-    private final SearchAlgorithm searchAlgorithm;
+    private final SearchByDepth searchByDepth;
 
     @Getter
     private final SearchListenerMediator searchListenerMediator;
 
     @Setter
-    private int maxDepth = Integer.MAX_VALUE / 2;
+    private int maxDepth = Integer.MAX_VALUE;
 
     @Setter
     private Consumer<SearchResultByDepth> searchResultByDepthListener;
@@ -34,8 +34,8 @@ public class IterativeDeepening implements Search {
     @Setter
     private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
-    public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
-        this.searchAlgorithm = searchAlgorithm;
+    public IterativeDeepening(SearchByDepth searchByDepth, SearchListenerMediator searchListenerMediator) {
+        this.searchByDepth = searchByDepth;
         this.searchListenerMediator = searchListenerMediator;
     }
 
@@ -62,9 +62,7 @@ public class IterativeDeepening implements Search {
         boolean continueDeepening;
 
         do {
-            searchListenerMediator.accept(new SetDepthVisitor(currentSearchDepth));
-
-            SearchResultByDepth searchResultByDepth = searchAlgorithm.search();
+            SearchResultByDepth searchResultByDepth = searchByDepth.search(currentSearchDepth);
 
             /**
              * La busqueda en profundidad actual fué detenida prematuramente
