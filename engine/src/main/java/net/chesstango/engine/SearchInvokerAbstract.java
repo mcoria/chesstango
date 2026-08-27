@@ -55,7 +55,7 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
                             .map(PVMove::move)
                             .toList()
                     );
-            String infoStr = String.format("depth %d seldepth %d pvMoves %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
+            String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
 
             searchListener.searchInfo(infoStr);
         };
