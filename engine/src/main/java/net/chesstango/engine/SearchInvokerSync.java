@@ -18,7 +18,7 @@ class SearchInvokerSync extends SearchInvokerAbstract {
     }
 
     @Override
-    public Future<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public CompletableFuture<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
 
         SearchResponse searchResponse = search(game, depth, searchPredicate, searchListener);
 

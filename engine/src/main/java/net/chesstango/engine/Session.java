@@ -7,6 +7,7 @@ import net.chesstango.gardel.fen.FEN;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
