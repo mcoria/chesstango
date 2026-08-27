@@ -8,6 +8,9 @@ import java.nio.file.Path;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static net.chesstango.board.Color.BLACK;
+import static net.chesstango.board.Color.WHITE;
+
 /**
  * @author Mauricio Coria
  */
@@ -46,10 +49,18 @@ class SearchManager implements TangoOptions {
     }
 
     synchronized Future<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
+        if (timeOut <= 0) {
+            return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
+        }
         return currentSearchManagerState.searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(game, timeOut, searchInfo), searchListener);
     }
 
     synchronized Future<SearchResponse> searchFast(Game game, int wTime, int wInc, int bTime, int bInc, SearchListener searchListener) {
+        if (WHITE.equals(game.getPosition().getCurrentTurn()) && (wTime <= 0 || wInc <= 0)) {
+            return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
+        } else if (BLACK.equals(game.getPosition().getCurrentTurn()) && (bTime <= 0 || bInc <= 0)) {
+            return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
+        }
         int timeOut = timeMgmt.getTimeOut(game, wTime, wInc, bTime, bInc);
         return currentSearchManagerState.searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(game, timeOut, searchInfo), searchListener);
     }
