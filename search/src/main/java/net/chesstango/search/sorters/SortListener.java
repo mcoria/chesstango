@@ -1,6 +1,6 @@
 package net.chesstango.search.sorters;
 
-import net.chesstango.search.smart.SearchListener;
+import net.chesstango.search.SearchListener;
 
 /**
  * @author Mauricio Coria

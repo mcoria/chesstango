@@ -3,7 +3,7 @@ package net.chesstango.search.smart.debug;
 import lombok.Getter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.SearchByDepthListener;
 import net.chesstango.search.smart.debug.model.DebugNode;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 

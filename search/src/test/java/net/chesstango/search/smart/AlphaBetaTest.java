@@ -3,6 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;

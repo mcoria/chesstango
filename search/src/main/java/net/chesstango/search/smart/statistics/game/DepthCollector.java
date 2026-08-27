@@ -8,8 +8,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchByDepthListener;
 
 import java.util.List;
 

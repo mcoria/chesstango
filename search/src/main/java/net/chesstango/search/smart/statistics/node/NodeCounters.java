@@ -3,8 +3,8 @@ package net.chesstango.search.smart.statistics.node;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchByDepthListener;
 
 import static net.chesstango.search.smart.Constants.MAX_DEPTH;
 

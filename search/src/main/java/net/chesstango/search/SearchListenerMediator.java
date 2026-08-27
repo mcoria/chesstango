@@ -1,8 +1,6 @@
-package net.chesstango.search.smart;
+package net.chesstango.search;
 
 import lombok.Getter;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.Visitor;
 
 import java.util.LinkedList;
 import java.util.List;

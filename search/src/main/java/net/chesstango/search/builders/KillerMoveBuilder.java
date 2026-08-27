@@ -1,7 +1,7 @@
 package net.chesstango.search.builders;
 
 import lombok.Getter;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.killermoves.KillerMovesTable;

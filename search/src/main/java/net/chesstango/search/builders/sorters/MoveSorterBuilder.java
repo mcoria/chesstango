@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.sorters.MoveSorter;
 
 /**

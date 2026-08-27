@@ -1,9 +1,9 @@
 package net.chesstango.search.smart.transposition.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.IterativeDeepening;
+import net.chesstango.search.NoIterativeDeepening;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
 
 /**

@@ -1,12 +1,8 @@
-package net.chesstango.search.smart;
+package net.chesstango.search;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.Search;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.visitors.*;
 
 

@@ -4,7 +4,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 

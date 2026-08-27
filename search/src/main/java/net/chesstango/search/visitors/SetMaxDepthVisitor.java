@@ -1,8 +1,8 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.IterativeDeepening;
+import net.chesstango.search.NoIterativeDeepening;
 
 /**
  * The maximum search depth (depth) that the search algorithm should explore.

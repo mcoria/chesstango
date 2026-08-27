@@ -9,7 +9,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.smart.SearchByWindowsListener;
+import net.chesstango.search.SearchByWindowsListener;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.DebugNodeTrap;
 import net.chesstango.search.smart.debug.model.DebugNode;

@@ -1,6 +1,6 @@
 package net.chesstango.search.builders;
 
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 
 /**
  * @author Mauricio Corias

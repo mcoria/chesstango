@@ -1,7 +1,7 @@
 package net.chesstango.search.builders;
 
 import lombok.Getter;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.statistics.transposition.*;
 import net.chesstango.search.smart.transposition.*;

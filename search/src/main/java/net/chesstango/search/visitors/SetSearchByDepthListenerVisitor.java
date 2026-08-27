@@ -2,7 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.IterativeDeepening;
 
 import java.util.function.Consumer;
 

@@ -2,8 +2,8 @@ package net.chesstango.search.smart.core.listeners;
 
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchByDepthListener;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -3,8 +3,8 @@ package net.chesstango.search.smart.transposition.listeners;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.ResetListener;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.ResetListener;
+import net.chesstango.search.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
 
 /**

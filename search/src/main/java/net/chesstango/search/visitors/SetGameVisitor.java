@@ -2,9 +2,9 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.IterativeDeepening;
+import net.chesstango.search.NoIterativeDeepening;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;

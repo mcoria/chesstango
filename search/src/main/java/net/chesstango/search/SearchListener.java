@@ -1,4 +1,4 @@
-package net.chesstango.search.smart;
+package net.chesstango.search;
 
 /**
  * @author Mauricio Coria

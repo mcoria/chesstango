@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;

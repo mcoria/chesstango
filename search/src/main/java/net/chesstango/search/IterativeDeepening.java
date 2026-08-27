@@ -1,13 +1,11 @@
-package net.chesstango.search.smart;
+package net.chesstango.search;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.*;
 import net.chesstango.search.visitors.CollectSearchResultVisitor;
 import net.chesstango.search.visitors.DistributeSearchResultVisitor;
-import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 
 import java.util.function.Consumer;

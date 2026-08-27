@@ -1,8 +1,6 @@
 package net.chesstango.search;
 
 import net.chesstango.search.dummy.Dummy;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;

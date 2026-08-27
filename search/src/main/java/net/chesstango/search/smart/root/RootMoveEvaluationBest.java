@@ -5,9 +5,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Bound;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByDepthListener;
-
-import java.util.Comparator;
+import net.chesstango.search.SearchByDepthListener;
 
 /**
  *

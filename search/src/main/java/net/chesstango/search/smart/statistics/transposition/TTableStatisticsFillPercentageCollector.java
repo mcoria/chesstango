@@ -3,7 +3,7 @@ package net.chesstango.search.smart.statistics.transposition;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
 

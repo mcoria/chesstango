@@ -3,7 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.builders.sorters.MoveSorterRootBuilder;
 import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.debug.filters.DebugFilter;

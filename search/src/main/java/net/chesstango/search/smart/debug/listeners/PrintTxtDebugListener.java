@@ -5,13 +5,11 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByWindowsListener;
+import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchByDepthListener;
+import net.chesstango.search.SearchByWindowsListener;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.debug.model.DebugCacheRead;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
 import java.time.Instant;

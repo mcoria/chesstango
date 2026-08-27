@@ -8,7 +8,7 @@ import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.AlphaBetaHelper;
 import net.chesstango.search.smart.killermoves.KillerMovesTable;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.transposition.TTableMap;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.Bound;

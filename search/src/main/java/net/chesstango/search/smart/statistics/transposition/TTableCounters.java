@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria

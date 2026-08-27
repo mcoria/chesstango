@@ -6,8 +6,8 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.SearchByCycleListener;
+import net.chesstango.search.SearchListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
 
 import java.util.Objects;
