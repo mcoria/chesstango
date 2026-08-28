@@ -1,8 +1,10 @@
 package net.chesstango.search.smart.root.filters;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static net.chesstango.search.smart.root.filters.AspirationWindows.OFFSET;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -72,6 +74,16 @@ public class AspirationWindowsTest {
         assertEquals(8, aspirationWindows.diffBound(-Integer.MAX_VALUE, 8 - Integer.MAX_VALUE, 0));
         assertEquals(9, aspirationWindows.diffBound(-Integer.MAX_VALUE, 9 - Integer.MAX_VALUE, 0));
         assertEquals(10, aspirationWindows.diffBound(-Integer.MAX_VALUE, 10 - Integer.MAX_VALUE, 0));
+    }
+
+    @Test
+    @Disabled
+    public void test() {
+        for (int i = 0; i < 30; i++) {
+            int offset = OFFSET << i;
+            System.out.printf("Cicle %d: %d %n" , i, (OFFSET << i));
+        }
+
     }
 
 }

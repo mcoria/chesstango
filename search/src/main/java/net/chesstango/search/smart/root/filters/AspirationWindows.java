@@ -18,7 +18,7 @@ import java.util.Objects;
 @Setter
 public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListener {
 
-    private static final int OFFSET = 64;
+    static final int OFFSET = 64;
 
     @Getter
     private AlphaBetaFilter next;
@@ -38,7 +38,7 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListe
     }
 
     @Override
-    public int alphaBeta(int currentPly, int alpha, int beta) {
+    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         int alphaBound = alpha;
         int betaBound = beta;
         int searchByWindowsCycle = 0;
@@ -61,25 +61,23 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListe
 
                 bestValue = next.alphaBeta(currentPly, alphaBound, betaBound);
 
+                listenerMediator.triggerAfterSearchByWindows(false);
+
                 if (bestValue <= alphaBound) {
                     if (alpha < bestValue) {
-                        alphaBound = bestValue - diffBound(alpha, bestValue, alphaCycle);
-                        alphaCycle++;
+                        alphaBound = bestValue - diffBound(alpha, bestValue, alphaCycle++);
                     } else {
                         search = false;
                     }
                 } else if (betaBound <= bestValue) {
                     if (bestValue < beta) {
-                        betaBound = bestValue + diffBound(beta, bestValue, betaCycle);
-                        betaCycle++;
+                        betaBound = bestValue + diffBound(beta, bestValue, betaCycle++);
                     } else {
                         search = false;
                     }
                 } else {
                     search = false;
                 }
-
-                listenerMediator.triggerAfterSearchByWindows(false);
 
             } while (search);
 
@@ -91,7 +89,7 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListe
         }
     }
 
-    protected int diffBound(int maxBound, int currentBound, int cycle) {
+    int diffBound(int maxBound, int currentBound, int cycle) {
         return Math.min(OFFSET << cycle, Math.abs(Math.abs(maxBound) - Math.abs(currentBound)));
     }
 }

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static net.chesstango.search.smart.Constants.DEFAULT_HASH_SIZE_KB;
+import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -323,7 +325,7 @@ public class SearchTest {
     public void test_Undermine_094() {
         Game game = Game.from(FEN.from("r4rk1/2qnb1pp/4p3/ppPb1p2/3Pp3/1PB3P1/R1QNPPBP/R5K1 b - - 1 1"));
 
-        Search search = defaultSearch()
+        Search search = noTransposition()
                 .withGameEvaluator(Evaluator.createInstance())
                 .withDebugSearchTree()
                 .build();
@@ -362,7 +364,27 @@ public class SearchTest {
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                .withAspirationWindows()
+                //.withAspirationWindows()
+
+                .withIterativeDeepening()
+
+                .withStopProcessingCatch();
+    }
+
+    private AlphaBetaBuilder noAspirationWindows() {
+        return new AlphaBetaBuilder()
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withTranspositionTable()
+                .withTranspositionHashSize(DEFAULT_HASH_SIZE_KB)
+                .withTranspositionStaleAge(DEFAULT_STALE_AGE)
+
+                .withTranspositionMoveSorter()
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
 
                 .withIterativeDeepening()
 
