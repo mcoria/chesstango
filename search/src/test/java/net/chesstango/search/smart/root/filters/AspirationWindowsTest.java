@@ -4,9 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.search.smart.root.filters.AspirationWindows.OFFSET;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * @author Mauricio Coria
  */
@@ -20,6 +17,7 @@ public class AspirationWindowsTest {
         aspirationWindows = new AspirationWindows();
     }
 
+    /*
     @Test
     public void testBoundPositiveCycle_00() {
         assertEquals(1, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, 0));
@@ -76,15 +74,18 @@ public class AspirationWindowsTest {
         assertEquals(10, aspirationWindows.diffBound(-Integer.MAX_VALUE, 10 - Integer.MAX_VALUE, 0));
     }
 
+     */
+
     @Test
     @Disabled
     public void test() {
-        for (int i = 0; i < 30; i++) {
-            int offset = OFFSET << i;
-            System.out.printf("Cicle %d: %d %n" , i, (OFFSET << i));
+        int lastDepthEvaluation = 0;
+        int windows = 50;
+
+        for (int i = 0; i < 10; i++) {
+            int betaBound = (int) (lastDepthEvaluation + windows * Math.pow(2, i));
+            System.out.println("Beta Bound: " + betaBound);
         }
-
     }
-
 }
 

@@ -19,7 +19,7 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(AspirationWindows aspirationWindows) {
-        aspirationWindows.setLastRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
+        aspirationWindows.addRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
     }
 
     @Override
