@@ -7,6 +7,7 @@ import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -31,8 +32,8 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
         if (config.getPolyglotFile() != null) {
             setPolyglotFile(config.getPolyglotFile());
         }
-        if (config.getSyzygyPath() != null) {
-            setSyzygyPath(config.getSyzygyPath());
+        if (config.getSyzygyDirs() != null) {
+            setSyzygyPath(config.getSyzygyDirs());
         }
     }
 
@@ -53,8 +54,8 @@ class SearchByAggregator implements SearchByChain, TangoOptions {
 
 
     @Override
-    public void setSyzygyPath(Path syzygyPath) {
-        Syzygy syzygy = tangoFactory.createSyzygy(syzygyPath);
+    public void setSyzygyPath(Set<Path> syzygyDirs) {
+        Syzygy syzygy = tangoFactory.createSyzygy(syzygyDirs);
         if (syzygy != null) {
             SearchByTablebase searchByTablebase = tangoFactory.createSearchByTablebase(syzygy);
             searchByTablebaseProxy.setImp(searchByTablebase);

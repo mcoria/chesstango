@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Properties;
+import java.util.Set;
 
 import static net.chesstango.search.smart.Constants.DEFAULT_HASH_SIZE_KB;
 import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;
@@ -60,8 +61,8 @@ public class Tango implements TangoOptions, AutoCloseable {
     }
 
     @Override
-    public void setSyzygyPath(Path syzygyPath) {
-        searchManager.setSyzygyPath(syzygyPath);
+    public void setSyzygyPath(Set<Path> syzygyDirs) {
+        searchManager.setSyzygyPath(syzygyDirs);
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -124,8 +125,8 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     }
 
     @Override
-    public Syzygy createSyzygy(Path syzygyPath) {
-        syzygy = imp.createSyzygy(syzygyPath);
+    public Syzygy createSyzygy(Set<Path> syzygyDirs) {
+        syzygy = imp.createSyzygy(syzygyDirs);
         return syzygy;
     }
 

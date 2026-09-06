@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Tango;
 
+import java.io.File;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -45,7 +46,12 @@ public class LichessBotMain {
 
             String syzygyPath = (String) PROPERTIES.get(LichessBotMain.SYZYGY_PATH);
             if (Objects.nonNull(syzygyPath)) {
-                config.setSyzygyPath(Path.of(syzygyPath));
+                Set<Path> syzygyDirs = Arrays
+                        .stream(syzygyPath.split(File.pathSeparator))
+                        .filter(dir -> !dir.isEmpty())
+                        .map(Paths::get)
+                        .collect(Collectors.toSet());
+                config.setSyzygyDirs(syzygyDirs);
             }
 
             // Durante la busqueda se bloquea el thread principal

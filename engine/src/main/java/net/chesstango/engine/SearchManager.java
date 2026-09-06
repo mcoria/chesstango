@@ -5,8 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.gardel.fen.FEN;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static net.chesstango.board.Color.BLACK;
@@ -82,8 +82,8 @@ class SearchManager implements TangoOptions {
     }
 
     @Override
-    public void setSyzygyPath(Path syzygyPath) {
-        currentSearchManagerState.setSyzygyPath(syzygyPath);
+    public void setSyzygyPath(Set<Path> syzygyDirs) {
+        currentSearchManagerState.setSyzygyPath(syzygyDirs);
     }
 
     @Override

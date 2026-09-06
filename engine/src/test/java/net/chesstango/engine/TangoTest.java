@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -69,9 +70,9 @@ class TangoTest {
         Path syzygyPath = Path.of("/path/to/syzygy/tablebase");
 
         // Act
-        tango.setSyzygyPath(syzygyPath);
+        tango.setSyzygyPath(Set.of(syzygyPath));
 
         // Assert
-        verify(searchManager).setSyzygyPath(syzygyPath);
+        verify(searchManager).setSyzygyPath(Set.of(syzygyPath));
     }
 }

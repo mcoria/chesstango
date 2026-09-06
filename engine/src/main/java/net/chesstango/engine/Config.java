@@ -8,6 +8,7 @@ import net.chesstango.search.Search;
 
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -24,7 +25,7 @@ public class Config {
 
     private Path polyglotFile;
 
-    private Path syzygyPath;
+    private Set<Path> syzygyDirs;
 
     private Integer hashSizeMB;
 
@@ -54,7 +55,7 @@ public class Config {
         if (!(o instanceof Config config)) return false;
         return Objects.equals(asyncSearch, config.asyncSearch)
                 && Objects.equals(polyglotFile, config.polyglotFile)
-                && Objects.equals(syzygyPath, config.syzygyPath)
+                && Objects.equals(syzygyDirs, config.syzygyDirs)
                 && Objects.equals(hashSizeMB, config.hashSizeMB)
                 && Objects.equals(staleAge, config.staleAge)
                 && Objects.equals(infiniteDepth, config.infiniteDepth);
@@ -62,6 +63,6 @@ public class Config {
 
     @Override
     public int hashCode() {
-        return Objects.hash(asyncSearch, polyglotFile, syzygyPath, hashSizeMB, staleAge, infiniteDepth);
+        return Objects.hash(asyncSearch, polyglotFile, syzygyDirs, hashSizeMB, staleAge, infiniteDepth);
     }
 }

@@ -1,6 +1,7 @@
 package net.chesstango.engine;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 /**
  * @author Mauricio Corial
@@ -8,7 +9,7 @@ import java.nio.file.Path;
 public interface TangoOptions {
     void setPolyglotFile(Path polyglotFile);
 
-    void setSyzygyPath(Path syzygyPath);
+    void setSyzygyPath(Set<Path> syzygyDirs);
 
     void setHashSize(int hashSizeMB);
 }
