@@ -6,6 +6,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
@@ -107,7 +108,7 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
     }
 
     @Override
-    public void setSyzygyPath(Path syzygyPath) {
+    public void setSyzygyPath(Set<Path> syzygyDirs) {
         log.warn("Search is in progress");
     }
 

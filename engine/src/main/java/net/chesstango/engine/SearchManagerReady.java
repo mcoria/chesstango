@@ -6,8 +6,8 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
 /**
@@ -80,8 +80,8 @@ class SearchManagerReady implements SearchManagerState {
     }
 
     @Override
-    public void setSyzygyPath(Path syzygyPath) {
-        tangoOptions.setSyzygyPath(syzygyPath);
+    public void setSyzygyPath(Set<Path> syzygyDirs) {
+        tangoOptions.setSyzygyPath(syzygyDirs);
     }
 
     @Override

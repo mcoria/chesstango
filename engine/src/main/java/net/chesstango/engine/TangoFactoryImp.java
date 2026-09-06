@@ -9,6 +9,7 @@ import net.chesstango.search.smart.egtb.EndGameTableBase;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -107,9 +108,9 @@ class TangoFactoryImp implements TangoFactory {
     }
 
     @Override
-    public Syzygy createSyzygy(Path syzygyPath) {
-        if (syzygyPath != null) {
-            return Syzygy.open(syzygyPath.toString());
+    public Syzygy createSyzygy(Set<Path> syzygyDirs) {
+        if (syzygyDirs != null) {
+            return Syzygy.open(syzygyDirs);
         }
         return null;
     }

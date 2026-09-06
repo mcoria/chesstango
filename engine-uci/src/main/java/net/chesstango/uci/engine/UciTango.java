@@ -15,11 +15,16 @@ import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
+import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The UciTango class operates as a context within the state design pattern, encapsulating the state-dependent behavior
@@ -214,12 +219,19 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void setSyzygyPath(String syzygyPathStr) {
-        try {
-            Path syzygyPath = Path.of(syzygyPathStr);
-            tango.setSyzygyPath(syzygyPath);
-        } catch (InvalidPathException e) {
-            log.error("Invalid SyzygyPath value: " + syzygyPathStr, e);
-            reply(UCIResponse.info(String.format("string Invalid SyzygyPath value '%s'. %s", syzygyPathStr, e.getMessage())));
+        if (syzygyPathStr != null && !syzygyPathStr.isEmpty()) {
+            try {
+                Set<Path> syzygyDirs = Arrays
+                        .stream(syzygyPathStr.split(File.pathSeparator))
+                        .filter(dir -> !dir.isEmpty())
+                        .map(Paths::get)
+                        .collect(Collectors.toSet());
+
+                tango.setSyzygyPath(syzygyDirs);
+            } catch (InvalidPathException e) {
+                log.error("Invalid SyzygyPath value: " + syzygyPathStr, e);
+                reply(UCIResponse.info(String.format("string Invalid SyzygyPath value '%s'. %s", syzygyPathStr, e.getMessage())));
+            }
         }
     }
 

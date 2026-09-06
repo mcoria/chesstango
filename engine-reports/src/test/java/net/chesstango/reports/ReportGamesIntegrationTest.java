@@ -127,7 +127,7 @@ public class ReportGamesIntegrationTest {
                  */
                 .setAsyncSearch(false)
                 //.setPolyglotFile(POLYGLOT_FILE)
-                //.setSyzygyPath(SYZYGY_PATH)
+                //.setSyzygyDirs(SYZYGY_PATH)
                 //.setHashSizeMB(1)
                 ;
 

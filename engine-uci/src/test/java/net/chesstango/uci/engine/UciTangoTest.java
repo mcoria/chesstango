@@ -16,6 +16,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static net.chesstango.uci.engine.UciOption.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,7 +73,7 @@ public class UciTangoTest {
             engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), "/mnt/Syzygy"));
         }
 
-        verify(tango, times(1)).setSyzygyPath(Path.of("/mnt/Syzygy"));
+        verify(tango, times(1)).setSyzygyPath(Set.of(Path.of("/mnt/Syzygy")));
     }
 
 
@@ -86,7 +87,7 @@ public class UciTangoTest {
             engine.accept(UCIRequest.setOption(SYZYGY_PATH.getId(), ""));
         }
 
-        verify(tango, never()).setSyzygyPath(any(Path.class));
+        verify(tango, never()).setSyzygyPath(any(Set.class));
     }
 
 

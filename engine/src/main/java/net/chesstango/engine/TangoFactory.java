@@ -6,6 +6,7 @@ import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.smart.egtb.EndGameTableBase;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -42,7 +43,7 @@ interface TangoFactory {
 
     PolyglotBook createPolyglotBook(Path polyglotFile);
 
-    Syzygy createSyzygy(Path syzygyPath);
+    Syzygy createSyzygy(Set<Path> syzygyDirs);
 
     ScheduledExecutorService createScheduledExecutorService();
 

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +33,7 @@ public class TangoIntegrationTest {
     @Disabled
     public void testOpenTango() {
         config.setPolyglotFile(Path.of("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin"));
-        //config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        //config.setSyzygyDirs("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         //config.setAsyncSearch(true);
 
         try (Tango tango = Tango.open(config)) {
@@ -52,7 +53,7 @@ public class TangoIntegrationTest {
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        config.setSyzygyPath(Path.of("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5"));
+        config.setSyzygyDirs(Set.of(Path.of("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5")));
         config.setSearch(search);
         config.setAsyncSearch(false);
 
@@ -76,7 +77,7 @@ public class TangoIntegrationTest {
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        config.setSyzygyPath(Path.of("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5"));
+        config.setSyzygyDirs(Set.of(Path.of("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5")));
         config.setSearch(search);
         config.setAsyncSearch(false);
 
@@ -100,7 +101,7 @@ public class TangoIntegrationTest {
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        config.setSyzygyPath(Path.of("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5"));
+        config.setSyzygyDirs(Set.of(Path.of("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5")));
         config.setSearch(search);
         config.setAsyncSearch(false);
 
