@@ -51,18 +51,20 @@ class SearchManager implements TangoOptions {
 
     synchronized CompletableFuture<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
         if (timeOut <= 0) {
-            return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
+            return searchInfinite(game, searchListener);
         }
         return currentSearchManagerState.searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(game, timeOut, searchInfo), searchListener);
     }
 
     synchronized CompletableFuture<SearchResponse> searchFast(Game game, int wTime, int wInc, int bTime, int bInc, SearchListener searchListener) {
-        if (WHITE.equals(game.getPosition().getCurrentTurn()) && (wTime <= 0 || wInc <= 0)) {
-            return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
-        } else if (BLACK.equals(game.getPosition().getCurrentTurn()) && (bTime <= 0 || bInc <= 0)) {
-            return currentSearchManagerState.searchDepthImp(game, infiniteDepth, _ -> true, searchListener);
+        if (WHITE.equals(game.getPosition().getCurrentTurn()) && (wTime <= 0 || wInc < 0)) {
+            return searchInfinite(game, searchListener);
+        } else if (BLACK.equals(game.getPosition().getCurrentTurn()) && (bTime <= 0 || bInc < 0)) {
+            return searchInfinite(game, searchListener);
         }
+
         int timeOut = timeMgmt.getTimeOut(game, wTime, wInc, bTime, bInc);
+
         return currentSearchManagerState.searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(game, timeOut, searchInfo), searchListener);
     }
 
@@ -90,7 +92,7 @@ class SearchManager implements TangoOptions {
     }
 
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
-        log.trace("Changing state from {} to {}", this.currentSearchManagerState != null ? this.currentSearchManagerState.getClass().getSimpleName() : "-", currentSearchManagerState.getClass().getSimpleName());
+        //log.trace("Changing state from {} to {}", this.currentSearchManagerState != null ? this.currentSearchManagerState.getClass().getSimpleName() : "-", currentSearchManagerState.getClass().getSimpleName());
         this.currentSearchManagerState = currentSearchManagerState;
     }
 
