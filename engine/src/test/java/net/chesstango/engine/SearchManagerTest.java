@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -24,6 +22,8 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 public class SearchManagerTest {
+
+    public static final int INFINITE_DEPTH = 10;
 
     private SearchManager searchManager;
 
@@ -42,9 +42,10 @@ public class SearchManagerTest {
     @Mock
     private SearchListener listener;
 
-    private ScheduledExecutorService timeOutExecutor;
-
+    @Mock
     private SearchResponse expectedResult;
+
+    private ScheduledExecutorService timeOutExecutor;
 
     private Game game;
 
@@ -52,7 +53,6 @@ public class SearchManagerTest {
     @BeforeEach
     public void setup() {
         timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
-        expectedResult = null;
 
         game = Game.from(FEN.START_POSITION);
 
@@ -67,7 +67,7 @@ public class SearchManagerTest {
                     return CompletableFuture.completedFuture(expectedResult);
                 });
 
-        searchManager = new SearchManager(10, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
+        searchManager = new SearchManager(INFINITE_DEPTH, searchByTree, searchByAggregator, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
     @AfterEach
@@ -79,7 +79,7 @@ public class SearchManagerTest {
     public void test_SearchInfinite() {
         Future<SearchResponse> searchResultFuture = searchManager.searchInfinite(game, listener);
 
-        verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
         verify(searchByTree, never()).stopSearching();
 
         assertSearchListener();
@@ -102,7 +102,7 @@ public class SearchManagerTest {
     public void test_SearchTime_NoTimeOut() {
         Future<SearchResponse> searchResultFuture = searchManager.searchTime(game, 10000, listener);
 
-        verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
         verify(searchByTree, never()).stopSearching();
 
         assertResult(searchResultFuture);
@@ -113,8 +113,58 @@ public class SearchManagerTest {
     public void test_SearchTime_TimeOut() {
         Future<SearchResponse> searchResultFuture = searchManager.searchTime(game, 100, listener);
 
-        verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
         verify(searchByTree, times(1)).stopSearching();
+
+        assertResult(searchResultFuture);
+        assertSearchListener();
+    }
+
+    @Test
+    public void test_SearchFast_NoTimeOut() {
+        when(timeMgmt.getTimeOut(any(Game.class), any(Integer.class), any(Integer.class), any(Integer.class), any(Integer.class))).thenReturn(5000);
+
+        Future<SearchResponse> searchResultFuture = searchManager.searchFast (game, 60000, 0, 60000, 0, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
+        verify(searchByTree, never()).stopSearching();
+
+        assertResult(searchResultFuture);
+        assertSearchListener();
+    }
+
+    @Test
+    public void test_SearchFast_TimeOut() {
+        when(timeMgmt.getTimeOut(any(Game.class), any(Integer.class), any(Integer.class), any(Integer.class), any(Integer.class))).thenReturn(100);
+
+        Future<SearchResponse> searchResultFuture = searchManager.searchFast (game, 60000, 0, 60000, 0, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
+        verify(searchByTree, times(1)).stopSearching();
+
+        assertResult(searchResultFuture);
+        assertSearchListener();
+    }
+
+    @Test
+    public void test_SearchFast_ZeroTime() {
+        // Observar que wTime = 0, lo cual es un valor invalido
+        Future<SearchResponse> searchResultFuture = searchManager.searchFast (game, 0, 0, 60000, 0, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
+        verify(searchByTree, never()).stopSearching();
+
+        assertResult(searchResultFuture);
+        assertSearchListener();
+    }
+
+    @Test
+    public void test_SearchFast_NegativeTime() {
+        // Observar que wTime = 0, lo cual es un valor invalido
+        Future<SearchResponse> searchResultFuture = searchManager.searchFast (game, -60000, 0, 60000, 0, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(INFINITE_DEPTH), any(Predicate.class), any(SearchListener.class));
+        verify(searchByTree, never()).stopSearching();
 
         assertResult(searchResultFuture);
         assertSearchListener();
