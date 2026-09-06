@@ -8,6 +8,7 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
+import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -72,6 +73,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         alphaBetaEvaluation.setGame(game);
+    }
+
+    @Override
+    public void visit(EgtbEvaluation egtbEvaluation) {
+        egtbEvaluation.setGame(game);
     }
 
     @Override
