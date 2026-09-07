@@ -10,20 +10,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-public class EvaluatorCacheTest {
+public class EvaluatorCacheArrayTest {
 
     Evaluator mockEvaluator = mock(Evaluator.class);
     Game mockGame = mock(Game.class);
 
-    EvaluatorCache evaluatorCache;
+    EvaluatorCacheArray evaluatorCacheArray;
 
     @BeforeEach
     void setUp() {
-        evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
-        evaluatorCache.setGame(mockGame);
+        evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setGame(mockGame);
 
-        evaluatorCache.increaseAge();
+        evaluatorCacheArray.increaseAge();
     }
 
     /**
@@ -35,7 +35,7 @@ public class EvaluatorCacheTest {
     @Test
     void testEvaluateCacheMiss() {
         // Act
-        Integer result = evaluatorCache.readFromCache(0L);
+        Integer result = evaluatorCacheArray.readFromCache(0L);
 
         // Assert
         assertNull(result);
@@ -50,16 +50,16 @@ public class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(0L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
-        evaluatorCache.setGame(mockGame);
+        EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setGame(mockGame);
 
         // Act
-        int result = evaluatorCache.evaluate(); // Cache hit should occur here
+        int result = evaluatorCacheArray.evaluate(); // Cache hit should occur here
 
         // Assert
         assertEquals(42, result);
-        assertEquals(0, evaluatorCache.getEvaluationsCacheHitsCounter());
+        assertEquals(0, evaluatorCacheArray.getEvaluationsCacheHitsCounter());
         verify(mockEvaluator, times(1)).evaluate(); // Should not re-evaluate
         verify(mockGame, times(1)).getPosition();
         verify(mockPosition, times(1)).getZobristHash();
@@ -74,19 +74,19 @@ public class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
-        evaluatorCache.setGame(mockGame);
+        EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setGame(mockGame);
 
         // Cache miss
-        evaluatorCache.evaluate();
+        evaluatorCacheArray.evaluate();
 
         // Act
-        int result = evaluatorCache.evaluate(); // Cache hit should occur here
+        int result = evaluatorCacheArray.evaluate(); // Cache hit should occur here
 
         // Assert
         assertEquals(42, result);
-        assertEquals(1, evaluatorCache.getEvaluationsCacheHitsCounter());
+        assertEquals(1, evaluatorCacheArray.getEvaluationsCacheHitsCounter());
         verify(mockEvaluator, times(1)).evaluate(); // Should not re-evaluate
         verify(mockGame, times(2)).getPosition();
         verify(mockPosition, times(2)).getZobristHash();
@@ -101,24 +101,24 @@ public class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42, 50); // First and second evaluation results
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
-        evaluatorCache.setGame(mockGame);
+        EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setGame(mockGame);
 
         // Cache miss
-        evaluatorCache.evaluate();
+        evaluatorCacheArray.evaluate();
 
         // Increase age to stale the cache entry
         for (int i = 0; i <= 3; i++) {
-            evaluatorCache.increaseAge();
+            evaluatorCacheArray.increaseAge();
         }
 
         // Act
-        int result = evaluatorCache.evaluate(); // Should result in a cache miss due to staleness
+        int result = evaluatorCacheArray.evaluate(); // Should result in a cache miss due to staleness
 
         // Assert
         assertEquals(50, result); // New evaluation value
-        assertEquals(0, evaluatorCache.getEvaluationsCacheHitsCounter());
+        assertEquals(0, evaluatorCacheArray.getEvaluationsCacheHitsCounter());
         verify(mockEvaluator, times(2)).evaluate();
         verify(mockGame, times(2)).getPosition();
         verify(mockPosition, times(2)).getZobristHash();
@@ -133,16 +133,16 @@ public class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L, 67890L); // Two different hashes
         when(mockEvaluator.evaluate()).thenReturn(42, 50); // Evaluation results
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
-        evaluatorCache.setGame(mockGame);
+        EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setGame(mockGame);
 
         // Cache miss for first hash
-        evaluatorCache.evaluate();
+        evaluatorCacheArray.evaluate();
 
         // Act
-        evaluatorCache.setGame(mockGame); // Simulate a new state
-        int result = evaluatorCache.evaluate(); // Cache miss due to hash mismatch
+        evaluatorCacheArray.setGame(mockGame); // Simulate a new state
+        int result = evaluatorCacheArray.evaluate(); // Cache miss due to hash mismatch
 
         // Assert
         assertEquals(50, result); // New evaluation value
@@ -160,11 +160,11 @@ public class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
+        EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
 
         // Act
-        Integer cachedValue = evaluatorCache.readFromCache(12345L);
+        Integer cachedValue = evaluatorCacheArray.readFromCache(12345L);
 
         // Assert
         assertNull(cachedValue);
@@ -180,15 +180,15 @@ public class EvaluatorCacheTest {
         when(mockPosition.getZobristHash()).thenReturn(12345L);
         when(mockEvaluator.evaluate()).thenReturn(42);
 
-        EvaluatorCache evaluatorCache = new EvaluatorCache();
-        evaluatorCache.setImp(mockEvaluator);
-        evaluatorCache.setGame(mockGame);
+        EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setGame(mockGame);
 
         // Simulate cache population
-        evaluatorCache.evaluate();
+        evaluatorCacheArray.evaluate();
 
         // Act
-        Integer cachedValue = evaluatorCache.readFromCache(12345L);
+        Integer cachedValue = evaluatorCacheArray.readFromCache(12345L);
 
         // Assert
         assertEquals(42, cachedValue); // Should return the cached value

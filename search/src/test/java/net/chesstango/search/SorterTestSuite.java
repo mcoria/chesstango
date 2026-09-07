@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebugTest;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheTest;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheArrayDebugTest;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheArrayTest;
 import net.chesstango.search.smart.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.smart.transposition.TTableComparatorHeadDebugTest;
 import net.chesstango.search.smart.transposition.TTableComparatorTailDebugTest;
@@ -24,8 +24,8 @@ import org.junit.platform.suite.api.Suite;
         MoveSorterDebugTest.class,
         TTableComparatorHeadDebugTest.class,
         TTableComparatorTailDebugTest.class,
-        EvaluatorCacheDebugTest.class,
-        EvaluatorCacheTest.class,
+        EvaluatorCacheArrayDebugTest.class,
+        EvaluatorCacheArrayTest.class,
 
         /**
          * Comparators

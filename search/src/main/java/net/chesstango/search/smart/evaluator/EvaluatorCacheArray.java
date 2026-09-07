@@ -10,7 +10,7 @@ import net.chesstango.evaluation.Evaluator;
  *
  * @author Mauricio Coria
  */
-public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
+public class EvaluatorCacheArray implements Evaluator, EvaluatorCacheRead {
 
     public static final int ARRAY_SIZE = 1024 * 512;
 
@@ -50,7 +50,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private Game game;
 
-    public EvaluatorCache() {
+    public EvaluatorCacheArray() {
         this.cache = new GameEvaluatorCacheEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i] = new GameEvaluatorCacheEntry();

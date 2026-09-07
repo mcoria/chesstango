@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
@@ -27,7 +27,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private SetGameToEvaluator setGameToEvaluator;
 
     @Getter
-    private EvaluatorCache evaluatorCache;
+    private EvaluatorCacheArray evaluatorCacheArray;
     private EvaluatorCacheDebug evaluatorCacheDebug;
     private EvaluatorCacheListener evaluatorCacheListener;
 
@@ -108,10 +108,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         setGameToEvaluator = new SetGameToEvaluator();
 
         if (withGameEvaluatorCache) {
-            evaluatorCache = new EvaluatorCache();
+            evaluatorCacheArray = new EvaluatorCacheArray();
 
             evaluatorCacheListener = new EvaluatorCacheListener();
-            evaluatorCacheListener.setGameEvaluatorCache(evaluatorCache);
+            evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
         }
 
         if (withDebugSearchTree) {
@@ -121,7 +121,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
         if (withStatistics) {
             evaluationCounters = new EvaluationCounters()
-                    .setEvaluatorCache(evaluatorCache);  // No importa que sea NULL
+                    .setEvaluatorCacheArray(evaluatorCacheArray);  // No importa que sea NULL
 
             evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setEvaluationsCounters(evaluationCounters);
@@ -170,8 +170,8 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             chain.add(evaluatorDebug);
         }
 
-        if (evaluatorCache != null) {
-            chain.add(evaluatorCache);
+        if (evaluatorCacheArray != null) {
+            chain.add(evaluatorCacheArray);
         }
 
         chain.add(evaluatorImp);
@@ -188,8 +188,8 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
                 case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
                         evaluatorStatisticsCollector.setImp(next);
 
-                case EvaluatorCache evaluatorCache ->
-                        evaluatorCache.setImp(next);
+                case EvaluatorCacheArray evaluatorCacheArray ->
+                        evaluatorCacheArray.setImp(next);
 
                 case EvaluatorDebug evaluatorDebug ->
                         evaluatorDebug.setEvaluator(next);
@@ -211,7 +211,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             chain.add(evaluatorCacheDebug);
         }
 
-        chain.add(evaluatorCache);
+        chain.add(evaluatorCacheArray);
 
         return linkEvaluatorCacheChain(chain);
     }

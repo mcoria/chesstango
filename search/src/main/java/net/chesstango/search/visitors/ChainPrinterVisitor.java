@@ -1,7 +1,7 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
 import net.chesstango.search.*;
 import net.chesstango.search.smart.*;
@@ -688,8 +688,8 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     private String printEvaluatorCacheRead(EvaluatorCacheRead evaluatorCacheRead) {
-        if (evaluatorCacheRead instanceof EvaluatorCache evaluatorCache) {
-            return objectText(evaluatorCache);
+        if (evaluatorCacheRead instanceof EvaluatorCacheArray evaluatorCacheArray) {
+            return objectText(evaluatorCacheArray);
         } else if (evaluatorCacheRead instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
             return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCacheRead()));
         }
@@ -700,8 +700,8 @@ public class ChainPrinterVisitor implements Visitor {
     private String printGameEvaluator(Evaluator evaluator) {
         if (evaluator instanceof EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector) {
             return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
-        } else if (evaluator instanceof EvaluatorCache gameEvaluatorCache) {
-            return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
+        } else if (evaluator instanceof EvaluatorCacheArray gameEvaluatorCacheArray) {
+            return String.format("%s -> %s", objectText(gameEvaluatorCacheArray), printGameEvaluator(gameEvaluatorCacheArray.getImp()));
         } else if (evaluator instanceof EvaluatorDebug evaluatorDebug) {
             return String.format("%s -> %s", objectText(evaluatorDebug), printGameEvaluator(evaluatorDebug.getEvaluator()));
         }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class EvaluatorCacheDebugTest {
+public class EvaluatorCacheArrayDebugTest {
 
     @InjectMocks
     private EvaluatorCacheDebug evaluatorCacheDebug;
