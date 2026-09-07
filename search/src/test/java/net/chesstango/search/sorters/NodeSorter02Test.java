@@ -96,11 +96,11 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         saveEntry(tTable, 0x337D4750B1C4CD1AL, LOWER_BOUND, 1, 4078092922146620L);
     }
 
-    protected EvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
         cacheEvaluation.put(0x8814FB171AC56D0BL, -26460); // a5c7
 
-        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheMock().setCache(cacheEvaluation);
     }
 
     private void loadKillerMoveTables() {

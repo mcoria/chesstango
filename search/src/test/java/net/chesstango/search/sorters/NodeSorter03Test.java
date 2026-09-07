@@ -85,9 +85,9 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         saveEntry(tTable, 0x0CE7DD3862149D3EL, UPPER_BOUND, -1, 4294899481L); // NO_MOVE
     }
 
-    protected EvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
-        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheMock().setCache(cacheEvaluation);
     }
 
     private void loadKillerMoveTables() {

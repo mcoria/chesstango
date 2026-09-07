@@ -23,21 +23,19 @@ public class EvaluatorStatisticsCollector implements Evaluator, Acceptor {
     private EvaluationCounters evaluationsCounters;
 
     @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public void setGame(Game game) {
         this.imp.setGame(game);
     }
 
     @Override
     public int evaluate() {
-        int evaluation = imp.evaluate();
         evaluationsCounters.increaseEvaluationsCounter();
-        return evaluation;
+        return imp.evaluate();
     }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
 
 }

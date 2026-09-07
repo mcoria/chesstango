@@ -63,7 +63,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
     }
 
-    protected EvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
 
         // Movimientos NO QUIET van primero
@@ -83,7 +83,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         cacheEvaluation.put(0x45ACAF1C4E505F0DL, -93450);  //e6=QUEEN_BLACK e3=null - MoveImp
 
 
-        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheMock().setCache(cacheEvaluation);
     }
 
 }

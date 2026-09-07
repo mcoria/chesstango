@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class EvaluatorCacheReadMock implements EvaluatorCache {
+public class EvaluatorCacheMock implements EvaluatorCache {
 
     private Map<Long, Integer> cache;
 

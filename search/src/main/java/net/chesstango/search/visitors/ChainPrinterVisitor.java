@@ -392,7 +392,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCache())));
+        printChainText(String.format("%s [EvaluatorCache: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCache(gameEvaluatorCacheComparator.getEvaluatorCache())));
 
         traverse(gameEvaluatorCacheComparator.getNext());
     }
@@ -684,14 +684,14 @@ public class ChainPrinterVisitor implements Visitor {
                 objectMap.computeIfAbsent(objectKey, k -> String.format("%s @ %d", object.getClass().getSimpleName(), objectCounter++));
     }
 
-    private String printEvaluatorCacheRead(EvaluatorCache evaluatorCache) {
+    private String printEvaluatorCache(EvaluatorCache evaluatorCache) {
         if (evaluatorCache instanceof EvaluatorCacheArray evaluatorCacheArray) {
             return objectText(evaluatorCacheArray);
         } else if (evaluatorCache instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
-            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCache()));
+            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCache(evaluatorCacheDebug.getEvaluatorCache()));
         }
 
-        throw new IllegalArgumentException("Unknown EvaluatorCacheRead: " + evaluatorCache.getClass().getSimpleName());
+        throw new IllegalArgumentException("Unknown EvaluatorCache: " + evaluatorCache.getClass().getSimpleName());
     }
 
     private String printGameEvaluator(Evaluator evaluator) {

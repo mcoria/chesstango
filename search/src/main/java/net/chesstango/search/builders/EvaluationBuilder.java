@@ -136,16 +136,20 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private Evaluator createEvaluatorChain() {
         List<Evaluator> chain = new LinkedList<>();
 
-        if (evaluatorStatisticsCollector != null) {
-            chain.add(evaluatorStatisticsCollector);
-        }
-
         if (evaluatorDebug != null) {
             chain.add(evaluatorDebug);
         }
 
         if (evaluatorCacheAdapter != null) {
             chain.add(evaluatorCacheAdapter);
+        }
+
+        /**
+         * En este orden solo captura el numero de veces que realmente se evalua.
+         * Llega a esta punto cuando la evaluacion no se encuentra en cache
+         */
+        if (evaluatorStatisticsCollector != null) {
+            chain.add(evaluatorStatisticsCollector);
         }
 
         chain.add(evaluatorImp);
