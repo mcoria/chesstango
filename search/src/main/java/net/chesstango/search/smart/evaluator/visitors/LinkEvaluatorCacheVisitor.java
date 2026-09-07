@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.evaluator.visitors;
 
-import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 
@@ -10,15 +10,15 @@ import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheCompa
  */
 public class LinkEvaluatorCacheVisitor implements Visitor {
 
-    private final EvaluatorCacheRead evaluatorCacheRead;
+    private final EvaluatorCache evaluatorCache;
 
-    public LinkEvaluatorCacheVisitor(EvaluatorCacheRead evaluatorCacheRead) {
-        this.evaluatorCacheRead = evaluatorCacheRead;
+    public LinkEvaluatorCacheVisitor(EvaluatorCache evaluatorCache) {
+        this.evaluatorCache = evaluatorCache;
     }
 
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
-        gameEvaluatorCacheComparator.setEvaluatorCacheRead(evaluatorCacheRead);
+        gameEvaluatorCacheComparator.setEvaluatorCache(evaluatorCache);
     }
 
 }

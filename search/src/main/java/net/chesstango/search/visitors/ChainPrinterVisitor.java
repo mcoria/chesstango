@@ -2,7 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.*;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
@@ -395,7 +395,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
+        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCache())));
 
         traverse(gameEvaluatorCacheComparator.getNext());
     }
@@ -687,14 +687,14 @@ public class ChainPrinterVisitor implements Visitor {
                 objectMap.computeIfAbsent(objectKey, k -> String.format("%s @ %d", object.getClass().getSimpleName(), objectCounter++));
     }
 
-    private String printEvaluatorCacheRead(EvaluatorCacheRead evaluatorCacheRead) {
-        if (evaluatorCacheRead instanceof EvaluatorCacheArray evaluatorCacheArray) {
+    private String printEvaluatorCacheRead(EvaluatorCache evaluatorCache) {
+        if (evaluatorCache instanceof EvaluatorCacheArray evaluatorCacheArray) {
             return objectText(evaluatorCacheArray);
-        } else if (evaluatorCacheRead instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
-            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCacheRead()));
+        } else if (evaluatorCache instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
+            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCache()));
         }
 
-        throw new IllegalArgumentException("Unknown EvaluatorCacheRead: " + evaluatorCacheRead.getClass().getSimpleName());
+        throw new IllegalArgumentException("Unknown EvaluatorCacheRead: " + evaluatorCache.getClass().getSimpleName());
     }
 
     private String printGameEvaluator(Evaluator evaluator) {

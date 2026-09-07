@@ -20,11 +20,11 @@ import java.util.Optional;
 
 @Setter
 @Getter
-public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
+public class EvaluatorCacheDebug implements EvaluatorCache, Acceptor {
 
     private DebugNodeTracker debugNodeTracker;
 
-    private EvaluatorCacheRead evaluatorCacheRead;
+    private EvaluatorCache evaluatorCache;
 
     private Game game;
 
@@ -35,7 +35,7 @@ public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
 
     @Override
     public Integer readFromCache(long hash) {
-        Integer evaluation = evaluatorCacheRead.readFromCache(hash);
+        Integer evaluation = evaluatorCache.readFromCache(hash);
         if (evaluation != null) {
             trackReadFromCache(hash, evaluation);
         }

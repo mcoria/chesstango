@@ -6,7 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.sorters.MoveComparator;
@@ -23,7 +23,7 @@ public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, S
 
     @Getter
     @Setter
-    private EvaluatorCacheRead evaluatorCacheRead;
+    private EvaluatorCache evaluatorCache;
 
     @Setter
     private Game game;
@@ -47,8 +47,8 @@ public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, S
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final Integer moveEvaluation1 = evaluatorCacheRead.readFromCache(getZobristHashMove(o1));
-        final Integer moveEvaluation2 = evaluatorCacheRead.readFromCache(getZobristHashMove(o2));
+        final Integer moveEvaluation1 = evaluatorCache.readFromCache(getZobristHashMove(o1));
+        final Integer moveEvaluation2 = evaluatorCache.readFromCache(getZobristHashMove(o2));
 
         if (moveEvaluation1 != null && moveEvaluation2 != null) {
             int evaluation1 = moveEvaluation1;

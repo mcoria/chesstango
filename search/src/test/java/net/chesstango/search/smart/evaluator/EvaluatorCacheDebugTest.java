@@ -23,13 +23,13 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class EvaluatorCacheArrayDebugTest {
+public class EvaluatorCacheDebugTest {
 
     @InjectMocks
     private EvaluatorCacheDebug evaluatorCacheDebug;
 
     @Mock
-    private EvaluatorCacheRead evaluatorCacheRead;
+    private EvaluatorCache evaluatorCache;
 
     @Mock
     private DebugNode debugNode;

@@ -10,7 +10,7 @@ import net.chesstango.evaluation.Evaluator;
  *
  * @author Mauricio Coria
  */
-public class EvaluatorCacheArray implements Evaluator, EvaluatorCacheRead {
+public class EvaluatorCacheArray implements Evaluator, EvaluatorCache {
 
     public static final int ARRAY_SIZE = 1024 * 512;
 
