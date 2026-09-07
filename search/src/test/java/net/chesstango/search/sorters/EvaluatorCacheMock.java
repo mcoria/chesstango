@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.smart.evaluator.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
 
 import java.util.Map;
 
@@ -18,7 +19,11 @@ public class EvaluatorCacheMock implements EvaluatorCache {
     private Map<Long, Integer> cache;
 
     @Override
-    public Integer readFromCache(long hash) {
-        return cache.get(hash);
+    public EvaluatorCacheEntry readFromCache(long hash) {
+        Integer result = cache.get(hash);
+        if (result != null) {
+            return new EvaluatorCacheEntry(hash, result, 0);
+        }
+        return null;
     }
 }

@@ -1,12 +1,8 @@
 package net.chesstango.search.smart.evaluator;
 
 import lombok.Getter;
-import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.evaluation.Evaluator;
 
 /**
- * No se observan ganancias significativas cuando TT está habilitado y existe riesgo de colision
  *
  * @author Mauricio Coria
  */
@@ -16,21 +12,8 @@ public class EvaluatorCacheArray implements EvaluatorCache {
 
     public static final int STALE_AGE = 3;
 
-    @Setter
-    public static class GameEvaluatorCacheEntry {
-        long hash;
-        int evaluation;
-        int age;
-
-        GameEvaluatorCacheEntry() {
-            hash = 0;
-            evaluation = 0;
-            age = Integer.MIN_VALUE;
-        }
-    }
-
     @Getter
-    private final GameEvaluatorCacheEntry[] cache;
+    private final EvaluatorCacheEntry[] cache;
 
     @Getter
     private int currentAge;
@@ -45,9 +28,9 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     private long readFromCacheHitsCounter;
 
     public EvaluatorCacheArray() {
-        this.cache = new GameEvaluatorCacheEntry[ARRAY_SIZE];
+        this.cache = new EvaluatorCacheEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
-            this.cache[i] = new GameEvaluatorCacheEntry();
+            this.cache[i] = new EvaluatorCacheEntry();
         }
         this.currentAge = Integer.MIN_VALUE + STALE_AGE;
         this.evaluationsCacheHitsCounter = 0;
@@ -56,12 +39,12 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     }
 
     @Override
-    public Integer readFromCache(long hash) {
+    public EvaluatorCacheEntry readFromCache(long hash) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 
-        GameEvaluatorCacheEntry entry = cache[idx];
+        EvaluatorCacheEntry entry = cache[idx];
 
-        Integer result = entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry.evaluation : null;
+        EvaluatorCacheEntry result = entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry : null;
 
         readFromCacheCounter++;
         if (result != null) {
@@ -93,7 +76,7 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     public int getFillPercentage() {
         int filled = 0;
         for (int i = 0; i < ARRAY_SIZE; i++) {
-            GameEvaluatorCacheEntry entry = cache[i];
+            EvaluatorCacheEntry entry = cache[i];
             if (!(entry.age > currentAge || currentAge - entry.age >= STALE_AGE)) {
                 filled++;
             }

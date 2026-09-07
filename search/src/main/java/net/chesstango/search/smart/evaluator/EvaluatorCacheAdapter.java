@@ -19,6 +19,9 @@ public class EvaluatorCacheAdapter implements Evaluator, Acceptor {
     @Getter
     private Evaluator evaluator;
 
+    @Getter
+    private EvaluatorCache evaluatorCache;
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -32,28 +35,11 @@ public class EvaluatorCacheAdapter implements Evaluator, Acceptor {
 
     @Override
     public int evaluate() {
+        long hash = game.getPosition().getZobristHash();
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.readFromCache(hash);
+        if (evaluatorCacheEntry != null) {
+            return evaluatorCacheEntry.evaluation;
+        }
         return evaluator.evaluate();
     }
-
-    /*
-    @Override
-    public int evaluate() {
-        long hash = game.getPosition().getZobristHash();
-
-        int idx = (int) Math.abs(hash % ARRAY_SIZE);
-
-        EvaluatorCacheArray.GameEvaluatorCacheEntry entry = cache[idx];
-
-        if (entry.hash != hash || entry.age > currentAge || currentAge - entry.age >= STALE_AGE) {
-            entry.hash = hash;
-            entry.evaluation = evaluator.evaluate();
-            entry.age = currentAge;
-        } else {
-            evaluationsCacheHitsCounter++;
-        }
-
-        return entry.evaluation;
-    }
-     */
-
 }

@@ -15,6 +15,7 @@ import net.chesstango.search.builders.TranspositionTableBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
 import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -46,7 +47,7 @@ public class NodeMoveSorterInteriorTest {
 
     private KillerMoves killerMoves;
 
-    private EvaluatorCacheArray.GameEvaluatorCacheEntry[] gameEvaluatorCacheEntries;
+    private EvaluatorCacheEntry[] gameEvaluatorCacheEntries;
     private int cacheAge;
 
     @BeforeEach
@@ -185,7 +186,7 @@ public class NodeMoveSorterInteriorTest {
 
     private void cacheEvaluationWrite(long hash, int value) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
-        EvaluatorCacheArray.GameEvaluatorCacheEntry entry = gameEvaluatorCacheEntries[idx];
+        EvaluatorCacheEntry entry = gameEvaluatorCacheEntries[idx];
         entry.setHash(hash);
         entry.setEvaluation(value);
         entry.setAge(cacheAge);

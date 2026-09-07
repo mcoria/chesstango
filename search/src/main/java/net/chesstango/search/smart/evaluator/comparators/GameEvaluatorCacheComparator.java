@@ -6,9 +6,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
 import net.chesstango.search.sorters.MoveComparator;
 import net.chesstango.search.sorters.SortListener;
 
@@ -47,12 +48,12 @@ public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, S
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final Integer moveEvaluation1 = evaluatorCache.readFromCache(getZobristHashMove(o1));
-        final Integer moveEvaluation2 = evaluatorCache.readFromCache(getZobristHashMove(o2));
+        final EvaluatorCacheEntry moveEvaluation1 = evaluatorCache.readFromCache(getZobristHashMove(o1));
+        final EvaluatorCacheEntry moveEvaluation2 = evaluatorCache.readFromCache(getZobristHashMove(o2));
 
         if (moveEvaluation1 != null && moveEvaluation2 != null) {
-            int evaluation1 = moveEvaluation1;
-            int evaluation2 = moveEvaluation2;
+            int evaluation1 = moveEvaluation1.getEvaluation();
+            int evaluation2 = moveEvaluation2.getEvaluation();
             result = Color.WHITE.equals(currentTurn) ? Integer.compare(evaluation1, evaluation2) : Integer.compare(evaluation2, evaluation1);
         } else if (moveEvaluation1 != null) {
             return 1;

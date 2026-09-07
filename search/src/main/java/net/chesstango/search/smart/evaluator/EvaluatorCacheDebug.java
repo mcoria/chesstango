@@ -34,12 +34,12 @@ public class EvaluatorCacheDebug implements EvaluatorCache, Acceptor {
     }
 
     @Override
-    public Integer readFromCache(long hash) {
-        Integer evaluation = evaluatorCache.readFromCache(hash);
-        if (evaluation != null) {
-            trackReadFromCache(hash, evaluation);
+    public EvaluatorCacheEntry readFromCache(long hash) {
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.readFromCache(hash);
+        if (evaluatorCacheEntry != null) {
+            trackReadFromCache(hash, evaluatorCacheEntry.evaluation);
         }
-        return evaluation;
+        return evaluatorCacheEntry;
     }
 
 
