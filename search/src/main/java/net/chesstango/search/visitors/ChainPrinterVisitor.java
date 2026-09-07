@@ -1,8 +1,8 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
 import net.chesstango.search.*;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.core.filters.AlphaBeta;

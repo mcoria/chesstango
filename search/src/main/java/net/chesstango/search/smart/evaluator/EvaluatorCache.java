@@ -1,8 +1,9 @@
-package net.chesstango.evaluation;
+package net.chesstango.search.smart.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.Evaluator;
 
 /**
  * No se observan ganancias significativas cuando TT está habilitado y existe riesgo de colision

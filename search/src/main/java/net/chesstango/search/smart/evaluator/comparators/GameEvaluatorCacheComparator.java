@@ -6,7 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.sorters.MoveComparator;

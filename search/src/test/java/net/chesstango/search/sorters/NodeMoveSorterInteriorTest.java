@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Bound;
 import net.chesstango.search.builders.EvaluationBuilder;
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.evaluation.EvaluatorCache.ARRAY_SIZE;
+import static net.chesstango.search.smart.evaluator.EvaluatorCache.ARRAY_SIZE;
 import static net.chesstango.search.Bound.EXACT;
 import static net.chesstango.search.Bound.LOWER_BOUND;
 import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;

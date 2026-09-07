@@ -1,4 +1,4 @@
-package net.chesstango.evaluation;
+package net.chesstango.search.smart.evaluator;
 
 /**
  *

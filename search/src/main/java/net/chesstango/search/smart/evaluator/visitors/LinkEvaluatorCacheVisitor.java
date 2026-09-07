@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.evaluator.visitors;
 
-import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheRead;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 

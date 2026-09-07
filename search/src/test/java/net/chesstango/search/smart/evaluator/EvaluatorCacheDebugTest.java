@@ -3,7 +3,6 @@ package net.chesstango.search.smart.evaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugCacheRead;

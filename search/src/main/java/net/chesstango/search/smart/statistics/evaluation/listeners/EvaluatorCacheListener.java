@@ -3,7 +3,7 @@ package net.chesstango.search.smart.statistics.evaluation.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.ResetListener;
