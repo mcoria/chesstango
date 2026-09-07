@@ -4,13 +4,10 @@ package net.chesstango.search.builders;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.Search;
-import net.chesstango.search.SearchBuilder;
+import net.chesstango.search.*;
 import net.chesstango.search.builders.alphabeta.*;
-import net.chesstango.search.IterativeDeepening;
-import net.chesstango.search.NoIterativeDeepening;
-import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.core.visitors.LinkBestMovesArray;
@@ -24,7 +21,6 @@ import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.egtb.visitors.LinkEndGameTableBaseVisitor;
 import net.chesstango.search.smart.pv.model.PVTable;
 import net.chesstango.search.smart.pv.visitors.LinkTrianglePVVisitor;
-import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
@@ -52,6 +48,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final KillerMoveBuilder killerMoveBuilder;
     private final EvaluationBuilder evaluationBuilder;
     private final EgtbChainBuilder egtbChainBuilder;
+    private final EvaluationCacheBuilder evaluatorCacheBuilder;
 
     private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
@@ -77,6 +74,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean withDebugSearchTree;
     private boolean withAspirationWindows;
     private boolean withKillerMoveSorter;
+    private boolean withGameEvaluatorCache;
 
     private Search search;
 
@@ -89,6 +87,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         transpositionTableBuilder = new TranspositionTableBuilder();
         killerMoveBuilder = new KillerMoveBuilder();
         evaluationBuilder = new EvaluationBuilder();
+        evaluatorCacheBuilder = new EvaluationCacheBuilder();
 
         searchByDepthImp = new SearchByDepthImp();
         listenerMediator = new ListenerMediator();
@@ -124,7 +123,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public AlphaBetaBuilder withGameEvaluatorCache() {
         alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
         quiescenceChainBuilder.withGameEvaluatorCache();
-        evaluationBuilder.withGameEvaluatorCache();
+        leafChainBuilder.withGameEvaluatorCache();
+        terminalChainBuilder.withGameEvaluatorCache();
+        withGameEvaluatorCache = true;
         return this;
     }
 
@@ -317,6 +318,11 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
             printHtmlDebugHandler = new PrintHtmlDebugHandler();
         }
+
+        if (withGameEvaluatorCache) {
+            evaluatorCacheBuilder.withSmartListenerMediator(listenerMediator);
+            evaluatorCacheBuilder.build();
+        }
     }
 
 
@@ -370,6 +376,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             killerMoveBuilder.link();
         }
 
+        if (withGameEvaluatorCache) {
+            evaluatorCacheBuilder.link();
+        }
+
         if (withStatistics) {
             listenerMediator.accept(new LinkNodeCountersVisitor(nodeCounters));
         }
@@ -391,10 +401,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaInteriorChainBuilder.link();
         loopChainBuilder.link();
         egtbChainBuilder.link();
+        alphaBetaRootChainBuilder.link();
         if (withQuiescence) {
             quiescenceChainBuilder.link();
         }
-        alphaBetaRootChainBuilder.link();
 
         /**
          * Link through the mediator

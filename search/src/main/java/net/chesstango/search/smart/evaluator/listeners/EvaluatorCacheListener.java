@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics.evaluation.listeners;
+package net.chesstango.search.smart.evaluator.listeners;
 
 import lombok.Getter;
 import lombok.Setter;

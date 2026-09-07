@@ -16,6 +16,7 @@ import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
@@ -37,7 +38,7 @@ import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.statistics.evaluation.listeners.EvaluatorCacheListener;
+import net.chesstango.search.smart.evaluator.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
@@ -154,6 +155,9 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
+    }
+
+    default void visit(AlphaBetaEvaluationCache alphaBetaEvaluationCache) {
     }
 
     default void visit(EgtbEvaluation egtbEvaluation) {

@@ -5,6 +5,7 @@ import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
@@ -21,6 +22,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
+    private AlphaBetaEvaluationCache alphaBetaEvaluationCache;
 
 
     /**
@@ -31,11 +33,17 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private boolean withZobristTracker;
     private boolean withStatistics;
     private boolean withDebugSearchTree;
+    private boolean withGameEvaluatorCache;
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
 
+
+    public TerminalChainBuilder withGameEvaluatorCache() {
+        this.withGameEvaluatorCache = true;
+        return this;
+    }
 
     public TerminalChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
@@ -59,7 +67,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
 
     @Override
-    protected  void buildObjects() {
+    protected void buildObjects() {
         extendPV = new ExtendPV();
 
         if (withZobristTracker) {
@@ -74,22 +82,33 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
             debugFilter = new DebugFilter(NodeTopology.TERMINAL);
         }
 
-        if (extendPV != null) {
-            listenerMediator.add(extendPV);
+        if (withGameEvaluatorCache) {
+            alphaBetaEvaluationCache = new AlphaBetaEvaluationCache();
         }
     }
 
     @Override
-    protected  void setupListenerMediator() {
+    protected void setupListenerMediator() {
         listenerMediator.add(alphaBetaEvaluation);
+
         if (zobristTracker != null) {
             listenerMediator.add(zobristTracker);
         }
+
         if (alphaBetaTerminalNodeStatistics != null) {
             listenerMediator.add(alphaBetaTerminalNodeStatistics);
         }
+
         if (debugFilter != null) {
             listenerMediator.add(debugFilter);
+        }
+
+        if (extendPV != null) {
+            listenerMediator.add(extendPV);
+        }
+
+        if (alphaBetaEvaluationCache != null) {
+            listenerMediator.add(alphaBetaEvaluationCache);
         }
     }
 
@@ -111,6 +130,10 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
         if (alphaBetaTerminalNodeStatistics != null) {
             chain.add(alphaBetaTerminalNodeStatistics);
+        }
+
+        if (alphaBetaEvaluationCache != null) {
+            chain.add(alphaBetaEvaluationCache);
         }
 
         chain.add(alphaBetaEvaluation);

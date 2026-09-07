@@ -5,6 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.builders.EvaluationCacheBuilder;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Bound;
@@ -71,17 +72,21 @@ public class NodeMoveSorterInteriorTest {
 
         EvaluationBuilder evaluationBuilder = new EvaluationBuilder()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withGameEvaluatorCache()
+                .withSmartListenerMediator(listenerMediator);
+
+        EvaluationCacheBuilder evaluationCacheBuilder = new EvaluationCacheBuilder()
                 .withSmartListenerMediator(listenerMediator);
 
         moveSorterInterior = moveSorterBuilder.build();
         transpositionTableBuilder.build();
         killerMoveBuilder.build();
         evaluationBuilder.build();
+        evaluationCacheBuilder.build();
 
         transpositionTableBuilder.link();
         killerMoveBuilder.link();
         evaluationBuilder.link();
+        evaluationCacheBuilder.link();
 
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
@@ -90,7 +95,7 @@ public class NodeMoveSorterInteriorTest {
 
         killerMoves = killerMoveBuilder.getKillerMovesTableImp();
 
-        EvaluatorCacheArray evaluatorCacheArray = evaluationBuilder.getEvaluatorCacheArray();
+        EvaluatorCacheArray evaluatorCacheArray = evaluationCacheBuilder.getEvaluatorCacheArray();
 
         gameEvaluatorCacheEntries = evaluatorCacheArray.getCache();
         cacheAge = evaluatorCacheArray.getCurrentAge();

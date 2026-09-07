@@ -5,6 +5,7 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
+import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
@@ -90,6 +91,8 @@ public abstract class AbstractChainBuilder {
                 case AspirationWindows aspirationWindows -> aspirationWindows.setNext(next);
 
                 case RootMoveEvaluationTracker moveEvaluationTracker -> moveEvaluationTracker.setNext(next);
+
+                case AlphaBetaEvaluationCache alphaBetaEvaluationCache -> alphaBetaEvaluationCache.setNext(next);
 
                 case null -> throw new RuntimeException(String.format("filter %d is null", i));
 

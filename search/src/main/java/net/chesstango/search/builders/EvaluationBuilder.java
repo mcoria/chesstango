@@ -1,18 +1,12 @@
 package net.chesstango.search.builders;
 
-import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.statistics.evaluation.listeners.EvaluatorCacheListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,11 +20,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private EvaluatorDebug evaluatorDebug;
     private SetGameToEvaluator setGameToEvaluator;
 
-    @Getter
-    private EvaluatorCacheArray evaluatorCacheArray;
-    private EvaluatorCacheDebug evaluatorCacheDebug;
-    private EvaluatorCacheListener evaluatorCacheListener;
-
     private EvaluationCounters evaluationCounters;
     private EvaluatorStatisticsCollector evaluatorStatisticsCollector;
 
@@ -38,7 +27,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     private boolean withDebugSearchTree;
     private boolean withTrackEvaluations;
-    private boolean withGameEvaluatorCache;
     private boolean withStatistics;
 
 
@@ -46,15 +34,9 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
      * Front-end evaluators
      */
     private Evaluator evaluator;
-    private EvaluatorCache evaluatorCache;
 
     public EvaluationBuilder withGameEvaluator(Evaluator evaluator) {
         this.evaluatorImp = evaluator;
-        return this;
-    }
-
-    public EvaluationBuilder withGameEvaluatorCache() {
-        this.withGameEvaluatorCache = true;
         return this;
     }
 
@@ -84,7 +66,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     @Override
     public void build() {
-        if(evaluatorImp == null) {
+        if (evaluatorImp == null) {
             throw new RuntimeException("You must set a game evaluator");
         }
 
@@ -98,30 +80,17 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     @Override
     public void link() {
         listenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
-
-        if (evaluatorCache != null) {
-            listenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCache));
-        }
     }
 
     private void buildObjects() {
         setGameToEvaluator = new SetGameToEvaluator();
 
-        if (withGameEvaluatorCache) {
-            evaluatorCacheArray = new EvaluatorCacheArray();
-
-            evaluatorCacheListener = new EvaluatorCacheListener();
-            evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
-        }
-
         if (withDebugSearchTree) {
             evaluatorDebug = new EvaluatorDebug();
-            evaluatorCacheDebug = new EvaluatorCacheDebug();
         }
 
         if (withStatistics) {
-            evaluationCounters = new EvaluationCounters()
-                    .setEvaluatorCacheArray(evaluatorCacheArray);  // No importa que sea NULL
+            evaluationCounters = new EvaluationCounters();
 
             evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setEvaluationsCounters(evaluationCounters);
@@ -138,12 +107,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         if (evaluatorStatisticsCollector != null) {
             listenerMediator.add(evaluatorStatisticsCollector);
         }
-        if (evaluatorCacheListener != null) {
-            listenerMediator.add(evaluatorCacheListener);
-        }
-        if (evaluatorCacheDebug != null) {
-            listenerMediator.add(evaluatorCacheDebug);
-        }
         if (evaluatorDebug != null) {
             listenerMediator.add(evaluatorDebug);
         }
@@ -153,10 +116,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         evaluator = createEvaluatorChain();
 
         setGameToEvaluator.setEvaluator(evaluator);
-
-        if (withGameEvaluatorCache) {
-            evaluatorCache = createEvaluatorCacheChain();
-        }
     }
 
     private Evaluator createEvaluatorChain() {
@@ -184,38 +143,9 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
                 case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
                         evaluatorStatisticsCollector.setImp(next);
 
-                case EvaluatorDebug evaluatorDebug ->
-                        evaluatorDebug.setEvaluator(next);
+                case EvaluatorDebug evaluatorDebug -> evaluatorDebug.setEvaluator(next);
 
                 case null -> throw new RuntimeException(String.format("evaluator %d is null", i));
-
-                default ->
-                        throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());
-            }
-        }
-        return chain.getFirst();
-    }
-
-
-    private EvaluatorCache createEvaluatorCacheChain() {
-        List<EvaluatorCache> chain = new LinkedList<>();
-
-        if (evaluatorCacheDebug != null) {
-            chain.add(evaluatorCacheDebug);
-        }
-
-        chain.add(evaluatorCacheArray);
-
-        return linkEvaluatorCacheChain(chain);
-    }
-
-    private EvaluatorCache linkEvaluatorCacheChain(List<EvaluatorCache> chain) {
-        for (int i = 0; i < chain.size() - 1; i++) {
-            EvaluatorCache currentFilter = chain.get(i);
-            EvaluatorCache next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case EvaluatorCacheDebug evaluatorCacheDebug -> evaluatorCacheDebug.setEvaluatorCache(next);
 
                 default ->
                         throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());
