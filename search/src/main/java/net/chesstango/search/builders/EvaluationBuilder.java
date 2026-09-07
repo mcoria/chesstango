@@ -170,10 +170,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             chain.add(evaluatorDebug);
         }
 
-        if (evaluatorCacheArray != null) {
-            chain.add(evaluatorCacheArray);
-        }
-
         chain.add(evaluatorImp);
 
         return linkEvaluatorChain(chain);
@@ -187,9 +183,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             switch (currentFilter) {
                 case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
                         evaluatorStatisticsCollector.setImp(next);
-
-                case EvaluatorCacheArray evaluatorCacheArray ->
-                        evaluatorCacheArray.setImp(next);
 
                 case EvaluatorDebug evaluatorDebug ->
                         evaluatorDebug.setEvaluator(next);

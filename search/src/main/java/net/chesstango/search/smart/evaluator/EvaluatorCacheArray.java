@@ -10,7 +10,7 @@ import net.chesstango.evaluation.Evaluator;
  *
  * @author Mauricio Coria
  */
-public class EvaluatorCacheArray implements Evaluator, EvaluatorCache {
+public class EvaluatorCacheArray implements EvaluatorCache {
 
     public static final int ARRAY_SIZE = 1024 * 512;
 
@@ -36,10 +36,6 @@ public class EvaluatorCacheArray implements Evaluator, EvaluatorCache {
     private int currentAge;
 
     @Getter
-    @Setter
-    private Evaluator imp;
-
-    @Getter
     private long evaluationsCacheHitsCounter;
 
     @Getter
@@ -47,8 +43,6 @@ public class EvaluatorCacheArray implements Evaluator, EvaluatorCache {
 
     @Getter
     private long readFromCacheHitsCounter;
-
-    private Game game;
 
     public EvaluatorCacheArray() {
         this.cache = new GameEvaluatorCacheEntry[ARRAY_SIZE];
@@ -61,6 +55,7 @@ public class EvaluatorCacheArray implements Evaluator, EvaluatorCache {
         this.readFromCacheHitsCounter = 0;
     }
 
+    /*
     @Override
     public void setGame(Game game) {
         this.game = game;
@@ -85,6 +80,7 @@ public class EvaluatorCacheArray implements Evaluator, EvaluatorCache {
 
         return entry.evaluation;
     }
+     */
 
     @Override
     public Integer readFromCache(long hash) {
