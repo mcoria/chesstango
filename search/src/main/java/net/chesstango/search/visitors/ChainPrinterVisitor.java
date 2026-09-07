@@ -14,7 +14,6 @@ import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
@@ -505,11 +504,6 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(EgtbEvaluation egtbEvaluation) {
         printChainDownLine();
         printChainText(String.format("%s [EndGameTableBase: %s]", objectText(egtbEvaluation), printGameEvaluator(egtbEvaluation.getEndGameTableBase())));
-    }
-
-    @Override
-    public void visit(AlphaBetaEvaluationCache alphaBetaEvaluationCache) {
-        print(alphaBetaEvaluationCache, alphaBetaEvaluationCache.getNext());
     }
 
     /**

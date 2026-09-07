@@ -16,7 +16,6 @@ import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
@@ -155,9 +154,6 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
-    }
-
-    default void visit(AlphaBetaEvaluationCache alphaBetaEvaluationCache) {
     }
 
     default void visit(EgtbEvaluation egtbEvaluation) {

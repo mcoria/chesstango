@@ -5,7 +5,6 @@ import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaLeafNodeStatistics;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
@@ -22,21 +21,13 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     private AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics;
     private DebugFilter debugSearchTree;
     private ExtendPV extendPV;
-    private AlphaBetaEvaluationCache alphaBetaEvaluationCache;
 
     private boolean withZobristTracker;
     private boolean withStatistics;
     private boolean withDebugSearchTree;
-    private boolean withGameEvaluatorCache;
-
 
     public LeafChainBuilder() {
         leaf = new AlphaBetaEvaluation();
-    }
-
-    public LeafChainBuilder withGameEvaluatorCache() {
-        this.withGameEvaluatorCache = true;
-        return this;
     }
 
     public LeafChainBuilder withZobristTracker() {
@@ -75,10 +66,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugSearchTree = new DebugFilter(NodeTopology.LEAF);
         }
-
-        if (withGameEvaluatorCache) {
-            alphaBetaEvaluationCache = new AlphaBetaEvaluationCache();
-        }
     }
 
     @Override
@@ -100,10 +87,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         if (extendPV != null) {
             listenerMediator.add(extendPV);
         }
-
-        if (alphaBetaEvaluationCache != null) {
-            listenerMediator.add(alphaBetaEvaluationCache);
-        }
     }
 
     @Override
@@ -124,10 +107,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
         if (alphaBetaLeafNodeStatistics != null) {
             chain.add(alphaBetaLeafNodeStatistics);
-        }
-
-        if (alphaBetaEvaluationCache != null) {
-            chain.add(alphaBetaEvaluationCache);
         }
 
         chain.add(leaf);

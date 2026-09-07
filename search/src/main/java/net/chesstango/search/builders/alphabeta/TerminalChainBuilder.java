@@ -5,7 +5,6 @@ import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluationCache;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
@@ -22,27 +21,13 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
-    private AlphaBetaEvaluationCache alphaBetaEvaluationCache;
-
-
-    /**
-     * TranspositionTableTerminal escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
-     */
-    //private TranspositionTableTerminal transpositionTableTerminal;
 
     private boolean withZobristTracker;
     private boolean withStatistics;
     private boolean withDebugSearchTree;
-    private boolean withGameEvaluatorCache;
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
-    }
-
-
-    public TerminalChainBuilder withGameEvaluatorCache() {
-        this.withGameEvaluatorCache = true;
-        return this;
     }
 
     public TerminalChainBuilder withZobristTracker() {
@@ -81,10 +66,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(NodeTopology.TERMINAL);
         }
-
-        if (withGameEvaluatorCache) {
-            alphaBetaEvaluationCache = new AlphaBetaEvaluationCache();
-        }
     }
 
     @Override
@@ -106,10 +87,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         if (extendPV != null) {
             listenerMediator.add(extendPV);
         }
-
-        if (alphaBetaEvaluationCache != null) {
-            listenerMediator.add(alphaBetaEvaluationCache);
-        }
     }
 
     @Override
@@ -130,10 +107,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
         if (alphaBetaTerminalNodeStatistics != null) {
             chain.add(alphaBetaTerminalNodeStatistics);
-        }
-
-        if (alphaBetaEvaluationCache != null) {
-            chain.add(alphaBetaEvaluationCache);
         }
 
         chain.add(alphaBetaEvaluation);
