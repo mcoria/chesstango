@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
@@ -18,6 +19,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     private Evaluator evaluatorImp;
     private EvaluatorDebug evaluatorDebug;
+    private EvaluatorCacheAdapter evaluatorCacheAdapter;
     private SetGameToEvaluator setGameToEvaluator;
 
     private EvaluationCounters evaluationCounters;
@@ -28,6 +30,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private boolean withDebugSearchTree;
     private boolean withTrackEvaluations;
     private boolean withStatistics;
+    private boolean withGameEvaluatorCache;
 
 
     /**
@@ -55,6 +58,11 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
     public EvaluationBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        return this;
+    }
+
+    public EvaluationBuilder withGameEvaluatorCache() {
+        this.withGameEvaluatorCache = true;
         return this;
     }
 
@@ -95,6 +103,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setEvaluationsCounters(evaluationCounters);
         }
+
+        if (withGameEvaluatorCache) {
+            evaluatorCacheAdapter = new EvaluatorCacheAdapter();
+        }
     }
 
     private void setupListenerMediator() {
@@ -109,6 +121,9 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         }
         if (evaluatorDebug != null) {
             listenerMediator.add(evaluatorDebug);
+        }
+        if (evaluatorCacheAdapter != null) {
+            listenerMediator.add(evaluatorCacheAdapter);
         }
     }
 
@@ -129,6 +144,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
             chain.add(evaluatorDebug);
         }
 
+        if (evaluatorCacheAdapter != null) {
+            chain.add(evaluatorCacheAdapter);
+        }
+
         chain.add(evaluatorImp);
 
         return linkEvaluatorChain(chain);
@@ -144,6 +163,8 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
                         evaluatorStatisticsCollector.setImp(next);
 
                 case EvaluatorDebug evaluatorDebug -> evaluatorDebug.setEvaluator(next);
+
+                case EvaluatorCacheAdapter evaluatorCacheAdapter -> evaluatorCacheAdapter.setEvaluator(next);
 
                 case null -> throw new RuntimeException(String.format("evaluator %d is null", i));
 

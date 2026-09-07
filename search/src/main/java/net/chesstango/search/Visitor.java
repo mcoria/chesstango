@@ -12,6 +12,7 @@ import net.chesstango.search.smart.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.debug.traps.LeafNodeTrap;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -234,6 +235,9 @@ public interface Visitor {
     default void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
     }
 
+
+    default void visit(EvaluatorCacheAdapter evaluatorCacheAdapter) {
+    }
 
     default void visit(EvaluatorDebug evaluatorDebug) {
     }

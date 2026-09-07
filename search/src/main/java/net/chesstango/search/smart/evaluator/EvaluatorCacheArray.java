@@ -55,33 +55,6 @@ public class EvaluatorCacheArray implements EvaluatorCache {
         this.readFromCacheHitsCounter = 0;
     }
 
-    /*
-    @Override
-    public void setGame(Game game) {
-        this.game = game;
-        this.imp.setGame(game);
-    }
-
-    @Override
-    public int evaluate() {
-        long hash = game.getPosition().getZobristHash();
-
-        int idx = (int) Math.abs(hash % ARRAY_SIZE);
-
-        GameEvaluatorCacheEntry entry = cache[idx];
-
-        if (entry.hash != hash || entry.age > currentAge || currentAge - entry.age >= STALE_AGE) {
-            entry.hash = hash;
-            entry.evaluation = imp.evaluate();
-            entry.age = currentAge;
-        } else {
-            evaluationsCacheHitsCounter++;
-        }
-
-        return entry.evaluation;
-    }
-     */
-
     @Override
     public Integer readFromCache(long hash) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);

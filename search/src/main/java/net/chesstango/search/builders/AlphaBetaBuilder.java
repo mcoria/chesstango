@@ -123,6 +123,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public AlphaBetaBuilder withGameEvaluatorCache() {
         alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
         quiescenceChainBuilder.withGameEvaluatorCache();
+        evaluationBuilder.withGameEvaluatorCache();
         withGameEvaluatorCache = true;
         return this;
     }

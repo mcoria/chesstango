@@ -55,7 +55,7 @@ public class EvaluatorCacheArrayTest {
         when(mockEvaluator.evaluate()).thenReturn(42);
 
         EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setEvaluator(mockEvaluator);
         evaluatorCacheArray.setGame(mockGame);
 
         // Act
@@ -79,7 +79,7 @@ public class EvaluatorCacheArrayTest {
         when(mockEvaluator.evaluate()).thenReturn(42);
 
         EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setEvaluator(mockEvaluator);
         evaluatorCacheArray.setGame(mockGame);
 
         // Cache miss
@@ -106,7 +106,7 @@ public class EvaluatorCacheArrayTest {
         when(mockEvaluator.evaluate()).thenReturn(42, 50); // First and second evaluation results
 
         EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setEvaluator(mockEvaluator);
         evaluatorCacheArray.setGame(mockGame);
 
         // Cache miss
@@ -138,7 +138,7 @@ public class EvaluatorCacheArrayTest {
         when(mockEvaluator.evaluate()).thenReturn(42, 50); // Evaluation results
 
         EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setEvaluator(mockEvaluator);
         evaluatorCacheArray.setGame(mockGame);
 
         // Cache miss for first hash
@@ -165,7 +165,7 @@ public class EvaluatorCacheArrayTest {
         when(mockEvaluator.evaluate()).thenReturn(42);
 
         EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setEvaluator(mockEvaluator);
 
         // Act
         Integer cachedValue = evaluatorCacheArray.readFromCache(12345L);
@@ -185,7 +185,7 @@ public class EvaluatorCacheArrayTest {
         when(mockEvaluator.evaluate()).thenReturn(42);
 
         EvaluatorCacheArray evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheArray.setImp(mockEvaluator);
+        evaluatorCacheArray.setEvaluator(mockEvaluator);
         evaluatorCacheArray.setGame(mockGame);
 
         // Simulate cache population

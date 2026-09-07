@@ -1,17 +1,15 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.*;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
-import net.chesstango.search.smart.evaluator.EvaluatorDebug;
+import net.chesstango.search.smart.evaluator.*;
 import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
@@ -23,7 +21,6 @@ import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
@@ -702,6 +699,8 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
         } else if (evaluator instanceof EvaluatorDebug evaluatorDebug) {
             return String.format("%s -> %s", objectText(evaluatorDebug), printGameEvaluator(evaluatorDebug.getEvaluator()));
+        } else if (evaluator instanceof EvaluatorCacheAdapter evaluatorCacheAdapter) {
+            return String.format("%s -> %s", objectText(evaluatorCacheAdapter), printGameEvaluator(evaluatorCacheAdapter.getEvaluator()));
         }
 
         return objectText(evaluator);
@@ -720,7 +719,7 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(tTableComparatorHeadDebug), printTTable(tTableComparatorHeadDebug.getTTable()));
         } else if (ttable instanceof TTableComparatorTailDebug tTableComparatorTailDebug) {
             return String.format("%s -> %s", objectText(tTableComparatorTailDebug), printTTable(tTableComparatorTailDebug.getTTable()));
-        }else if (ttable instanceof TTablePVDebug tTablePVDebug) {
+        } else if (ttable instanceof TTablePVDebug tTablePVDebug) {
             return String.format("%s -> %s", objectText(tTablePVDebug), printTTable(tTablePVDebug.getTTable()));
         } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);
