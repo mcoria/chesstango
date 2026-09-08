@@ -24,6 +24,7 @@ import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.statistics.node.filters.*;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsComparatorCollector;
@@ -689,6 +690,8 @@ public class ChainPrinterVisitor implements Visitor {
             return objectText(evaluatorCacheArray);
         } else if (evaluatorCache instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
             return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCache(evaluatorCacheDebug.getEvaluatorCache()));
+        }  else if (evaluatorCache instanceof EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector) {
+            return String.format("%s -> %s", objectText(evaluatorCacheStatisticsComparatorCollector), printEvaluatorCache(evaluatorCacheStatisticsComparatorCollector.getEvaluatorCache()));
         }
 
         throw new IllegalArgumentException("Unknown EvaluatorCache: " + evaluatorCache.getClass().getSimpleName());

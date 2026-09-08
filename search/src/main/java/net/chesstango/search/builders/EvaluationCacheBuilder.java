@@ -6,7 +6,8 @@ import net.chesstango.search.smart.evaluator.EvaluatorCache;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.listeners.EvaluatorCacheListener;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
+import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheComparatorVisitor;
+import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheNodeVisitor;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
 
 import java.util.LinkedList;
@@ -114,7 +115,8 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     public void link() {
         evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
 
-        listenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCacheNode));
+        listenerMediator.accept(new LinkEvaluatorCacheNodeVisitor(evaluatorCacheNode));
+        listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(evaluatorCacheComparator));
     }
 
 
@@ -126,7 +128,8 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
             switch (currentFilter) {
                 case EvaluatorCacheDebug evaluatorCacheDebug -> evaluatorCacheDebug.setEvaluatorCache(next);
 
-                case EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector -> evaluatorCacheStatisticsComparatorCollector.setEvaluatorCache(next);
+                case EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector ->
+                        evaluatorCacheStatisticsComparatorCollector.setEvaluatorCache(next);
 
                 default ->
                         throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());
