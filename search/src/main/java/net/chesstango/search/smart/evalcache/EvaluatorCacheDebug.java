@@ -44,7 +44,7 @@ public class EvaluatorCacheDebug implements EvaluatorCache, Acceptor {
 
     @Override
     public EvaluatorCacheEntry write(long hash, int evaluation) {
-        return evaluatorCache.write(hash, evaluation);
+        throw new RuntimeException("write() should not be called on a comparator");
     }
 
 
