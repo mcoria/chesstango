@@ -12,7 +12,7 @@ import net.chesstango.search.smart.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.debug.traps.LeafNodeTrap;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheAdapter;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evalcache.comparators.GameEvaluatorCacheComparator;

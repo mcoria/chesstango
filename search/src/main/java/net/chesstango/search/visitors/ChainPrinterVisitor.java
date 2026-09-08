@@ -10,7 +10,7 @@ import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.evalcache.EvaluatorCache;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheAdapter;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.*;

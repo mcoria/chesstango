@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.evalcache;
+package net.chesstango.search.smart.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,8 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
 
 /**
  *
@@ -43,6 +45,6 @@ public class EvaluatorCacheAdapter implements Evaluator, Acceptor {
             evaluatorCacheEntry = evaluatorCache.write(hash, evaluator.evaluate());
         }
 
-        return evaluatorCacheEntry.evaluation;
+        return evaluatorCacheEntry.getEvaluation();
     }
 }

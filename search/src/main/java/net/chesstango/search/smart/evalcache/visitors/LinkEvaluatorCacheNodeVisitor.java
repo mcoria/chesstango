@@ -2,7 +2,7 @@ package net.chesstango.search.smart.evalcache.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.evalcache.EvaluatorCache;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheAdapter;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 
 /**
  *
