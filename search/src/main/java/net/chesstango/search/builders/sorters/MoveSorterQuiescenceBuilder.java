@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.evalcache.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
@@ -27,7 +27,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
 
-    private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
+    private EvaluatorCacheComparator evaluatorCacheComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
     private PrincipalVariationComparator principalVariationComparator;
@@ -95,7 +95,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         }
 
         if (withGameEvaluatorCache) {
-            gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
+            evaluatorCacheComparator = new EvaluatorCacheComparator();
         }
 
         if (withRecaptureSorter) {
@@ -133,9 +133,9 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
             nodeMoveSorter.addSortListener(recaptureMoveComparator);
         }
 
-        if (gameEvaluatorCacheComparator != null) {
-            listenerMediator.add(gameEvaluatorCacheComparator);
-            nodeMoveSorter.addSortListener(gameEvaluatorCacheComparator);
+        if (evaluatorCacheComparator != null) {
+            listenerMediator.add(evaluatorCacheComparator);
+            nodeMoveSorter.addSortListener(evaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {
@@ -184,8 +184,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
             chain.add(mvvLvaComparator);
         }
 
-        if (gameEvaluatorCacheComparator != null) {
-            chain.add(gameEvaluatorCacheComparator);
+        if (evaluatorCacheComparator != null) {
+            chain.add(evaluatorCacheComparator);
         }
 
         chain.add(defaultMoveComparator);

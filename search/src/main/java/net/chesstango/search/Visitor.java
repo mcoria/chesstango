@@ -15,7 +15,7 @@ import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.evalcache.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
@@ -313,7 +313,7 @@ public interface Visitor {
     default void visit(KillerMoveComparator killerMoveComparator) {
     }
 
-    default void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
+    default void visit(EvaluatorCacheComparator evaluatorCacheComparator) {
     }
 
     default void visit(PromotionComparator promotionComparator) {

@@ -16,7 +16,7 @@ import net.chesstango.search.sorters.SortListener;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, SortListener {
+public class EvaluatorCacheComparator implements MoveComparator, Acceptor, SortListener {
 
     @Getter
     @Setter

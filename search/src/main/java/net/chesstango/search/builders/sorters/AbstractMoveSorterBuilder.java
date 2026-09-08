@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evalcache.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
@@ -74,8 +74,8 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
                 case TranspositionTailMoveComparator tailMoveComparator -> tailMoveComparator.setNext(next);
                 case RecaptureMoveComparator recaptureMoveComparatorFilter ->
                         recaptureMoveComparatorFilter.setNext(next);
-                case GameEvaluatorCacheComparator gameEvaluatorCacheComparatorFilter ->
-                        gameEvaluatorCacheComparatorFilter.setNext(next);
+                case EvaluatorCacheComparator evaluatorCacheComparatorFilter ->
+                        evaluatorCacheComparatorFilter.setNext(next);
                 case KillerMoveComparator moveComparator -> moveComparator.setNext(next);
                 case MvvLvaComparator lvaComparator -> lvaComparator.setNext(next);
                 case PromotionComparator comparator -> comparator.setNext(next);

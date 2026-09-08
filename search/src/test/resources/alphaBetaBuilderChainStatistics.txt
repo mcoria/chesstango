@@ -93,7 +93,7 @@ AlphaBetaFlowControl @ 14
 				|
 				MvvLvaComparator @ 48
 				|
-				GameEvaluatorCacheComparator @ 49 [EvaluatorCache: EvaluatorCacheStatisticsComparatorCollector @ 50 -> EvaluatorCacheArray @ 20]
+				EvaluatorCacheComparator @ 49 [EvaluatorCache: EvaluatorCacheStatisticsComparatorCollector @ 50 -> EvaluatorCacheArray @ 20]
 				|
 				DefaultMoveComparator @ 51
 
@@ -101,7 +101,7 @@ AlphaBetaFlowControl @ 14
 				|
 				KillerMoveComparator @ 52
 				|
-				GameEvaluatorCacheComparator @ 49 [EvaluatorCache: EvaluatorCacheStatisticsComparatorCollector @ 50 -> EvaluatorCacheArray @ 20]
+				EvaluatorCacheComparator @ 49 [EvaluatorCache: EvaluatorCacheStatisticsComparatorCollector @ 50 -> EvaluatorCacheArray @ 20]
 				|
 				DefaultMoveComparator @ 51
 	|
@@ -144,7 +144,7 @@ AlphaBetaFlowControl @ 14
 			|
 			MvvLvaComparator @ 67
 			|
-			GameEvaluatorCacheComparator @ 68 [EvaluatorCache: EvaluatorCacheStatisticsComparatorCollector @ 50 -> EvaluatorCacheArray @ 20]
+			EvaluatorCacheComparator @ 68 [EvaluatorCache: EvaluatorCacheStatisticsComparatorCollector @ 50 -> EvaluatorCacheArray @ 20]
 			|
 			DefaultMoveComparator @ 69
 	|
@@ -220,7 +220,7 @@ Acceptor:
 	TranspositionTailMoveComparator @ 44
 	PrincipalVariationComparator @ 41
 	RecaptureMoveComparator @ 47
-	GameEvaluatorCacheComparator @ 49
+	EvaluatorCacheComparator @ 49
 	KillerMoveComparator @ 52
 	AlphaBeta @ 39
 	AlphaBetaInteriorNodeVisited @ 34
@@ -239,7 +239,7 @@ Acceptor:
 	TranspositionTailMoveComparator @ 64
 	PrincipalVariationComparator @ 62
 	RecaptureMoveComparator @ 66
-	GameEvaluatorCacheComparator @ 68
+	EvaluatorCacheComparator @ 68
 	QuiescenceStandingPat @ 59
 	AlphaBeta @ 60
 	AlphaBetaQuiescenceNodeVisited @ 56
