@@ -199,7 +199,8 @@ Acceptor:
 	TTableStatisticsFillPercentageCollector @ 72
 	PVWalkerFromTT @ 34
 	EvaluatorCacheListener @ 73
-	SetGameToEndGameTableBase @ 81
+	EvaluatorCacheStatisticsComparatorCollector @ 81
+	SetGameToEndGameTableBase @ 82
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 74
 	AlphaBetaFlowControl @ 14
@@ -246,13 +247,13 @@ Acceptor:
 	ExtendPV @ 53
 	PropagatePV @ 68
 	RootMoveSorter @ 11
-	NodeGroupSorter @ 82
+	NodeGroupSorter @ 83
 	RootMoveEvaluationTracker @ 12
 	RootMoveEvaluationBest @ 79
 	RootMoveEvaluationCollection @ 78
 	ExtendPV @ 5
 	PropagatePV @ 13
-	PVCalculator @ 83
+	PVCalculator @ 84
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

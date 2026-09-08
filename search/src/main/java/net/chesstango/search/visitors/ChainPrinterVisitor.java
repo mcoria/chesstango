@@ -696,7 +696,7 @@ public class ChainPrinterVisitor implements Visitor {
 
     private String printGameEvaluator(Evaluator evaluator) {
         if (evaluator instanceof EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector) {
-            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
+            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getEvaluator()));
         } else if (evaluator instanceof EvaluatorDebug evaluatorDebug) {
             return String.format("%s -> %s", objectText(evaluatorDebug), printGameEvaluator(evaluatorDebug.getEvaluator()));
         } else if (evaluator instanceof EvaluatorCacheAdapter evaluatorCacheAdapter) {

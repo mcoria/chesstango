@@ -233,6 +233,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
+                .withStatistics()
                 //.withDebugSearchTree(true, true, true)
                 .build();
 

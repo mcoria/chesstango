@@ -146,6 +146,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         checkResolverChainBuilder.withStatistics();
         transpositionTableBuilder.withStatistics();
         evaluationBuilder.withStatistics();
+        evaluatorCacheBuilder.withStatistics();
         terminalChainBuilder.withStatistics();
         leafChainBuilder.withStatistics();
         loopChainBuilder.withStatistics();

@@ -17,19 +17,17 @@ import java.util.Set;
 public class EvaluationCounters implements Acceptor, SearchListener {
     private long evaluationsCounter;
 
-    @Getter
+
     private long evaluationsCacheHitsCounter;
 
     /**
      * Cuantos intentos de lectura de cache
      */
-    @Getter
     private long readFromCacheCounter;
 
     /**
      * Cuantos intentos de lectura de cache exitosos
      */
-    @Getter
     private long readFromCacheHitsCounter;
 
     @Setter
@@ -56,6 +54,15 @@ public class EvaluationCounters implements Acceptor, SearchListener {
     public void increaseEvaluationsCounter() {
         evaluationsCounter++;
     }
+
+    public void increaseReadFromCacheCounter() {
+        readFromCacheCounter++;
+    }
+
+    public void increaseReadFromCacheHitsCounter() {
+        readFromCacheHitsCounter++;
+    }
+
 
 
     public EvaluationStatistics getEvaluationStatistics() {

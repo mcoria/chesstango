@@ -164,7 +164,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
             switch (currentFilter) {
                 case EvaluatorStatisticsCollector evaluatorStatisticsCollector ->
-                        evaluatorStatisticsCollector.setImp(next);
+                        evaluatorStatisticsCollector.setEvaluator(next);
 
                 case EvaluatorDebug evaluatorDebug -> evaluatorDebug.setEvaluator(next);
 

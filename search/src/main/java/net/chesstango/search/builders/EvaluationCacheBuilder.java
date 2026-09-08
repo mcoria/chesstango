@@ -7,6 +7,7 @@ import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,15 +20,18 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private final EvaluatorCacheArray evaluatorCacheArray;
     private final EvaluatorCacheListener evaluatorCacheListener;
     private EvaluatorCacheDebug evaluatorCacheDebug;
+    private EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector;
 
     private ListenerMediator listenerMediator;
 
     private boolean withDebugSearchTree;
+    private boolean withStatistics;
 
     /**
      * Front-end evaluators
      */
-    private EvaluatorCache evaluatorCache;
+    private EvaluatorCache evaluatorCacheNode;
+    private EvaluatorCache evaluatorCacheComparator;
 
     public EvaluationCacheBuilder() {
         evaluatorCacheArray = new EvaluatorCacheArray();
@@ -45,18 +49,29 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
         return this;
     }
 
+    public EvaluationCacheBuilder withStatistics() {
+        this.withStatistics = true;
+        return this;
+    }
+
     @Override
     public void build() {
         buildObjects();
 
         setupListenerMediator();
 
-        evaluatorCache = createChains();
+        evaluatorCacheNode = createNodeChain();
+        evaluatorCacheComparator = createComparatorChain();
     }
+
 
     private void buildObjects() {
         if (withDebugSearchTree) {
             evaluatorCacheDebug = new EvaluatorCacheDebug();
+        }
+
+        if (withStatistics) {
+            evaluatorCacheStatisticsComparatorCollector = new EvaluatorCacheStatisticsComparatorCollector();
         }
     }
 
@@ -66,13 +81,28 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
         if (evaluatorCacheDebug != null) {
             listenerMediator.add(evaluatorCacheDebug);
         }
+        if (evaluatorCacheStatisticsComparatorCollector != null) {
+            listenerMediator.add(evaluatorCacheStatisticsComparatorCollector);
+        }
     }
 
-    private EvaluatorCache createChains() {
+    private EvaluatorCache createNodeChain() {
+        List<EvaluatorCache> chain = new LinkedList<>();
+
+        chain.add(evaluatorCacheArray);
+
+        return linkEvaluatorCacheChain(chain);
+    }
+
+    private EvaluatorCache createComparatorChain() {
         List<EvaluatorCache> chain = new LinkedList<>();
 
         if (evaluatorCacheDebug != null) {
             chain.add(evaluatorCacheDebug);
+        }
+
+        if (evaluatorCacheStatisticsComparatorCollector != null) {
+            chain.add(evaluatorCacheStatisticsComparatorCollector);
         }
 
         chain.add(evaluatorCacheArray);
@@ -84,7 +114,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     public void link() {
         evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
 
-        listenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCache));
+        listenerMediator.accept(new LinkEvaluatorCacheVisitor(evaluatorCacheNode));
     }
 
 
@@ -95,6 +125,8 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
 
             switch (currentFilter) {
                 case EvaluatorCacheDebug evaluatorCacheDebug -> evaluatorCacheDebug.setEvaluatorCache(next);
+
+                case EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector -> evaluatorCacheStatisticsComparatorCollector.setEvaluatorCache(next);
 
                 default ->
                         throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());

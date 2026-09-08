@@ -79,7 +79,7 @@ AlphaBetaFlowControl @ 12
 				|
 				MvvLvaComparator @ 35
 				|
-				GameEvaluatorCacheComparator @ 36 [EvaluatorCacheRead: EvaluatorCacheArray @ 37]
+				GameEvaluatorCacheComparator @ 36 [EvaluatorCache: EvaluatorCacheArray @ 37]
 				|
 				DefaultMoveComparator @ 38
 
@@ -87,7 +87,7 @@ AlphaBetaFlowControl @ 12
 				|
 				KillerMoveComparator @ 39
 				|
-				GameEvaluatorCacheComparator @ 36 [EvaluatorCacheRead: EvaluatorCacheArray @ 37]
+				GameEvaluatorCacheComparator @ 36 [EvaluatorCache: EvaluatorCacheArray @ 37]
 				|
 				DefaultMoveComparator @ 38
 	|
@@ -126,7 +126,7 @@ AlphaBetaFlowControl @ 12
 			|
 			MvvLvaComparator @ 52
 			|
-			GameEvaluatorCacheComparator @ 53 [EvaluatorCacheRead: EvaluatorCacheArray @ 37]
+			GameEvaluatorCacheComparator @ 53 [EvaluatorCache: EvaluatorCacheArray @ 37]
 			|
 			DefaultMoveComparator @ 54
 	|

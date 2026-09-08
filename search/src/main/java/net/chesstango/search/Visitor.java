@@ -37,6 +37,7 @@ import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.evaluator.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
@@ -281,6 +282,11 @@ public interface Visitor {
     }
 
     default void visit(EvaluatorStatisticsCollector evaluatorStatisticsCollector) {
+    }
+
+
+
+    default void visit(EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector) {
     }
 
     /**

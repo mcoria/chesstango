@@ -11,15 +11,13 @@ import net.chesstango.search.Visitor;
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Accessors(chain = true)
 public class EvaluatorStatisticsCollector implements Evaluator, Acceptor {
 
-    @Setter
     @Getter
-    @Accessors(chain = true)
-    private Evaluator imp;
+    private Evaluator evaluator;
 
-    @Setter
-    @Accessors(chain = true)
     private EvaluationCounters evaluationsCounters;
 
     @Override
@@ -29,13 +27,13 @@ public class EvaluatorStatisticsCollector implements Evaluator, Acceptor {
 
     @Override
     public void setGame(Game game) {
-        this.imp.setGame(game);
+        this.evaluator.setGame(game);
     }
 
     @Override
     public int evaluate() {
         evaluationsCounters.increaseEvaluationsCounter();
-        return imp.evaluate();
+        return evaluator.evaluate();
     }
 
 }
