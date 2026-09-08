@@ -1,0 +1,36 @@
+package net.chesstango.search.smart.statistics.evaluation;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.evaluator.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
+
+/**
+ * @author Mauricio Coria
+ */
+@Setter
+@Accessors(chain = true)
+public class EvaluatorCacheStatisticsNodeCollector implements EvaluatorCache, Acceptor {
+
+    @Getter
+    private EvaluatorCache evaluatorCache;
+
+    private EvaluationCounters evaluationsCounters;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public EvaluatorCacheEntry readFromCache(long hash) {
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.readFromCache(hash);
+        if (evaluatorCacheEntry != null) {
+            evaluationsCounters.increaseReadFromCacheHitsCounter();
+        }
+        return evaluatorCacheEntry;
+    }
+}

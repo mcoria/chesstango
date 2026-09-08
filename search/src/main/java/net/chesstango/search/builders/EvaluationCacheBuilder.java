@@ -9,6 +9,7 @@ import net.chesstango.search.smart.evaluator.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheNodeVisitor;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsNodeCollector;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private final EvaluatorCacheListener evaluatorCacheListener;
     private EvaluatorCacheDebug evaluatorCacheDebug;
     private EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector;
+    private EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector;
 
     private ListenerMediator listenerMediator;
 
@@ -73,6 +75,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
 
         if (withStatistics) {
             evaluatorCacheStatisticsComparatorCollector = new EvaluatorCacheStatisticsComparatorCollector();
+            evaluatorCacheStatisticsNodeCollector = new EvaluatorCacheStatisticsNodeCollector();
         }
     }
 
@@ -85,10 +88,17 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
         if (evaluatorCacheStatisticsComparatorCollector != null) {
             listenerMediator.add(evaluatorCacheStatisticsComparatorCollector);
         }
+        if (evaluatorCacheStatisticsNodeCollector != null) {
+            listenerMediator.add(evaluatorCacheStatisticsNodeCollector);
+        }
     }
 
     private EvaluatorCache createNodeChain() {
         List<EvaluatorCache> chain = new LinkedList<>();
+
+        if (evaluatorCacheStatisticsNodeCollector != null) {
+            chain.add(evaluatorCacheStatisticsNodeCollector);
+        }
 
         chain.add(evaluatorCacheArray);
 
@@ -130,6 +140,9 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
 
                 case EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector ->
                         evaluatorCacheStatisticsComparatorCollector.setEvaluatorCache(next);
+
+                case EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector ->
+                        evaluatorCacheStatisticsNodeCollector.setEvaluatorCache(next);
 
                 default ->
                         throw new RuntimeException("evaluator not found: " + currentFilter.getClass().getSimpleName());
