@@ -12,9 +12,10 @@ import net.chesstango.search.smart.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.smart.debug.traps.LeafNodeTrap;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
@@ -36,8 +37,10 @@ import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsNodeCollector;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.statistics.evaluation.listeners.EvaluatorCacheListener;
+import net.chesstango.search.smart.evalcache.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
@@ -235,6 +238,9 @@ public interface Visitor {
     }
 
 
+    default void visit(EvaluatorCacheAdapter evaluatorCacheAdapter) {
+    }
+
     default void visit(EvaluatorDebug evaluatorDebug) {
     }
 
@@ -279,6 +285,12 @@ public interface Visitor {
     default void visit(EvaluatorStatisticsCollector evaluatorStatisticsCollector) {
     }
 
+    default void visit(EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector) {
+    }
+
+    default void visit(EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector) {
+    }
+
     /**
      *
      * Comparator elements
@@ -301,7 +313,7 @@ public interface Visitor {
     default void visit(KillerMoveComparator killerMoveComparator) {
     }
 
-    default void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
+    default void visit(EvaluatorCacheComparator evaluatorCacheComparator) {
     }
 
     default void visit(PromotionComparator promotionComparator) {

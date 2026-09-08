@@ -1,18 +1,20 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.*;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
-import net.chesstango.search.smart.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
+import net.chesstango.search.smart.evaluator.*;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
@@ -23,10 +25,11 @@ import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.pv.model.PVCalculator;
 import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
+import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsNodeCollector;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.statistics.node.filters.*;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsComparatorCollector;
@@ -393,11 +396,11 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
+    public void visit(EvaluatorCacheComparator evaluatorCacheComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
+        printChainText(String.format("%s [EvaluatorCache: %s]", objectText(evaluatorCacheComparator), printEvaluatorCache(evaluatorCacheComparator.getEvaluatorCache())));
 
-        traverse(gameEvaluatorCacheComparator.getNext());
+        traverse(evaluatorCacheComparator.getNext());
     }
 
     @Override
@@ -687,23 +690,28 @@ public class ChainPrinterVisitor implements Visitor {
                 objectMap.computeIfAbsent(objectKey, k -> String.format("%s @ %d", object.getClass().getSimpleName(), objectCounter++));
     }
 
-    private String printEvaluatorCacheRead(EvaluatorCacheRead evaluatorCacheRead) {
-        if (evaluatorCacheRead instanceof EvaluatorCache evaluatorCache) {
-            return objectText(evaluatorCache);
-        } else if (evaluatorCacheRead instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
-            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCacheRead()));
+    private String printEvaluatorCache(EvaluatorCache evaluatorCache) {
+        if (evaluatorCache instanceof EvaluatorCacheArray evaluatorCacheArray) {
+            return objectText(evaluatorCacheArray);
+        } else if (evaluatorCache instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
+            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCache(evaluatorCacheDebug.getEvaluatorCache()));
+        }  else if (evaluatorCache instanceof EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector) {
+            return String.format("%s -> %s", objectText(evaluatorCacheStatisticsComparatorCollector), printEvaluatorCache(evaluatorCacheStatisticsComparatorCollector.getEvaluatorCache()));
+        } else if (evaluatorCache instanceof EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector) {
+            return String.format("%s -> %s", objectText(evaluatorCacheStatisticsNodeCollector), printEvaluatorCache(evaluatorCacheStatisticsNodeCollector.getEvaluatorCache()));
         }
 
-        throw new IllegalArgumentException("Unknown EvaluatorCacheRead: " + evaluatorCacheRead.getClass().getSimpleName());
+
+        throw new IllegalArgumentException("Unknown EvaluatorCache: " + evaluatorCache.getClass().getSimpleName());
     }
 
     private String printGameEvaluator(Evaluator evaluator) {
         if (evaluator instanceof EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector) {
-            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
-        } else if (evaluator instanceof EvaluatorCache gameEvaluatorCache) {
-            return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
+            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getEvaluator()));
         } else if (evaluator instanceof EvaluatorDebug evaluatorDebug) {
             return String.format("%s -> %s", objectText(evaluatorDebug), printGameEvaluator(evaluatorDebug.getEvaluator()));
+        } else if (evaluator instanceof EvaluatorCacheAdapter evaluatorCacheAdapter) {
+            return String.format("%s [EvaluatorCache: %s] -> %s", objectText(evaluatorCacheAdapter), printEvaluatorCache(evaluatorCacheAdapter.getEvaluatorCache()) , printGameEvaluator(evaluatorCacheAdapter.getEvaluator()));
         }
 
         return objectText(evaluator);
@@ -722,7 +730,7 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(tTableComparatorHeadDebug), printTTable(tTableComparatorHeadDebug.getTTable()));
         } else if (ttable instanceof TTableComparatorTailDebug tTableComparatorTailDebug) {
             return String.format("%s -> %s", objectText(tTableComparatorTailDebug), printTTable(tTableComparatorTailDebug.getTTable()));
-        }else if (ttable instanceof TTablePVDebug tTablePVDebug) {
+        } else if (ttable instanceof TTablePVDebug tTablePVDebug) {
             return String.format("%s -> %s", objectText(tTablePVDebug), printTTable(tTablePVDebug.getTTable()));
         } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);

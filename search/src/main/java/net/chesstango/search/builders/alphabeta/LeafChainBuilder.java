@@ -22,15 +22,9 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     private DebugFilter debugSearchTree;
     private ExtendPV extendPV;
 
-    /**
-     * TranspositionTableLeaf escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
-     */
-    //private TranspositionTableLeaf transpositionTable;
-
     private boolean withZobristTracker;
     private boolean withStatistics;
     private boolean withDebugSearchTree;
-
 
     public LeafChainBuilder() {
         leaf = new AlphaBetaEvaluation();
@@ -58,7 +52,7 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
 
     @Override
-    protected  void buildObjects() {
+    protected void buildObjects() {
         extendPV = new ExtendPV();
 
         if (withZobristTracker) {
@@ -75,7 +69,7 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     }
 
     @Override
-    protected  void setupListenerMediator() {
+    protected void setupListenerMediator() {
         listenerMediator.add(leaf);
 
         if (zobristTracker != null) {

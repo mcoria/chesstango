@@ -1,9 +1,9 @@
-package net.chesstango.search.smart.statistics.evaluation.listeners;
+package net.chesstango.search.smart.evalcache.listeners;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.ResetListener;
@@ -17,7 +17,7 @@ public class EvaluatorCacheListener implements Acceptor, SearchListener, ResetLi
     @Setter
     @Getter
     @Accessors(chain = true)
-    private EvaluatorCache gameEvaluatorCache;
+    private EvaluatorCacheArray gameEvaluatorCacheArray;
 
     @Override
     public void accept(Visitor visitor) {
@@ -26,11 +26,11 @@ public class EvaluatorCacheListener implements Acceptor, SearchListener, ResetLi
 
     @Override
     public void beforeSearch() {
-        gameEvaluatorCache.increaseAge();
+        gameEvaluatorCacheArray.increaseAge();
     }
 
     @Override
     public void reset() {
-        gameEvaluatorCache.clear();
+        gameEvaluatorCacheArray.clear();
     }
 }

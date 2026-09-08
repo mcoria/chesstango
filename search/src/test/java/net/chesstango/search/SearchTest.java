@@ -233,6 +233,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
+                .withStatistics()
                 //.withDebugSearchTree(true, true, true)
                 .build();
 
@@ -295,7 +296,7 @@ public class SearchTest {
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
                 //.withTranspositionHashSize(64 * 1024)
-                .withDebugSearchTree()
+                //.withDebugSearchTree()
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -327,7 +328,7 @@ public class SearchTest {
 
         Search search = noTransposition()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree()
+                //.withDebugSearchTree()
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));

@@ -93,8 +93,8 @@ Acceptor:
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 26
 	AlphaBetaFlowControl @ 8
-	ExtendPV @ 9
 	AlphaBetaEvaluation @ 10
+	ExtendPV @ 9
 	AlphaBetaEvaluation @ 18
 	ExtendPV @ 17
 	NodeMoveSorter @ 21

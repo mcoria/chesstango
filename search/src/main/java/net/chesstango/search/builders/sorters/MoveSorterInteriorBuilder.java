@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
@@ -24,7 +24,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
-    private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
+    private EvaluatorCacheComparator evaluatorCacheComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private KillerMoveComparator killerMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
@@ -100,7 +100,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         }
 
         if (withGameEvaluatorCache) {
-            gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
+            evaluatorCacheComparator = new EvaluatorCacheComparator();
         }
 
         if (withKillerMove) {
@@ -142,9 +142,9 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
             nodeMoveSorter.addSortListener(recaptureMoveComparator);
         }
 
-        if (gameEvaluatorCacheComparator != null) {
-            listenerMediator.add(gameEvaluatorCacheComparator);
-            nodeMoveSorter.addSortListener(gameEvaluatorCacheComparator);
+        if (evaluatorCacheComparator != null) {
+            listenerMediator.add(evaluatorCacheComparator);
+            nodeMoveSorter.addSortListener(evaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {
@@ -231,8 +231,8 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private MoveComparator buildChainTail() {
         List<MoveComparator> chain = new LinkedList<>();
 
-        if (gameEvaluatorCacheComparator != null) {
-            chain.add(gameEvaluatorCacheComparator);
+        if (evaluatorCacheComparator != null) {
+            chain.add(evaluatorCacheComparator);
         }
 
         chain.add(defaultMoveComparator);

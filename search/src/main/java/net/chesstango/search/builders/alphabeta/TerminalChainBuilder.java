@@ -22,12 +22,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
 
-
-    /**
-     * TranspositionTableTerminal escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
-     */
-    //private TranspositionTableTerminal transpositionTableTerminal;
-
     private boolean withZobristTracker;
     private boolean withStatistics;
     private boolean withDebugSearchTree;
@@ -35,7 +29,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
-
 
     public TerminalChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
@@ -59,7 +52,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
 
     @Override
-    protected  void buildObjects() {
+    protected void buildObjects() {
         extendPV = new ExtendPV();
 
         if (withZobristTracker) {
@@ -73,23 +66,26 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(NodeTopology.TERMINAL);
         }
-
-        if (extendPV != null) {
-            listenerMediator.add(extendPV);
-        }
     }
 
     @Override
-    protected  void setupListenerMediator() {
+    protected void setupListenerMediator() {
         listenerMediator.add(alphaBetaEvaluation);
+
         if (zobristTracker != null) {
             listenerMediator.add(zobristTracker);
         }
+
         if (alphaBetaTerminalNodeStatistics != null) {
             listenerMediator.add(alphaBetaTerminalNodeStatistics);
         }
+
         if (debugFilter != null) {
             listenerMediator.add(debugFilter);
+        }
+
+        if (extendPV != null) {
+            listenerMediator.add(extendPV);
         }
     }
 

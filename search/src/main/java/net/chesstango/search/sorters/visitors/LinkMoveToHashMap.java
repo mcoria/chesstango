@@ -2,7 +2,7 @@ package net.chesstango.search.sorters.visitors;
 
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.NodeMoveSorter;
 
@@ -23,8 +23,8 @@ public class LinkMoveToHashMap implements Visitor {
     }
 
     @Override
-    public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
-        gameEvaluatorCacheComparator.setMoveToZobrist(moveToZobrist);
+    public void visit(EvaluatorCacheComparator evaluatorCacheComparator) {
+        evaluatorCacheComparator.setMoveToZobrist(moveToZobrist);
     }
 
     @Override

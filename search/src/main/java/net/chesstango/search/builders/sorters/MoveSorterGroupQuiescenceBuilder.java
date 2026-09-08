@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
@@ -32,7 +32,7 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
 
-    private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
+    private EvaluatorCacheComparator evaluatorCacheComparator;
 
     private PrincipalVariationGroup principalVariationGroup;
 
@@ -101,7 +101,7 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
         }
 
         if (withGameEvaluatorCache) {
-            gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
+            evaluatorCacheComparator = new EvaluatorCacheComparator();
         }
 
         if (withRecaptureSorter) {
@@ -129,8 +129,8 @@ public class MoveSorterGroupQuiescenceBuilder extends AbstractMoveSorterBuilder 
             listenerMediator.add(recaptureMoveComparator);
         }
 
-        if (gameEvaluatorCacheComparator != null) {
-            listenerMediator.add(gameEvaluatorCacheComparator);
+        if (evaluatorCacheComparator != null) {
+            listenerMediator.add(evaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {

@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
+import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableHeadComparatorVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableTailComparatorVisitor;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
@@ -42,7 +42,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new SetGameVisitor(game));
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
-        listenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         listenerMediator.accept(new SetDepthVisitor(2));
@@ -71,7 +71,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new SetGameVisitor(game));
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
-        listenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
         listenerMediator.accept(new LinkKillerMovesVisitor(killerMovesTable));
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
@@ -96,11 +96,11 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         saveEntry(tTable, 0x337D4750B1C4CD1AL, LOWER_BOUND, 1, 4078092922146620L);
     }
 
-    protected EvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
         cacheEvaluation.put(0x8814FB171AC56D0BL, -26460); // a5c7
 
-        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheMock().setCache(cacheEvaluation);
     }
 
     private void loadKillerMoveTables() {

@@ -2,10 +2,10 @@ package net.chesstango.search.smart.statistics.evaluation;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.SearchListener;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 
 import java.util.Set;
 
@@ -16,9 +16,22 @@ import java.util.Set;
 public class EvaluationCounters implements Acceptor, SearchListener {
     private long evaluationsCounter;
 
+
+    private long evaluationsCacheHitsCounter;
+
+    /**
+     * Cuantos intentos de lectura de cache
+     */
+    private long readFromCacheCounter;
+
+    /**
+     * Cuantos intentos de lectura de cache exitosos
+     */
+    private long readFromCacheHitsCounter;
+
     @Setter
     @Accessors(chain = true)
-    private EvaluatorCache evaluatorCache;
+    private EvaluatorCacheArray evaluatorCacheArray;
 
     @Setter
     @Accessors(chain = true)
@@ -32,18 +45,27 @@ public class EvaluationCounters implements Acceptor, SearchListener {
     @Override
     public void beforeSearch() {
         evaluationsCounter = 0;
+        evaluationsCacheHitsCounter = 0;
+        readFromCacheCounter = 0;
+        readFromCacheHitsCounter = 0;
     }
 
     public void increaseEvaluationsCounter() {
         evaluationsCounter++;
     }
 
+    public void increaseReadFromCacheCounter() {
+        readFromCacheCounter++;
+    }
+
+    public void increaseReadFromCacheHitsCounter() {
+        readFromCacheHitsCounter++;
+    }
+
+
 
     public EvaluationStatistics getEvaluationStatistics() {
-        long evaluationsCacheHitsCounter = evaluatorCache != null ? evaluatorCache.getEvaluationsCacheHitsCounter() : 0;
-        long readFromCacheCounter = evaluatorCache != null ? evaluatorCache.getReadFromCacheCounter() : 0;
-        long readFromCacheHitsCounter = evaluatorCache != null ? evaluatorCache.getReadFromCacheHitsCounter() : 0;
-        int fillPercentage = evaluatorCache != null ? evaluatorCache.getFillPercentage() : 0;
+        int fillPercentage = evaluatorCacheArray != null ? evaluatorCacheArray.getFillPercentage() : 0;
         return new EvaluationStatistics(evaluationsCounter, evaluationsCacheHitsCounter, readFromCacheCounter, readFromCacheHitsCounter, fillPercentage, evaluations);
     }
 

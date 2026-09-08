@@ -1,10 +1,9 @@
-package net.chesstango.search.smart.evaluator;
+package net.chesstango.search.smart.evalcache;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
@@ -21,11 +20,11 @@ import java.util.Optional;
 
 @Setter
 @Getter
-public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
+public class EvaluatorCacheDebug implements EvaluatorCache, Acceptor {
 
     private DebugNodeTracker debugNodeTracker;
 
-    private EvaluatorCacheRead evaluatorCacheRead;
+    private EvaluatorCache evaluatorCache;
 
     private Game game;
 
@@ -35,16 +34,21 @@ public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
     }
 
     @Override
-    public Integer readFromCache(long hash) {
-        Integer evaluation = evaluatorCacheRead.readFromCache(hash);
-        if (evaluation != null) {
-            trackReadFromCache(hash, evaluation);
+    public EvaluatorCacheEntry read(long hash) {
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
+        if (evaluatorCacheEntry != null) {
+            trackReadFromCache(hash, evaluatorCacheEntry.evaluation);
         }
-        return evaluation;
+        return evaluatorCacheEntry;
+    }
+
+    @Override
+    public EvaluatorCacheEntry write(long hash, int evaluation) {
+        throw new RuntimeException("write() should not be called on a comparator");
     }
 
 
-    public void trackReadFromCache(long hashRequested, int evaluation) {
+    void trackReadFromCache(long hashRequested, int evaluation) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
         List<DebugCacheRead> evalCacheReads = currentNode.getEvalCacheReads();

@@ -10,8 +10,8 @@ import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
+import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
@@ -251,8 +251,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
-        gameEvaluatorCacheComparator.setGame(game);
+    public void visit(EvaluatorCacheComparator evaluatorCacheComparator) {
+        evaluatorCacheComparator.setGame(game);
     }
 
     @Override

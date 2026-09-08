@@ -8,7 +8,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
+import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableHeadComparatorVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableTailComparatorVisitor;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
@@ -46,7 +46,7 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
-        listenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkEvaluatorCacheNodeVisitor(loadEvaluationCache()));
 
         listenerMediator.triggerBeforeSearch();
 
@@ -85,9 +85,9 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         saveEntry(tTable, 0x0CE7DD3862149D3EL, UPPER_BOUND, -1, 4294899481L); // NO_MOVE
     }
 
-    protected EvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
-        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheMock().setCache(cacheEvaluation);
     }
 
     private void loadKillerMoveTables() {

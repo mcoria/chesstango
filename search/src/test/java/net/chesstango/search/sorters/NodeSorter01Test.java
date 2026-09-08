@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheVisitor;
+import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableHeadComparatorVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableTailComparatorVisitor;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
@@ -39,7 +39,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new SetGameVisitor(game));
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
-        listenerMediator.accept(new LinkEvaluatorCacheVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         listenerMediator.triggerBeforeSearch();
@@ -63,7 +63,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
     }
 
-    protected EvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
 
         // Movimientos NO QUIET van primero
@@ -83,7 +83,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         cacheEvaluation.put(0x45ACAF1C4E505F0DL, -93450);  //e6=QUEEN_BLACK e3=null - MoveImp
 
 
-        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheMock().setCache(cacheEvaluation);
     }
 
 }
