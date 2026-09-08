@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.search.smart.evalcache.EvaluatorCacheArray.ARRAY_SIZE;
+import static net.chesstango.search.smart.evalcache.EvaluatorCacheArray.CACHE_ARRAY_SIZE;
 import static net.chesstango.search.Bound.EXACT;
 import static net.chesstango.search.Bound.LOWER_BOUND;
 import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;
@@ -185,7 +185,7 @@ public class NodeMoveSorterInteriorTest {
     }
 
     private void cacheEvaluationWrite(long hash, int value) {
-        int idx = (int) Math.abs(hash % ARRAY_SIZE);
+        int idx = (int) Math.abs(hash % CACHE_ARRAY_SIZE);
         EvaluatorCacheEntry entry = gameEvaluatorCacheEntries[idx];
         entry.setHash(hash);
         entry.setEvaluation(value);

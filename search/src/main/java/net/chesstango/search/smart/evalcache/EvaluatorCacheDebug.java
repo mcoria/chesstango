@@ -48,7 +48,7 @@ public class EvaluatorCacheDebug implements EvaluatorCache, Acceptor {
     }
 
 
-    public void trackReadFromCache(long hashRequested, int evaluation) {
+    void trackReadFromCache(long hashRequested, int evaluation) {
         DebugNode currentNode = debugNodeTracker.getCurrentNode();
 
         List<DebugCacheRead> evalCacheReads = currentNode.getEvalCacheReads();

@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebugTest;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArrayTest;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebugTest;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArrayTest;
 import net.chesstango.search.smart.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.smart.transposition.TTableComparatorHeadDebugTest;
 import net.chesstango.search.smart.transposition.TTableComparatorTailDebugTest;

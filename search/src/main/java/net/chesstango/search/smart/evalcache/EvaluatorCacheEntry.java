@@ -3,6 +3,7 @@ package net.chesstango.search.smart.evalcache;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  *
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
+@Accessors(chain = true)
 public class EvaluatorCacheEntry {
     long hash;
     int evaluation;
