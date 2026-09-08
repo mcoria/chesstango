@@ -34,7 +34,7 @@ AlphaBetaFlowControl @ 15
 	|
 	ExtendPV @ 17
 	|
-	AlphaBetaEvaluation @ 18 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
+	AlphaBetaEvaluation @ 18 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCacheAdapter @ 20 -> EvaluatorByMaterial @ 21]
 
  -> EgtbNode
 	|
@@ -58,7 +58,7 @@ AlphaBetaFlowControl @ 15
 	|
 	ExtendPV @ 30
 	|
-	AlphaBetaEvaluation @ 31 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
+	AlphaBetaEvaluation @ 31 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCacheAdapter @ 20 -> EvaluatorByMaterial @ 21]
 
  -> InteriorNode
 	|
@@ -95,81 +95,81 @@ AlphaBetaFlowControl @ 15
 				|
 				MvvLvaComparator @ 48
 				|
-				GameEvaluatorCacheComparator @ 49 [EvaluatorCacheRead: EvaluatorCacheDebug @ 50 -> EvaluatorCache @ 20]
+				GameEvaluatorCacheComparator @ 49 [EvaluatorCache: EvaluatorCacheDebug @ 50 -> EvaluatorCacheArray @ 51]
 				|
-				DefaultMoveComparator @ 51
+				DefaultMoveComparator @ 52
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 52
+				KillerMoveComparator @ 53
 				|
-				GameEvaluatorCacheComparator @ 49 [EvaluatorCacheRead: EvaluatorCacheDebug @ 50 -> EvaluatorCache @ 20]
+				GameEvaluatorCacheComparator @ 49 [EvaluatorCache: EvaluatorCacheDebug @ 50 -> EvaluatorCacheArray @ 51]
 				|
-				DefaultMoveComparator @ 51
+				DefaultMoveComparator @ 52
 	|
-	PropagatePV @ 53
+	PropagatePV @ 54
 	|
-	KillerMoveTracker @ 54
+	KillerMoveTracker @ 55
 	|
 	AlphaBetaFlowControl @ 15 -> LOOP
 
  -> QuiescenceNode
 	|
-	DebugFilter @ 55
+	DebugFilter @ 56
 	|
-	ExtendPV @ 56
+	ExtendPV @ 57
 	|
-	TranspositionTableQ @ 57 [TTable: TTableNodeDebug @ 8 -> TTableArrayPrimitives @ 9]
+	TranspositionTableQ @ 58 [TTable: TTableNodeDebug @ 8 -> TTableArrayPrimitives @ 9]
 	|	 PVWalkerFromTT @ 35 [TTable: TTablePVDebug @ 36 -> TTableArrayPrimitives @ 9]
 	|
-	QuiescenceStandingPat @ 58 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
+	QuiescenceStandingPat @ 59 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCacheAdapter @ 20 -> EvaluatorByMaterial @ 21]
 	|
-	AlphaBeta @ 59
+	AlphaBeta @ 60
 	|
 	 -> Sorter
 		|
-		MoveSorterDebug @ 60
+		MoveSorterDebug @ 61
 		|
-		NodeMoveSorter @ 61
+		NodeMoveSorter @ 62
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 62
+			PrincipalVariationComparator @ 63
 			|
-			TranspositionHeadMoveComparator @ 63 [TTable: TTableComparatorHeadDebug @ 42 -> TTableArrayPrimitives @ 9]
+			TranspositionHeadMoveComparator @ 64 [TTable: TTableComparatorHeadDebug @ 42 -> TTableArrayPrimitives @ 9]
 			|
-			TranspositionTailMoveComparator @ 64 [TTable: TTableComparatorTailDebug @ 44 -> TTableArrayPrimitives @ 9]
+			TranspositionTailMoveComparator @ 65 [TTable: TTableComparatorTailDebug @ 44 -> TTableArrayPrimitives @ 9]
 			|
-			PromotionComparator @ 65
+			PromotionComparator @ 66
 			|
-			RecaptureMoveComparator @ 66
+			RecaptureMoveComparator @ 67
 			|
-			MvvLvaComparator @ 67
+			MvvLvaComparator @ 68
 			|
-			GameEvaluatorCacheComparator @ 68 [EvaluatorCacheRead: EvaluatorCacheDebug @ 50 -> EvaluatorCache @ 20]
+			GameEvaluatorCacheComparator @ 69 [EvaluatorCache: EvaluatorCacheDebug @ 50 -> EvaluatorCacheArray @ 51]
 			|
-			DefaultMoveComparator @ 69
+			DefaultMoveComparator @ 70
 	|
-	PropagatePV @ 70
+	PropagatePV @ 71
 	|
 	AlphaBetaFlowControl @ 15 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 71
 	TTListener @ 72
-	SetSearchTimers @ 73
+	EvaluatorCacheListener @ 73
+	SetSearchTimers @ 74
 	AlphaBetaFlowControl @ 15
 	PrincipalVariationComparator @ 40
-	PrincipalVariationComparator @ 62
-	RootMoveEvaluationCollection @ 74
+	PrincipalVariationComparator @ 63
+	RootMoveEvaluationCollection @ 75
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 73
-	DebugNodeTracker @ 75
-	RootMoveEvaluationBest @ 76
+	SetSearchTimers @ 74
+	DebugNodeTracker @ 76
+	RootMoveEvaluationBest @ 77
 
 SearchByWindowsListeners:
 	DebugFilter @ 16
@@ -177,21 +177,20 @@ SearchByWindowsListeners:
 	DebugFilter @ 32
 	DebugFilter @ 26
 	DebugFilter @ 22
-	DebugFilter @ 55
+	DebugFilter @ 56
 	DebugFilter @ 5
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 15
 
 ResetListener:
-	EvaluatorCacheListener @ 71
 	TTListener @ 72
+	EvaluatorCacheListener @ 73
 
 Acceptor:
-	SetGameToEvaluator @ 77
-	EvaluatorCacheListener @ 71
-	EvaluatorCacheDebug @ 50
+	SetGameToEvaluator @ 78
 	EvaluatorDebug @ 19
+	EvaluatorCacheAdapter @ 20
 	TTListener @ 72
 	TTableArrayPrimitives @ 9
 	TTableNodeDebug @ 8
@@ -199,16 +198,18 @@ Acceptor:
 	TTableComparatorTailDebug @ 44
 	TTablePVDebug @ 36
 	PVWalkerFromTT @ 35
-	KillerMovesDebug @ 78
-	SetGameToEndGameTableBase @ 79
+	KillerMovesDebug @ 79
+	EvaluatorCacheListener @ 73
+	EvaluatorCacheDebug @ 50
+	SetGameToEndGameTableBase @ 80
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 73
+	SetSearchTimers @ 74
 	AlphaBetaFlowControl @ 15
-	DebugNodeTracker @ 75
-	PrintHtmlDebugHandler @ 80
-	ExtendPV @ 17
+	DebugNodeTracker @ 76
+	PrintHtmlDebugHandler @ 81
 	AlphaBetaEvaluation @ 18
 	DebugFilter @ 16
+	ExtendPV @ 17
 	AlphaBetaEvaluation @ 31
 	DebugFilter @ 29
 	ExtendPV @ 30
@@ -220,40 +221,40 @@ Acceptor:
 	RecaptureMoveComparator @ 47
 	GameEvaluatorCacheComparator @ 49
 	MoveSorterDebug @ 38
-	KillerMoveComparator @ 52
+	KillerMoveComparator @ 53
 	AlphaBeta @ 37
 	TranspositionTable @ 34
 	DebugFilter @ 32
 	ExtendPV @ 33
-	PropagatePV @ 53
-	KillerMoveTracker @ 54
+	PropagatePV @ 54
+	KillerMoveTracker @ 55
 	ExtendPV @ 27
 	DebugFilter @ 26
 	DebugFilter @ 22
 	ExtendPV @ 23
 	EgtbEvaluation @ 24
-	NodeMoveSorter @ 61
-	TranspositionHeadMoveComparator @ 63
-	TranspositionTailMoveComparator @ 64
-	PrincipalVariationComparator @ 62
-	RecaptureMoveComparator @ 66
-	GameEvaluatorCacheComparator @ 68
-	MoveSorterDebug @ 60
-	QuiescenceStandingPat @ 58
-	AlphaBeta @ 59
-	TranspositionTableQ @ 57
-	DebugFilter @ 55
-	ExtendPV @ 56
-	PropagatePV @ 70
+	NodeMoveSorter @ 62
+	TranspositionHeadMoveComparator @ 64
+	TranspositionTailMoveComparator @ 65
+	PrincipalVariationComparator @ 63
+	RecaptureMoveComparator @ 67
+	GameEvaluatorCacheComparator @ 69
+	MoveSorterDebug @ 61
+	QuiescenceStandingPat @ 59
+	AlphaBeta @ 60
+	TranspositionTableQ @ 58
+	DebugFilter @ 56
+	ExtendPV @ 57
+	PropagatePV @ 71
 	MoveSorterDebug @ 11
 	RootMoveSorter @ 12
-	NodeGroupSorter @ 81
+	NodeGroupSorter @ 82
 	RootMoveEvaluationTracker @ 13
-	RootMoveEvaluationBest @ 76
-	RootMoveEvaluationCollection @ 74
+	RootMoveEvaluationBest @ 77
+	RootMoveEvaluationCollection @ 75
 	ExtendPV @ 6
 	PropagatePV @ 14
-	PVCalculator @ 82
+	PVCalculator @ 83
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

@@ -264,6 +264,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         checkResolverChainBuilder.withDebugSearchTree();
 
         evaluationBuilder.withDebugSearchTree();
+        evaluatorCacheBuilder.withDebugSearchTree();
 
         this.withDebugSearchTree = true;
         return this;
