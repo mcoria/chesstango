@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.evaluator.comparators;
+package net.chesstango.search.smart.evalcache.comparators;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
 import net.chesstango.search.sorters.MoveComparator;
 import net.chesstango.search.sorters.SortListener;
 

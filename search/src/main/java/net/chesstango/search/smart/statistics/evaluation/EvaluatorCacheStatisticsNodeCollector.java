@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
 
 /**
  * @author Mauricio Coria

@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.AlphaBetaHelper;
 import net.chesstango.search.smart.killermoves.KillerMovesTable;

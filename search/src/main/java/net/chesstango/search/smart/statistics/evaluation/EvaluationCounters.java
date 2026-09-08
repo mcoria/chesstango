@@ -1,12 +1,11 @@
 package net.chesstango.search.smart.statistics.evaluation;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 
 import java.util.Set;
 

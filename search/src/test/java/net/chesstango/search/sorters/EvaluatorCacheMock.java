@@ -3,8 +3,8 @@ package net.chesstango.search.sorters;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheEntry;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
 
 import java.util.Map;
 

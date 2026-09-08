@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;

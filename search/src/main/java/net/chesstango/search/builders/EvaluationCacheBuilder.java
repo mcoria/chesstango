@@ -2,12 +2,12 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evaluator.EvaluatorCache;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
-import net.chesstango.search.smart.evaluator.listeners.EvaluatorCacheListener;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheComparatorVisitor;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheNodeVisitor;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
+import net.chesstango.search.smart.evalcache.listeners.EvaluatorCacheListener;
+import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
+import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
 import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsNodeCollector;
 

@@ -1,11 +1,10 @@
 package net.chesstango.search.smart.evaluator;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.position.Position;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

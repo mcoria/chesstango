@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.evalcache.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;

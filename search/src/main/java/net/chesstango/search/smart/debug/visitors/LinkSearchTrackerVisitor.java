@@ -3,7 +3,7 @@ package net.chesstango.search.smart.debug.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.filters.DebugFilter;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.transposition.TTableComparatorHeadDebug;

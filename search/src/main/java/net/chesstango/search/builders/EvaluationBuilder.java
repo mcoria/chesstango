@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;

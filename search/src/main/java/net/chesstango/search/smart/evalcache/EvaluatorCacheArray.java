@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.evaluator;
+package net.chesstango.search.smart.evalcache;
 
 import lombok.Getter;
 

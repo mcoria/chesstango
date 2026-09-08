@@ -7,6 +7,8 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.debug.DebugNodeTracker;
 import net.chesstango.search.smart.debug.model.DebugCacheRead;
 import net.chesstango.search.smart.debug.model.DebugNode;
+import net.chesstango.search.smart.evalcache.EvaluatorCache;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
