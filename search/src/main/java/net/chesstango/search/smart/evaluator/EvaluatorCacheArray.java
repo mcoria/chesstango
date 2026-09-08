@@ -18,24 +18,12 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     @Getter
     private int currentAge;
 
-    @Getter
-    private long evaluationsCacheHitsCounter;
-
-    @Getter
-    private long readFromCacheCounter;
-
-    @Getter
-    private long readFromCacheHitsCounter;
-
     public EvaluatorCacheArray() {
         this.cache = new EvaluatorCacheEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i] = new EvaluatorCacheEntry();
         }
         this.currentAge = Integer.MIN_VALUE + STALE_AGE;
-        this.evaluationsCacheHitsCounter = 0;
-        this.readFromCacheCounter = 0;
-        this.readFromCacheHitsCounter = 0;
     }
 
     @Override
@@ -44,14 +32,7 @@ public class EvaluatorCacheArray implements EvaluatorCache {
 
         EvaluatorCacheEntry entry = cache[idx];
 
-        EvaluatorCacheEntry result = entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry : null;
-
-        readFromCacheCounter++;
-        if (result != null) {
-            readFromCacheHitsCounter++;
-        }
-
-        return result;
+        return entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry : null;
     }
 
     public void increaseAge() {
@@ -61,9 +42,6 @@ public class EvaluatorCacheArray implements EvaluatorCache {
             clear();
             this.currentAge++;
         }
-        this.evaluationsCacheHitsCounter = 0;
-        this.readFromCacheCounter = 0;
-        this.readFromCacheHitsCounter = 0;
     }
 
     public void clear() {

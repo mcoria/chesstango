@@ -1,11 +1,12 @@
 package net.chesstango.search.smart.statistics.evaluation;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.SearchListener;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.evaluator.EvaluatorCacheArray;
 
 import java.util.Set;
 
@@ -15,6 +16,21 @@ import java.util.Set;
  */
 public class EvaluationCounters implements Acceptor, SearchListener {
     private long evaluationsCounter;
+
+    @Getter
+    private long evaluationsCacheHitsCounter;
+
+    /**
+     * Cuantos intentos de lectura de cache
+     */
+    @Getter
+    private long readFromCacheCounter;
+
+    /**
+     * Cuantos intentos de lectura de cache exitosos
+     */
+    @Getter
+    private long readFromCacheHitsCounter;
 
     @Setter
     @Accessors(chain = true)
@@ -32,6 +48,9 @@ public class EvaluationCounters implements Acceptor, SearchListener {
     @Override
     public void beforeSearch() {
         evaluationsCounter = 0;
+        evaluationsCacheHitsCounter = 0;
+        readFromCacheCounter = 0;
+        readFromCacheHitsCounter = 0;
     }
 
     public void increaseEvaluationsCounter() {
@@ -40,9 +59,6 @@ public class EvaluationCounters implements Acceptor, SearchListener {
 
 
     public EvaluationStatistics getEvaluationStatistics() {
-        long evaluationsCacheHitsCounter = evaluatorCacheArray != null ? evaluatorCacheArray.getEvaluationsCacheHitsCounter() : 0;
-        long readFromCacheCounter = evaluatorCacheArray != null ? evaluatorCacheArray.getReadFromCacheCounter() : 0;
-        long readFromCacheHitsCounter = evaluatorCacheArray != null ? evaluatorCacheArray.getReadFromCacheHitsCounter() : 0;
         int fillPercentage = evaluatorCacheArray != null ? evaluatorCacheArray.getFillPercentage() : 0;
         return new EvaluationStatistics(evaluationsCounter, evaluationsCacheHitsCounter, readFromCacheCounter, readFromCacheHitsCounter, fillPercentage, evaluations);
     }

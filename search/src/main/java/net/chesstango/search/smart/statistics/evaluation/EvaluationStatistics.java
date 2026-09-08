@@ -8,8 +8,10 @@ import java.util.Set;
  */
 public record EvaluationStatistics(long evaluationsCounter,
                                    long evaluationsCacheHitsCounter,
+
                                    long readsFromCacheCounter,
                                    long readsFromCacheHitsCounter,
+
                                    int fillPercentage,
                                    Set<EvaluationEntry> evaluations) implements Serializable {
 }
