@@ -7,6 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorCacheNodeVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableHeadComparatorVisitor;
 import net.chesstango.search.smart.transposition.visitors.LinkTTableTailComparatorVisitor;
@@ -42,7 +43,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new SetGameVisitor(game));
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
-        listenerMediator.accept(new LinkEvaluatorCacheNodeVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
         listenerMediator.accept(new SetDepthVisitor(2));
@@ -71,7 +72,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new SetGameVisitor(game));
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
-        listenerMediator.accept(new LinkEvaluatorCacheNodeVisitor(loadEvaluationCache()));
+        listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
         listenerMediator.accept(new LinkKillerMovesVisitor(killerMovesTable));
         listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
 
