@@ -48,8 +48,8 @@ public class GameEvaluatorCacheComparator implements MoveComparator, Acceptor, S
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final EvaluatorCacheEntry moveEvaluation1 = evaluatorCache.readFromCache(getZobristHashMove(o1));
-        final EvaluatorCacheEntry moveEvaluation2 = evaluatorCache.readFromCache(getZobristHashMove(o2));
+        final EvaluatorCacheEntry moveEvaluation1 = evaluatorCache.read(getZobristHashMove(o1));
+        final EvaluatorCacheEntry moveEvaluation2 = evaluatorCache.read(getZobristHashMove(o2));
 
         if (moveEvaluation1 != null && moveEvaluation2 != null) {
             int evaluation1 = moveEvaluation1.getEvaluation();

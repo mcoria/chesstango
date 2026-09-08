@@ -19,11 +19,17 @@ public class EvaluatorCacheMock implements EvaluatorCache {
     private Map<Long, Integer> cache;
 
     @Override
-    public EvaluatorCacheEntry readFromCache(long hash) {
+    public EvaluatorCacheEntry read(long hash) {
         Integer result = cache.get(hash);
         if (result != null) {
             return new EvaluatorCacheEntry(hash, result, 0);
         }
         return null;
+    }
+
+    @Override
+    public EvaluatorCacheEntry write(long hash, int evaluation) {
+        cache.put(hash, evaluation);
+        return new EvaluatorCacheEntry(hash, evaluation, 0);
     }
 }

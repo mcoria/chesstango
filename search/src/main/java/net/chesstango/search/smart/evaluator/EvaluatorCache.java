@@ -5,5 +5,7 @@ package net.chesstango.search.smart.evaluator;
  * @author Mauricio Coria
  */
 public interface EvaluatorCache {
-    EvaluatorCacheEntry readFromCache(long hash);
+    EvaluatorCacheEntry read(long hash);
+
+    EvaluatorCacheEntry write(long hash, int evaluation);
 }

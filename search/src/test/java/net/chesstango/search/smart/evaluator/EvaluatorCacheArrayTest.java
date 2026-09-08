@@ -39,7 +39,7 @@ public class EvaluatorCacheArrayTest {
     @Test
     void testEvaluateCacheMiss() {
         // Act
-        Integer result = evaluatorCacheArray.readFromCache(0L);
+        Integer result = evaluatorCacheArray.read(0L);
 
         // Assert
         assertNull(result);
@@ -168,7 +168,7 @@ public class EvaluatorCacheArrayTest {
         evaluatorCacheArray.setEvaluator(mockEvaluator);
 
         // Act
-        Integer cachedValue = evaluatorCacheArray.readFromCache(12345L);
+        Integer cachedValue = evaluatorCacheArray.read(12345L);
 
         // Assert
         assertNull(cachedValue);
@@ -192,7 +192,7 @@ public class EvaluatorCacheArrayTest {
         evaluatorCacheArray.evaluate();
 
         // Act
-        Integer cachedValue = evaluatorCacheArray.readFromCache(12345L);
+        Integer cachedValue = evaluatorCacheArray.read(12345L);
 
         // Assert
         assertEquals(42, cachedValue); // Should return the cached value

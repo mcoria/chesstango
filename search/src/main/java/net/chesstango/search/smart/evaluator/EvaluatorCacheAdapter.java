@@ -36,10 +36,13 @@ public class EvaluatorCacheAdapter implements Evaluator, Acceptor {
     @Override
     public int evaluate() {
         long hash = game.getPosition().getZobristHash();
-        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.readFromCache(hash);
-        if (evaluatorCacheEntry != null) {
-            return evaluatorCacheEntry.evaluation;
+
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
+
+        if (evaluatorCacheEntry == null) {
+            evaluatorCacheEntry = evaluatorCache.write(hash, evaluator.evaluate());
         }
-        return evaluator.evaluate();
+
+        return evaluatorCacheEntry.evaluation;
     }
 }

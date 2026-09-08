@@ -26,11 +26,16 @@ public class EvaluatorCacheStatisticsNodeCollector implements EvaluatorCache, Ac
     }
 
     @Override
-    public EvaluatorCacheEntry readFromCache(long hash) {
-        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.readFromCache(hash);
+    public EvaluatorCacheEntry read(long hash) {
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
         if (evaluatorCacheEntry != null) {
-            evaluationsCounters.increaseReadFromCacheHitsCounter();
+            //evaluationsCounters.increaseReadFromCacheHitsCounter();
         }
         return evaluatorCacheEntry;
+    }
+
+    @Override
+    public EvaluatorCacheEntry write(long hash, int evaluation) {
+        return evaluatorCache.write(hash, evaluation);
     }
 }

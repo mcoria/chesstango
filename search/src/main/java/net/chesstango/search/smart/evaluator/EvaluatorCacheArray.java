@@ -27,12 +27,24 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     }
 
     @Override
-    public EvaluatorCacheEntry readFromCache(long hash) {
+    public EvaluatorCacheEntry read(long hash) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 
         EvaluatorCacheEntry entry = cache[idx];
 
         return entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= STALE_AGE) ? entry : null;
+    }
+
+    @Override
+    public EvaluatorCacheEntry write(long hash, int evaluation) {
+        int idx = (int) Math.abs(hash % ARRAY_SIZE);
+
+        EvaluatorCacheEntry entry = cache[idx];
+        entry.hash = hash;
+        entry.evaluation = evaluation;
+        entry.age = currentAge;
+
+        return entry;
     }
 
     public void increaseAge() {
