@@ -3,6 +3,7 @@ package net.chesstango.reports.search.evalcache;
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationStatistics;
 
 import java.util.LinkedList;
@@ -81,21 +82,21 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
         reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
 
         if (searchResult.getEvaluationStatistics() != null) {
-            collectEvaluationStatistics(reportModelDetail, searchResult.getEvaluationStatistics());
+            collectEvaluationStatistics(reportModelDetail, searchResult.getEvaluatorCacheStatistics());
         }
 
         this.moveDetails.add(reportModelDetail);
     }
 
 
-    private void collectEvaluationStatistics(EvaluationCacheModelDetail reportModelDetail, EvaluationStatistics evaluationStatistics) {
-        reportModelDetail.evaluationsCounter = evaluationStatistics.evaluationsCounter();
-        reportModelDetail.evaluationsCacheHitsCounter = evaluationStatistics.evaluationsCacheHitsCounter();
+    private void collectEvaluationStatistics(EvaluationCacheModelDetail reportModelDetail, EvaluatorCacheStatistics evaluatorCacheStatistics) {
+        reportModelDetail.evaluationsCounter = evaluatorCacheStatistics.evaluationsCounter();
+        reportModelDetail.evaluationsCacheHitsCounter = evaluatorCacheStatistics.evaluationsCacheHitsCounter();
         reportModelDetail.evaluationsCacheHitsPercentage = reportModelDetail.evaluationsCounter > 0 ? reportModelDetail.evaluationsCacheHitsCounter * 100 / reportModelDetail.evaluationsCounter : 0;
-        reportModelDetail.readsFromCacheCounter = evaluationStatistics.readsFromCacheCounter();
-        reportModelDetail.readsFromCacheHitsCounter = evaluationStatistics.readsFromCacheHitsCounter();
+        reportModelDetail.readsFromCacheCounter = evaluatorCacheStatistics.readsFromCacheCounter();
+        reportModelDetail.readsFromCacheHitsCounter = evaluatorCacheStatistics.readsFromCacheHitsCounter();
         reportModelDetail.readsFromCacheHitsPercentage = reportModelDetail.readsFromCacheCounter > 0 ? reportModelDetail.readsFromCacheHitsCounter * 100 / reportModelDetail.readsFromCacheCounter : 0;
-        reportModelDetail.fillPercentage = evaluationStatistics.fillPercentage();
+        reportModelDetail.fillPercentage = evaluatorCacheStatistics.fillPercentage();
     }
 
 }

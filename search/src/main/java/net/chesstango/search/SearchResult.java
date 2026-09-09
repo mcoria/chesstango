@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
 import net.chesstango.search.smart.statistics.evaluation.EvaluationStatistics;
 import net.chesstango.search.smart.statistics.node.NodeStatistics;
 import net.chesstango.search.smart.statistics.transposition.TTableStatistics;
@@ -29,6 +30,8 @@ public class SearchResult implements Serializable {
     private NodeStatistics nodeStatistics;
 
     private TTableStatistics tTableStatistics;
+
+    private EvaluatorCacheStatistics evaluatorCacheStatistics;
 
     private float exploredDepth;
 

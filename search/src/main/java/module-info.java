@@ -57,6 +57,10 @@ module net.chesstango.search {
     exports net.chesstango.search.builders.sorters;
     exports net.chesstango.search.builders.alphabeta;
     exports net.chesstango.search.sorters.visitors;
+    exports net.chesstango.search.smart.evalcache;
+    exports net.chesstango.search.smart.evalcache.listeners;
+    exports net.chesstango.search.smart.evalcache.visitors;
+    exports net.chesstango.search.smart.statistics.evalcache;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
@@ -66,7 +70,4 @@ module net.chesstango.search {
     requires static lombok;
 
     opens net.chesstango.search.gamegraph to tools.jackson.databind;
-    exports net.chesstango.search.smart.evalcache;
-    exports net.chesstango.search.smart.evalcache.listeners;
-    exports net.chesstango.search.smart.evalcache.visitors;
 }
