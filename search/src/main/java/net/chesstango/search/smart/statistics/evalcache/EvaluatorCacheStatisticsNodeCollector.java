@@ -19,7 +19,7 @@ public class EvaluatorCacheStatisticsNodeCollector implements EvaluatorCache, Ac
     @Getter
     private EvaluatorCache evaluatorCache;
 
-    private EvaluatorCounters evaluationsCounters;
+    private EvaluatorCacheCounters evaluatorCacheCounters;
 
     @Override
     public void accept(Visitor visitor) {
@@ -30,7 +30,7 @@ public class EvaluatorCacheStatisticsNodeCollector implements EvaluatorCache, Ac
     public EvaluatorCacheEntry read(long hash) {
         EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
         if (evaluatorCacheEntry != null) {
-            //evaluationsCounters.increaseReadFromCacheHitsCounter();
+            //evaluatorCacheCounters.increaseReadFromCacheHitsCounter();
         }
         return evaluatorCacheEntry;
     }

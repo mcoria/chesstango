@@ -6,10 +6,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorEntry;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatistics;
-
-import java.util.Set;
 
 /**
  *
@@ -35,9 +31,6 @@ public class EvaluatorCacheCounters implements Acceptor, SearchListener {
     @Accessors(chain = true)
     private EvaluatorCacheArray evaluatorCacheArray;
 
-    @Setter
-    @Accessors(chain = true)
-    private Set<EvaluatorEntry> evaluations;
 
     @Override
     public void accept(Visitor visitor) {
@@ -65,9 +58,9 @@ public class EvaluatorCacheCounters implements Acceptor, SearchListener {
     }
 
 
-    public EvaluatorStatistics getEvaluationStatistics() {
+    public EvaluatorCacheStatistics getEvaluatorCacheStatistics() {
         int fillPercentage = evaluatorCacheArray != null ? evaluatorCacheArray.getFillPercentage() : 0;
-        return new EvaluatorStatistics(evaluationsCounter, evaluations);
+        return new EvaluatorCacheStatistics(evaluationsCounter, evaluationsCacheHitsCounter, readFromCacheCounter, readFromCacheHitsCounter, fillPercentage);
     }
 
 }

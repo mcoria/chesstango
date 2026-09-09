@@ -64,7 +64,6 @@ public class EvaluatorCounters implements Acceptor, SearchListener {
 
 
     public EvaluatorStatistics getEvaluationStatistics() {
-        int fillPercentage = evaluatorCacheArray != null ? evaluatorCacheArray.getFillPercentage() : 0;
         return new EvaluatorStatistics(evaluationsCounter, evaluations);
     }
 

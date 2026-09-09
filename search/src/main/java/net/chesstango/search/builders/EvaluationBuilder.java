@@ -20,10 +20,12 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private Evaluator evaluatorImp;
     private EvaluatorDebug evaluatorDebug;
     private EvaluatorCacheAdapter evaluatorCacheAdapter;
-    private SetGameToEvaluator setGameToEvaluator;
 
+    // Statistics
     private EvaluatorCounters evaluatorCounters;
     private EvaluatorStatisticsCollector evaluatorStatisticsCollector;
+
+    private SetGameToEvaluator setGameToEvaluator;
 
     private ListenerMediator listenerMediator;
 
@@ -85,11 +87,6 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         createChains();
     }
 
-    @Override
-    public void link() {
-        listenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
-    }
-
     private void buildObjects() {
         setGameToEvaluator = new SetGameToEvaluator();
 
@@ -99,9 +96,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
 
         if (withStatistics) {
             evaluatorCounters = new EvaluatorCounters();
-
-            evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setEvaluationsCounters(evaluatorCounters);
+            evaluatorStatisticsCollector = new EvaluatorStatisticsCollector();
         }
 
         if (withGameEvaluatorCache) {
@@ -155,6 +150,15 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         chain.add(evaluatorImp);
 
         return linkEvaluatorChain(chain);
+    }
+
+    @Override
+    public void link() {
+        if (withStatistics) {
+            evaluatorStatisticsCollector.setEvaluationsCounters(evaluatorCounters);
+        }
+
+        listenerMediator.accept(new LinkEvaluatorVisitor(evaluator));
     }
 
     private Evaluator linkEvaluatorChain(List<Evaluator> chain) {

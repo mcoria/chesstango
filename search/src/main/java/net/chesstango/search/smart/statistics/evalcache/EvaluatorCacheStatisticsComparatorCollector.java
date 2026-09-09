@@ -7,7 +7,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.evalcache.EvaluatorCache;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
 
 /**
  * @author Mauricio Coria
@@ -19,7 +18,7 @@ public class EvaluatorCacheStatisticsComparatorCollector implements EvaluatorCac
     @Getter
     private EvaluatorCache evaluatorCache;
 
-    private EvaluatorCounters evaluationsCounters;
+    private EvaluatorCacheCounters evaluatorCacheCounters;
 
     @Override
     public void accept(Visitor visitor) {
@@ -30,7 +29,7 @@ public class EvaluatorCacheStatisticsComparatorCollector implements EvaluatorCac
     public EvaluatorCacheEntry read(long hash) {
         EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
         if (evaluatorCacheEntry != null) {
-            //evaluationsCounters.increaseReadFromCacheHitsCounter();
+            //evaluatorCacheCounters.increaseReadFromCacheHitsCounter();
         }
         return evaluatorCacheEntry;
     }

@@ -8,6 +8,7 @@ import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evalcache.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheCounters;
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsComparatorCollector;
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
 
@@ -22,8 +23,12 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private final EvaluatorCacheArray evaluatorCacheArray;
     private final EvaluatorCacheListener evaluatorCacheListener;
     private EvaluatorCacheDebug evaluatorCacheDebug;
+
+    // Statistics Model
+    private EvaluatorCacheCounters evaluatorCacheCounters;
     private EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector;
     private EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector;
+
 
     private ListenerMediator listenerMediator;
 
@@ -74,6 +79,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
         }
 
         if (withStatistics) {
+            evaluatorCacheCounters = new EvaluatorCacheCounters();
             evaluatorCacheStatisticsComparatorCollector = new EvaluatorCacheStatisticsComparatorCollector();
             evaluatorCacheStatisticsNodeCollector = new EvaluatorCacheStatisticsNodeCollector();
         }
@@ -84,6 +90,9 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
 
         if (evaluatorCacheDebug != null) {
             listenerMediator.add(evaluatorCacheDebug);
+        }
+        if (evaluatorCacheCounters != null) {
+            listenerMediator.add(evaluatorCacheCounters);
         }
         if (evaluatorCacheStatisticsComparatorCollector != null) {
             listenerMediator.add(evaluatorCacheStatisticsComparatorCollector);
@@ -124,6 +133,11 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     @Override
     public void link() {
         evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
+
+        if (withStatistics) {
+            evaluatorCacheStatisticsComparatorCollector.setEvaluatorCacheCounters(evaluatorCacheCounters);
+            evaluatorCacheStatisticsNodeCollector.setEvaluatorCacheCounters(evaluatorCacheCounters);
+        }
 
         listenerMediator.accept(new LinkEvaluatorCacheNodeVisitor(evaluatorCacheNode));
         listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(evaluatorCacheComparator));
