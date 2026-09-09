@@ -12,6 +12,7 @@ import java.io.Serializable;
  *
  * @param reads        The total number of read attempts (both hits and misses) from the transposition table
  * @param readNodeHits The number of successful reads where a position was found in the transposition table
+ * @param readComparatorHits The number of successful reads where a position was found in the transposition table using a comparator
  * @param writes       The total number of write operations to the transposition table
  * @param updates      The number of times an existing entry in the transposition table was updated with new data
  * @param overWrites   The number of times an existing entry in the transposition table was replaced with a new entry

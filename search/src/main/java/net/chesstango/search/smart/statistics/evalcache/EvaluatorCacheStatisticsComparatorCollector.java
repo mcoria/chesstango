@@ -27,9 +27,10 @@ public class EvaluatorCacheStatisticsComparatorCollector implements EvaluatorCac
 
     @Override
     public EvaluatorCacheEntry read(long hash) {
+        evaluatorCacheCounters.increaseReadComparators();
         EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
         if (evaluatorCacheEntry != null) {
-            //evaluatorCacheCounters.increaseReadFromCacheHitsCounter();
+            evaluatorCacheCounters.increaseReadComparatorHits();
         }
         return evaluatorCacheEntry;
     }

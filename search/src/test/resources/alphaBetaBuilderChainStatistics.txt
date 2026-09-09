@@ -154,27 +154,28 @@ AlphaBetaFlowControl @ 14
 
 
 SearchByCycleListeners:
-	EvaluationCounters @ 71
+	EvaluatorCounters @ 71
 	TTListener @ 72
 	TTableCounters @ 73
 	TTableStatisticsFillPercentageCollector @ 74
 	EvaluatorCacheListener @ 75
-	SetSearchTimers @ 76
+	EvaluatorCacheCounters @ 76
+	SetSearchTimers @ 77
 	AlphaBetaFlowControl @ 14
-	NodeCounters @ 77
-	GameCountersCollector @ 78
-	DepthCollector @ 79
+	NodeCounters @ 78
+	GameCountersCollector @ 79
+	DepthCollector @ 80
 	PrincipalVariationComparator @ 41
 	PrincipalVariationComparator @ 62
-	RootMoveEvaluationCollection @ 80
+	RootMoveEvaluationCollection @ 81
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 76
-	NodeCounters @ 77
-	DepthCollector @ 79
-	RootMoveEvaluationBest @ 81
+	SetSearchTimers @ 77
+	NodeCounters @ 78
+	DepthCollector @ 80
+	RootMoveEvaluationBest @ 82
 
 SearchByWindowsListeners:
 
@@ -186,8 +187,8 @@ ResetListener:
 	EvaluatorCacheListener @ 75
 
 Acceptor:
-	SetGameToEvaluator @ 82
-	EvaluationCounters @ 71
+	SetGameToEvaluator @ 83
+	EvaluatorCounters @ 71
 	EvaluatorStatisticsCollector @ 21
 	EvaluatorCacheAdapter @ 18
 	TTListener @ 72
@@ -199,15 +200,16 @@ Acceptor:
 	TTableStatisticsFillPercentageCollector @ 74
 	PVWalkerFromTT @ 36
 	EvaluatorCacheListener @ 75
+	EvaluatorCacheCounters @ 76
 	EvaluatorCacheStatisticsComparatorCollector @ 50
 	EvaluatorCacheStatisticsNodeCollector @ 19
-	SetGameToEndGameTableBase @ 83
+	SetGameToEndGameTableBase @ 84
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 76
+	SetSearchTimers @ 77
 	AlphaBetaFlowControl @ 14
-	NodeCounters @ 77
-	GameCountersCollector @ 78
-	DepthCollector @ 79
+	NodeCounters @ 78
+	GameCountersCollector @ 79
+	DepthCollector @ 80
 	AlphaBetaEvaluation @ 17
 	AlphaBetaTerminalNodeStatistics @ 16
 	ExtendPV @ 15
@@ -248,13 +250,13 @@ Acceptor:
 	ExtendPV @ 55
 	PropagatePV @ 70
 	RootMoveSorter @ 11
-	NodeGroupSorter @ 84
+	NodeGroupSorter @ 85
 	RootMoveEvaluationTracker @ 12
-	RootMoveEvaluationBest @ 81
-	RootMoveEvaluationCollection @ 80
+	RootMoveEvaluationBest @ 82
+	RootMoveEvaluationCollection @ 81
 	ExtendPV @ 5
 	PropagatePV @ 13
-	PVCalculator @ 85
+	PVCalculator @ 86
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

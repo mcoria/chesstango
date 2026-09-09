@@ -135,6 +135,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
         evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
 
         if (withStatistics) {
+            evaluatorCacheCounters.setEvaluatorCacheArray(evaluatorCacheArray);
             evaluatorCacheStatisticsComparatorCollector.setEvaluatorCacheCounters(evaluatorCacheCounters);
             evaluatorCacheStatisticsNodeCollector.setEvaluatorCacheCounters(evaluatorCacheCounters);
         }

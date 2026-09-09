@@ -174,28 +174,29 @@ AlphaBetaFlowControl @ 17
 
 
 SearchByCycleListeners:
-	EvaluationCounters @ 87
+	EvaluatorCounters @ 87
 	TTListener @ 88
 	TTableCounters @ 89
 	TTableStatisticsFillPercentageCollector @ 90
 	EvaluatorCacheListener @ 91
-	SetSearchTimers @ 92
+	EvaluatorCacheCounters @ 92
+	SetSearchTimers @ 93
 	AlphaBetaFlowControl @ 17
-	NodeCounters @ 93
-	GameCountersCollector @ 94
-	DepthCollector @ 95
+	NodeCounters @ 94
+	GameCountersCollector @ 95
+	DepthCollector @ 96
 	PrincipalVariationComparator @ 52
 	PrincipalVariationComparator @ 78
-	RootMoveEvaluationCollection @ 96
+	RootMoveEvaluationCollection @ 97
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 92
-	NodeCounters @ 93
-	DepthCollector @ 95
-	DebugNodeTracker @ 97
-	RootMoveEvaluationBest @ 98
+	SetSearchTimers @ 93
+	NodeCounters @ 94
+	DepthCollector @ 96
+	DebugNodeTracker @ 98
+	RootMoveEvaluationBest @ 99
 
 SearchByWindowsListeners:
 	DebugFilter @ 18
@@ -214,8 +215,8 @@ ResetListener:
 	EvaluatorCacheListener @ 91
 
 Acceptor:
-	SetGameToEvaluator @ 99
-	EvaluationCounters @ 87
+	SetGameToEvaluator @ 100
+	EvaluatorCounters @ 87
 	EvaluatorStatisticsCollector @ 26
 	EvaluatorDebug @ 22
 	EvaluatorCacheAdapter @ 23
@@ -231,20 +232,21 @@ Acceptor:
 	TTableStatisticsPVCollector @ 47
 	TTableStatisticsFillPercentageCollector @ 90
 	PVWalkerFromTT @ 45
-	KillerMovesDebug @ 100
+	KillerMovesDebug @ 101
 	EvaluatorCacheListener @ 91
 	EvaluatorCacheDebug @ 63
+	EvaluatorCacheCounters @ 92
 	EvaluatorCacheStatisticsComparatorCollector @ 64
 	EvaluatorCacheStatisticsNodeCollector @ 24
-	SetGameToEndGameTableBase @ 101
+	SetGameToEndGameTableBase @ 102
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 92
+	SetSearchTimers @ 93
 	AlphaBetaFlowControl @ 17
-	NodeCounters @ 93
-	GameCountersCollector @ 94
-	DepthCollector @ 95
-	DebugNodeTracker @ 97
-	PrintHtmlDebugHandler @ 102
+	NodeCounters @ 94
+	GameCountersCollector @ 95
+	DepthCollector @ 96
+	DebugNodeTracker @ 98
+	PrintHtmlDebugHandler @ 103
 	AlphaBetaEvaluation @ 21
 	AlphaBetaTerminalNodeStatistics @ 20
 	DebugFilter @ 18
@@ -294,13 +296,13 @@ Acceptor:
 	PropagatePV @ 86
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
-	NodeGroupSorter @ 103
+	NodeGroupSorter @ 104
 	RootMoveEvaluationTracker @ 15
-	RootMoveEvaluationBest @ 98
-	RootMoveEvaluationCollection @ 96
+	RootMoveEvaluationBest @ 99
+	RootMoveEvaluationCollection @ 97
 	ExtendPV @ 6
 	PropagatePV @ 16
-	PVCalculator @ 104
+	PVCalculator @ 105
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

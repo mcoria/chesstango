@@ -31,14 +31,14 @@ public class SummaryEvaluationCachePrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill Avg");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads Node", "Reads NHits", "Reads Comparator", "Reads CHits", "Fill Avg");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
-                    Long.toString(row.evaluationsCounterTotal),
-                    String.format("%d (%2d%%)", row.evaluationsCacheHitsCounterTotal, row.evaluationsCacheHitsPercentageTotal),
-                    Long.toString(row.readFromCacheCounterTotal),
-                    String.format("%d (%2d%%)", row.readFromCacheHitsCounterTotal, row.readFromCacheHitsPercentageTotal),
+                    Long.toString(row.readNodesTotal),
+                    String.format("%d (%2d%%)", row.readNodeHitsTotal, row.readNodeHitsPercentageTotal),
+                    Long.toString(row.readComparatorsTotal),
+                    String.format("%d (%2d%%)", row.readComparatorHitsTotal, row.readComparatorHitsPercentageTotal),
                     String.format("%2d%%", row.fillPercentageAvg));
         });
         printerTxtTable.print();

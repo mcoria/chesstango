@@ -29,12 +29,12 @@ class EvaluationCachePrinter implements Printer {
 
     EvaluationCachePrinter printSummary() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("EvaluationCacheReport : %s%n", reportModel.searchGroupName);
-        out.printf("Evaluations           : %8d%n", reportModel.evaluationsCounterTotal);
-        out.printf("Cache Hits            : %8d (%2d%%)%n%n", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal);
-        out.printf("Read Cache            : %8d%n", reportModel.readFromCacheCounterTotal);
-        out.printf("Read Cache Hits       : %8d (%2d%%)%n%n", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal);
-        out.printf("Fill Avg              : %8d%%%n", reportModel.fillPercentageAvg);
+        out.printf("EvaluationCacheReport  : %s%n", reportModel.searchGroupName);
+        out.printf("Reads Node             : %8d%n", reportModel.readNodesTotal);
+        out.printf("Reads NHits            : %8d (%2d%%)%n", reportModel.readNodeHitsTotal, reportModel.readNodeHitsPercentageTotal);
+        out.printf("Reads Comparator       : %8d%n", reportModel.readComparatorsTotal);
+        out.printf("Reads CHits            : %8d (%2d%%)%n", reportModel.readComparatorHitsTotal, reportModel.readComparatorHitsPercentageTotal);
+        out.printf("Fill Avg               : %8d%%%n", reportModel.fillPercentageAvg);
         out.printf("%n");
         return this;
     }
@@ -45,23 +45,23 @@ class EvaluationCachePrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Evaluations", "Cache Hits", "Read Cache", "Read Cache Hits", "Fill");
+        printerTxtTable.setTitles("Move", "Reads Node", "Reads NHits", "Reads Comparator", "Reads CHits", "Fill");
         reportModel.moveDetails.forEach(moveDetail -> {
 
             printerTxtTable.addRow(moveDetail.move,
-                    Long.toString(moveDetail.evaluationsCounter),
-                    String.format("%d (%2d%%)", moveDetail.evaluationsCacheHitsCounter, moveDetail.evaluationsCacheHitsPercentage),
-                    Long.toString(moveDetail.readsFromCacheCounter),
-                    String.format("%d (%2d%%)", moveDetail.readsFromCacheHitsCounter, moveDetail.readsFromCacheHitsPercentage),
+                    Long.toString(moveDetail.readNodes),
+                    String.format("%d (%2d%%)", moveDetail.readNodeHits, moveDetail.readNodeHitsPercentage),
+                    Long.toString(moveDetail.readComparators),
+                    String.format("%d (%2d%%)", moveDetail.readComparatorHits, moveDetail.readComparatorHitsPercentage),
                     String.format("%2d%%", moveDetail.fillPercentage)
             );
         });
 
         printerTxtTable.setBottomRow("SUM",
-                Long.toString(reportModel.evaluationsCounterTotal),
-                String.format("%d (%2d%%)", reportModel.evaluationsCacheHitsCounterTotal, reportModel.evaluationsCacheHitsPercentageTotal),
-                Long.toString(reportModel.readFromCacheCounterTotal),
-                String.format("%d (%2d%%)", reportModel.readFromCacheHitsCounterTotal, reportModel.readFromCacheHitsPercentageTotal),
+                Long.toString(reportModel.readNodesTotal),
+                String.format("%d (%2d%%)", reportModel.readNodeHitsTotal, reportModel.readNodeHitsPercentageTotal),
+                Long.toString(reportModel.readComparatorsTotal),
+                String.format("%d (%2d%%)", reportModel.readComparatorHitsTotal, reportModel.readComparatorHitsPercentageTotal),
                 String.format("%2d%%", reportModel.fillPercentageAvg)
         );
 
