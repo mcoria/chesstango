@@ -8,6 +8,7 @@ import net.chesstango.reports.engine.SearchManagerReport;
 import net.chesstango.reports.engine.SearchManagerSummaryReport;
 import net.chesstango.reports.search.DetailsReport;
 import net.chesstango.reports.search.SummaryReport;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.AfterEach;
@@ -44,6 +45,7 @@ public class ReportGamesIntegrationTest {
 
     @AfterEach
     public void tearDown() {
+        /*
         searchManagerSummaryReport
                 .addSearchResponses("TangoGame01", searchResponses)
                 .printReport(System.out);
@@ -51,6 +53,7 @@ public class ReportGamesIntegrationTest {
         searchManagerReport
                 .withMoveResults(searchResponses)
                 .printReport(System.out);
+         */
 
         List<SearchResult> searchResults = searchResponses.stream()
                 .filter(SearchByTreeResult.class::isInstance)
@@ -60,33 +63,33 @@ public class ReportGamesIntegrationTest {
 
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
+                .withEvaluationStatistics()
+                .withEvaluationCacheStatistics()
                 /*
                 .withBoardStatistics()
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
-                .withEvaluationStatistics()
-                .withEvaluationCacheStatistics()
                 .withTranspositionStatistics()
-                */
                 .withPrincipalVariationStatistics()
+                 */
                 .printReport(System.out);
 
         detailsReport
                 .setReportTitle("TangoGame01")
                 .withMoveResults(searchResults)
+                .withEvaluationReport()
+                .withEvaluationCacheReport()
                 /*
                 .withBoardReport()
                 .withNodesDepthStatistics()
                 .withNodesTypesStatistics()
                 .withCutoffStatistics()
-                .withEvaluationReport()
-                .withEvaluationCacheReport()
                 .withTranspositionReport()
                 .withEvaluationIterationReport()
-                 */
                 .withPrincipalVariationReport()
                 .withPrincipalVariationIterationReport()
+                 */
                 //.withEbf()
                 .printReport(System.out);
     }
@@ -94,37 +97,7 @@ public class ReportGamesIntegrationTest {
     @Test
     public void testPlay() {
         Config config = Config.create()
-                .setSearch(AlphaBetaBuilder
-                        .createDefaultBuilderInstance()
-                        .withGameEvaluator(Evaluator.createInstance())
-                        .withStatistics()
-                        .build()
-                )
-                /*
-               .setSearch(new AlphaBetaBuilder()
-                       .withGameEvaluator(Evaluator.createInstance())
-                       .withGameEvaluatorCache()
-
-                       .withQuiescence()
-
-                       //.withTranspositionTable()
-                       //.withTranspositionMoveSorter()
-
-                       .withKillerMoveSorter()
-                       .withRecaptureSorter()
-                       .withMvvLvaSorter()
-
-                       //.withAspirationWindows()
-
-                       //.withIterativeDeepening()
-
-                       //.withStopProcessingCatch()
-
-                       .withStatistics()
-
-                       .build()
-               )
-                 */
+                .setSearch(defaultSearch())
                 .setAsyncSearch(false)
                 //.setPolyglotFile(POLYGLOT_FILE)
                 //.setSyzygyDirs(SYZYGY_PATH)
@@ -178,5 +151,38 @@ public class ReportGamesIntegrationTest {
 
             searchResponses = session.getSearchResults();
         }
+    }
+
+    Search defaultSearch() {
+        return AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.createInstance())
+                .withStatistics()
+                .build();
+    }
+
+    Search noIteration() {
+        return new AlphaBetaBuilder()
+                .withGameEvaluator(Evaluator.createInstance())
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                //.withTranspositionTable()
+                //.withTranspositionMoveSorter()
+
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
+
+                //.withAspirationWindows()
+
+                //.withIterativeDeepening()
+
+                //.withStopProcessingCatch()
+
+                .withStatistics()
+
+                .build();
     }
 }

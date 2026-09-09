@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
-import net.chesstango.reports.search.evaluation.cache.EvaluationCacheReport;
+import net.chesstango.reports.search.evalcache.EvaluationCacheReport;
 import net.chesstango.reports.search.evaluation.iteration.EvaluationIterationReport;
 import net.chesstango.reports.search.nodes.depth.NodesDepthReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;

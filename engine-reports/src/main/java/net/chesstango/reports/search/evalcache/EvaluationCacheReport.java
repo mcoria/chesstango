@@ -1,9 +1,8 @@
-package net.chesstango.reports.search.evaluation.cache;
+package net.chesstango.reports.search.evalcache;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
-import net.chesstango.reports.search.evaluation.ExportEvaluations;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;

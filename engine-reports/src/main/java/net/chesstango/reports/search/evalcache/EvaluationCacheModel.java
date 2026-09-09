@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.evaluation.cache;
+package net.chesstango.reports.search.evalcache;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;

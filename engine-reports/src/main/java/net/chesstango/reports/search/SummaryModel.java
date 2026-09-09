@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.reports.Model;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
-import net.chesstango.reports.search.evaluation.cache.EvaluationCacheModel;
+import net.chesstango.reports.search.evalcache.EvaluationCacheModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
 import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
