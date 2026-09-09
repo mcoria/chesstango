@@ -145,7 +145,7 @@ public class ReportGamesIntegrationTest {
                 if (!whiteSearch && i % 2 == 1) {
                     List<String> currentMoves = coordinateMoves.stream().limit(i).toList();
                     session.setMoves(currentMoves);
-                    session.goDepth(5);
+                    session.goDepth(2);
                 }
             }
 

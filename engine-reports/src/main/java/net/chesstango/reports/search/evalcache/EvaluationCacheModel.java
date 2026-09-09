@@ -20,11 +20,11 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
      */
     public long readNodesTotal;
     public long readNodeHitsTotal;
-    public long readNodeHitsPercentageTotal;
+    public int readNodeHitsPercentageTotal;
 
     public long readComparatorsTotal;
     public long readComparatorHitsTotal;
-    public long readComparatorHitsPercentageTotal;
+    public int readComparatorHitsPercentageTotal;
 
     public int fillPercentageAvg;
 
@@ -41,11 +41,11 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         public long readNodes;
         public long readNodeHits;
-        public long readNodeHitsPercentage;
+        public int readNodeHitsPercentage;
 
         public long readComparators;
         public long readComparatorHits;
-        public long readComparatorHitsPercentage;
+        public int readComparatorHitsPercentage;
 
         public int fillPercentage;
     }
@@ -67,10 +67,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
 
         this.readNodesTotal = this.moveDetails.stream().mapToLong(detail -> detail.readNodes).sum();
         this.readNodeHitsTotal = this.moveDetails.stream().mapToLong(detail -> detail.readNodeHits).sum();
-        this.readNodeHitsPercentageTotal = this.readNodesTotal > 0 ? this.readNodeHitsTotal * 100 / this.readNodesTotal : 0;
+        this.readNodeHitsPercentageTotal = Math.toIntExact(this.readNodesTotal > 0 ? this.readNodeHitsTotal * 100 / this.readNodesTotal : 0);
         this.readComparatorsTotal = this.moveDetails.stream().mapToLong(detail -> detail.readComparators).sum();
         this.readComparatorHitsTotal = this.moveDetails.stream().mapToLong(detail -> detail.readComparatorHits).sum();
-        this.readComparatorHitsPercentageTotal = this.readComparatorsTotal > 0 ? this.readComparatorHitsTotal * 100 / this.readComparatorsTotal : 0;
+        this.readComparatorHitsPercentageTotal = Math.toIntExact(this.readComparatorsTotal > 0 ? this.readComparatorHitsTotal * 100 / this.readComparatorsTotal : 0);
         this.fillPercentageAvg = (int) this.moveDetails.stream().mapToInt(detail -> detail.fillPercentage).average().orElse(0);
     }
 
@@ -93,10 +93,10 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
     private void collectEvaluationStatistics(EvaluationCacheModelDetail reportModelDetail, EvaluatorCacheStatistics evaluatorCacheStatistics) {
         reportModelDetail.readNodes = evaluatorCacheStatistics.readNodes();
         reportModelDetail.readNodeHits = evaluatorCacheStatistics.readNodeHits();
-        reportModelDetail.readNodeHitsPercentage = reportModelDetail.readNodes > 0 ? reportModelDetail.readNodeHits * 100 / reportModelDetail.readNodes : 0;
+        reportModelDetail.readNodeHitsPercentage = Math.toIntExact(reportModelDetail.readNodes > 0 ? reportModelDetail.readNodeHits * 100 / reportModelDetail.readNodes : 0);
         reportModelDetail.readComparators = evaluatorCacheStatistics.readComparators();
         reportModelDetail.readComparatorHits = evaluatorCacheStatistics.readComparatorHits();
-        reportModelDetail.readComparatorHitsPercentage = reportModelDetail.readComparators > 0 ? reportModelDetail.readComparatorHits * 100 / reportModelDetail.readComparators : 0;
+        reportModelDetail.readComparatorHitsPercentage = Math.toIntExact(reportModelDetail.readComparators > 0 ? reportModelDetail.readComparatorHits * 100 / reportModelDetail.readComparators : 0);
         reportModelDetail.fillPercentage = evaluatorCacheStatistics.fillPercentage();
     }
 
