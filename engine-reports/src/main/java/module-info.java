@@ -10,6 +10,7 @@ module net.chesstango.reports {
     exports net.chesstango.reports.search.evaluation;
     exports net.chesstango.reports.search.board;
     exports net.chesstango.reports.engine;
+    exports net.chesstango.reports.search.evalcache;
 
 
     requires net.chesstango.search;
