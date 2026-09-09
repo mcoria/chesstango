@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics.evaluation;
+package net.chesstango.search.smart.statistics.evaluator;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author Mauricio Coria
  */
-public class EvaluationCounters implements Acceptor, SearchListener {
+public class EvaluatorCounters implements Acceptor, SearchListener {
     private long evaluationsCounter;
 
 
@@ -35,7 +35,7 @@ public class EvaluationCounters implements Acceptor, SearchListener {
 
     @Setter
     @Accessors(chain = true)
-    private Set<EvaluationEntry> evaluations;
+    private Set<EvaluatorEntry> evaluations;
 
     @Override
     public void accept(Visitor visitor) {
@@ -63,9 +63,9 @@ public class EvaluationCounters implements Acceptor, SearchListener {
     }
 
 
-    public EvaluationStatistics getEvaluationStatistics() {
+    public EvaluatorStatistics getEvaluationStatistics() {
         int fillPercentage = evaluatorCacheArray != null ? evaluatorCacheArray.getFillPercentage() : 0;
-        return new EvaluationStatistics(evaluationsCounter, evaluations);
+        return new EvaluatorStatistics(evaluationsCounter, evaluations);
     }
 
 }

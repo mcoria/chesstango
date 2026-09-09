@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationStatistics;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatistics;
 import net.chesstango.search.smart.statistics.node.NodeStatistics;
 import net.chesstango.search.smart.statistics.transposition.TTableStatistics;
 
@@ -25,7 +25,7 @@ public class SearchResult implements Serializable {
     // This id is used to identify the search result for reporting purposes.
     private String id;
 
-    private EvaluationStatistics evaluationStatistics;
+    private EvaluatorStatistics evaluatorStatistics;
 
     private NodeStatistics nodeStatistics;
 

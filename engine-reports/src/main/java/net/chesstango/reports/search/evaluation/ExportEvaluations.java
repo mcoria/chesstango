@@ -1,7 +1,7 @@
 package net.chesstango.reports.search.evaluation;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationEntry;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorEntry;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -32,7 +32,7 @@ public class ExportEvaluations {
 
                 if (moveDetail.evaluations != null) {
                     HexFormat hexFormat = HexFormat.of().withUpperCase();
-                    for (EvaluationEntry evaluation : moveDetail.evaluations) {
+                    for (EvaluatorEntry evaluation : moveDetail.evaluations) {
                         writer.append(String.format("0x%sL\t%d\n", hexFormat.formatHex(longToByte(evaluation.key())), evaluation.value()));
                     }
                 }

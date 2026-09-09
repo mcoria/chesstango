@@ -36,10 +36,11 @@ import net.chesstango.search.smart.SearchByDepthImp;
 import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
-import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
-import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsNodeCollector;
-import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheCounters;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsComparatorCollector;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.evalcache.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
@@ -247,7 +248,10 @@ public interface Visitor {
     default void visit(EvaluatorCacheListener evaluatorCacheListener) {
     }
 
-    default void visit(EvaluationCounters evaluationCounters) {
+    default void visit(EvaluatorCounters evaluatorCounters) {
+    }
+
+    default void visit(EvaluatorCacheCounters evaluatorCacheCounters) {
     }
 
     default void visit(TTListener transpositionTableListener) {

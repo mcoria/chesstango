@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics.evaluation;
+package net.chesstango.search.smart.statistics.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,11 +21,11 @@ public class EvaluatorTrackers implements Evaluator, SearchListener {
 
     @Setter
     @Accessors(chain = true)
-    private EvaluationCounters evaluationsCounters;
+    private EvaluatorCounters evaluationsCounters;
 
     private Game game;
 
-    private Set<EvaluationEntry> evaluations;
+    private Set<EvaluatorEntry> evaluations;
 
     @Override
     public void setGame(Game game) {
@@ -38,7 +38,7 @@ public class EvaluatorTrackers implements Evaluator, SearchListener {
         int evaluation = imp.evaluate();
 
         long hash = game.getPosition().getZobristHash();
-        evaluations.add(new EvaluationEntry(hash, evaluation));
+        evaluations.add(new EvaluatorEntry(hash, evaluation));
 
         return evaluation;
     }

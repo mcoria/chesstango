@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics.evaluation;
+package net.chesstango.search.smart.statistics.evalcache;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.evalcache.EvaluatorCache;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +19,7 @@ public class EvaluatorCacheStatisticsNodeCollector implements EvaluatorCache, Ac
     @Getter
     private EvaluatorCache evaluatorCache;
 
-    private EvaluationCounters evaluationsCounters;
+    private EvaluatorCounters evaluationsCounters;
 
     @Override
     public void accept(Visitor visitor) {

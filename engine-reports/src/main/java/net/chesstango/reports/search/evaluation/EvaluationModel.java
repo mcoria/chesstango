@@ -3,8 +3,8 @@ package net.chesstango.reports.search.evaluation;
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationEntry;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationStatistics;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorEntry;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatistics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class EvaluationModel implements Model<List<SearchResult>> {
         /**
          * Evaluation Statistics
          */
-        public Set<EvaluationEntry> evaluations;
+        public Set<EvaluatorEntry> evaluations;
 
         /**
          * Contador de evaluaciones se hicieron
@@ -94,7 +94,7 @@ public class EvaluationModel implements Model<List<SearchResult>> {
         reportModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
         reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
 
-        if (searchResult.getEvaluationStatistics() != null) {
+        if (searchResult.getEvaluatorStatistics() != null) {
             collectEvaluationStatistics(reportModelDetail, searchResult);
         }
 
@@ -110,15 +110,15 @@ public class EvaluationModel implements Model<List<SearchResult>> {
 
 
     private void collectEvaluationStatistics(EvaluationModelDetail reportModelDetail, SearchResult searchResult) {
-        EvaluationStatistics evaluationStatistics = searchResult.getEvaluationStatistics();
+        EvaluatorStatistics evaluatorStatistics = searchResult.getEvaluatorStatistics();
 
-        reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
+        reportModelDetail.evaluationCounter = evaluatorStatistics.evaluationsCounter();
 
-        Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
+        Set<EvaluatorEntry> evaluations = evaluatorStatistics.evaluations();
         if (evaluations != null) {
             reportModelDetail.evaluations = evaluations;
             reportModelDetail.evaluationPositionCounter = evaluations.size();
-            reportModelDetail.evaluationValueCounter = evaluations.stream().mapToInt(EvaluationEntry::value).distinct().count();
+            reportModelDetail.evaluationValueCounter = evaluations.stream().mapToInt(EvaluatorEntry::value).distinct().count();
             reportModelDetail.evaluationPositionValueCollisionsCounter = reportModelDetail.evaluationPositionCounter - reportModelDetail.evaluationValueCounter;
 
             /*

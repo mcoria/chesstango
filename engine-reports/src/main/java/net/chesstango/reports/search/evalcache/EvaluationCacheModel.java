@@ -4,7 +4,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationStatistics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -81,7 +80,7 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
         reportModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
         reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
 
-        if (searchResult.getEvaluationStatistics() != null) {
+        if (searchResult.getEvaluatorStatistics() != null) {
             collectEvaluationStatistics(reportModelDetail, searchResult.getEvaluatorCacheStatistics());
         }
 

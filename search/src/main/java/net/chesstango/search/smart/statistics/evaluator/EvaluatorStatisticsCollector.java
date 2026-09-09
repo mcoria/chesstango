@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics.evaluation;
+package net.chesstango.search.smart.statistics.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class EvaluatorStatisticsCollector implements Evaluator, Acceptor {
     @Getter
     private Evaluator evaluator;
 
-    private EvaluationCounters evaluationsCounters;
+    private EvaluatorCounters evaluationsCounters;
 
     @Override
     public void accept(Visitor visitor) {

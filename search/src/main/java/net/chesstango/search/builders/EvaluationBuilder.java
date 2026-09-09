@@ -6,8 +6,8 @@ import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.smart.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
-import net.chesstango.search.smart.statistics.evaluation.EvaluationCounters;
-import net.chesstango.search.smart.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
+import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatisticsCollector;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
     private EvaluatorCacheAdapter evaluatorCacheAdapter;
     private SetGameToEvaluator setGameToEvaluator;
 
-    private EvaluationCounters evaluationCounters;
+    private EvaluatorCounters evaluatorCounters;
     private EvaluatorStatisticsCollector evaluatorStatisticsCollector;
 
     private ListenerMediator listenerMediator;
@@ -98,10 +98,10 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         }
 
         if (withStatistics) {
-            evaluationCounters = new EvaluationCounters();
+            evaluatorCounters = new EvaluatorCounters();
 
             evaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setEvaluationsCounters(evaluationCounters);
+                    .setEvaluationsCounters(evaluatorCounters);
         }
 
         if (withGameEvaluatorCache) {
@@ -113,8 +113,8 @@ public class EvaluationBuilder implements SearchObjectBuilder<EvaluationBuilder>
         if (setGameToEvaluator != null) {
             listenerMediator.add(setGameToEvaluator);
         }
-        if (evaluationCounters != null) {
-            listenerMediator.add(evaluationCounters);
+        if (evaluatorCounters != null) {
+            listenerMediator.add(evaluatorCounters);
         }
         if (evaluatorStatisticsCollector != null) {
             listenerMediator.add(evaluatorStatisticsCollector);

@@ -8,8 +8,8 @@ import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
 import net.chesstango.search.smart.evalcache.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
-import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsComparatorCollector;
-import net.chesstango.search.smart.statistics.evaluation.EvaluatorCacheStatisticsNodeCollector;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsComparatorCollector;
+import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
 
 import java.util.LinkedList;
 import java.util.List;
