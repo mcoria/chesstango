@@ -10,7 +10,7 @@ import java.io.Serializable;
  * during the search process.
  * </p>
  *
- * @param reads        The total number of read attempts (both hits and misses) from the transposition table
+ * @param readNodes        The total number of read attempts (both hits and misses) from the transposition table
  * @param readNodeHits The number of successful reads where a position was found in the transposition table
  * @param readComparatorHits The number of successful reads where a position was found in the transposition table using a comparator
  * @param writes       The total number of write operations to the transposition table
@@ -18,7 +18,19 @@ import java.io.Serializable;
  * @param overWrites   The number of times an existing entry in the transposition table was replaced with a new entry
  * @author Mauricio Coria
  */
-public record TTableStatistics(long reads, long readNodeHits, long readComparatorHits,
-                               long writes, long updates, long overWrites,
-                               int mapFillPercentage) implements Serializable {
+public record TTableStatistics(
+    // Node statistics reads
+    long readNodes,
+    long readNodeHits,
+
+    // Node statistics writes
+    long writes,
+    long updates,
+    long overWrites,
+
+    // Comparator statistics
+    long readComparators,
+    long readComparatorHits,
+
+    int mapFillPercentage) implements Serializable {
 }

@@ -29,11 +29,11 @@ public class TTableStatisticsComparatorCollector implements TTable, Acceptor {
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
+        tTableCounters.increaseReadComparators();
         boolean result = tTable.load(hash, entry);
         if (result && hash == entry.getHash()) {
             tTableCounters.increaseReadComparatorHits();
         }
-        tTableCounters.increaseReads();
         return result;
     }
 

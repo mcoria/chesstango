@@ -29,18 +29,22 @@ public class SummaryTranspositionPrinter implements Printer {
     public SummaryTranspositionPrinter print() {
         out.println("\n Transposition Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(9).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(10).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads", "Read NHits", "Read CHits", "Writes", "Updates", "OverWrites", "Fill Avg");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads Node", "Read NHits", "Writes", "Updates", "OverWrites", "Reads Comparator", "Read CHits", "Fill Avg");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
-                    Long.toString(row.readsTotal),
+                    Long.toString(row.readsNodeTotal),
                     String.format("%d (%2d%%)", row.readNodeHitsTotal, row.readNodeHitPercentageTotal),
-                    String.format("%d (%2d%%)", row.readComparatorHitsTotal, row.readComparatorHitPercentageTotal),
+
                     Long.toString(row.writesTotal),
                     String.format("%d (%2d%%)", row.updatesTotal, row.updatesPercentageTotal),
                     String.format("%d (%2d%%)", row.overWritesTotal, row.overWritesPercentageTotal),
+
+                    Long.toString(row.readComparatorTotal),
+                    String.format("%d (%2d%%)", row.readComparatorHitsTotal, row.readComparatorHitPercentageTotal),
+
                     String.format("%2d%%", row.mapFillPercentageAvg)
             );
         });

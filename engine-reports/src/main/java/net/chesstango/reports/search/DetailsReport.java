@@ -108,15 +108,15 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withEvaluationCacheReport) {
-            new EvaluationCacheReport()
+        if (withTranspositionReport) {
+            new TranspositionReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);
         }
 
-        if (withTranspositionReport) {
-            new TranspositionReport()
+        if (withEvaluationCacheReport) {
+            new EvaluationCacheReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);

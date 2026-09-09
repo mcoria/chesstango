@@ -16,13 +16,15 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
     public int searches;
 
-    public long readsTotal;
+    public long readsNodeTotal;
 
     public long readNodeHitsTotal;
 
-    public long readComparatorHitsTotal;
-
     public int readNodeHitPercentageTotal;
+
+    public long readComparatorTotal;
+
+    public long readComparatorHitsTotal;
 
     public int readComparatorHitPercentageTotal;
 
@@ -45,13 +47,15 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
         public String move;
 
-        public long reads;
+        public long readNodes;
 
         public long readNodeHits;
 
-        public long readComparatorHits;
-
         public int readNodeHitPercentage;
+
+        public long readComparators;
+
+        public long readComparatorHits;
 
         public int readComparatorHitPercentage;
 
@@ -82,8 +86,8 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
         searchResults.forEach(this::loadModelDetail);
 
-        this.readNodeHitPercentageTotal = readsTotal > 0 ? (int) (100 * readNodeHitsTotal / readsTotal) : 0;
-        this.readComparatorHitPercentageTotal = readsTotal > 0 ? (int) (100 * readComparatorHitsTotal / readsTotal) : 0;
+        this.readNodeHitPercentageTotal = readsNodeTotal > 0 ? (int) (100 * readNodeHitsTotal / readsNodeTotal) : 0;
+        this.readComparatorHitPercentageTotal = readComparatorTotal > 0 ? (int) (100 * readComparatorHitsTotal / readComparatorTotal) : 0;
         this.updatesPercentageTotal = writesTotal > 0 ? (int) (100 * updatesTotal / writesTotal) : 0;
         this.overWritesPercentageTotal = writesTotal > 0 ? (int) (100 * overWritesTotal / writesTotal) : 0;
 
@@ -100,11 +104,14 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.id = searchResult.getId();
             transpositionModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
 
-            transpositionModelDetail.reads = ttableStatistics.reads();
+            transpositionModelDetail.readNodes = ttableStatistics.readNodes();
             transpositionModelDetail.readNodeHits = ttableStatistics.readNodeHits();
+            transpositionModelDetail.readNodeHitPercentage = ttableStatistics.readNodes() > 0 ? (int) (100 * ttableStatistics.readNodeHits() / ttableStatistics.readNodes()) : 0;
+
+            transpositionModelDetail.readComparators = ttableStatistics.readComparators();
             transpositionModelDetail.readComparatorHits = ttableStatistics.readComparatorHits();
-            transpositionModelDetail.readNodeHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readNodeHits() / ttableStatistics.reads()) : 0;
-            transpositionModelDetail.readComparatorHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readComparatorHits() / ttableStatistics.reads()) : 0;
+            transpositionModelDetail.readComparatorHitPercentage = ttableStatistics.readComparators() > 0 ? (int) (100 * ttableStatistics.readComparatorHits() / ttableStatistics.readComparators()) : 0;
+
             transpositionModelDetail.writes = ttableStatistics.writes();
             transpositionModelDetail.updates = ttableStatistics.updates();
             transpositionModelDetail.updatesPercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.updates() / ttableStatistics.writes()) : 0;
@@ -113,8 +120,9 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.mapFillPercentage = ttableStatistics.mapFillPercentage();
 
             this.searches++;
-            this.readsTotal += transpositionModelDetail.reads;
+            this.readsNodeTotal += transpositionModelDetail.readNodes;
             this.readNodeHitsTotal += transpositionModelDetail.readNodeHits;
+            this.readComparatorTotal += transpositionModelDetail.readComparators;
             this.readComparatorHitsTotal += transpositionModelDetail.readComparatorHits;
             this.writesTotal += transpositionModelDetail.writes;
             this.updatesTotal += transpositionModelDetail.updates;

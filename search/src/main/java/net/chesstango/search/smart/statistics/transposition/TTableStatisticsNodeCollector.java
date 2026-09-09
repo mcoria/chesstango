@@ -32,11 +32,11 @@ public class TTableStatisticsNodeCollector implements TTable, Acceptor {
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
+        tTableCounters.increaseReadNodes();
         boolean loaded = tTable.load(hash, entry);
         if (loaded && hash == entry.getHash()) {
             tTableCounters.increaseReadNodeHits();
         }
-        tTableCounters.increaseReads();
         return loaded;
     }
 

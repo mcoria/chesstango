@@ -30,7 +30,7 @@ public class TTableStatisticsPVCollector implements TTable, Acceptor {
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
-        tTableCounters.increaseReads();
+        tTableCounters.increaseReadNodes();
         return result;
     }
 
