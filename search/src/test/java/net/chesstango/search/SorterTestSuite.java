@@ -5,6 +5,7 @@ import net.chesstango.search.smart.evalcache.EvaluatorCacheArrayTest;
 import net.chesstango.search.smart.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.smart.transposition.TTableComparatorHeadDebugTest;
 import net.chesstango.search.smart.transposition.TTableComparatorTailDebugTest;
+import net.chesstango.search.smart.transposition.TTableStatisticsCollectorTest;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparatorTest;
 import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparatorTest;
 import net.chesstango.search.sorters.*;
@@ -47,7 +48,12 @@ import org.junit.platform.suite.api.Suite;
 
         NodeGroupSorterTest.class,
 
-        NodeMoveSorterInteriorTest.class
+        NodeMoveSorterInteriorTest.class,
+
+        /**
+         * Collectors
+         */
+        TTableStatisticsCollectorTest.class
 })
 public class SorterTestSuite {
 

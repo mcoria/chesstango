@@ -7,6 +7,7 @@ import net.chesstango.search.smart.pv.model.PVCalculatorTest;
 import net.chesstango.search.smart.root.RootMoveEvaluationBestTest;
 import net.chesstango.search.smart.root.filters.AspirationWindowsTest;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTrackerTest;
+import net.chesstango.search.smart.transposition.TTableArrayPrimitivesTest;
 import net.chesstango.search.smart.transposition.TranspositionEntryTest;
 import net.chesstango.search.visitors.ChainPrinterVisitorTest;
 import org.junit.platform.suite.api.SelectClasses;
@@ -53,7 +54,9 @@ import org.junit.platform.suite.api.Suite;
         SymmetryTest.class,
         RepetitionTest.class,
 
-        ChainPrinterVisitorTest.class
+        ChainPrinterVisitorTest.class,
+
+        TTableArrayPrimitivesTest.class
 })
 public class SmartTestSuite {
 }

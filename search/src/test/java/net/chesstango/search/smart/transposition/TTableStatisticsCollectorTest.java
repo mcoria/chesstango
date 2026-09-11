@@ -124,7 +124,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertTrue(result);
-        assertEquals(1, tTableCounters.getReads());
+        assertEquals(1, tTableCounters.getReadNodes());
         assertEquals(1, tTableCounters.getReadNodeHits());
     }
 
@@ -149,7 +149,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertTrue(result);
-        assertEquals(1, tTableCounters.getReads());
+        assertEquals(1, tTableCounters.getReadNodes());
         assertEquals(0, tTableCounters.getReadNodeHits());
     }
 }
