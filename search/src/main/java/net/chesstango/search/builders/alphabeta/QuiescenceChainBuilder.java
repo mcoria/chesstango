@@ -197,11 +197,14 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(transpositionTableQ);
         }
 
+        chain.add(quiescenceStandingPat);
+
+        /**
+         * QuiescenceStandingPat puede superar beta, por lo cual no debemos incrementar expected
+         */
         if (alphaBetaQuiescenceNodeExpected != null) {
             chain.add(alphaBetaQuiescenceNodeExpected);
         }
-
-        chain.add(quiescenceStandingPat);
 
         chain.add(alphaBeta);
 

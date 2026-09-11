@@ -120,9 +120,9 @@ AlphaBetaFlowControl @ 14
 	TranspositionTableQ @ 57 [TTable: TTableStatisticsNodeCollector @ 8 -> TTableArrayPrimitives @ 9]
 	|	 PVWalkerFromTT @ 36 [TTable: TTableStatisticsPVCollector @ 37 -> TTableArrayPrimitives @ 9]
 	|
-	AlphaBetaQuiescenceNodeExpected @ 58
+	QuiescenceStandingPat @ 58 [Evaluator: EvaluatorCacheAdapter @ 18 [EvaluatorCache: EvaluatorCacheStatisticsNodeCollector @ 19 -> EvaluatorCacheArray @ 20] -> EvaluatorStatisticsCollector @ 21 -> EvaluatorByMaterial @ 22]
 	|
-	QuiescenceStandingPat @ 59 [Evaluator: EvaluatorCacheAdapter @ 18 [EvaluatorCache: EvaluatorCacheStatisticsNodeCollector @ 19 -> EvaluatorCacheArray @ 20] -> EvaluatorStatisticsCollector @ 21 -> EvaluatorByMaterial @ 22]
+	AlphaBetaQuiescenceNodeExpected @ 59
 	|
 	AlphaBeta @ 60
 	|
@@ -242,10 +242,10 @@ Acceptor:
 	PrincipalVariationComparator @ 62
 	RecaptureMoveComparator @ 66
 	EvaluatorCacheComparator @ 68
-	QuiescenceStandingPat @ 59
+	QuiescenceStandingPat @ 58
 	AlphaBeta @ 60
 	AlphaBetaQuiescenceNodeVisited @ 56
-	AlphaBetaQuiescenceNodeExpected @ 58
+	AlphaBetaQuiescenceNodeExpected @ 59
 	TranspositionTableQ @ 57
 	ExtendPV @ 55
 	PropagatePV @ 70
