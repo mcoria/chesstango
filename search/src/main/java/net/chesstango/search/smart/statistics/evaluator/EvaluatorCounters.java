@@ -16,23 +16,6 @@ import java.util.Set;
 public class EvaluatorCounters implements Acceptor, SearchListener {
     private long evaluationsCounter;
 
-
-    private long evaluationsCacheHitsCounter;
-
-    /**
-     * Cuantos intentos de lectura de cache
-     */
-    private long readFromCacheCounter;
-
-    /**
-     * Cuantos intentos de lectura de cache exitosos
-     */
-    private long readFromCacheHitsCounter;
-
-    @Setter
-    @Accessors(chain = true)
-    private EvaluatorCacheArray evaluatorCacheArray;
-
     @Setter
     @Accessors(chain = true)
     private Set<EvaluatorEntry> evaluations;
@@ -45,21 +28,10 @@ public class EvaluatorCounters implements Acceptor, SearchListener {
     @Override
     public void beforeSearch() {
         evaluationsCounter = 0;
-        evaluationsCacheHitsCounter = 0;
-        readFromCacheCounter = 0;
-        readFromCacheHitsCounter = 0;
     }
 
     public void increaseEvaluationsCounter() {
         evaluationsCounter++;
-    }
-
-    public void increaseReadFromCacheCounter() {
-        readFromCacheCounter++;
-    }
-
-    public void increaseReadFromCacheHitsCounter() {
-        readFromCacheHitsCounter++;
     }
 
 

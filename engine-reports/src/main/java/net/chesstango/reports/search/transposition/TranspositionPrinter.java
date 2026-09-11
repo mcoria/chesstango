@@ -23,30 +23,32 @@ public class TranspositionPrinter implements Printer {
     public TranspositionPrinter print() {
         out.println("Transposition Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(8).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(9).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Reads", "Read NHits", "Read CHits", "Writes", "Updates", "OverWrites", "Fill");
+        printerTxtTable.setTitles("Move", "Read Nodes", "Read NHits", "Writes", "Updates", "OverWrites", "Reads Comparator", "Reads CHits", "Fill");
         transpositionModel.transpositionModelDetail.forEach(row -> {
             printerTxtTable.addRow(
                     row.move,
-                    Long.toString(row.reads),
+                    Long.toString(row.readNodes),
                     String.format("%d (%2d%%)", row.readNodeHits, row.readNodeHitPercentage),
-                    String.format("%d (%2d%%)", row.readComparatorHits, row.readComparatorHitPercentage),
                     Long.toString(row.writes),
                     String.format("%d (%2d%%)", row.updates, row.updatesPercentage),
                     String.format("%d (%2d%%)", row.overWrites, row.overWritePercentage),
+                    Long.toString(row.readComparators),
+                    String.format("%d (%2d%%)", row.readComparatorHits, row.readComparatorHitPercentage),
                     String.format("%2d%%", row.mapFillPercentage)
             );
         });
 
         printerTxtTable.setBottomRow(
                 "SUM",
-                Long.toString(transpositionModel.readsTotal),
+                Long.toString(transpositionModel.readsNodeTotal),
                 String.format("%d (%2d%%)", transpositionModel.readNodeHitsTotal, transpositionModel.readNodeHitPercentageTotal),
-                String.format("%d (%2d%%)", transpositionModel.readComparatorHitsTotal, transpositionModel.readComparatorHitPercentageTotal),
                 Long.toString(transpositionModel.writesTotal),
                 String.format("%d (%2d%%)", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal),
                 String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal),
+                Long.toString(transpositionModel.readComparatorTotal),
+                String.format("%d (%2d%%)", transpositionModel.readComparatorHitsTotal, transpositionModel.readComparatorHitPercentageTotal),
                 String.format("%2d%%", transpositionModel.mapFillPercentageAvg)
         );
 

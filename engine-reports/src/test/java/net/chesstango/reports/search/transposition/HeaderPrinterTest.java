@@ -22,7 +22,7 @@ class HeaderPrinterTest {
         TranspositionModel model = new TranspositionModel();
         model.searchGroupName = "Test Group";
         model.searches = 10;
-        model.readsTotal = 100;
+        model.readsNodeTotal = 100;
         model.readNodeHitsTotal = 60;
         model.readNodeHitPercentageTotal = 60;
         model.writesTotal = 40;

@@ -3,36 +3,46 @@ package net.chesstango.search.smart.statistics.transposition;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.SearchListener;
+import net.chesstango.search.Visitor;
 
 /**
  * @author Mauricio Coria
  */
 @Getter
 public class TTableCounters implements Acceptor, SearchListener {
+    // Node statistics reads
+    private long readNodes;
     private long readNodeHits;
-    private long readComparatorHits;
-    private long reads;
 
-    private long overWrites;
-    private long updates;
+    // Node statistics writes
     private long writes;
+    private long updates;
+    private long overWrites;
+
+    // Comparator statistics
+    private long readComparators;
+    private long readComparatorHits;
 
     @Setter
     private int mapFillPercentage;
 
-    public void increaseReads() {
-        reads++;
+    public void increaseReadNodes() {
+        readNodes++;
+    }
+
+    public void increaseReadNodeHits() {
+        readNodeHits++;
+    }
+
+    public void increaseReadComparators() {
+        readComparators++;
     }
 
     public void increaseReadComparatorHits() {
         readComparatorHits++;
     }
 
-    public void increaseReadNodeHits() {
-        readNodeHits++;
-    }
 
     public void increaseWrites() {
         writes++;
@@ -49,13 +59,15 @@ public class TTableCounters implements Acceptor, SearchListener {
 
     @Override
     public void beforeSearch() {
-        reads = 0;
+        readNodes = 0;
         readNodeHits = 0;
-        readComparatorHits = 0;
 
         writes = 0;
         updates = 0;
         overWrites = 0;
+
+        readComparators = 0;
+        readComparatorHits = 0;
 
         mapFillPercentage = 0;
     }
@@ -66,7 +78,21 @@ public class TTableCounters implements Acceptor, SearchListener {
     }
 
     public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(reads, readNodeHits, readComparatorHits, writes, updates, overWrites, mapFillPercentage);
+        return new TTableStatistics(
+                // Node statistics reads
+                readNodes,
+                readNodeHits,
+
+                // Node statistics writes
+                writes,
+                updates,
+                overWrites,
+
+                // Comparator statistics
+                readComparators,
+                readComparatorHits,
+
+                mapFillPercentage);
     }
 
 }
