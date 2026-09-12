@@ -35,10 +35,6 @@ public class AlphaBetaLoopNodeStatistics implements AlphaBetaFilter, Acceptor {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseLoopCounter();
 
-        if (currentPly <= depth) {
-            nodeCounters.increaseRegularCounter();
-        }
-
         nodeCounters.increaseVisitedCounter(currentPly);
     }
 }

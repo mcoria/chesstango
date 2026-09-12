@@ -35,10 +35,6 @@ public class AlphaBetaEgtbNodeStatistics implements AlphaBetaFilter, Acceptor {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseEgtbCounter();
 
-        if (currentPly <= depth) {
-            nodeCounters.increaseRegularCounter();
-        }
-
         nodeCounters.increaseVisitedCounter(currentPly);
     }
 }

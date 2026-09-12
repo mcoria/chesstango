@@ -13,8 +13,6 @@ public record NodeStatistics(long rootNodeCounter,
                              long loopNodeCounter,
                              long egtbCounter,
 
-                             long[] regularNodeCounters,
-
                              long[] expectedNodesCounters,
                              long[] visitedNodesCounters) implements Serializable {
 

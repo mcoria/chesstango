@@ -173,7 +173,6 @@ SearchByCycleListeners:
 
 SearchByDepthListener:
 	SetSearchTimers @ 77
-	NodeCounters @ 78
 	DepthCollector @ 80
 	RootMoveEvaluationBest @ 82
 
