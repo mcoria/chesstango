@@ -70,9 +70,9 @@ public class ReportGamesIntegrationTest {
                 .withBoardStatistics()
                  */
                 .withNodesVisitedStatistics()
-                .withNodesTypesStatistics()
+                .withNodesVisitedPercentageStatistics()
                 /*
-                .withCutoffStatistics()
+                .withNodesTypesStatistics()
                 .withPrincipalVariationStatistics()
                  */
                 .printReport(System.out);
@@ -88,9 +88,10 @@ public class ReportGamesIntegrationTest {
                 .withBoardReport()
                  */
                 .withNodesVisitedStatistics()
-                .withNodesTypesStatistics()
-                //.withCutoffStatistics()
+                .withNodesVisitedPercentageStatistics()
+
                 /*
+                .withNodesTypesStatistics()
                 .withEvaluationIterationReport()
                 .withPrincipalVariationReport()
                 .withPrincipalVariationIterationReport()

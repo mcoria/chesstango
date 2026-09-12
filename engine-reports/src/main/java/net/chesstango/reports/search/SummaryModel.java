@@ -6,7 +6,7 @@ import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.evalcache.EvaluationCacheModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
-import net.chesstango.reports.search.nodes.visited.NodesDepthModel;
+import net.chesstango.reports.search.nodes.visited.VisitedModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -22,7 +22,7 @@ public class SummaryModel implements Model<List<SearchResult>> {
     public int searches;
 
     @Getter
-    private NodesDepthModel nodesVisitedModel;
+    private VisitedModel nodesVisitedModel;
 
     @Getter
     private NodesTypesModel nodesTypesModel;
@@ -54,7 +54,7 @@ public class SummaryModel implements Model<List<SearchResult>> {
     private void load(List<SearchResult> searchResults) {
         this.searches = searchResults.size();
 
-        nodesVisitedModel = new NodesDepthModel().collectStatistics(searchGroupName, searchResults);
+        nodesVisitedModel = new VisitedModel().collectStatistics(searchGroupName, searchResults);
 
         nodesTypesModel = new NodesTypesModel().collectStatistics(searchGroupName, searchResults);
 

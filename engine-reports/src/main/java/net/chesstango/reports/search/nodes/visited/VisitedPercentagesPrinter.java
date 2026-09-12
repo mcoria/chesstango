@@ -13,25 +13,25 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class CutoffPrinter implements Printer {
+class VisitedPercentagesPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private NodesDepthModel reportModel;
+    private VisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)
     private PrintStream out;
 
     @Override
-    public CutoffPrinter print() {
-        out.printf("%nCutoff per search level (higher is better)%n");
+    public VisitedPercentagesPrinter print() {
+        out.printf("%nNodes Visited Percentage Statistics per search level (lower is better)%n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxDepth + 1).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
         IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
-        tmp.add("Cutoff");
+        tmp.add("Visited %");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
@@ -39,8 +39,8 @@ class CutoffPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
 
             tmpRow.add(String.format("%s", moveDetail.move));
-            IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffPercentages[depth])).forEach(tmpRow::add);
-            tmpRow.add(String.format("%d %%", moveDetail.cutoffPercentage));
+            IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d %%", moveDetail.visitedPercentages[depth])).forEach(tmpRow::add);
+            tmpRow.add(String.format("%d %%", moveDetail.visitedPercentage));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
@@ -48,8 +48,8 @@ class CutoffPrinter implements Printer {
         tmp = new LinkedList<>();
 
         tmp.add("AVG");
-        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d %%", reportModel.cutoffPercentages[depth])).forEach(tmp::add);
-        tmp.add(String.format("%d %%", reportModel.cutoffPercentageTotal));
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d %%", reportModel.visitedPercentages[depth])).forEach(tmp::add);
+        tmp.add(String.format("%d %%", reportModel.visitedPercentageTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 

@@ -8,7 +8,7 @@ import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.evalcache.EvaluationCacheReport;
 import net.chesstango.reports.search.evaluation.iteration.EvaluationIterationReport;
-import net.chesstango.reports.search.nodes.visited.NodesDepthReport;
+import net.chesstango.reports.search.nodes.visited.VisitedReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -28,7 +28,7 @@ public class DetailsReport implements Report {
     private boolean withBoardReport;
     private boolean withNodesVisitedStatistics;
     private boolean withNodesTypesStatistics;
-    private boolean withCutoffStatistics;
+    private boolean withNodesVisitedPercentageStatistics;
     private boolean withPrincipalVariationReport;
     private boolean withPrincipalVariationIterationReport;
     private boolean withTranspositionReport;
@@ -52,12 +52,12 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withCutoffStatistics || withNodesVisitedStatistics) {
-            NodesDepthReport nodesReport = new NodesDepthReport()
+        if (withNodesVisitedPercentageStatistics || withNodesVisitedStatistics) {
+            VisitedReport nodesReport = new VisitedReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList);
 
-            if (withCutoffStatistics) {
+            if (withNodesVisitedPercentageStatistics) {
                 nodesReport.withCutoffStatistics();
             }
             if (withNodesVisitedStatistics) {
@@ -135,8 +135,8 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withCutoffStatistics() {
-        this.withCutoffStatistics = true;
+    public DetailsReport withNodesVisitedPercentageStatistics() {
+        this.withNodesVisitedPercentageStatistics = true;
         return this;
     }
 

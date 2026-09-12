@@ -13,19 +13,23 @@ import static net.chesstango.search.smart.Constants.MAX_DEPTH;
 /**
  * @author Mauricio Coria
  */
-public class NodesDepthModel implements Model<List<SearchResult>> {
+public class VisitedModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
 
     /// ////////////////// START REGULAR NODES
     public int maxDepth;
+
     public long[] expectedNodesCounters;
-    public long[] visitedNodesCounters;
-    public int[] cutoffPercentages;
     public long expectedNodesTotal;
+
+    public long[] visitedNodesCounters;
     public long visitedNodesTotal;
-    public int cutoffPercentageTotal;
+
+    public int[] visitedPercentages;
+    public int visitedPercentageTotal;
+
     /// ////////////////// END REGULAR NODES
 
 
@@ -42,14 +46,16 @@ public class NodesDepthModel implements Model<List<SearchResult>> {
         public int maxDepth;
         public long[] expectedNodesCounters;
         public long expectedNodesCounter;
+
         public long[] visitedNodesCounters;
         public long visitedNodesCounter;
-        public int[] cutoffPercentages;
-        public int cutoffPercentage;
+
+        public int[] visitedPercentages;
+        public int visitedPercentage;
     }
 
     @Override
-    public NodesDepthModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+    public VisitedModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
 
         this.load(searchResults);
@@ -64,7 +70,7 @@ public class NodesDepthModel implements Model<List<SearchResult>> {
 
         this.expectedNodesCounters = new long[MAX_DEPTH];
         this.visitedNodesCounters = new long[MAX_DEPTH];
-        this.cutoffPercentages = new int[MAX_DEPTH];
+        this.visitedPercentages = new int[MAX_DEPTH];
 
         searchResults.forEach(this::loadModelDetail);
 
@@ -73,7 +79,7 @@ public class NodesDepthModel implements Model<List<SearchResult>> {
          */
         for (int i = 0; i < MAX_DEPTH; i++) {
             if (this.visitedNodesCounters[i] > 0) {
-                this.cutoffPercentages[i] = (int) (100 - (100 * this.visitedNodesCounters[i] / this.expectedNodesCounters[i]));
+                this.visitedPercentages[i] = Math.toIntExact(100 * this.visitedNodesCounters[i] / this.expectedNodesCounters[i]);
                 this.maxDepth = i;
             }
             this.visitedNodesTotal += this.visitedNodesCounters[i];
@@ -81,7 +87,7 @@ public class NodesDepthModel implements Model<List<SearchResult>> {
         }
 
         if (this.expectedNodesTotal > 0) {
-            this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
+            this.visitedPercentageTotal = Math.toIntExact(100 * this.visitedNodesTotal / this.expectedNodesTotal);
         }
     }
 
@@ -102,7 +108,7 @@ public class NodesDepthModel implements Model<List<SearchResult>> {
     private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, NodeStatistics regularNodeStatistics) {
         reportModelDetail.expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
-        reportModelDetail.cutoffPercentages = new int[MAX_DEPTH];
+        reportModelDetail.visitedPercentages = new int[MAX_DEPTH];
 
         for (int i = 0; i < MAX_DEPTH; i++) {
             if (reportModelDetail.expectedNodesCounters[i] < reportModelDetail.visitedNodesCounters[i]) {
@@ -118,13 +124,13 @@ public class NodesDepthModel implements Model<List<SearchResult>> {
                 this.expectedNodesCounters[i] += reportModelDetail.expectedNodesCounters[i];
 
                 if (reportModelDetail.expectedNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffPercentages[i] = (int) (100 - (100 * reportModelDetail.visitedNodesCounters[i] / reportModelDetail.expectedNodesCounters[i]));
+                    reportModelDetail.visitedPercentages[i] = Math.toIntExact(100 * reportModelDetail.visitedNodesCounters[i] / reportModelDetail.expectedNodesCounters[i]);
                 }
             }
         }
 
         if (reportModelDetail.expectedNodesCounter > 0) {
-            reportModelDetail.cutoffPercentage = (int) (100 - (100 * reportModelDetail.visitedNodesCounter / reportModelDetail.expectedNodesCounter));
+            reportModelDetail.visitedPercentage = Math.toIntExact(100 * reportModelDetail.visitedNodesCounter / reportModelDetail.expectedNodesCounter);
         }
     }
 }

@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesDepthReport implements Report {
+public class VisitedReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
     @Setter
     @Accessors(chain = true)
-    private NodesDepthModel reportModel;
+    private VisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -27,25 +27,25 @@ public class NodesDepthReport implements Report {
 
 
     @Override
-    public NodesDepthReport printReport(PrintStream output) {
+    public VisitedReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
     }
 
 
-    public NodesDepthReport withCutoffStatistics() {
+    public VisitedReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public NodesDepthReport withNodesVisitedStatistics() {
+    public VisitedReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public NodesDepthReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = new NodesDepthModel().collectStatistics(this.reportTitle, searchResults);
+    public VisitedReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = new VisitedModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
@@ -56,14 +56,14 @@ public class NodesDepthReport implements Report {
                 .print();
 
         if (printNodesVisitedStatistics) {
-            new NodesDepthPrinter()
+            new VisitedPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
                     .print();
         }
 
         if (printCutoffStatistics) {
-            new CutoffPrinter()
+            new VisitedPercentagesPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
                     .print();
