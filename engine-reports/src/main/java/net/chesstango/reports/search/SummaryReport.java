@@ -4,7 +4,7 @@ import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.evalcache.EvaluationCacheModel;
-import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
+import net.chesstango.reports.search.nodes.visited.VisitedModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
@@ -28,7 +28,7 @@ public class SummaryReport implements Report {
     private boolean withBoardStatistics;
     private boolean withNodesVisitedStatistics;
     private boolean withNodesTypesStatistics;
-    private boolean withCutoffStatistics;
+    private boolean withNodesVisitedPercentageStatistics;
     private boolean withTranspositionStatistics;
     private boolean withEvaluationStatistics;
     private boolean withPrincipalVariationStatistics;
@@ -63,11 +63,11 @@ public class SummaryReport implements Report {
         }
 
         if (withNodesVisitedStatistics) {
-            List<NodesDepthModel> reportRows = summaryModels
+            List<VisitedModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
                     .toList();
-            new SummaryNodesDepthPrinter()
+            new SummaryVisitedPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -84,13 +84,13 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if (withCutoffStatistics) {
-            List<NodesDepthModel> reportRows = summaryModels
+        if (withNodesVisitedPercentageStatistics) {
+            List<VisitedModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesVisitedModel)
                     .toList();
 
-            new SummaryCutoffPrinter()
+            new SummaryVisitedPercentagesPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -160,8 +160,8 @@ public class SummaryReport implements Report {
         return this;
     }
 
-    public SummaryReport withCutoffStatistics() {
-        this.withCutoffStatistics = true;
+    public SummaryReport withNodesVisitedPercentageStatistics() {
+        this.withNodesVisitedPercentageStatistics = true;
         return this;
     }
 

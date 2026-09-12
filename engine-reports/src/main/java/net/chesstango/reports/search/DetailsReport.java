@@ -8,7 +8,7 @@ import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.evalcache.EvaluationCacheReport;
 import net.chesstango.reports.search.evaluation.iteration.EvaluationIterationReport;
-import net.chesstango.reports.search.nodes.depth.NodesDepthReport;
+import net.chesstango.reports.search.nodes.visited.VisitedReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -26,9 +26,9 @@ import java.util.List;
  */
 public class DetailsReport implements Report {
     private boolean withBoardReport;
-    private boolean withNodesDepthStatistics;
+    private boolean withNodesVisitedStatistics;
     private boolean withNodesTypesStatistics;
-    private boolean withCutoffStatistics;
+    private boolean withNodesVisitedPercentageStatistics;
     private boolean withPrincipalVariationReport;
     private boolean withPrincipalVariationIterationReport;
     private boolean withTranspositionReport;
@@ -52,15 +52,15 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withCutoffStatistics || withNodesDepthStatistics) {
-            NodesDepthReport nodesReport = new NodesDepthReport()
+        if (withNodesVisitedPercentageStatistics || withNodesVisitedStatistics) {
+            VisitedReport nodesReport = new VisitedReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList);
 
-            if (withCutoffStatistics) {
-                nodesReport.withCutoffStatistics();
+            if (withNodesVisitedPercentageStatistics) {
+                nodesReport.withNodesVisitedPercentageStatistics();
             }
-            if (withNodesDepthStatistics) {
+            if (withNodesVisitedStatistics) {
                 nodesReport.withNodesVisitedStatistics();
             }
             nodesReport.printReport(out);
@@ -135,13 +135,13 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withCutoffStatistics() {
-        this.withCutoffStatistics = true;
+    public DetailsReport withNodesVisitedPercentageStatistics() {
+        this.withNodesVisitedPercentageStatistics = true;
         return this;
     }
 
-    public DetailsReport withNodesDepthStatistics() {
-        this.withNodesDepthStatistics = true;
+    public DetailsReport withNodesVisitedStatistics() {
+        this.withNodesVisitedStatistics = true;
         return this;
     }
 

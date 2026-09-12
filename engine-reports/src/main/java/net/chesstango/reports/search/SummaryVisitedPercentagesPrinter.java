@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
-import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
+import net.chesstango.reports.search.nodes.visited.VisitedModel;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -15,20 +15,20 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryCutoffPrinter implements Printer {
+class SummaryVisitedPercentagesPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
     private PrintStream out;
 
-    private List<NodesDepthModel> reportRows;
+    private List<VisitedModel> reportRows;
 
     private int maxDepth;
 
-    public SummaryCutoffPrinter setReportRows(List<NodesDepthModel> reportRows) {
+    public SummaryVisitedPercentagesPrinter setReportRows(List<VisitedModel> reportRows) {
         this.reportRows = reportRows;
         this.maxDepth = 0;
 
-        for (NodesDepthModel nodesModel : reportRows) {
+        for (VisitedModel nodesModel : reportRows) {
             if (maxDepth < nodesModel.maxDepth) {
                 maxDepth = nodesModel.maxDepth;
             }
@@ -38,8 +38,8 @@ class SummaryCutoffPrinter implements Printer {
     }
 
     @Override
-    public SummaryCutoffPrinter print() {
-        out.printf("%nCutoff per search level (higher is better)%n");
+    public SummaryVisitedPercentagesPrinter print() {
+        out.printf("%nNodes visited percentage per depth (lower is better)%n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxDepth + 1).setOut(out);
 
@@ -47,7 +47,7 @@ class SummaryCutoffPrinter implements Printer {
         tmp.add("ENGINE NAME");
         tmp.add("SEARCHES");
         IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
-        tmp.add("Cutoff");
+        tmp.add("Visited %");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
@@ -55,8 +55,8 @@ class SummaryCutoffPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(row.searchGroupName);
             tmpRow.add(Integer.toString(row.searches));
-            IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("%d %% ", row.cutoffPercentages[depth])).forEach(tmpRow::add);
-            tmpRow.add(Integer.toString(row.cutoffPercentageTotal));
+            IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("%d %% ", row.visitedPercentages[depth])).forEach(tmpRow::add);
+            tmpRow.add(Integer.toString(row.visitedPercentageTotal));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });

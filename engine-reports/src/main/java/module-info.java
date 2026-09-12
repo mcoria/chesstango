@@ -5,7 +5,7 @@ module net.chesstango.reports {
     exports net.chesstango.reports.search.pv;
     exports net.chesstango.reports.search.pv.iteration;
     exports net.chesstango.reports.search.nodes.types;
-    exports net.chesstango.reports.search.nodes.depth;
+    exports net.chesstango.reports.search.nodes.visited;
     exports net.chesstango.reports.search.evaluation.iteration;
     exports net.chesstango.reports.search.evaluation;
     exports net.chesstango.reports.search.board;

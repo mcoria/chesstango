@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes.depth;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -12,7 +12,7 @@ import java.io.PrintStream;
 class HeaderPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private NodesDepthModel reportModel;
+    private VisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -21,12 +21,12 @@ class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("NodesDepthReport      : %s%n%n", reportModel.searchGroupName);
+        out.printf("NodesVisitedReport    : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
         out.printf("Max              Depth: %10d%n", reportModel.maxDepth);
         out.printf("Visited          Nodes: %10d%n", reportModel.visitedNodesTotal);
         out.printf("Expected         Nodes: %10d%n", reportModel.expectedNodesTotal);
-        out.printf("Cutoff                : %10d %%%n%n", reportModel.cutoffPercentageTotal);
+        out.printf("Visited     Percentage: %10d %%%n%n", reportModel.visitedPercentageTotal);
         out.printf("%n");
 
         return this;
