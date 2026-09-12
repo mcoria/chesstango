@@ -58,7 +58,7 @@ public class DetailsReport implements Report {
                     .withMoveResults(searchResultList);
 
             if (withNodesVisitedPercentageStatistics) {
-                nodesReport.withCutoffStatistics();
+                nodesReport.withNodesVisitedPercentageStatistics();
             }
             if (withNodesVisitedStatistics) {
                 nodesReport.withNodesVisitedStatistics();

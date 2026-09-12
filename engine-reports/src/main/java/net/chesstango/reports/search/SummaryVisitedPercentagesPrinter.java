@@ -39,7 +39,7 @@ class SummaryVisitedPercentagesPrinter implements Printer {
 
     @Override
     public SummaryVisitedPercentagesPrinter print() {
-        out.printf("%nVisited percentage per search level (lower is better)%n");
+        out.printf("%nNodes visited percentage per depth (lower is better)%n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxDepth + 1).setOut(out);
 

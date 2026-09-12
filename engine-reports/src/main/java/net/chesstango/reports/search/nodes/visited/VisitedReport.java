@@ -12,8 +12,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class VisitedReport implements Report {
-    private boolean printCutoffStatistics;
-    private boolean printNodesVisitedStatistics;
+    private boolean withNodesVisitedPercentageStatistics;
+    private boolean withNodesVisitedStatistics;
 
     @Setter
     @Accessors(chain = true)
@@ -21,7 +21,7 @@ public class VisitedReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "NodesReport";
+    private String reportTitle = "VisitedReport";
 
     private PrintStream out;
 
@@ -34,13 +34,13 @@ public class VisitedReport implements Report {
     }
 
 
-    public VisitedReport withCutoffStatistics() {
-        this.printCutoffStatistics = true;
+    public VisitedReport withNodesVisitedPercentageStatistics() {
+        this.withNodesVisitedPercentageStatistics = true;
         return this;
     }
 
     public VisitedReport withNodesVisitedStatistics() {
-        this.printNodesVisitedStatistics = true;
+        this.withNodesVisitedStatistics = true;
         return this;
     }
 
@@ -55,14 +55,14 @@ public class VisitedReport implements Report {
                 .setOut(out)
                 .print();
 
-        if (printNodesVisitedStatistics) {
+        if (withNodesVisitedStatistics) {
             new VisitedPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
                     .print();
         }
 
-        if (printCutoffStatistics) {
+        if (withNodesVisitedPercentageStatistics) {
             new VisitedPercentagesPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
