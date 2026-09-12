@@ -35,10 +35,6 @@ public class AlphaBetaLeafNodeStatistics implements AlphaBetaFilter, Acceptor {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseLeafCounter();
 
-        if (currentPly <= depth) {
-            nodeCounters.increaseRegularCounter();
-        }
-
         nodeCounters.increaseVisitedCounter(currentPly);
     }
 }

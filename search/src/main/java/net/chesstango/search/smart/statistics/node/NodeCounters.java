@@ -2,16 +2,15 @@ package net.chesstango.search.smart.statistics.node;
 
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.SearchListener;
-import net.chesstango.search.SearchByDepthListener;
+import net.chesstango.search.Visitor;
 
 import static net.chesstango.search.smart.Constants.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
  */
-public class NodeCounters implements Acceptor, SearchListener, SearchByDepthListener {
+public class NodeCounters implements Acceptor, SearchListener {
 
     private long rootNodeCounter;
     private long interiorNodeCounter;
@@ -20,9 +19,6 @@ public class NodeCounters implements Acceptor, SearchListener, SearchByDepthList
     private long terminalNodeCounter;
     private long loopNodeCounter;
     private long egtbCounter;
-
-    private long regularNodeCounter;
-    private long[] regularNodeCounters;
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
@@ -45,20 +41,8 @@ public class NodeCounters implements Acceptor, SearchListener, SearchByDepthList
         this.loopNodeCounter = 0;
         this.egtbCounter = 0;
 
-        this.regularNodeCounters = new long[MAX_DEPTH];
         this.visitedNodesCounters = new long[MAX_DEPTH];
         this.expectedNodesCounters = new long[MAX_DEPTH];
-    }
-
-    @Override
-    public void beforeSearchByDepth() {
-        regularNodeCounter = 0;
-    }
-
-
-    @Override
-    public void afterSearchByDepth(boolean searchStopped) {
-        regularNodeCounters[depth - 1] = regularNodeCounter;
     }
 
 
@@ -72,7 +56,6 @@ public class NodeCounters implements Acceptor, SearchListener, SearchByDepthList
                 terminalNodeCounter,
                 loopNodeCounter,
                 egtbCounter,
-                regularNodeCounters,
                 expectedNodesCounters,
                 visitedNodesCounters
         );
@@ -104,10 +87,6 @@ public class NodeCounters implements Acceptor, SearchListener, SearchByDepthList
 
     public void increaseEgtbCounter() {
         egtbCounter++;
-    }
-
-    public void increaseRegularCounter() {
-        regularNodeCounter++;
     }
 
     public void increaseExpectedCounter(final int level, final int increment) {

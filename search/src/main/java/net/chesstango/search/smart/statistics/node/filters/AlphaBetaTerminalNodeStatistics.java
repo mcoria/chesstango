@@ -35,10 +35,6 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter, Accepto
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseTerminalCounter();
 
-        if (currentPly <= depth) {
-            nodeCounters.increaseRegularCounter();
-        }
-
         nodeCounters.increaseVisitedCounter(currentPly);
     }
 }
