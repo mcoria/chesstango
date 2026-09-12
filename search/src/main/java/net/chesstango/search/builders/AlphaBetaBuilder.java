@@ -128,6 +128,11 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
+    public AlphaBetaBuilder withGameEvaluatorCacheHashSize(int hashSizeKB) {
+        evaluatorCacheBuilder.withHashSize(hashSizeKB);
+        return this;
+    }
+
     public AlphaBetaBuilder withQuiescence() {
         withQuiescence = true;
         return this;
@@ -457,6 +462,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public static AlphaBetaBuilder createDefaultBuilderInstance() {
         return new AlphaBetaBuilder()
                 .withGameEvaluatorCache()
+                .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
 
                 .withQuiescence()
 

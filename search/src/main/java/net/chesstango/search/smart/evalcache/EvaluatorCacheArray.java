@@ -19,6 +19,9 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     private int arraySize;
 
     public EvaluatorCacheArray(int hashSizeKB) {
+        if (hashSizeKB <= 0) {
+            throw new IllegalArgumentException("HashSize must be at least 1 KB");
+        }
         // Suponiendo que el hashSizeKB es en KB convertirlo a bytes
         this.arraySize = (hashSizeKB * 1024)  / 16;
         this.cache = new EvaluatorCacheEntry[this.arraySize];

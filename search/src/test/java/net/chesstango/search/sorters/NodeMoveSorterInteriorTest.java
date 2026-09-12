@@ -5,17 +5,16 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.builders.EvaluationCacheBuilder;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Bound;
+import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.builders.EvaluationBuilder;
+import net.chesstango.search.builders.EvaluationCacheBuilder;
 import net.chesstango.search.builders.KillerMoveBuilder;
 import net.chesstango.search.builders.TranspositionTableBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
-import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheEntry;
+import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -27,9 +26,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.search.smart.Constants.DEFAULT_EVAL_HASH_SIZE_KB;
 import static net.chesstango.search.Bound.EXACT;
 import static net.chesstango.search.Bound.LOWER_BOUND;
+import static net.chesstango.search.smart.Constants.DEFAULT_TT_HASH_SIZE_KB;
 import static net.chesstango.search.smart.Constants.DEFAULT_TT_STALE_AGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -76,6 +75,7 @@ public class NodeMoveSorterInteriorTest {
                 .withSmartListenerMediator(listenerMediator);
 
         EvaluationCacheBuilder evaluationCacheBuilder = new EvaluationCacheBuilder()
+                .withHashSize(1)
                 .withSmartListenerMediator(listenerMediator);
 
         moveSorterInterior = moveSorterBuilder.build();
@@ -132,8 +132,8 @@ public class NodeMoveSorterInteriorTest {
     @Test
     public void test02() {
         Game game = Game.from(FEN.from("3k4/p2r4/1pR4p/4Q3/8/5P2/q5P1/6K1 w - - 0 1"))
-                .executeMove(Square.e5,Square.f6)
-                .executeMove(Square.d8,Square.e8);
+                .executeMove(Square.e5, Square.f6)
+                .executeMove(Square.d8, Square.e8);
 
         listenerMediator.accept(new SetGameVisitor(game));
 
