@@ -9,8 +9,8 @@ import java.nio.file.Path;
 import java.util.Properties;
 import java.util.Set;
 
-import static net.chesstango.search.smart.Constants.DEFAULT_HASH_SIZE_KB;
-import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;
+import static net.chesstango.search.smart.Constants.DEFAULT_TT_HASH_SIZE_KB;
+import static net.chesstango.search.smart.Constants.DEFAULT_TT_STALE_AGE;
 
 /**
  * @author Mauricio Corial
@@ -22,8 +22,8 @@ public class Tango implements TangoOptions, AutoCloseable {
     public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
     public static final String ENGINE_AUTHOR = PROPERTIES.getProperty("engine_author");
     public static final int INFINITE_DEPTH = Integer.parseInt(PROPERTIES.getProperty("infinite_depth"));
-    public static final int HASH_SIZE_MB = DEFAULT_HASH_SIZE_KB / 1024;
-    public static final int STALE_AGE = DEFAULT_STALE_AGE;
+    public static final int HASH_SIZE_MB = DEFAULT_TT_HASH_SIZE_KB / 1024;
+    public static final int STALE_AGE = DEFAULT_TT_STALE_AGE;
 
 
     public static Tango open(Config config) {

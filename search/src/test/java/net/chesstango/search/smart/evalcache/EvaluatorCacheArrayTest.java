@@ -3,7 +3,7 @@ package net.chesstango.search.smart.evalcache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.search.smart.Constants.CACHE_ARRAY_SIZE;
+import static net.chesstango.search.smart.Constants.DEFAULT_EVAL_HASH_SIZE_KB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -16,7 +16,7 @@ public class EvaluatorCacheArrayTest {
 
     @BeforeEach
     void setUp() {
-        evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray = new EvaluatorCacheArray(1);
 
         evaluatorCacheArray.increaseAge();
     }
@@ -63,7 +63,7 @@ public class EvaluatorCacheArrayTest {
     @Test
     void testWriteAndReadSameKey() {
         // Act
-        evaluatorCacheArray.write(CACHE_ARRAY_SIZE + 1L, 42);
+        evaluatorCacheArray.write(DEFAULT_EVAL_HASH_SIZE_KB + 1L, 42);
 
         EvaluatorCacheEntry result = evaluatorCacheArray.read(1L);
 

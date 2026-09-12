@@ -461,8 +461,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withTranspositionHashSize(DEFAULT_HASH_SIZE_KB)
-                .withTranspositionStaleAge(DEFAULT_STALE_AGE)
+                .withTranspositionHashSize(DEFAULT_TT_HASH_SIZE_KB)
+                .withTranspositionStaleAge(DEFAULT_TT_STALE_AGE)
 
                 .withTranspositionMoveSorter()
                 .withKillerMoveSorter()

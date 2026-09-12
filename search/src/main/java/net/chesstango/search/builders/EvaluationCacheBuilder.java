@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.smart.Constants;
 import net.chesstango.search.smart.evalcache.EvaluatorCache;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
@@ -42,7 +43,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private EvaluatorCache evaluatorCacheComparator;
 
     public EvaluationCacheBuilder() {
-        evaluatorCacheArray = new EvaluatorCacheArray();
+        evaluatorCacheArray = new EvaluatorCacheArray(Constants.DEFAULT_EVAL_HASH_SIZE_KB);
         evaluatorCacheListener = new EvaluatorCacheListener();
     }
 

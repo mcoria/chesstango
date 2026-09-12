@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.search.smart.Constants.CACHE_ARRAY_SIZE;
+import static net.chesstango.search.smart.Constants.DEFAULT_EVAL_HASH_SIZE_KB;
 import static net.chesstango.search.Bound.EXACT;
 import static net.chesstango.search.Bound.LOWER_BOUND;
-import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;
+import static net.chesstango.search.smart.Constants.DEFAULT_TT_STALE_AGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -47,8 +47,8 @@ public class NodeMoveSorterInteriorTest {
 
     private KillerMoves killerMoves;
 
-    private EvaluatorCacheEntry[] gameEvaluatorCacheEntries;
-    private int cacheAge;
+
+    private EvaluatorCacheArray evaluatorCacheArray;
 
     @BeforeEach
     public void setUp() {
@@ -65,7 +65,7 @@ public class NodeMoveSorterInteriorTest {
 
         TranspositionTableBuilder transpositionTableBuilder = new TranspositionTableBuilder()
                 .withHashSize(16)
-                .withStaleAge(DEFAULT_STALE_AGE)
+                .withStaleAge(DEFAULT_TT_STALE_AGE)
                 .withSmartListenerMediator(listenerMediator);
 
         KillerMoveBuilder killerMoveBuilder = new KillerMoveBuilder()
@@ -96,10 +96,7 @@ public class NodeMoveSorterInteriorTest {
 
         killerMoves = killerMoveBuilder.getKillerMovesTableImp();
 
-        EvaluatorCacheArray evaluatorCacheArray = evaluationCacheBuilder.getEvaluatorCacheArray();
-
-        gameEvaluatorCacheEntries = evaluatorCacheArray.getCache();
-        cacheAge = evaluatorCacheArray.getCurrentAge();
+        evaluatorCacheArray = evaluationCacheBuilder.getEvaluatorCacheArray();
     }
 
 
@@ -171,25 +168,17 @@ public class NodeMoveSorterInteriorTest {
         ttWrite(0xE52CBBEC6B915BDEL, (byte) 2, (short) 3892, -90510, LOWER_BOUND); // f6f5
         ttWrite(0x5E1C30FA0089BBB3L, (byte) 2, (short) 3892, -95776, LOWER_BOUND); // f6f4
 
-        cacheEvaluationWrite(0xDA94B91298DF9021L, 36919); // g2g3
-        cacheEvaluationWrite(0x553F0385907DA504L, 31216); // g2g4
-        cacheEvaluationWrite(0x817870238FEFA0D1L, 23653); // f6h8
-        cacheEvaluationWrite(0x5FDBC51A8AFE2590L, 38434); // f6e5
-        cacheEvaluationWrite(0x054A2BD3510869CAL, 23560); // f6g6
-        cacheEvaluationWrite(0xA0831ADEA11C4501L, 25759); // f6d4
-        cacheEvaluationWrite(0x5E1C30FA0089BBB3L, 16450); // f6f4
+        evaluatorCacheArray.write(0xDA94B91298DF9021L, 36919); // g2g3
+        evaluatorCacheArray.write(0x553F0385907DA504L, 31216); // g2g4
+        evaluatorCacheArray.write(0x817870238FEFA0D1L, 23653); // f6h8
+        evaluatorCacheArray.write(0x5FDBC51A8AFE2590L, 38434); // f6e5
+        evaluatorCacheArray.write(0x054A2BD3510869CAL, 23560); // f6g6
+        evaluatorCacheArray.write(0xA0831ADEA11C4501L, 25759); // f6d4
+        evaluatorCacheArray.write(0x5E1C30FA0089BBB3L, 16450); // f6f4
 
         List<String> actualSort = toMoveStrList(moveSorterInterior.getOrderedMoves(2));
         assertEquals(List.of("c6c8", "c6e6", "g1f1", "f6d4", "f6f4", "f6d6", "f6f5", "c6c1", "g1h2", "f6h4", "f6c3", "f6h6", "c6d6", "f3f4", "g1h1", "c6c3", "f6e6", "c6b6", "c6c5", "c6c7", "c6c4", "c6c2", "f6g7", "f6e7", "f6f7", "f6f8", "f6d8", "f6g5", "f6b2", "f6a1", "f6e5", "g2g3", "g2g4", "f6h8", "f6g6"), actualSort);
 
-    }
-
-    private void cacheEvaluationWrite(long hash, int value) {
-        int idx = (int) Math.abs(hash % CACHE_ARRAY_SIZE);
-        EvaluatorCacheEntry entry = gameEvaluatorCacheEntries[idx];
-        entry.setHash(hash);
-        entry.setEvaluation(value);
-        entry.setAge(cacheAge);
     }
 
     private void ttWrite(long hash, byte draft, short move, int value, Bound bound) {

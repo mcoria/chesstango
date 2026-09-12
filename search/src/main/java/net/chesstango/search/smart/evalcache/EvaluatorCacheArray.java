@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.evalcache;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import net.chesstango.search.smart.Constants;
 
 /**
  *
@@ -15,9 +15,14 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     @Getter
     private int currentAge;
 
-    public EvaluatorCacheArray() {
-        this.cache = new EvaluatorCacheEntry[Constants.CACHE_ARRAY_SIZE];
-        for (int i = 0; i < Constants.CACHE_ARRAY_SIZE; i++) {
+    @Getter
+    private int arraySize;
+
+    public EvaluatorCacheArray(int hashSizeKB) {
+        // Suponiendo que el hashSizeKB es en KB convertirlo a bytes
+        this.arraySize = (hashSizeKB * 1024)  / 16;
+        this.cache = new EvaluatorCacheEntry[this.arraySize];
+        for (int i = 0; i < this.arraySize; i++) {
             this.cache[i] = new EvaluatorCacheEntry();
         }
         this.currentAge = Integer.MIN_VALUE;
@@ -25,7 +30,7 @@ public class EvaluatorCacheArray implements EvaluatorCache {
 
     @Override
     public EvaluatorCacheEntry read(long hash) {
-        int idx = (int) Math.abs(hash % Constants.CACHE_ARRAY_SIZE);
+        int idx = (int) Math.abs(hash % this.arraySize);
 
         EvaluatorCacheEntry entry = cache[idx];
 
@@ -34,7 +39,7 @@ public class EvaluatorCacheArray implements EvaluatorCache {
 
     @Override
     public EvaluatorCacheEntry write(long hash, int evaluation) {
-        int idx = (int) Math.abs(hash % Constants.CACHE_ARRAY_SIZE);
+        int idx = (int) Math.abs(hash % this.arraySize);
 
         EvaluatorCacheEntry entry = cache[idx];
         entry.hash = hash;
@@ -54,7 +59,7 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     }
 
     public void clear() {
-        for (int i = 0; i < Constants.CACHE_ARRAY_SIZE; i++) {
+        for (int i = 0; i < this.arraySize; i++) {
             this.cache[i].age = Integer.MIN_VALUE;
         }
         this.currentAge = Integer.MIN_VALUE;
@@ -62,12 +67,12 @@ public class EvaluatorCacheArray implements EvaluatorCache {
 
     public int getFillPercentage() {
         int filled = 0;
-        for (int i = 0; i < Constants.CACHE_ARRAY_SIZE; i++) {
+        for (int i = 0; i < this.arraySize; i++) {
             EvaluatorCacheEntry entry = cache[i];
             if (entry.age == currentAge) {
                 filled++;
             }
         }
-        return (filled * 100 / Constants.CACHE_ARRAY_SIZE);
+        return (filled * 100 / this.arraySize);
     }
 }
