@@ -8,7 +8,7 @@ import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.evalcache.EvaluationCacheReport;
 import net.chesstango.reports.search.evaluation.iteration.EvaluationIterationReport;
-import net.chesstango.reports.search.nodes.depth.NodesDepthReport;
+import net.chesstango.reports.search.nodes.visited.NodesDepthReport;
 import net.chesstango.reports.search.nodes.ebf.EbfReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class DetailsReport implements Report {
     private boolean withBoardReport;
-    private boolean withNodesDepthStatistics;
+    private boolean withNodesVisitedStatistics;
     private boolean withNodesTypesStatistics;
     private boolean withCutoffStatistics;
     private boolean withPrincipalVariationReport;
@@ -52,7 +52,7 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-        if (withCutoffStatistics || withNodesDepthStatistics) {
+        if (withCutoffStatistics || withNodesVisitedStatistics) {
             NodesDepthReport nodesReport = new NodesDepthReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList);
@@ -60,7 +60,7 @@ public class DetailsReport implements Report {
             if (withCutoffStatistics) {
                 nodesReport.withCutoffStatistics();
             }
-            if (withNodesDepthStatistics) {
+            if (withNodesVisitedStatistics) {
                 nodesReport.withNodesVisitedStatistics();
             }
             nodesReport.printReport(out);
@@ -140,8 +140,8 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withNodesDepthStatistics() {
-        this.withNodesDepthStatistics = true;
+    public DetailsReport withNodesVisitedStatistics() {
+        this.withNodesVisitedStatistics = true;
         return this;
     }
 

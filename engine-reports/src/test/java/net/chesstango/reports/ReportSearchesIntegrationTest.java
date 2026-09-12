@@ -52,7 +52,7 @@ public class ReportSearchesIntegrationTest {
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .withBoardReport()
-                    .withNodesDepthStatistics()
+                    .withNodesVisitedStatistics()
                     .withNodesTypesStatistics()
                     .withCutoffStatistics()
                     .withEvaluationReport()

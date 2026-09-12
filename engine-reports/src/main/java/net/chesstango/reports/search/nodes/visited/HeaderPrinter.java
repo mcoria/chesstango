@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes.depth;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,7 +21,7 @@ class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("NodesDepthReport      : %s%n%n", reportModel.searchGroupName);
+        out.printf("NodesVisitedReport    : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
         out.printf("Max              Depth: %10d%n", reportModel.maxDepth);
         out.printf("Visited          Nodes: %10d%n", reportModel.visitedNodesTotal);

@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes.depth;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -26,8 +26,6 @@ class NodesDepthPrinter implements Printer {
 
     @Override
     public NodesDepthPrinter print() {
-        out.print("Visited Depth Statistics\n");
-
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxDepth + 1).setOut(out);
 
         List<String> tmp = new LinkedList<>();

@@ -4,7 +4,7 @@ import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.evalcache.EvaluationCacheModel;
-import net.chesstango.reports.search.nodes.depth.NodesDepthModel;
+import net.chesstango.reports.search.nodes.visited.NodesDepthModel;
 import net.chesstango.reports.search.nodes.types.NodesTypesModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;

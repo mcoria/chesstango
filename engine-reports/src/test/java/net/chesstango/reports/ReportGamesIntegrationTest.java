@@ -67,27 +67,29 @@ public class ReportGamesIntegrationTest {
                 .withEvaluationStatistics()
                 .withEvaluationCacheStatistics()
                 .withTranspositionStatistics()
-                 */
                 .withBoardStatistics()
+                 */
                 .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
+                /*
                 .withCutoffStatistics()
-                //.withPrincipalVariationStatistics()
+                .withPrincipalVariationStatistics()
+                 */
                 .printReport(System.out);
+
 
         detailsReport
                 .setReportTitle("TangoGame01")
                 .withMoveResults(searchResults)
-
                 /*
                 .withEvaluationReport()
                 .withEvaluationCacheReport()
                 .withTranspositionReport()
-                */
                 .withBoardReport()
-                .withNodesDepthStatistics()
+                 */
+                .withNodesVisitedStatistics()
                 .withNodesTypesStatistics()
-                .withCutoffStatistics()
+                //.withCutoffStatistics()
                 /*
                 .withEvaluationIterationReport()
                 .withPrincipalVariationReport()

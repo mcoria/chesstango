@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes.depth;
+package net.chesstango.reports.search.nodes.visited;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
