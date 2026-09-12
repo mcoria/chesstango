@@ -3,7 +3,7 @@ package net.chesstango.search.smart.evalcache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.search.smart.evalcache.EvaluatorCacheArray.CACHE_ARRAY_SIZE;
+import static net.chesstango.search.smart.Constants.CACHE_ARRAY_SIZE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 

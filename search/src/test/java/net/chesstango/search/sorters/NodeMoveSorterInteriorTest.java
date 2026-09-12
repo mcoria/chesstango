@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.search.smart.evalcache.EvaluatorCacheArray.CACHE_ARRAY_SIZE;
+import static net.chesstango.search.smart.Constants.CACHE_ARRAY_SIZE;
 import static net.chesstango.search.Bound.EXACT;
 import static net.chesstango.search.Bound.LOWER_BOUND;
 import static net.chesstango.search.smart.Constants.DEFAULT_STALE_AGE;
