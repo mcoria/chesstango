@@ -1,7 +1,7 @@
 package net.chesstango.reports.jmh;
 
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
+import net.chesstango.search.smart.transposition.TTableArray;
 import net.chesstango.search.Bound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.openjdk.jmh.annotations.*;
@@ -32,7 +32,7 @@ public class TTableArrayLoad {
     @Setup(Level.Trial)
     public void setUp() {
         random = new Random();
-        tTable = new TTableArrayPrimitives(3, 1024);
+        tTable = new TTableArray(3, 1024);
         //tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transposition = new TranspositionEntry();

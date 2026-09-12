@@ -5,7 +5,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
+import net.chesstango.search.smart.transposition.TTableArray;
 
 /**
  * @author Mauricio Coria
@@ -39,7 +39,7 @@ public class TTableStatisticsFillPercentageCollector implements Acceptor, Search
 
     private int getFillPercentage(TTable tTable) {
         return switch (tTable) {
-            case TTableArrayPrimitives tTableArrayPrimitives -> tTableArrayPrimitives.getFillPercentage();
+            case TTableArray tTableArray -> tTableArray.getFillPercentage();
             default -> 0;
         };
     }

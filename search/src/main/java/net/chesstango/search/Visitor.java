@@ -148,7 +148,7 @@ public interface Visitor {
     default void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
     }
 
-    default void visit(TTableArrayPrimitives ttArrayPrimitives) {
+    default void visit(TTableArray ttArrayPrimitives) {
     }
 
     default void visit(TranspositionTableTerminal transpositionTableTerminal) {

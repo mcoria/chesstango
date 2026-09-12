@@ -8,7 +8,7 @@ import static net.chesstango.search.Bound.*;
 /**
  * @author Mauricio Coria
  */
-public class TTableArrayPrimitives implements TTable, Acceptor {
+public class TTableArray implements TTable, Acceptor {
     /*
         Data layout:
          - byte[0] = age AND TranspositionBound
@@ -36,7 +36,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
 
     private final int staleAge;
 
-    public TTableArrayPrimitives(int staleAge, int hashSizeKB) {
+    public TTableArray(int staleAge, int hashSizeKB) {
         this.staleAge = staleAge;
         this.setupHashTable(hashSizeKB);
     }

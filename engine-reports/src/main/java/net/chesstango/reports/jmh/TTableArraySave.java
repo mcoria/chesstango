@@ -34,7 +34,7 @@ public class TTableArraySave {
     @Setup(Level.Trial)
     public void setUp() {
         random = new Random();
-        tTable = new TTableArrayPrimitives(3, 1024);
+        tTable = new TTableArray(3, 1024);
         //tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transpositionRead = new TranspositionEntry();

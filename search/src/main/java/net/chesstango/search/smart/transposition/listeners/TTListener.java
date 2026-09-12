@@ -5,14 +5,14 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.ResetListener;
 import net.chesstango.search.SearchListener;
-import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
+import net.chesstango.search.smart.transposition.TTableArray;
 
 /**
  * @author Mauricio Coria
  */
 @Setter
 public class TTListener implements Acceptor, SearchListener, ResetListener {
-    private TTableArrayPrimitives tTable;
+    private TTableArray tTable;
 
     @Override
     public void accept(Visitor visitor) {

@@ -10,7 +10,7 @@ AspirationWindows @ 4
 |
 ExtendPV @ 5
 |
-TranspositionTableRoot @ 6 [TTable: TTableArrayPrimitives @ 7]
+TranspositionTableRoot @ 6 [TTable: TTableArray @ 7]
 |
 AlphaBeta @ 8
 |
@@ -52,8 +52,8 @@ AlphaBetaFlowControl @ 12
 	|
 	ExtendPV @ 25
 	|
-	TranspositionTable @ 26 [TTable: TTableArrayPrimitives @ 7]
-	|	 PVWalkerFromTT @ 27 [TTable: TTableArrayPrimitives @ 7]
+	TranspositionTable @ 26 [TTable: TTableArray @ 7]
+	|	 PVWalkerFromTT @ 27 [TTable: TTableArray @ 7]
 	|
 	AlphaBeta @ 28
 	|
@@ -65,9 +65,9 @@ AlphaBetaFlowControl @ 12
 			|
 			PrincipalVariationComparator @ 30
 			|
-			TranspositionHeadMoveComparator @ 31 [TTable: TTableArrayPrimitives @ 7]
+			TranspositionHeadMoveComparator @ 31 [TTable: TTableArray @ 7]
 			|
-			TranspositionTailMoveComparator @ 32 [TTable: TTableArrayPrimitives @ 7]
+			TranspositionTailMoveComparator @ 32 [TTable: TTableArray @ 7]
 			|
 			QuietComparator @ 33
 			|
@@ -101,8 +101,8 @@ AlphaBetaFlowControl @ 12
 	|
 	ExtendPV @ 42
 	|
-	TranspositionTableQ @ 43 [TTable: TTableArrayPrimitives @ 7]
-	|	 PVWalkerFromTT @ 27 [TTable: TTableArrayPrimitives @ 7]
+	TranspositionTableQ @ 43 [TTable: TTableArray @ 7]
+	|	 PVWalkerFromTT @ 27 [TTable: TTableArray @ 7]
 	|
 	QuiescenceStandingPat @ 44 [Evaluator: EvaluatorCacheAdapter @ 15 [EvaluatorCache: EvaluatorCacheArray @ 16] -> EvaluatorByMaterial @ 17]
 	|
@@ -116,9 +116,9 @@ AlphaBetaFlowControl @ 12
 			|
 			PrincipalVariationComparator @ 47
 			|
-			TranspositionHeadMoveComparator @ 48 [TTable: TTableArrayPrimitives @ 7]
+			TranspositionHeadMoveComparator @ 48 [TTable: TTableArray @ 7]
 			|
-			TranspositionTailMoveComparator @ 49 [TTable: TTableArrayPrimitives @ 7]
+			TranspositionTailMoveComparator @ 49 [TTable: TTableArray @ 7]
 			|
 			PromotionComparator @ 50
 			|
@@ -163,7 +163,7 @@ Acceptor:
 	SetGameToEvaluator @ 61
 	EvaluatorCacheAdapter @ 15
 	TTListener @ 56
-	TTableArrayPrimitives @ 7
+	TTableArray @ 7
 	PVWalkerFromTT @ 27
 	EvaluatorCacheListener @ 57
 	SetGameToEndGameTableBase @ 62
