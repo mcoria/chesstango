@@ -22,7 +22,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
      * Implementation TTable filters
      */
     @Getter
-    private TTableArrayPrimitives tTableImp;
+    private TTableArray tTableImp;
 
     /**
      * Front-end TTable filters
@@ -114,7 +114,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     }
 
     private void buildObjects() {
-        tTableImp = new TTableArrayPrimitives(staleAge, hashSizeKB);
+        tTableImp = new TTableArray(staleAge, hashSizeKB);
         ttListener = new TTListener();
         pvWalkerFromTT = new PVWalkerFromTT();
 

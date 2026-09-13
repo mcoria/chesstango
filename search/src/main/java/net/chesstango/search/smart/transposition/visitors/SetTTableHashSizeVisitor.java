@@ -4,7 +4,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.IterativeDeepening;
 import net.chesstango.search.NoIterativeDeepening;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.transposition.TTableArrayPrimitives;
+import net.chesstango.search.smart.transposition.TTableArray;
 
 /**
  *
@@ -33,7 +33,7 @@ public class SetTTableHashSizeVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTableArrayPrimitives ttArrayPrimitives) {
+    public void visit(TTableArray ttArrayPrimitives) {
         ttArrayPrimitives.setupHashTable(hashSize);
     }
 

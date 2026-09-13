@@ -12,7 +12,7 @@ DebugFilter @ 5
 |
 ExtendPV @ 6
 |
-TranspositionTableRoot @ 7 [TTable: TTableNodeDebug @ 8 -> TTableArrayPrimitives @ 9]
+TranspositionTableRoot @ 7 [TTable: TTableNodeDebug @ 8 -> TTableArray @ 9]
 |
 AlphaBeta @ 10
 |
@@ -66,8 +66,8 @@ AlphaBetaFlowControl @ 15
 	|
 	ExtendPV @ 34
 	|
-	TranspositionTable @ 35 [TTable: TTableNodeDebug @ 8 -> TTableArrayPrimitives @ 9]
-	|	 PVWalkerFromTT @ 36 [TTable: TTablePVDebug @ 37 -> TTableArrayPrimitives @ 9]
+	TranspositionTable @ 35 [TTable: TTableNodeDebug @ 8 -> TTableArray @ 9]
+	|	 PVWalkerFromTT @ 36 [TTable: TTablePVDebug @ 37 -> TTableArray @ 9]
 	|
 	AlphaBeta @ 38
 	|
@@ -81,9 +81,9 @@ AlphaBetaFlowControl @ 15
 			|
 			PrincipalVariationComparator @ 41
 			|
-			TranspositionHeadMoveComparator @ 42 [TTable: TTableComparatorHeadDebug @ 43 -> TTableArrayPrimitives @ 9]
+			TranspositionHeadMoveComparator @ 42 [TTable: TTableComparatorHeadDebug @ 43 -> TTableArray @ 9]
 			|
-			TranspositionTailMoveComparator @ 44 [TTable: TTableComparatorTailDebug @ 45 -> TTableArrayPrimitives @ 9]
+			TranspositionTailMoveComparator @ 44 [TTable: TTableComparatorTailDebug @ 45 -> TTableArray @ 9]
 			|
 			QuietComparator @ 46
 			|
@@ -119,8 +119,8 @@ AlphaBetaFlowControl @ 15
 	|
 	ExtendPV @ 57
 	|
-	TranspositionTableQ @ 58 [TTable: TTableNodeDebug @ 8 -> TTableArrayPrimitives @ 9]
-	|	 PVWalkerFromTT @ 36 [TTable: TTablePVDebug @ 37 -> TTableArrayPrimitives @ 9]
+	TranspositionTableQ @ 58 [TTable: TTableNodeDebug @ 8 -> TTableArray @ 9]
+	|	 PVWalkerFromTT @ 36 [TTable: TTablePVDebug @ 37 -> TTableArray @ 9]
 	|
 	QuiescenceStandingPat @ 59 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCacheAdapter @ 20 [EvaluatorCache: EvaluatorCacheArray @ 21] -> EvaluatorByMaterial @ 22]
 	|
@@ -136,9 +136,9 @@ AlphaBetaFlowControl @ 15
 			|
 			PrincipalVariationComparator @ 63
 			|
-			TranspositionHeadMoveComparator @ 64 [TTable: TTableComparatorHeadDebug @ 43 -> TTableArrayPrimitives @ 9]
+			TranspositionHeadMoveComparator @ 64 [TTable: TTableComparatorHeadDebug @ 43 -> TTableArray @ 9]
 			|
-			TranspositionTailMoveComparator @ 65 [TTable: TTableComparatorTailDebug @ 45 -> TTableArrayPrimitives @ 9]
+			TranspositionTailMoveComparator @ 65 [TTable: TTableComparatorTailDebug @ 45 -> TTableArray @ 9]
 			|
 			PromotionComparator @ 66
 			|
@@ -192,7 +192,7 @@ Acceptor:
 	EvaluatorDebug @ 19
 	EvaluatorCacheAdapter @ 20
 	TTListener @ 72
-	TTableArrayPrimitives @ 9
+	TTableArray @ 9
 	TTableNodeDebug @ 8
 	TTableComparatorHeadDebug @ 43
 	TTableComparatorTailDebug @ 45

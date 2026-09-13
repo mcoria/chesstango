@@ -8,7 +8,7 @@ import static net.chesstango.search.Bound.*;
 /**
  * @author Mauricio Coria
  */
-public class TTableArrayPrimitives implements TTable, Acceptor {
+public class TTableArray implements TTable, Acceptor {
     /*
         Data layout:
          - byte[0] = age AND TranspositionBound
@@ -36,7 +36,7 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
 
     private final int staleAge;
 
-    public TTableArrayPrimitives(int staleAge, int hashSizeKB) {
+    public TTableArray(int staleAge, int hashSizeKB) {
         this.staleAge = staleAge;
         this.setupHashTable(hashSizeKB);
     }
@@ -45,8 +45,8 @@ public class TTableArrayPrimitives implements TTable, Acceptor {
         if (hashSizeKB < 16) {
             throw new IllegalArgumentException("HashSize must be at least 16 KB");
         }
-        // Suponiendo que el hashSizeKB es en KB, y se establece en DEFAULT_HASH_SIZE_KB, convertirlo a bytes
-        this.arraySize = (hashSizeKB / 16) * 1024;   // 2 tablas, 8 bytes por elemento
+        // Suponiendo que el hashSizeKB es en KB, y se establece en DEFAULT_TT_HASH_SIZE_KB, convertirlo a bytes
+        this.arraySize = (hashSizeKB * 1024) / 16;   // 2 tablas, 8 bytes por elemento
         this.hashArray = new long[arraySize]; // 8 bytes * 2097152 elementos = 16MB table
         this.dataArray = new long[arraySize]; // 8 bytes * 2097152 elementos = 16MB table
         this.currentAge = staleAge + 1;

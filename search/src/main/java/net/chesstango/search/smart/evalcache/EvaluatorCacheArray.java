@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.evalcache;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
@@ -8,36 +9,40 @@ import lombok.Getter;
  */
 public class EvaluatorCacheArray implements EvaluatorCache {
 
-    public static final int CACHE_ARRAY_SIZE = 1024 * 512;
-
-    public static final int CACHE_STALE_AGE = 3;
-
     @Getter
     private final EvaluatorCacheEntry[] cache;
 
     @Getter
     private int currentAge;
 
-    public EvaluatorCacheArray() {
-        this.cache = new EvaluatorCacheEntry[CACHE_ARRAY_SIZE];
-        for (int i = 0; i < CACHE_ARRAY_SIZE; i++) {
+    @Getter
+    private int arraySize;
+
+    public EvaluatorCacheArray(int hashSizeKB) {
+        if (hashSizeKB <= 0) {
+            throw new IllegalArgumentException("HashSize must be at least 1 KB");
+        }
+        // Suponiendo que el hashSizeKB es en KB convertirlo a bytes
+        this.arraySize = (hashSizeKB * 1024)  / 16;
+        this.cache = new EvaluatorCacheEntry[this.arraySize];
+        for (int i = 0; i < this.arraySize; i++) {
             this.cache[i] = new EvaluatorCacheEntry();
         }
-        this.currentAge = Integer.MIN_VALUE + CACHE_STALE_AGE;
+        this.currentAge = Integer.MIN_VALUE;
     }
 
     @Override
     public EvaluatorCacheEntry read(long hash) {
-        int idx = (int) Math.abs(hash % CACHE_ARRAY_SIZE);
+        int idx = (int) Math.abs(hash % this.arraySize);
 
         EvaluatorCacheEntry entry = cache[idx];
 
-        return entry.hash == hash && !(entry.age > currentAge || currentAge - entry.age >= CACHE_STALE_AGE) ? entry : null;
+        return entry.hash == hash && entry.age == currentAge ? entry : null;
     }
 
     @Override
     public EvaluatorCacheEntry write(long hash, int evaluation) {
-        int idx = (int) Math.abs(hash % CACHE_ARRAY_SIZE);
+        int idx = (int) Math.abs(hash % this.arraySize);
 
         EvaluatorCacheEntry entry = cache[idx];
         entry.hash = hash;
@@ -57,20 +62,20 @@ public class EvaluatorCacheArray implements EvaluatorCache {
     }
 
     public void clear() {
-        for (int i = 0; i < CACHE_ARRAY_SIZE; i++) {
+        for (int i = 0; i < this.arraySize; i++) {
             this.cache[i].age = Integer.MIN_VALUE;
         }
-        this.currentAge = Integer.MIN_VALUE + CACHE_STALE_AGE;
+        this.currentAge = Integer.MIN_VALUE;
     }
 
     public int getFillPercentage() {
         int filled = 0;
-        for (int i = 0; i < CACHE_ARRAY_SIZE; i++) {
+        for (int i = 0; i < this.arraySize; i++) {
             EvaluatorCacheEntry entry = cache[i];
-            if (!(entry.age > currentAge || currentAge - entry.age >= CACHE_STALE_AGE)) {
+            if (entry.age == currentAge) {
                 filled++;
             }
         }
-        return (filled * 100 / CACHE_ARRAY_SIZE);
+        return (filled * 100 / this.arraySize);
     }
 }

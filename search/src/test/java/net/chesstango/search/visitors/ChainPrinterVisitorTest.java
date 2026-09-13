@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.chesstango.search.smart.Constants.DEFAULT_TT_HASH_SIZE_KB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -101,6 +102,7 @@ public class ChainPrinterVisitorTest {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluatorCache()
+                .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
 
                 .withQuiescence()
 

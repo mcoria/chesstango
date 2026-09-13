@@ -128,6 +128,11 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
+    public AlphaBetaBuilder withGameEvaluatorCacheHashSize(int hashSizeKB) {
+        evaluatorCacheBuilder.withHashSize(hashSizeKB);
+        return this;
+    }
+
     public AlphaBetaBuilder withQuiescence() {
         withQuiescence = true;
         return this;
@@ -457,12 +462,13 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public static AlphaBetaBuilder createDefaultBuilderInstance() {
         return new AlphaBetaBuilder()
                 .withGameEvaluatorCache()
+                .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
 
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withTranspositionHashSize(DEFAULT_HASH_SIZE_KB)
-                .withTranspositionStaleAge(DEFAULT_STALE_AGE)
+                .withTranspositionHashSize(DEFAULT_TT_HASH_SIZE_KB)
+                .withTranspositionStaleAge(DEFAULT_TT_STALE_AGE)
 
                 .withTranspositionMoveSorter()
                 .withKillerMoveSorter()

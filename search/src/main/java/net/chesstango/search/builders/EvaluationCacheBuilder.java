@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.smart.Constants;
 import net.chesstango.search.smart.evalcache.EvaluatorCache;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
@@ -20,8 +21,8 @@ import java.util.List;
  */
 public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCacheBuilder> {
     @Getter
-    private final EvaluatorCacheArray evaluatorCacheArray;
-    private final EvaluatorCacheListener evaluatorCacheListener;
+    private EvaluatorCacheArray evaluatorCacheArray;
+    private EvaluatorCacheListener evaluatorCacheListener;
     private EvaluatorCacheDebug evaluatorCacheDebug;
 
     // Statistics Model
@@ -29,22 +30,18 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector;
     private EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector;
 
-
     private ListenerMediator listenerMediator;
 
     private boolean withDebugSearchTree;
     private boolean withStatistics;
+
+    private int hashSizeKB;
 
     /**
      * Front-end evaluators
      */
     private EvaluatorCache evaluatorCacheNode;
     private EvaluatorCache evaluatorCacheComparator;
-
-    public EvaluationCacheBuilder() {
-        evaluatorCacheArray = new EvaluatorCacheArray();
-        evaluatorCacheListener = new EvaluatorCacheListener();
-    }
 
     @Override
     public EvaluationCacheBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
@@ -62,6 +59,11 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
         return this;
     }
 
+    public EvaluationCacheBuilder withHashSize(int hashSizeKB) {
+        this.hashSizeKB = hashSizeKB;
+        return this;
+    }
+
     @Override
     public void build() {
         buildObjects();
@@ -74,6 +76,9 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
 
 
     private void buildObjects() {
+        evaluatorCacheArray = new EvaluatorCacheArray(hashSizeKB);
+        evaluatorCacheListener = new EvaluatorCacheListener();
+
         if (withDebugSearchTree) {
             evaluatorCacheDebug = new EvaluatorCacheDebug();
         }
