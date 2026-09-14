@@ -66,9 +66,5 @@ module net.chesstango.search {
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
     requires net.chesstango.gardel;
-    requires com.fasterxml.jackson.annotation;
-    requires tools.jackson.databind;
     requires static lombok;
-
-    opens net.chesstango.search.gamegraph to tools.jackson.databind;
 }
