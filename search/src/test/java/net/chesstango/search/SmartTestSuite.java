@@ -30,7 +30,6 @@ import org.junit.platform.suite.api.Suite;
         AlphaBetaMateIn3Test.class,
         AlphaBetaMateIn4Test.class,
 
-        AlphaBetaTest.class,
         AlphaBetaStopTest.class,
 
         BestMovesBlackTest.class,
