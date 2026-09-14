@@ -1,6 +1,5 @@
 package net.chesstango.search;
 
-import net.chesstango.search.dummy.Dummy;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
@@ -71,9 +70,6 @@ import net.chesstango.search.sorters.groupsorters.NoQuietBifurcation;
  * @author Mauricio Coria
  */
 public interface Visitor {
-
-    default void visit(Dummy dummy) {
-    }
 
     default void visit(IterativeDeepening iterativeDeepening) {
     }
