@@ -1,0 +1,78 @@
+package net.chesstango.search.alphabeta.evalcache;
+
+import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
+import net.chesstango.search.alphabeta.debug.model.DebugCacheRead;
+import net.chesstango.search.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.alphabeta.debug.model.DebugReadTT;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * @author Mauricio Coria
+ */
+
+@Setter
+@Getter
+public class EvaluatorCacheDebug implements EvaluatorCache, Acceptor {
+
+    private DebugNodeTracker debugNodeTracker;
+
+    private EvaluatorCache evaluatorCache;
+
+    private Game game;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public EvaluatorCacheEntry read(long hash) {
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
+        if (evaluatorCacheEntry != null) {
+            trackReadFromCache(hash, evaluatorCacheEntry.evaluation);
+        }
+        return evaluatorCacheEntry;
+    }
+
+    @Override
+    public EvaluatorCacheEntry write(long hash, int evaluation) {
+        throw new RuntimeException("write() should not be called on a comparator");
+    }
+
+
+    void trackReadFromCache(long hashRequested, int evaluation) {
+        DebugNode currentNode = debugNodeTracker.getCurrentNode();
+
+        List<DebugCacheRead> evalCacheReads = currentNode.getEvalCacheReads();
+
+        Optional<DebugCacheRead> previousReadOpt = evalCacheReads
+                .stream()
+                .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hashRequested)
+                .findFirst();
+
+        if (previousReadOpt.isEmpty()) {
+            currentNode.getEvalCacheReads().add(new DebugCacheRead()
+                    .setHashRequested(hashRequested)
+                    .setEvaluation(evaluation)
+                    .setMove(readMove(hashRequested))
+            );
+        }
+    }
+
+    String readMove(long hashRequested) {
+        for (Move move : game.getPossibleMoves()) {
+            if (move.getZobristHash() == hashRequested) {
+                return move.coordinateEncoding();
+            }
+        }
+        return DebugReadTT.UNKNOWN;
+    }
+}

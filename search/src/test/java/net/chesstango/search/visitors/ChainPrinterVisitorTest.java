@@ -4,10 +4,10 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.debug.DebugNodeTrap;
-import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.egtb.EndGameTableBase;
-import net.chesstango.search.smart.egtb.visitors.LinkEndGameTableBaseVisitor;
+import net.chesstango.search.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
+import net.chesstango.search.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.search.smart.Constants.DEFAULT_TT_HASH_SIZE_KB;
+import static net.chesstango.search.alphabeta.Constants.DEFAULT_TT_HASH_SIZE_KB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

@@ -1,21 +1,21 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.search.smart.AlphaBetaFilter;
+import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.core.filters.AlphaBeta;
-import net.chesstango.search.smart.core.filters.QuiescenceStandingPat;
-import net.chesstango.search.smart.debug.filters.DebugFilter;
-import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.pv.filters.ExtendPV;
-import net.chesstango.search.smart.pv.filters.PropagatePV;
-import net.chesstango.search.smart.root.filters.AspirationWindows;
-import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
-import net.chesstango.search.smart.root.filters.StopProcessingCatch;
-import net.chesstango.search.smart.statistics.node.filters.*;
-import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
-import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
-import net.chesstango.search.smart.transposition.filters.*;
-import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
+import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
+import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
+import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
+import net.chesstango.search.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
+import net.chesstango.search.alphabeta.statistics.node.filters.*;
+import net.chesstango.search.alphabeta.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.alphabeta.statistics.sorter.filters.InteriorNodeSorterPre;
+import net.chesstango.search.alphabeta.transposition.filters.*;
+import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
 
 import java.util.List;
 

@@ -1,0 +1,47 @@
+package net.chesstango.search.alphabeta.statistics.transposition;
+
+import lombok.Setter;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.alphabeta.transposition.TTable;
+import net.chesstango.search.alphabeta.transposition.TTableArray;
+
+/**
+ * @author Mauricio Coria
+ */
+@Setter
+public class TTableStatisticsFillPercentageCollector implements Acceptor, SearchListener {
+
+    private final TTableCounters tTableCounters;
+    private final TTable tTable;
+
+    public TTableStatisticsFillPercentageCollector(TTableCounters tTableCounters, TTable tTable) {
+        this.tTableCounters = tTableCounters;
+        this.tTable = tTable;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearch() {
+    }
+
+    @Override
+    public void afterSearch() {
+        int mapFillPercentage = getFillPercentage(tTable);
+
+        tTableCounters.setMapFillPercentage(mapFillPercentage);
+    }
+
+    private int getFillPercentage(TTable tTable) {
+        return switch (tTable) {
+            case TTableArray tTableArray -> tTableArray.getFillPercentage();
+            default -> 0;
+        };
+    }
+
+}

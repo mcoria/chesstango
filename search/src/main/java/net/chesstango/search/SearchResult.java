@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatistics;
-import net.chesstango.search.smart.statistics.node.NodeStatistics;
-import net.chesstango.search.smart.statistics.sorter.SorterStatistics;
-import net.chesstango.search.smart.statistics.transposition.TTableStatistics;
+import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheStatistics;
+import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorStatistics;
+import net.chesstango.search.alphabeta.statistics.node.NodeStatistics;
+import net.chesstango.search.alphabeta.statistics.sorter.SorterStatistics;
+import net.chesstango.search.alphabeta.statistics.transposition.TTableStatistics;
 
 import java.io.Serializable;
 import java.util.ArrayList;

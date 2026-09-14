@@ -7,12 +7,12 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
-import net.chesstango.search.smart.transposition.visitors.LinkTTableHeadComparatorVisitor;
-import net.chesstango.search.smart.transposition.visitors.LinkTTableTailComparatorVisitor;
+import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
+import net.chesstango.search.alphabeta.transposition.visitors.LinkTTableHeadComparatorVisitor;
+import net.chesstango.search.alphabeta.transposition.visitors.LinkTTableTailComparatorVisitor;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.smart.killermoves.visitors.LinkKillerMovesVisitor;
+import net.chesstango.search.alphabeta.killermoves.visitors.LinkKillerMovesVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
 import org.junit.jupiter.api.Test;
 

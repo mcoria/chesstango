@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.root.RootMoveEvaluationComparator;
+import net.chesstango.search.alphabeta.root.RootMoveEvaluationComparator;
 
 import java.util.Comparator;
 import java.util.List;

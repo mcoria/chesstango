@@ -2,12 +2,12 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.evaluator.EvaluatorCacheAdapter;
-import net.chesstango.search.smart.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.evaluator.listeners.SetGameToEvaluator;
-import net.chesstango.search.smart.evaluator.visitors.LinkEvaluatorVisitor;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatisticsCollector;
+import net.chesstango.search.alphabeta.evaluator.EvaluatorCacheAdapter;
+import net.chesstango.search.alphabeta.evaluator.EvaluatorDebug;
+import net.chesstango.search.alphabeta.evaluator.listeners.SetGameToEvaluator;
+import net.chesstango.search.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
+import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorCounters;
+import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorStatisticsCollector;
 
 import java.util.LinkedList;
 import java.util.List;

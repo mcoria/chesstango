@@ -2,16 +2,15 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.Constants;
-import net.chesstango.search.smart.evalcache.EvaluatorCache;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheDebug;
-import net.chesstango.search.smart.evalcache.listeners.EvaluatorCacheListener;
-import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
-import net.chesstango.search.smart.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
-import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheCounters;
-import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsComparatorCollector;
-import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebug;
+import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheListener;
+import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
+import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
+import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheCounters;
+import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheStatisticsComparatorCollector;
+import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
 
 import java.util.LinkedList;
 import java.util.List;

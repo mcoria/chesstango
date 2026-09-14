@@ -14,10 +14,10 @@ import net.chesstango.search.builders.KillerMoveBuilder;
 import net.chesstango.search.builders.TranspositionTableBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheArray;
-import net.chesstango.search.smart.killermoves.KillerMoves;
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
+import net.chesstango.search.alphabeta.killermoves.KillerMoves;
+import net.chesstango.search.alphabeta.transposition.TTable;
+import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
 import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +28,7 @@ import java.util.List;
 
 import static net.chesstango.search.Bound.EXACT;
 import static net.chesstango.search.Bound.LOWER_BOUND;
-import static net.chesstango.search.smart.Constants.DEFAULT_TT_HASH_SIZE_KB;
-import static net.chesstango.search.smart.Constants.DEFAULT_TT_STALE_AGE;
+import static net.chesstango.search.alphabeta.Constants.DEFAULT_TT_STALE_AGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

@@ -1,14 +1,11 @@
 package net.chesstango.search.sorters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.debug.DebugNodeTracker;
-import net.chesstango.search.smart.debug.model.DebugNode;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
-import org.junit.jupiter.api.Disabled;
+import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
+import net.chesstango.search.alphabeta.debug.model.DebugNode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

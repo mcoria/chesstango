@@ -24,10 +24,6 @@
             <groupId>net.chesstango</groupId>
             <artifactId>evaluation</artifactId>
         </dependency>
-        <dependency>
-            <groupId>tools.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

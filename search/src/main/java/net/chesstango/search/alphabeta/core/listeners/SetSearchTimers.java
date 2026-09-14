@@ -1,0 +1,40 @@
+package net.chesstango.search.alphabeta.core.listeners;
+
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.SearchByDepthListener;
+
+import java.time.Duration;
+import java.time.Instant;
+
+/**
+ * @author Mauricio Coria
+ */
+public class SetSearchTimers implements Acceptor, SearchListener, SearchByDepthListener {
+    private Instant startInstant;
+    private Instant startDepthInstant;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearch() {
+        this.startInstant = Instant.now();
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        startDepthInstant = Instant.now();
+    }
+
+    public long getTimeSearching() {
+        return Duration.between(startInstant, Instant.now()).toMillis();
+    }
+
+    public long getTimeSearchingLastDepth() {
+        return Duration.between(startDepthInstant, Instant.now()).toMillis();
+    }
+}

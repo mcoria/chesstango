@@ -1,14 +1,14 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.core.filters.QuiescenceStandingPatTest;
-import net.chesstango.search.smart.core.filters.TranspositionEntryTableTest;
-import net.chesstango.search.smart.pv.model.PVCalculatorTest;
-import net.chesstango.search.smart.root.RootMoveEvaluationBestTest;
-import net.chesstango.search.smart.root.filters.AspirationWindowsTest;
-import net.chesstango.search.smart.root.filters.RootMoveEvaluationTrackerTest;
-import net.chesstango.search.smart.transposition.TTableArrayTest;
-import net.chesstango.search.smart.transposition.TranspositionEntryTest;
+import net.chesstango.search.alphabeta.*;
+import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPatTest;
+import net.chesstango.search.alphabeta.core.filters.TranspositionEntryTableTest;
+import net.chesstango.search.alphabeta.pv.model.PVCalculatorTest;
+import net.chesstango.search.alphabeta.root.RootMoveEvaluationBestTest;
+import net.chesstango.search.alphabeta.root.filters.AspirationWindowsTest;
+import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTrackerTest;
+import net.chesstango.search.alphabeta.transposition.TTableArrayTest;
+import net.chesstango.search.alphabeta.transposition.TranspositionEntryTest;
 import net.chesstango.search.visitors.ChainPrinterVisitorTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -30,7 +30,6 @@ import org.junit.platform.suite.api.Suite;
         AlphaBetaMateIn3Test.class,
         AlphaBetaMateIn4Test.class,
 
-        AlphaBetaTest.class,
         AlphaBetaStopTest.class,
 
         BestMovesBlackTest.class,

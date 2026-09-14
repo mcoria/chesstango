@@ -2,8 +2,8 @@ package net.chesstango.search.sorters.visitors;
 
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
-import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
+import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.NodeMoveSorter;
 
 /**

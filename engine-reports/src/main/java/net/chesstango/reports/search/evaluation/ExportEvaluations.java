@@ -1,7 +1,7 @@
 package net.chesstango.reports.search.evaluation;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorEntry;
+import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorEntry;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

@@ -1,8 +1,7 @@
 package net.chesstango.search.sorters;
 
 import net.chesstango.search.RootMoveEvaluation;
-import net.chesstango.search.smart.root.RootMoveEvaluationComparator;
-import net.chesstango.search.sorters.RootMoveSorter;
+import net.chesstango.search.alphabeta.root.RootMoveEvaluationComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
