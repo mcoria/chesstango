@@ -170,15 +170,16 @@ SearchByCycleListeners:
 	GameCountersCollector @ 81
 	DepthCollector @ 82
 	PrincipalVariationComparator @ 42
+	SorterCounters @ 83
 	PrincipalVariationComparator @ 64
-	RootMoveEvaluationCollection @ 83
+	RootMoveEvaluationCollection @ 84
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
 	SetSearchTimers @ 79
 	DepthCollector @ 82
-	RootMoveEvaluationBest @ 84
+	RootMoveEvaluationBest @ 85
 
 SearchByWindowsListeners:
 
@@ -190,7 +191,7 @@ ResetListener:
 	EvaluatorCacheListener @ 77
 
 Acceptor:
-	SetGameToEvaluator @ 85
+	SetGameToEvaluator @ 86
 	EvaluatorCounters @ 73
 	EvaluatorStatisticsCollector @ 21
 	EvaluatorCacheAdapter @ 18
@@ -206,7 +207,7 @@ Acceptor:
 	EvaluatorCacheCounters @ 78
 	EvaluatorCacheStatisticsComparatorCollector @ 51
 	EvaluatorCacheStatisticsNodeCollector @ 19
-	SetGameToEndGameTableBase @ 86
+	SetGameToEndGameTableBase @ 87
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 79
 	AlphaBetaFlowControl @ 14
@@ -232,6 +233,7 @@ Acceptor:
 	InteriorNodeExpected @ 38
 	InteriorNodeSorterPre @ 39
 	InteriorNodeSorterPost @ 54
+	SorterCounters @ 83
 	TranspositionTable @ 35
 	ExtendPV @ 33
 	PropagatePV @ 55
@@ -255,13 +257,13 @@ Acceptor:
 	ExtendPV @ 57
 	PropagatePV @ 72
 	RootMoveSorter @ 11
-	NodeGroupSorter @ 87
+	NodeGroupSorter @ 88
 	RootMoveEvaluationTracker @ 12
-	RootMoveEvaluationBest @ 84
-	RootMoveEvaluationCollection @ 83
+	RootMoveEvaluationBest @ 85
+	RootMoveEvaluationCollection @ 84
 	ExtendPV @ 5
 	PropagatePV @ 13
-	PVCalculator @ 88
+	PVCalculator @ 89
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

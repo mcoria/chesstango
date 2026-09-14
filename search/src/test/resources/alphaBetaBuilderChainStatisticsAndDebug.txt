@@ -190,16 +190,17 @@ SearchByCycleListeners:
 	GameCountersCollector @ 97
 	DepthCollector @ 98
 	PrincipalVariationComparator @ 53
+	SorterCounters @ 99
 	PrincipalVariationComparator @ 80
-	RootMoveEvaluationCollection @ 99
+	RootMoveEvaluationCollection @ 100
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
 	SetSearchTimers @ 95
 	DepthCollector @ 98
-	DebugNodeTracker @ 100
-	RootMoveEvaluationBest @ 101
+	DebugNodeTracker @ 101
+	RootMoveEvaluationBest @ 102
 
 SearchByWindowsListeners:
 	DebugFilter @ 18
@@ -218,7 +219,7 @@ ResetListener:
 	EvaluatorCacheListener @ 93
 
 Acceptor:
-	SetGameToEvaluator @ 102
+	SetGameToEvaluator @ 103
 	EvaluatorCounters @ 89
 	EvaluatorStatisticsCollector @ 26
 	EvaluatorDebug @ 22
@@ -235,21 +236,21 @@ Acceptor:
 	TTableStatisticsPVCollector @ 47
 	TTableStatisticsFillPercentageCollector @ 92
 	PVWalkerFromTT @ 45
-	KillerMovesDebug @ 103
+	KillerMovesDebug @ 104
 	EvaluatorCacheListener @ 93
 	EvaluatorCacheDebug @ 64
 	EvaluatorCacheCounters @ 94
 	EvaluatorCacheStatisticsComparatorCollector @ 65
 	EvaluatorCacheStatisticsNodeCollector @ 24
-	SetGameToEndGameTableBase @ 104
+	SetGameToEndGameTableBase @ 105
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 95
 	AlphaBetaFlowControl @ 17
 	NodeCounters @ 96
 	GameCountersCollector @ 97
 	DepthCollector @ 98
-	DebugNodeTracker @ 100
-	PrintHtmlDebugHandler @ 105
+	DebugNodeTracker @ 101
+	PrintHtmlDebugHandler @ 106
 	AlphaBetaEvaluation @ 21
 	TerminalNodeStatistics @ 20
 	DebugFilter @ 18
@@ -272,6 +273,7 @@ Acceptor:
 	InteriorNodeExpected @ 48
 	InteriorNodeSorterPre @ 49
 	InteriorNodeSorterPost @ 68
+	SorterCounters @ 99
 	TranspositionTable @ 44
 	DebugFilter @ 41
 	ExtendPV @ 42
@@ -301,13 +303,13 @@ Acceptor:
 	PropagatePV @ 88
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
-	NodeGroupSorter @ 106
+	NodeGroupSorter @ 107
 	RootMoveEvaluationTracker @ 15
-	RootMoveEvaluationBest @ 101
-	RootMoveEvaluationCollection @ 99
+	RootMoveEvaluationBest @ 102
+	RootMoveEvaluationCollection @ 100
 	ExtendPV @ 6
 	PropagatePV @ 16
-	PVCalculator @ 107
+	PVCalculator @ 108
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

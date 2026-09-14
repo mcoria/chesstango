@@ -15,6 +15,7 @@ public class InteriorNodeSorterPost implements AlphaBetaFilter, Acceptor{
     @Setter
     private AlphaBetaFilter next;
 
+    @Setter
     private SorterCounters sorterCounters;
 
     @Override
@@ -24,6 +25,7 @@ public class InteriorNodeSorterPost implements AlphaBetaFilter, Acceptor{
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
+        sorterCounters.increaseIndex(currentPly);
         return next.alphaBeta(currentPly, alpha, beta);
     }
 }

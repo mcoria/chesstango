@@ -13,6 +13,7 @@ import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.statistics.node.filters.InteriorNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.InteriorNodeVisited;
+import net.chesstango.search.smart.statistics.sorter.SorterCounters;
 import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
 import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.transposition.filters.TranspositionTable;
@@ -38,12 +39,13 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
     private MoveSorter moveSorter;
 
     /**
-     *
+     * Statistics
      */
     private InteriorNodeVisited interiorNodeVisited;
     private InteriorNodeExpected interiorNodeExpected;
     private InteriorNodeSorterPre interiorNodeSorterPre;
     private InteriorNodeSorterPost interiorNodeSorterPost;
+    private SorterCounters sorterCounters;
 
 
     private boolean withStatistics;
@@ -133,6 +135,7 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
             interiorNodeExpected = new InteriorNodeExpected();
             interiorNodeSorterPre = new InteriorNodeSorterPre();
             interiorNodeSorterPost = new InteriorNodeSorterPost();
+            sorterCounters = new SorterCounters();
         }
 
         if (withTranspositionTable) {
@@ -174,6 +177,10 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(interiorNodeSorterPost);
         }
 
+        if (sorterCounters != null) {
+            listenerMediator.add(sorterCounters);
+        }
+
         if (zobristTracker != null) {
             listenerMediator.add(zobristTracker);
         }
@@ -202,6 +209,11 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
     @Override
     public void link() {
         alphaBeta.setMoveSorter(moveSorter);
+
+        if (withStatistics) {
+            interiorNodeSorterPre.setSorterCounters(sorterCounters);
+            interiorNodeSorterPost.setSorterCounters(sorterCounters);
+        }
     }
 
     @Override
