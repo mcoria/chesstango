@@ -11,15 +11,12 @@ import net.chesstango.search.smart.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaEgtbNodeStatistics implements AlphaBetaFilter, Acceptor {
+public class InteriorNodeVisited implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;
 
     private NodeCounters nodeCounters;
-
-    @Setter
-    private int depth;
 
     @Override
     public void accept(Visitor visitor) {
@@ -33,7 +30,7 @@ public class AlphaBetaEgtbNodeStatistics implements AlphaBetaFilter, Acceptor {
     }
 
     protected void updateCounters(final int currentPly) {
-        nodeCounters.increaseEgtbCounter();
+        nodeCounters.increaseInteriorCounter();
 
         nodeCounters.increaseVisitedCounter(currentPly);
     }

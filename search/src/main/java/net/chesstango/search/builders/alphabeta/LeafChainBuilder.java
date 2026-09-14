@@ -6,7 +6,7 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaLeafNodeStatistics;
+import net.chesstango.search.smart.statistics.node.filters.LeafNodeStatistics;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.List;
 public class LeafChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation leaf;
     private ZobristTracker zobristTracker;
-    private AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics;
+    private LeafNodeStatistics leafNodeStatistics;
     private DebugFilter debugSearchTree;
     private ExtendPV extendPV;
 
@@ -60,7 +60,7 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         }
 
         if (withStatistics) {
-            alphaBetaLeafNodeStatistics = new AlphaBetaLeafNodeStatistics();
+            leafNodeStatistics = new LeafNodeStatistics();
         }
 
         if (withDebugSearchTree) {
@@ -76,8 +76,8 @@ public class LeafChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(zobristTracker);
         }
 
-        if (alphaBetaLeafNodeStatistics != null) {
-            listenerMediator.add(alphaBetaLeafNodeStatistics);
+        if (leafNodeStatistics != null) {
+            listenerMediator.add(leafNodeStatistics);
         }
 
         if (debugSearchTree != null) {
@@ -105,8 +105,8 @@ public class LeafChainBuilder extends AbstractChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (alphaBetaLeafNodeStatistics != null) {
-            chain.add(alphaBetaLeafNodeStatistics);
+        if (leafNodeStatistics != null) {
+            chain.add(leafNodeStatistics);
         }
 
         chain.add(leaf);

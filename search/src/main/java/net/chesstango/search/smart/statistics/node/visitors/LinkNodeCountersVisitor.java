@@ -17,49 +17,49 @@ public class LinkNodeCountersVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
-        alphaBetaRootNodeStatistics.setNodeCounters(nodeCounters);
+    public void visit(RootNodeStatistics rootNodeStatistics) {
+        rootNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeVisited alphaBetaInteriorNodeStatistics) {
+    public void visit(InteriorNodeVisited alphaBetaInteriorNodeStatistics) {
         alphaBetaInteriorNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
-        alphaBetaInteriorNodeExpected.setNodeCounters(nodeCounters);
+    public void visit(InteriorNodeExpected interiorNodeExpected) {
+        interiorNodeExpected.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeStatistics) {
+    public void visit(QuiescenceNodeVisited alphaBetaQuiescenceNodeStatistics) {
         alphaBetaQuiescenceNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
-        alphaBetaQuiescenceNodeExpected.setNodeCounters(nodeCounters);
+    public void visit(QuiescenceNodeExpected quiescenceNodeExpected) {
+        quiescenceNodeExpected.setNodeCounters(nodeCounters);
     }
 
 
     @Override
-    public void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
-        alphaBetaLeafNodeStatistics.setNodeCounters(nodeCounters);
+    public void visit(LeafNodeStatistics leafNodeStatistics) {
+        leafNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
-        alphaBetaTerminalNodeStatistics.setNodeCounters(nodeCounters);
+    public void visit(TerminalNodeStatistics terminalNodeStatistics) {
+        terminalNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
-        alphaBetaLoopNodeStatistics.setNodeCounters(nodeCounters);
+    public void visit(LoopNodeStatistics loopNodeStatistics) {
+        loopNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics) {
-        alphaBetaEgtbNodeStatistics.setNodeCounters(nodeCounters);
+    public void visit(EgtbNodeStatistics egtbNodeStatistics) {
+        egtbNodeStatistics.setNodeCounters(nodeCounters);
     }
 
 }

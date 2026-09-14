@@ -17,7 +17,7 @@ import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.root.visitors.LinkRootMoveEvaluationObjectsVisitor;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaRootNodeStatistics;
+import net.chesstango.search.smart.statistics.node.filters.RootNodeStatistics;
 import net.chesstango.search.smart.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorter;
@@ -41,7 +41,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     private final MoveSorterRootBuilder moveSorterRootBuilder;
 
-    private AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics;
+    private RootNodeStatistics rootNodeStatistics;
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
@@ -132,7 +132,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         if (withStatistics) {
-            alphaBetaRootNodeStatistics = new AlphaBetaRootNodeStatistics();
+            rootNodeStatistics = new RootNodeStatistics();
         }
 
         if (withTranspositionTable) {
@@ -183,8 +183,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(debugFilter);
         }
 
-        if (alphaBetaRootNodeStatistics != null) {
-            listenerMediator.add(alphaBetaRootNodeStatistics);
+        if (rootNodeStatistics != null) {
+            listenerMediator.add(rootNodeStatistics);
         }
 
         if (transpositionTableRoot != null) {
@@ -227,8 +227,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         chain.add(extendPV);
 
-        if (alphaBetaRootNodeStatistics != null) {
-            chain.add(alphaBetaRootNodeStatistics);
+        if (rootNodeStatistics != null) {
+            chain.add(rootNodeStatistics);
         }
 
         if (transpositionTableRoot != null) {

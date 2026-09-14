@@ -10,7 +10,7 @@ AspirationWindows @ 4
 |
 ExtendPV @ 5
 |
-AlphaBetaRootNodeStatistics @ 6
+RootNodeStatistics @ 6
 |
 TranspositionTableRoot @ 7 [TTable: TTableStatisticsNodeCollector @ 8 -> TTableArray @ 9]
 |
@@ -30,7 +30,7 @@ AlphaBetaFlowControl @ 14
 	|
 	ExtendPV @ 15
 	|
-	AlphaBetaTerminalNodeStatistics @ 16
+	TerminalNodeStatistics @ 16
 	|
 	AlphaBetaEvaluation @ 17 [Evaluator: EvaluatorCacheAdapter @ 18 [EvaluatorCache: EvaluatorCacheStatisticsNodeCollector @ 19 -> EvaluatorCacheArray @ 20] -> EvaluatorStatisticsCollector @ 21 -> EvaluatorByMaterial @ 22]
 
@@ -38,7 +38,7 @@ AlphaBetaFlowControl @ 14
 	|
 	ExtendPV @ 23
 	|
-	AlphaBetaEgtbNodeStatistics @ 24
+	EgtbNodeStatistics @ 24
 	|
 	EgtbEvaluation @ 25 [EndGameTableBase: EndGameTableBaseNull @ 26]
 
@@ -46,7 +46,7 @@ AlphaBetaFlowControl @ 14
 	|
 	ExtendPV @ 27
 	|
-	AlphaBetaLoopNodeStatistics @ 28
+	LoopNodeStatistics @ 28
 	|
 	LoopEvaluation @ 29
 
@@ -54,7 +54,7 @@ AlphaBetaFlowControl @ 14
 	|
 	ExtendPV @ 30
 	|
-	AlphaBetaLeafNodeStatistics @ 31
+	LeafNodeStatistics @ 31
 	|
 	AlphaBetaEvaluation @ 32 [Evaluator: EvaluatorCacheAdapter @ 18 [EvaluatorCache: EvaluatorCacheStatisticsNodeCollector @ 19 -> EvaluatorCacheArray @ 20] -> EvaluatorStatisticsCollector @ 21 -> EvaluatorByMaterial @ 22]
 
@@ -62,12 +62,12 @@ AlphaBetaFlowControl @ 14
 	|
 	ExtendPV @ 33
 	|
-	AlphaBetaInteriorNodeVisited @ 34
+	InteriorNodeVisited @ 34
 	|
 	TranspositionTable @ 35 [TTable: TTableStatisticsNodeCollector @ 8 -> TTableArray @ 9]
 	|	 PVWalkerFromTT @ 36 [TTable: TTableStatisticsPVCollector @ 37 -> TTableArray @ 9]
 	|
-	AlphaBetaInteriorNodeExpected @ 38
+	InteriorNodeExpected @ 38
 	|
 	AlphaBeta @ 39
 	|
@@ -115,14 +115,14 @@ AlphaBetaFlowControl @ 14
 	|
 	ExtendPV @ 55
 	|
-	AlphaBetaQuiescenceNodeVisited @ 56
+	QuiescenceNodeVisited @ 56
 	|
 	TranspositionTableQ @ 57 [TTable: TTableStatisticsNodeCollector @ 8 -> TTableArray @ 9]
 	|	 PVWalkerFromTT @ 36 [TTable: TTableStatisticsPVCollector @ 37 -> TTableArray @ 9]
 	|
 	QuiescenceStandingPat @ 58 [Evaluator: EvaluatorCacheAdapter @ 18 [EvaluatorCache: EvaluatorCacheStatisticsNodeCollector @ 19 -> EvaluatorCacheArray @ 20] -> EvaluatorStatisticsCollector @ 21 -> EvaluatorByMaterial @ 22]
 	|
-	AlphaBetaQuiescenceNodeExpected @ 59
+	QuiescenceNodeExpected @ 59
 	|
 	AlphaBeta @ 60
 	|
@@ -210,10 +210,10 @@ Acceptor:
 	GameCountersCollector @ 79
 	DepthCollector @ 80
 	AlphaBetaEvaluation @ 17
-	AlphaBetaTerminalNodeStatistics @ 16
+	TerminalNodeStatistics @ 16
 	ExtendPV @ 15
 	AlphaBetaEvaluation @ 32
-	AlphaBetaLeafNodeStatistics @ 31
+	LeafNodeStatistics @ 31
 	ExtendPV @ 30
 	NodeMoveSorter @ 40
 	QuietComparator @ 45
@@ -224,16 +224,16 @@ Acceptor:
 	EvaluatorCacheComparator @ 49
 	KillerMoveComparator @ 52
 	AlphaBeta @ 39
-	AlphaBetaInteriorNodeVisited @ 34
-	AlphaBetaInteriorNodeExpected @ 38
+	InteriorNodeVisited @ 34
+	InteriorNodeExpected @ 38
 	TranspositionTable @ 35
 	ExtendPV @ 33
 	PropagatePV @ 53
 	KillerMoveTracker @ 54
 	ExtendPV @ 27
-	AlphaBetaLoopNodeStatistics @ 28
+	LoopNodeStatistics @ 28
 	ExtendPV @ 23
-	AlphaBetaEgtbNodeStatistics @ 24
+	EgtbNodeStatistics @ 24
 	EgtbEvaluation @ 25
 	NodeMoveSorter @ 61
 	TranspositionHeadMoveComparator @ 63
@@ -243,8 +243,8 @@ Acceptor:
 	EvaluatorCacheComparator @ 68
 	QuiescenceStandingPat @ 58
 	AlphaBeta @ 60
-	AlphaBetaQuiescenceNodeVisited @ 56
-	AlphaBetaQuiescenceNodeExpected @ 59
+	QuiescenceNodeVisited @ 56
+	QuiescenceNodeExpected @ 59
 	TranspositionTableQ @ 57
 	ExtendPV @ 55
 	PropagatePV @ 70
@@ -259,6 +259,6 @@ Acceptor:
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
-	AlphaBetaRootNodeStatistics @ 6
+	RootNodeStatistics @ 6
 	TranspositionTableRoot @ 7
 

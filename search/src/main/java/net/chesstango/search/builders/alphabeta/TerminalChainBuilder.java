@@ -6,7 +6,7 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
+import net.chesstango.search.smart.statistics.node.filters.TerminalNodeStatistics;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.List;
 public class TerminalChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
     private ZobristTracker zobristTracker;
-    private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
+    private TerminalNodeStatistics terminalNodeStatistics;
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
 
@@ -60,7 +60,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         }
 
         if (withStatistics) {
-            alphaBetaTerminalNodeStatistics = new AlphaBetaTerminalNodeStatistics();
+            terminalNodeStatistics = new TerminalNodeStatistics();
         }
 
         if (withDebugSearchTree) {
@@ -76,8 +76,8 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(zobristTracker);
         }
 
-        if (alphaBetaTerminalNodeStatistics != null) {
-            listenerMediator.add(alphaBetaTerminalNodeStatistics);
+        if (terminalNodeStatistics != null) {
+            listenerMediator.add(terminalNodeStatistics);
         }
 
         if (debugFilter != null) {
@@ -105,8 +105,8 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (alphaBetaTerminalNodeStatistics != null) {
-            chain.add(alphaBetaTerminalNodeStatistics);
+        if (terminalNodeStatistics != null) {
+            chain.add(terminalNodeStatistics);
         }
 
         chain.add(alphaBetaEvaluation);

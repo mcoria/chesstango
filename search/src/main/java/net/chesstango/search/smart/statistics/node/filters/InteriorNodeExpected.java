@@ -12,7 +12,7 @@ import net.chesstango.search.smart.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaRootNodeStatistics implements AlphaBetaFilter, Acceptor {
+public class InteriorNodeExpected implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;
@@ -28,20 +28,12 @@ public class AlphaBetaRootNodeStatistics implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
-        updateCounters(currentPly);
+        increaseExpectedCounter(currentPly);
         return next.alphaBeta(currentPly, alpha, beta);
     }
 
-    protected void updateCounters(final int currentPly) {
-        assert currentPly == 0;
-
-        nodeCounters.increaseRootCounter();
-
-        nodeCounters.increaseExpectedCounter(0, 1);
-
-        nodeCounters.increaseVisitedCounter(0);
-
-        nodeCounters.increaseExpectedCounter(1, game.getPossibleMoves().size());
+    protected void increaseExpectedCounter(final int currentPly) {
+        nodeCounters.increaseExpectedCounter(currentPly + 1, game.getPossibleMoves().size());
     }
 }
 

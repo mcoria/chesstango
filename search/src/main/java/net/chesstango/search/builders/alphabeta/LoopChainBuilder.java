@@ -6,7 +6,7 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaLoopNodeStatistics;
+import net.chesstango.search.smart.statistics.node.filters.LoopNodeStatistics;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.List;
 public class LoopChainBuilder extends AbstractChainBuilder {
     private final LoopEvaluation loopEvaluation;
     private ZobristTracker zobristTracker;
-    private AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics;
+    private LoopNodeStatistics loopNodeStatistics;
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
 
@@ -60,7 +60,7 @@ public class LoopChainBuilder extends AbstractChainBuilder {
         }
 
         if (withStatistics) {
-            alphaBetaLoopNodeStatistics = new AlphaBetaLoopNodeStatistics();
+            loopNodeStatistics = new LoopNodeStatistics();
         }
 
         if (withDebugSearchTree) {
@@ -79,8 +79,8 @@ public class LoopChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(zobristTracker);
         }
 
-        if (alphaBetaLoopNodeStatistics != null) {
-            listenerMediator.add(alphaBetaLoopNodeStatistics);
+        if (loopNodeStatistics != null) {
+            listenerMediator.add(loopNodeStatistics);
         }
 
         if (debugFilter != null) {
@@ -104,8 +104,8 @@ public class LoopChainBuilder extends AbstractChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (alphaBetaLoopNodeStatistics != null) {
-            chain.add(alphaBetaLoopNodeStatistics);
+        if (loopNodeStatistics != null) {
+            chain.add(loopNodeStatistics);
         }
 
         chain.add(loopEvaluation);

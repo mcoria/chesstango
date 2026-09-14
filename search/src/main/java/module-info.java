@@ -70,4 +70,5 @@ module net.chesstango.search {
     requires static lombok;
 
     opens net.chesstango.search.gamegraph to tools.jackson.databind;
+    exports net.chesstango.search.smart.statistics.sorter;
 }

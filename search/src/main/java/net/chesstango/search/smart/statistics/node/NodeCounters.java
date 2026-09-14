@@ -46,21 +46,6 @@ public class NodeCounters implements Acceptor, SearchListener {
     }
 
 
-    public NodeStatistics getNodeStatistics() {
-        assert rootNodeCounter + interiorNodeCounter + leafCounter + terminalNodeCounter + loopNodeCounter + egtbCounter > 0;
-        return new NodeStatistics(
-                rootNodeCounter,
-                interiorNodeCounter,
-                quiescenceCounter,
-                leafCounter,
-                terminalNodeCounter,
-                loopNodeCounter,
-                egtbCounter,
-                expectedNodesCounters,
-                visitedNodesCounters
-        );
-    }
-
     public void increaseRootCounter() {
         rootNodeCounter++;
     }
@@ -95,5 +80,21 @@ public class NodeCounters implements Acceptor, SearchListener {
 
     public void increaseVisitedCounter(final int level) {
         visitedNodesCounters[level]++;
+    }
+
+
+    public NodeStatistics getNodeStatistics() {
+        assert rootNodeCounter + interiorNodeCounter + leafCounter + terminalNodeCounter + loopNodeCounter + egtbCounter > 0;
+        return new NodeStatistics(
+                rootNodeCounter,
+                interiorNodeCounter,
+                quiescenceCounter,
+                leafCounter,
+                terminalNodeCounter,
+                loopNodeCounter,
+                egtbCounter,
+                expectedNodesCounters,
+                visitedNodesCounters
+        );
     }
 }
