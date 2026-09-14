@@ -12,6 +12,8 @@ import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.transposition.filters.*;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 
@@ -72,6 +74,8 @@ public abstract class AbstractChainBuilder {
                 case EgtbNodeStatistics egtbNodeStatistics ->
                         egtbNodeStatistics.setNext(next);
 
+                case InteriorNodeSorterPre interiorNodeSorterPre -> interiorNodeSorterPre.setNext(next);
+                case InteriorNodeSorterPost interiorNodeSorterPost -> interiorNodeSorterPost.setNext(next);
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);
                 case QuiescenceStandingPat quiescenceStandingPat -> quiescenceStandingPat.setNext(next);

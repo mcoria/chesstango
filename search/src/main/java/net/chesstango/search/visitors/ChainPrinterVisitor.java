@@ -32,6 +32,8 @@ import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
 import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsComparatorCollector;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsPVCollector;
@@ -269,6 +271,17 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(ZobristTracker zobristTracker) {
         print(zobristTracker, zobristTracker.getNext());
     }
+
+    @Override
+    public void visit(InteriorNodeSorterPre interiorNodeSorterPre) {
+        print(interiorNodeSorterPre, interiorNodeSorterPre.getNext());
+    }
+
+    @Override
+    public void visit(InteriorNodeSorterPost interiorNodeSorterPost) {
+        print(interiorNodeSorterPost, interiorNodeSorterPost.getNext());
+    }
+
 
     /**
      * Sorters elements

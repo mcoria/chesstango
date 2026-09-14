@@ -1,8 +1,8 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
@@ -13,6 +13,8 @@ import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
 import net.chesstango.search.smart.statistics.node.filters.InteriorNodeExpected;
 import net.chesstango.search.smart.statistics.node.filters.InteriorNodeVisited;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorter;
@@ -26,8 +28,6 @@ import java.util.List;
 public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterInteriorBuilder moveSorterBuilder;
-    private InteriorNodeVisited interiorNodeVisited;
-    private InteriorNodeExpected interiorNodeExpected;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
@@ -36,6 +36,15 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private PropagatePV propagatePV;
     private KillerMoveTracker killerMoveTracker;
     private MoveSorter moveSorter;
+
+    /**
+     *
+     */
+    private InteriorNodeVisited interiorNodeVisited;
+    private InteriorNodeExpected interiorNodeExpected;
+    private InteriorNodeSorterPre interiorNodeSorterPre;
+    private InteriorNodeSorterPost interiorNodeSorterPost;
+
 
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -122,6 +131,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         if (withStatistics) {
             interiorNodeVisited = new InteriorNodeVisited();
             interiorNodeExpected = new InteriorNodeExpected();
+            interiorNodeSorterPre = new InteriorNodeSorterPre();
+            interiorNodeSorterPost = new InteriorNodeSorterPost();
         }
 
         if (withTranspositionTable) {
@@ -153,6 +164,14 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
         if (interiorNodeExpected != null) {
             listenerMediator.add(interiorNodeExpected);
+        }
+
+        if (interiorNodeSorterPre != null) {
+            listenerMediator.add(interiorNodeSorterPre);
+        }
+
+        if (interiorNodeSorterPost != null) {
+            listenerMediator.add(interiorNodeSorterPost);
         }
 
         if (zobristTracker != null) {
@@ -214,7 +233,15 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
             chain.add(interiorNodeExpected);
         }
 
+        if (interiorNodeSorterPre != null) {
+            chain.add(interiorNodeSorterPre);
+        }
+
         chain.add(alphaBeta);
+
+        if (interiorNodeSorterPost != null) {
+            chain.add(interiorNodeSorterPost);
+        }
 
         if (propagatePV != null) {
             chain.add(propagatePV);

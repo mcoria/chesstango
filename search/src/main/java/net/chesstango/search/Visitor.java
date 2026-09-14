@@ -47,6 +47,8 @@ import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
 import net.chesstango.search.smart.statistics.node.filters.*;
 import net.chesstango.search.smart.statistics.sorter.SorterCounters;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.statistics.transposition.*;
 import net.chesstango.search.smart.transposition.*;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
@@ -214,6 +216,12 @@ public interface Visitor {
     }
 
     default void visit(SorterCounters sorterCounters) {
+    }
+
+
+    default void visit(InteriorNodeSorterPre interiorNodeSorterPre) {
+    }
+    default void visit(InteriorNodeSorterPost interiorNodeSorterPost) {
     }
 
     default void visit(DebugNodeTracker debugNodeTracker) {
