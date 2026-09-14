@@ -2,11 +2,11 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.pv.model.PVWalkerFromTT;
-import net.chesstango.search.smart.statistics.transposition.*;
-import net.chesstango.search.smart.transposition.*;
-import net.chesstango.search.smart.transposition.listeners.TTListener;
-import net.chesstango.search.smart.transposition.visitors.*;
+import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
+import net.chesstango.search.alphabeta.statistics.transposition.*;
+import net.chesstango.search.alphabeta.transposition.*;
+import net.chesstango.search.alphabeta.transposition.listeners.TTListener;
+import net.chesstango.search.alphabeta.transposition.visitors.*;
 
 import java.util.Arrays;
 import java.util.List;

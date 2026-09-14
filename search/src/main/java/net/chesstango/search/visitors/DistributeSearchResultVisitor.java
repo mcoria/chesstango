@@ -2,7 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.debug.iterators.PrintHtmlDebugHandler;
+import net.chesstango.search.alphabeta.debug.iterators.PrintHtmlDebugHandler;
 
 /**
  *

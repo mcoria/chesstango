@@ -1,13 +1,13 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.evalcache.EvaluatorCacheDebugTest;
-import net.chesstango.search.smart.evalcache.EvaluatorCacheArrayTest;
-import net.chesstango.search.smart.root.RootMoveEvaluationComparatorTest;
-import net.chesstango.search.smart.transposition.TTableComparatorHeadDebugTest;
-import net.chesstango.search.smart.transposition.TTableComparatorTailDebugTest;
-import net.chesstango.search.smart.transposition.TTableStatisticsCollectorTest;
-import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparatorTest;
-import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparatorTest;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebugTest;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArrayTest;
+import net.chesstango.search.alphabeta.root.RootMoveEvaluationComparatorTest;
+import net.chesstango.search.alphabeta.transposition.TTableComparatorHeadDebugTest;
+import net.chesstango.search.alphabeta.transposition.TTableComparatorTailDebugTest;
+import net.chesstango.search.alphabeta.transposition.TTableStatisticsCollectorTest;
+import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorTest;
+import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparatorTest;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparatorTest;
 import net.chesstango.search.sorters.groupsorters.CatchAllSortGroupTest;

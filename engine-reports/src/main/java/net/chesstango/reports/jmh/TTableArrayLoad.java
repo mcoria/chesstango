@@ -1,9 +1,9 @@
 package net.chesstango.reports.jmh;
 
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TTableArray;
+import net.chesstango.search.alphabeta.transposition.TTable;
+import net.chesstango.search.alphabeta.transposition.TTableArray;
 import net.chesstango.search.Bound;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 

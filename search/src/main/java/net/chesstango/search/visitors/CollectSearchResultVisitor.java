@@ -2,15 +2,15 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.root.filters.AspirationWindows;
-import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheCounters;
-import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
-import net.chesstango.search.smart.statistics.game.DepthCollector;
-import net.chesstango.search.smart.statistics.game.GameCountersCollector;
-import net.chesstango.search.smart.statistics.node.NodeCounters;
-import net.chesstango.search.smart.statistics.sorter.SorterCounters;
-import net.chesstango.search.smart.statistics.transposition.TTableCounters;
+import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheCounters;
+import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorCounters;
+import net.chesstango.search.alphabeta.statistics.game.DepthCollector;
+import net.chesstango.search.alphabeta.statistics.game.GameCountersCollector;
+import net.chesstango.search.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.alphabeta.statistics.sorter.SorterCounters;
+import net.chesstango.search.alphabeta.statistics.transposition.TTableCounters;
 
 /**
  *

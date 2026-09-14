@@ -1,0 +1,46 @@
+package net.chesstango.search.alphabeta.zobrist.listeners;
+
+import lombok.Setter;
+import net.chesstango.search.ResetListener;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.alphabeta.zobrist.visitors.SetZobristMemoryVisitor;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author Mauricio Coria
+ */
+public class SetZobristMemory implements SearchListener, ResetListener {
+
+    private final Map<Long, String> zobristMap = new HashMap<>();
+    private final List<String> zobristCollisions = new LinkedList<>();
+
+    @Setter
+    private ListenerMediator listenerMediator;
+
+
+    @Override
+    public void beforeSearch() {
+        listenerMediator.accept(new SetZobristMemoryVisitor(zobristMap, zobristCollisions));
+    }
+
+    @Override
+    public void afterSearch() {
+        if (zobristCollisions.isEmpty()) {
+            System.out.println("No Zobrist collision");
+        } else {
+            System.out.println("Zobrist collisions:");
+            zobristCollisions.forEach(collision -> System.out.printf("%s\n", collision));
+        }
+    }
+
+    @Override
+    public void reset() {
+        zobristMap.clear();
+        zobristCollisions.clear();
+    }
+}

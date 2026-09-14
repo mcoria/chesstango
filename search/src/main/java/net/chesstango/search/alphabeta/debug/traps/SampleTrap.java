@@ -1,0 +1,19 @@
+package net.chesstango.search.alphabeta.debug.traps;
+
+import net.chesstango.search.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.alphabeta.debug.model.DebugNode;
+
+/**
+ * @author Mauricio Coria
+ */
+public class SampleTrap implements DebugNodeTrap {
+    @Override
+    public boolean test(DebugNode debugNode) {
+        return debugNode.getZobristHash() == 0x02EE763BA4FA755EL;
+    }
+
+    @Override
+    public void debugAction(DebugNode debugNode) {
+        System.out.printf("%s JAJAJEJEJIJI\n", ">\t".repeat(debugNode.getPly()));
+    }
+}

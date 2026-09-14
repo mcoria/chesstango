@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;

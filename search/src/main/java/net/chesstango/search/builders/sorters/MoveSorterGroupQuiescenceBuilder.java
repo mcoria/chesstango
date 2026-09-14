@@ -1,9 +1,9 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.search.smart.evalcache.comparators.EvaluatorCacheComparator;
-import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
+import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.GroupSorter;
 import net.chesstango.search.sorters.MoveSorter;
 import net.chesstango.search.sorters.MoveSorterDebug;

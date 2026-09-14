@@ -2,11 +2,11 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.core.listeners.SetSearchTimers;
-import net.chesstango.search.smart.debug.DebugNodeTracker;
-import net.chesstango.search.smart.root.RootMoveEvaluationBest;
-import net.chesstango.search.smart.root.RootMoveEvaluationCollection;
-import net.chesstango.search.smart.root.filters.StopProcessingCatch;
+import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
+import net.chesstango.search.alphabeta.root.RootMoveEvaluationBest;
+import net.chesstango.search.alphabeta.root.RootMoveEvaluationCollection;
+import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
 
 /**
  *

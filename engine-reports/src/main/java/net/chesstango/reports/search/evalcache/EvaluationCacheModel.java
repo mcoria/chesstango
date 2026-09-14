@@ -3,7 +3,7 @@ package net.chesstango.reports.search.evalcache;
 import net.chesstango.board.moves.Move;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
+import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheStatistics;
 
 import java.util.LinkedList;
 import java.util.List;

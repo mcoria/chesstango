@@ -1,7 +1,7 @@
 package net.chesstango.reports.jmh;
 
 import net.chesstango.search.Bound;
-import net.chesstango.search.smart.transposition.*;
+import net.chesstango.search.alphabeta.transposition.*;
 import org.openjdk.jmh.annotations.*;
 
 import java.util.Random;

@@ -6,8 +6,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.debug.DebugNodeTracker;
-import net.chesstango.search.smart.debug.model.DebugNode;
+import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
+import net.chesstango.search.alphabeta.debug.model.DebugNode;
 
 import java.util.ArrayList;
 import java.util.List;

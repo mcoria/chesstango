@@ -2,9 +2,9 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.smart.root.filters.AspirationWindows;
+import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.root.filters.AspirationWindows;
 
 /**
  *

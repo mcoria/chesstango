@@ -1,0 +1,42 @@
+package net.chesstango.search.alphabeta.statistics.evalcache;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheEntry;
+
+/**
+ * @author Mauricio Coria
+ */
+@Setter
+@Accessors(chain = true)
+public class EvaluatorCacheStatisticsNodeCollector implements EvaluatorCache, Acceptor {
+
+    @Getter
+    private EvaluatorCache evaluatorCache;
+
+    private EvaluatorCacheCounters evaluatorCacheCounters;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public EvaluatorCacheEntry read(long hash) {
+        evaluatorCacheCounters.increaseReadNodes();
+        EvaluatorCacheEntry evaluatorCacheEntry = evaluatorCache.read(hash);
+        if (evaluatorCacheEntry != null) {
+            evaluatorCacheCounters.increaseReadNodesHits();
+        }
+        return evaluatorCacheEntry;
+    }
+
+    @Override
+    public EvaluatorCacheEntry write(long hash, int evaluation) {
+        return evaluatorCache.write(hash, evaluation);
+    }
+}

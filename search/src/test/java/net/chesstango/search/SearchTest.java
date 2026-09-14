@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static net.chesstango.search.smart.Constants.DEFAULT_TT_HASH_SIZE_KB;
-import static net.chesstango.search.smart.Constants.DEFAULT_TT_STALE_AGE;
+import static net.chesstango.search.alphabeta.Constants.DEFAULT_TT_HASH_SIZE_KB;
+import static net.chesstango.search.alphabeta.Constants.DEFAULT_TT_STALE_AGE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

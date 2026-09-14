@@ -3,14 +3,14 @@ package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.ListenerMediator;
-import net.chesstango.search.smart.AlphaBetaFilter;
-import net.chesstango.search.smart.core.filters.AlphaBeta;
-import net.chesstango.search.smart.debug.filters.DebugFilter;
-import net.chesstango.search.smart.debug.model.NodeTopology;
-import net.chesstango.search.smart.pv.filters.PropagatePV;
-import net.chesstango.search.smart.statistics.node.filters.InteriorNodeVisited;
-import net.chesstango.search.smart.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
+import net.chesstango.search.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
+import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.alphabeta.debug.model.NodeTopology;
+import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
+import net.chesstango.search.alphabeta.statistics.node.filters.InteriorNodeVisited;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorter;
 
 import java.util.LinkedList;
