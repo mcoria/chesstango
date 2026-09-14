@@ -46,6 +46,9 @@ import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
 import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.statistics.sorter.SorterCounters;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.statistics.transposition.*;
 import net.chesstango.search.smart.transposition.*;
 import net.chesstango.search.smart.transposition.comparators.TranspositionHeadMoveComparator;
@@ -98,31 +101,31 @@ public interface Visitor {
     default void visit(TranspositionTableRoot transpositionTableRoot) {
     }
 
-    default void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
+    default void visit(RootNodeStatistics rootNodeStatistics) {
     }
 
-    default void visit(AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics) {
+    default void visit(InteriorNodeVisited alphaBetaNodeStatistics) {
     }
 
-    default void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
+    default void visit(InteriorNodeExpected interiorNodeExpected) {
     }
 
-    default void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeStatistics) {
+    default void visit(QuiescenceNodeVisited alphaBetaQuiescenceNodeStatistics) {
     }
 
-    default void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
+    default void visit(QuiescenceNodeExpected quiescenceNodeExpected) {
     }
 
-    default void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
+    default void visit(TerminalNodeStatistics terminalNodeStatistics) {
     }
 
-    default void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
+    default void visit(LeafNodeStatistics leafNodeStatistics) {
     }
 
-    default void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
+    default void visit(LoopNodeStatistics loopNodeStatistics) {
     }
 
-    default void visit(AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics) {
+    default void visit(EgtbNodeStatistics egtbNodeStatistics) {
     }
 
     default void visit(StopProcessingCatch stopProcessingCatch) {
@@ -210,6 +213,15 @@ public interface Visitor {
     }
 
     default void visit(NodeCounters nodeCounters) {
+    }
+
+    default void visit(SorterCounters sorterCounters) {
+    }
+
+
+    default void visit(InteriorNodeSorterPre interiorNodeSorterPre) {
+    }
+    default void visit(InteriorNodeSorterPost interiorNodeSorterPost) {
     }
 
     default void visit(DebugNodeTracker debugNodeTracker) {

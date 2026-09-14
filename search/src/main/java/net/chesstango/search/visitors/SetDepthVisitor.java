@@ -61,28 +61,28 @@ public class SetDepthVisitor implements Visitor {
 
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited) {
-        alphaBetaQuiescenceNodeVisited.setDepth(depth);
+    public void visit(QuiescenceNodeVisited quiescenceNodeVisited) {
+        quiescenceNodeVisited.setDepth(depth);
     }
 
     @Override
-    public void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
-        alphaBetaLeafNodeStatistics.setDepth(depth);
+    public void visit(LeafNodeStatistics leafNodeStatistics) {
+        leafNodeStatistics.setDepth(depth);
     }
 
     @Override
-    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
-        alphaBetaLoopNodeStatistics.setDepth(depth);
+    public void visit(LoopNodeStatistics loopNodeStatistics) {
+        loopNodeStatistics.setDepth(depth);
     }
 
     @Override
-    public void visit(AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics) {
-        alphaBetaEgtbNodeStatistics.setDepth(depth);
+    public void visit(EgtbNodeStatistics egtbNodeStatistics) {
+        egtbNodeStatistics.setDepth(depth);
     }
 
     @Override
-    public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
-        alphaBetaTerminalNodeStatistics.setDepth(depth);
+    public void visit(TerminalNodeStatistics terminalNodeStatistics) {
+        terminalNodeStatistics.setDepth(depth);
     }
 
     @Override

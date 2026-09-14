@@ -25,9 +25,9 @@ import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaInteriorNodeExpected;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaRootNodeStatistics;
+import net.chesstango.search.smart.statistics.node.filters.InteriorNodeExpected;
+import net.chesstango.search.smart.statistics.node.filters.QuiescenceNodeExpected;
+import net.chesstango.search.smart.statistics.node.filters.RootNodeStatistics;
 import net.chesstango.search.smart.transposition.TTableComparatorHeadDebug;
 import net.chesstango.search.smart.transposition.TTableComparatorTailDebug;
 import net.chesstango.search.smart.transposition.TTableNodeDebug;
@@ -163,18 +163,18 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
-        alphaBetaRootNodeStatistics.setGame(game);
+    public void visit(RootNodeStatistics rootNodeStatistics) {
+        rootNodeStatistics.setGame(game);
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
-        alphaBetaInteriorNodeExpected.setGame(game);
+    public void visit(InteriorNodeExpected interiorNodeExpected) {
+        interiorNodeExpected.setGame(game);
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
-        alphaBetaQuiescenceNodeExpected.setGame(game);
+    public void visit(QuiescenceNodeExpected quiescenceNodeExpected) {
+        quiescenceNodeExpected.setGame(game);
     }
 
     @Override

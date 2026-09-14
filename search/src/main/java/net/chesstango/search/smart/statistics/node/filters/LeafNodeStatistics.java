@@ -2,8 +2,6 @@ package net.chesstango.search.smart.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.AlphaBetaFilter;
@@ -13,14 +11,15 @@ import net.chesstango.search.smart.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter, Acceptor {
+public class LeafNodeStatistics implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;
 
     private NodeCounters nodeCounters;
 
-    private Game game;
+    @Setter
+    private int depth;
 
     @Override
     public void accept(Visitor visitor) {
@@ -34,13 +33,9 @@ public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter, Accepto
     }
 
     protected void updateCounters(final int currentPly) {
-        int expectedMoves = 0;
-        for (Move move : game.getPossibleMoves()) {
-            if (!move.isQuiet()) {
-                expectedMoves++;
-            }
-        }
-        nodeCounters.increaseExpectedCounter(currentPly + 1, expectedMoves);
+        nodeCounters.increaseLeafCounter();
+
+        nodeCounters.increaseVisitedCounter(currentPly);
     }
 }
 

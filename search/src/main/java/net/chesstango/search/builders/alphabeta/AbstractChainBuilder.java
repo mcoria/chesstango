@@ -12,6 +12,8 @@ import net.chesstango.search.smart.root.filters.AspirationWindows;
 import net.chesstango.search.smart.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.transposition.filters.*;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 
@@ -54,24 +56,26 @@ public abstract class AbstractChainBuilder {
                 case TranspositionTableQ transpositionTableQ -> transpositionTableQ.setNext(next);
                 case TranspositionTableLeaf transpositionTableLeaf -> transpositionTableLeaf.setNext(next);
 
-                case AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics ->
-                        alphaBetaRootNodeStatistics.setNext(next);
-                case AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
-                case AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected ->
-                        alphaBetaInteriorNodeExpected.setNext(next);
-                case AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited ->
-                        alphaBetaQuiescenceNodeVisited.setNext(next);
-                case AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected ->
-                        alphaBetaQuiescenceNodeExpected.setNext(next);
-                case AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics ->
-                        alphaBetaLeafNodeStatistics.setNext(next);
-                case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics ->
-                        alphaBetaTerminalNodeStatistics.setNext(next);
-                case AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics ->
-                        alphaBetaLoopNodeStatistics.setNext(next);
-                case AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics ->
-                        alphaBetaEgtbNodeStatistics.setNext(next);
+                case RootNodeStatistics rootNodeStatistics ->
+                        rootNodeStatistics.setNext(next);
+                case InteriorNodeVisited alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
+                case InteriorNodeExpected interiorNodeExpected ->
+                        interiorNodeExpected.setNext(next);
+                case QuiescenceNodeVisited quiescenceNodeVisited ->
+                        quiescenceNodeVisited.setNext(next);
+                case QuiescenceNodeExpected quiescenceNodeExpected ->
+                        quiescenceNodeExpected.setNext(next);
+                case LeafNodeStatistics leafNodeStatistics ->
+                        leafNodeStatistics.setNext(next);
+                case TerminalNodeStatistics terminalNodeStatistics ->
+                        terminalNodeStatistics.setNext(next);
+                case LoopNodeStatistics loopNodeStatistics ->
+                        loopNodeStatistics.setNext(next);
+                case EgtbNodeStatistics egtbNodeStatistics ->
+                        egtbNodeStatistics.setNext(next);
 
+                case InteriorNodeSorterPre interiorNodeSorterPre -> interiorNodeSorterPre.setNext(next);
+                case InteriorNodeSorterPost interiorNodeSorterPost -> interiorNodeSorterPost.setNext(next);
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);
                 case QuiescenceStandingPat quiescenceStandingPat -> quiescenceStandingPat.setNext(next);

@@ -11,8 +11,8 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
+import net.chesstango.search.smart.statistics.node.filters.QuiescenceNodeExpected;
+import net.chesstango.search.smart.statistics.node.filters.QuiescenceNodeVisited;
 import net.chesstango.search.smart.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorter;
@@ -28,8 +28,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
-    private AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited;
-    private AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected;
+    private QuiescenceNodeVisited quiescenceNodeVisited;
+    private QuiescenceNodeExpected quiescenceNodeExpected;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
@@ -115,8 +115,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         propagatePV = new PropagatePV();
 
         if (withStatistics) {
-            alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
-            alphaBetaQuiescenceNodeExpected = new AlphaBetaQuiescenceNodeExpected();
+            quiescenceNodeVisited = new QuiescenceNodeVisited();
+            quiescenceNodeExpected = new QuiescenceNodeExpected();
         }
 
         if (withZobristTracker) {
@@ -139,12 +139,12 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         listenerMediator.add(quiescenceStandingPat);
         listenerMediator.add(alphaBeta);
 
-        if (alphaBetaQuiescenceNodeVisited != null) {
-            listenerMediator.add(alphaBetaQuiescenceNodeVisited);
+        if (quiescenceNodeVisited != null) {
+            listenerMediator.add(quiescenceNodeVisited);
         }
 
-        if (alphaBetaQuiescenceNodeExpected != null) {
-            listenerMediator.add(alphaBetaQuiescenceNodeExpected);
+        if (quiescenceNodeExpected != null) {
+            listenerMediator.add(quiescenceNodeExpected);
         }
 
         if (zobristQTracker != null) {
@@ -189,8 +189,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(zobristQTracker);
         }
 
-        if (alphaBetaQuiescenceNodeVisited != null) {
-            chain.add(alphaBetaQuiescenceNodeVisited);
+        if (quiescenceNodeVisited != null) {
+            chain.add(quiescenceNodeVisited);
         }
 
         if (transpositionTableQ != null) {
@@ -202,8 +202,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         /**
          * QuiescenceStandingPat puede superar beta, por lo cual no debemos incrementar expected
          */
-        if (alphaBetaQuiescenceNodeExpected != null) {
-            chain.add(alphaBetaQuiescenceNodeExpected);
+        if (quiescenceNodeExpected != null) {
+            chain.add(quiescenceNodeExpected);
         }
 
         chain.add(alphaBeta);

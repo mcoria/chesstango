@@ -6,7 +6,7 @@ import net.chesstango.search.smart.debug.filters.DebugFilter;
 import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaEgtbNodeStatistics;
+import net.chesstango.search.smart.statistics.node.filters.EgtbNodeStatistics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
 
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
-    private AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics;
+    private EgtbNodeStatistics egtbNodeStatistics;
 
     private boolean withDebugSearchTree;
     private boolean withStatistics;
@@ -52,7 +52,7 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
         }
 
         if (withStatistics) {
-            alphaBetaEgtbNodeStatistics = new AlphaBetaEgtbNodeStatistics();
+            egtbNodeStatistics = new EgtbNodeStatistics();
         }
     }
 
@@ -66,8 +66,8 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(extendPV);
         }
 
-        if (alphaBetaEgtbNodeStatistics != null) {
-            listenerMediator.add(alphaBetaEgtbNodeStatistics);
+        if (egtbNodeStatistics != null) {
+            listenerMediator.add(egtbNodeStatistics);
         }
 
         listenerMediator.add(egtbEvaluation);
@@ -85,8 +85,8 @@ public class EgtbChainBuilder extends AbstractChainBuilder {
             chain.add(extendPV);
         }
 
-        if (alphaBetaEgtbNodeStatistics != null) {
-            chain.add(alphaBetaEgtbNodeStatistics);
+        if (egtbNodeStatistics != null) {
+            chain.add(egtbNodeStatistics);
         }
 
         chain.add(egtbEvaluation);

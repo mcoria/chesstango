@@ -32,6 +32,8 @@ import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
 import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.statistics.node.filters.*;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsComparatorCollector;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.statistics.transposition.TTableStatisticsPVCollector;
@@ -130,49 +132,49 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
-        print(alphaBetaRootNodeStatistics, alphaBetaRootNodeStatistics.getNext());
+    public void visit(RootNodeStatistics rootNodeStatistics) {
+        print(rootNodeStatistics, rootNodeStatistics.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeVisited alphaBetaInteriorNodeVisited) {
-        print(alphaBetaInteriorNodeVisited, alphaBetaInteriorNodeVisited.getNext());
+    public void visit(InteriorNodeVisited interiorNodeVisited) {
+        print(interiorNodeVisited, interiorNodeVisited.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
-        print(alphaBetaInteriorNodeExpected, alphaBetaInteriorNodeExpected.getNext());
+    public void visit(InteriorNodeExpected interiorNodeExpected) {
+        print(interiorNodeExpected, interiorNodeExpected.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited) {
-        print(alphaBetaQuiescenceNodeVisited, alphaBetaQuiescenceNodeVisited.getNext());
+    public void visit(QuiescenceNodeVisited quiescenceNodeVisited) {
+        print(quiescenceNodeVisited, quiescenceNodeVisited.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
-        print(alphaBetaQuiescenceNodeExpected, alphaBetaQuiescenceNodeExpected.getNext());
+    public void visit(QuiescenceNodeExpected quiescenceNodeExpected) {
+        print(quiescenceNodeExpected, quiescenceNodeExpected.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
-        print(alphaBetaLeafNodeStatistics, alphaBetaLeafNodeStatistics.getNext());
+    public void visit(LeafNodeStatistics leafNodeStatistics) {
+        print(leafNodeStatistics, leafNodeStatistics.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
-        print(alphaBetaTerminalNodeStatistics, alphaBetaTerminalNodeStatistics.getNext());
+    public void visit(TerminalNodeStatistics terminalNodeStatistics) {
+        print(terminalNodeStatistics, terminalNodeStatistics.getNext());
     }
 
     @Override
-    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
-        print(alphaBetaLoopNodeStatistics, alphaBetaLoopNodeStatistics.getNext());
+    public void visit(LoopNodeStatistics loopNodeStatistics) {
+        print(loopNodeStatistics, loopNodeStatistics.getNext());
     }
 
 
     @Override
-    public void visit(AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics) {
-        print(alphaBetaEgtbNodeStatistics, alphaBetaEgtbNodeStatistics.getNext());
+    public void visit(EgtbNodeStatistics egtbNodeStatistics) {
+        print(egtbNodeStatistics, egtbNodeStatistics.getNext());
     }
 
     @Override
@@ -269,6 +271,17 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(ZobristTracker zobristTracker) {
         print(zobristTracker, zobristTracker.getNext());
     }
+
+    @Override
+    public void visit(InteriorNodeSorterPre interiorNodeSorterPre) {
+        print(interiorNodeSorterPre, interiorNodeSorterPre.getNext());
+    }
+
+    @Override
+    public void visit(InteriorNodeSorterPost interiorNodeSorterPost) {
+        print(interiorNodeSorterPost, interiorNodeSorterPost.getNext());
+    }
+
 
     /**
      * Sorters elements

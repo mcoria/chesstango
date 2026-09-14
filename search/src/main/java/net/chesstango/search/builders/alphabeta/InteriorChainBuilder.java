@@ -1,8 +1,8 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
 import net.chesstango.search.smart.AlphaBetaFilter;
 import net.chesstango.search.smart.core.filters.AlphaBeta;
 import net.chesstango.search.smart.core.filters.AlphaBetaFlowControl;
@@ -11,8 +11,11 @@ import net.chesstango.search.smart.debug.model.NodeTopology;
 import net.chesstango.search.smart.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.pv.filters.ExtendPV;
 import net.chesstango.search.smart.pv.filters.PropagatePV;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaInteriorNodeExpected;
-import net.chesstango.search.smart.statistics.node.filters.AlphaBetaInteriorNodeVisited;
+import net.chesstango.search.smart.statistics.node.filters.InteriorNodeExpected;
+import net.chesstango.search.smart.statistics.node.filters.InteriorNodeVisited;
+import net.chesstango.search.smart.statistics.sorter.SorterCounters;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPost;
+import net.chesstango.search.smart.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.smart.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorter;
@@ -23,11 +26,9 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
+public class InteriorChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterInteriorBuilder moveSorterBuilder;
-    private AlphaBetaInteriorNodeVisited alphaBetaInteriorNodeVisited;
-    private AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
@@ -37,44 +38,54 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private KillerMoveTracker killerMoveTracker;
     private MoveSorter moveSorter;
 
+    /**
+     * Statistics
+     */
+    private InteriorNodeVisited interiorNodeVisited;
+    private InteriorNodeExpected interiorNodeExpected;
+    private InteriorNodeSorterPre interiorNodeSorterPre;
+    private InteriorNodeSorterPost interiorNodeSorterPost;
+    private SorterCounters sorterCounters;
+
+
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withKillerMoveSorter;
 
-    public AlphaBetaInteriorChainBuilder() {
+    public InteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
         moveSorterBuilder = new MoveSorterInteriorBuilder();
     }
 
-    public AlphaBetaInteriorChainBuilder withIterativeDeepening() {
+    public InteriorChainBuilder withIterativeDeepening() {
         moveSorterBuilder.withIterativeDeepening();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+    public InteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
         this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+    public InteriorChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
         this.moveSorterBuilder.withSmartListenerMediator(listenerMediator);
         this.listenerMediator = listenerMediator;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withStatistics() {
+    public InteriorChainBuilder withStatistics() {
         this.withStatistics = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withTranspositionTable() {
+    public InteriorChainBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withTranspositionMoveSorter() {
+    public InteriorChainBuilder withTranspositionMoveSorter() {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
@@ -82,34 +93,34 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withZobristTracker() {
+    public InteriorChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
+    public InteriorChainBuilder withDebugSearchTree() {
         moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache() {
+    public InteriorChainBuilder withGameEvaluatorCache() {
         moveSorterBuilder.withGameEvaluatorCache();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withKillerMoveSorter() {
+    public InteriorChainBuilder withKillerMoveSorter() {
         withKillerMoveSorter = true;
         moveSorterBuilder.withKillerMove();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withRecaptureSorter() {
+    public InteriorChainBuilder withRecaptureSorter() {
         moveSorterBuilder.withRecapture();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withMvvLvaSorter() {
+    public InteriorChainBuilder withMvvLvaSorter() {
         moveSorterBuilder.withMvvLva();
         return this;
     }
@@ -120,8 +131,11 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         propagatePV = new PropagatePV();
 
         if (withStatistics) {
-            alphaBetaInteriorNodeVisited = new AlphaBetaInteriorNodeVisited();
-            alphaBetaInteriorNodeExpected = new AlphaBetaInteriorNodeExpected();
+            interiorNodeVisited = new InteriorNodeVisited();
+            interiorNodeExpected = new InteriorNodeExpected();
+            interiorNodeSorterPre = new InteriorNodeSorterPre();
+            interiorNodeSorterPost = new InteriorNodeSorterPost();
+            sorterCounters = new SorterCounters();
         }
 
         if (withTranspositionTable) {
@@ -147,12 +161,24 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     protected void setupListenerMediator() {
         listenerMediator.add(alphaBeta);
 
-        if (alphaBetaInteriorNodeVisited != null) {
-            listenerMediator.add(alphaBetaInteriorNodeVisited);
+        if (interiorNodeVisited != null) {
+            listenerMediator.add(interiorNodeVisited);
         }
 
-        if (alphaBetaInteriorNodeExpected != null) {
-            listenerMediator.add(alphaBetaInteriorNodeExpected);
+        if (interiorNodeExpected != null) {
+            listenerMediator.add(interiorNodeExpected);
+        }
+
+        if (interiorNodeSorterPre != null) {
+            listenerMediator.add(interiorNodeSorterPre);
+        }
+
+        if (interiorNodeSorterPost != null) {
+            listenerMediator.add(interiorNodeSorterPost);
+        }
+
+        if (sorterCounters != null) {
+            listenerMediator.add(sorterCounters);
         }
 
         if (zobristTracker != null) {
@@ -183,6 +209,11 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     @Override
     public void link() {
         alphaBeta.setMoveSorter(moveSorter);
+
+        if (withStatistics) {
+            interiorNodeSorterPre.setSorterCounters(sorterCounters);
+            interiorNodeSorterPost.setSorterCounters(sorterCounters);
+        }
     }
 
     @Override
@@ -201,8 +232,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (alphaBetaInteriorNodeVisited != null) {
-            chain.add(alphaBetaInteriorNodeVisited);
+        if (interiorNodeVisited != null) {
+            chain.add(interiorNodeVisited);
         }
 
         if (transpositionTable != null) {
@@ -210,11 +241,19 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         }
 
         // Debe ir despues de TT para que contabilice expected correctamente
-        if (alphaBetaInteriorNodeExpected != null) {
-            chain.add(alphaBetaInteriorNodeExpected);
+        if (interiorNodeExpected != null) {
+            chain.add(interiorNodeExpected);
+        }
+
+        if (interiorNodeSorterPre != null) {
+            chain.add(interiorNodeSorterPre);
         }
 
         chain.add(alphaBeta);
+
+        if (interiorNodeSorterPost != null) {
+            chain.add(interiorNodeSorterPost);
+        }
 
         if (propagatePV != null) {
             chain.add(propagatePV);

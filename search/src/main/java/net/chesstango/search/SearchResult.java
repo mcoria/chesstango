@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.statistics.evalcache.EvaluatorCacheStatistics;
 import net.chesstango.search.smart.statistics.evaluator.EvaluatorStatistics;
 import net.chesstango.search.smart.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.statistics.sorter.SorterStatistics;
 import net.chesstango.search.smart.statistics.transposition.TTableStatistics;
 
 import java.io.Serializable;
@@ -32,6 +33,8 @@ public class SearchResult implements Serializable {
     private TTableStatistics tTableStatistics;
 
     private EvaluatorCacheStatistics evaluatorCacheStatistics;
+
+    private SorterStatistics sorterStatistics;
 
     private float exploredDepth;
 
