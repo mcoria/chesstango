@@ -36,8 +36,8 @@ import static net.chesstango.search.smart.Constants.*;
 public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private final SetSearchTimers setSearchTimers;
-    private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
-    private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
+    private final RootChainBuilder rootChainBuilder;
+    private final InteriorChainBuilder interiorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
 
     private final LoopChainBuilder loopChainBuilder;
@@ -79,8 +79,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private Search search;
 
     public AlphaBetaBuilder() {
-        alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
-        alphaBetaInteriorChainBuilder = new AlphaBetaInteriorChainBuilder();
+        rootChainBuilder = new RootChainBuilder();
+        interiorChainBuilder = new InteriorChainBuilder();
 
         quiescenceChainBuilder = new QuiescenceChainBuilder();
         checkResolverChainBuilder = new CheckResolverChainBuilder();
@@ -107,8 +107,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public AlphaBetaBuilder withIterativeDeepening() {
         withIterativeDeepening = true;
-        alphaBetaRootChainBuilder.withIterativeDeepening();
-        alphaBetaInteriorChainBuilder.withIterativeDeepening();
+        rootChainBuilder.withIterativeDeepening();
+        interiorChainBuilder.withIterativeDeepening();
         quiescenceChainBuilder.withIterativeDeepening();
         return this;
     }
@@ -121,7 +121,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withGameEvaluatorCache() {
-        alphaBetaInteriorChainBuilder.withGameEvaluatorCache();
+        interiorChainBuilder.withGameEvaluatorCache();
         quiescenceChainBuilder.withGameEvaluatorCache();
         evaluationBuilder.withGameEvaluatorCache();
         withGameEvaluatorCache = true;
@@ -145,8 +145,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public AlphaBetaBuilder withStatistics() {
         withStatistics = true;
-        alphaBetaRootChainBuilder.withStatistics();
-        alphaBetaInteriorChainBuilder.withStatistics();
+        rootChainBuilder.withStatistics();
+        interiorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
         checkResolverChainBuilder.withStatistics();
         transpositionTableBuilder.withStatistics();
@@ -161,8 +161,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     @Override
     public AlphaBetaBuilder withTranspositionTable() {
-        alphaBetaRootChainBuilder.withTranspositionTable();
-        alphaBetaInteriorChainBuilder.withTranspositionTable();
+        rootChainBuilder.withTranspositionTable();
+        interiorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
@@ -195,13 +195,13 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
-        alphaBetaInteriorChainBuilder.withTranspositionMoveSorter();
+        interiorChainBuilder.withTranspositionMoveSorter();
         quiescenceChainBuilder.withTranspositionMoveSorter();
         return this;
     }
 
     public AlphaBetaBuilder withStopProcessingCatch() {
-        alphaBetaRootChainBuilder.withStopProcessingCatch();
+        rootChainBuilder.withStopProcessingCatch();
         return this;
     }
 
@@ -213,8 +213,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public AlphaBetaBuilder withZobristTracker() {
         withZobristTracker = true;
 
-        alphaBetaRootChainBuilder.withZobristTracker();
-        alphaBetaInteriorChainBuilder.withZobristTracker();
+        rootChainBuilder.withZobristTracker();
+        interiorChainBuilder.withZobristTracker();
         terminalChainBuilder.withZobristTracker();
         loopChainBuilder.withZobristTracker();
 
@@ -224,25 +224,25 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withAspirationWindows() {
-        alphaBetaRootChainBuilder.withAspirationWindows();
+        rootChainBuilder.withAspirationWindows();
         withAspirationWindows = true;
         return this;
     }
 
     public AlphaBetaBuilder withKillerMoveSorter() {
-        alphaBetaInteriorChainBuilder.withKillerMoveSorter();
+        interiorChainBuilder.withKillerMoveSorter();
         withKillerMoveSorter = true;
         return this;
     }
 
     public AlphaBetaBuilder withRecaptureSorter() {
-        alphaBetaInteriorChainBuilder.withRecaptureSorter();
+        interiorChainBuilder.withRecaptureSorter();
         quiescenceChainBuilder.withRecaptureSorter();
         return this;
     }
 
     public AlphaBetaBuilder withMvvLvaSorter() {
-        alphaBetaInteriorChainBuilder.withMvvLvaSorter();
+        interiorChainBuilder.withMvvLvaSorter();
         quiescenceChainBuilder.withMvvLvaSorter();
         return this;
     }
@@ -256,8 +256,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withDebugSearchTree() {
-        alphaBetaRootChainBuilder.withDebugSearchTree();
-        alphaBetaInteriorChainBuilder.withDebugSearchTree();
+        rootChainBuilder.withDebugSearchTree();
+        interiorChainBuilder.withDebugSearchTree();
         terminalChainBuilder.withDebugSearchTree();
         loopChainBuilder.withDebugSearchTree();
         leafChainBuilder.withDebugSearchTree();
@@ -404,10 +404,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         terminalChainBuilder.link();
         leafChainBuilder.link();
-        alphaBetaInteriorChainBuilder.link();
+        interiorChainBuilder.link();
         loopChainBuilder.link();
         egtbChainBuilder.link();
-        alphaBetaRootChainBuilder.link();
+        rootChainBuilder.link();
         if (withQuiescence) {
             quiescenceChainBuilder.link();
         }
@@ -432,9 +432,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         leafChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter leafChain = leafChainBuilder.build();
 
-        alphaBetaInteriorChainBuilder.withSmartListenerMediator(listenerMediator);
-        alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
+        interiorChainBuilder.withSmartListenerMediator(listenerMediator);
+        interiorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        AlphaBetaFilter interiorChain = interiorChainBuilder.build();
 
         loopChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter loopChain = loopChainBuilder.build();
@@ -453,9 +453,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaFlowControl.setLeafNode(leafChain);
         alphaBetaFlowControl.setEgtbNode(egtbChain);
 
-        alphaBetaRootChainBuilder.withSmartListenerMediator(listenerMediator);
-        alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        return alphaBetaRootChainBuilder.build();
+        rootChainBuilder.withSmartListenerMediator(listenerMediator);
+        rootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        return rootChainBuilder.build();
     }
 
 

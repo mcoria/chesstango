@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
+public class InteriorChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterInteriorBuilder moveSorterBuilder;
     private TranspositionTable transpositionTable;
@@ -52,38 +52,38 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private boolean withDebugSearchTree;
     private boolean withKillerMoveSorter;
 
-    public AlphaBetaInteriorChainBuilder() {
+    public InteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
         moveSorterBuilder = new MoveSorterInteriorBuilder();
     }
 
-    public AlphaBetaInteriorChainBuilder withIterativeDeepening() {
+    public InteriorChainBuilder withIterativeDeepening() {
         moveSorterBuilder.withIterativeDeepening();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+    public InteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
         this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
+    public InteriorChainBuilder withSmartListenerMediator(ListenerMediator listenerMediator) {
         this.moveSorterBuilder.withSmartListenerMediator(listenerMediator);
         this.listenerMediator = listenerMediator;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withStatistics() {
+    public InteriorChainBuilder withStatistics() {
         this.withStatistics = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withTranspositionTable() {
+    public InteriorChainBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withTranspositionMoveSorter() {
+    public InteriorChainBuilder withTranspositionMoveSorter() {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
@@ -91,34 +91,34 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withZobristTracker() {
+    public InteriorChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
+    public InteriorChainBuilder withDebugSearchTree() {
         moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache() {
+    public InteriorChainBuilder withGameEvaluatorCache() {
         moveSorterBuilder.withGameEvaluatorCache();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withKillerMoveSorter() {
+    public InteriorChainBuilder withKillerMoveSorter() {
         withKillerMoveSorter = true;
         moveSorterBuilder.withKillerMove();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withRecaptureSorter() {
+    public InteriorChainBuilder withRecaptureSorter() {
         moveSorterBuilder.withRecapture();
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withMvvLvaSorter() {
+    public InteriorChainBuilder withMvvLvaSorter() {
         moveSorterBuilder.withMvvLva();
         return this;
     }
