@@ -9,6 +9,7 @@ import net.chesstango.search.smart.statistics.evaluator.EvaluatorCounters;
 import net.chesstango.search.smart.statistics.game.DepthCollector;
 import net.chesstango.search.smart.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.statistics.node.NodeCounters;
+import net.chesstango.search.smart.statistics.sorter.SorterCounters;
 import net.chesstango.search.smart.statistics.transposition.TTableCounters;
 
 /**
@@ -41,6 +42,11 @@ public class CollectSearchResultVisitor implements Visitor {
     @Override
     public void visit(NodeCounters nodeCounters) {
         searchResult.setNodeStatistics(nodeCounters.getNodeStatistics());
+    }
+
+    @Override
+    public void visit(SorterCounters sorterCounters) {
+        searchResult.setSorterStatistics(sorterCounters.getSorterStatistics());
     }
 
     @Override

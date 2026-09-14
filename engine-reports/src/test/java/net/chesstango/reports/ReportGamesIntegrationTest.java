@@ -63,15 +63,13 @@ public class ReportGamesIntegrationTest {
 
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
+                .withBoardStatistics()
                 /*
                 .withEvaluationStatistics()
                 .withEvaluationCacheStatistics()
                 .withTranspositionStatistics()
-                .withBoardStatistics()
-                 */
                 .withNodesVisitedStatistics()
                 .withNodesVisitedPercentageStatistics()
-                /*
                 .withNodesTypesStatistics()
                 .withPrincipalVariationStatistics()
                  */
@@ -81,16 +79,13 @@ public class ReportGamesIntegrationTest {
         detailsReport
                 .setReportTitle("TangoGame01")
                 .withMoveResults(searchResults)
+                .withBoardReport()
                 /*
                 .withEvaluationReport()
                 .withEvaluationCacheReport()
                 .withTranspositionReport()
-                .withBoardReport()
-                 */
                 .withNodesVisitedStatistics()
                 .withNodesVisitedPercentageStatistics()
-
-                /*
                 .withNodesTypesStatistics()
                 .withEvaluationIterationReport()
                 .withPrincipalVariationReport()
@@ -151,7 +146,7 @@ public class ReportGamesIntegrationTest {
                 if (!whiteSearch && i % 2 == 1) {
                     List<String> currentMoves = coordinateMoves.stream().limit(i).toList();
                     session.setMoves(currentMoves);
-                    session.goDepth(2);
+                    session.goDepth(3);
                 }
             }
 

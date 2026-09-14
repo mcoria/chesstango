@@ -29,14 +29,15 @@ public class SummaryBoardPrinter implements Printer {
     public SummaryBoardPrinter print() {
         out.println("\n Board Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "MOVES", "DEPTH AVG", "Time(ms)");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "MOVES", "DEPTH AVG", "FHF %", "Time(ms)");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
                     Long.toString(row.executedMovesTotal),
                     String.format("%.1f", row.exploredDepthAvg),
+                    Integer.toString(row.failHighPercentageAvg),
                     Long.toString(row.searchTimeTotal));
         });
         printerTxtTable.print();
