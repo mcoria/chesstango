@@ -6,7 +6,7 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;

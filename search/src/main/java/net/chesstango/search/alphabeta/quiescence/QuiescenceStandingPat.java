@@ -1,4 +1,4 @@
-package net.chesstango.search.alphabeta.core.filters;
+package net.chesstango.search.alphabeta.quiescence;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,11 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
             return standingPat;
         }
 
-        int currentValue =  next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
+        if(standingPat < alpha) {
+            return standingPat;
+        }
+
+        int currentValue =  next.alphaBeta(currentPly, standingPat, beta);
 
         if(standingPat >= currentValue) {
             bestMoves[currentPly] = null;

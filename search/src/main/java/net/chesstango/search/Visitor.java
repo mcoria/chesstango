@@ -2,7 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;

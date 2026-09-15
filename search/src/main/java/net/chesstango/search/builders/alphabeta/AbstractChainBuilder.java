@@ -3,7 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;

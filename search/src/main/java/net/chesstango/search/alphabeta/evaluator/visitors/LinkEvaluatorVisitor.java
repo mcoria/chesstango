@@ -2,7 +2,7 @@ package net.chesstango.search.alphabeta.evaluator.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 
