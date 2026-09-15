@@ -16,6 +16,9 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
 @Setter
 public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
 
+    //private final int DELTA_MARGIN = 823000;
+    private final int DELTA_MARGIN = 1645369;
+
     @Getter
     private AlphaBetaFilter next;
 
@@ -38,8 +41,6 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
         if (standingPat >= beta) {
             return standingPat;
         }
-
-        final int DELTA_MARGIN = 823000;
 
         if (standingPat + DELTA_MARGIN <= alpha) {
             return standingPat;
