@@ -39,7 +39,7 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
             return standingPat;
         }
 
-        final int DELTA_MARGIN = 950;
+        final int DELTA_MARGIN = 823000;
 
         if (standingPat + DELTA_MARGIN <= alpha) {
             return standingPat;
