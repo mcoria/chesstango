@@ -38,9 +38,9 @@ public class RootMoveSorter implements MoveSorter, Acceptor {
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
+        rootMoveEvaluationList.sort(rootMoveEvaluationComparator);
         return rootMoveEvaluationList
                 .stream()
-                .sorted(rootMoveEvaluationComparator)
                 .map(RootMoveEvaluation::move)
                 .toList();
     }

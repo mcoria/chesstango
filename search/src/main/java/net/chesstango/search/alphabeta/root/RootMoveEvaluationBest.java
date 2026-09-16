@@ -1,7 +1,10 @@
 package net.chesstango.search.alphabeta.root;
 
-import lombok.Getter;
 import net.chesstango.search.*;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  *
@@ -9,8 +12,15 @@ import net.chesstango.search.*;
  */
 public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
 
-    @Getter
-    private RootMoveEvaluation bestRootMoveEvaluation;
+    private final Comparator<RootMoveEvaluation> rootMoveEvaluationComparator;
+
+    private List<RootMoveEvaluation> bestRootMoves;
+
+
+    public RootMoveEvaluationBest() {
+        rootMoveEvaluationComparator = new RootMoveEvaluationComparator().reversed();
+    }
+
 
     /**
      * Accepts a visitor for the visitor pattern implementation.
@@ -29,7 +39,7 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
      */
     @Override
     public void beforeSearchByDepth() {
-        bestRootMoveEvaluation = null;
+        bestRootMoves = new ArrayList<>();
     }
 
 
@@ -39,14 +49,14 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
      * @param moveEvaluation the move evaluation to save
      */
     public void save(RootMoveEvaluation moveEvaluation) {
+        bestRootMoves.removeIf(rootMoveEvaluation -> rootMoveEvaluation.move().equals(moveEvaluation.move()));
         if (moveEvaluation.bound() == Bound.EXACT || moveEvaluation.bound() == Bound.LOWER_BOUND) {
-            if (bestRootMoveEvaluation == null) {
-                bestRootMoveEvaluation = moveEvaluation;
-            } else if (moveEvaluation.evaluation() >= bestRootMoveEvaluation.evaluation()) {
-                bestRootMoveEvaluation = moveEvaluation;
-            } else {
-                throw new RuntimeException("Root move evaluation value is not the same as the value returned by the search algorithm");
-            }
+            bestRootMoves.add(moveEvaluation);
         }
+    }
+
+    public RootMoveEvaluation getBestRootMoveEvaluation() {
+        bestRootMoves.sort(rootMoveEvaluationComparator);
+        return !bestRootMoves.isEmpty() ? bestRootMoves.getFirst() : null;
     }
 }

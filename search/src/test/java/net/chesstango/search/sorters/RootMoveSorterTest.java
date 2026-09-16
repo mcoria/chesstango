@@ -67,6 +67,6 @@ public class RootMoveSorterTest {
 
         rootMoveSorter.getOrderedMoves(0);
 
-        verify(stream).sorted(rootMoveEvaluationComparatorReversed);
+        verify(rootMoveEvaluationList).sort(rootMoveEvaluationComparatorReversed);
     }
 }

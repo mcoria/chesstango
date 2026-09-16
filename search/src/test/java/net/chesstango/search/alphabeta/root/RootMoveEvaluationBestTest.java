@@ -20,6 +20,7 @@ public class RootMoveEvaluationBestTest {
     @BeforeEach
     public void setup() {
         rootMoveEvaluationBest = new RootMoveEvaluationBest();
+        rootMoveEvaluationBest.beforeSearchByDepth();
     }
 
     @Test
