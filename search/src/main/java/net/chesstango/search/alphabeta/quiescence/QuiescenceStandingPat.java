@@ -17,8 +17,9 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
 public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
 
     //private final int DELTA_MARGIN = 823000;
-    //private final int DELTA_MARGIN = 1645369;
-    private final int DELTA_MARGIN = 440000;
+    //private final int DELTA_MARGIN = 1645369;                           1 pieza diferencia
+    //private final int DELTA_MARGIN = 440000;                      90% - 1 pieza diferencia / mismas piezas
+    private final int DELTA_MARGIN = 540000;                      //95% - 1 pieza diferencia / mismas piezas
 
 
     @Getter
