@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.gardel.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static net.chesstango.evaluation.evaluators.EvaluatorImp05.*;
@@ -156,6 +157,16 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval < 0);
+    }
+
+
+    @Test
+    @Disabled
+    public void testEvaluateByMaterialQueen() {
+        Game game = Game.from(FEN.from("rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        evaluator.setGame(game);
+        int eval = evaluator.evaluate();
+        assertEquals(0, eval);
     }
 
 }
