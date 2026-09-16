@@ -28,7 +28,9 @@ public class RootMoveEvaluationBestTest {
         rootMoveEvaluationBest.save(new RootMoveEvaluation(move, 0, Bound.LOWER_BOUND, null));
 
         RootMoveEvaluation maxEvaluation = rootMoveEvaluationBest.getBestRootMoveEvaluation();
-        assertNull(maxEvaluation);
+        assertEquals(move, maxEvaluation.move());
+        assertEquals(0, maxEvaluation.evaluation());
+        assertEquals(Bound.LOWER_BOUND, maxEvaluation.bound());
     }
 
     @Test
@@ -74,7 +76,7 @@ public class RootMoveEvaluationBestTest {
     @Test
     public void test05() {
         final Move move1 = mock(Move.class);
-        rootMoveEvaluationBest.save(new RootMoveEvaluation(move1, 1000, Bound.LOWER_BOUND, null));
+        rootMoveEvaluationBest.save(new RootMoveEvaluation(move1, 500, Bound.LOWER_BOUND, null));
 
         final Move move2 = mock(Move.class);
         rootMoveEvaluationBest.save(new RootMoveEvaluation(move2, 1000, Bound.EXACT, null));

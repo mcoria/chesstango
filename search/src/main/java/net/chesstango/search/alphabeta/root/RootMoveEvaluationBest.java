@@ -1,11 +1,7 @@
 package net.chesstango.search.alphabeta.root;
 
 import lombok.Getter;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.Bound;
-import net.chesstango.search.RootMoveEvaluation;
-import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchByDepthListener;
+import net.chesstango.search.*;
 
 /**
  *
@@ -43,11 +39,14 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
      * @param moveEvaluation the move evaluation to save
      */
     public void save(RootMoveEvaluation moveEvaluation) {
-        if (moveEvaluation.bound() == Bound.EXACT) {
-            if (bestRootMoveEvaluation == null || moveEvaluation.evaluation() > bestRootMoveEvaluation.evaluation()) {
+        if (moveEvaluation.bound() == Bound.EXACT || moveEvaluation.bound() == Bound.LOWER_BOUND) {
+            if (bestRootMoveEvaluation == null) {
                 bestRootMoveEvaluation = moveEvaluation;
+            } else if (moveEvaluation.evaluation() >= bestRootMoveEvaluation.evaluation()) {
+                bestRootMoveEvaluation = moveEvaluation;
+            } else {
+                throw new RuntimeException("Root move evaluation value is not the same as the value returned by the search algorithm");
             }
         }
     }
-
 }
