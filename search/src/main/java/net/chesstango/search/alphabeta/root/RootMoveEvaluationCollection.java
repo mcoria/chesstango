@@ -38,7 +38,7 @@ public class RootMoveEvaluationCollection implements Acceptor, SearchListener {
     public void beforeSearch() {
         rootMoveEvaluationList.clear();
         /**
-         * Fake values for all possible moves.
+         * Fake RootMoveEvaluation for all possible moves.
          */
         for (Move move : game.getPossibleMoves()) {
             rootMoveEvaluationList.add(new RootMoveEvaluation(move, Evaluator.INFINITE_NEGATIVE, Bound.UPPER_BOUND, null));
