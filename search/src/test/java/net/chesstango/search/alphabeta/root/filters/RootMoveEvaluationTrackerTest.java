@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -36,12 +37,20 @@ public class RootMoveEvaluationTrackerTest {
     @Mock
     private PVCalculator pvCalculator;
 
+    private Move move;
+
     @BeforeEach
     public void setup() {
         moveEvaluationTracker = new RootMoveEvaluationTracker();
         moveEvaluationTracker.setRootMoveEvaluationBest(rootMoveEvaluationBest);
         moveEvaluationTracker.setRootMoveEvaluationCollection(rootMoveEvaluationCollection);
         moveEvaluationTracker.setPvCalculator(pvCalculator);
+
+        Game game = Game.from(FEN.START_POSITION);
+        moveEvaluationTracker.setGame(game);
+
+        move = game.getMove(Square.a2, Square.a3);
+        move.executeMove();
     }
 
 
@@ -90,8 +99,7 @@ public class RootMoveEvaluationTrackerTest {
 
     @Test
     public void test_createRootMoveEvaluationExactBound() {
-        Move move = mock(Move.class);
-        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation(move, 0, -10, 10);
+        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation( 0, -10, 10);
 
         assertEquals(move, result.move());
         assertEquals(0, result.evaluation());
@@ -101,22 +109,22 @@ public class RootMoveEvaluationTrackerTest {
 
     @Test
     public void test_createRootMoveEvaluationUpperBound() {
-        Move move = mock(Move.class);
-        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation(move, -20, -10, 10);
+        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation( -20, -10, 10);
 
         assertEquals(move, result.move());
         assertEquals(-20, result.evaluation());
         assertEquals(Bound.UPPER_BOUND, result.bound());
+        assertNotNull(result.pv());
     }
 
     @Test
     public void test_createRootMoveEvaluationLowerBound() {
-        Move move = mock(Move.class);
-        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation(move, 20, -10, 10);
+        RootMoveEvaluation result = moveEvaluationTracker.createRootMoveEvaluation( 20, -10, 10);
 
         assertEquals(move, result.move());
         assertEquals(20, result.evaluation());
         assertEquals(Bound.LOWER_BOUND, result.bound());
+        assertNotNull(result.pv());
     }
 
 
