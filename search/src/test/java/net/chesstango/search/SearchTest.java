@@ -233,7 +233,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                .withStatistics()
+                //.withStatistics()
                 //.withDebugSearchTree(true, true, true)
                 .build();
 
@@ -318,8 +318,6 @@ public class SearchTest {
 
         assertTrue(searchResult.getPrincipalVariation().pvComplete());
     }
-
-
 
     @Test
     @Disabled
