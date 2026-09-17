@@ -233,7 +233,7 @@ public class SearchTest {
         Search search = defaultSearch()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
-                .withStatistics()
+                //.withStatistics()
                 //.withDebugSearchTree(true, true, true)
                 .build();
 
@@ -319,8 +319,6 @@ public class SearchTest {
         assertTrue(searchResult.getPrincipalVariation().pvComplete());
     }
 
-
-
     @Test
     @Disabled
     public void test_Undermine_094() {
@@ -358,6 +356,7 @@ public class SearchTest {
     private AlphaBetaBuilder noTransposition() {
         return new AlphaBetaBuilder()
                 .withGameEvaluatorCache()
+                .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
 
                 .withQuiescence()
 
@@ -365,7 +364,7 @@ public class SearchTest {
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                //.withAspirationWindows()
+                .withAspirationWindows()
 
                 .withIterativeDeepening()
 

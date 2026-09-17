@@ -10,6 +10,8 @@ import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationBest;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationCollection;
 
+import java.util.List;
+
 /**
  * Actualiza RootMoveEvaluationCollection a medida que se obtienen resultados de los movimientos de root node
  *
@@ -41,11 +43,9 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        Move currentMove = game.getHistory().peekLastRecord().playedMove();
-
         int currentValue = next.alphaBeta(currentPly, alpha, beta);
 
-        RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentMove, currentValue, alpha, beta);
+        RootMoveEvaluation rootMoveEvaluation = createRootMoveEvaluation(currentValue, alpha, beta);
         rootMoveEvaluationBest.save(rootMoveEvaluation);
         rootMoveEvaluationCollection.save(rootMoveEvaluation);
 
@@ -53,19 +53,28 @@ public class RootMoveEvaluationTracker implements AlphaBetaFilter, Acceptor {
     }
 
 
-    final RootMoveEvaluation createRootMoveEvaluation(Move currentMove, int currentValue, int alpha, int beta) {
+    final RootMoveEvaluation createRootMoveEvaluation(int currentValue, int alpha, int beta) {
         Bound moveEvaluationType = null;
         PrincipalVariation principalVariation = null;
 
         if (currentValue <= alpha) {
             moveEvaluationType = Bound.UPPER_BOUND;
+            principalVariation = createFakePV();
         } else if (beta <= currentValue) {
             moveEvaluationType = Bound.LOWER_BOUND;
+            principalVariation = createFakePV();
         } else {
             moveEvaluationType = Bound.EXACT;
             principalVariation = pvCalculator.calculatePrincipalVariation(currentValue);
         }
 
-        return new RootMoveEvaluation(currentMove, currentValue, moveEvaluationType, principalVariation);
+        Move lastMove = game.getHistory().peekLastRecord().playedMove();
+        return new RootMoveEvaluation(lastMove, currentValue, moveEvaluationType, principalVariation);
+    }
+
+    PrincipalVariation createFakePV() {
+        Move lastMove = game.getHistory().peekLastRecord().playedMove();
+        long lastHash = game.getHistory().peekLastRecord().zobristHash().getZobristHash();
+        return new PrincipalVariation(List.of(new PVMove(lastHash, lastMove)), false);
     }
 }

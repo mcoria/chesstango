@@ -37,13 +37,7 @@ public class SearchByDepthImp implements SearchByDepth, Acceptor {
 
             listenerMediator.triggerBeforeSearchByDepth();
 
-            int value = next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
-
-            RootMoveEvaluation bestRootMoveEvaluation = rootMoveEvaluationBest.getBestRootMoveEvaluation();
-
-            if (bestRootMoveEvaluation.evaluation() != value) {
-                throw new RuntimeException("Best root move evaluation value is not the same as the value returned by the search algorithm");
-            }
+            next.alphaBeta(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
             listenerMediator.triggerAfterSearchByDepth(false);
         } catch (StopSearchingException stopSearchingException) {
