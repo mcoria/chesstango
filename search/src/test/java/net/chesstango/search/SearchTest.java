@@ -356,6 +356,7 @@ public class SearchTest {
     private AlphaBetaBuilder noTransposition() {
         return new AlphaBetaBuilder()
                 .withGameEvaluatorCache()
+                .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
 
                 .withQuiescence()
 
@@ -363,7 +364,7 @@ public class SearchTest {
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                //.withAspirationWindows()
+                .withAspirationWindows()
 
                 .withIterativeDeepening()
 
