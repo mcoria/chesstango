@@ -46,9 +46,11 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
             return standingPat;
         }
 
+        /*
         if (standingPat + DELTA_MARGIN <= alpha) {
             return standingPat;
         }
+         */
 
         int currentValue = next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
 

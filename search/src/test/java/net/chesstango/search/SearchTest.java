@@ -326,7 +326,7 @@ public class SearchTest {
 
         Search search = noTransposition()
                 .withGameEvaluator(Evaluator.createInstance())
-                //.withDebugSearchTree()
+                .withDebugSearchTree()
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -364,7 +364,7 @@ public class SearchTest {
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                .withAspirationWindows()
+                //.withAspirationWindows()
 
                 .withIterativeDeepening()
 
