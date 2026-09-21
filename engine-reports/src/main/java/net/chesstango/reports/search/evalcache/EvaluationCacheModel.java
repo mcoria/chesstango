@@ -82,7 +82,7 @@ public class EvaluationCacheModel implements Model<List<SearchResult>> {
         reportModelDetail.move = bestMove != null ? bestMove.coordinateEncoding() : "";
         reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
 
-        if (searchResult.getEvaluatorStatistics() != null) {
+        if (searchResult.getEvaluatorCacheStatistics() != null) {
             collectEvaluationStatistics(reportModelDetail, searchResult.getEvaluatorCacheStatistics());
         }
 
