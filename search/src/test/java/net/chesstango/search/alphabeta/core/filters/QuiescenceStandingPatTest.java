@@ -77,6 +77,7 @@ public class QuiescenceStandingPatTest {
         // Verify
         assertEquals(20, result);
         assertEquals(null, bestMoves[currentPly]);
+        assertEquals(0, standingPats[currentPly]);
         verify(next, never()).alphaBeta(anyInt(), anyInt(), anyInt());
     }
 
@@ -103,6 +104,7 @@ public class QuiescenceStandingPatTest {
         // Verify
         assertEquals(10, result);
         assertEquals(null, bestMoves[currentPly]);
+        assertEquals(10, standingPats[currentPly]);
         verify(next).alphaBeta(0, 10, 15);
     }
 
@@ -129,6 +131,7 @@ public class QuiescenceStandingPatTest {
         // Verify
         assertEquals(12, result);
         assertEquals(game.getMove(Square.a2, Square.a3), bestMoves[currentPly]);
+        assertEquals(10, standingPats[currentPly]);
         verify(next).alphaBeta(0, 10, 15);
     }
 
@@ -155,6 +158,7 @@ public class QuiescenceStandingPatTest {
         // Verify
         assertEquals(13, result);
         assertEquals(game.getMove(Square.a2, Square.a3), bestMoves[currentPly]);
+        assertEquals(10, standingPats[currentPly]);
         verify(next).alphaBeta(0, 12, 15);
     }
 
@@ -181,6 +185,7 @@ public class QuiescenceStandingPatTest {
         // Verify
         assertEquals(8, result);
         assertEquals(game.getMove(Square.a2, Square.a3), bestMoves[currentPly]);
+        assertEquals(5, standingPats[currentPly]);
         verify(next).alphaBeta(0, 15, 20);
     }
 
