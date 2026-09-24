@@ -43,6 +43,22 @@ public enum Piece {
         return KING_WHITE.equals(this) || KING_BLACK.equals(this);
     }
 
+    public boolean isKnight() {
+        return KNIGHT_WHITE.equals(this) || KNIGHT_BLACK.equals(this);
+    }
+
+    public boolean isBishop() {
+        return BISHOP_WHITE.equals(this) || BISHOP_BLACK.equals(this);
+    }
+
+    public boolean isRook() {
+        return ROOK_WHITE.equals(this) || ROOK_BLACK.equals(this);
+    }
+
+    public boolean isQueen() {
+        return QUEEN_WHITE.equals(this) || QUEEN_BLACK.equals(this);
+    }
+
     public static Piece getKing(Color color) {
         return switch (color) {
             case WHITE -> KING_WHITE;
