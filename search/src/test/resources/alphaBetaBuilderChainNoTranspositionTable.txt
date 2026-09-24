@@ -93,45 +93,21 @@ AlphaBetaFlowControl @ 10
 	ExtendPV @ 36
 	|
 	QuiescenceStandingPat @ 37 [Evaluator: EvaluatorCacheAdapter @ 13 [EvaluatorCache: EvaluatorCacheArray @ 14] -> EvaluatorByMaterial @ 15]
-	|
-	AlphaBeta @ 38
-	|
-	 -> Sorter
-		|
-		NodeMoveSorter @ 39
-		|
-		 -> Comparator
-			|
-			PrincipalVariationComparator @ 40
-			|
-			PromotionComparator @ 41
-			|
-			RecaptureMoveComparator @ 42
-			|
-			MvvLvaComparator @ 43
-			|
-			EvaluatorCacheComparator @ 44 [EvaluatorCache: EvaluatorCacheArray @ 14]
-			|
-			DefaultMoveComparator @ 45
-	|
-	PropagatePV @ 46
-	|
-	AlphaBetaFlowControl @ 10 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCacheListener @ 47
-	SetSearchTimers @ 48
+	EvaluatorCacheListener @ 38
+	SetSearchTimers @ 39
 	AlphaBetaFlowControl @ 10
 	PrincipalVariationComparator @ 26
 	PrincipalVariationComparator @ 40
-	RootMoveEvaluationCollection @ 49
+	RootMoveEvaluationCollection @ 41
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 48
-	RootMoveEvaluationBest @ 50
+	SetSearchTimers @ 39
+	RootMoveEvaluationBest @ 42
 
 SearchByWindowsListeners:
 
@@ -139,15 +115,15 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 10
 
 ResetListener:
-	EvaluatorCacheListener @ 47
+	EvaluatorCacheListener @ 38
 
 Acceptor:
-	SetGameToEvaluator @ 51
+	SetGameToEvaluator @ 43
 	EvaluatorCacheAdapter @ 13
-	EvaluatorCacheListener @ 47
-	SetGameToEndGameTableBase @ 52
+	EvaluatorCacheListener @ 38
+	SetGameToEndGameTableBase @ 44
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 48
+	SetSearchTimers @ 39
 	AlphaBetaFlowControl @ 10
 	AlphaBetaEvaluation @ 12
 	ExtendPV @ 11
@@ -166,22 +142,22 @@ Acceptor:
 	ExtendPV @ 19
 	ExtendPV @ 16
 	EgtbEvaluation @ 17
-	NodeMoveSorter @ 39
+	NodeMoveSorter @ 45
 	PrincipalVariationComparator @ 40
-	RecaptureMoveComparator @ 42
-	EvaluatorCacheComparator @ 44
+	RecaptureMoveComparator @ 46
+	EvaluatorCacheComparator @ 47
 	QuiescenceStandingPat @ 37
-	AlphaBeta @ 38
+	QuiescenceAlphaBeta @ 48
 	ExtendPV @ 36
-	PropagatePV @ 46
+	PropagatePV @ 49
 	RootMoveSorter @ 7
-	NodeGroupSorter @ 53
+	NodeGroupSorter @ 50
 	RootMoveEvaluationTracker @ 8
-	RootMoveEvaluationBest @ 50
-	RootMoveEvaluationCollection @ 49
+	RootMoveEvaluationBest @ 42
+	RootMoveEvaluationCollection @ 41
 	ExtendPV @ 5
 	PropagatePV @ 9
-	PVCalculator @ 54
+	PVCalculator @ 51
 	AlphaBeta @ 6
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
