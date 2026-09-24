@@ -1,13 +1,11 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.Visitor;
 import net.chesstango.search.IterativeDeepening;
-import net.chesstango.search.NoIterativeDeepening;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.NoIterativeDeepening;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
@@ -21,6 +19,7 @@ import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
@@ -84,11 +83,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(QuiescenceStandingPat quiescenceStandingPat) {
         quiescenceStandingPat.setGame(game);
-    }
-
-    @Override
-    public void visit(QuiescenceAlphaBeta quiescenceAlphaBeta) {
-        quiescenceAlphaBeta.setGame(game);
     }
 
     @Override

@@ -28,7 +28,6 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
     //private final int DELTA_MARGIN = 100;
     private final int DELTA_MARGIN = 900_000;
 
-    private int depth;
 
     @Getter
     private AlphaBetaFilter next;
@@ -37,6 +36,8 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
     private Evaluator evaluator;
 
     private Move[] bestMoves;
+
+    private int[] standingPats;
 
     private Game game;
 
@@ -48,6 +49,7 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
     @Override
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         bestMoves[currentPly] = null;
+
         int standingPat = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
         if (standingPat >= beta) {
             return standingPat;
@@ -56,6 +58,8 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
         if (standingPat + DELTA_MARGIN < alpha) {
             return standingPat;
         }
+
+        standingPats[currentPly] = standingPat;
 
         int currentValue = next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
 

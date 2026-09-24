@@ -1,32 +1,33 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
-import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.statistics.node.filters.QuiescenceNodeExpected;
 import net.chesstango.search.alphabeta.statistics.node.filters.QuiescenceNodeVisited;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
+import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.sorters.MoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static net.chesstango.search.alphabeta.Constants.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
  */
 public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final QuiescenceStandingPat quiescenceStandingPat;
-    private final QuiescenceAlphaBeta alphaBeta;
+    private final QuiescenceAlphaBeta quiescenceAlphaBeta;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private QuiescenceNodeVisited quiescenceNodeVisited;
@@ -46,7 +47,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     public QuiescenceChainBuilder() {
         quiescenceStandingPat = new QuiescenceStandingPat();
-        alphaBeta = new QuiescenceAlphaBeta();
+        quiescenceAlphaBeta = new QuiescenceAlphaBeta();
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
@@ -138,7 +139,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     @Override
     protected void setupListenerMediator() {
         listenerMediator.add(quiescenceStandingPat);
-        listenerMediator.add(alphaBeta);
+        listenerMediator.add(quiescenceAlphaBeta);
 
         if (quiescenceNodeVisited != null) {
             listenerMediator.add(quiescenceNodeVisited);
@@ -171,7 +172,12 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     public void link() {
-        alphaBeta.setMoveSorter(moveSorter);
+        quiescenceAlphaBeta.setMoveSorter(moveSorter);
+
+        int[] standingPats = new int[MAX_DEPTH];
+
+        quiescenceStandingPat.setStandingPats(standingPats);
+        quiescenceAlphaBeta.setStandingPats(standingPats);
     }
 
     @Override
@@ -207,7 +213,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(quiescenceNodeExpected);
         }
 
-        chain.add(alphaBeta);
+        chain.add(quiescenceAlphaBeta);
 
         if (propagatePV != null) {
             chain.add(propagatePV);

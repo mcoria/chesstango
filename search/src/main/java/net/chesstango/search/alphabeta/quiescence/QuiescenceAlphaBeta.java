@@ -2,8 +2,6 @@ package net.chesstango.search.alphabeta.quiescence;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
 import net.chesstango.board.moves.MovePromotion;
@@ -29,10 +27,7 @@ public class QuiescenceAlphaBeta implements AlphaBetaFilter, Acceptor {
 
     private Move[] bestMoves;
 
-    private Game game;
-
-    @Getter
-    private Evaluator evaluator;
+    private int[] standingPats;
 
     @Override
     public void accept(Visitor visitor) {
@@ -42,7 +37,7 @@ public class QuiescenceAlphaBeta implements AlphaBetaFilter, Acceptor {
     @Override
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        int standingPat = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
+        int standingPat = standingPats[currentPly];
 
         bestMoves[currentPly] = null;
         int bestValue = Evaluator.INFINITE_NEGATIVE;

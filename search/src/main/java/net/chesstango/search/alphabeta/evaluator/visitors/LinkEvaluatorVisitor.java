@@ -24,11 +24,6 @@ public class LinkEvaluatorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(QuiescenceAlphaBeta quiescenceAlphaBeta) {
-        quiescenceAlphaBeta.setEvaluator(evaluator);
-    }
-
-    @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         alphaBetaEvaluation.setEvaluator(evaluator);
     }

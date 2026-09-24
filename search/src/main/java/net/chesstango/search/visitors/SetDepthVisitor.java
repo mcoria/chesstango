@@ -50,12 +50,6 @@ public class SetDepthVisitor implements Visitor {
         transpositionTableQ.setDepth(depth);
     }
 
-
-    @Override
-    public void visit(QuiescenceStandingPat quiescenceStandingPat) {
-        quiescenceStandingPat.setDepth(depth);
-    }
-
     @Override
     public void visit(PrintTxtDebugListener printTxtDebugListener) {
         printTxtDebugListener.setDepth(depth);
