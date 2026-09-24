@@ -39,6 +39,8 @@ public class QuiescenceStandingPatTest {
 
     private Move[] bestMoves;
 
+    private int[] standingPats;
+
     private Game game;
 
     @BeforeEach
@@ -46,11 +48,13 @@ public class QuiescenceStandingPatTest {
         game = Game.from(FEN.START_POSITION);
         bestMoves = new Move[40];
         Arrays.fill(bestMoves, mockMove);
+        standingPats = new int[40];
 
         quiescenceStandingPat = new QuiescenceStandingPat();
         quiescenceStandingPat.setNext(next);
         quiescenceStandingPat.setEvaluator(evaluator);
         quiescenceStandingPat.setBestMoves(bestMoves);
+        quiescenceStandingPat.setStandingPats(standingPats);
         quiescenceStandingPat.setGame(game);
     }
 
