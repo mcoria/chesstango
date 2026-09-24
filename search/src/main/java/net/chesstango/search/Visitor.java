@@ -2,6 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
@@ -175,6 +176,9 @@ public interface Visitor {
     }
 
     default void visit(QuiescenceStandingPat quiescenceStandingPat) {
+    }
+
+    default void visit(QuiescenceAlphaBeta quiescenceAlphaBeta) {
     }
 
     default void visit(QuiescenceNull quiescenceNull) {

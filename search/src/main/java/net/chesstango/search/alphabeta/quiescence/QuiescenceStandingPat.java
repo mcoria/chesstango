@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
@@ -20,8 +21,14 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
     //private final int DELTA_MARGIN = 1645369;                           1 pieza diferencia
     //private final int DELTA_MARGIN = 440000;                      90% - 1 pieza diferencia / mismas piezas
     //private final int DELTA_MARGIN = 540000;                      95% - 1 pieza diferencia / mismas piezas
-    private final int DELTA_MARGIN = 1165959;                       //100% - 1 pieza diferencia / mismas piezas
+    //private final int DELTA_MARGIN = 1165959;                       //100% - 1 pieza diferencia / mismas piezas
+    //private final int DELTA_MARGIN = 1165959;
+    //private final int DELTA_MARGIN = 1344181;
+    //private final int DELTA_MARGIN = 600000;
+    //private final int DELTA_MARGIN = 100;
+    private final int DELTA_MARGIN = 900_000;
 
+    private int depth;
 
     @Getter
     private AlphaBetaFilter next;
@@ -46,11 +53,9 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
             return standingPat;
         }
 
-        /*
-        if (standingPat + DELTA_MARGIN <= alpha) {
+        if (standingPat + DELTA_MARGIN < alpha) {
             return standingPat;
         }
-         */
 
         int currentValue = next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
 

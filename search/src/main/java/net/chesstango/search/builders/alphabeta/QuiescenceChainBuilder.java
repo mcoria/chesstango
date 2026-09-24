@@ -1,6 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
+import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
 import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final QuiescenceStandingPat quiescenceStandingPat;
-    private final AlphaBeta alphaBeta;
+    private final QuiescenceAlphaBeta alphaBeta;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private QuiescenceNodeVisited quiescenceNodeVisited;
@@ -45,7 +46,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     public QuiescenceChainBuilder() {
         quiescenceStandingPat = new QuiescenceStandingPat();
-        alphaBeta = new AlphaBeta();
+        alphaBeta = new QuiescenceAlphaBeta();
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 

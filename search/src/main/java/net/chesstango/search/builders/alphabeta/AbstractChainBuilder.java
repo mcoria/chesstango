@@ -3,6 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
@@ -79,6 +80,7 @@ public abstract class AbstractChainBuilder {
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);
                 case QuiescenceStandingPat quiescenceStandingPat -> quiescenceStandingPat.setNext(next);
+                case QuiescenceAlphaBeta quiescenceAlphaBeta -> quiescenceAlphaBeta.setNext(next);
 
                 case DebugFilter debugFilter -> debugFilter.setNext(next);
 

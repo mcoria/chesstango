@@ -6,6 +6,7 @@ import net.chesstango.search.IterativeDeepening;
 import net.chesstango.search.NoIterativeDeepening;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.egtb.filters.EgtbEvaluation;
@@ -83,6 +84,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(QuiescenceStandingPat quiescenceStandingPat) {
         quiescenceStandingPat.setGame(game);
+    }
+
+    @Override
+    public void visit(QuiescenceAlphaBeta quiescenceAlphaBeta) {
+        quiescenceAlphaBeta.setGame(game);
     }
 
     @Override
