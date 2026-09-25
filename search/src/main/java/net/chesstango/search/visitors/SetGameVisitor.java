@@ -19,7 +19,7 @@ import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
@@ -81,8 +81,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(QuiescenceStandingPat quiescenceStandingPat) {
-        quiescenceStandingPat.setGame(game);
+    public void visit(QSStandingPat qsStandingPat) {
+        qsStandingPat.setGame(game);
     }
 
     @Override

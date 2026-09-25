@@ -17,7 +17,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 @Setter
-public class QuiescenceAlphaBeta implements AlphaBetaFilter, Acceptor {
+public class QSAlphaBeta implements AlphaBetaFilter, Acceptor {
 
     @Getter
     private AlphaBetaFilter next;

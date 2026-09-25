@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
@@ -15,7 +14,7 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
  * @author Mauricio Coria
  */
 @Setter
-public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
+public class QSStandingPat implements AlphaBetaFilter, Acceptor {
 
     //private final int DELTA_MARGIN = 823000;
     //private final int DELTA_MARGIN = 1645369;                           1 pieza diferencia

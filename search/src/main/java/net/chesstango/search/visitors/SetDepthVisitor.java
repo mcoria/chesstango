@@ -4,7 +4,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.debug.listeners.PrintTxtDebugListener;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
 import net.chesstango.search.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.alphabeta.statistics.node.filters.*;

@@ -6,7 +6,7 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
@@ -193,12 +193,12 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(QuiescenceStandingPat quiescenceStandingPat) {
+    public void visit(QSStandingPat qsStandingPat) {
         printChainDownLine();
 
-        printChainText(String.format("%s [Evaluator: %s]", objectText(quiescenceStandingPat), printGameEvaluator(quiescenceStandingPat.getEvaluator())));
+        printChainText(String.format("%s [Evaluator: %s]", objectText(qsStandingPat), printGameEvaluator(qsStandingPat.getEvaluator())));
 
-        traverse(quiescenceStandingPat.getNext());
+        traverse(qsStandingPat.getNext());
     }
 
     @Override

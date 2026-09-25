@@ -8,8 +8,8 @@ import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceAlphaBeta;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.statistics.node.filters.QuiescenceNodeExpected;
 import net.chesstango.search.alphabeta.statistics.node.filters.QuiescenceNodeVisited;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
@@ -26,8 +26,8 @@ import static net.chesstango.search.alphabeta.Constants.MAX_DEPTH;
  * @author Mauricio Coria
  */
 public class QuiescenceChainBuilder extends AbstractChainBuilder {
-    private final QuiescenceStandingPat quiescenceStandingPat;
-    private final QuiescenceAlphaBeta quiescenceAlphaBeta;
+    private final QSStandingPat qsStandingPat;
+    private final QSAlphaBeta qsAlphaBeta;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private QuiescenceNodeVisited quiescenceNodeVisited;
@@ -46,8 +46,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
 
     public QuiescenceChainBuilder() {
-        quiescenceStandingPat = new QuiescenceStandingPat();
-        quiescenceAlphaBeta = new QuiescenceAlphaBeta();
+        qsStandingPat = new QSStandingPat();
+        qsAlphaBeta = new QSAlphaBeta();
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
@@ -138,8 +138,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     protected void setupListenerMediator() {
-        listenerMediator.add(quiescenceStandingPat);
-        listenerMediator.add(quiescenceAlphaBeta);
+        listenerMediator.add(qsStandingPat);
+        listenerMediator.add(qsAlphaBeta);
 
         if (quiescenceNodeVisited != null) {
             listenerMediator.add(quiescenceNodeVisited);
@@ -172,12 +172,12 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     @Override
     public void link() {
-        quiescenceAlphaBeta.setMoveSorter(moveSorter);
+        qsAlphaBeta.setMoveSorter(moveSorter);
 
         int[] standingPats = new int[MAX_DEPTH];
 
-        quiescenceStandingPat.setStandingPats(standingPats);
-        quiescenceAlphaBeta.setStandingPats(standingPats);
+        qsStandingPat.setStandingPats(standingPats);
+        qsAlphaBeta.setStandingPats(standingPats);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(transpositionTableQ);
         }
 
-        chain.add(quiescenceStandingPat);
+        chain.add(qsStandingPat);
 
         /**
          * QuiescenceStandingPat puede superar beta, por lo cual no debemos incrementar expected
@@ -213,7 +213,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(quiescenceNodeExpected);
         }
 
-        chain.add(quiescenceAlphaBeta);
+        chain.add(qsAlphaBeta);
 
         if (propagatePV != null) {
             chain.add(propagatePV);
