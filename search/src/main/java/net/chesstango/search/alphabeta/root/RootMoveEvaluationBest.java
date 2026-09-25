@@ -50,7 +50,8 @@ public class RootMoveEvaluationBest implements Acceptor, SearchByDepthListener {
      */
     public void save(RootMoveEvaluation moveEvaluation) {
         bestRootMoves.removeIf(rootMoveEvaluation -> rootMoveEvaluation.move().equals(moveEvaluation.move()));
-        if (moveEvaluation.bound() == Bound.EXACT || moveEvaluation.bound() == Bound.LOWER_BOUND) {
+        //if (moveEvaluation.bound() == Bound.EXACT || moveEvaluation.bound() == Bound.LOWER_BOUND) {
+        if (moveEvaluation.bound() == Bound.EXACT) {
             bestRootMoves.add(moveEvaluation);
         }
     }
