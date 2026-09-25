@@ -326,7 +326,7 @@ public class SearchTest {
 
         Search search = noTransposition()
                 .withGameEvaluator(Evaluator.createInstance())
-                .withDebugSearchTree()
+                //.withDebugSearchTree()
                 .build();
 
         search.accept(new SetMaxDepthVisitor(5));
@@ -348,7 +348,6 @@ public class SearchTest {
 
         assertTrue(searchResult.getPrincipalVariation().pvComplete());
     }
-
     @Test
     @Disabled
     public void test_BK05() {
@@ -374,6 +373,38 @@ public class SearchTest {
 
         List<String> pv = searchResult.getPrincipalVariation().pvMoves().stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
         assertArrayEquals(new String[]{"a1d1"}, pv.toArray());
+
+        assertTrue(searchResult.getPrincipalVariation().pvComplete());
+    }
+
+    @Test
+    @Disabled
+    public void test_st10_045() {
+        Game game = Game.from(FEN.from("1k1r3r/pb1q2p1/B4p2/2p4p/Pp1bPPn1/7P/1P2Q1P1/R1BN1R1K b - - 1 1"));
+
+        Search search = defaultSearch()
+                //.withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(Evaluator.createInstance())
+                //.withTranspositionHashSize(64 * 1024)
+                .withDebugSearchTree()
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(1));
+        SearchResult searchResult = search.startSearch(game);
+
+        // Al final del dia la evaluacion es lo importante, tanto con TT como sin TT se mantiene
+        // Observar que ahora esta fallando y entregando un valor menor: 63030
+        assertEquals(169698, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.BISHOP_BLACK, bm.getFrom().piece());
+        assertEquals(Square.b7, bm.getFrom().square());
+        assertEquals(Square.c6, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().pvMoves().stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
+        assertArrayEquals(new String[]{"b7c6"}, pv.toArray());
 
         assertTrue(searchResult.getPrincipalVariation().pvComplete());
     }
@@ -435,19 +466,6 @@ public class SearchTest {
                 .withStopProcessingCatch();
     }
 
-    private AlphaBetaBuilder noTranspositionNoAspirationWindowsNoIterativeDeepening() {
-        return new AlphaBetaBuilder()
-                .withGameEvaluatorCache()
-
-                .withQuiescence()
-
-                .withKillerMoveSorter()
-                .withRecaptureSorter()
-                .withMvvLvaSorter()
-
-                .withStopProcessingCatch();
-    }
-
     private AlphaBetaBuilder conPoco() {
         return new AlphaBetaBuilder()
                 // START createDefaultBuilderInstance()
@@ -463,6 +481,22 @@ public class SearchTest {
 
                 .withStopProcessingCatch()
                 // FIN
-                ;
+
+
+                .withStatistics()
+                .withGameEvaluator(Evaluator.createInstance());
+    }
+
+    private AlphaBetaBuilder noTranspositionNoAspirationWindowsNoIterativeDeepening() {
+        return new AlphaBetaBuilder()
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
+
+                .withStopProcessingCatch();
     }
 }
