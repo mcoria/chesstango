@@ -13,7 +13,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaAbstract {
+public abstract class AlphaBetaAbstract {
     @Getter
     private AlphaBetaFilter next;
 
@@ -21,6 +21,8 @@ public class AlphaBetaAbstract {
     private MoveSorter moveSorter;
 
     private Move[] bestMoves;
+
+    protected abstract boolean pruneMove(final int currentPly, final int alpha, final int beta, final int bestValue, final Move move);
 
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
@@ -31,8 +33,12 @@ public class AlphaBetaAbstract {
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-            move.executeMove();
 
+            if (pruneMove(currentPly, alpha, beta, bestValue, move)) {
+                continue;
+            }
+
+            move.executeMove();
             int currentValue = next.alphaBeta(currentPly, Math.max(bestValue, alpha), beta);
             if (currentValue > bestValue) {
                 bestValue = currentValue;
@@ -41,7 +47,6 @@ public class AlphaBetaAbstract {
                     search = false;
                 }
             }
-
             move.undoMove();
         }
 

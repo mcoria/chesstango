@@ -1,31 +1,19 @@
 package net.chesstango.search.alphabeta.quiescence;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.sorters.MoveSorter;
-
-import java.util.Iterator;
+import net.chesstango.search.alphabeta.core.filters.AlphaBetaAbstract;
 
 /**
  * @author Mauricio Coria
  */
 @Setter
-public class QSAlphaBeta implements AlphaBetaFilter, Acceptor {
-
-    @Getter
-    private AlphaBetaFilter next;
-
-    @Getter
-    private MoveSorter moveSorter;
-
-    private Move[] bestMoves;
+public class QSAlphaBeta extends AlphaBetaAbstract implements AlphaBetaFilter, Acceptor {
 
     private int[] standingPats;
 
@@ -35,39 +23,20 @@ public class QSAlphaBeta implements AlphaBetaFilter, Acceptor {
     }
 
     @Override
-    public int alphaBeta(final int currentPly, final int alpha, final int beta) {
-        boolean search = true;
+    protected boolean pruneMove(int currentPly, int alpha, int beta, final int bestValue, Move move) {
         int standingPat = standingPats[currentPly];
 
-        bestMoves[currentPly] = null;
-        int bestValue = Evaluator.INFINITE_NEGATIVE;
-
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
-        Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search) {
-            Move move = moveIterator.next();
-
-            if (standingPat + calculateDelta(move) < Math.max(bestValue, alpha)) {
-                continue;
-            }
-
-            move.executeMove();
-            int currentValue = next.alphaBeta(currentPly, Math.max(bestValue, alpha), beta);
-            if (currentValue > bestValue) {
-                bestValue = currentValue;
-                bestMoves[currentPly] = move;
-                if (bestValue >= beta || bestValue == Evaluator.WON) {
-                    search = false;
-                }
-            }
-            move.undoMove();
-
+        /**
+         * Delta pruning
+         */
+        if (standingPat + calculateDelta(move) < Math.max(bestValue, alpha)) {
+            return true;
         }
 
-        return bestValue;
+        return false;
     }
 
-    private int calculateDelta(Move move) {
+    int calculateDelta(Move move) {
         int delta = 0;
 
         if (move instanceof MovePromotion) {
@@ -89,7 +58,6 @@ public class QSAlphaBeta implements AlphaBetaFilter, Acceptor {
         } else {
             throw new RuntimeException("Invalid QS move");
         }
-
         return delta;
     }
 

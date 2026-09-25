@@ -1,6 +1,7 @@
 package net.chesstango.search.alphabeta.core.filters;
 
 import lombok.Setter;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
@@ -16,4 +17,8 @@ public class AlphaBeta extends AlphaBetaAbstract implements AlphaBetaFilter, Acc
         visitor.visit(this);
     }
 
+    @Override
+    protected boolean pruneMove(int currentPly, int alpha, int beta, final int bestValue, Move move) {
+        return false;
+    }
 }

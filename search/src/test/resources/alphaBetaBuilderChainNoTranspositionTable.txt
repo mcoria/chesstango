@@ -92,7 +92,7 @@ AlphaBetaFlowControl @ 10
 	|
 	ExtendPV @ 36
 	|
-	QuiescenceStandingPat @ 37 [Evaluator: EvaluatorCacheAdapter @ 13 [EvaluatorCache: EvaluatorCacheArray @ 14] -> EvaluatorByMaterial @ 15]
+	QSStandingPat @ 37 [Evaluator: EvaluatorCacheAdapter @ 13 [EvaluatorCache: EvaluatorCacheArray @ 14] -> EvaluatorByMaterial @ 15]
 
 
 SearchByCycleListeners:
@@ -146,8 +146,8 @@ Acceptor:
 	PrincipalVariationComparator @ 40
 	RecaptureMoveComparator @ 46
 	EvaluatorCacheComparator @ 47
-	QuiescenceStandingPat @ 37
-	QuiescenceAlphaBeta @ 48
+	QSStandingPat @ 37
+	QSAlphaBeta @ 48
 	ExtendPV @ 36
 	PropagatePV @ 49
 	RootMoveSorter @ 7
