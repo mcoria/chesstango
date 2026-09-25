@@ -26,9 +26,9 @@ import static net.chesstango.search.alphabeta.Constants.MAX_DEPTH;
  * @author Mauricio Coria
  */
 public class QuiescenceChainBuilder extends AbstractChainBuilder {
-    private final QSStandingPat qsStandingPat;
-    private final QSAlphaBeta qsAlphaBeta;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
+    private QSStandingPat qsStandingPat;
+    private QSAlphaBeta qsAlphaBeta;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private QuiescenceNodeVisited quiescenceNodeVisited;
     private QuiescenceNodeExpected quiescenceNodeExpected;
@@ -43,11 +43,10 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
+    private boolean withDeltaPruning;
 
 
     public QuiescenceChainBuilder() {
-        qsStandingPat = new QSStandingPat();
-        qsAlphaBeta = new QSAlphaBeta();
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
@@ -111,8 +110,15 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withDeltaPruning() {
+        this.withDeltaPruning = true;
+        return this;
+    }
+
     @Override
     protected void buildObjects() {
+        qsStandingPat = new QSStandingPat(withDeltaPruning);
+        qsAlphaBeta = new QSAlphaBeta(withDeltaPruning);
         extendPV = new ExtendPV();
         propagatePV = new PropagatePV();
 

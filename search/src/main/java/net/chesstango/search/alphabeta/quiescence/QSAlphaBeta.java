@@ -15,7 +15,13 @@ import net.chesstango.search.alphabeta.core.filters.AlphaBetaAbstract;
 @Setter
 public class QSAlphaBeta extends AlphaBetaAbstract implements AlphaBetaFilter, Acceptor {
 
+    private final boolean withDeltaPruning;
+
     private int[] standingPats;
+
+    public QSAlphaBeta(boolean withDeltaPruning) {
+        this.withDeltaPruning = withDeltaPruning;
+    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -29,7 +35,7 @@ public class QSAlphaBeta extends AlphaBetaAbstract implements AlphaBetaFilter, A
         /**
          * Delta pruning
          */
-        if (standingPat + calculateDelta(move) < Math.max(bestValue, alpha)) {
+        if (withDeltaPruning && standingPat + calculateDelta(move) < Math.max(bestValue, alpha)) {
             return true;
         }
 

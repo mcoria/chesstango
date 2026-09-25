@@ -5,7 +5,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
-import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
@@ -26,6 +25,7 @@ import net.chesstango.search.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
 import net.chesstango.search.alphabeta.zobrist.listeners.SetZobristMemory;
+import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
 
 import static net.chesstango.search.alphabeta.Constants.*;
@@ -135,6 +135,14 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public AlphaBetaBuilder withQuiescence() {
         withQuiescence = true;
+        return this;
+    }
+
+    public AlphaBetaBuilder withDeltaPruning() {
+        if (!withQuiescence) {
+            throw new RuntimeException("You must enable Quiescence first");
+        }
+        quiescenceChainBuilder.withDeltaPruning();
         return this;
     }
 

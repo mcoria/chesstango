@@ -15,18 +15,9 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
  */
 @Setter
 public class QSStandingPat implements AlphaBetaFilter, Acceptor {
+    private final boolean withDeltaPruning;
 
-    //private final int DELTA_MARGIN = 823000;
-    //private final int DELTA_MARGIN = 1645369;                           1 pieza diferencia
-    //private final int DELTA_MARGIN = 440000;                      90% - 1 pieza diferencia / mismas piezas
-    //private final int DELTA_MARGIN = 540000;                      95% - 1 pieza diferencia / mismas piezas
-    //private final int DELTA_MARGIN = 1165959;                       //100% - 1 pieza diferencia / mismas piezas
-    //private final int DELTA_MARGIN = 1165959;
-    //private final int DELTA_MARGIN = 1344181;
-    //private final int DELTA_MARGIN = 600000;
-    //private final int DELTA_MARGIN = 100;
-    private final int DELTA_MARGIN = 900_000;
-
+    private final static int DELTA_MARGIN = 900_000;
 
     @Getter
     private AlphaBetaFilter next;
@@ -39,6 +30,10 @@ public class QSStandingPat implements AlphaBetaFilter, Acceptor {
     private int[] standingPats;
 
     private Game game;
+
+    public QSStandingPat(boolean withDeltaPruning) {
+        this.withDeltaPruning = withDeltaPruning;
+    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -54,11 +49,13 @@ public class QSStandingPat implements AlphaBetaFilter, Acceptor {
             return standingPat;
         }
 
-        if (standingPat + DELTA_MARGIN < alpha) {
-            return standingPat;
+        if (withDeltaPruning) {
+            if (standingPat + DELTA_MARGIN < alpha) {
+                return standingPat;
+            } else {
+                standingPats[currentPly] = standingPat;
+            }
         }
-
-        standingPats[currentPly] = standingPat;
 
         int currentValue = next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
 

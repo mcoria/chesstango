@@ -50,7 +50,7 @@ public class QSStandingPatTest {
         Arrays.fill(bestMoves, mockMove);
         standingPats = new int[40];
 
-        qsStandingPat = new QSStandingPat();
+        qsStandingPat = new QSStandingPat(true);
         qsStandingPat.setNext(next);
         qsStandingPat.setEvaluator(evaluator);
         qsStandingPat.setBestMoves(bestMoves);
