@@ -469,24 +469,28 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     public static AlphaBetaBuilder createDefaultBuilderInstance() {
         return new AlphaBetaBuilder()
+                // Game evaluator cache feature
                 .withGameEvaluatorCache()
                 .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
 
+                // Quiescence feature
                 .withQuiescence()
+                .withDeltaPruning()
 
+                // Transposition table feature
                 .withTranspositionTable()
                 .withTranspositionHashSize(DEFAULT_TT_HASH_SIZE_KB)
                 .withTranspositionStaleAge(DEFAULT_TT_STALE_AGE)
-
                 .withTranspositionMoveSorter()
+
+                // Sorter features
                 .withKillerMoveSorter()
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
+                // Additional features
                 .withAspirationWindows()
-
                 .withIterativeDeepening()
-
                 .withStopProcessingCatch();
     }
 }
