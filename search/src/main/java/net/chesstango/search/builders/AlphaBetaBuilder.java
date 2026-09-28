@@ -4,7 +4,10 @@ package net.chesstango.search.builders;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.*;
+import net.chesstango.search.IterativeDeepening;
+import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.NoIterativeDeepening;
+import net.chesstango.search.Search;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
@@ -43,7 +46,7 @@ public class AlphaBetaBuilder {
     private final LoopChainBuilder loopChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
     private final LeafChainBuilder leafChainBuilder;
-    private final CheckResolverChainBuilder checkResolverChainBuilder;
+    private final CheckEvasionChainBuilder checkEvasionChainBuilder;
     private final TranspositionTableBuilder transpositionTableBuilder;
     private final KillerMoveBuilder killerMoveBuilder;
     private final EvaluationBuilder evaluationBuilder;
@@ -70,9 +73,8 @@ public class AlphaBetaBuilder {
     private boolean withTranspositionTable;
     private boolean withZobristTracker;
     private boolean withQuiescence;
-    private boolean withExtensionCheckResolver;
+    private boolean withCheckEvasion;
     private boolean withDebugSearchTree;
-    private boolean withAspirationWindows;
     private boolean withKillerMoveSorter;
     private boolean withGameEvaluatorCache;
 
@@ -83,7 +85,7 @@ public class AlphaBetaBuilder {
         interiorChainBuilder = new InteriorChainBuilder();
 
         quiescenceChainBuilder = new QuiescenceChainBuilder();
-        checkResolverChainBuilder = new CheckResolverChainBuilder();
+        checkEvasionChainBuilder = new CheckEvasionChainBuilder();
         transpositionTableBuilder = new TranspositionTableBuilder();
         killerMoveBuilder = new KillerMoveBuilder();
         evaluationBuilder = new EvaluationBuilder();
@@ -157,8 +159,8 @@ public class AlphaBetaBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withExtensionCheckResolver() {
-        withExtensionCheckResolver = true;
+    public AlphaBetaBuilder withCheckEvasion() {
+        withCheckEvasion = true;
         return this;
     }
 
@@ -167,7 +169,7 @@ public class AlphaBetaBuilder {
         rootChainBuilder.withStatistics();
         interiorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
-        checkResolverChainBuilder.withStatistics();
+        //checkEvasionChainBuilder.withStatistics();
         transpositionTableBuilder.withStatistics();
         evaluationBuilder.withStatistics();
         evaluatorCacheBuilder.withStatistics();
@@ -183,7 +185,7 @@ public class AlphaBetaBuilder {
         interiorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
-        checkResolverChainBuilder.withTranspositionTable();
+        //checkEvasionChainBuilder.withTranspositionTable();
 
         withTranspositionTable = true;
         return this;
@@ -235,13 +237,12 @@ public class AlphaBetaBuilder {
         loopChainBuilder.withZobristTracker();
 
         quiescenceChainBuilder.withZobristTracker();
-        checkResolverChainBuilder.withZobristTracker();
+        //checkEvasionChainBuilder.withZobristTracker();
         return this;
     }
 
     public AlphaBetaBuilder withAspirationWindows() {
         rootChainBuilder.withAspirationWindows();
-        withAspirationWindows = true;
         return this;
     }
 
@@ -282,7 +283,7 @@ public class AlphaBetaBuilder {
         killerMoveBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
-        checkResolverChainBuilder.withDebugSearchTree();
+        checkEvasionChainBuilder.withDebugSearchTree();
 
         evaluationBuilder.withDebugSearchTree();
         evaluatorCacheBuilder.withDebugSearchTree();
@@ -426,6 +427,9 @@ public class AlphaBetaBuilder {
         if (withQuiescence) {
             quiescenceChainBuilder.link();
         }
+        if (withCheckEvasion) {
+            checkEvasionChainBuilder.link();
+        }
 
         /**
          * Link through the mediator
@@ -461,12 +465,17 @@ public class AlphaBetaBuilder {
         quiescenceChainBuilder.withSmartListenerMediator(listenerMediator);
         AlphaBetaFilter quiescenceChain = withQuiescence ? quiescenceChainBuilder.build() : null;
 
+        checkEvasionChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        checkEvasionChainBuilder.withSmartListenerMediator(listenerMediator);
+        AlphaBetaFilter checkEvasionChain = withCheckEvasion ? checkEvasionChainBuilder.build() : null;
+
         alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);
         alphaBetaFlowControl.setTerminalNode(terminalChain);
         alphaBetaFlowControl.setLoopNode(loopChain);
         alphaBetaFlowControl.setLeafNode(leafChain);
         alphaBetaFlowControl.setEgtbNode(egtbChain);
+        alphaBetaFlowControl.setCheckEvasionNode(checkEvasionChain);
 
         rootChainBuilder.withSmartListenerMediator(listenerMediator);
         rootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
@@ -498,6 +507,7 @@ public class AlphaBetaBuilder {
                 .withMvvLvaSorter()
 
                 // Additional features
+                .withCheckEvasion()
                 .withAspirationWindows()
                 .withIterativeDeepening()
                 .withStopProcessingCatch();

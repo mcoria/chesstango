@@ -123,23 +123,75 @@ AlphaBetaFlowControl @ 15
 	|	 PVWalkerFromTT @ 36 [TTable: TTablePVDebug @ 37 -> TTableArray @ 9]
 	|
 	QSStandingPat @ 59 [Evaluator: EvaluatorDebug @ 19 -> EvaluatorCacheAdapter @ 20 [EvaluatorCache: EvaluatorCacheArray @ 21] -> EvaluatorByMaterial @ 22]
+	|
+	QSAlphaBeta @ 60
+	|
+	 -> Sorter
+		|
+		MoveSorterDebug @ 61
+		|
+		NodeMoveSorter @ 62
+		|
+		 -> Comparator
+			|
+			PrincipalVariationComparator @ 63
+			|
+			TranspositionHeadMoveComparator @ 64 [TTable: TTableComparatorHeadDebug @ 43 -> TTableArray @ 9]
+			|
+			TranspositionTailMoveComparator @ 65 [TTable: TTableComparatorTailDebug @ 45 -> TTableArray @ 9]
+			|
+			PromotionComparator @ 66
+			|
+			RecaptureMoveComparator @ 67
+			|
+			MvvLvaComparator @ 68
+			|
+			EvaluatorCacheComparator @ 69 [EvaluatorCache: EvaluatorCacheDebug @ 51 -> EvaluatorCacheArray @ 21]
+			|
+			DefaultMoveComparator @ 70
+	|
+	PropagatePV @ 71
+	|
+	AlphaBetaFlowControl @ 15 -> LOOP
+
+ -> CheckEvasionNode
+	|
+	DebugFilter @ 72
+	|
+	ExtendPV @ 73
+	|
+	AlphaBeta @ 74
+	|
+	 -> Sorter
+		|
+		MoveSorterDebug @ 75
+		|
+		NodeMoveSorter @ 76
+		|
+		 -> Comparator
+			|
+			DefaultMoveComparator @ 77
+	|
+	PropagatePV @ 78
+	|
+	AlphaBetaFlowControl @ 15 -> LOOP
 
 
 SearchByCycleListeners:
-	TTListener @ 60
-	EvaluatorCacheListener @ 61
-	SetSearchTimers @ 62
+	TTListener @ 79
+	EvaluatorCacheListener @ 80
+	SetSearchTimers @ 81
 	AlphaBetaFlowControl @ 15
 	PrincipalVariationComparator @ 41
 	PrincipalVariationComparator @ 63
-	RootMoveEvaluationCollection @ 64
+	RootMoveEvaluationCollection @ 82
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 62
-	DebugNodeTracker @ 65
-	RootMoveEvaluationBest @ 66
+	SetSearchTimers @ 81
+	DebugNodeTracker @ 83
+	RootMoveEvaluationBest @ 84
 
 SearchByWindowsListeners:
 	DebugFilter @ 16
@@ -148,35 +200,36 @@ SearchByWindowsListeners:
 	DebugFilter @ 27
 	DebugFilter @ 23
 	DebugFilter @ 56
+	DebugFilter @ 72
 	DebugFilter @ 5
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 15
 
 ResetListener:
-	TTListener @ 60
-	EvaluatorCacheListener @ 61
+	TTListener @ 79
+	EvaluatorCacheListener @ 80
 
 Acceptor:
-	SetGameToEvaluator @ 67
+	SetGameToEvaluator @ 85
 	EvaluatorDebug @ 19
 	EvaluatorCacheAdapter @ 20
-	TTListener @ 60
+	TTListener @ 79
 	TTableArray @ 9
 	TTableNodeDebug @ 8
 	TTableComparatorHeadDebug @ 43
 	TTableComparatorTailDebug @ 45
 	TTablePVDebug @ 37
 	PVWalkerFromTT @ 36
-	KillerMovesDebug @ 68
-	EvaluatorCacheListener @ 61
+	KillerMovesDebug @ 86
+	EvaluatorCacheListener @ 80
 	EvaluatorCacheDebug @ 51
-	SetGameToEndGameTableBase @ 69
+	SetGameToEndGameTableBase @ 87
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 62
+	SetSearchTimers @ 81
 	AlphaBetaFlowControl @ 15
-	DebugNodeTracker @ 65
-	PrintHtmlDebugHandler @ 70
+	DebugNodeTracker @ 83
+	PrintHtmlDebugHandler @ 88
 	AlphaBetaEvaluation @ 18
 	DebugFilter @ 16
 	ExtendPV @ 17
@@ -203,28 +256,34 @@ Acceptor:
 	DebugFilter @ 23
 	ExtendPV @ 24
 	EgtbEvaluation @ 25
-	NodeMoveSorter @ 71
-	TranspositionHeadMoveComparator @ 72
-	TranspositionTailMoveComparator @ 73
+	NodeMoveSorter @ 62
+	TranspositionHeadMoveComparator @ 64
+	TranspositionTailMoveComparator @ 65
 	PrincipalVariationComparator @ 63
-	RecaptureMoveComparator @ 74
-	EvaluatorCacheComparator @ 75
-	MoveSorterDebug @ 76
+	RecaptureMoveComparator @ 67
+	EvaluatorCacheComparator @ 69
+	MoveSorterDebug @ 61
 	QSStandingPat @ 59
-	QSAlphaBeta @ 77
+	QSAlphaBeta @ 60
 	TranspositionTableQ @ 58
 	DebugFilter @ 56
 	ExtendPV @ 57
+	PropagatePV @ 71
+	NodeMoveSorter @ 76
+	MoveSorterDebug @ 75
+	AlphaBeta @ 74
+	DebugFilter @ 72
+	ExtendPV @ 73
 	PropagatePV @ 78
 	MoveSorterDebug @ 11
 	RootMoveSorter @ 12
-	NodeGroupSorter @ 79
+	NodeGroupSorter @ 89
 	RootMoveEvaluationTracker @ 13
-	RootMoveEvaluationBest @ 66
-	RootMoveEvaluationCollection @ 64
+	RootMoveEvaluationBest @ 84
+	RootMoveEvaluationCollection @ 82
 	ExtendPV @ 6
 	PropagatePV @ 14
-	PVCalculator @ 80
+	PVCalculator @ 90
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
