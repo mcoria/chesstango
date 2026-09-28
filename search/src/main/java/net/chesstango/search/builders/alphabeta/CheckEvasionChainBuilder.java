@@ -9,6 +9,8 @@ import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.debug.model.NodeTopology;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
+import net.chesstango.search.alphabeta.statistics.node.filters.CheckEvasionNodeExpected;
+import net.chesstango.search.alphabeta.statistics.node.filters.CheckEvasionNodeVisited;
 import net.chesstango.search.builders.sorters.MoveSorterCheckEvasionBuilder;
 import net.chesstango.search.sorters.MoveSorter;
 
@@ -27,7 +29,15 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
     private PropagatePV propagatePV;
     private MoveSorter moveSorter;
 
+    /**
+     * Statistics
+     */
+    private CheckEvasionNodeVisited checkEvasionNodeVisited;
+    private CheckEvasionNodeExpected checkEvasionNodeExpected;
+
+
     private boolean withDebugSearchTree;
+    private boolean withStatistics;
 
     public CheckEvasionChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -50,6 +60,11 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
+    public CheckEvasionChainBuilder withStatistics() {
+        this.withStatistics = true;
+        return this;
+    }
+
     public CheckEvasionChainBuilder withDebugSearchTree() {
         moveSorterCheckEvasionBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
@@ -62,6 +77,11 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
         extendPV = new ExtendPV();
         propagatePV = new PropagatePV();
 
+        if (withStatistics) {
+            checkEvasionNodeVisited = new CheckEvasionNodeVisited();
+            checkEvasionNodeExpected = new CheckEvasionNodeExpected();
+        }
+
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(NodeTopology.CHECK_EVASION);
         }
@@ -73,6 +93,13 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
     protected void setupListenerMediator() {
         listenerMediator.add(alphaBeta);
 
+        if (checkEvasionNodeVisited != null) {
+            listenerMediator.add(checkEvasionNodeVisited);
+        }
+
+        if (checkEvasionNodeExpected != null) {
+            listenerMediator.add(checkEvasionNodeExpected);
+        }
         if (debugFilter != null) {
             listenerMediator.add(debugFilter);
         }
@@ -101,6 +128,15 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
 
         if (extendPV != null) {
             chain.add(extendPV);
+        }
+
+        if (checkEvasionNodeVisited != null) {
+            chain.add(checkEvasionNodeVisited);
+        }
+
+        // Debe ir despues de TT para que contabilice expected correctamente
+        if (checkEvasionNodeExpected != null) {
+            chain.add(checkEvasionNodeExpected);
         }
 
         chain.add(alphaBeta);

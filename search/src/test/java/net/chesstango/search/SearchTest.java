@@ -100,8 +100,8 @@ public class SearchTest {
 
         Search search = defaultSearch()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                /*
                 .withDebugSearchTree()
+                /*
                 .withDebugNodeTrap(new ComposedTrap(
                         new NodeByZobrist(NodeTopology.INTERIOR, 4, 0, 0x13A63803694AEEE9L, 1),
                         new PrintSortIntegrationTest())

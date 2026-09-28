@@ -169,7 +169,7 @@ public class AlphaBetaBuilder {
         rootChainBuilder.withStatistics();
         interiorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
-        //checkEvasionChainBuilder.withStatistics();
+        checkEvasionChainBuilder.withStatistics();
         transpositionTableBuilder.withStatistics();
         evaluationBuilder.withStatistics();
         evaluatorCacheBuilder.withStatistics();

@@ -19,6 +19,7 @@ public class NodeCounters implements Acceptor, SearchListener {
     private long terminalNodeCounter;
     private long loopNodeCounter;
     private long egtbCounter;
+    private long checkEvasionCounter;
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
@@ -40,6 +41,7 @@ public class NodeCounters implements Acceptor, SearchListener {
         this.terminalNodeCounter = 0;
         this.loopNodeCounter = 0;
         this.egtbCounter = 0;
+        this.checkEvasionCounter = 0;
 
         this.visitedNodesCounters = new long[MAX_DEPTH];
         this.expectedNodesCounters = new long[MAX_DEPTH];
@@ -74,6 +76,10 @@ public class NodeCounters implements Acceptor, SearchListener {
         egtbCounter++;
     }
 
+    public void increaseCheckEvasionCounter() {
+        checkEvasionCounter++;
+    }
+
     public void increaseExpectedCounter(final int level, final int increment) {
         expectedNodesCounters[level] += increment;
     }
@@ -93,6 +99,7 @@ public class NodeCounters implements Acceptor, SearchListener {
                 terminalNodeCounter,
                 loopNodeCounter,
                 egtbCounter,
+                checkEvasionCounter,
                 expectedNodesCounters,
                 visitedNodesCounters
         );

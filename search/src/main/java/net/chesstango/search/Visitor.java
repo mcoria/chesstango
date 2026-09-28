@@ -112,6 +112,12 @@ public interface Visitor {
     default void visit(QuiescenceNodeExpected quiescenceNodeExpected) {
     }
 
+    default void visit(CheckEvasionNodeExpected checkEvasionNodeExpected) {
+    }
+
+    default void visit(CheckEvasionNodeVisited checkEvasionNodeVisited) {
+    }
+
     default void visit(TerminalNodeStatistics terminalNodeStatistics) {
     }
 

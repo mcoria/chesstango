@@ -158,6 +158,16 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
+    public void visit(CheckEvasionNodeVisited checkEvasionNodeVisited) {
+        print(checkEvasionNodeVisited, checkEvasionNodeVisited.getNext());
+    }
+
+    @Override
+    public void visit(CheckEvasionNodeExpected checkEvasionNodeExpected) {
+        print(checkEvasionNodeExpected, checkEvasionNodeExpected.getNext());
+    }
+
+    @Override
     public void visit(LeafNodeStatistics leafNodeStatistics) {
         print(leafNodeStatistics, leafNodeStatistics.getNext());
     }

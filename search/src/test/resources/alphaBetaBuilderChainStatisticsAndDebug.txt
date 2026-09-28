@@ -182,47 +182,51 @@ AlphaBetaFlowControl @ 17
 	|
 	ExtendPV @ 90
 	|
-	AlphaBeta @ 91
+	CheckEvasionNodeVisited @ 91
+	|
+	CheckEvasionNodeExpected @ 92
+	|
+	AlphaBeta @ 93
 	|
 	 -> Sorter
 		|
-		MoveSorterDebug @ 92
+		MoveSorterDebug @ 94
 		|
-		NodeMoveSorter @ 93
+		NodeMoveSorter @ 95
 		|
 		 -> Comparator
 			|
-			DefaultMoveComparator @ 94
+			DefaultMoveComparator @ 96
 	|
-	PropagatePV @ 95
+	PropagatePV @ 97
 	|
 	AlphaBetaFlowControl @ 17 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCounters @ 96
-	TTListener @ 97
-	TTableCounters @ 98
-	TTableStatisticsFillPercentageCollector @ 99
-	EvaluatorCacheListener @ 100
-	EvaluatorCacheCounters @ 101
-	SetSearchTimers @ 102
+	EvaluatorCounters @ 98
+	TTListener @ 99
+	TTableCounters @ 100
+	TTableStatisticsFillPercentageCollector @ 101
+	EvaluatorCacheListener @ 102
+	EvaluatorCacheCounters @ 103
+	SetSearchTimers @ 104
 	AlphaBetaFlowControl @ 17
-	NodeCounters @ 103
-	GameCountersCollector @ 104
-	DepthCollector @ 105
+	NodeCounters @ 105
+	GameCountersCollector @ 106
+	DepthCollector @ 107
 	PrincipalVariationComparator @ 53
-	SorterCounters @ 106
+	SorterCounters @ 108
 	PrincipalVariationComparator @ 80
-	RootMoveEvaluationCollection @ 107
+	RootMoveEvaluationCollection @ 109
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 102
-	DepthCollector @ 105
-	DebugNodeTracker @ 108
-	RootMoveEvaluationBest @ 109
+	SetSearchTimers @ 104
+	DepthCollector @ 107
+	DebugNodeTracker @ 110
+	RootMoveEvaluationBest @ 111
 
 SearchByWindowsListeners:
 	DebugFilter @ 18
@@ -238,42 +242,42 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 17
 
 ResetListener:
-	TTListener @ 97
-	EvaluatorCacheListener @ 100
+	TTListener @ 99
+	EvaluatorCacheListener @ 102
 
 Acceptor:
-	SetGameToEvaluator @ 110
-	EvaluatorCounters @ 96
+	SetGameToEvaluator @ 112
+	EvaluatorCounters @ 98
 	EvaluatorStatisticsCollector @ 26
 	EvaluatorDebug @ 22
 	EvaluatorCacheAdapter @ 23
-	TTListener @ 97
+	TTListener @ 99
 	TTableArray @ 11
 	TTableNodeDebug @ 9
 	TTableComparatorHeadDebug @ 55
 	TTableComparatorTailDebug @ 58
 	TTablePVDebug @ 46
-	TTableCounters @ 98
+	TTableCounters @ 100
 	TTableStatisticsNodeCollector @ 10
 	TTableStatisticsComparatorCollector @ 56
 	TTableStatisticsPVCollector @ 47
-	TTableStatisticsFillPercentageCollector @ 99
+	TTableStatisticsFillPercentageCollector @ 101
 	PVWalkerFromTT @ 45
-	KillerMovesDebug @ 111
-	EvaluatorCacheListener @ 100
+	KillerMovesDebug @ 113
+	EvaluatorCacheListener @ 102
 	EvaluatorCacheDebug @ 64
-	EvaluatorCacheCounters @ 101
+	EvaluatorCacheCounters @ 103
 	EvaluatorCacheStatisticsComparatorCollector @ 65
 	EvaluatorCacheStatisticsNodeCollector @ 24
-	SetGameToEndGameTableBase @ 112
+	SetGameToEndGameTableBase @ 114
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 102
+	SetSearchTimers @ 104
 	AlphaBetaFlowControl @ 17
-	NodeCounters @ 103
-	GameCountersCollector @ 104
-	DepthCollector @ 105
-	DebugNodeTracker @ 108
-	PrintHtmlDebugHandler @ 113
+	NodeCounters @ 105
+	GameCountersCollector @ 106
+	DepthCollector @ 107
+	DebugNodeTracker @ 110
+	PrintHtmlDebugHandler @ 115
 	AlphaBetaEvaluation @ 21
 	TerminalNodeStatistics @ 20
 	DebugFilter @ 18
@@ -296,7 +300,7 @@ Acceptor:
 	InteriorNodeExpected @ 48
 	InteriorNodeSorterPre @ 49
 	InteriorNodeSorterPost @ 68
-	SorterCounters @ 106
+	SorterCounters @ 108
 	TranspositionTable @ 44
 	DebugFilter @ 41
 	ExtendPV @ 42
@@ -324,21 +328,23 @@ Acceptor:
 	DebugFilter @ 71
 	ExtendPV @ 72
 	PropagatePV @ 88
-	NodeMoveSorter @ 93
-	MoveSorterDebug @ 92
-	AlphaBeta @ 91
+	NodeMoveSorter @ 95
+	MoveSorterDebug @ 94
+	AlphaBeta @ 93
+	CheckEvasionNodeVisited @ 91
+	CheckEvasionNodeExpected @ 92
 	DebugFilter @ 89
 	ExtendPV @ 90
-	PropagatePV @ 95
+	PropagatePV @ 97
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
-	NodeGroupSorter @ 114
+	NodeGroupSorter @ 116
 	RootMoveEvaluationTracker @ 15
-	RootMoveEvaluationBest @ 109
-	RootMoveEvaluationCollection @ 107
+	RootMoveEvaluationBest @ 111
+	RootMoveEvaluationCollection @ 109
 	ExtendPV @ 6
 	PropagatePV @ 16
-	PVCalculator @ 115
+	PVCalculator @ 117
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

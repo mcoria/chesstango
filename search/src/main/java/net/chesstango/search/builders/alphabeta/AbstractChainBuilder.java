@@ -59,13 +59,18 @@ public abstract class AbstractChainBuilder {
 
                 case RootNodeStatistics rootNodeStatistics ->
                         rootNodeStatistics.setNext(next);
-                case InteriorNodeVisited alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
+                case InteriorNodeVisited alphaBetaNodeStatistics ->
+                        alphaBetaNodeStatistics.setNext(next);
                 case InteriorNodeExpected interiorNodeExpected ->
                         interiorNodeExpected.setNext(next);
                 case QuiescenceNodeVisited quiescenceNodeVisited ->
                         quiescenceNodeVisited.setNext(next);
                 case QuiescenceNodeExpected quiescenceNodeExpected ->
                         quiescenceNodeExpected.setNext(next);
+                case CheckEvasionNodeVisited checkEvasionNodeVisited ->
+                        checkEvasionNodeVisited.setNext(next);
+                case CheckEvasionNodeExpected checkEvasionNodeExpected ->
+                        checkEvasionNodeExpected.setNext(next);
                 case LeafNodeStatistics leafNodeStatistics ->
                         leafNodeStatistics.setNext(next);
                 case TerminalNodeStatistics terminalNodeStatistics ->
