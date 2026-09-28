@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.*;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class QuiescenceStandingPatTest {
+public class QSStandingPatTest {
 
     @Mock
     private AlphaBetaFilter next;
@@ -34,9 +35,11 @@ public class QuiescenceStandingPatTest {
     @Mock
     private Move mockMove;
 
-    private QuiescenceStandingPat quiescenceStandingPat;
+    private QSStandingPat qsStandingPat;
 
     private Move[] bestMoves;
+
+    private int[] standingPats;
 
     private Game game;
 
@@ -45,12 +48,14 @@ public class QuiescenceStandingPatTest {
         game = Game.from(FEN.START_POSITION);
         bestMoves = new Move[40];
         Arrays.fill(bestMoves, mockMove);
+        standingPats = new int[40];
 
-        quiescenceStandingPat = new QuiescenceStandingPat();
-        quiescenceStandingPat.setNext(next);
-        quiescenceStandingPat.setEvaluator(evaluator);
-        quiescenceStandingPat.setBestMoves(bestMoves);
-        quiescenceStandingPat.setGame(game);
+        qsStandingPat = new QSStandingPat(true);
+        qsStandingPat.setNext(next);
+        qsStandingPat.setEvaluator(evaluator);
+        qsStandingPat.setBestMoves(bestMoves);
+        qsStandingPat.setStandingPats(standingPats);
+        qsStandingPat.setGame(game);
     }
 
     /**
@@ -67,11 +72,12 @@ public class QuiescenceStandingPatTest {
         int currentPly = 0;
 
         // Execute
-        int result = quiescenceStandingPat.alphaBeta(currentPly, alpha, beta);
+        int result = qsStandingPat.alphaBeta(currentPly, alpha, beta);
 
         // Verify
         assertEquals(20, result);
         assertEquals(null, bestMoves[currentPly]);
+        assertEquals(0, standingPats[currentPly]);
         verify(next, never()).alphaBeta(anyInt(), anyInt(), anyInt());
     }
 
@@ -93,11 +99,12 @@ public class QuiescenceStandingPatTest {
         int currentPly = 0;
 
         // Execute
-        int result = quiescenceStandingPat.alphaBeta(currentPly, alpha, beta);
+        int result = qsStandingPat.alphaBeta(currentPly, alpha, beta);
 
         // Verify
         assertEquals(10, result);
         assertEquals(null, bestMoves[currentPly]);
+        assertEquals(10, standingPats[currentPly]);
         verify(next).alphaBeta(0, 10, 15);
     }
 
@@ -119,11 +126,12 @@ public class QuiescenceStandingPatTest {
         int currentPly = 0;
 
         // Execute
-        int result = quiescenceStandingPat.alphaBeta(currentPly, alpha, beta);
+        int result = qsStandingPat.alphaBeta(currentPly, alpha, beta);
 
         // Verify
         assertEquals(12, result);
         assertEquals(game.getMove(Square.a2, Square.a3), bestMoves[currentPly]);
+        assertEquals(10, standingPats[currentPly]);
         verify(next).alphaBeta(0, 10, 15);
     }
 
@@ -145,11 +153,12 @@ public class QuiescenceStandingPatTest {
         int currentPly = 0;
 
         // Execute
-        int result = quiescenceStandingPat.alphaBeta(currentPly, alpha, beta);
+        int result = qsStandingPat.alphaBeta(currentPly, alpha, beta);
 
         // Verify
         assertEquals(13, result);
         assertEquals(game.getMove(Square.a2, Square.a3), bestMoves[currentPly]);
+        assertEquals(10, standingPats[currentPly]);
         verify(next).alphaBeta(0, 12, 15);
     }
 
@@ -171,11 +180,12 @@ public class QuiescenceStandingPatTest {
         int currentPly = 0;
 
         // Execute
-        int result = quiescenceStandingPat.alphaBeta(currentPly, alpha, beta);
+        int result = qsStandingPat.alphaBeta(currentPly, alpha, beta);
 
         // Verify
         assertEquals(8, result);
         assertEquals(game.getMove(Square.a2, Square.a3), bestMoves[currentPly]);
+        assertEquals(5, standingPats[currentPly]);
         verify(next).alphaBeta(0, 15, 20);
     }
 

@@ -2,7 +2,8 @@ package net.chesstango.search;
 
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
@@ -28,7 +29,6 @@ import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
-import net.chesstango.search.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationBest;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.alphabeta.SearchByDepthImp;
@@ -174,10 +174,10 @@ public interface Visitor {
     default void visit(PVWalkerFromTT pvWalkerFromTT) {
     }
 
-    default void visit(QuiescenceStandingPat quiescenceStandingPat) {
+    default void visit(QSStandingPat qsStandingPat) {
     }
 
-    default void visit(QuiescenceNull quiescenceNull) {
+    default void visit(QSAlphaBeta qsAlphaBeta) {
     }
 
     default void visit(PrintHtmlDebugHandler printHtmlDebugHandler) {

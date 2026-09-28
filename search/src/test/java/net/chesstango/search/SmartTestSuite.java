@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.search.alphabeta.*;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPatTest;
+import net.chesstango.search.alphabeta.core.filters.QSStandingPatTest;
 import net.chesstango.search.alphabeta.core.filters.TranspositionEntryTableTest;
 import net.chesstango.search.alphabeta.pv.model.PVCalculatorTest;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationBestTest;
@@ -20,7 +20,7 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
         BoundTest.class,
 
-        QuiescenceStandingPatTest.class,
+        QSStandingPatTest.class,
 
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,

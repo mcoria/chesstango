@@ -1,4 +1,4 @@
-package net.chesstango.search.alphabeta.core.filters;
+package net.chesstango.search.alphabeta.quiescence;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,10 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
  * @author Mauricio Coria
  */
 @Setter
-public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
+public class QSStandingPat implements AlphaBetaFilter, Acceptor {
+    private final boolean withDeltaPruning;
+
+    private final static int DELTA_MARGIN = 900_000;
 
     @Getter
     private AlphaBetaFilter next;
@@ -24,7 +27,13 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
 
     private Move[] bestMoves;
 
+    private int[] standingPats;
+
     private Game game;
+
+    public QSStandingPat(boolean withDeltaPruning) {
+        this.withDeltaPruning = withDeltaPruning;
+    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -34,14 +43,23 @@ public class QuiescenceStandingPat implements AlphaBetaFilter, Acceptor {
     @Override
     public int alphaBeta(final int currentPly, final int alpha, final int beta) {
         bestMoves[currentPly] = null;
+
         int standingPat = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? evaluator.evaluate() : -evaluator.evaluate();
         if (standingPat >= beta) {
             return standingPat;
         }
 
-        int currentValue =  next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
+        if (withDeltaPruning) {
+            if (standingPat + DELTA_MARGIN < alpha) {
+                return standingPat;
+            } else {
+                standingPats[currentPly] = standingPat;
+            }
+        }
 
-        if(standingPat >= currentValue) {
+        int currentValue = next.alphaBeta(currentPly, Math.max(standingPat, alpha), beta);
+
+        if (standingPat >= currentValue) {
             bestMoves[currentPly] = null;
             return standingPat;
         }

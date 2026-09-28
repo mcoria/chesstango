@@ -348,6 +348,34 @@ public class SearchTest {
 
         assertTrue(searchResult.getPrincipalVariation().pvComplete());
     }
+    @Test
+    @Disabled
+    public void test_BK05() {
+        Game game = Game.from(FEN.from("r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1"));
+
+        Search search = conPoco()
+                .withGameEvaluator(Evaluator.createInstance())
+                .withDebugSearchTree()
+                .build();
+
+        search.accept(new SetMaxDepthVisitor(1));
+        SearchResult searchResult = search.startSearch(game);
+
+
+        assertEquals(77352, searchResult.getBestEvaluation());
+
+        Move bm = searchResult.getBestMove();
+        assertNotNull(bm);
+
+        assertEquals(Piece.ROOK_WHITE, bm.getFrom().piece());
+        assertEquals(Square.a1, bm.getFrom().square());
+        assertEquals(Square.d1, bm.getTo().square());
+
+        List<String> pv = searchResult.getPrincipalVariation().pvMoves().stream().map(PVMove::move).map(Move::coordinateEncoding).toList();
+        assertArrayEquals(new String[]{"a1d1"}, pv.toArray());
+
+        assertTrue(searchResult.getPrincipalVariation().pvComplete());
+    }
 
     @Test
     @Disabled
@@ -396,7 +424,7 @@ public class SearchTest {
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                .withAspirationWindows()
+                //.withAspirationWindows()
 
                 .withIterativeDeepening()
 
@@ -458,7 +486,6 @@ public class SearchTest {
                 .withStatistics()
                 .withGameEvaluator(Evaluator.createInstance());
     }
-
 
     private AlphaBetaBuilder noTranspositionNoAspirationWindowsNoIterativeDeepening() {
         return new AlphaBetaBuilder()

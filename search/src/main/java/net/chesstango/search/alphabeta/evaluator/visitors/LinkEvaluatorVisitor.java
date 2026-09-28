@@ -2,7 +2,7 @@ package net.chesstango.search.alphabeta.evaluator.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.alphabeta.core.filters.QuiescenceStandingPat;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 
@@ -18,8 +18,8 @@ public class LinkEvaluatorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(QuiescenceStandingPat quiescenceStandingPat) {
-        quiescenceStandingPat.setEvaluator(evaluator);
+    public void visit(QSStandingPat qsStandingPat) {
+        qsStandingPat.setEvaluator(evaluator);
     }
 
     @Override
