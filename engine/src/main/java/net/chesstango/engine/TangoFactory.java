@@ -2,8 +2,8 @@ package net.chesstango.engine;
 
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
-import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 
 import java.nio.file.Path;
 import java.util.Set;
@@ -25,7 +25,7 @@ interface TangoFactory {
                                       SearchInvoker searchInvoker,
                                       ScheduledExecutorService timeOutExecutor);
 
-    SearchBuilder<?> createSearchBuilder();
+    AlphaBetaBuilder createSearchBuilder();
 
     EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy);
 

@@ -3,9 +3,9 @@ package net.chesstango.engine;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ public class SearchByTreeTest {
     private TangoFactory tangoFactory;
 
     @Mock
-    private SearchBuilder searchBuilder;
+    private AlphaBetaBuilder searchBuilder;
 
     @Mock
     private Search search;

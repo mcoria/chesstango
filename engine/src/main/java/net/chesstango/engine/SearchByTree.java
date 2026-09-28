@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import net.chesstango.search.visitors.SetSearchPredicateVisitor;
@@ -34,7 +34,7 @@ class SearchByTree implements SearchByChain {
         }
 
         if (config.getSearch() == null) {
-            SearchBuilder<?> searchBuilder = tangoFactory.createSearchBuilder();
+            AlphaBetaBuilder searchBuilder = tangoFactory.createSearchBuilder();
 
             searchBuilder.withGameEvaluator(config.getEvaluator());
 
