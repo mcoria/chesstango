@@ -3,8 +3,8 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.syzygy.Syzygy;
-import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 
 import java.nio.file.Path;
 import java.util.Set;
@@ -78,9 +78,8 @@ class TangoFactorySmart implements TangoFactory, AutoCloseable {
     }
 
     @Override
-    public SearchBuilder<?> createSearchBuilder(){
-        return SearchBuilder
-                .newSearchBuilder();
+    public AlphaBetaBuilder createSearchBuilder(){
+        return AlphaBetaBuilder.createDefaultBuilderInstance();
     }
 
     @Override

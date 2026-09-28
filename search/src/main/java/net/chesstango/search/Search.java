@@ -1,6 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
 
 /**
@@ -20,7 +21,7 @@ import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
  * <b>Typical Usage:</b>
  * </p>
  * <pre>{@code
- * Search search = Search.newSearchBuilder()
+ * Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
  *     .withGameEvaluator(new EvaluatorByMaterial())
  *     .withTranspositionTable()
  *     .withStatistics()
@@ -33,7 +34,7 @@ import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
  *
  * @author Mauricio Coria
  * @see SearchResult
- * @see SearchBuilder
+ * @see AlphaBetaBuilder
  * @see net.chesstango.search.visitors.SetMaxDepthVisitor
  * @see net.chesstango.search.visitors.SetDepthVisitor
  */

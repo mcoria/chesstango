@@ -103,6 +103,7 @@ public class ChainPrinterVisitorTest {
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluatorCache()
                 .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
+                .withGameEvaluatorCacheSorter()
 
                 .withQuiescence()
 

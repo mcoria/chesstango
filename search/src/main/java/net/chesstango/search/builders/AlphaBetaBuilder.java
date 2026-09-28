@@ -33,7 +33,7 @@ import static net.chesstango.search.alphabeta.Constants.*;
 /**
  * @author Mauricio Corias
  */
-public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
+public class AlphaBetaBuilder {
 
     private final SetSearchTimers setSearchTimers;
     private final RootChainBuilder rootChainBuilder;
@@ -115,7 +115,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
 
-    @Override
     public AlphaBetaBuilder withGameEvaluator(Evaluator evaluator) {
         evaluationBuilder.withGameEvaluator(evaluator);
         return this;
@@ -179,7 +178,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    @Override
     public AlphaBetaBuilder withTranspositionTable() {
         rootChainBuilder.withTranspositionTable();
         interiorChainBuilder.withTranspositionTable();
@@ -191,7 +189,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    @Override
     public AlphaBetaBuilder withTranspositionHashSize(int hashSizeKB) {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable TranspositionTable first");
@@ -201,7 +198,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
 
-    @Override
     public AlphaBetaBuilder withTranspositionStaleAge(int staleAge) {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable TranspositionTable first");
@@ -295,7 +291,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         return this;
     }
 
-    @Override
     public Search build() {
         buildObjects();
 
