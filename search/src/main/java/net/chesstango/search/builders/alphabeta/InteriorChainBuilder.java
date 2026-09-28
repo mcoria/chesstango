@@ -104,7 +104,7 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public InteriorChainBuilder withGameEvaluatorCache() {
+    public InteriorChainBuilder withGameEvaluatorCacheSorter() {
         moveSorterBuilder.withGameEvaluatorCache();
         return this;
     }
