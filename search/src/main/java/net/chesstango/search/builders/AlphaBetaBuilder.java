@@ -102,6 +102,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         loopChainBuilder = new LoopChainBuilder();
 
         egtbChainBuilder = new EgtbChainBuilder();
+
         setGameToEndGameTableBase = new SetGameToEndGameTableBase();
     }
 
@@ -121,17 +122,28 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     public AlphaBetaBuilder withGameEvaluatorCache() {
-        interiorChainBuilder.withGameEvaluatorCache();
-        quiescenceChainBuilder.withGameEvaluatorCache();
         evaluationBuilder.withGameEvaluatorCache();
         withGameEvaluatorCache = true;
         return this;
     }
 
     public AlphaBetaBuilder withGameEvaluatorCacheHashSize(int hashSizeKB) {
+        if (!withGameEvaluatorCache) {
+            throw new RuntimeException("You must enable GameEvaluatorCache first");
+        }
         evaluatorCacheBuilder.withHashSize(hashSizeKB);
         return this;
     }
+
+    public AlphaBetaBuilder withGameEvaluatorCacheSorter() {
+        if (!withGameEvaluatorCache) {
+            throw new RuntimeException("You must enable GameEvaluatorCache first");
+        }
+        interiorChainBuilder.withGameEvaluatorCacheSorter();
+        quiescenceChainBuilder.withGameEvaluatorCacheSorter();
+        return this;
+    }
+
 
     public AlphaBetaBuilder withQuiescence() {
         withQuiescence = true;
@@ -463,6 +475,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         rootChainBuilder.withSmartListenerMediator(listenerMediator);
         rootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+
         return rootChainBuilder.build();
     }
 
@@ -472,16 +485,17 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
                 // Game evaluator cache feature
                 .withGameEvaluatorCache()
                 .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
-
-                // Quiescence feature
-                .withQuiescence()
-                .withDeltaPruning()
+                .withGameEvaluatorCacheSorter()
 
                 // Transposition table feature
                 .withTranspositionTable()
                 .withTranspositionHashSize(DEFAULT_TT_HASH_SIZE_KB)
                 .withTranspositionStaleAge(DEFAULT_TT_STALE_AGE)
                 .withTranspositionMoveSorter()
+
+                // Quiescence feature
+                .withQuiescence()
+                .withDeltaPruning()
 
                 // Sorter features
                 .withKillerMoveSorter()

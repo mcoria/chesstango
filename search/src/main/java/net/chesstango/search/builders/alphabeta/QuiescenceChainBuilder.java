@@ -95,7 +95,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withGameEvaluatorCache() {
+    public QuiescenceChainBuilder withGameEvaluatorCacheSorter() {
         moveSorterBuilder.withGameEvaluatorCache();
         return this;
     }
