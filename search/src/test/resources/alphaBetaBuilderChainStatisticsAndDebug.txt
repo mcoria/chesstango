@@ -78,7 +78,7 @@ AlphaBetaFlowControl @ 17
 	|
 	InteriorNodeVisited @ 43
 	|
-	TranspositionTable @ 44 [TTable: TTableNodeDebug @ 9 -> TTableStatisticsNodeCollector @ 10 -> TTableArray @ 11]
+	TranspositionTableInterior @ 44 [TTable: TTableNodeDebug @ 9 -> TTableStatisticsNodeCollector @ 10 -> TTableArray @ 11]
 	|	 PVWalkerFromTT @ 45 [TTable: TTablePVDebug @ 46 -> TTableStatisticsPVCollector @ 47 -> TTableArray @ 11]
 	|
 	InteriorNodeExpected @ 48
@@ -184,49 +184,52 @@ AlphaBetaFlowControl @ 17
 	|
 	CheckEvasionNodeVisited @ 91
 	|
-	CheckEvasionNodeExpected @ 92
+	TranspositionTableQ @ 92 [TTable: TTableNodeDebug @ 9 -> TTableStatisticsNodeCollector @ 10 -> TTableArray @ 11]
+	|	 PVWalkerFromTT @ 45 [TTable: TTablePVDebug @ 46 -> TTableStatisticsPVCollector @ 47 -> TTableArray @ 11]
 	|
-	AlphaBeta @ 93
+	CheckEvasionNodeExpected @ 93
+	|
+	AlphaBeta @ 94
 	|
 	 -> Sorter
 		|
-		MoveSorterDebug @ 94
+		MoveSorterDebug @ 95
 		|
-		NodeMoveSorter @ 95
+		NodeMoveSorter @ 96
 		|
 		 -> Comparator
 			|
-			DefaultMoveComparator @ 96
+			DefaultMoveComparator @ 97
 	|
-	PropagatePV @ 97
+	PropagatePV @ 98
 	|
 	AlphaBetaFlowControl @ 17 -> LOOP
 
 
 SearchByCycleListeners:
-	EvaluatorCounters @ 98
-	TTListener @ 99
-	TTableCounters @ 100
-	TTableStatisticsFillPercentageCollector @ 101
-	EvaluatorCacheListener @ 102
-	EvaluatorCacheCounters @ 103
-	SetSearchTimers @ 104
+	EvaluatorCounters @ 99
+	TTListener @ 100
+	TTableCounters @ 101
+	TTableStatisticsFillPercentageCollector @ 102
+	EvaluatorCacheListener @ 103
+	EvaluatorCacheCounters @ 104
+	SetSearchTimers @ 105
 	AlphaBetaFlowControl @ 17
-	NodeCounters @ 105
-	GameCountersCollector @ 106
-	DepthCollector @ 107
+	NodeCounters @ 106
+	GameCountersCollector @ 107
+	DepthCollector @ 108
 	PrincipalVariationComparator @ 53
-	SorterCounters @ 108
+	SorterCounters @ 109
 	PrincipalVariationComparator @ 80
-	RootMoveEvaluationCollection @ 109
+	RootMoveEvaluationCollection @ 110
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 104
-	DepthCollector @ 107
-	DebugNodeTracker @ 110
-	RootMoveEvaluationBest @ 111
+	SetSearchTimers @ 105
+	DepthCollector @ 108
+	DebugNodeTracker @ 111
+	RootMoveEvaluationBest @ 112
 
 SearchByWindowsListeners:
 	DebugFilter @ 18
@@ -242,42 +245,42 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 17
 
 ResetListener:
-	TTListener @ 99
-	EvaluatorCacheListener @ 102
+	TTListener @ 100
+	EvaluatorCacheListener @ 103
 
 Acceptor:
-	SetGameToEvaluator @ 112
-	EvaluatorCounters @ 98
+	SetGameToEvaluator @ 113
+	EvaluatorCounters @ 99
 	EvaluatorStatisticsCollector @ 26
 	EvaluatorDebug @ 22
 	EvaluatorCacheAdapter @ 23
-	TTListener @ 99
+	TTListener @ 100
 	TTableArray @ 11
 	TTableNodeDebug @ 9
 	TTableComparatorHeadDebug @ 55
 	TTableComparatorTailDebug @ 58
 	TTablePVDebug @ 46
-	TTableCounters @ 100
+	TTableCounters @ 101
 	TTableStatisticsNodeCollector @ 10
 	TTableStatisticsComparatorCollector @ 56
 	TTableStatisticsPVCollector @ 47
-	TTableStatisticsFillPercentageCollector @ 101
+	TTableStatisticsFillPercentageCollector @ 102
 	PVWalkerFromTT @ 45
-	KillerMovesDebug @ 113
-	EvaluatorCacheListener @ 102
+	KillerMovesDebug @ 114
+	EvaluatorCacheListener @ 103
 	EvaluatorCacheDebug @ 64
-	EvaluatorCacheCounters @ 103
+	EvaluatorCacheCounters @ 104
 	EvaluatorCacheStatisticsComparatorCollector @ 65
 	EvaluatorCacheStatisticsNodeCollector @ 24
-	SetGameToEndGameTableBase @ 114
+	SetGameToEndGameTableBase @ 115
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 104
+	SetSearchTimers @ 105
 	AlphaBetaFlowControl @ 17
-	NodeCounters @ 105
-	GameCountersCollector @ 106
-	DepthCollector @ 107
-	DebugNodeTracker @ 110
-	PrintHtmlDebugHandler @ 115
+	NodeCounters @ 106
+	GameCountersCollector @ 107
+	DepthCollector @ 108
+	DebugNodeTracker @ 111
+	PrintHtmlDebugHandler @ 116
 	AlphaBetaEvaluation @ 21
 	TerminalNodeStatistics @ 20
 	DebugFilter @ 18
@@ -300,8 +303,8 @@ Acceptor:
 	InteriorNodeExpected @ 48
 	InteriorNodeSorterPre @ 49
 	InteriorNodeSorterPost @ 68
-	SorterCounters @ 108
-	TranspositionTable @ 44
+	SorterCounters @ 109
+	TranspositionTableInterior @ 44
 	DebugFilter @ 41
 	ExtendPV @ 42
 	PropagatePV @ 69
@@ -328,23 +331,24 @@ Acceptor:
 	DebugFilter @ 71
 	ExtendPV @ 72
 	PropagatePV @ 88
-	NodeMoveSorter @ 95
-	MoveSorterDebug @ 94
-	AlphaBeta @ 93
+	NodeMoveSorter @ 96
+	MoveSorterDebug @ 95
+	AlphaBeta @ 94
 	CheckEvasionNodeVisited @ 91
-	CheckEvasionNodeExpected @ 92
+	CheckEvasionNodeExpected @ 93
 	DebugFilter @ 89
 	ExtendPV @ 90
-	PropagatePV @ 97
+	TranspositionTableQ @ 92
+	PropagatePV @ 98
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
-	NodeGroupSorter @ 116
+	NodeGroupSorter @ 117
 	RootMoveEvaluationTracker @ 15
-	RootMoveEvaluationBest @ 111
-	RootMoveEvaluationCollection @ 109
+	RootMoveEvaluationBest @ 112
+	RootMoveEvaluationCollection @ 110
 	ExtendPV @ 6
 	PropagatePV @ 16
-	PVCalculator @ 117
+	PVCalculator @ 118
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

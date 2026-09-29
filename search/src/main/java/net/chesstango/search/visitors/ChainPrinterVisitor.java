@@ -264,13 +264,13 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
         printChainDownLine();
 
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getTTable())));
-        printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTable.getPvWalkerFromTT())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableInterior), printTTable(transpositionTableInterior.getTTable())));
+        printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTableInterior.getPvWalkerFromTT())));
 
-        traverse(transpositionTable.getNext());
+        traverse(transpositionTableInterior.getNext());
     }
 
     @Override

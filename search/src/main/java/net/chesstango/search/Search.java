@@ -2,7 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableInterior;
 
 /**
  * Represents a chess search algorithm that finds the best move for a given position.
@@ -111,7 +111,7 @@ public interface Search extends Acceptor {
      * only the dynamic state accumulated during searches.
      * </p>
      *
-     * @see TranspositionTable
+     * @see TranspositionTableInterior
      */
     void reset();
 

@@ -52,7 +52,7 @@ AlphaBetaFlowControl @ 12
 	|
 	ExtendPV @ 25
 	|
-	TranspositionTable @ 26 [TTable: TTableArray @ 7]
+	TranspositionTableInterior @ 26 [TTable: TTableArray @ 7]
 	|	 PVWalkerFromTT @ 27 [TTable: TTableArray @ 7]
 	|
 	AlphaBeta @ 28
@@ -138,35 +138,38 @@ AlphaBetaFlowControl @ 12
 	|
 	ExtendPV @ 56
 	|
-	AlphaBeta @ 57
+	TranspositionTableQ @ 57 [TTable: TTableArray @ 7]
+	|	 PVWalkerFromTT @ 27 [TTable: TTableArray @ 7]
+	|
+	AlphaBeta @ 58
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 58
+		NodeMoveSorter @ 59
 		|
 		 -> Comparator
 			|
-			DefaultMoveComparator @ 59
+			DefaultMoveComparator @ 60
 	|
-	PropagatePV @ 60
+	PropagatePV @ 61
 	|
 	AlphaBetaFlowControl @ 12 -> LOOP
 
 
 SearchByCycleListeners:
-	TTListener @ 61
-	EvaluatorCacheListener @ 62
-	SetSearchTimers @ 63
+	TTListener @ 62
+	EvaluatorCacheListener @ 63
+	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 12
 	PrincipalVariationComparator @ 30
 	PrincipalVariationComparator @ 47
-	RootMoveEvaluationCollection @ 64
+	RootMoveEvaluationCollection @ 65
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 
 SearchByDepthListener:
-	SetSearchTimers @ 63
-	RootMoveEvaluationBest @ 65
+	SetSearchTimers @ 64
+	RootMoveEvaluationBest @ 66
 
 SearchByWindowsListeners:
 
@@ -174,19 +177,19 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 12
 
 ResetListener:
-	TTListener @ 61
-	EvaluatorCacheListener @ 62
+	TTListener @ 62
+	EvaluatorCacheListener @ 63
 
 Acceptor:
-	SetGameToEvaluator @ 66
+	SetGameToEvaluator @ 67
 	EvaluatorCacheAdapter @ 15
-	TTListener @ 61
+	TTListener @ 62
 	TTableArray @ 7
 	PVWalkerFromTT @ 27
-	EvaluatorCacheListener @ 62
-	SetGameToEndGameTableBase @ 67
+	EvaluatorCacheListener @ 63
+	SetGameToEndGameTableBase @ 68
 	SearchByDepthImp @ 2
-	SetSearchTimers @ 63
+	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 12
 	AlphaBetaEvaluation @ 14
 	ExtendPV @ 13
@@ -201,7 +204,7 @@ Acceptor:
 	EvaluatorCacheComparator @ 37
 	KillerMoveComparator @ 39
 	AlphaBeta @ 28
-	TranspositionTable @ 26
+	TranspositionTableInterior @ 26
 	ExtendPV @ 25
 	PropagatePV @ 40
 	KillerMoveTracker @ 41
@@ -219,18 +222,19 @@ Acceptor:
 	TranspositionTableQ @ 43
 	ExtendPV @ 42
 	PropagatePV @ 55
-	NodeMoveSorter @ 58
-	AlphaBeta @ 57
+	NodeMoveSorter @ 59
+	AlphaBeta @ 58
 	ExtendPV @ 56
-	PropagatePV @ 60
+	TranspositionTableQ @ 57
+	PropagatePV @ 61
 	RootMoveSorter @ 9
-	NodeGroupSorter @ 68
+	NodeGroupSorter @ 69
 	RootMoveEvaluationTracker @ 10
-	RootMoveEvaluationBest @ 65
-	RootMoveEvaluationCollection @ 64
+	RootMoveEvaluationBest @ 66
+	RootMoveEvaluationCollection @ 65
 	ExtendPV @ 5
 	PropagatePV @ 11
-	PVCalculator @ 69
+	PVCalculator @ 70
 	AlphaBeta @ 8
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

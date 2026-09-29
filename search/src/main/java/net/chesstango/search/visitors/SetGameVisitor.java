@@ -139,8 +139,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setGame(game);
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
+        transpositionTableInterior.setGame(game);
     }
 
     @Override

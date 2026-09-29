@@ -7,7 +7,7 @@ import net.chesstango.search.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.alphabeta.statistics.node.filters.*;
-import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableInterior;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableRoot;
 
@@ -40,8 +40,8 @@ public class SetDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setDepth(depth);
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
+        transpositionTableInterior.setDepth(depth);
     }
 
     @Override

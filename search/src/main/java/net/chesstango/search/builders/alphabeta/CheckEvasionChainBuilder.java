@@ -11,6 +11,7 @@ import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.alphabeta.statistics.node.filters.CheckEvasionNodeExpected;
 import net.chesstango.search.alphabeta.statistics.node.filters.CheckEvasionNodeVisited;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.builders.sorters.MoveSorterCheckEvasionBuilder;
 import net.chesstango.search.sorters.MoveSorter;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class CheckEvasionChainBuilder extends AbstractChainBuilder {
     private final MoveSorterCheckEvasionBuilder moveSorterCheckEvasionBuilder;
     private final AlphaBeta alphaBeta;
+    private TranspositionTableQ transpositionTableQ;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private DebugFilter debugFilter;
     private ExtendPV extendPV;
@@ -36,6 +38,7 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
     private CheckEvasionNodeExpected checkEvasionNodeExpected;
 
 
+    private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
@@ -65,6 +68,11 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
+    public CheckEvasionChainBuilder withTranspositionTable() {
+        this.withTranspositionTable = true;
+        return this;
+    }
+
     public CheckEvasionChainBuilder withDebugSearchTree() {
         moveSorterCheckEvasionBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
@@ -80,6 +88,10 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
         if (withStatistics) {
             checkEvasionNodeVisited = new CheckEvasionNodeVisited();
             checkEvasionNodeExpected = new CheckEvasionNodeExpected();
+        }
+
+        if (withTranspositionTable) {
+            transpositionTableQ = new TranspositionTableQ();
         }
 
         if (withDebugSearchTree) {
@@ -108,6 +120,10 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(extendPV);
         }
 
+        if (transpositionTableQ != null) {
+            listenerMediator.add(transpositionTableQ);
+        }
+
         if (propagatePV != null) {
             listenerMediator.add(propagatePV);
         }
@@ -132,6 +148,10 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
 
         if (checkEvasionNodeVisited != null) {
             chain.add(checkEvasionNodeVisited);
+        }
+
+        if (transpositionTableQ != null) {
+            chain.add(transpositionTableQ);
         }
 
         // Debe ir despues de TT para que contabilice expected correctamente

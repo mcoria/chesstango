@@ -6,7 +6,7 @@ import net.chesstango.search.Visitor;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTable extends TranspositionTableAbstract implements Acceptor {
+public class TranspositionTableInterior extends TranspositionTableAbstract implements Acceptor {
 
     @Override
     public void accept(Visitor visitor) {

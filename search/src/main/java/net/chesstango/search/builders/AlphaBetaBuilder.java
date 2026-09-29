@@ -185,7 +185,7 @@ public class AlphaBetaBuilder {
         interiorChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
-        //checkEvasionChainBuilder.withTranspositionTable();
+        checkEvasionChainBuilder.withTranspositionTable();
 
         withTranspositionTable = true;
         return this;

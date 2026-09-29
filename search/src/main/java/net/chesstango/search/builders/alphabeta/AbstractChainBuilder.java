@@ -53,7 +53,7 @@ public abstract class AbstractChainBuilder {
             switch (currentFilter) {
                 case TranspositionTableRoot filer -> filer.setNext(next);
                 case TranspositionTableTerminal transpositionTableTerminal -> transpositionTableTerminal.setNext(next);
-                case TranspositionTable table -> table.setNext(next);
+                case TranspositionTableInterior table -> table.setNext(next);
                 case TranspositionTableQ transpositionTableQ -> transpositionTableQ.setNext(next);
                 case TranspositionTableLeaf transpositionTableLeaf -> transpositionTableLeaf.setNext(next);
 

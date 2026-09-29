@@ -168,7 +168,7 @@ public interface Visitor {
     default void visit(EgtbEvaluation egtbEvaluation) {
     }
 
-    default void visit(TranspositionTable transpositionTable) {
+    default void visit(TranspositionTableInterior transpositionTableInterior) {
     }
 
     default void visit(KillerMoveTracker killerMoveTracker) {
