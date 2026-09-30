@@ -16,7 +16,7 @@ import net.chesstango.search.alphabeta.statistics.node.filters.InteriorNodeVisit
 import net.chesstango.search.alphabeta.statistics.sorter.SorterCounters;
 import net.chesstango.search.alphabeta.statistics.sorter.filters.InteriorNodeSorterPost;
 import net.chesstango.search.alphabeta.statistics.sorter.filters.InteriorNodeSorterPre;
-import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableInterior;
 import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorter;
 
@@ -29,7 +29,7 @@ import java.util.List;
 public class InteriorChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterInteriorBuilder moveSorterBuilder;
-    private TranspositionTable transpositionTable;
+    private TranspositionTableInterior transpositionTableInterior;
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private DebugFilter debugFilter;
@@ -139,7 +139,7 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
         }
 
         if (withTranspositionTable) {
-            transpositionTable = new TranspositionTable();
+            transpositionTableInterior = new TranspositionTableInterior();
         }
 
         if (withZobristTracker) {
@@ -185,8 +185,8 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
             listenerMediator.add(zobristTracker);
         }
 
-        if (transpositionTable != null) {
-            listenerMediator.add(transpositionTable);
+        if (transpositionTableInterior != null) {
+            listenerMediator.add(transpositionTableInterior);
         }
 
         if (debugFilter != null) {
@@ -236,8 +236,8 @@ public class InteriorChainBuilder extends AbstractChainBuilder {
             chain.add(interiorNodeVisited);
         }
 
-        if (transpositionTable != null) {
-            chain.add(transpositionTable);
+        if (transpositionTableInterior != null) {
+            chain.add(transpositionTableInterior);
         }
 
         // Debe ir despues de TT para que contabilice expected correctamente

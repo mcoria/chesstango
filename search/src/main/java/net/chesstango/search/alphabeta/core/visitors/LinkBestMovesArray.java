@@ -5,7 +5,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
-import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableInterior;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableRoot;
 
@@ -42,8 +42,8 @@ public class LinkBestMovesArray implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setBestMoves(bestMoves);
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
+        transpositionTableInterior.setBestMoves(bestMoves);
     }
 
     @Override

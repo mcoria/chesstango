@@ -31,8 +31,8 @@ public class LinkTTableNodeVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setTTable(tTable);
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
+        transpositionTableInterior.setTTable(tTable);
     }
 
     @Override

@@ -2,7 +2,7 @@ package net.chesstango.search.alphabeta.transposition.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
-import net.chesstango.search.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableInterior;
 import net.chesstango.search.alphabeta.transposition.filters.TranspositionTableQ;
 
 /**
@@ -17,8 +17,8 @@ public class LinkPVWalkerFromTTVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setPvWalkerFromTT(pvWalkerFromTT);
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
+        transpositionTableInterior.setPvWalkerFromTT(pvWalkerFromTT);
     }
 
     @Override

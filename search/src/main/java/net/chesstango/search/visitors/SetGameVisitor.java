@@ -25,6 +25,7 @@ import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.alphabeta.statistics.game.GameCountersCollector;
+import net.chesstango.search.alphabeta.statistics.node.filters.CheckEvasionNodeExpected;
 import net.chesstango.search.alphabeta.statistics.node.filters.InteriorNodeExpected;
 import net.chesstango.search.alphabeta.statistics.node.filters.QuiescenceNodeExpected;
 import net.chesstango.search.alphabeta.statistics.node.filters.RootNodeStatistics;
@@ -138,8 +139,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setGame(game);
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
+        transpositionTableInterior.setGame(game);
     }
 
     @Override
@@ -175,6 +176,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(QuiescenceNodeExpected quiescenceNodeExpected) {
         quiescenceNodeExpected.setGame(game);
+    }
+
+    @Override
+    public void visit(CheckEvasionNodeExpected checkEvasionNodeExpected) {
+        checkEvasionNodeExpected.setGame(game);
     }
 
     @Override

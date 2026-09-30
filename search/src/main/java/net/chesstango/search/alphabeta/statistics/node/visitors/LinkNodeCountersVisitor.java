@@ -41,6 +41,16 @@ public class LinkNodeCountersVisitor implements Visitor {
         quiescenceNodeExpected.setNodeCounters(nodeCounters);
     }
 
+    @Override
+    public void visit(CheckEvasionNodeVisited checkEvasionNodeVisited) {
+        checkEvasionNodeVisited.setNodeCounters(nodeCounters);
+    }
+
+    @Override
+    public void visit(CheckEvasionNodeExpected checkEvasionNodeExpected) {
+        checkEvasionNodeExpected.setNodeCounters(nodeCounters);
+    }
+
 
     @Override
     public void visit(LeafNodeStatistics leafNodeStatistics) {

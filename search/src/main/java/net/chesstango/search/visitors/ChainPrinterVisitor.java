@@ -6,6 +6,7 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.egtb.filters.EgtbEvaluation;
@@ -157,6 +158,16 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
+    public void visit(CheckEvasionNodeVisited checkEvasionNodeVisited) {
+        print(checkEvasionNodeVisited, checkEvasionNodeVisited.getNext());
+    }
+
+    @Override
+    public void visit(CheckEvasionNodeExpected checkEvasionNodeExpected) {
+        print(checkEvasionNodeExpected, checkEvasionNodeExpected.getNext());
+    }
+
+    @Override
     public void visit(LeafNodeStatistics leafNodeStatistics) {
         print(leafNodeStatistics, leafNodeStatistics.getNext());
     }
@@ -179,6 +190,21 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(AlphaBeta alphaBeta) {
+        printChainDownLine();
+        printNodeObjectText(alphaBeta);
+
+        MoveSorter moveSorter = alphaBeta.getMoveSorter();
+        printChainDownLine();
+        printChainText(" -> Sorter");
+        nestedChain++;
+        traverse(moveSorter);
+        nestedChain--;
+
+        traverse(alphaBeta.getNext());
+    }
+
+    @Override
+    public void visit(QSAlphaBeta alphaBeta) {
         printChainDownLine();
         printNodeObjectText(alphaBeta);
 
@@ -238,13 +264,13 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTable transpositionTable) {
+    public void visit(TranspositionTableInterior transpositionTableInterior) {
         printChainDownLine();
 
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getTTable())));
-        printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTable.getPvWalkerFromTT())));
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableInterior), printTTable(transpositionTableInterior.getTTable())));
+        printChainText(String.format("|\t %s", printPVWalkerFromTT(transpositionTableInterior.getPvWalkerFromTT())));
 
-        traverse(transpositionTable.getNext());
+        traverse(transpositionTableInterior.getNext());
     }
 
     @Override
@@ -369,6 +395,15 @@ public class ChainPrinterVisitor implements Visitor {
                 printChainText(" -> QuiescenceNode");
                 nestedChain++;
                 traverse(horizonNode);
+                nestedChain--;
+            }
+
+            AlphaBetaFilter checkEvasionNode = alphaBetaFlowControl.getCheckEvasionNode();
+            if (checkEvasionNode != null) {
+                out.println();
+                printChainText(" -> CheckEvasionNode");
+                nestedChain++;
+                traverse(checkEvasionNode);
                 nestedChain--;
             }
 

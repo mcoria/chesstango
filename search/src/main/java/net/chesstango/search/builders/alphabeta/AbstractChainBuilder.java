@@ -53,19 +53,24 @@ public abstract class AbstractChainBuilder {
             switch (currentFilter) {
                 case TranspositionTableRoot filer -> filer.setNext(next);
                 case TranspositionTableTerminal transpositionTableTerminal -> transpositionTableTerminal.setNext(next);
-                case TranspositionTable table -> table.setNext(next);
+                case TranspositionTableInterior table -> table.setNext(next);
                 case TranspositionTableQ transpositionTableQ -> transpositionTableQ.setNext(next);
                 case TranspositionTableLeaf transpositionTableLeaf -> transpositionTableLeaf.setNext(next);
 
                 case RootNodeStatistics rootNodeStatistics ->
                         rootNodeStatistics.setNext(next);
-                case InteriorNodeVisited alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
+                case InteriorNodeVisited alphaBetaNodeStatistics ->
+                        alphaBetaNodeStatistics.setNext(next);
                 case InteriorNodeExpected interiorNodeExpected ->
                         interiorNodeExpected.setNext(next);
                 case QuiescenceNodeVisited quiescenceNodeVisited ->
                         quiescenceNodeVisited.setNext(next);
                 case QuiescenceNodeExpected quiescenceNodeExpected ->
                         quiescenceNodeExpected.setNext(next);
+                case CheckEvasionNodeVisited checkEvasionNodeVisited ->
+                        checkEvasionNodeVisited.setNext(next);
+                case CheckEvasionNodeExpected checkEvasionNodeExpected ->
+                        checkEvasionNodeExpected.setNext(next);
                 case LeafNodeStatistics leafNodeStatistics ->
                         leafNodeStatistics.setNext(next);
                 case TerminalNodeStatistics terminalNodeStatistics ->

@@ -5,11 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.StopSearchingListener;
+import net.chesstango.search.*;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
 
@@ -44,6 +40,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchLi
     private AlphaBetaFilter egtbNode;
 
     @Setter
+    @Getter
+    private AlphaBetaFilter checkEvasionNode;
+
+    @Setter
     private Game game;
 
     @Setter
@@ -73,25 +73,29 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchLi
             throw new StopSearchingException();
         }
 
+        int nextPly = currentPly + 1;
+
         if (game.getStatus().isFinalStatus()) {
-            return -terminalNode.alphaBeta(currentPly + 1, -beta, -alpha);
+            return -terminalNode.alphaBeta(nextPly, -beta, -alpha);
         }
 
         if (endGameTableBase.isProbeAvailable()) {
-            return -egtbNode.alphaBeta(currentPly + 1, -beta, -alpha);
+            return -egtbNode.alphaBeta(nextPly, -beta, -alpha);
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return -loopNode.alphaBeta(currentPly + 1, -beta, -alpha);
+            return -loopNode.alphaBeta(nextPly, -beta, -alpha);
         }
 
-        if (currentPly + 1 < depth) {
-            return -interiorNode.alphaBeta(currentPly + 1, -beta, -alpha);
+        if (nextPly < depth) {
+            return -interiorNode.alphaBeta(nextPly, -beta, -alpha);
         } else {
-            if (quiescenceNode == null || isCurrentPositionQuiet()) {
-                return -leafNode.alphaBeta(currentPly + 1, -beta, -alpha);
+            if (checkEvasionNode != null && game.getStatus().isCheck()) {
+                return -checkEvasionNode.alphaBeta(nextPly, -beta, -alpha);
+            } else if (quiescenceNode == null || isCurrentPositionQuiet()) {
+                return -leafNode.alphaBeta(nextPly, -beta, -alpha);
             } else {
-                return -quiescenceNode.alphaBeta(currentPly + 1, -beta, -alpha);
+                return -quiescenceNode.alphaBeta(nextPly, -beta, -alpha);
             }
         }
     }
