@@ -207,11 +207,10 @@ public class SearchTest {
 
     @Test
     @Disabled
-    public void test_CHT_669() {
+    public void test_CHT_99() {
         Game game = Game.from(FEN.from("R7/6p1/P1Bp4/3Pb3/1K3k2/8/8/1r6 w - - 1 59"));
 
         Search search = defaultSearch()
-                //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(Evaluator.createInstance())
                 //.withDebugSearchTree(false, false, false)
                 .build();
@@ -270,19 +269,24 @@ public class SearchTest {
 
     private AlphaBetaBuilder noTransposition() {
         return new AlphaBetaBuilder()
+                // Game evaluator cache feature
                 .withGameEvaluatorCache()
                 .withGameEvaluatorCacheHashSize(DEFAULT_TT_HASH_SIZE_KB / 4)
+                .withGameEvaluatorCacheSorter()
 
+                // Quiescence feature
                 .withQuiescence()
+                .withDeltaPruning()
 
+                // Sorter features
                 .withKillerMoveSorter()
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                //.withAspirationWindows()
-
+                // Additional features
+                .withCheckEvasion()
+                .withAspirationWindows()
                 .withIterativeDeepening()
-
                 .withStopProcessingCatch();
     }
 
