@@ -18,6 +18,7 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     private final List<MoveList<? extends M>> moveLists;
     private final List<M> moveList;
     private boolean hasQuietMoves = true;
+    private boolean hasPromotionMoves = false;
 
     public MoveContainer(int moveListCount) {
         this.moveLists = new ArrayList<>(moveListCount);
@@ -32,6 +33,9 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     public <ME extends M> void add(MoveList<ME> moveList) {
         if (!moveList.hasQuietMoves()) {
             hasQuietMoves = false;
+            if (moveList.hasPromotionMoves()) {
+                hasPromotionMoves = true;
+            }
         }
         size += moveList.size();
         moveLists.add(moveList);
@@ -50,6 +54,9 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     public void add(M move) {
         if (!move.isQuiet()) {
             hasQuietMoves = false;
+            if (move instanceof MovePromotion) {
+                hasPromotionMoves = true;
+            }
         }
         size++;
         moveList.add(move);
@@ -110,6 +117,11 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     @Override
     public boolean hasQuietMoves() {
         return hasQuietMoves;
+    }
+
+    @Override
+    public boolean hasPromotionMoves() {
+        return hasPromotionMoves;
     }
 
     @Override
