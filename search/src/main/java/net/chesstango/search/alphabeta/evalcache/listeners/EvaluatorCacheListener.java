@@ -14,7 +14,7 @@ import net.chesstango.search.SearchListener;
  */
 @Setter
 public class EvaluatorCacheListener implements Acceptor, SearchListener, ResetListener {
-    @Setter
+
     @Getter
     @Accessors(chain = true)
     private EvaluatorCacheArray gameEvaluatorCacheArray;

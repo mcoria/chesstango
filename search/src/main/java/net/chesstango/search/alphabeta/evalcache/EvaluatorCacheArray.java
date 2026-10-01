@@ -2,11 +2,13 @@ package net.chesstango.search.alphabeta.evalcache;
 
 import lombok.Getter;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mauricio Coria
  */
-public class EvaluatorCacheArray implements EvaluatorCache {
+public class EvaluatorCacheArray implements EvaluatorCache, Serializable {
 
     @Getter
     private final EvaluatorCacheEntry[] cache;

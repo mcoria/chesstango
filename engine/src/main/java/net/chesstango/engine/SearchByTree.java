@@ -17,6 +17,7 @@ import net.chesstango.search.visitors.SetSearchPredicateVisitor;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * @author Mauricio Coria
@@ -76,8 +77,9 @@ class SearchByTree implements SearchByChain {
 
             return new SearchByTreeResult(searchResult.getBestMove(), searchResult, timeSearching);
         } catch (RuntimeException e) {
-            log.error("RuntimeException detected. Dumping state");
-            search.accept(new DumperVisitor());
+            String uuid = UUID.randomUUID().toString();
+            log.error("RuntimeException detected. Dumping state: {}", uuid);
+            search.accept(new DumperVisitor(uuid, context.getGame()));
             throw e;
         }
     }

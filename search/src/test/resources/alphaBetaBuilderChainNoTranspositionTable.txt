@@ -145,7 +145,8 @@ Acceptor:
 	SetGameToEvaluator @ 51
 	EvaluatorCacheAdapter @ 13
 	EvaluatorCacheListener @ 47
-	SetGameToEndGameTableBase @ 52
+	EvaluatorCacheDump @ 52
+	SetGameToEndGameTableBase @ 53
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 48
 	AlphaBetaFlowControl @ 10
@@ -175,13 +176,13 @@ Acceptor:
 	ExtendPV @ 36
 	PropagatePV @ 46
 	RootMoveSorter @ 7
-	NodeGroupSorter @ 53
+	NodeGroupSorter @ 54
 	RootMoveEvaluationTracker @ 8
 	RootMoveEvaluationBest @ 50
 	RootMoveEvaluationCollection @ 49
 	ExtendPV @ 5
 	PropagatePV @ 9
-	PVCalculator @ 54
+	PVCalculator @ 55
 	AlphaBeta @ 6
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

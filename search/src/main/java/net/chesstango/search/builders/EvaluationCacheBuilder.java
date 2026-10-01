@@ -5,6 +5,7 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebug;
+import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheDump;
 import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheListener;
 import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheNodeVisitor;
@@ -29,8 +30,15 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector;
     private EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector;
 
+    /**
+     * Listeners
+     */
     private ListenerMediator listenerMediator;
+    private EvaluatorCacheDump evaluatorCacheDump;
 
+    /**
+     * Options
+     */
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
@@ -77,6 +85,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     private void buildObjects() {
         evaluatorCacheArray = new EvaluatorCacheArray(hashSizeKB);
         evaluatorCacheListener = new EvaluatorCacheListener();
+        evaluatorCacheDump = new EvaluatorCacheDump();
 
         if (withDebugSearchTree) {
             evaluatorCacheDebug = new EvaluatorCacheDebug();
@@ -91,6 +100,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
 
     private void setupListenerMediator() {
         listenerMediator.add(evaluatorCacheListener);
+        listenerMediator.add(evaluatorCacheDump);
 
         if (evaluatorCacheDebug != null) {
             listenerMediator.add(evaluatorCacheDebug);
@@ -137,6 +147,7 @@ public class EvaluationCacheBuilder implements SearchObjectBuilder<EvaluationCac
     @Override
     public void link() {
         evaluatorCacheListener.setGameEvaluatorCacheArray(evaluatorCacheArray);
+        evaluatorCacheDump.setGameEvaluatorCacheArray(evaluatorCacheArray);
 
         if (withStatistics) {
             evaluatorCacheCounters.setEvaluatorCacheArray(evaluatorCacheArray);

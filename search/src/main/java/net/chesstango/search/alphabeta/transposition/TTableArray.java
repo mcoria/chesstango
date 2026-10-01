@@ -3,12 +3,14 @@ package net.chesstango.search.alphabeta.transposition;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 
+import java.io.Serializable;
+
 import static net.chesstango.search.Bound.*;
 
 /**
  * @author Mauricio Coria
  */
-public class TTableArray implements TTable, Acceptor {
+public class TTableArray implements TTable, Acceptor, Serializable {
     /*
         Data layout:
          - byte[0] = age AND TranspositionBound

@@ -188,7 +188,8 @@ Acceptor:
 	TTDump @ 68
 	PVWalkerFromTT @ 27
 	EvaluatorCacheListener @ 63
-	SetGameToEndGameTableBase @ 69
+	EvaluatorCacheDump @ 69
+	SetGameToEndGameTableBase @ 70
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 12
@@ -229,13 +230,13 @@ Acceptor:
 	TranspositionTableQ @ 57
 	PropagatePV @ 61
 	RootMoveSorter @ 9
-	NodeGroupSorter @ 70
+	NodeGroupSorter @ 71
 	RootMoveEvaluationTracker @ 10
 	RootMoveEvaluationBest @ 66
 	RootMoveEvaluationCollection @ 65
 	ExtendPV @ 5
 	PropagatePV @ 11
-	PVCalculator @ 71
+	PVCalculator @ 72
 	AlphaBeta @ 8
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

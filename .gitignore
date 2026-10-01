@@ -15,4 +15,7 @@ engine-tools/scripts/venv/
 
 /search/DebugSearchTree-*.txt
 /search/DebugSearchTree-*.html
-/engine-uci/dump.bin
+
+/**/*-EVALCACHE.ser
+/**/*-GAME.txt
+/**/*-TT.ser
