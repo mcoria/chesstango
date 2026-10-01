@@ -1,6 +1,7 @@
 package net.chesstango.search.alphabeta.quiescence;
 
 import lombok.Setter;
+import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
 import net.chesstango.board.moves.MovePromotion;
@@ -51,16 +52,17 @@ public class QSAlphaBeta extends AlphaBetaAbstract implements AlphaBetaFilter, A
             delta = 300_000;
         }
 
-        if (move.getTo().piece() != null) {
-            if (move.getTo().piece().isPawn()) {
+        Piece pieceTo = move.getTo().piece();
+        if (pieceTo != null) {
+            if (pieceTo.isPawn()) {
                 delta += 300_000;
-            } else if (move.getTo().piece().isKnight()) {
+            } else if (pieceTo.isKnight()) {
                 delta += 450_000;
-            } else if (move.getTo().piece().isBishop()) {
+            } else if (pieceTo.isBishop()) {
                 delta += 450_000;
-            } else if (move.getTo().piece().isRook()) {
+            } else if (pieceTo.isRook()) {
                 delta += 600_000;
-            } else if (move.getTo().piece().isQueen()) {
+            } else if (pieceTo.isQueen()) {
                 delta += 900_000;
             }
         }
