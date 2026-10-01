@@ -183,11 +183,12 @@ ResetListener:
 Acceptor:
 	SetGameToEvaluator @ 67
 	EvaluatorCacheAdapter @ 15
-	TTListener @ 62
 	TTableArray @ 7
+	TTListener @ 62
+	TTDump @ 68
 	PVWalkerFromTT @ 27
 	EvaluatorCacheListener @ 63
-	SetGameToEndGameTableBase @ 68
+	SetGameToEndGameTableBase @ 69
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 64
 	AlphaBetaFlowControl @ 12
@@ -228,13 +229,13 @@ Acceptor:
 	TranspositionTableQ @ 57
 	PropagatePV @ 61
 	RootMoveSorter @ 9
-	NodeGroupSorter @ 69
+	NodeGroupSorter @ 70
 	RootMoveEvaluationTracker @ 10
 	RootMoveEvaluationBest @ 66
 	RootMoveEvaluationCollection @ 65
 	ExtendPV @ 5
 	PropagatePV @ 11
-	PVCalculator @ 70
+	PVCalculator @ 71
 	AlphaBeta @ 8
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

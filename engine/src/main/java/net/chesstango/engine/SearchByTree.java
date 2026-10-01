@@ -10,6 +10,7 @@ import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.alphabeta.egtb.visitors.LinkEndGameTableBaseVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.SetTTableHashSizeVisitor;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.visitors.DumperVisitor;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import net.chesstango.search.visitors.SetSearchPredicateVisitor;
@@ -60,19 +61,25 @@ class SearchByTree implements SearchByChain {
      */
     @Override
     public SearchResponse search(SearchContext context) {
-        search.accept(new SetMaxDepthVisitor(context.getDepth()));
+        try {
+            search.accept(new SetMaxDepthVisitor(context.getDepth()));
 
-        search.accept(new SetSearchPredicateVisitor(context.getSearchResultByDepthPredicate()));
+            search.accept(new SetSearchPredicateVisitor(context.getSearchResultByDepthPredicate()));
 
-        search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthConsumer()));
+            search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthConsumer()));
 
-        SearchResult searchResult = search.startSearch(context.getGame());
+            SearchResult searchResult = search.startSearch(context.getGame());
 
-        log.debug("Tree search move found: {}", searchResult.getBestMove().coordinateEncoding());
+            log.debug("Tree search move found: {}", searchResult.getBestMove().coordinateEncoding());
 
-        long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
+            long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
 
-        return new SearchByTreeResult(searchResult.getBestMove(), searchResult, timeSearching);
+            return new SearchByTreeResult(searchResult.getBestMove(), searchResult, timeSearching);
+        } catch (RuntimeException e) {
+            log.error("RuntimeException detected. Dumping state");
+            search.accept(new DumperVisitor());
+            throw e;
+        }
     }
 
     void stopSearching() {

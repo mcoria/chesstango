@@ -5,6 +5,7 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
 import net.chesstango.search.alphabeta.statistics.transposition.*;
 import net.chesstango.search.alphabeta.transposition.*;
+import net.chesstango.search.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.alphabeta.transposition.visitors.*;
 
@@ -16,7 +17,11 @@ import java.util.Objects;
  * @author Mauricio Corias
  */
 public class TranspositionTableBuilder implements SearchObjectBuilder<TranspositionTableBuilder> {
+    /**
+     * Listeners
+     */
     private TTListener ttListener;
+    private TTDump ttDump;
 
     /**
      * Implementation TTable filters
@@ -53,9 +58,17 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     private TTableCounters tTableCounters;
     private TTableStatisticsFillPercentageCollector tTableStatisticsFillPercentageCollector;
 
+    /**
+     * Principal Variation
+     */
     private PVWalkerFromTT pvWalkerFromTT;
 
+
     private ListenerMediator listenerMediator;
+
+    /**
+     * Settings
+     */
 
     private boolean withDebugSearchTree;
     private boolean withStatistics;
@@ -101,6 +114,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     @Override
     public void link() {
         ttListener.setTTable(tTableImp);
+        ttDump.setTTable(tTableImp);
 
         listenerMediator.accept(new LinkTTableNodeVisitor(tTableNode));
 
@@ -116,6 +130,7 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     private void buildObjects() {
         tTableImp = new TTableArray(staleAge, hashSizeKB);
         ttListener = new TTListener();
+        ttDump = new TTDump();
         pvWalkerFromTT = new PVWalkerFromTT();
 
         if (withDebugSearchTree) {
@@ -135,9 +150,13 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
     }
 
     private void setupListenerMediator() {
+        listenerMediator.add(tTableImp);
+
         listenerMediator.add(ttListener);
 
-        listenerMediator.add(tTableImp);
+        listenerMediator.add(ttDump);
+
+        listenerMediator.add(pvWalkerFromTT);
 
         if (tTableNodeDebug != null) {
             listenerMediator.add(tTableNodeDebug);
@@ -145,10 +164,10 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         if (tTableComparatorHeadDebug != null) {
             listenerMediator.add(tTableComparatorHeadDebug);
         }
-        if(tTableComparatorTailDebug!=null){
+        if (tTableComparatorTailDebug != null) {
             listenerMediator.add(tTableComparatorTailDebug);
         }
-        if(tTablePVDebug!=null){
+        if (tTablePVDebug != null) {
             listenerMediator.add(tTablePVDebug);
         }
         if (tTableCounters != null) {
@@ -165,9 +184,6 @@ public class TranspositionTableBuilder implements SearchObjectBuilder<Transposit
         }
         if (tTableStatisticsFillPercentageCollector != null) {
             listenerMediator.add(tTableStatisticsFillPercentageCollector);
-        }
-        if (pvWalkerFromTT != null) {
-            listenerMediator.add(pvWalkerFromTT);
         }
     }
 

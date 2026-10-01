@@ -66,5 +66,7 @@ module net.chesstango.search {
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
     requires net.chesstango.gardel;
+
+    requires org.slf4j;
     requires static lombok;
 }
