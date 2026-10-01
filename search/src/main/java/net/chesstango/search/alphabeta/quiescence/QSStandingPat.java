@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
@@ -50,7 +51,8 @@ public class QSStandingPat implements AlphaBetaFilter, Acceptor {
         }
 
         if (withDeltaPruning) {
-            if (standingPat + DELTA_MARGIN < alpha) {
+            MoveContainerReader<Move> moves = game.getPossibleMoves();
+            if (!moves.hasPromotionMoves() && standingPat + DELTA_MARGIN < alpha) {
                 return standingPat;
             } else {
                 standingPats[currentPly] = standingPat;

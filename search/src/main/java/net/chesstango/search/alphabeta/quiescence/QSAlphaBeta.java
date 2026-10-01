@@ -48,22 +48,23 @@ public class QSAlphaBeta extends AlphaBetaAbstract implements AlphaBetaFilter, A
         if (move instanceof MovePromotion) {
             delta = 900_000;
         } else if (move instanceof MoveCaptureEnPassant) {
-            delta = 200_000;
-        } else if (move.getTo().piece() != null) {
-            if (move.getTo().piece().isPawn()) {
-                delta = 300_000;
-            } else if (move.getTo().piece().isKnight()) {
-                delta = 450_000;
-            } else if (move.getTo().piece().isBishop()) {
-                delta = 450_000;
-            } else if (move.getTo().piece().isRook()) {
-                delta = 600_000;
-            } else if (move.getTo().piece().isQueen()) {
-                delta = 900_000;
-            }
-        } else {
-            throw new RuntimeException("Invalid QS move");
+            delta = 300_000;
         }
+
+        if (move.getTo().piece() != null) {
+            if (move.getTo().piece().isPawn()) {
+                delta += 300_000;
+            } else if (move.getTo().piece().isKnight()) {
+                delta += 450_000;
+            } else if (move.getTo().piece().isBishop()) {
+                delta += 450_000;
+            } else if (move.getTo().piece().isRook()) {
+                delta += 600_000;
+            } else if (move.getTo().piece().isQueen()) {
+                delta += 900_000;
+            }
+        }
+
         return delta;
     }
 
