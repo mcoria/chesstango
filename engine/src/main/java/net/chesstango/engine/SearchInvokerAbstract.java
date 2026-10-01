@@ -23,7 +23,6 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
     }
 
     SearchResponse search(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        // Executes and handles exceptions during the search
         try {
             searchListener.searchStarted();
 
@@ -41,6 +40,7 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
             return searchResult;
         } catch (RuntimeException e) {
             log.error("Error during search", e);
+            System.exit(-1);
             throw e;
         }
     }
