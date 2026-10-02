@@ -3,14 +3,16 @@ package net.chesstango.search.visitors;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.pgn.PGN;
-import net.chesstango.search.*;
+import net.chesstango.search.IterativeDeepening;
+import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.NoIterativeDeepening;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheDump;
 import net.chesstango.search.alphabeta.transposition.listeners.TTDump;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Esta clase recorre ella misma toda la estructura
@@ -31,14 +33,14 @@ public class DumperVisitor implements Visitor {
     @Override
     public void visit(NoIterativeDeepening noIterativeDeepening) {
         ListenerMediator listenerMediator = noIterativeDeepening.getListenerMediator();
-        dumpState(listenerMediator.getAcceptors());
+        dumpState(listenerMediator);
     }
 
 
     @Override
     public void visit(IterativeDeepening iterativeDeepening) {
         ListenerMediator listenerMediator = iterativeDeepening.getListenerMediator();
-        dumpState(listenerMediator.getAcceptors());
+        dumpState(listenerMediator);
     }
 
     @Override
@@ -51,13 +53,8 @@ public class DumperVisitor implements Visitor {
         evaluatorCacheDump.dumpCache(String.format("%s-EVALCACHE.ser", uuid));
     }
 
-    void dumpState(List<Acceptor> acceptors) {
-        acceptors
-                .stream()
-                .parallel()
-                .forEach(acceptor -> acceptor.accept(this));
-
-
+    void dumpState(ListenerMediator listenerMediator) {
+        listenerMediator.accept(this);
         dumpGame();
     }
 

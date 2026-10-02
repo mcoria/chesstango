@@ -28,6 +28,7 @@ public class TTDump implements Acceptor {
         try (FileOutputStream fos = new FileOutputStream(fileName);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(tTable);
+            oos.flush();
         } catch (IOException e) {
             log.error("Error dumping TT!", e);
         }

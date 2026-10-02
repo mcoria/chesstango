@@ -5,10 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.StopSearchingListener;
-import net.chesstango.search.Visitor;
+import net.chesstango.search.*;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.egtb.EndGameTableBase;
 
@@ -72,8 +69,6 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchLi
 
     @Override
     public int alphaBeta(int currentPly, int alpha, int beta) {
-        throw new RuntimeException("Testing");
-        /*
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
@@ -103,7 +98,6 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, Acceptor, SearchLi
                 return -quiescenceNode.alphaBeta(nextPly, -beta, -alpha);
             }
         }
-         */
     }
 
     private boolean isCurrentPositionQuiet() {

@@ -23,6 +23,26 @@
       "type": "java.lang.String[]"
     },
     {
+      "type": "long[]",
+      "serializable": true
+    },
+    {
+      "type": "net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray",
+      "serializable": true
+    },
+    {
+      "type": "net.chesstango.search.alphabeta.evalcache.EvaluatorCacheEntry",
+      "serializable": true
+    },
+    {
+      "type": "net.chesstango.search.alphabeta.evalcache.EvaluatorCacheEntry[]",
+      "serializable": true
+    },
+    {
+      "type": "net.chesstango.search.alphabeta.transposition.TTableArray",
+      "serializable": true
+    },
+    {
       "type": "net.chesstango.uci.engine.UciMain",
       "jniAccessible": true,
       "methods": [
@@ -51,6 +71,35 @@
       "methods": [
         {
           "name": "getApplicationClass",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.DRBG",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.security.SecureRandomParameters"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA2$SHA256",
+      "methods": [
+        {
+          "name": "<init>",
           "parameterTypes": []
         }
       ]

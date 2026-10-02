@@ -32,6 +32,7 @@ public class EvaluatorCacheDump implements Acceptor {
         try (FileOutputStream fos = new FileOutputStream(fileName);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(gameEvaluatorCacheArray);
+            oos.flush();
         } catch (IOException e) {
             log.error("Error dumping cache!", e);
         }
