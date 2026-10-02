@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mauricio Coria
@@ -13,7 +15,7 @@ import lombok.experimental.Accessors;
 @Getter
 @AllArgsConstructor
 @Accessors(chain = true)
-public class EvaluatorCacheEntry {
+public class EvaluatorCacheEntry implements Serializable {
     long hash;
     int evaluation;
     int age;

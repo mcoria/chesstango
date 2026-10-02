@@ -254,8 +254,10 @@ Acceptor:
 	EvaluatorStatisticsCollector @ 26
 	EvaluatorDebug @ 22
 	EvaluatorCacheAdapter @ 23
-	TTListener @ 100
 	TTableArray @ 11
+	TTListener @ 100
+	TTDump @ 114
+	PVWalkerFromTT @ 45
 	TTableNodeDebug @ 9
 	TTableComparatorHeadDebug @ 55
 	TTableComparatorTailDebug @ 58
@@ -265,14 +267,14 @@ Acceptor:
 	TTableStatisticsComparatorCollector @ 56
 	TTableStatisticsPVCollector @ 47
 	TTableStatisticsFillPercentageCollector @ 102
-	PVWalkerFromTT @ 45
-	KillerMovesDebug @ 114
+	KillerMovesDebug @ 115
 	EvaluatorCacheListener @ 103
+	EvaluatorCacheDump @ 116
 	EvaluatorCacheDebug @ 64
 	EvaluatorCacheCounters @ 104
 	EvaluatorCacheStatisticsComparatorCollector @ 65
 	EvaluatorCacheStatisticsNodeCollector @ 24
-	SetGameToEndGameTableBase @ 115
+	SetGameToEndGameTableBase @ 117
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 105
 	AlphaBetaFlowControl @ 17
@@ -280,7 +282,7 @@ Acceptor:
 	GameCountersCollector @ 107
 	DepthCollector @ 108
 	DebugNodeTracker @ 111
-	PrintHtmlDebugHandler @ 116
+	PrintHtmlDebugHandler @ 118
 	AlphaBetaEvaluation @ 21
 	TerminalNodeStatistics @ 20
 	DebugFilter @ 18
@@ -342,13 +344,13 @@ Acceptor:
 	PropagatePV @ 98
 	MoveSorterDebug @ 13
 	RootMoveSorter @ 14
-	NodeGroupSorter @ 117
+	NodeGroupSorter @ 119
 	RootMoveEvaluationTracker @ 15
 	RootMoveEvaluationBest @ 112
 	RootMoveEvaluationCollection @ 110
 	ExtendPV @ 6
 	PropagatePV @ 16
-	PVCalculator @ 118
+	PVCalculator @ 120
 	AlphaBeta @ 12
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

@@ -220,19 +220,21 @@ Acceptor:
 	EvaluatorCounters @ 81
 	EvaluatorStatisticsCollector @ 21
 	EvaluatorCacheAdapter @ 18
-	TTListener @ 82
 	TTableArray @ 9
+	TTListener @ 82
+	TTDump @ 95
+	PVWalkerFromTT @ 36
 	TTableCounters @ 83
 	TTableStatisticsNodeCollector @ 8
 	TTableStatisticsComparatorCollector @ 44
 	TTableStatisticsPVCollector @ 37
 	TTableStatisticsFillPercentageCollector @ 84
-	PVWalkerFromTT @ 36
 	EvaluatorCacheListener @ 85
+	EvaluatorCacheDump @ 96
 	EvaluatorCacheCounters @ 86
 	EvaluatorCacheStatisticsComparatorCollector @ 51
 	EvaluatorCacheStatisticsNodeCollector @ 19
-	SetGameToEndGameTableBase @ 95
+	SetGameToEndGameTableBase @ 97
 	SearchByDepthImp @ 2
 	SetSearchTimers @ 87
 	AlphaBetaFlowControl @ 14
@@ -289,13 +291,13 @@ Acceptor:
 	TranspositionTableQ @ 75
 	PropagatePV @ 80
 	RootMoveSorter @ 11
-	NodeGroupSorter @ 96
+	NodeGroupSorter @ 98
 	RootMoveEvaluationTracker @ 12
 	RootMoveEvaluationBest @ 93
 	RootMoveEvaluationCollection @ 92
 	ExtendPV @ 5
 	PropagatePV @ 13
-	PVCalculator @ 97
+	PVCalculator @ 99
 	AlphaBeta @ 10
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4

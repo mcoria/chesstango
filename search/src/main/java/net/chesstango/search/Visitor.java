@@ -2,6 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheDump;
 import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
 import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
@@ -260,6 +261,9 @@ public interface Visitor {
     }
 
     default void visit(EvaluatorCacheListener evaluatorCacheListener) {
+    }
+
+    default void visit(EvaluatorCacheDump evaluatorCacheDump) {
     }
 
     default void visit(EvaluatorCounters evaluatorCounters) {
