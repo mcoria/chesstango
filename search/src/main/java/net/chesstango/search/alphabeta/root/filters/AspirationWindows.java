@@ -2,23 +2,32 @@ package net.chesstango.search.alphabeta.root.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.RootMoveEvaluation;
-import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.Visitor;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.*;
 import net.chesstango.search.alphabeta.AlphaBetaFilter;
+
 
 import java.util.Objects;
 
 /**
+ * Aspiration windows around the evaluation of the previous iteration.
+ * <p>
+ * - The first window is [last - OFFSET, last + OFFSET], clamped to the outer (alpha, beta).
+ * - On a fail-low only alpha is widened; on a fail-high only beta is widened (the other bound is untouched).
+ * - The failing bound grows exponentially (OFFSET << cycle) from the value returned by the failed search,
+ * and is clamped to the outer bound, so the last re-search is always a full-width one on that side.
+ *
  * @author Mauricio Coria
  */
 @Setter
 public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListener {
 
+    // Simillar to 1/4 Pawn 131072
     static final int OFFSET = 64;
+
+    /**
+     * OFFSET << MAX_SHIFT = 2^30, the largest value that does not overflow an int.
+     */
+    static final int MAX_SHIFT = 25;
 
     @Getter
     private AlphaBetaFilter next;
@@ -45,15 +54,14 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListe
 
         if (Objects.nonNull(lastRootMoveEvaluation)) {
             int lastBestValue = lastRootMoveEvaluation.evaluation();
-            alphaBound = lastBestValue - diffBound(alpha, lastBestValue, 0);
-            betaBound = lastBestValue + diffBound(beta, lastBestValue, 0);
+            alphaBound = lowerBound(alpha, lastBestValue, 0);
+            betaBound = upperBound(beta, lastBestValue, 0);
         }
-
-        boolean search = true;
-        int bestValue;
 
         int alphaCycle = 1;
         int betaCycle = 1;
+        int bestValue;
+        boolean search;
 
         try {
             do {
@@ -63,20 +71,16 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListe
 
                 listenerMediator.triggerAfterSearchByWindows(false);
 
-                if (bestValue <= alphaBound) {
-                    if (alpha < bestValue) {
-                        alphaBound = bestValue - diffBound(alpha, bestValue, alphaCycle++);
-                    } else {
-                        search = false;
-                    }
-                } else if (betaBound <= bestValue) {
-                    if (bestValue < beta) {
-                        betaBound = bestValue + diffBound(beta, bestValue, betaCycle++);
-                    } else {
-                        search = false;
-                    }
-                } else {
-                    search = false;
+                search = false;
+
+                if (bestValue <= alphaBound && alpha < alphaBound) {
+                    // Fail-low: widen alpha only. Strictly decreases alphaBound until it reaches alpha.
+                    alphaBound = lowerBound(alpha, bestValue, alphaCycle++);
+                    search = true;
+                } else if (betaBound <= bestValue && betaBound < beta) {
+                    // Fail-high: widen beta only. Strictly increases betaBound until it reaches beta.
+                    betaBound = upperBound(beta, bestValue, betaCycle++);
+                    search = true;
                 }
 
             } while (search);
@@ -89,7 +93,15 @@ public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListe
         }
     }
 
-    int diffBound(int maxBound, int currentBound, int cycle) {
-        return Math.min(OFFSET << cycle, Math.abs(Math.abs(maxBound) - Math.abs(currentBound)));
+    int lowerBound(int alpha, int center, int cycle) {
+        return (int) Math.max(alpha, (long) center - delta(cycle));
+    }
+
+    int upperBound(int beta, int center, int cycle) {
+        return (int) Math.min(beta, (long) center + delta(cycle));
+    }
+
+    int delta(int cycle) {
+        return (OFFSET << Math.min(cycle, MAX_SHIFT)) - 1;
     }
 }
