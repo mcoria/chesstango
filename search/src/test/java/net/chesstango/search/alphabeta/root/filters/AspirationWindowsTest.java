@@ -25,13 +25,13 @@ public class AspirationWindowsTest {
 
     @Test
     public void test_lowerBound() {
-        assertEquals(-63, aspirationWindows.lowerBound(Evaluator.INFINITE_NEGATIVE, 0, 0));
+        assertEquals(-511, aspirationWindows.lowerBound(Evaluator.INFINITE_NEGATIVE, 0, 0));
         assertEquals(-2147483647, aspirationWindows.lowerBound(Evaluator.INFINITE_NEGATIVE, 0, MAX_SHIFT));
     }
 
     @Test
     public void test_upperBound() {
-        assertEquals(63, aspirationWindows.upperBound (Evaluator.INFINITE_POSITIVE, 0, 0));
+        assertEquals(511, aspirationWindows.upperBound (Evaluator.INFINITE_POSITIVE, 0, 0));
         assertEquals(2147483647, aspirationWindows.upperBound(Evaluator.INFINITE_POSITIVE, 0, MAX_SHIFT));
     }
 
@@ -41,7 +41,7 @@ public class AspirationWindowsTest {
     public void test_Delta() {
        // System.out.println(1 << 17);
         for (int i = 0; i <= MAX_SHIFT; i++) {
-            System.out.println(aspirationWindows.delta(i));
+            System.out.printf("Cycle %d - Delta: %d%n", i, aspirationWindows.delta(i));
         }
 
         System.out.println(Evaluator.WON);

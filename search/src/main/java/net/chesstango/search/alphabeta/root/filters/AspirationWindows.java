@@ -21,13 +21,12 @@ import java.util.Objects;
 @Setter
 public class AspirationWindows implements AlphaBetaFilter, Acceptor, SearchListener {
 
-    // Simillar to 1/4 Pawn 131072
-    static final int OFFSET = 64;
+    static final int OFFSET = 512;
 
     /**
      * OFFSET << MAX_SHIFT = 2^30, the largest value that does not overflow an int.
      */
-    static final int MAX_SHIFT = 25;
+    static final int MAX_SHIFT = 22;
 
     @Getter
     private AlphaBetaFilter next;
