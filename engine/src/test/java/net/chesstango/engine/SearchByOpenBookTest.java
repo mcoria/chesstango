@@ -42,7 +42,7 @@ public class SearchByOpenBookTest {
 
         SearchContext context = new SearchContext()
                 .setStartSearchInstant(Instant.now())
-                .setGame(game);
+                .setGame(game.toPGN());
 
         SearchResponse response = searchByOpenBook.search(context);
 

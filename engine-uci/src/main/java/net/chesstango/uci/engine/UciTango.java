@@ -189,19 +189,35 @@ public class UciTango extends AbstractUCIEngine {
     }
 
     void goInfinite() {
-        session.goInfinite();
+        session.goInfinite().exceptionally(e -> {
+            log.error("Error during goInfinite", e);
+            System.exit(-1);
+            return null;
+        });
     }
 
     void goDepth(int depth) {
-        session.goDepth(depth);
+        session.goDepth(depth).exceptionally(e -> {
+            log.error("Error during goDepth", e);
+            System.exit(-1);
+            return null;
+        });
     }
 
     void goTime(int timeOut) {
-        session.goTime(timeOut);
+        session.goTime(timeOut).exceptionally(e -> {
+            log.error("Error during goTime", e);
+            System.exit(-1);
+            return null;
+        });
     }
 
     void goFast(int wTime, int bTime, int wInc, int bInc) {
-        session.goFast(wTime, wInc, bTime, bInc);
+        session.goFast(wTime, wInc, bTime, bInc).exceptionally(e -> {
+            log.error("Error during goTime", e);
+            System.exit(-1);
+            return null;
+        });
     }
 
     void setSessionSearchListener(SearchListener searchListener) {

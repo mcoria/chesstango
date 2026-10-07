@@ -3,6 +3,7 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.search.PVMove;
 import net.chesstango.search.SearchResultByDepth;
 
@@ -23,11 +24,13 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
     }
 
     SearchResponse search(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+        PGN pgn = game.toPGN();
+
         try {
             searchListener.searchStarted();
 
             SearchContext context = new SearchContext()
-                    .setGame(game)
+                    .setGame(pgn)
                     .setDepth(depth)
                     .setStartSearchInstant(Instant.now())
                     .setSearchResultByDepthPredicate(searchPredicate)
@@ -39,8 +42,7 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
 
             return searchResult;
         } catch (RuntimeException e) {
-            log.error("Error during search", e);
-            System.exit(-1);
+            log.error("Error during search: {}", pgn.toString(), e);
             throw e;
         }
     }
