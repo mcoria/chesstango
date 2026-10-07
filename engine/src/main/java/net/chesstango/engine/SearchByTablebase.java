@@ -34,10 +34,11 @@ class SearchByTablebase implements SearchByChain {
     public SearchResponse search(SearchContext context) {
         SearchResponse searchResponse = null;
         if (syzygy != null) {
-            int syzygyResult = searchSyzygyTableBases(context.getGame());
+            Game game = Game.from(context.getGame());
+            int syzygyResult = searchSyzygyTableBases(game);
             if (syzygyResult != TB_RESULT_FAILED) {
                 long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
-                searchResponse = createSearchResponse(context.getGame(), syzygyResult, timeSearching);
+                searchResponse = createSearchResponse(game, syzygyResult, timeSearching);
             }
         }
         return searchResponse;

@@ -44,7 +44,7 @@ public class SearchByTablebaseTest {
         Game game = Game.from(FEN.from("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setStartSearchInstant(Instant.now())
-                .setGame(game);
+                .setGame(game.toPGN());
 
         SearchResponse result = searchByTablebase.search(searchContext);
 
@@ -62,7 +62,7 @@ public class SearchByTablebaseTest {
         Game game = Game.from(FEN.from("8/8/8/8/8/4k3/2R5/1K6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setStartSearchInstant(Instant.now())
-                .setGame(game);
+                .setGame(game.toPGN());
 
         SearchResponse result = searchByTablebase.search(searchContext);
 
@@ -80,7 +80,7 @@ public class SearchByTablebaseTest {
         Game game = Game.from(FEN.from("8/6P1/8/7K/3k4/8/8/1q6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setStartSearchInstant(Instant.now())
-                .setGame(game);
+                .setGame(game.toPGN());
 
         SearchResponse result = searchByTablebase.search(searchContext);
 

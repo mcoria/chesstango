@@ -3,6 +3,7 @@ package net.chesstango.engine;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.chesstango.board.Game;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
@@ -62,6 +63,7 @@ class SearchByTree implements SearchByChain {
      */
     @Override
     public SearchResponse search(SearchContext context) {
+        Game game = Game.from(context.getGame());
         try {
             search.accept(new SetMaxDepthVisitor(context.getDepth()));
 
@@ -69,7 +71,7 @@ class SearchByTree implements SearchByChain {
 
             search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthConsumer()));
 
-            SearchResult searchResult = search.startSearch(context.getGame());
+            SearchResult searchResult = search.startSearch(game);
 
             log.debug("Tree search move found: {}", searchResult.getBestMove().coordinateEncoding());
 
@@ -79,7 +81,7 @@ class SearchByTree implements SearchByChain {
         } catch (RuntimeException e) {
             String uuid = UUID.randomUUID().toString();
             log.error("RuntimeException detected. Dumping state: {}", uuid);
-            search.accept(new DumperVisitor(uuid, context.getGame()));
+            search.accept(new DumperVisitor(uuid, game));
             throw e;
         }
     }

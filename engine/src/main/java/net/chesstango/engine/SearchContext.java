@@ -3,7 +3,7 @@ package net.chesstango.engine;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.board.Game;
+import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.time.Instant;
@@ -24,7 +24,7 @@ class SearchContext {
     /**
      * The chess game instance representing the current game state to be analyzed.
      */
-    private Game game;
+    private PGN game;
 
     /**
      * The maximum depth to search in the game tree.
@@ -32,6 +32,9 @@ class SearchContext {
     private int depth;
 
 
+    /**
+     * Instant representing the start time of the search operation.
+     */
     private Instant startSearchInstant;
 
     /**

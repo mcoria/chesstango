@@ -36,10 +36,11 @@ class SearchByOpenBook implements SearchByChain {
     public SearchResponse search(SearchContext context) {
         SearchResponse searchResponse = null;
         if (book != null) {
-            Optional<PolyglotEntry> polyglotEntryOpt = searchByBook(context.getGame());
+            Game game = Game.from(context.getGame());
+            Optional<PolyglotEntry> polyglotEntryOpt = searchByBook(game);
             if (polyglotEntryOpt.isPresent()) {
                 long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
-                searchResponse = createSearchResponse(context.getGame(), polyglotEntryOpt.get(), timeSearching);
+                searchResponse = createSearchResponse(game, polyglotEntryOpt.get(), timeSearching);
             }
         }
         return searchResponse;
