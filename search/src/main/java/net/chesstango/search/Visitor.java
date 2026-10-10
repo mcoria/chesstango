@@ -54,6 +54,7 @@ import net.chesstango.search.alphabeta.transposition.*;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.filters.*;
+import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
 import net.chesstango.search.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.alphabeta.transposition.listeners.TTLoad;
@@ -312,6 +313,9 @@ public interface Visitor {
      * Sorter elements
      */
     default void visit(PrincipalVariationGroup principalVariationGroup) {
+    }
+
+    default void visit(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
     }
 
     /**

@@ -1,8 +1,8 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.sorters.groupsorters.AgregateGroupSorter;
@@ -20,8 +20,10 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     private MoveSorterDebug moveSorterDebug;
 
     private PrincipalVariationGroup principalVariationGroup;
+    private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
 
     private boolean withIterativeDeepening;
+    private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
 
     public MoveSorterCheckEvasionBuilder() {
@@ -41,14 +43,23 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         return this;
     }
 
+    public MoveSorterCheckEvasionBuilder withTranspositionTable() {
+        this.withTranspositionTable = true;
+        return this;
+    }
+
     @Override
     protected void buildObjects() {
+        if (withDebugSearchTree) {
+            moveSorterDebug = new MoveSorterDebug();
+        }
+
         if (withIterativeDeepening) {
             principalVariationGroup = new PrincipalVariationGroup();
         }
 
-        if (withDebugSearchTree) {
-            moveSorterDebug = new MoveSorterDebug();
+        if (withTranspositionTable) {
+            transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
         }
     }
 
@@ -56,14 +67,20 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     protected void setupListeners() {
         listenerMediator.add(nodeMoveSorter);
 
+        if (moveSorterDebug != null) {
+            listenerMediator.add(moveSorterDebug);
+        }
+
         if (principalVariationGroup != null) {
             listenerMediator.add(principalVariationGroup);
             nodeMoveSorter.addSortListener(principalVariationGroup);
         }
 
-        if (moveSorterDebug != null) {
-            listenerMediator.add(moveSorterDebug);
+        if (transpositionHeadMoveGroup != null) {
+            listenerMediator.add(transpositionHeadMoveGroup);
+            nodeMoveSorter.addSortListener(transpositionHeadMoveGroup);
         }
+
     }
 
     @Override
@@ -93,6 +110,10 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
         if (principalVariationGroup != null) {
             agregateGroupSorter.addGroupSorter(principalVariationGroup);
+        }
+
+        if (transpositionHeadMoveGroup != null) {
+            agregateGroupSorter.addGroupSorter(transpositionHeadMoveGroup);
         }
 
         agregateGroupSorter.addGroupSorter(new CatchAllGroupSorter());

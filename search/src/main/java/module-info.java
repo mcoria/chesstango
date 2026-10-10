@@ -43,6 +43,7 @@ module net.chesstango.search {
     exports net.chesstango.search.alphabeta.statistics.sorter.filters;
     exports net.chesstango.search.alphabeta.statistics.sorter;
     exports net.chesstango.search.alphabeta.statistics.transposition;
+    exports net.chesstango.search.alphabeta.transposition.groupsorters;
     exports net.chesstango.search.alphabeta.transposition.comparators;
     exports net.chesstango.search.alphabeta.transposition.filters;
     exports net.chesstango.search.alphabeta.transposition.listeners;

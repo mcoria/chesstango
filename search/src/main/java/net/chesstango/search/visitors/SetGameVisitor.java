@@ -33,6 +33,7 @@ import net.chesstango.search.alphabeta.transposition.TTableComparatorTailDebug;
 import net.chesstango.search.alphabeta.transposition.TTableNodeDebug;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.filters.*;
+import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
 import net.chesstango.search.sorters.MoveSorterDebug;
 import net.chesstango.search.sorters.NodeMoveSorter;
 import net.chesstango.search.sorters.comparators.RecaptureMoveComparator;
@@ -233,6 +234,16 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(MoveSorterDebug moveSorterDebug) {
         moveSorterDebug.setGame(game);
+    }
+
+
+    /**
+     *
+     * Move Groups
+     */
+    @Override
+    public void visit(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
+        transpositionHeadMoveGroup.setGame(game);
     }
 
     /**
