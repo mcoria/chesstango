@@ -67,15 +67,15 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
         return moveList;
     }
 
-    public void triggerBeforeSort(int currentPly) {
+    public void addSortListener(SortListener sortListener) {
+        sortListeners.add(sortListener);
+    }
+
+    void triggerBeforeSort(int currentPly) {
         sortListeners.forEach(sortListener -> sortListener.beforeSort(currentPly));
     }
 
-    public void triggerAfterSort() {
+    void triggerAfterSort() {
         sortListeners.forEach(SortListener::afterSort);
-    }
-
-    public void addSortListener(SortListener sortListener) {
-        sortListeners.add(sortListener);
     }
 }

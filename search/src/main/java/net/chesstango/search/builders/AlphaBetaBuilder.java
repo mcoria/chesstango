@@ -29,7 +29,6 @@ import net.chesstango.search.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.alphabeta.statistics.node.visitors.LinkNodeCountersVisitor;
 import net.chesstango.search.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.builders.alphabeta.*;
-import net.chesstango.search.sorters.visitors.LinkMoveToHashMapVisitor;
 
 import static net.chesstango.search.alphabeta.Constants.*;
 
@@ -434,8 +433,6 @@ public class AlphaBetaBuilder {
         /**
          * Link through the mediator
          */
-
-        listenerMediator.accept(new LinkMoveToHashMapVisitor(new MoveToHashMap()));
 
         listenerMediator.accept(new LinkBestMovesArray(new Move[MAX_DEPTH]));
 

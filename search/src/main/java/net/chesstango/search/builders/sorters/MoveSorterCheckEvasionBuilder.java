@@ -1,5 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.sorters.MoveComparator;
 import net.chesstango.search.sorters.MoveSorter;
@@ -68,6 +69,10 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     @Override
     protected void link() {
         nodeMoveSorter.setMoveComparator(createComparatorChain());
+
+        MoveToHashMap moveToZobrist = new MoveToHashMap();
+
+        nodeMoveSorter.setMoveToZobrist(moveToZobrist);
     }
 
     @Override

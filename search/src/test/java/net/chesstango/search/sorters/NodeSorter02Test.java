@@ -10,7 +10,6 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.LinkTTableHeadComparatorVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.LinkTTableTailComparatorVisitor;
-import net.chesstango.search.sorters.visitors.LinkMoveToHashMapVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.alphabeta.killermoves.visitors.LinkKillerMovesVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
@@ -43,7 +42,6 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
         listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
-        listenerMediator.accept(new LinkMoveToHashMapVisitor(new MoveToHashMap()));
 
         listenerMediator.accept(new SetDepthVisitor(2));
         listenerMediator.triggerBeforeSearchByDepth();
@@ -73,7 +71,6 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
         listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
         listenerMediator.accept(new LinkKillerMovesVisitor(killerMovesTable));
-        listenerMediator.accept(new LinkMoveToHashMapVisitor(new MoveToHashMap()));
 
 
         listenerMediator.triggerBeforeSearchByDepth();

@@ -1,5 +1,6 @@
 package net.chesstango.search.builders.sorters;
 
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
@@ -160,6 +161,19 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     @Override
     protected void link() {
         nodeMoveSorter.setMoveComparator(createComparatorChain());
+
+        MoveToHashMap moveToZobrist = new MoveToHashMap();
+
+        nodeMoveSorter.setMoveToZobrist(moveToZobrist);
+
+        if (transpositionTailMoveComparator != null) {
+            transpositionTailMoveComparator.setMoveToZobrist(moveToZobrist);
+        }
+
+        if (evaluatorCacheComparator != null) {
+            evaluatorCacheComparator.setMoveToZobrist(moveToZobrist);
+        }
+
     }
 
     @Override
