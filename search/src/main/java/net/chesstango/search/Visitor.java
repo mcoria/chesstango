@@ -51,7 +51,6 @@ import net.chesstango.search.alphabeta.statistics.sorter.filters.InteriorNodeSor
 import net.chesstango.search.alphabeta.statistics.sorter.filters.InteriorNodeSorterPre;
 import net.chesstango.search.alphabeta.statistics.transposition.*;
 import net.chesstango.search.alphabeta.transposition.*;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.filters.*;
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
@@ -326,9 +325,6 @@ public interface Visitor {
     }
 
     default void visit(PrincipalVariationComparator principalVariationComparator) {
-    }
-
-    default void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
     }
 
     default void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {

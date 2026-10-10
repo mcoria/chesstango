@@ -4,7 +4,6 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.MvvLvaComparator;
@@ -69,7 +68,6 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
             switch (currentComparator) {
-                case TranspositionHeadMoveComparator headMoveComparator -> headMoveComparator.setNext(next);
                 case TranspositionTailMoveComparator tailMoveComparator -> tailMoveComparator.setNext(next);
                 case RecaptureMoveComparator recaptureMoveComparatorFilter ->
                         recaptureMoveComparatorFilter.setNext(next);

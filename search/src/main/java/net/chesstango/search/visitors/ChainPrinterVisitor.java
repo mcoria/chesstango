@@ -38,7 +38,6 @@ import net.chesstango.search.alphabeta.statistics.transposition.TTableStatistics
 import net.chesstango.search.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.alphabeta.statistics.transposition.TTableStatisticsPVCollector;
 import net.chesstango.search.alphabeta.transposition.*;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.filters.*;
 import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
@@ -410,14 +409,6 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
         print(principalVariationComparator, principalVariationComparator.getNext());
-    }
-
-    @Override
-    public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
-        printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparator), printTTable(transpositionHeadMoveComparator.getTTable())));
-
-        traverse(transpositionHeadMoveComparator.getNext());
     }
 
     @Override

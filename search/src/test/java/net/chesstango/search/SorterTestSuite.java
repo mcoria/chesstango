@@ -6,7 +6,6 @@ import net.chesstango.search.alphabeta.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorHeadDebugTest;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorTailDebugTest;
 import net.chesstango.search.alphabeta.transposition.TTableStatisticsCollectorTest;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorTest;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparatorTest;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparatorTest;
@@ -31,7 +30,6 @@ import org.junit.platform.suite.api.Suite;
          * Comparators
          */
         DefaultMoveComparatorTest.class,
-        TranspositionHeadMoveComparatorTest.class,
         TranspositionTailMoveComparatorTest.class,
         RootMoveEvaluationComparatorTest.class,
 
