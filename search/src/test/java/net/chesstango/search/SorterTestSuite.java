@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
-import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebugTest;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArrayTest;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebugTest;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorHeadDebugTest;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorTailDebugTest;
@@ -10,7 +10,6 @@ import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHe
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparatorTest;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparatorTest;
-import net.chesstango.search.sorters.groupsorters.CatchAllSortGroupTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -43,10 +42,6 @@ import org.junit.platform.suite.api.Suite;
         NodeSorter01Test.class,
         NodeSorter02Test.class,
         NodeSorter03Test.class,
-
-        CatchAllSortGroupTest.class,
-
-        NodeGroupSorterTest.class,
 
         NodeMoveSorterInteriorTest.class,
 
