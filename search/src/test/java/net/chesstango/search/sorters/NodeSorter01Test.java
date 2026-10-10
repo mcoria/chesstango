@@ -8,7 +8,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.alphabeta.evalcache.visitors.LinkEvaluatorCacheComparatorVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.LinkTTableHeadComparatorVisitor;
 import net.chesstango.search.alphabeta.transposition.visitors.LinkTTableTailComparatorVisitor;
-import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
+import net.chesstango.search.sorters.visitors.LinkMoveToHashMapVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         listenerMediator.accept(new LinkTTableHeadComparatorVisitor(tTable));
         listenerMediator.accept(new LinkTTableTailComparatorVisitor(tTable));
         listenerMediator.accept(new LinkEvaluatorCacheComparatorVisitor(loadEvaluationCache()));
-        listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+        listenerMediator.accept(new LinkMoveToHashMapVisitor(new MoveToHashMap()));
 
         listenerMediator.triggerBeforeSearch();
 

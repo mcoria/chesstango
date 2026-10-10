@@ -18,7 +18,7 @@ import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.alphabeta.killermoves.KillerMoves;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
-import net.chesstango.search.sorters.visitors.LinkMoveToHashMap;
+import net.chesstango.search.sorters.visitors.LinkMoveToHashMapVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,7 +88,7 @@ public class NodeMoveSorterInteriorTest {
         evaluationBuilder.link();
         evaluationCacheBuilder.link();
 
-        listenerMediator.accept(new LinkMoveToHashMap(new MoveToHashMap()));
+        listenerMediator.accept(new LinkMoveToHashMapVisitor(new MoveToHashMap()));
 
         tTable = transpositionTableBuilder.getTTableImp();
         transpositionEntry = new TranspositionEntry();

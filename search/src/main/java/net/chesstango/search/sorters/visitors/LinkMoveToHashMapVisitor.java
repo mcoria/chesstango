@@ -9,10 +9,10 @@ import net.chesstango.search.sorters.NodeMoveSorter;
 /**
  * @author Mauricio Coria
  */
-public class LinkMoveToHashMap implements Visitor {
+public class LinkMoveToHashMapVisitor implements Visitor {
     private final MoveToHashMap moveToZobrist;
 
-    public LinkMoveToHashMap(MoveToHashMap moveToZobrist) {
+    public LinkMoveToHashMapVisitor(MoveToHashMap moveToZobrist) {
         this.moveToZobrist = moveToZobrist;
     }
 
