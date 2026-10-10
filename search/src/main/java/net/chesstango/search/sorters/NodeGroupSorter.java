@@ -1,6 +1,5 @@
 package net.chesstango.search.sorters;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -21,9 +20,7 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
     @Setter
     private Game game;
 
-    @Getter
-    @Setter
-    private GroupSorter groupSorter;
+    //private GroupSorter groupSorter;
 
     @Override
     public void accept(Visitor visitor) {
@@ -39,12 +36,12 @@ public class NodeGroupSorter implements MoveSorter, Acceptor {
         triggerBeforeSort(currentPly);
 
         for (Move move : moves) {
-            if (!groupSorter.offer(move)) {
-                throw new RuntimeException("GroupSorter offer returned false");
-            }
+            //if (!groupSorter.offer(move)) {
+            //    throw new RuntimeException("GroupSorter offer returned false");
+            // }
         }
 
-        groupSorter.collect(moveList);
+        //groupSorter.collect(moveList);
 
         triggerAfterSort();
 

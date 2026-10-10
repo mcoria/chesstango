@@ -5,7 +5,6 @@ import net.chesstango.search.sorters.MoveSorterDebug;
 import net.chesstango.search.sorters.NodeGroupSorter;
 import net.chesstango.search.sorters.RootMoveSorter;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
  */
 public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
-    private final CatchAllSortGroup catchAllSortGroup;
     private final DefaultMoveComparator defaultMoveComparator;
 
     private MoveSorterDebug moveSorterDebug;
@@ -25,7 +23,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterRootBuilder() {
         this.rootMoveSorter = new RootMoveSorter();
-        this.catchAllSortGroup = new CatchAllSortGroup();
         this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
@@ -59,7 +56,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void link() {
-        catchAllSortGroup.setMoveComparator(defaultMoveComparator);
     }
 
     @Override

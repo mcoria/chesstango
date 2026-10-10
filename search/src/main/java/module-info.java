@@ -29,7 +29,6 @@ module net.chesstango.search {
     exports net.chesstango.search.alphabeta.killermoves;
     exports net.chesstango.search.alphabeta.pv.comparators;
     exports net.chesstango.search.alphabeta.pv.filters;
-    exports net.chesstango.search.alphabeta.pv.groupsorters;
     exports net.chesstango.search.alphabeta.pv.model;
     exports net.chesstango.search.alphabeta.pv.visitors;
     exports net.chesstango.search.alphabeta.quiescence;
@@ -57,7 +56,6 @@ module net.chesstango.search {
     exports net.chesstango.search.builders.sorters;
     exports net.chesstango.search.builders;
     exports net.chesstango.search.sorters.comparators;
-    exports net.chesstango.search.sorters.groupsorters;
     exports net.chesstango.search.sorters.visitors;
     exports net.chesstango.search.sorters;
     exports net.chesstango.search.visitors;

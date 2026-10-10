@@ -4,7 +4,6 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.*;
@@ -88,23 +87,5 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
             }
         }
         return chain.getFirst();
-    }
-
-    protected GroupSorter linkGroupSorterChain(List<GroupSorter> chain) {
-        for (int i = 0; i < chain.size() - 1; i++) {
-            GroupSorter currentGroupSorter = chain.get(i);
-            GroupSorter next = chain.get(i + 1);
-            switch (currentGroupSorter) {
-
-                case PrincipalVariationGroup principalVariationGroup -> principalVariationGroup.setNext(next);
-
-                case null -> throw new RuntimeException(String.format("GroupSorter %d is null", i));
-
-                default ->
-                        throw new RuntimeException("GroupSorter not found: " + currentGroupSorter.getClass().getSimpleName());
-            }
-        }
-        return chain.getFirst();
-
     }
 }

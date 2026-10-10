@@ -1,10 +1,8 @@
 package net.chesstango.search;
 
+import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheDump;
-import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
-import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.alphabeta.debug.DebugNodeTracker;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
@@ -13,10 +11,12 @@ import net.chesstango.search.alphabeta.debug.listeners.PrintTxtDebugListener;
 import net.chesstango.search.alphabeta.debug.traps.LeafNodeTrap;
 import net.chesstango.search.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.alphabeta.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebug;
-import net.chesstango.search.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
+import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheDump;
+import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheListener;
+import net.chesstango.search.alphabeta.evaluator.EvaluatorCacheAdapter;
+import net.chesstango.search.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.alphabeta.evaluator.listeners.SetGameToEvaluator;
@@ -27,21 +27,20 @@ import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
+import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationBest;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationCollection;
-import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheCounters;
-import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorCounters;
 import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheStatisticsComparatorCollector;
 import net.chesstango.search.alphabeta.statistics.evalcache.EvaluatorCacheStatisticsNodeCollector;
+import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorCounters;
 import net.chesstango.search.alphabeta.statistics.evaluator.EvaluatorStatisticsCollector;
-import net.chesstango.search.alphabeta.evalcache.listeners.EvaluatorCacheListener;
 import net.chesstango.search.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.alphabeta.statistics.node.NodeCounters;
@@ -63,9 +62,6 @@ import net.chesstango.search.sorters.NodeGroupSorter;
 import net.chesstango.search.sorters.NodeMoveSorter;
 import net.chesstango.search.sorters.RootMoveSorter;
 import net.chesstango.search.sorters.comparators.*;
-import net.chesstango.search.sorters.groupsorters.CatchAllNullGroup;
-import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;
-import net.chesstango.search.sorters.groupsorters.NoQuietBifurcation;
 
 /**
  * @author Mauricio Coria
@@ -224,6 +220,7 @@ public interface Visitor {
 
     default void visit(InteriorNodeSorterPre interiorNodeSorterPre) {
     }
+
     default void visit(InteriorNodeSorterPost interiorNodeSorterPost) {
     }
 
@@ -366,21 +363,5 @@ public interface Visitor {
     }
 
     default void visit(DepthCollector maxRegularDepth) {
-    }
-
-    /**
-     *
-     * GroupSorter elements
-     */
-    default void visit(CatchAllSortGroup catchAllGroup) {
-    }
-
-    default void visit(NoQuietBifurcation noQuietGroup) {
-    }
-
-    default void visit(PrincipalVariationGroup principalVariationGroup) {
-    }
-
-    default void visit(CatchAllNullGroup nullGroup) {
     }
 }

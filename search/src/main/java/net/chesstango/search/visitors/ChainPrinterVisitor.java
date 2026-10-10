@@ -6,16 +6,14 @@ import net.chesstango.search.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.alphabeta.SearchByDepthImp;
 import net.chesstango.search.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
-import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
-import net.chesstango.search.alphabeta.evaluator.EvaluatorCacheAdapter;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebug;
-import net.chesstango.search.alphabeta.evaluator.*;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
+import net.chesstango.search.alphabeta.evaluator.EvaluatorCacheAdapter;
+import net.chesstango.search.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
@@ -23,9 +21,10 @@ import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
+import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
+import net.chesstango.search.alphabeta.quiescence.QSStandingPat;
 import net.chesstango.search.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.alphabeta.root.filters.StopProcessingCatch;
@@ -45,9 +44,6 @@ import net.chesstango.search.alphabeta.transposition.filters.*;
 import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.*;
-import net.chesstango.search.sorters.groupsorters.CatchAllNullGroup;
-import net.chesstango.search.sorters.groupsorters.CatchAllSortGroup;
-import net.chesstango.search.sorters.groupsorters.NoQuietBifurcation;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -324,7 +320,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printNodeObjectText(nodeGroupSorter);
 
-        printGroupSorter(nodeGroupSorter.getGroupSorter());
+        //printGroupSorter(nodeGroupSorter.getGroupSorter());
     }
 
 
@@ -497,43 +493,6 @@ public class ChainPrinterVisitor implements Visitor {
      * GroupSorters
      */
 
-    @Override
-    public void visit(NoQuietBifurcation noQuietBifurcation) {
-        printChainDownLine();
-        printNodeObjectText(noQuietBifurcation);
-
-        GroupSorter noQuietGroup = noQuietBifurcation.getNoQuietGroup();
-        printChainDownLine();
-        printChainText(" -> NoQuietGroup");
-        nestedChain++;
-        traverse(noQuietGroup);
-        nestedChain--;
-
-        GroupSorter quietGroup = noQuietBifurcation.getQuietGroup();
-        out.println();
-        printChainText(" -> QuietGroup");
-        nestedChain++;
-        traverse(quietGroup);
-        nestedChain--;
-    }
-
-    @Override
-    public void visit(PrincipalVariationGroup principalVariationGroup) {
-        print(principalVariationGroup, principalVariationGroup.getNext());
-    }
-
-    @Override
-    public void visit(CatchAllSortGroup catchAllGroup) {
-        printChainDownLine();
-        printNodeObjectText(catchAllGroup);
-    }
-
-    @Override
-    public void visit(CatchAllNullGroup nullGroup) {
-        printChainDownLine();
-        printNodeObjectText(nullGroup);
-    }
-
     /**
      *
      * Evaluators
@@ -612,14 +571,6 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
     }
 
-    private void printGroupSorter(GroupSorter groupSorter) {
-        printChainDownLine();
-        printChainText(" -> GroupSorter");
-        nestedChain++;
-        traverse(groupSorter);
-        nestedChain--;
-    }
-
     ///
     ///
     /// Traverse methods
@@ -653,14 +604,6 @@ public class ChainPrinterVisitor implements Visitor {
         }
     }
 
-    private void traverse(GroupSorter groupSorter) {
-        if (groupSorter instanceof Acceptor acceptor) {
-            acceptor.accept(this);
-        } else {
-            throw new IllegalArgumentException("Unknown group sorter: " + groupSorter.getClass().getSimpleName());
-        }
-    }
-
     private void traverse(AlphaBetaFilter filter) {
         if (filter instanceof Acceptor acceptor) {
             acceptor.accept(this);
@@ -676,15 +619,6 @@ public class ChainPrinterVisitor implements Visitor {
     ///
 
     private void print(Object object, MoveSorter next) {
-        printChainDownLine();
-        printNodeObjectText(object);
-
-        if (next instanceof Acceptor acceptor) {
-            acceptor.accept(this);
-        }
-    }
-
-    private void print(Object object, GroupSorter next) {
         printChainDownLine();
         printNodeObjectText(object);
 
@@ -743,7 +677,7 @@ public class ChainPrinterVisitor implements Visitor {
             return objectText(evaluatorCacheArray);
         } else if (evaluatorCache instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
             return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCache(evaluatorCacheDebug.getEvaluatorCache()));
-        }  else if (evaluatorCache instanceof EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector) {
+        } else if (evaluatorCache instanceof EvaluatorCacheStatisticsComparatorCollector evaluatorCacheStatisticsComparatorCollector) {
             return String.format("%s -> %s", objectText(evaluatorCacheStatisticsComparatorCollector), printEvaluatorCache(evaluatorCacheStatisticsComparatorCollector.getEvaluatorCache()));
         } else if (evaluatorCache instanceof EvaluatorCacheStatisticsNodeCollector evaluatorCacheStatisticsNodeCollector) {
             return String.format("%s -> %s", objectText(evaluatorCacheStatisticsNodeCollector), printEvaluatorCache(evaluatorCacheStatisticsNodeCollector.getEvaluatorCache()));
@@ -759,7 +693,7 @@ public class ChainPrinterVisitor implements Visitor {
         } else if (evaluator instanceof EvaluatorDebug evaluatorDebug) {
             return String.format("%s -> %s", objectText(evaluatorDebug), printGameEvaluator(evaluatorDebug.getEvaluator()));
         } else if (evaluator instanceof EvaluatorCacheAdapter evaluatorCacheAdapter) {
-            return String.format("%s [EvaluatorCache: %s] -> %s", objectText(evaluatorCacheAdapter), printEvaluatorCache(evaluatorCacheAdapter.getEvaluatorCache()) , printGameEvaluator(evaluatorCacheAdapter.getEvaluator()));
+            return String.format("%s [EvaluatorCache: %s] -> %s", objectText(evaluatorCacheAdapter), printEvaluatorCache(evaluatorCacheAdapter.getEvaluatorCache()), printGameEvaluator(evaluatorCacheAdapter.getEvaluator()));
         }
 
         return objectText(evaluator);
