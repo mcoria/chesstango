@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
-    private final NodeGroupSorter nodeGroupSorter;
     private final CatchAllSortGroup catchAllSortGroup;
     private final DefaultMoveComparator defaultMoveComparator;
 
@@ -26,7 +25,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterRootBuilder() {
         this.rootMoveSorter = new RootMoveSorter();
-        this.nodeGroupSorter = new NodeGroupSorter();
         this.catchAllSortGroup = new CatchAllSortGroup();
         this.defaultMoveComparator = new DefaultMoveComparator();
     }
@@ -57,14 +55,11 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         }
 
         listenerMediator.add(rootMoveSorter);
-
-        listenerMediator.add(nodeGroupSorter);
     }
 
     @Override
     protected void link() {
         catchAllSortGroup.setMoveComparator(defaultMoveComparator);
-        nodeGroupSorter.setGroupSorter(catchAllSortGroup);
     }
 
     @Override
@@ -76,8 +71,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
         }
 
         chain.add(rootMoveSorter);
-
-        chain.add(nodeGroupSorter);
 
         return linkMoveSorterChain(chain);
     }
