@@ -321,12 +321,14 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printNodeObjectText(nodeMoveSorter);
 
+        /*
         MoveComparator moveComparator = nodeMoveSorter.getMoveComparator();
         printChainDownLine();
         printChainText(" -> Comparator");
         nestedChain++;
         traverse(moveComparator);
         nestedChain--;
+         */
     }
 
     @Override

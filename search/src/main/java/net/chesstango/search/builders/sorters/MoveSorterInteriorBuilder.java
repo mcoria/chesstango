@@ -160,7 +160,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void link() {
-        nodeMoveSorter.setMoveComparator(createComparatorChain());
+        //nodeMoveSorter.setMoveComparator(createComparatorChain());
 
         MoveToHashMap moveToZobrist = new MoveToHashMap();
 

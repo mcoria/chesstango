@@ -23,14 +23,13 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
     private final Predicate<Move> filter;
 
     @Setter
+    private GroupSorter groupSorter;
+
+    @Setter
     private MoveToHashMap moveToZobrist;
 
     @Setter
     private Game game;
-
-    @Getter
-    @Setter
-    private MoveComparator moveComparator;
 
     public NodeMoveSorter() {
         this(move -> true);
@@ -60,7 +59,7 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
 
         triggerBeforeSort(currentPly);
 
-        moveList.sort(moveComparator.reversed());
+        groupSorter.sort(moveList, 0, moveList.size());
 
         triggerAfterSort();
 
