@@ -2,8 +2,10 @@ package net.chesstango.search.builders.sorters;
 
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.sorters.groupsorters.AgregateGroupSorter;
 import net.chesstango.search.sorters.groupsorters.CatchAllGroupSorter;
 
 import java.util.LinkedList;
@@ -17,7 +19,7 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
     private MoveSorterDebug moveSorterDebug;
 
-    private PrincipalVariationComparator principalVariationComparator;
+    private PrincipalVariationGroup principalVariationGroup;
 
     private boolean withIterativeDeepening;
     private boolean withDebugSearchTree;
@@ -42,7 +44,7 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     @Override
     protected void buildObjects() {
         if (withIterativeDeepening) {
-            principalVariationComparator = new PrincipalVariationComparator();
+            principalVariationGroup = new PrincipalVariationGroup();
         }
 
         if (withDebugSearchTree) {
@@ -54,9 +56,9 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     protected void setupListeners() {
         listenerMediator.add(nodeMoveSorter);
 
-        if (principalVariationComparator != null) {
-            listenerMediator.add(principalVariationComparator);
-            nodeMoveSorter.addSortListener(principalVariationComparator);
+        if (principalVariationGroup != null) {
+            listenerMediator.add(principalVariationGroup);
+            nodeMoveSorter.addSortListener(principalVariationGroup);
         }
 
         if (moveSorterDebug != null) {
@@ -87,15 +89,19 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     }
 
     private GroupSorter createGroupSorterChain() {
-        return new CatchAllGroupSorter();
+        AgregateGroupSorter agregateGroupSorter = new AgregateGroupSorter();
+
+        if (principalVariationGroup != null) {
+            agregateGroupSorter.addGroupSorter(principalVariationGroup);
+        }
+
+        agregateGroupSorter.addGroupSorter(new CatchAllGroupSorter());
+
+        return agregateGroupSorter;
     }
 
     private MoveComparator createComparatorChain() {
         List<MoveComparator> chain = new LinkedList<>();
-
-        if (principalVariationComparator != null) {
-            chain.add(principalVariationComparator);
-        }
 
         chain.add(defaultMoveComparator);
 

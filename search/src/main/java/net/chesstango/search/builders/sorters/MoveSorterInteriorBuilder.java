@@ -24,6 +24,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
+
     private EvaluatorCacheComparator evaluatorCacheComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private KillerMoveComparator killerMoveComparator;

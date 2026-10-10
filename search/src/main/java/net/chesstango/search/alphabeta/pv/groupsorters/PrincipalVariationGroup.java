@@ -69,18 +69,19 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchLis
                 }
             }
 
+            // Reset current PV move
+            currentPVMove = null;
+
             // if current PV move isn't found in the list of moves
+            // When QS and TT enabled, if the previous PV list > depth, TT probe will not explore the full list of PV moves
             if (pvMoveIdx == -1) {
-                throw new IllegalStateException("Current PV move not found in the list of moves");
+                return from;
             }
 
             // Swap the current PV move with the first move in the list
             if (pvMoveIdx > from) {
                 Collections.swap(moves, from, pvMoveIdx);
             }
-
-            // Reset current PV move
-            currentPVMove = null;
 
             return from + 1;
         }
