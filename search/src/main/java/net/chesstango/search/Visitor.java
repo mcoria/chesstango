@@ -27,6 +27,7 @@ import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
+import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
 import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
@@ -308,6 +309,13 @@ public interface Visitor {
 
     /**
      *
+     * Sorter elements
+     */
+    default void visit(PrincipalVariationGroup principalVariationGroup) {
+    }
+
+    /**
+     *
      * Comparator elements
      */
     default void visit(DefaultMoveComparator defaultMoveComparator) {
@@ -339,6 +347,11 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
+
+    /**
+     *
+     * Statistics
+     */
 
     default void visit(TTableStatisticsNodeCollector tTableStatisticsCollector) {
     }

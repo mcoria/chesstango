@@ -55,6 +55,7 @@ module net.chesstango.search {
     exports net.chesstango.search.builders.alphabeta;
     exports net.chesstango.search.builders.sorters;
     exports net.chesstango.search.builders;
+    exports net.chesstango.search.alphabeta.pv.groupsorters;
     exports net.chesstango.search.sorters.comparators;
     exports net.chesstango.search.sorters;
     exports net.chesstango.search.visitors;

@@ -3,11 +3,12 @@ package net.chesstango.search.builders.sorters;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.*;
+import net.chesstango.search.sorters.groupsorters.AgregateGroupSorter;
 import net.chesstango.search.sorters.groupsorters.CatchAllGroupSorter;
 
 import java.util.LinkedList;
@@ -28,7 +29,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
     private KillerMoveComparator killerMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
-    private PrincipalVariationComparator principalVariationComparator;
+    private PrincipalVariationGroup principalVariationGroup;
 
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
@@ -84,18 +85,20 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void buildObjects() {
+        promotionComparator = new PromotionComparator();
+
+        if (withDebugSearchTree) {
+            moveSorterDebug = new MoveSorterDebug();
+        }
+
         if (withIterativeDeepening) {
-            principalVariationComparator = new PrincipalVariationComparator();
+            principalVariationGroup = new PrincipalVariationGroup();
         }
 
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator();
 
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
-        }
-
-        if (withDebugSearchTree) {
-            moveSorterDebug = new MoveSorterDebug();
         }
 
         if (withGameEvaluatorCache) {
@@ -113,14 +116,20 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         if (withMvvLva) {
             mvvLvaComparator = new MvvLvaComparator();
         }
-
-        promotionComparator = new PromotionComparator();
     }
 
     @Override
     protected void setupListeners() {
         listenerMediator.add(nodeMoveSorter);
         listenerMediator.add(quietComparator);
+
+        if (promotionComparator != null) {
+            listenerMediator.add(promotionComparator);
+        }
+
+        if (moveSorterDebug != null) {
+            listenerMediator.add(moveSorterDebug);
+        }
 
         if (transpositionHeadMoveComparator != null) {
             listenerMediator.add(transpositionHeadMoveComparator);
@@ -131,9 +140,9 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
             listenerMediator.add(transpositionTailMoveComparator);
         }
 
-        if (principalVariationComparator != null) {
-            listenerMediator.add(principalVariationComparator);
-            nodeMoveSorter.addSortListener(principalVariationComparator);
+        if (principalVariationGroup != null) {
+            listenerMediator.add(principalVariationGroup);
+            nodeMoveSorter.addSortListener(principalVariationGroup);
         }
 
         if (recaptureMoveComparator != null) {
@@ -144,10 +153,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         if (evaluatorCacheComparator != null) {
             listenerMediator.add(evaluatorCacheComparator);
             nodeMoveSorter.addSortListener(evaluatorCacheComparator);
-        }
-
-        if (moveSorterDebug != null) {
-            listenerMediator.add(moveSorterDebug);
         }
 
         if (killerMoveComparator != null) {
@@ -189,15 +194,19 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
 
     private GroupSorter createGroupSorterChain() {
-        return new CatchAllGroupSorter();
+        AgregateGroupSorter agregateGroupSorter = new AgregateGroupSorter();
+
+        if (principalVariationGroup != null) {
+            agregateGroupSorter.addGroupSorter(principalVariationGroup);
+        }
+
+        agregateGroupSorter.addGroupSorter(new CatchAllGroupSorter());
+
+        return agregateGroupSorter;
     }
 
     private MoveComparator createComparatorChain() {
         List<MoveComparator> chain = new LinkedList<>();
-
-        if (principalVariationComparator != null) {
-            chain.add(principalVariationComparator);
-        }
 
         if (withTranspositionTable) {
             chain.add(transpositionHeadMoveComparator);
