@@ -6,11 +6,9 @@ import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveCompara
 import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.sorters.MoveComparator;
-import net.chesstango.search.sorters.MoveSorter;
-import net.chesstango.search.sorters.MoveSorterDebug;
-import net.chesstango.search.sorters.NodeMoveSorter;
+import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.*;
+import net.chesstango.search.sorters.groupsorters.CatchAllGroupSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -160,7 +158,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void link() {
-        //nodeMoveSorter.setMoveComparator(createComparatorChain());
+        nodeMoveSorter.setGroupSorter(createGroupSorterChain());
 
         MoveToHashMap moveToZobrist = new MoveToHashMap();
 
@@ -189,6 +187,10 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         return linkMoveSorterChain(chain);
     }
 
+
+    private GroupSorter createGroupSorterChain() {
+        return new CatchAllGroupSorter();
+    }
 
     private MoveComparator createComparatorChain() {
         List<MoveComparator> chain = new LinkedList<>();
