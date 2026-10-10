@@ -58,7 +58,6 @@ import net.chesstango.search.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.alphabeta.transposition.listeners.TTLoad;
 import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.MoveSorterDebug;
-import net.chesstango.search.sorters.NodeGroupSorter;
 import net.chesstango.search.sorters.NodeMoveSorter;
 import net.chesstango.search.sorters.RootMoveSorter;
 import net.chesstango.search.sorters.comparators.*;
@@ -293,9 +292,6 @@ public interface Visitor {
     }
 
     default void visit(NodeMoveSorter nodeMoveSorter) {
-    }
-
-    default void visit(NodeGroupSorter nodeGroupSorter) {
     }
 
     default void visit(MoveSorterDebug moveSorterDebug) {

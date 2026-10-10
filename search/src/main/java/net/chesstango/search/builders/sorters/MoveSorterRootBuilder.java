@@ -2,7 +2,6 @@ package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.sorters.MoveSorter;
 import net.chesstango.search.sorters.MoveSorterDebug;
-import net.chesstango.search.sorters.NodeGroupSorter;
 import net.chesstango.search.sorters.RootMoveSorter;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 

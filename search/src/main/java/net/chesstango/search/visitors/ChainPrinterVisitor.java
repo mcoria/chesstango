@@ -315,14 +315,6 @@ public class ChainPrinterVisitor implements Visitor {
         printNodeObjectText(rootMoveSorter);
     }
 
-    @Override
-    public void visit(NodeGroupSorter nodeGroupSorter) {
-        printChainDownLine();
-        printNodeObjectText(nodeGroupSorter);
-
-        //printGroupSorter(nodeGroupSorter.getGroupSorter());
-    }
-
 
     @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {
