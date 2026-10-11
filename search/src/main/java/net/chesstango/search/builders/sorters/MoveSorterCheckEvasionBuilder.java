@@ -3,6 +3,7 @@ package net.chesstango.search.builders.sorters;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionTailMoveGroup;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.sorters.groupsorters.AgregateGroupSorter;
@@ -21,6 +22,7 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
     private PrincipalVariationGroup principalVariationGroup;
     private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
+    private TranspositionTailMoveGroup transpositionTailMoveGroup;
 
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
@@ -60,6 +62,7 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
         if (withTranspositionTable) {
             transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
+            transpositionTailMoveGroup = new TranspositionTailMoveGroup();
         }
     }
 
@@ -81,6 +84,10 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
             nodeMoveSorter.addSortListener(transpositionHeadMoveGroup);
         }
 
+        if (transpositionTailMoveGroup != null) {
+            listenerMediator.add(transpositionTailMoveGroup);
+        }
+
     }
 
     @Override
@@ -90,6 +97,10 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         MoveToHashMap moveToZobrist = new MoveToHashMap();
 
         nodeMoveSorter.setMoveToZobrist(moveToZobrist);
+
+        if (transpositionTailMoveGroup != null) {
+            transpositionTailMoveGroup.setMoveToZobrist(moveToZobrist);
+        }
     }
 
     @Override
@@ -114,6 +125,10 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
         if (transpositionHeadMoveGroup != null) {
             agregateGroupSorter.addGroupSorter(transpositionHeadMoveGroup);
+        }
+
+        if (transpositionTailMoveGroup != null) {
+            agregateGroupSorter.addGroupSorter(transpositionTailMoveGroup);
         }
 
         agregateGroupSorter.addGroupSorter(new CatchAllGroupSorter());

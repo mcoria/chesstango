@@ -3,8 +3,8 @@ package net.chesstango.search.builders.sorters;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionTailMoveGroup;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.sorters.comparators.MvvLvaComparator;
@@ -23,7 +23,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
     private DefaultMoveComparator defaultMoveComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
-    private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MoveSorterDebug moveSorterDebug;
 
     private EvaluatorCacheComparator evaluatorCacheComparator;
@@ -32,6 +31,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     private PrincipalVariationGroup principalVariationGroup;
     private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
+    private TranspositionTailMoveGroup transpositionTailMoveGroup;
 
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
@@ -89,7 +89,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         if (withTranspositionTable) {
             transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
 
-            transpositionTailMoveComparator = new TranspositionTailMoveComparator();
+            transpositionTailMoveGroup = new TranspositionTailMoveGroup();
         }
 
         if (withDebugSearchTree) {
@@ -121,8 +121,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
             nodeMoveSorter.addSortListener(transpositionHeadMoveGroup);
         }
 
-        if (transpositionTailMoveComparator != null) {
-            listenerMediator.add(transpositionTailMoveComparator);
+        if (transpositionTailMoveGroup != null) {
+            listenerMediator.add(transpositionTailMoveGroup);
         }
 
         if (principalVariationGroup != null) {
@@ -153,8 +153,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
         nodeMoveSorter.setMoveToZobrist(moveToZobrist);
 
-        if (transpositionTailMoveComparator != null) {
-            transpositionTailMoveComparator.setMoveToZobrist(moveToZobrist);
+        if (transpositionTailMoveGroup != null) {
+            transpositionTailMoveGroup.setMoveToZobrist(moveToZobrist);
         }
 
         if (evaluatorCacheComparator != null) {
@@ -186,6 +186,10 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
             agregateGroupSorter.addGroupSorter(transpositionHeadMoveGroup);
         }
 
+        if (transpositionTailMoveGroup != null) {
+            agregateGroupSorter.addGroupSorter(transpositionTailMoveGroup);
+        }
+
         agregateGroupSorter.addGroupSorter(new CatchAllGroupSorter());
 
         return agregateGroupSorter;
@@ -193,10 +197,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
     private MoveComparator createComparatorChain() {
         List<MoveComparator> chain = new LinkedList<>();
-
-        if (withTranspositionTable) {
-            chain.add(transpositionTailMoveComparator);
-        }
 
         chain.add(promotionComparator);
 

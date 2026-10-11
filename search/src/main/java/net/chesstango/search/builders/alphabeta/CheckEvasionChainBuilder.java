@@ -70,12 +70,13 @@ public class CheckEvasionChainBuilder extends AbstractChainBuilder {
 
     public CheckEvasionChainBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
+        moveSorterCheckEvasionBuilder.withTranspositionTable();
         return this;
     }
 
     public CheckEvasionChainBuilder withDebugSearchTree() {
-        moveSorterCheckEvasionBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
+        moveSorterCheckEvasionBuilder.withDebugSearchTree();
         return this;
     }
 
