@@ -3,8 +3,6 @@ package net.chesstango.search.builders.sorters;
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.sorters.comparators.PromotionComparator;
@@ -75,7 +73,6 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
                 case KillerMoveComparator moveComparator -> moveComparator.setNext(next);
                 case MvvLvaComparator lvaComparator -> lvaComparator.setNext(next);
                 case PromotionComparator comparator -> comparator.setNext(next);
-                case PrincipalVariationComparator variationComparator -> variationComparator.setNext(next);
 
                 case null -> throw new RuntimeException(String.format("MoveComparator %d is null", i));
 

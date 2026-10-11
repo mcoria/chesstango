@@ -14,7 +14,6 @@ import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheCompa
 import net.chesstango.search.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
@@ -249,11 +248,6 @@ public class SetGameVisitor implements Visitor {
      *
      * Comparator elements
      */
-    @Override
-    public void visit(PrincipalVariationComparator principalVariationComparator) {
-        principalVariationComparator.setGame(game);
-    }
-
     @Override
     public void visit(EvaluatorCacheComparator evaluatorCacheComparator) {
         evaluatorCacheComparator.setGame(game);

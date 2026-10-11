@@ -18,7 +18,6 @@ import net.chesstango.search.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
@@ -405,11 +404,6 @@ public class ChainPrinterVisitor implements Visitor {
      *
      * MoveComparators
      */
-
-    @Override
-    public void visit(PrincipalVariationComparator principalVariationComparator) {
-        print(principalVariationComparator, principalVariationComparator.getNext());
-    }
 
     @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {

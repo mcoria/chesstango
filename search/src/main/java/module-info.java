@@ -27,7 +27,6 @@ module net.chesstango.search {
     exports net.chesstango.search.alphabeta.killermoves.listeners;
     exports net.chesstango.search.alphabeta.killermoves.visitors;
     exports net.chesstango.search.alphabeta.killermoves;
-    exports net.chesstango.search.alphabeta.pv.comparators;
     exports net.chesstango.search.alphabeta.pv.filters;
     exports net.chesstango.search.alphabeta.pv.model;
     exports net.chesstango.search.alphabeta.pv.visitors;
