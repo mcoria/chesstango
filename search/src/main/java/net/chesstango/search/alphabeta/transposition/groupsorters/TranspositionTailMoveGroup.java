@@ -9,8 +9,10 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.sorters.GroupSorter;
+import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,6 +28,9 @@ public class TranspositionTailMoveGroup implements Acceptor, GroupSorter {
 
     @Setter
     private MoveToHashMap moveToZobrist;
+
+    @Setter
+    private Comparator<Move> moveComparator;
 
 
     public TranspositionTailMoveGroup() {
@@ -72,6 +77,13 @@ public class TranspositionTailMoveGroup implements Acceptor, GroupSorter {
                 nextIdx++;
                 lastIdx--;
             }
+        }
+
+        /**
+         * Sort items
+         */
+        if (from < nextIdx) {
+            moves.subList(from, nextIdx).sort(moveComparator);
         }
 
         return nextIdx;

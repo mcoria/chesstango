@@ -416,7 +416,7 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparator), printTTable(transpositionTailMoveComparator.getTTable())));
 
-        traverse(transpositionTailMoveComparator.getNext());
+        //traverse(transpositionTailMoveComparator.getNext());
     }
 
     @Override

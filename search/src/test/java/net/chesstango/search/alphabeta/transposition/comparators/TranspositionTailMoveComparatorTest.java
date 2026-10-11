@@ -33,8 +33,6 @@ public class TranspositionTailMoveComparatorTest {
 
     private MoveToHashMap moveToZobrist;
 
-    @Mock
-    private MoveComparator next;
 
     @BeforeEach
     public void setup() {
@@ -43,7 +41,6 @@ public class TranspositionTailMoveComparatorTest {
         tailMoveComparator = new TranspositionTailMoveComparator();
         tailMoveComparator.setTTable(tTable);
         tailMoveComparator.setMoveToZobrist(moveToZobrist);
-        tailMoveComparator.setNext(next);
     }
 
     @Test
@@ -65,7 +62,6 @@ public class TranspositionTailMoveComparatorTest {
 
         tTable.save(entry);
 
-        when(next.compare(move, move)).thenReturn(0);
         /**
          * Assertions
          */
@@ -119,8 +115,6 @@ public class TranspositionTailMoveComparatorTest {
                 .setValue(+10);
         tTable.save(entry2);
 
-
-        when(next.compare(any(Move.class), any(Move.class))).thenReturn(0);
         /**
          * Assertions
          */

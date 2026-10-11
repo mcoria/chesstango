@@ -68,7 +68,6 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
             switch (currentComparator) {
-                case TranspositionTailMoveComparator tailMoveComparator -> tailMoveComparator.setNext(next);
                 case RecaptureMoveComparator recaptureMoveComparatorFilter ->
                         recaptureMoveComparatorFilter.setNext(next);
                 case EvaluatorCacheComparator evaluatorCacheComparatorFilter ->

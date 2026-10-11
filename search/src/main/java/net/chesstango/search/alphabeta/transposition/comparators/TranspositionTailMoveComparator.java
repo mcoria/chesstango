@@ -15,9 +15,6 @@ import net.chesstango.search.sorters.MoveComparator;
  */
 public class TranspositionTailMoveComparator implements MoveComparator, Acceptor {
 
-    @Getter
-    @Setter
-    private MoveComparator next;
 
     @Setter
     @Getter
@@ -41,8 +38,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
 
     @Override
     public int compare(Move o1, Move o2) {
-        int result = 0;
-
         long o1Hash = getZobristHashMove(o1);
         long o2Hash = getZobristHashMove(o2);
 
@@ -51,14 +46,14 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
 
         if (load01 && load02) {
             // No es bug, necesitamos invertir, de lo contrario ordenamos en preferencia del oponente
-            result = -moveEntry1.compareTo(moveEntry2);
+            return -moveEntry1.compareTo(moveEntry2);
         } else if (load01) {
             return 1;
         } else if (load02) {
             return -1;
         }
 
-        return result == 0 ? next.compare(o1, o2) : result;
+        return 0;
     }
 
 
