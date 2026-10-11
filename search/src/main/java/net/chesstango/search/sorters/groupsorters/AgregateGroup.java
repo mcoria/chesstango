@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AgregateGroupSorter implements GroupSorter {
+public class AgregateGroup implements GroupSorter {
     private final List<GroupSorter> groupSorters = new ArrayList<>();
 
     @Override
@@ -24,7 +24,7 @@ public class AgregateGroupSorter implements GroupSorter {
         return currentIdx;
     }
 
-    public void addGroupSorter(GroupSorter groupSorter) {
+    public void addGroup(GroupSorter groupSorter) {
         groupSorters.add(groupSorter);
     }
 }

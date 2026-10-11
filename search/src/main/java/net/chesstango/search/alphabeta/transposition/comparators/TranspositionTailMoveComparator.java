@@ -57,7 +57,7 @@ public class TranspositionTailMoveComparator implements MoveComparator, Acceptor
     }
 
 
-    private long getZobristHashMove(Move move) {
+    long getZobristHashMove(Move move) {
         long hash = moveToZobrist.read(move);
         if (hash == 0) {
             hash = move.getZobristHash();

@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     private final RootMoveSorter rootMoveSorter;
-    private final DefaultMoveComparator defaultMoveComparator;
 
     private MoveSorterDebug moveSorterDebug;
 
@@ -22,7 +21,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterRootBuilder() {
         this.rootMoveSorter = new RootMoveSorter();
-        this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
     @Override

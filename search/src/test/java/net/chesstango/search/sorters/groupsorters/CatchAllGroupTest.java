@@ -20,13 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class CatchAllGroupSorterTest {
+public class CatchAllGroupTest {
 
-    private CatchAllGroupSorter catchAllGroupSorter;
+    private CatchAllGroup catchAllGroup;
 
     @BeforeEach
     public void setUp() {
-        catchAllGroupSorter = new CatchAllGroupSorter();
+        catchAllGroup = new CatchAllGroup();
+        catchAllGroup.setMoveComparator(new DefaultMoveComparator().reversed());
     }
 
     @Test
@@ -36,7 +37,7 @@ public class CatchAllGroupSorterTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
-        int result = catchAllGroupSorter.sort(moves, 1, 1);
+        int result = catchAllGroup.sort(moves, 1, 1);
 
         assertEquals(1, result);
         assertEquals(move1, moves.get(0));
@@ -54,7 +55,7 @@ public class CatchAllGroupSorterTest {
 
         List<Move> moves = new ArrayList<>(List.of(moveKnight, moveKing, moveBishop, moveQueen, moveRook, movePawn));
 
-        int result = catchAllGroupSorter.sort(moves, 0, moves.size());
+        int result = catchAllGroup.sort(moves, 0, moves.size());
 
         assertEquals(moves.size(), result);
         assertEquals(List.of(moveQueen, moveKnight, moveBishop, moveRook, movePawn, moveKing), moves);
@@ -71,7 +72,7 @@ public class CatchAllGroupSorterTest {
 
         List<Move> moves = new ArrayList<>(List.of(head, moveKnight, moveBishop, moveQueen, moveRook, tail));
 
-        int result = catchAllGroupSorter.sort(moves, 1, 5);
+        int result = catchAllGroup.sort(moves, 1, 5);
 
         assertEquals(5, result);
         assertEquals(head, moves.get(0));
@@ -95,7 +96,7 @@ public class CatchAllGroupSorterTest {
             moves2.add(move);
         }
 
-        int result = catchAllGroupSorter.sort(moves1, 0, moves1.size());
+        int result = catchAllGroup.sort(moves1, 0, moves1.size());
 
         assertEquals(moves1.size(), result);
 
