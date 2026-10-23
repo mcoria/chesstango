@@ -200,7 +200,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         }
 
         catchAllGroup.setMoveComparator(new DefaultMoveComparator().reversed());
-
     }
 
     @Override
@@ -215,7 +214,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
         return linkMoveSorterChain(chain);
     }
-
 
     private GroupSorter createGroupSorterChain() {
         if (principalVariationGroup != null) {

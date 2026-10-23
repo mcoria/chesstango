@@ -127,6 +127,9 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     protected void setupListeners() {
         listenerMediator.add(nodeMoveSorter);
 
+        if (moveSorterDebug != null) {
+            listenerMediator.add(moveSorterDebug);
+        }
         if (transpositionHeadMoveGroup != null) {
             listenerMediator.add(transpositionHeadMoveGroup);
             nodeMoveSorter.addSortListener(transpositionHeadMoveGroup);
@@ -153,10 +156,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         if (evaluatorCacheComparator != null) {
             listenerMediator.add(evaluatorCacheComparator);
             nodeMoveSorter.addSortListener(evaluatorCacheComparator);
-        }
-
-        if (moveSorterDebug != null) {
-            listenerMediator.add(moveSorterDebug);
         }
     }
 
