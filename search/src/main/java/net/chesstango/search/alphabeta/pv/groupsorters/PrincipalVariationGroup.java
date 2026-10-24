@@ -51,12 +51,14 @@ public class PrincipalVariationGroup implements Acceptor, Predicate<Move>, Searc
         if (pvMoves[currentPly] != null) {
             currentPVMove = pvMoves[currentPly];
             pvMoves[currentPly] = null;
+        } else {
+            currentPVMove = null;
         }
     }
 
     @Override
     public boolean test(Move move) {
-        return move.equals(currentPVMove.move());
+        return currentPVMove != null && move.equals(currentPVMove.move());
     }
 
 }
