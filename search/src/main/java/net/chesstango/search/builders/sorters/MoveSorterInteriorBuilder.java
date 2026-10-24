@@ -2,11 +2,12 @@ package net.chesstango.search.builders.sorters;
 
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
-import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.alphabeta.killermoves.sorters.KillerMovePredicate;
+import net.chesstango.search.alphabeta.killermoves.sorters.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.pv.sorters.PrincipalVariationPredicate;
-import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadPredicate;
 import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailPredicate;
+import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.sorters.comparators.PromotionComparator;
@@ -25,7 +26,6 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     private EvaluatorCacheComparator evaluatorCacheComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
-    private KillerMoveComparator killerMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
 
@@ -34,6 +34,9 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
     private TranspositionTailPredicate transpositionTailPredicate;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
+
+    private KillerMovePredicate killerMovePredicate;
+    private KillerMoveComparator killerMoveComparator;
 
     private boolean withIterativeDeepening;
     private boolean withTranspositionTable;
@@ -109,6 +112,7 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         }
 
         if (withKillerMove) {
+            killerMovePredicate = new KillerMovePredicate();
             killerMoveComparator = new KillerMoveComparator();
         }
 
@@ -155,6 +159,10 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
 
         if (evaluatorCacheComparator != null) {
             listenerMediator.add(evaluatorCacheComparator);
+        }
+
+        if (killerMovePredicate != null) {
+            listenerMediator.add(killerMovePredicate);
         }
 
         if (killerMoveComparator != null) {
@@ -215,6 +223,10 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
             moveSorterListeners.add(evaluatorCacheComparator);
         }
 
+        if (killerMovePredicate != null) {
+            moveSorterListeners.add(killerMovePredicate);
+        }
+
         if (killerMoveComparator != null) {
             moveSorterListeners.add(killerMoveComparator);
         }
@@ -234,8 +246,12 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
             nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadPredicate));
         }
 
-        if (transpositionTailPredicate != null && transpositionTailMoveComparator!=null) {
+        if (transpositionTailPredicate != null && transpositionTailMoveComparator != null) {
             nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailStage(transpositionTailPredicate, transpositionTailMoveComparator));
+        }
+
+        if (killerMovePredicate != null && killerMoveComparator != null) {
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createKillerMoveStage(killerMovePredicate, killerMoveComparator));
         }
 
         nodeMoveSorterStages.add(NodeMoveSorterStage.createCatchAllStage());

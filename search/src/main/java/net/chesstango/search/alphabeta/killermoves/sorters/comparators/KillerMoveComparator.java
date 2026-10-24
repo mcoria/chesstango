@@ -1,22 +1,17 @@
-package net.chesstango.search.alphabeta.killermoves.comparators;
+package net.chesstango.search.alphabeta.killermoves.sorters.comparators;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.killermoves.KillerMoves;
-import net.chesstango.search.sorters.comparators.MoveComparator;
 import net.chesstango.search.sorters.MoveSorterListener;
+import net.chesstango.search.sorters.comparators.MoveComparator;
 
 /**
  * @author Mauricio Coria
  */
 public class KillerMoveComparator implements MoveComparator, Acceptor, MoveSorterListener {
-
-    @Getter
-    @Setter
-    private MoveComparator next;
 
     @Setter
     private KillerMoves killerMoves;
@@ -45,6 +40,6 @@ public class KillerMoveComparator implements MoveComparator, Acceptor, MoveSorte
             return -1;
         }
 
-        return next.compare(o1, o2);
+        return 0;
     }
 }

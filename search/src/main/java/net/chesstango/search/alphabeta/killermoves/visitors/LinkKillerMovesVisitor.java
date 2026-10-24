@@ -2,8 +2,9 @@ package net.chesstango.search.alphabeta.killermoves.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.killermoves.KillerMoves;
-import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.alphabeta.killermoves.sorters.KillerMovePredicate;
+import net.chesstango.search.alphabeta.killermoves.sorters.comparators.KillerMoveComparator;
 
 /**
  *
@@ -25,6 +26,11 @@ public class LinkKillerMovesVisitor implements Visitor {
     @Override
     public void visit(KillerMoveComparator killerMoveComparator) {
         killerMoveComparator.setKillerMoves(killerMoves);
+    }
+
+    @Override
+    public void visit(KillerMovePredicate killerMovePredicate) {
+        killerMovePredicate.setKillerMoves(killerMoves);
     }
 
 }

@@ -22,7 +22,8 @@ import net.chesstango.search.alphabeta.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.alphabeta.evaluator.visitors.LinkEvaluatorVisitor;
 import net.chesstango.search.alphabeta.killermoves.KillerMovesDebug;
-import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.alphabeta.killermoves.sorters.KillerMovePredicate;
+import net.chesstango.search.alphabeta.killermoves.sorters.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
@@ -318,6 +319,9 @@ public interface Visitor {
     }
 
     default void visit(TranspositionTailPredicate transpositionTailPredicate) {
+    }
+
+    default void visit(KillerMovePredicate killerMovePredicate) {
     }
 
     /**

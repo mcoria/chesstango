@@ -22,10 +22,11 @@ module net.chesstango.search {
     exports net.chesstango.search.alphabeta.evaluator.listeners;
     exports net.chesstango.search.alphabeta.evaluator.visitors;
     exports net.chesstango.search.alphabeta.evaluator;
-    exports net.chesstango.search.alphabeta.killermoves.comparators;
     exports net.chesstango.search.alphabeta.killermoves.filters;
     exports net.chesstango.search.alphabeta.killermoves.listeners;
     exports net.chesstango.search.alphabeta.killermoves.visitors;
+    exports net.chesstango.search.alphabeta.killermoves.sorters;
+    exports net.chesstango.search.alphabeta.killermoves.sorters.comparators;
     exports net.chesstango.search.alphabeta.killermoves;
     exports net.chesstango.search.alphabeta.pv.filters;
     exports net.chesstango.search.alphabeta.pv.model;

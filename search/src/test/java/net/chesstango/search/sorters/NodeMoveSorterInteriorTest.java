@@ -3,21 +3,20 @@ package net.chesstango.search.sorters;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Bound;
 import net.chesstango.search.ListenerMediator;
+import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
+import net.chesstango.search.alphabeta.killermoves.KillerMoves;
+import net.chesstango.search.alphabeta.transposition.TTable;
+import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.builders.EvaluationBuilder;
 import net.chesstango.search.builders.EvaluationCacheBuilder;
 import net.chesstango.search.builders.KillerMoveBuilder;
 import net.chesstango.search.builders.TranspositionTableBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterBuilder;
 import net.chesstango.search.builders.sorters.MoveSorterInteriorBuilder;
-import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArray;
-import net.chesstango.search.alphabeta.killermoves.KillerMoves;
-import net.chesstango.search.alphabeta.transposition.TTable;
-import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,11 +105,13 @@ public class NodeMoveSorterInteriorTest {
         /**
          * Settup
          */
-        ttWrite(0x13A63803694AEEE9L, (byte) 2, (short) 513, 1, LOWER_BOUND); // a2b1
-        ttWrite(0x0AC497FAE0E135CEL, (byte) 0, (short) 1422, 7, EXACT);      // a2g2
+        // Transposition Tail
+        ttWrite(0x13A63803694AEEE9L, (byte) 2, (short) 513, 1, LOWER_BOUND);    // a2b1
+        ttWrite(0x0AC497FAE0E135CEL, (byte) 0, (short) 1422, 7, EXACT);         // a2g2
 
-        killerMoves.trackKillerMove(getMove(game, "a2a1"), 1);
-        killerMoves.trackKillerMove(getMove(game, "a2d2"), 1);
+        // Killer moves
+        killerMoves.trackKillerMove(getMove(game, "a2a1"), 1);            // a2a1
+        killerMoves.trackKillerMove(getMove(game, "a2d2"), 1);            // a2d2
 
         /**
          * Execute

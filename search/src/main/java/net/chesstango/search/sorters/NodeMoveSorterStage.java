@@ -1,6 +1,8 @@
 package net.chesstango.search.sorters;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.alphabeta.killermoves.sorters.KillerMovePredicate;
+import net.chesstango.search.alphabeta.killermoves.sorters.comparators.KillerMoveComparator;
 import net.chesstango.search.alphabeta.pv.sorters.PrincipalVariationPredicate;
 import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadPredicate;
@@ -30,6 +32,10 @@ public record NodeMoveSorterStage(Predicate<Move> predicate, Comparator<Move> co
     }
 
     public static NodeMoveSorterStage createTranspositionTailStage(TranspositionTailPredicate transpositionTailPredicate, TranspositionTailMoveComparator transpositionTailMoveComparator) {
+        return new NodeMoveSorterStage(transpositionTailPredicate, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
+    }
+
+    public static NodeMoveSorterStage createKillerMoveStage(KillerMovePredicate transpositionTailPredicate, KillerMoveComparator transpositionTailMoveComparator) {
         return new NodeMoveSorterStage(transpositionTailPredicate, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
     }
 

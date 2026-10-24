@@ -2,7 +2,7 @@ package net.chesstango.search.builders.sorters;
 
 import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
-import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.alphabeta.killermoves.sorters.comparators.KillerMoveComparator;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.MoveComparator;
 import net.chesstango.search.sorters.comparators.MvvLvaComparator;
@@ -71,7 +71,6 @@ public abstract class AbstractMoveSorterBuilder implements MoveSorterBuilder {
                         recaptureMoveComparatorFilter.setNext(next);
                 case EvaluatorCacheComparator evaluatorCacheComparatorFilter ->
                         evaluatorCacheComparatorFilter.setNext(next);
-                case KillerMoveComparator moveComparator -> moveComparator.setNext(next);
                 case MvvLvaComparator lvaComparator -> lvaComparator.setNext(next);
                 case PromotionComparator comparator -> comparator.setNext(next);
 
