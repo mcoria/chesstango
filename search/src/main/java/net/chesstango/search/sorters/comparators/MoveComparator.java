@@ -1,4 +1,4 @@
-package net.chesstango.search.sorters;
+package net.chesstango.search.sorters.comparators;
 
 import net.chesstango.board.moves.Move;
 

@@ -4,6 +4,7 @@ import net.chesstango.search.ListenerMediator;
 import net.chesstango.search.alphabeta.evalcache.comparators.EvaluatorCacheComparator;
 import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.sorters.*;
+import net.chesstango.search.sorters.comparators.MoveComparator;
 import net.chesstango.search.sorters.comparators.MvvLvaComparator;
 import net.chesstango.search.sorters.comparators.PromotionComparator;
 import net.chesstango.search.sorters.comparators.RecaptureMoveComparator;

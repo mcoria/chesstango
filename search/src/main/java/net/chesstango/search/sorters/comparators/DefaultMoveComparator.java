@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.sorters.MoveComparator;
 
 /**
  * EL orden de movimientos es el natural, de menor a mayor, aplicando las siguientes reglas:

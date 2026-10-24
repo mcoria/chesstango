@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.sorters.MoveComparator;
 import net.chesstango.search.sorters.SortListener;
 
 import java.util.Objects;

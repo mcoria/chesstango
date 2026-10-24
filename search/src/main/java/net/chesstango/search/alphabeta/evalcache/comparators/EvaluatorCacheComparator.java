@@ -10,7 +10,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheEntry;
-import net.chesstango.search.sorters.MoveComparator;
+import net.chesstango.search.sorters.comparators.MoveComparator;
 import net.chesstango.search.sorters.SortListener;
 
 /**

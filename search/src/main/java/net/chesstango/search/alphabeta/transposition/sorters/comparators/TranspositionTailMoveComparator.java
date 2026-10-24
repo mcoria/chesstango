@@ -8,7 +8,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
-import net.chesstango.search.sorters.MoveComparator;
+import net.chesstango.search.sorters.comparators.MoveComparator;
 
 /**
  * @author Mauricio Coria
