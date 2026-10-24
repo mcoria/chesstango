@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -37,14 +39,6 @@ public class TranspositionHeadPredicateTest {
     @Mock
     private Move move2;
 
-    @Mock
-    private Move move3;
-
-    @Mock
-    private Move move4;
-
-    @Mock
-    private Move move5;
 
     @BeforeEach
     public void setUp() {
@@ -121,5 +115,68 @@ public class TranspositionHeadPredicateTest {
         transpositionHeadPredicate.beforeSort(0);
 
         assertEquals((short) 0, transpositionHeadPredicate.getBestMoveEncoded());
+    }
+
+    @Test
+    public void testTestMatchingMove() {
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x1234);
+        when(move1.binaryEncoding()).thenReturn((short) 0x1234);
+
+        assertTrue(transpositionHeadPredicate.test(move1));
+    }
+
+    @Test
+    public void testTestNonMatchingMove() {
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x1234);
+        when(move1.binaryEncoding()).thenReturn((short) 0x5678);
+
+        assertFalse(transpositionHeadPredicate.test(move1));
+    }
+
+    @Test
+    public void testTestInitialState() {
+        when(move1.binaryEncoding()).thenReturn((short) 0x1234);
+
+        assertFalse(transpositionHeadPredicate.test(move1));
+    }
+
+    @Test
+    public void testTestAfterBeforeSortHit() {
+        Game game = Game.from(FEN.START_POSITION);
+        long hash = game.getPosition().getZobristHash();
+        short encodedMove = (short) 0x1234;
+
+        transpositionHeadPredicate.setGame(game);
+
+        doAnswer(invocation -> {
+            TranspositionEntry entry = invocation.getArgument(1);
+            entry.setHash(hash);
+            entry.setMove(encodedMove);
+            return true;
+        }).when(tTable).load(eq(hash), any(TranspositionEntry.class));
+
+        when(move1.binaryEncoding()).thenReturn(encodedMove);
+        when(move2.binaryEncoding()).thenReturn((short) 0x5678);
+
+        transpositionHeadPredicate.beforeSort(0);
+
+        assertTrue(transpositionHeadPredicate.test(move1));
+        assertFalse(transpositionHeadPredicate.test(move2));
+    }
+
+    @Test
+    public void testTestAfterBeforeSortMiss() {
+        Game game = Game.from(FEN.START_POSITION);
+        long hash = game.getPosition().getZobristHash();
+
+        transpositionHeadPredicate.setGame(game);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x1234);
+
+        when(tTable.load(eq(hash), any(TranspositionEntry.class))).thenReturn(false);
+        when(move1.binaryEncoding()).thenReturn((short) 0x1234);
+
+        transpositionHeadPredicate.beforeSort(0);
+
+        assertFalse(transpositionHeadPredicate.test(move1));
     }
 }
