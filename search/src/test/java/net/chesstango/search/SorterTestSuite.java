@@ -50,10 +50,10 @@ import org.junit.platform.suite.api.Suite;
         /**
          * Group Sorters
          */
-        GroupOrderCatAllTest.class,
-        GroupOrderPVTest.class,
-        GroupOrderTranspositionHeadTest.class,
-        GroupOrderTranspositionTailTest.class,
+        NodeMoveSorterStageCatAllTest.class,
+        NodeMoveSorterStagePVTest.class,
+        NodeMoveSorterStageTranspositionHeadTest.class,
+        NodeMoveSorterStageTranspositionTailTest.class,
 
         /**
          * Move Groups

@@ -165,7 +165,7 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
         nodeMoveSorter.setMoveToZobrist(moveToZobrist);
         nodeMoveSorter.setSortListeners(createSortListeners());
-        nodeMoveSorter.setGroupOrders(createGroupSorterChain());
+        nodeMoveSorter.setNodeMoveSorterStages(createGroupSorterChain());
     }
 
     @Override
@@ -204,22 +204,22 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
     }
 
 
-    private List<GroupOrder> createGroupSorterChain() {
-        List<GroupOrder> groupOrders = new ArrayList<>();
+    private List<NodeMoveSorterStage> createGroupSorterChain() {
+        List<NodeMoveSorterStage> nodeMoveSorterStages = new ArrayList<>();
 
         if (principalVariationGroup != null) {
-            groupOrders.add(GroupOrder.createPrincipalVariation(principalVariationGroup));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup));
         }
 
         if (transpositionHeadMoveGroup != null) {
-            groupOrders.add(GroupOrder.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup));
         }
 
         if (transpositionTailMoveGroup != null && transpositionTailMoveComparator!=null) {
-            groupOrders.add(GroupOrder.createTranspositionTailMoveGroup(transpositionTailMoveGroup, transpositionTailMoveComparator));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailMoveGroup(transpositionTailMoveGroup, transpositionTailMoveComparator));
         }
 
-        groupOrders.add(GroupOrder.createCatchAll());
+        nodeMoveSorterStages.add(NodeMoveSorterStage.createCatchAll());
 
-        return groupOrders;
+        return nodeMoveSorterStages;
     }}

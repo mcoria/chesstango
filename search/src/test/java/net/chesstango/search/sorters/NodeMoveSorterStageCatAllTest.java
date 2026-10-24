@@ -20,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class GroupOrderCatAllTest {
+public class NodeMoveSorterStageCatAllTest {
 
-    private GroupOrder catchAllGroup;
+    private NodeMoveSorterStage catchAllGroup;
 
     @BeforeEach
     public void setUp() {
-        catchAllGroup = GroupOrder.createCatchAll();
+        catchAllGroup = NodeMoveSorterStage.createCatchAll();
     }
 
 

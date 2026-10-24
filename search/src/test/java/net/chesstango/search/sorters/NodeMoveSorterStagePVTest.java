@@ -21,11 +21,11 @@ import static org.mockito.Mockito.mock;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class GroupOrderPVTest {
+public class NodeMoveSorterStagePVTest {
 
     private PrincipalVariationGroup principalVariationGroup;
 
-    private GroupOrder groupOrder;
+    private NodeMoveSorterStage nodeMoveSorterStage;
 
     @Mock
     private Move move1;
@@ -42,7 +42,7 @@ public class GroupOrderPVTest {
     @BeforeEach
     public void setUp() {
         principalVariationGroup = new PrincipalVariationGroup();
-        groupOrder = GroupOrder.createPrincipalVariation(principalVariationGroup);
+        nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup);
     }
 
 
@@ -57,7 +57,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
@@ -71,7 +71,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
@@ -88,7 +88,7 @@ public class GroupOrderPVTest {
         // Ply 0
         principalVariationGroup.beforeSort(0);
         List<Move> movesPly0 = new ArrayList<>(List.of(move3, move1, move4));
-        int resultPly0 = groupOrder.sort(movesPly0, 0);
+        int resultPly0 = nodeMoveSorterStage.sort(movesPly0, 0);
 
         assertEquals(1, resultPly0);
         assertEquals(List.of(move1, move3, move4), movesPly0);
@@ -96,7 +96,7 @@ public class GroupOrderPVTest {
         // Ply 1
         principalVariationGroup.beforeSort(1);
         List<Move> movesPly1 = new ArrayList<>(List.of(move4, move3, move2));
-        int resultPly1 = groupOrder.sort(movesPly1, 0);
+        int resultPly1 = nodeMoveSorterStage.sort(movesPly1, 0);
 
         assertEquals(1, resultPly1);
         assertEquals(List.of(move2, move3, move4), movesPly1);
@@ -104,7 +104,7 @@ public class GroupOrderPVTest {
         // Ply 2 (beyond lastPVMoves size)
         principalVariationGroup.beforeSort(2);
         List<Move> movesPly2 = new ArrayList<>(List.of(move3, move4));
-        int resultPly2 = groupOrder.sort(movesPly2, 0);
+        int resultPly2 = nodeMoveSorterStage.sort(movesPly2, 0);
 
         assertEquals(0, resultPly2);
         assertEquals(List.of(move3, move4), movesPly2);
@@ -123,11 +123,11 @@ public class GroupOrderPVTest {
 
     @Test
     public void testSortWithoutBeforeSort() {
-        GroupOrder groupOrder = GroupOrder.createPrincipalVariation(principalVariationGroup);
+        NodeMoveSorterStage nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
 
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -135,7 +135,7 @@ public class GroupOrderPVTest {
 
     @Test
     public void testSortWithCurrentPVMoveAlreadyAtFrom() {
-        GroupOrder groupOrder = GroupOrder.createPrincipalVariation(principalVariationGroup);
+        NodeMoveSorterStage nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup);
 
         PVMove pvMove = new PVMove(100L, move1);
         principalVariationGroup.setLastPVMoves(List.of(pvMove));
@@ -143,7 +143,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -157,7 +157,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move2, move1, move3), moves);
@@ -171,7 +171,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = groupOrder.sort(moves, 1);
+        int result = nodeMoveSorterStage.sort(moves, 1);
 
         assertEquals(2, result);
         assertEquals(List.of(move1, move3, move2, move4), moves);
@@ -185,7 +185,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move4, move2, move3, move1), moves);
@@ -200,7 +200,7 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -214,7 +214,7 @@ public class GroupOrderPVTest {
 
         principalVariationGroup.beforeSort(0);
         List<Move> moves1 = new ArrayList<>(List.of(move1, move2));
-        int result1 = groupOrder.sort(moves1, 0);
+        int result1 = nodeMoveSorterStage.sort(moves1, 0);
         assertEquals(1, result1);
         assertEquals(List.of(move2, move1), moves1);
         principalVariationGroup.afterSort();
@@ -222,7 +222,7 @@ public class GroupOrderPVTest {
         // Next sort call should have currentPVMove == null
         principalVariationGroup.beforeSort(0);
         List<Move> moves2 = new ArrayList<>(List.of(move1, move2));
-        int result2 = groupOrder.sort(moves2, 0);
+        int result2 = nodeMoveSorterStage.sort(moves2, 0);
         assertEquals(0, result2);
         assertEquals(List.of(move1, move2), moves2);
         principalVariationGroup.afterSort();
@@ -238,13 +238,13 @@ public class GroupOrderPVTest {
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves1 = new ArrayList<>(List.of(move2, move1));
-        groupOrder.sort(moves1, 0);
+        nodeMoveSorterStage.sort(moves1, 0);
 
         // Calling beforeSort(0) again should not reload pvMoves[0] since it was cleared to null
         principalVariationGroup.beforeSort(0);
 
         List<Move> moves2 = new ArrayList<>(List.of(move2, move1));
-        int result2 = groupOrder.sort(moves2, 0);
+        int result2 = nodeMoveSorterStage.sort(moves2, 0);
         assertEquals(0, result2);
         assertEquals(List.of(move2, move1), moves2);
     }

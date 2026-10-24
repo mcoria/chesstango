@@ -15,22 +15,22 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public record GroupOrder(Predicate<Move> predicate, Comparator<Move> comparator) {
+public record NodeMoveSorterStage(Predicate<Move> predicate, Comparator<Move> comparator) {
 
-    public static GroupOrder createCatchAll() {
-        return new GroupOrder(_ -> true, new DefaultMoveComparator().reversed());
+    public static NodeMoveSorterStage createCatchAll() {
+        return new NodeMoveSorterStage(_ -> true, new DefaultMoveComparator().reversed());
     }
 
-    public static GroupOrder createPrincipalVariation(PrincipalVariationGroup principalVariationGroup) {
-        return new GroupOrder(principalVariationGroup, (a, b) -> 0);
+    public static NodeMoveSorterStage createPrincipalVariation(PrincipalVariationGroup principalVariationGroup) {
+        return new NodeMoveSorterStage(principalVariationGroup, (a, b) -> 0);
     }
 
-    public static GroupOrder createTranspositionHeadMoveGroup(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
-        return new GroupOrder(transpositionHeadMoveGroup, (a, b) -> 0);
+    public static NodeMoveSorterStage createTranspositionHeadMoveGroup(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
+        return new NodeMoveSorterStage(transpositionHeadMoveGroup, (a, b) -> 0);
     }
 
-    public static GroupOrder createTranspositionTailMoveGroup(TranspositionTailMoveGroup transpositionTailMoveGroup, TranspositionTailMoveComparator transpositionTailMoveComparator) {
-        return new GroupOrder(transpositionTailMoveGroup, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
+    public static NodeMoveSorterStage createTranspositionTailMoveGroup(TranspositionTailMoveGroup transpositionTailMoveGroup, TranspositionTailMoveComparator transpositionTailMoveComparator) {
+        return new NodeMoveSorterStage(transpositionTailMoveGroup, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
     }
 
     public int sort(List<Move> moves, int from) {

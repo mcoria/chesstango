@@ -26,11 +26,11 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class GroupOrderTranspositionHeadTest {
+public class NodeMoveSorterStageTranspositionHeadTest {
 
     private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
 
-    private GroupOrder groupOrder;
+    private NodeMoveSorterStage nodeMoveSorterStage;
 
     @Mock
     private TTable tTable;
@@ -55,7 +55,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
         transpositionHeadMoveGroup.setTTable(tTable);
 
-        groupOrder = GroupOrder.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup);
+        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup);
     }
 
 
@@ -67,7 +67,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x10);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -79,7 +79,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x01);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -92,7 +92,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x02);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move2, move1, move3), moves);
@@ -106,7 +106,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x03);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move3, move2, move1), moves);
@@ -120,7 +120,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x99);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -134,7 +134,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x04);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4, move5));
-        int result = groupOrder.sort(moves, 1);
+        int result = nodeMoveSorterStage.sort(moves, 1);
 
         assertEquals(2, result);
         assertEquals(List.of(move1, move4, move3, move2, move5), moves);
@@ -147,7 +147,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x01);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = groupOrder.sort(moves, 1);
+        int result = nodeMoveSorterStage.sort(moves, 1);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3, move4), moves);
@@ -160,7 +160,7 @@ public class GroupOrderTranspositionHeadTest {
         transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x04);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = groupOrder.sort(moves, 1);
+        int result = nodeMoveSorterStage.sort(moves, 1);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3, move4), moves);
@@ -186,7 +186,7 @@ public class GroupOrderTranspositionHeadTest {
         List<Move> moves = new ArrayList<>();
         game.getPossibleMoves().forEach(moves::add);
 
-        int result = groupOrder.sort(moves, 0);
+        int result = nodeMoveSorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(expectedHeadMove, moves.getFirst());

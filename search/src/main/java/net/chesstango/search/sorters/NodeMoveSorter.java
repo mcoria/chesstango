@@ -22,7 +22,7 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
     private List<SortListener> sortListeners;
 
     @Setter
-    private List<GroupOrder> groupOrders;
+    private List<NodeMoveSorterStage> nodeMoveSorterStages;
 
     @Setter
     private MoveToHashMap moveToZobrist;
@@ -67,8 +67,8 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
 
     void sortAll(List<Move> moves) {
         int currentIdx = 0;
-        for (GroupOrder groupOrder : groupOrders) {
-            currentIdx = groupOrder.sort(moves, currentIdx);
+        for (NodeMoveSorterStage nodeMoveSorterStage : nodeMoveSorterStages) {
+            currentIdx = nodeMoveSorterStage.sort(moves, currentIdx);
         }
     }
 

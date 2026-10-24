@@ -1,16 +1,13 @@
 package net.chesstango.search.builders.sorters;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionTailMoveGroup;
 import net.chesstango.search.sorters.*;
-import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -109,7 +106,7 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
         nodeMoveSorter.setMoveToZobrist(moveToZobrist);
         nodeMoveSorter.setSortListeners(createSortListeners());
-        nodeMoveSorter.setGroupOrders(createGroupSorterChain());
+        nodeMoveSorter.setNodeMoveSorterStages(createGroupSorterChain());
     }
 
     @Override
@@ -140,23 +137,23 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     }
 
 
-    private List<GroupOrder> createGroupSorterChain() {
-        List<GroupOrder> groupOrders = new ArrayList<>();
+    private List<NodeMoveSorterStage> createGroupSorterChain() {
+        List<NodeMoveSorterStage> nodeMoveSorterStages = new ArrayList<>();
 
         if (principalVariationGroup != null) {
-            groupOrders.add(GroupOrder.createPrincipalVariation(principalVariationGroup));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup));
         }
 
         if (transpositionHeadMoveGroup != null) {
-            groupOrders.add(GroupOrder.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup));
         }
 
         if (transpositionTailMoveGroup != null && transpositionTailMoveComparator!=null) {
-            groupOrders.add(GroupOrder.createTranspositionTailMoveGroup(transpositionTailMoveGroup, transpositionTailMoveComparator));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailMoveGroup(transpositionTailMoveGroup, transpositionTailMoveComparator));
         }
 
-        groupOrders.add(GroupOrder.createCatchAll());
+        nodeMoveSorterStages.add(NodeMoveSorterStage.createCatchAll());
 
-        return groupOrders;
+        return nodeMoveSorterStages;
     }
 }
