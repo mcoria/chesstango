@@ -54,19 +54,19 @@ public class GroupOrderCatAllTest {
         Move moveKnight = createMove(PiecePositioned.of(Square.e2, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.e3));
         Move moveBishop = createMove(PiecePositioned.of(Square.e2, Piece.BISHOP_WHITE), PiecePositioned.getPosition(Square.e3));
         Move moveRook = createMove(PiecePositioned.of(Square.e2, Piece.ROOK_WHITE), PiecePositioned.getPosition(Square.e3));
-        Move tail = createMove(PiecePositioned.of(Square.h1, Piece.ROOK_WHITE), PiecePositioned.getPosition(Square.h2));
+        Move moveRook1 = createMove(PiecePositioned.of(Square.h1, Piece.ROOK_WHITE), PiecePositioned.getPosition(Square.h2));
 
-        List<Move> moves = new ArrayList<>(List.of(head, moveKnight, moveBishop, moveQueen, moveRook, tail));
+        List<Move> moves = new ArrayList<>(List.of(head, moveKnight, moveBishop, moveQueen, moveRook, moveRook1));
 
         int result = catchAllGroup.sort(moves, 1);
 
-        assertEquals(5, result);
+        assertEquals(6, result);
         assertEquals(head, moves.get(0));
         assertEquals(moveQueen, moves.get(1));
         assertEquals(moveKnight, moves.get(2));
         assertEquals(moveBishop, moves.get(3));
         assertEquals(moveRook, moves.get(4));
-        assertEquals(tail, moves.get(5));
+        assertEquals(moveRook1, moves.get(5));
     }
 
     @Test

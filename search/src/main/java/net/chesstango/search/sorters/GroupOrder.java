@@ -36,9 +36,12 @@ public record GroupOrder(Predicate<Move> predicate, Comparator<Move> comparator)
     public int sort(List<Move> moves, int from) {
         int boundary = from;
 
-        for (int i = 0; i < moves.size(); i++) {
+        for (int i = from; i < moves.size(); i++) {
             if (predicate.test(moves.get(i))) {
-                Collections.swap(moves, boundary++, i);
+                if (boundary < i) {
+                    Collections.swap(moves, boundary, i);
+                }
+                boundary++;
             }
         }
 

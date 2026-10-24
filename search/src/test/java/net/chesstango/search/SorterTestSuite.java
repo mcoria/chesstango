@@ -54,6 +54,8 @@ import org.junit.platform.suite.api.Suite;
         GroupOrderCatAllTest.class,
         GroupOrderPVTest.class,
         GroupOrderTranspositionHeadTest.class,
+        GroupOrderTranspositionTailTest.class,
+
         TranspositionTailMoveGroupTest.class,
 
 
