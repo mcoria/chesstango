@@ -25,7 +25,7 @@ public class NodeMoveSorterStagePVTest {
 
     private PrincipalVariationPredicate principalVariationPredicate;
 
-    private NodeMoveSorterStage nodeMoveSorterStage;
+    private NodeMoveSorterStage sorterStage;
 
     @Mock
     private Move move1;
@@ -42,7 +42,7 @@ public class NodeMoveSorterStagePVTest {
     @BeforeEach
     public void setUp() {
         principalVariationPredicate = new PrincipalVariationPredicate();
-        nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariationStage(principalVariationPredicate);
+        sorterStage = NodeMoveSorterStage.createPrincipalVariationStage(principalVariationPredicate);
     }
 
 
@@ -57,7 +57,7 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
@@ -71,7 +71,7 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
@@ -88,7 +88,7 @@ public class NodeMoveSorterStagePVTest {
         // Ply 0
         principalVariationPredicate.beforeSort(0);
         List<Move> movesPly0 = new ArrayList<>(List.of(move3, move1, move4));
-        int resultPly0 = nodeMoveSorterStage.sort(movesPly0, 0);
+        int resultPly0 = sorterStage.sort(movesPly0, 0);
 
         assertEquals(1, resultPly0);
         assertEquals(List.of(move1, move3, move4), movesPly0);
@@ -96,7 +96,7 @@ public class NodeMoveSorterStagePVTest {
         // Ply 1
         principalVariationPredicate.beforeSort(1);
         List<Move> movesPly1 = new ArrayList<>(List.of(move4, move3, move2));
-        int resultPly1 = nodeMoveSorterStage.sort(movesPly1, 0);
+        int resultPly1 = sorterStage.sort(movesPly1, 0);
 
         assertEquals(1, resultPly1);
         assertEquals(List.of(move2, move3, move4), movesPly1);
@@ -104,7 +104,7 @@ public class NodeMoveSorterStagePVTest {
         // Ply 2 (beyond lastPVMoves size)
         principalVariationPredicate.beforeSort(2);
         List<Move> movesPly2 = new ArrayList<>(List.of(move3, move4));
-        int resultPly2 = nodeMoveSorterStage.sort(movesPly2, 0);
+        int resultPly2 = sorterStage.sort(movesPly2, 0);
 
         assertEquals(0, resultPly2);
         assertEquals(List.of(move3, move4), movesPly2);
@@ -157,7 +157,7 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move2, move1, move3), moves);
@@ -171,7 +171,7 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = nodeMoveSorterStage.sort(moves, 1);
+        int result = sorterStage.sort(moves, 1);
 
         assertEquals(2, result);
         assertEquals(List.of(move1, move3, move2, move4), moves);
@@ -185,7 +185,7 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move4, move2, move3, move1), moves);
@@ -200,7 +200,7 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -214,7 +214,7 @@ public class NodeMoveSorterStagePVTest {
 
         principalVariationPredicate.beforeSort(0);
         List<Move> moves1 = new ArrayList<>(List.of(move1, move2));
-        int result1 = nodeMoveSorterStage.sort(moves1, 0);
+        int result1 = sorterStage.sort(moves1, 0);
         assertEquals(1, result1);
         assertEquals(List.of(move2, move1), moves1);
         principalVariationPredicate.afterSort();
@@ -222,7 +222,7 @@ public class NodeMoveSorterStagePVTest {
         // Next sort call should have currentPVMove == null
         principalVariationPredicate.beforeSort(0);
         List<Move> moves2 = new ArrayList<>(List.of(move1, move2));
-        int result2 = nodeMoveSorterStage.sort(moves2, 0);
+        int result2 = sorterStage.sort(moves2, 0);
         assertEquals(0, result2);
         assertEquals(List.of(move1, move2), moves2);
         principalVariationPredicate.afterSort();
@@ -238,13 +238,13 @@ public class NodeMoveSorterStagePVTest {
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves1 = new ArrayList<>(List.of(move2, move1));
-        nodeMoveSorterStage.sort(moves1, 0);
+        sorterStage.sort(moves1, 0);
 
         // Calling beforeSort(0) again should not reload pvMoves[0] since it was cleared to null
         principalVariationPredicate.beforeSort(0);
 
         List<Move> moves2 = new ArrayList<>(List.of(move2, move1));
-        int result2 = nodeMoveSorterStage.sort(moves2, 0);
+        int result2 = sorterStage.sort(moves2, 0);
         assertEquals(0, result2);
         assertEquals(List.of(move2, move1), moves2);
     }

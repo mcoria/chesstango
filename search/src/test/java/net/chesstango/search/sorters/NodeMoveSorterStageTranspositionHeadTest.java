@@ -30,7 +30,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
 
     private TranspositionHeadPredicate transpositionHeadPredicate;
 
-    private NodeMoveSorterStage nodeMoveSorterStage;
+    private NodeMoveSorterStage sorterStage;
 
     @Mock
     private TTable tTable;
@@ -55,7 +55,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate = new TranspositionHeadPredicate();
         transpositionHeadPredicate.setTTable(tTable);
 
-        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadPredicate);
+        sorterStage = NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadPredicate);
     }
 
 
@@ -67,7 +67,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x10);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -79,7 +79,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x01);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -92,7 +92,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x02);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move2, move1, move3), moves);
@@ -106,7 +106,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x03);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move3, move2, move1), moves);
@@ -120,7 +120,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x99);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -134,7 +134,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x04);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4, move5));
-        int result = nodeMoveSorterStage.sort(moves, 1);
+        int result = sorterStage.sort(moves, 1);
 
         assertEquals(2, result);
         assertEquals(List.of(move1, move4, move3, move2, move5), moves);
@@ -147,7 +147,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x01);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = nodeMoveSorterStage.sort(moves, 1);
+        int result = sorterStage.sort(moves, 1);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3, move4), moves);
@@ -160,7 +160,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadPredicate.setBestMoveEncoded((short) 0x04);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
-        int result = nodeMoveSorterStage.sort(moves, 1);
+        int result = sorterStage.sort(moves, 1);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2, move3, move4), moves);
@@ -186,7 +186,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         List<Move> moves = new ArrayList<>();
         game.getPossibleMoves().forEach(moves::add);
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(expectedHeadMove, moves.getFirst());

@@ -31,7 +31,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
     private TranspositionTailMoveComparator tailMoveComparator;
 
-    private NodeMoveSorterStage nodeMoveSorterStage;
+    private NodeMoveSorterStage sorterStage;
 
     @Mock
     private TTable tTable;
@@ -68,7 +68,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
         tailMoveComparator.setMoveToZobrist(moveToZobrist);
 
 
-        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionTailStage(transpositionTailPredicate, tailMoveComparator);
+        sorterStage = NodeMoveSorterStage.createTranspositionTailStage(transpositionTailPredicate, tailMoveComparator);
     }
 
 
@@ -76,7 +76,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
     public void testSortSingleElementRange() {
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
@@ -92,7 +92,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
@@ -106,7 +106,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move1, move2), moves);
@@ -122,7 +122,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move2, move1), moves);
@@ -140,7 +140,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
@@ -156,7 +156,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(2, result);
     }
@@ -178,7 +178,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(1, result);
         assertEquals(List.of(move2, move1), moves);
@@ -199,7 +199,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move3, move2, move4));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(2, result);
         assertEquals(move3, moves.get(0));
@@ -223,7 +223,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
 
-        int result = nodeMoveSorterStage.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(2, result);
         assertEquals(List.of(move1, move2, move3, move4), moves);
@@ -246,7 +246,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4, move5, move6));
 
-        int result = nodeMoveSorterStage.sort(moves, 1);
+        int result = sorterStage.sort(moves, 1);
 
         assertEquals(3, result);
         // move1 and move6 remain undisturbed outside range

@@ -20,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class NodeMoveSorterStageCatAllTest {
+public class NodeMoveSorterStageCatchAllTest {
 
-    private NodeMoveSorterStage catchAllGroup;
+    private NodeMoveSorterStage sorterStage;
 
     @BeforeEach
     public void setUp() {
-        catchAllGroup = NodeMoveSorterStage.createCatchAllStage();
+        sorterStage = NodeMoveSorterStage.createCatchAllStage();
     }
 
 
@@ -41,7 +41,7 @@ public class NodeMoveSorterStageCatAllTest {
 
         List<Move> moves = new ArrayList<>(List.of(moveKnight, moveKing, moveBishop, moveQueen, moveRook, movePawn));
 
-        int result = catchAllGroup.sort(moves, 0);
+        int result = sorterStage.sort(moves, 0);
 
         assertEquals(moves.size(), result);
         assertEquals(List.of(moveQueen, moveKnight, moveBishop, moveRook, movePawn, moveKing), moves);
@@ -58,7 +58,7 @@ public class NodeMoveSorterStageCatAllTest {
 
         List<Move> moves = new ArrayList<>(List.of(head, moveKnight, moveBishop, moveQueen, moveRook, moveRook1));
 
-        int result = catchAllGroup.sort(moves, 1);
+        int result = sorterStage.sort(moves, 1);
 
         assertEquals(6, result);
         assertEquals(head, moves.get(0));
@@ -82,7 +82,7 @@ public class NodeMoveSorterStageCatAllTest {
             moves2.add(move);
         }
 
-        int result = catchAllGroup.sort(moves1, 0);
+        int result = sorterStage.sort(moves1, 0);
 
         assertEquals(moves1.size(), result);
 

@@ -50,7 +50,7 @@ import org.junit.platform.suite.api.Suite;
         /**
          * Group Sorters
          */
-        NodeMoveSorterStageCatAllTest.class,
+        NodeMoveSorterStageCatchAllTest.class,
         NodeMoveSorterStagePVTest.class,
         NodeMoveSorterStageTranspositionHeadTest.class,
         NodeMoveSorterStageTranspositionTailTest.class,
