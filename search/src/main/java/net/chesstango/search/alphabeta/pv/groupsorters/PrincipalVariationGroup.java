@@ -3,23 +3,21 @@ package net.chesstango.search.alphabeta.pv.groupsorters;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.*;
-import net.chesstango.search.sorters.GroupSorter;
 import net.chesstango.search.sorters.SortListener;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static net.chesstango.search.alphabeta.Constants.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchListener, SearchByDepthListener, SortListener {
-
-    private final PVMove[] pvMoves;
-
+public class PrincipalVariationGroup implements Acceptor, Predicate<Move>, SearchListener, SearchByDepthListener, SortListener {
     @Setter
     private List<PVMove> lastPVMoves;
+
+    private final PVMove[] pvMoves;
 
     private PVMove currentPVMove;
 
@@ -57,35 +55,8 @@ public class PrincipalVariationGroup implements Acceptor, GroupSorter, SearchLis
     }
 
     @Override
-    public int sort(List<Move> moves, int from, int to) {
-        if (currentPVMove != null) {
-            int pvMoveIdx = -1;
-
-            // Find the index of the current PV move in the list of moves
-            for (int i = from; i < to; i++) {
-                if (moves.get(i).equals(currentPVMove.move())) {
-                    pvMoveIdx = i;
-                    break;
-                }
-            }
-
-            // Reset current PV move
-            currentPVMove = null;
-
-            // if current PV move isn't found in the list of moves
-            // When QS and TT enabled, if the previous PV list > depth, TT probe will not explore the full list of PV moves
-            if (pvMoveIdx == -1) {
-                return from;
-            }
-
-            // Swap the current PV move with the first move in the list
-            if (pvMoveIdx > from) {
-                Collections.swap(moves, from, pvMoveIdx);
-            }
-
-            return from + 1;
-        }
-
-        return from;
+    public boolean test(Move move) {
+        return move.equals(currentPVMove.move());
     }
+
 }

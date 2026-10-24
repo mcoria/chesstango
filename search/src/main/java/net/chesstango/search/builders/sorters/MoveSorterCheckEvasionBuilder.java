@@ -8,9 +8,8 @@ import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionH
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionTailMoveGroup;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.sorters.groupsorters.AgregateGroup;
-import net.chesstango.search.sorters.groupsorters.CatchAllGroup;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,12 +18,9 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
-    private final DefaultMoveComparator defaultMoveComparator;
     private final NodeMoveSorter nodeMoveSorter;
     private MoveSorterDebug moveSorterDebug;
 
-    private AgregateGroup agregateGroup;
-    private CatchAllGroup catchAllGroup;
     private PrincipalVariationGroup principalVariationGroup;
     private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
     private TranspositionTailMoveGroup transpositionTailMoveGroup;
@@ -37,7 +33,6 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
     public MoveSorterCheckEvasionBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter();
-        this.defaultMoveComparator = new DefaultMoveComparator();
     }
 
     @Override
@@ -59,9 +54,6 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
 
     @Override
     protected void buildObjects() {
-        agregateGroup = new AgregateGroup();
-        catchAllGroup = new CatchAllGroup();
-
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
         }
@@ -85,15 +77,8 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         if (moveSorterDebug != null) {
             listenerMediator.add(moveSorterDebug);
         }
-
-        if (principalVariationGroup != null) {
-            listenerMediator.add(principalVariationGroup);
-            nodeMoveSorter.addSortListener(principalVariationGroup);
-        }
-
         if (transpositionHeadMoveGroup != null) {
             listenerMediator.add(transpositionHeadMoveGroup);
-            nodeMoveSorter.addSortListener(transpositionHeadMoveGroup);
         }
 
         if (transpositionTailMoveGroup != null) {
@@ -103,26 +88,28 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         if (transpositionTailMoveComparator != null) {
             listenerMediator.add(transpositionTailMoveComparator);
         }
+
+        if (principalVariationGroup != null) {
+            listenerMediator.add(principalVariationGroup);
+        }
+
     }
 
     @Override
     protected void link() {
         MoveToHashMap moveToZobrist = new MoveToHashMap();
 
-        nodeMoveSorter.setGroupSorter(createGroupSorterChain());
-        nodeMoveSorter.setMoveToZobrist(moveToZobrist);
-
-        if (transpositionTailMoveGroup != null && transpositionTailMoveComparator != null) {
+        if (transpositionTailMoveGroup != null) {
             transpositionTailMoveGroup.setMoveToZobrist(moveToZobrist);
-            transpositionTailMoveComparator.setMoveToZobrist(moveToZobrist);
-
-            Comparator<Move> moveComparator = transpositionTailMoveComparator
-                    .thenComparing(new DefaultMoveComparator());
-
-            transpositionTailMoveGroup.setMoveComparator(moveComparator.reversed());
         }
 
-        catchAllGroup.setMoveComparator(new DefaultMoveComparator().reversed());
+        if (transpositionTailMoveComparator != null) {
+            transpositionTailMoveComparator.setMoveToZobrist(moveToZobrist);
+        }
+
+        nodeMoveSorter.setMoveToZobrist(moveToZobrist);
+        nodeMoveSorter.setSortListeners(createSortListeners());
+        nodeMoveSorter.setGroupOrders(createGroupSorterChain());
     }
 
     @Override
@@ -138,29 +125,38 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         return linkMoveSorterChain(chain);
     }
 
-    private GroupSorter createGroupSorterChain() {
+    private List<SortListener> createSortListeners() {
+        List<SortListener> sortListeners = new ArrayList<>();
+
+        if (transpositionHeadMoveGroup != null) {
+            sortListeners.add(transpositionHeadMoveGroup);
+        }
+
         if (principalVariationGroup != null) {
-            agregateGroup.addGroup(principalVariationGroup);
+            sortListeners.add(principalVariationGroup);
+        }
+
+        return sortListeners;
+    }
+
+
+    private List<GroupOrder> createGroupSorterChain() {
+        List<GroupOrder> groupOrders = new ArrayList<>();
+
+        if (principalVariationGroup != null) {
+            groupOrders.add(GroupOrder.createPrincipalVariation(principalVariationGroup));
         }
 
         if (transpositionHeadMoveGroup != null) {
-            agregateGroup.addGroup(transpositionHeadMoveGroup);
+            groupOrders.add(GroupOrder.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup));
         }
 
-        if (transpositionTailMoveGroup != null) {
-            agregateGroup.addGroup(transpositionTailMoveGroup);
+        if (transpositionTailMoveGroup != null && transpositionTailMoveComparator!=null) {
+            groupOrders.add(GroupOrder.createTranspositionTailMoveGroup(transpositionTailMoveGroup, transpositionTailMoveComparator));
         }
 
-        agregateGroup.addGroup(catchAllGroup);
+        groupOrders.add(GroupOrder.createCatchAll());
 
-        return agregateGroup;
-    }
-
-    private MoveComparator createComparatorChain() {
-        List<MoveComparator> chain = new LinkedList<>();
-
-        chain.add(defaultMoveComparator);
-
-        return linkMoveComparatorChain(chain);
+        return groupOrders;
     }
 }

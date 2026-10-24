@@ -101,7 +101,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     public QuiescenceChainBuilder withRecaptureSorter() {
-        moveSorterBuilder.withRecaptureSorter();
+        moveSorterBuilder.withRecapture();
         return this;
     }
 

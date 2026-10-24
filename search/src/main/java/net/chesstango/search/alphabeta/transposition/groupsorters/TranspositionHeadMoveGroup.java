@@ -9,16 +9,14 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
-import net.chesstango.search.sorters.GroupSorter;
 import net.chesstango.search.sorters.SortListener;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionHeadMoveGroup implements Acceptor, GroupSorter, SortListener {
+public class TranspositionHeadMoveGroup implements Acceptor, Predicate<Move>, SortListener {
 
     private final TranspositionEntry entryWorkspace;
 
@@ -54,31 +52,7 @@ public class TranspositionHeadMoveGroup implements Acceptor, GroupSorter, SortLi
     }
 
     @Override
-    public int sort(List<Move> moves, int from, int to) {
-        if (bestMoveEncoded != 0) {
-            int pvMoveIdx = -1;
-
-            // Find the index of the current PV move in the list of moves
-            for (int i = from; i < to; i++) {
-                if (moves.get(i).binaryEncoding() == bestMoveEncoded) {
-                    pvMoveIdx = i;
-                    break;
-                }
-            }
-
-            // if current move isn't found in the list of moves
-            if (pvMoveIdx == -1) {
-                return from;
-            }
-
-            // Swap the current PV move with the first move in the list
-            if (pvMoveIdx > from) {
-                Collections.swap(moves, from, pvMoveIdx);
-            }
-
-            return from + 1;
-        }
-
-        return from;
+    public boolean test(Move move) {
+        return move.binaryEncoding() == bestMoveEncoded;
     }
 }

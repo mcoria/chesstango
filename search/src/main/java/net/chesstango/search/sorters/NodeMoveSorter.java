@@ -1,6 +1,5 @@
 package net.chesstango.search.sorters;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -10,7 +9,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -18,12 +16,13 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public class NodeMoveSorter implements MoveSorter, Acceptor {
-    private final List<SortListener> sortListeners = new LinkedList<>();
-
     private final Predicate<Move> filter;
 
     @Setter
-    private GroupSorter groupSorter;
+    private List<SortListener> sortListeners;
+
+    @Setter
+    private List<GroupOrder> groupOrders;
 
     @Setter
     private MoveToHashMap moveToZobrist;
@@ -59,15 +58,18 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
 
         triggerBeforeSort(currentPly);
 
-        groupSorter.sort(moveList, 0, moveList.size());
+        sortAll(moveList);
 
         triggerAfterSort();
 
         return moveList;
     }
 
-    public void addSortListener(SortListener sortListener) {
-        sortListeners.add(sortListener);
+    void sortAll(List<Move> moves) {
+        int currentIdx = 0;
+        for (GroupOrder groupOrder : groupOrders) {
+            currentIdx = groupOrder.sort(moves, currentIdx);
+        }
     }
 
     void triggerBeforeSort(int currentPly) {
