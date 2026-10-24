@@ -178,7 +178,7 @@ public class GroupOrderPVTest {
     }
 
     @Test
-    public void testSortCurrentPVMoveNotInSubRange() {
+    public void testSortCurrentPVMoveLast() {
         PVMove pvMove = new PVMove(100L, move4);
         principalVariationGroup.setLastPVMoves(List.of(pvMove));
         principalVariationGroup.beforeSearchByDepth();
@@ -187,8 +187,8 @@ public class GroupOrderPVTest {
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
         int result = groupOrder.sort(moves, 0);
 
-        assertEquals(0, result);
-        assertEquals(List.of(move1, move2, move3, move4), moves);
+        assertEquals(1, result);
+        assertEquals(List.of(move4, move2, move3, move1), moves);
     }
 
     @Test
@@ -211,18 +211,21 @@ public class GroupOrderPVTest {
         PVMove pvMove = new PVMove(100L, move2);
         principalVariationGroup.setLastPVMoves(List.of(pvMove));
         principalVariationGroup.beforeSearchByDepth();
-        principalVariationGroup.beforeSort(0);
 
+        principalVariationGroup.beforeSort(0);
         List<Move> moves1 = new ArrayList<>(List.of(move1, move2));
         int result1 = groupOrder.sort(moves1, 0);
         assertEquals(1, result1);
         assertEquals(List.of(move2, move1), moves1);
+        principalVariationGroup.afterSort();
 
-        // Next sort call without beforeSort should have currentPVMove == null
+        // Next sort call should have currentPVMove == null
+        principalVariationGroup.beforeSort(0);
         List<Move> moves2 = new ArrayList<>(List.of(move1, move2));
         int result2 = groupOrder.sort(moves2, 0);
         assertEquals(0, result2);
         assertEquals(List.of(move1, move2), moves2);
+        principalVariationGroup.afterSort();
     }
 
     @Test
