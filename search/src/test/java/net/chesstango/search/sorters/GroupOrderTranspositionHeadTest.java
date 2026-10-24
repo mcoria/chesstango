@@ -61,7 +61,10 @@ public class GroupOrderTranspositionHeadTest {
 
     @Test
     public void testSortWhenBestMoveIsZero() {
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0);
+        when(move1.binaryEncoding()).thenReturn((short) 0x01);
+        when(move2.binaryEncoding()).thenReturn((short) 0x02);
+        when(move3.binaryEncoding()).thenReturn((short) 0x03);
+        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x10);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
         int result = groupOrder.sort(moves, 0);
