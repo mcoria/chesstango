@@ -2,7 +2,7 @@ package net.chesstango.search.alphabeta.transposition.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
-import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
 
 /**
  *

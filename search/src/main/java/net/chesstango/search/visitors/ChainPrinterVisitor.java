@@ -37,7 +37,7 @@ import net.chesstango.search.alphabeta.statistics.transposition.TTableStatistics
 import net.chesstango.search.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.alphabeta.statistics.transposition.TTableStatisticsPVCollector;
 import net.chesstango.search.alphabeta.transposition.*;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.filters.*;
 import net.chesstango.search.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.sorters.*;

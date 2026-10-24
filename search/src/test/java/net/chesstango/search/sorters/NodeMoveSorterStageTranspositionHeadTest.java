@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
-import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

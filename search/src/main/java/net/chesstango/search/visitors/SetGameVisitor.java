@@ -31,7 +31,7 @@ import net.chesstango.search.alphabeta.transposition.TTableComparatorHeadDebug;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorTailDebug;
 import net.chesstango.search.alphabeta.transposition.TTableNodeDebug;
 import net.chesstango.search.alphabeta.transposition.filters.*;
-import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
 import net.chesstango.search.sorters.MoveSorterDebug;
 import net.chesstango.search.sorters.NodeMoveSorter;
 import net.chesstango.search.sorters.comparators.RecaptureMoveComparator;

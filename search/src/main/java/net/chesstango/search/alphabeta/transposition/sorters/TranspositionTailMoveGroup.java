@@ -1,4 +1,4 @@
-package net.chesstango.search.alphabeta.transposition.groupsorters;
+package net.chesstango.search.alphabeta.transposition.sorters;
 
 import lombok.Getter;
 import lombok.Setter;

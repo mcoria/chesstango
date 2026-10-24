@@ -1,4 +1,4 @@
-package net.chesstango.search.alphabeta.transposition.comparators;
+package net.chesstango.search.alphabeta.transposition.sorters.comparators;
 
 import lombok.Getter;
 import lombok.Setter;

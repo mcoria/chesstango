@@ -1,15 +1,15 @@
-package net.chesstango.search.alphabeta.transposition.comparators;
+package net.chesstango.search.alphabeta.transposition.sorters.comparators;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TTableMap;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
+import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

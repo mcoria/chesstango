@@ -1,4 +1,4 @@
-package net.chesstango.search.alphabeta.transposition.groupsorters;
+package net.chesstango.search.alphabeta.transposition.sorters;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;

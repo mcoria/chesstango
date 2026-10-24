@@ -1,6 +1,5 @@
-package net.chesstango.search.alphabeta.transposition.groupsorters;
+package net.chesstango.search.alphabeta.transposition.sorters;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;

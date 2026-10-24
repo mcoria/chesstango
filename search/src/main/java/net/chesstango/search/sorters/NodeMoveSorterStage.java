@@ -2,9 +2,9 @@ package net.chesstango.search.sorters;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
-import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroup;
-import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionTailMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailMoveGroup;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 
 import java.util.Collections;

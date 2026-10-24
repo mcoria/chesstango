@@ -1,7 +1,6 @@
-package net.chesstango.search.alphabeta.transposition.groupsorters;
+package net.chesstango.search.alphabeta.transposition.sorters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Visitor;
@@ -12,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
