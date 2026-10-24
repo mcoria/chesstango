@@ -17,19 +17,19 @@ import java.util.function.Predicate;
  */
 public record NodeMoveSorterStage(Predicate<Move> predicate, Comparator<Move> comparator) {
 
-    public static NodeMoveSorterStage createCatchAll() {
+    public static NodeMoveSorterStage createCatchAllStage() {
         return new NodeMoveSorterStage(_ -> true, new DefaultMoveComparator().reversed());
     }
 
-    public static NodeMoveSorterStage createPrincipalVariation(PrincipalVariationGroup principalVariationGroup) {
+    public static NodeMoveSorterStage createPrincipalVariationStage(PrincipalVariationGroup principalVariationGroup) {
         return new NodeMoveSorterStage(principalVariationGroup, (a, b) -> 0);
     }
 
-    public static NodeMoveSorterStage createTranspositionHeadMoveGroup(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
+    public static NodeMoveSorterStage createTranspositionHeadStage(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
         return new NodeMoveSorterStage(transpositionHeadMoveGroup, (a, b) -> 0);
     }
 
-    public static NodeMoveSorterStage createTranspositionTailMoveGroup(TranspositionTailMoveGroup transpositionTailMoveGroup, TranspositionTailMoveComparator transpositionTailMoveComparator) {
+    public static NodeMoveSorterStage createTranspositionTailStage(TranspositionTailMoveGroup transpositionTailMoveGroup, TranspositionTailMoveComparator transpositionTailMoveComparator) {
         return new NodeMoveSorterStage(transpositionTailMoveGroup, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
     }
 

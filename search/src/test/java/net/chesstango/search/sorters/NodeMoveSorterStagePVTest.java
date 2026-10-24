@@ -42,7 +42,7 @@ public class NodeMoveSorterStagePVTest {
     @BeforeEach
     public void setUp() {
         principalVariationGroup = new PrincipalVariationGroup();
-        nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup);
+        nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariationStage(principalVariationGroup);
     }
 
 
@@ -123,7 +123,7 @@ public class NodeMoveSorterStagePVTest {
 
     @Test
     public void testSortWithoutBeforeSort() {
-        NodeMoveSorterStage nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup);
+        NodeMoveSorterStage nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariationStage(principalVariationGroup);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
 
@@ -135,7 +135,7 @@ public class NodeMoveSorterStagePVTest {
 
     @Test
     public void testSortWithCurrentPVMoveAlreadyAtFrom() {
-        NodeMoveSorterStage nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup);
+        NodeMoveSorterStage nodeMoveSorterStage = NodeMoveSorterStage.createPrincipalVariationStage(principalVariationGroup);
 
         PVMove pvMove = new PVMove(100L, move1);
         principalVariationGroup.setLastPVMoves(List.of(pvMove));

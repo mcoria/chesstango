@@ -55,7 +55,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
         transpositionHeadMoveGroup.setTTable(tTable);
 
-        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup);
+        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadMoveGroup);
     }
 
 

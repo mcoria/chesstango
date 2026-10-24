@@ -26,7 +26,7 @@ public class NodeMoveSorterStageCatAllTest {
 
     @BeforeEach
     public void setUp() {
-        catchAllGroup = NodeMoveSorterStage.createCatchAll();
+        catchAllGroup = NodeMoveSorterStage.createCatchAllStage();
     }
 
 

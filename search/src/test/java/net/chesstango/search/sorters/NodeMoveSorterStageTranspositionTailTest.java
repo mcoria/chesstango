@@ -68,7 +68,7 @@ public class NodeMoveSorterStageTranspositionTailTest {
         tailMoveComparator.setMoveToZobrist(moveToZobrist);
 
 
-        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionTailMoveGroup(transpositionTailMoveGroup, tailMoveComparator);
+        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionTailStage(transpositionTailMoveGroup, tailMoveComparator);
     }
 
 

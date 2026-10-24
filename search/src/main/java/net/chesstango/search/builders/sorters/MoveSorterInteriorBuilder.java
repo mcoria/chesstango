@@ -227,18 +227,18 @@ public class MoveSorterInteriorBuilder extends AbstractMoveSorterBuilder {
         List<NodeMoveSorterStage> nodeMoveSorterStages = new ArrayList<>();
 
         if (principalVariationGroup != null) {
-            nodeMoveSorterStages.add(NodeMoveSorterStage.createPrincipalVariation(principalVariationGroup));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createPrincipalVariationStage(principalVariationGroup));
         }
 
         if (transpositionHeadMoveGroup != null) {
-            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadMoveGroup(transpositionHeadMoveGroup));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadMoveGroup));
         }
 
         if (transpositionTailMoveGroup != null && transpositionTailMoveComparator!=null) {
-            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailMoveGroup(transpositionTailMoveGroup, transpositionTailMoveComparator));
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailStage(transpositionTailMoveGroup, transpositionTailMoveComparator));
         }
 
-        nodeMoveSorterStages.add(NodeMoveSorterStage.createCatchAll());
+        nodeMoveSorterStages.add(NodeMoveSorterStage.createCatchAllStage());
 
         return nodeMoveSorterStages;
     }
