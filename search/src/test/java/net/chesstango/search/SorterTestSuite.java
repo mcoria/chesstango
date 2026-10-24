@@ -2,18 +2,17 @@ package net.chesstango.search;
 
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheArrayTest;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheDebugTest;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroupTest;
+import net.chesstango.search.sorters.GroupOrderPVTest;
 import net.chesstango.search.alphabeta.root.RootMoveEvaluationComparatorTest;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorHeadDebugTest;
 import net.chesstango.search.alphabeta.transposition.TTableComparatorTailDebugTest;
 import net.chesstango.search.alphabeta.transposition.TTableStatisticsCollectorTest;
 import net.chesstango.search.alphabeta.transposition.comparators.TranspositionTailMoveComparatorTest;
-import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionHeadMoveGroupTest;
+import net.chesstango.search.sorters.GroupOrderTranspositionHeadTest;
 import net.chesstango.search.alphabeta.transposition.groupsorters.TranspositionTailMoveGroupTest;
 import net.chesstango.search.sorters.*;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparatorTest;
-import net.chesstango.search.sorters.groupsorters.AgregateGroupTest;
-import net.chesstango.search.sorters.groupsorters.CatchAllGroupTest;
+import net.chesstango.search.sorters.GroupOrderCatAllTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -52,10 +51,9 @@ import org.junit.platform.suite.api.Suite;
         /**
          * Group Sorters
          */
-        AgregateGroupTest.class,
-        CatchAllGroupTest.class,
-        PrincipalVariationGroupTest.class,
-        TranspositionHeadMoveGroupTest.class,
+        GroupOrderCatAllTest.class,
+        GroupOrderPVTest.class,
+        GroupOrderTranspositionHeadTest.class,
         TranspositionTailMoveGroupTest.class,
 
 

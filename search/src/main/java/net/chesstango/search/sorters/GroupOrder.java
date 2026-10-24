@@ -16,6 +16,7 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public record GroupOrder(Predicate<Move> predicate, Comparator<Move> comparator) {
+
     public static GroupOrder createCatchAll() {
         return new GroupOrder(_ -> true, new DefaultMoveComparator().reversed());
     }

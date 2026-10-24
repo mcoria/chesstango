@@ -1,4 +1,4 @@
-package net.chesstango.search.sorters.groupsorters;
+package net.chesstango.search.sorters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
@@ -20,29 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class CatchAllGroupTest {
+public class GroupOrderCatAllTest {
 
-    private CatchAllGroup catchAllGroup;
+    private GroupOrder catchAllGroup;
 
     @BeforeEach
     public void setUp() {
-        catchAllGroup = new CatchAllGroup();
-        catchAllGroup.setMoveComparator(new DefaultMoveComparator().reversed());
+        catchAllGroup = GroupOrder.createCatchAll();
     }
 
-    @Test
-    public void testEmptyRange() {
-        Move move1 = createMove(PiecePositioned.of(Square.e2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.e4));
-        Move move2 = createMove(PiecePositioned.of(Square.d2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.d4));
-
-        List<Move> moves = new ArrayList<>(List.of(move1, move2));
-
-        int result = catchAllGroup.sort(moves, 1, 1);
-
-        assertEquals(1, result);
-        assertEquals(move1, moves.get(0));
-        assertEquals(move2, moves.get(1));
-    }
 
     @Test
     public void testSortFullList() {
@@ -55,7 +41,7 @@ public class CatchAllGroupTest {
 
         List<Move> moves = new ArrayList<>(List.of(moveKnight, moveKing, moveBishop, moveQueen, moveRook, movePawn));
 
-        int result = catchAllGroup.sort(moves, 0, moves.size());
+        int result = catchAllGroup.sort(moves, 0);
 
         assertEquals(moves.size(), result);
         assertEquals(List.of(moveQueen, moveKnight, moveBishop, moveRook, movePawn, moveKing), moves);
@@ -72,7 +58,7 @@ public class CatchAllGroupTest {
 
         List<Move> moves = new ArrayList<>(List.of(head, moveKnight, moveBishop, moveQueen, moveRook, tail));
 
-        int result = catchAllGroup.sort(moves, 1, 5);
+        int result = catchAllGroup.sort(moves, 1);
 
         assertEquals(5, result);
         assertEquals(head, moves.get(0));
@@ -96,7 +82,7 @@ public class CatchAllGroupTest {
             moves2.add(move);
         }
 
-        int result = catchAllGroup.sort(moves1, 0, moves1.size());
+        int result = catchAllGroup.sort(moves1, 0);
 
         assertEquals(moves1.size(), result);
 

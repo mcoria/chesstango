@@ -27,8 +27,8 @@ public class TranspositionHeadMoveGroup implements Acceptor, Predicate<Move>, So
     @Setter
     private Game game;
 
-    @Setter(AccessLevel.PACKAGE)
-    @Getter(AccessLevel.PACKAGE)
+    @Setter
+    @Getter
     private short bestMoveEncoded;
 
     public TranspositionHeadMoveGroup() {
