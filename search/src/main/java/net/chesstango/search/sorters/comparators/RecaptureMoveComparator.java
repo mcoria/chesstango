@@ -8,14 +8,14 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.sorters.SortListener;
+import net.chesstango.search.sorters.MoveSorterListener;
 
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
-public class RecaptureMoveComparator implements MoveComparator, Acceptor, SortListener {
+public class RecaptureMoveComparator implements MoveComparator, Acceptor, MoveSorterListener {
 
     @Getter
     @Setter

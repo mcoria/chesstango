@@ -7,12 +7,12 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.killermoves.KillerMoves;
 import net.chesstango.search.sorters.comparators.MoveComparator;
-import net.chesstango.search.sorters.SortListener;
+import net.chesstango.search.sorters.MoveSorterListener;
 
 /**
  * @author Mauricio Coria
  */
-public class KillerMoveComparator implements MoveComparator, Acceptor, SortListener {
+public class KillerMoveComparator implements MoveComparator, Acceptor, MoveSorterListener {
 
     @Getter
     @Setter

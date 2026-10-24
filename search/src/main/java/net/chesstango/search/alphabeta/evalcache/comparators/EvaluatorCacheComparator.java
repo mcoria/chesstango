@@ -11,12 +11,12 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCache;
 import net.chesstango.search.alphabeta.evalcache.EvaluatorCacheEntry;
 import net.chesstango.search.sorters.comparators.MoveComparator;
-import net.chesstango.search.sorters.SortListener;
+import net.chesstango.search.sorters.MoveSorterListener;
 
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorCacheComparator implements MoveComparator, Acceptor, SortListener {
+public class EvaluatorCacheComparator implements MoveComparator, Acceptor, MoveSorterListener {
 
     @Getter
     @Setter

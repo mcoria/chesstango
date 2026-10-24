@@ -3,7 +3,7 @@ package net.chesstango.search.alphabeta.pv.groupsorters;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.*;
-import net.chesstango.search.sorters.SortListener;
+import net.chesstango.search.sorters.MoveSorterListener;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -13,7 +13,7 @@ import static net.chesstango.search.alphabeta.Constants.MAX_DEPTH;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationGroup implements Acceptor, Predicate<Move>, SearchListener, SearchByDepthListener, SortListener {
+public class PrincipalVariationGroup implements Acceptor, Predicate<Move>, SearchListener, SearchByDepthListener, MoveSorterListener {
     @Setter
     private List<PVMove> lastPVMoves;
 

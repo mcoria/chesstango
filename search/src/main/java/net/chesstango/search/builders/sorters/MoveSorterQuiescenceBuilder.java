@@ -164,8 +164,8 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         }
 
         nodeMoveSorter.setMoveToZobrist(moveToZobrist);
-        nodeMoveSorter.setSortListeners(createSortListeners());
-        nodeMoveSorter.setNodeMoveSorterStages(createGroupSorterChain());
+        nodeMoveSorter.setSorterListeners(createSortListeners());
+        nodeMoveSorter.setMoveSorterStages(createGroupSorterChain());
     }
 
     @Override
@@ -181,26 +181,26 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         return linkMoveSorterChain(chain);
     }
 
-    private List<SortListener> createSortListeners() {
-        List<SortListener> sortListeners = new ArrayList<>();
+    private List<MoveSorterListener> createSortListeners() {
+        List<MoveSorterListener> moveSorterListeners = new ArrayList<>();
 
         if (transpositionHeadMoveGroup != null) {
-            sortListeners.add(transpositionHeadMoveGroup);
+            moveSorterListeners.add(transpositionHeadMoveGroup);
         }
 
         if (principalVariationGroup != null) {
-            sortListeners.add(principalVariationGroup);
+            moveSorterListeners.add(principalVariationGroup);
         }
 
         if (recaptureMoveComparator != null) {
-            sortListeners.add(recaptureMoveComparator);
+            moveSorterListeners.add(recaptureMoveComparator);
         }
 
         if (evaluatorCacheComparator != null) {
-            sortListeners.add(evaluatorCacheComparator);
+            moveSorterListeners.add(evaluatorCacheComparator);
         }
 
-        return sortListeners;
+        return moveSorterListeners;
     }
 
 

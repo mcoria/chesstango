@@ -19,10 +19,10 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
     private final Predicate<Move> filter;
 
     @Setter
-    private List<SortListener> sortListeners;
+    private List<MoveSorterListener> sorterListeners;
 
     @Setter
-    private List<NodeMoveSorterStage> nodeMoveSorterStages;
+    private List<NodeMoveSorterStage> moveSorterStages;
 
     @Setter
     private MoveToHashMap moveToZobrist;
@@ -67,16 +67,16 @@ public class NodeMoveSorter implements MoveSorter, Acceptor {
 
     void sortAll(List<Move> moves) {
         int currentIdx = 0;
-        for (NodeMoveSorterStage nodeMoveSorterStage : nodeMoveSorterStages) {
+        for (NodeMoveSorterStage nodeMoveSorterStage : moveSorterStages) {
             currentIdx = nodeMoveSorterStage.sort(moves, currentIdx);
         }
     }
 
     void triggerBeforeSort(int currentPly) {
-        sortListeners.forEach(sortListener -> sortListener.beforeSort(currentPly));
+        sorterListeners.forEach(sortListener -> sortListener.beforeSort(currentPly));
     }
 
     void triggerAfterSort() {
-        sortListeners.forEach(SortListener::afterSort);
+        sorterListeners.forEach(MoveSorterListener::afterSort);
     }
 }

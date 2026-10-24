@@ -35,8 +35,8 @@ public class NodeMoveSorterTest {
      */
     @Test
     public void testCapture01() {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
@@ -62,8 +62,8 @@ public class NodeMoveSorterTest {
 
     @Test
     public void testCapture01Mirror() {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
@@ -95,8 +95,8 @@ public class NodeMoveSorterTest {
 
     @Test
     public void testCapture02() {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
@@ -132,8 +132,8 @@ public class NodeMoveSorterTest {
 
     @Test
     public void testCapture02Mirror() {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Move move = null;
@@ -169,8 +169,8 @@ public class NodeMoveSorterTest {
 
     @Test
     public void testInitial() {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Game game = Game.from(FEN.START_POSITION);
@@ -189,8 +189,8 @@ public class NodeMoveSorterTest {
 
     @Test
     public void testGamesMirror() {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         testMirror(Game.from(FEN.START_POSITION));
@@ -204,16 +204,16 @@ public class NodeMoveSorterTest {
 
 
     private void testMirror(Game game) {
-        nodeMoveSorter.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        nodeMoveSorter.setSortListeners(Collections.emptyList());
+        nodeMoveSorter.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        nodeMoveSorter.setSorterListeners(Collections.emptyList());
         nodeMoveSorter.setMoveToZobrist(new MoveToHashMap());
 
         Game gameMirror = game.mirror();
 
         NodeMoveSorter moveSorterMirror = new NodeMoveSorter();
 
-        moveSorterMirror.setNodeMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
-        moveSorterMirror.setSortListeners(Collections.emptyList());
+        moveSorterMirror.setMoveSorterStages(List.of(NodeMoveSorterStage.createCatchAllStage()));
+        moveSorterMirror.setSorterListeners(Collections.emptyList());
         moveSorterMirror.setMoveToZobrist(new MoveToHashMap());
 
         initMoveSorter(nodeMoveSorter, game);

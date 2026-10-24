@@ -8,14 +8,14 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
-import net.chesstango.search.sorters.SortListener;
+import net.chesstango.search.sorters.MoveSorterListener;
 
 import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionHeadMoveGroup implements Acceptor, Predicate<Move>, SortListener {
+public class TranspositionHeadMoveGroup implements Acceptor, Predicate<Move>, MoveSorterListener {
 
     private final TranspositionEntry entryWorkspace;
 
