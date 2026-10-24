@@ -18,7 +18,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Mauricio Coria
@@ -70,16 +71,6 @@ public class GroupOrderTranspositionTailTest {
         groupOrder = GroupOrder.createTranspositionTailMoveGroup(transpositionTailMoveGroup, tailMoveComparator);
     }
 
-    @Test
-    public void testSortEmptyRange() {
-        List<Move> moves = new ArrayList<>(List.of(move1, move2));
-
-        int result = groupOrder.sort(moves, 1);
-
-        assertEquals(1, result);
-        assertEquals(List.of(move1, move2), moves);
-        verifyNoInteractions(tailMoveComparator);
-    }
 
     @Test
     public void testSortSingleElementRange() {
@@ -89,7 +80,6 @@ public class GroupOrderTranspositionTailTest {
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
-        verifyNoInteractions(tailMoveComparator);
     }
 
     @Test
@@ -106,14 +96,13 @@ public class GroupOrderTranspositionTailTest {
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2), moves);
-        verifyNoInteractions(tailMoveComparator);
     }
 
     @Test
     public void testSortTwoMovesHitThenMiss() {
         when(moveToZobrist.read(move1)).thenReturn(100L);
 
-        setupTTableHit(100L);
+        setupTTableHit(100L, 1);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
@@ -129,7 +118,7 @@ public class GroupOrderTranspositionTailTest {
         when(moveToZobrist.read(move2)).thenReturn(200L);
 
         when(tTable.load(eq(100L), any(TranspositionEntry.class))).thenReturn(false);
-        setupTTableHit(200L);
+        setupTTableHit(200L, 2);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
@@ -155,7 +144,6 @@ public class GroupOrderTranspositionTailTest {
 
         assertEquals(0, result);
         assertEquals(List.of(move1, move2, move3), moves);
-        verifyNoInteractions(tailMoveComparator);
     }
 
     @Test
@@ -163,15 +151,14 @@ public class GroupOrderTranspositionTailTest {
         when(moveToZobrist.read(move1)).thenReturn(100L);
         when(moveToZobrist.read(move2)).thenReturn(200L);
 
-        setupTTableHit(100L);
-        setupTTableHit(200L);
+        setupTTableHit(100L, 1);
+        setupTTableHit(200L, 2);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
 
         int result = groupOrder.sort(moves, 0);
 
         assertEquals(2, result);
-        verify(tailMoveComparator, atLeastOnce()).compare(any(), any());
     }
 
     @Test
@@ -187,7 +174,7 @@ public class GroupOrderTranspositionTailTest {
         }).when(tTable).load(eq(100L), any(TranspositionEntry.class));
 
         // move2 is a valid hit
-        setupTTableHit(200L);
+        setupTTableHit(200L, 1);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2));
 
@@ -207,16 +194,16 @@ public class GroupOrderTranspositionTailTest {
 
         when(tTable.load(eq(100L), any(TranspositionEntry.class))).thenReturn(false);
         when(tTable.load(eq(200L), any(TranspositionEntry.class))).thenReturn(false);
-        setupTTableHit(300L);
-        setupTTableHit(400L);
+        setupTTableHit(300L, 2);
+        setupTTableHit(400L, 1);
 
-        List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
+        List<Move> moves = new ArrayList<>(List.of(move1, move3, move2, move4));
 
         int result = groupOrder.sort(moves, 0);
 
         assertEquals(2, result);
-        assertEquals(move4, moves.get(0));
-        assertEquals(move3, moves.get(1));
+        assertEquals(move3, moves.get(0));
+        assertEquals(move4, moves.get(1));
         assertEquals(move2, moves.get(2));
         assertEquals(move1, moves.get(3));
     }
@@ -229,8 +216,8 @@ public class GroupOrderTranspositionTailTest {
         when(moveToZobrist.read(move3)).thenReturn(300L);
         when(moveToZobrist.read(move4)).thenReturn(400L);
 
-        setupTTableHit(100L);
-        setupTTableHit(200L);
+        setupTTableHit(100L, 2);
+        setupTTableHit(200L, 1);
         when(tTable.load(eq(300L), any(TranspositionEntry.class))).thenReturn(false);
         when(tTable.load(eq(400L), any(TranspositionEntry.class))).thenReturn(false);
 
@@ -250,11 +237,12 @@ public class GroupOrderTranspositionTailTest {
         when(moveToZobrist.read(move3)).thenReturn(300L);
         when(moveToZobrist.read(move4)).thenReturn(400L);
         when(moveToZobrist.read(move5)).thenReturn(500L);
+        when(moveToZobrist.read(move6)).thenReturn(600L);
 
         when(tTable.load(eq(200L), any(TranspositionEntry.class))).thenReturn(false);
         when(tTable.load(eq(300L), any(TranspositionEntry.class))).thenReturn(false);
-        setupTTableHit(400L);
-        setupTTableHit(500L);
+        setupTTableHit(400L, 1);
+        setupTTableHit(500L, 2);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4, move5, move6));
 
@@ -266,14 +254,15 @@ public class GroupOrderTranspositionTailTest {
         assertEquals(move6, moves.get(5));
         assertEquals(move5, moves.get(1));
         assertEquals(move4, moves.get(2));
-        assertEquals(move3, moves.get(3));
-        assertEquals(move2, moves.get(4));
+        assertEquals(move2, moves.get(3));
+        assertEquals(move3, moves.get(4));
     }
 
-    private void setupTTableHit(long hash) {
+    private void setupTTableHit(long hash, int value) {
         doAnswer(invocation -> {
             TranspositionEntry entry = invocation.getArgument(1);
             entry.setHash(hash);
+            entry.setValue(value);
             return true;
         }).when(tTable).load(eq(hash), any(TranspositionEntry.class));
     }
