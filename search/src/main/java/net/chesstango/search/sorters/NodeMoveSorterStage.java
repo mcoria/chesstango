@@ -1,10 +1,10 @@
 package net.chesstango.search.sorters;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.pv.sorters.PrincipalVariationPredicate;
 import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadPredicate;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailPredicate;
 import net.chesstango.search.sorters.comparators.DefaultMoveComparator;
 
 import java.util.Collections;
@@ -21,16 +21,16 @@ public record NodeMoveSorterStage(Predicate<Move> predicate, Comparator<Move> co
         return new NodeMoveSorterStage(_ -> true, new DefaultMoveComparator().reversed());
     }
 
-    public static NodeMoveSorterStage createPrincipalVariationStage(PrincipalVariationGroup principalVariationGroup) {
-        return new NodeMoveSorterStage(principalVariationGroup, (a, b) -> 0);
+    public static NodeMoveSorterStage createPrincipalVariationStage(PrincipalVariationPredicate principalVariationPredicate) {
+        return new NodeMoveSorterStage(principalVariationPredicate, (a, b) -> 0);
     }
 
-    public static NodeMoveSorterStage createTranspositionHeadStage(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
-        return new NodeMoveSorterStage(transpositionHeadMoveGroup, (a, b) -> 0);
+    public static NodeMoveSorterStage createTranspositionHeadStage(TranspositionHeadPredicate transpositionHeadPredicate) {
+        return new NodeMoveSorterStage(transpositionHeadPredicate, (a, b) -> 0);
     }
 
-    public static NodeMoveSorterStage createTranspositionTailStage(TranspositionTailMoveGroup transpositionTailMoveGroup, TranspositionTailMoveComparator transpositionTailMoveComparator) {
-        return new NodeMoveSorterStage(transpositionTailMoveGroup, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
+    public static NodeMoveSorterStage createTranspositionTailStage(TranspositionTailPredicate transpositionTailPredicate, TranspositionTailMoveComparator transpositionTailMoveComparator) {
+        return new NodeMoveSorterStage(transpositionTailPredicate, transpositionTailMoveComparator.thenComparing(new DefaultMoveComparator().reversed()));
     }
 
     public int sort(List<Move> moves, int from) {

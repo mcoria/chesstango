@@ -2,7 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.pv.sorters.PrincipalVariationPredicate;
 import net.chesstango.search.alphabeta.root.filters.AspirationWindows;
 
 /**
@@ -22,7 +22,7 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(PrincipalVariationGroup principalVariationComparator) {
+    public void visit(PrincipalVariationPredicate principalVariationComparator) {
         principalVariationComparator.setLastPVMoves(searchResultByDepth.getPrincipalVariation().pvMoves());
     }
 

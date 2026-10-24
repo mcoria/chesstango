@@ -21,9 +21,9 @@ import static org.mockito.Mockito.*;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class TranspositionHeadMoveGroupTest {
+public class TranspositionHeadPredicateTest {
 
-    private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
+    private TranspositionHeadPredicate transpositionHeadPredicate;
 
     @Mock
     private TTable tTable;
@@ -48,24 +48,24 @@ public class TranspositionHeadMoveGroupTest {
 
     @BeforeEach
     public void setUp() {
-        transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
-        transpositionHeadMoveGroup.setTTable(tTable);
+        transpositionHeadPredicate = new TranspositionHeadPredicate();
+        transpositionHeadPredicate.setTTable(tTable);
     }
 
     @Test
     public void testAccept() {
-        transpositionHeadMoveGroup.accept(visitor);
+        transpositionHeadPredicate.accept(visitor);
 
-        verify(visitor).visit(transpositionHeadMoveGroup);
+        verify(visitor).visit(transpositionHeadPredicate);
         verifyNoMoreInteractions(visitor);
     }
 
     @Test
     public void testGettersAndSetters() {
-        assertEquals(tTable, transpositionHeadMoveGroup.getTTable());
+        assertEquals(tTable, transpositionHeadPredicate.getTTable());
 
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 1234);
-        assertEquals((short) 1234, transpositionHeadMoveGroup.getBestMoveEncoded());
+        transpositionHeadPredicate.setBestMoveEncoded((short) 1234);
+        assertEquals((short) 1234, transpositionHeadPredicate.getBestMoveEncoded());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TranspositionHeadMoveGroupTest {
         long hash = game.getPosition().getZobristHash();
         short encodedMove = (short) 0x1234;
 
-        transpositionHeadMoveGroup.setGame(game);
+        transpositionHeadPredicate.setGame(game);
 
         doAnswer(invocation -> {
             TranspositionEntry entry = invocation.getArgument(1);
@@ -83,9 +83,9 @@ public class TranspositionHeadMoveGroupTest {
             return true;
         }).when(tTable).load(eq(hash), any(TranspositionEntry.class));
 
-        transpositionHeadMoveGroup.beforeSort(0);
+        transpositionHeadPredicate.beforeSort(0);
 
-        assertEquals(encodedMove, transpositionHeadMoveGroup.getBestMoveEncoded());
+        assertEquals(encodedMove, transpositionHeadPredicate.getBestMoveEncoded());
     }
 
     @Test
@@ -93,14 +93,14 @@ public class TranspositionHeadMoveGroupTest {
         Game game = Game.from(FEN.START_POSITION);
         long hash = game.getPosition().getZobristHash();
 
-        transpositionHeadMoveGroup.setGame(game);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x1234);
+        transpositionHeadPredicate.setGame(game);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x1234);
 
         when(tTable.load(eq(hash), any(TranspositionEntry.class))).thenReturn(false);
 
-        transpositionHeadMoveGroup.beforeSort(0);
+        transpositionHeadPredicate.beforeSort(0);
 
-        assertEquals((short) 0, transpositionHeadMoveGroup.getBestMoveEncoded());
+        assertEquals((short) 0, transpositionHeadPredicate.getBestMoveEncoded());
     }
 
     @Test
@@ -108,8 +108,8 @@ public class TranspositionHeadMoveGroupTest {
         Game game = Game.from(FEN.START_POSITION);
         long hash = game.getPosition().getZobristHash();
 
-        transpositionHeadMoveGroup.setGame(game);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x1234);
+        transpositionHeadPredicate.setGame(game);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x1234);
 
         doAnswer(invocation -> {
             TranspositionEntry entry = invocation.getArgument(1);
@@ -118,8 +118,8 @@ public class TranspositionHeadMoveGroupTest {
             return true;
         }).when(tTable).load(eq(hash), any(TranspositionEntry.class));
 
-        transpositionHeadMoveGroup.beforeSort(0);
+        transpositionHeadPredicate.beforeSort(0);
 
-        assertEquals((short) 0, transpositionHeadMoveGroup.getBestMoveEncoded());
+        assertEquals((short) 0, transpositionHeadPredicate.getBestMoveEncoded());
     }
 }

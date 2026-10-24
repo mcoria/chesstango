@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionHeadMoveGroup implements Acceptor, Predicate<Move>, MoveSorterListener {
+public class TranspositionHeadPredicate implements Acceptor, Predicate<Move>, MoveSorterListener {
 
     private final TranspositionEntry entryWorkspace;
 
@@ -30,7 +30,7 @@ public class TranspositionHeadMoveGroup implements Acceptor, Predicate<Move>, Mo
     @Getter
     private short bestMoveEncoded;
 
-    public TranspositionHeadMoveGroup() {
+    public TranspositionHeadPredicate() {
         entryWorkspace = new TranspositionEntry();
     }
 

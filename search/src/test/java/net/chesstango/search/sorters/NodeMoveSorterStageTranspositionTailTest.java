@@ -5,7 +5,7 @@ import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
 import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailPredicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class NodeMoveSorterStageTranspositionTailTest {
 
-    private TranspositionTailMoveGroup transpositionTailMoveGroup;
+    private TranspositionTailPredicate transpositionTailPredicate;
 
     private TranspositionTailMoveComparator tailMoveComparator;
 
@@ -59,16 +59,16 @@ public class NodeMoveSorterStageTranspositionTailTest {
 
     @BeforeEach
     public void setUp() {
-        transpositionTailMoveGroup = new TranspositionTailMoveGroup();
-        transpositionTailMoveGroup.setTTable(tTable);
-        transpositionTailMoveGroup.setMoveToZobrist(moveToZobrist);
+        transpositionTailPredicate = new TranspositionTailPredicate();
+        transpositionTailPredicate.setTTable(tTable);
+        transpositionTailPredicate.setMoveToZobrist(moveToZobrist);
 
         tailMoveComparator = new TranspositionTailMoveComparator();
         tailMoveComparator.setTTable(tTable);
         tailMoveComparator.setMoveToZobrist(moveToZobrist);
 
 
-        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionTailStage(transpositionTailMoveGroup, tailMoveComparator);
+        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionTailStage(transpositionTailPredicate, tailMoveComparator);
     }
 
 

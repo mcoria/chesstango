@@ -3,7 +3,7 @@ package net.chesstango.search.alphabeta.transposition.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailPredicate;
 
 /**
  *
@@ -22,8 +22,8 @@ public class LinkTTableTailComparatorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTailMoveGroup transpositionTailMoveGroup) {
-        transpositionTailMoveGroup.setTTable(tTable);
+    public void visit(TranspositionTailPredicate transpositionTailPredicate) {
+        transpositionTailPredicate.setTTable(tTable);
     }
 
 }

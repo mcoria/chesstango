@@ -18,9 +18,9 @@ import static org.mockito.Mockito.*;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class TranspositionTailMoveGroupTest {
+public class TranspositionTailPredicateTest {
 
-    private TranspositionTailMoveGroup transpositionTailMoveGroup;
+    private TranspositionTailPredicate transpositionTailPredicate;
 
     @Mock
     private TTable tTable;
@@ -37,33 +37,33 @@ public class TranspositionTailMoveGroupTest {
 
     @BeforeEach
     public void setUp() {
-        transpositionTailMoveGroup = new TranspositionTailMoveGroup();
-        transpositionTailMoveGroup.setTTable(tTable);
-        transpositionTailMoveGroup.setMoveToZobrist(moveToZobrist);
+        transpositionTailPredicate = new TranspositionTailPredicate();
+        transpositionTailPredicate.setTTable(tTable);
+        transpositionTailPredicate.setMoveToZobrist(moveToZobrist);
     }
 
     @Test
     public void testAccept() {
-        transpositionTailMoveGroup.accept(visitor);
+        transpositionTailPredicate.accept(visitor);
 
-        verify(visitor).visit(transpositionTailMoveGroup);
+        verify(visitor).visit(transpositionTailPredicate);
         verifyNoMoreInteractions(visitor);
     }
 
     @Test
     public void testGettersAndSetters() {
-        assertEquals(tTable, transpositionTailMoveGroup.getTTable());
+        assertEquals(tTable, transpositionTailPredicate.getTTable());
 
         TTable newTTable = mock(TTable.class);
-        transpositionTailMoveGroup.setTTable(newTTable);
-        assertEquals(newTTable, transpositionTailMoveGroup.getTTable());
+        transpositionTailPredicate.setTTable(newTTable);
+        assertEquals(newTTable, transpositionTailPredicate.getTTable());
     }
 
     @Test
     public void testGetZobristHashMoveFromCache() {
         when(moveToZobrist.read(move1)).thenReturn(12345L);
 
-        long hash = transpositionTailMoveGroup.getZobristHashMove(move1);
+        long hash = transpositionTailPredicate.getZobristHashMove(move1);
 
         assertEquals(12345L, hash);
         verify(moveToZobrist).read(move1);
@@ -76,7 +76,7 @@ public class TranspositionTailMoveGroupTest {
         when(moveToZobrist.read(move1)).thenReturn(0L);
         when(move1.getZobristHash()).thenReturn(67890L);
 
-        long hash = transpositionTailMoveGroup.getZobristHashMove(move1);
+        long hash = transpositionTailPredicate.getZobristHashMove(move1);
 
         assertEquals(67890L, hash);
         verify(moveToZobrist).read(move1);

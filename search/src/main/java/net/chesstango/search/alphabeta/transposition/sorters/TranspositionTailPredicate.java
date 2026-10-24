@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTailMoveGroup implements Acceptor, Predicate<Move> {
+public class TranspositionTailPredicate implements Acceptor, Predicate<Move> {
 
     private final TranspositionEntry entryWorkspace;
 
@@ -26,7 +26,7 @@ public class TranspositionTailMoveGroup implements Acceptor, Predicate<Move> {
     private MoveToHashMap moveToZobrist;
 
 
-    public TranspositionTailMoveGroup() {
+    public TranspositionTailPredicate() {
         entryWorkspace = new TranspositionEntry();
     }
 

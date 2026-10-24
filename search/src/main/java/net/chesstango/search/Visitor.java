@@ -26,7 +26,7 @@ import net.chesstango.search.alphabeta.killermoves.comparators.KillerMoveCompara
 import net.chesstango.search.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.alphabeta.pv.filters.ExtendPV;
 import net.chesstango.search.alphabeta.pv.filters.PropagatePV;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.pv.sorters.PrincipalVariationPredicate;
 import net.chesstango.search.alphabeta.pv.model.PVCalculator;
 import net.chesstango.search.alphabeta.pv.model.PVWalkerFromTT;
 import net.chesstango.search.alphabeta.quiescence.QSAlphaBeta;
@@ -52,8 +52,8 @@ import net.chesstango.search.alphabeta.statistics.transposition.*;
 import net.chesstango.search.alphabeta.transposition.*;
 import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.alphabeta.transposition.filters.*;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadPredicate;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailPredicate;
 import net.chesstango.search.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.alphabeta.transposition.listeners.TTListener;
 import net.chesstango.search.alphabeta.transposition.listeners.TTLoad;
@@ -311,13 +311,13 @@ public interface Visitor {
      *
      * Sorter elements
      */
-    default void visit(PrincipalVariationGroup principalVariationGroup) {
+    default void visit(PrincipalVariationPredicate principalVariationPredicate) {
     }
 
-    default void visit(TranspositionHeadMoveGroup transpositionHeadMoveGroup) {
+    default void visit(TranspositionHeadPredicate transpositionHeadPredicate) {
     }
 
-    default void visit(TranspositionTailMoveGroup transpositionTailMoveGroup) {
+    default void visit(TranspositionTailPredicate transpositionTailPredicate) {
     }
 
     /**

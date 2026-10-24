@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.alphabeta.transposition.TTable;
 import net.chesstango.search.alphabeta.transposition.TranspositionEntry;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadPredicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class NodeMoveSorterStageTranspositionHeadTest {
 
-    private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
+    private TranspositionHeadPredicate transpositionHeadPredicate;
 
     private NodeMoveSorterStage nodeMoveSorterStage;
 
@@ -52,10 +52,10 @@ public class NodeMoveSorterStageTranspositionHeadTest {
 
     @BeforeEach
     public void setUp() {
-        transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
-        transpositionHeadMoveGroup.setTTable(tTable);
+        transpositionHeadPredicate = new TranspositionHeadPredicate();
+        transpositionHeadPredicate.setTTable(tTable);
 
-        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadMoveGroup);
+        nodeMoveSorterStage = NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadPredicate);
     }
 
 
@@ -64,7 +64,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         when(move1.binaryEncoding()).thenReturn((short) 0x01);
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
         when(move3.binaryEncoding()).thenReturn((short) 0x03);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x10);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x10);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
         int result = nodeMoveSorterStage.sort(moves, 0);
@@ -76,7 +76,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
     @Test
     public void testSortWhenBestMoveIsAlreadyAtFrom() {
         when(move1.binaryEncoding()).thenReturn((short) 0x01);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x01);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x01);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
         int result = nodeMoveSorterStage.sort(moves, 0);
@@ -89,7 +89,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
     public void testSortWhenBestMoveInMiddle() {
         when(move1.binaryEncoding()).thenReturn((short) 0x01);
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x02);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x02);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
         int result = nodeMoveSorterStage.sort(moves, 0);
@@ -103,7 +103,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         when(move1.binaryEncoding()).thenReturn((short) 0x01);
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
         when(move3.binaryEncoding()).thenReturn((short) 0x03);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x03);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x03);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
         int result = nodeMoveSorterStage.sort(moves, 0);
@@ -117,7 +117,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         when(move1.binaryEncoding()).thenReturn((short) 0x01);
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
         when(move3.binaryEncoding()).thenReturn((short) 0x03);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x99);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x99);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3));
         int result = nodeMoveSorterStage.sort(moves, 0);
@@ -131,7 +131,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
         when(move3.binaryEncoding()).thenReturn((short) 0x03);
         when(move4.binaryEncoding()).thenReturn((short) 0x04);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x04);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x04);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4, move5));
         int result = nodeMoveSorterStage.sort(moves, 1);
@@ -144,7 +144,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
     public void testSortSubRangeWhenBestMoveOutsideBeforeFrom() {
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
         when(move3.binaryEncoding()).thenReturn((short) 0x03);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x01);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x01);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
         int result = nodeMoveSorterStage.sort(moves, 1);
@@ -157,7 +157,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
     public void testSortSubRangeWhenBestMoveOutsideAfterTo() {
         when(move2.binaryEncoding()).thenReturn((short) 0x02);
         when(move3.binaryEncoding()).thenReturn((short) 0x03);
-        transpositionHeadMoveGroup.setBestMoveEncoded((short) 0x04);
+        transpositionHeadPredicate.setBestMoveEncoded((short) 0x04);
 
         List<Move> moves = new ArrayList<>(List.of(move1, move2, move3, move4));
         int result = nodeMoveSorterStage.sort(moves, 1);
@@ -172,7 +172,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
         long hash = game.getPosition().getZobristHash();
         Move expectedHeadMove = game.getMove(Square.e2, Square.e4);
 
-        transpositionHeadMoveGroup.setGame(game);
+        transpositionHeadPredicate.setGame(game);
 
         doAnswer(invocation -> {
             TranspositionEntry entry = invocation.getArgument(1);
@@ -181,7 +181,7 @@ public class NodeMoveSorterStageTranspositionHeadTest {
             return true;
         }).when(tTable).load(eq(hash), any(TranspositionEntry.class));
 
-        transpositionHeadMoveGroup.beforeSort(0);
+        transpositionHeadPredicate.beforeSort(0);
 
         List<Move> moves = new ArrayList<>();
         game.getPossibleMoves().forEach(moves::add);

@@ -1,10 +1,10 @@
 package net.chesstango.search.builders.sorters;
 
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.search.alphabeta.pv.groupsorters.PrincipalVariationGroup;
+import net.chesstango.search.alphabeta.pv.sorters.PrincipalVariationPredicate;
 import net.chesstango.search.alphabeta.transposition.sorters.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadMoveGroup;
-import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailMoveGroup;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionHeadPredicate;
+import net.chesstango.search.alphabeta.transposition.sorters.TranspositionTailPredicate;
 import net.chesstango.search.sorters.*;
 
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
     private MoveSorterDebug moveSorterDebug;
 
-    private PrincipalVariationGroup principalVariationGroup;
-    private TranspositionHeadMoveGroup transpositionHeadMoveGroup;
-    private TranspositionTailMoveGroup transpositionTailMoveGroup;
+    private PrincipalVariationPredicate principalVariationPredicate;
+    private TranspositionHeadPredicate transpositionHeadPredicate;
+    private TranspositionTailPredicate transpositionTailPredicate;
 
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
 
@@ -56,13 +56,13 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         }
 
         if (withIterativeDeepening) {
-            principalVariationGroup = new PrincipalVariationGroup();
+            principalVariationPredicate = new PrincipalVariationPredicate();
         }
 
         if (withTranspositionTable) {
-            transpositionHeadMoveGroup = new TranspositionHeadMoveGroup();
+            transpositionHeadPredicate = new TranspositionHeadPredicate();
 
-            transpositionTailMoveGroup = new TranspositionTailMoveGroup();
+            transpositionTailPredicate = new TranspositionTailPredicate();
             transpositionTailMoveComparator = new TranspositionTailMoveComparator();
         }
     }
@@ -74,20 +74,20 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
         if (moveSorterDebug != null) {
             listenerMediator.add(moveSorterDebug);
         }
-        if (transpositionHeadMoveGroup != null) {
-            listenerMediator.add(transpositionHeadMoveGroup);
+        if (transpositionHeadPredicate != null) {
+            listenerMediator.add(transpositionHeadPredicate);
         }
 
-        if (transpositionTailMoveGroup != null) {
-            listenerMediator.add(transpositionTailMoveGroup);
+        if (transpositionTailPredicate != null) {
+            listenerMediator.add(transpositionTailPredicate);
         }
 
         if (transpositionTailMoveComparator != null) {
             listenerMediator.add(transpositionTailMoveComparator);
         }
 
-        if (principalVariationGroup != null) {
-            listenerMediator.add(principalVariationGroup);
+        if (principalVariationPredicate != null) {
+            listenerMediator.add(principalVariationPredicate);
         }
 
     }
@@ -96,8 +96,8 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     protected void link() {
         MoveToHashMap moveToZobrist = new MoveToHashMap();
 
-        if (transpositionTailMoveGroup != null) {
-            transpositionTailMoveGroup.setMoveToZobrist(moveToZobrist);
+        if (transpositionTailPredicate != null) {
+            transpositionTailPredicate.setMoveToZobrist(moveToZobrist);
         }
 
         if (transpositionTailMoveComparator != null) {
@@ -125,12 +125,12 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     private List<MoveSorterListener> createSortListeners() {
         List<MoveSorterListener> moveSorterListeners = new ArrayList<>();
 
-        if (transpositionHeadMoveGroup != null) {
-            moveSorterListeners.add(transpositionHeadMoveGroup);
+        if (transpositionHeadPredicate != null) {
+            moveSorterListeners.add(transpositionHeadPredicate);
         }
 
-        if (principalVariationGroup != null) {
-            moveSorterListeners.add(principalVariationGroup);
+        if (principalVariationPredicate != null) {
+            moveSorterListeners.add(principalVariationPredicate);
         }
 
         return moveSorterListeners;
@@ -140,16 +140,16 @@ public class MoveSorterCheckEvasionBuilder extends AbstractMoveSorterBuilder {
     private List<NodeMoveSorterStage> createGroupSorterChain() {
         List<NodeMoveSorterStage> nodeMoveSorterStages = new ArrayList<>();
 
-        if (principalVariationGroup != null) {
-            nodeMoveSorterStages.add(NodeMoveSorterStage.createPrincipalVariationStage(principalVariationGroup));
+        if (principalVariationPredicate != null) {
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createPrincipalVariationStage(principalVariationPredicate));
         }
 
-        if (transpositionHeadMoveGroup != null) {
-            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadMoveGroup));
+        if (transpositionHeadPredicate != null) {
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionHeadStage(transpositionHeadPredicate));
         }
 
-        if (transpositionTailMoveGroup != null && transpositionTailMoveComparator!=null) {
-            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailStage(transpositionTailMoveGroup, transpositionTailMoveComparator));
+        if (transpositionTailPredicate != null && transpositionTailMoveComparator!=null) {
+            nodeMoveSorterStages.add(NodeMoveSorterStage.createTranspositionTailStage(transpositionTailPredicate, transpositionTailMoveComparator));
         }
 
         nodeMoveSorterStages.add(NodeMoveSorterStage.createCatchAllStage());
